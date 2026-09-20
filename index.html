@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v141.0)</title>
+    <title>Roteiro Europa - Mariana (v145.0)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Manifest Dinâmico via JavaScript -->
@@ -37,7 +37,7 @@
         <span class="font-bold tracking-wide">🚄 Roteiro Europa - Mariana</span>
         <div class="flex items-center gap-2">
             <button onclick="exportarPdfPrint()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2.5 py-1 rounded-lg font-bold text-[10px] transition shadow-sm">🖨️ Imprimir Tudo</button>
-            <span class="bg-indigo-600 px-2 py-1 rounded-lg font-mono font-bold text-[10px]">v141.0</span>
+            <span class="bg-indigo-600 px-2 py-1 rounded-lg font-mono font-bold text-[10px]">v145.0</span>
         </div>
     </header>
 
@@ -117,12 +117,12 @@
                 <div class="flex justify-between items-center border-b pb-3 flex-wrap gap-2">
                     <div>
                         <h2 class="text-xs font-extrabold uppercase text-slate-800 tracking-wider">💰 Orçamento, Câmbio & Conversor R$</h2>
-                        <p class="text-[11px] text-slate-500 font-semibold">Controlo isolado por moeda com despesas independentes</p>
+                        <p class="text-[11px] text-slate-500 font-semibold">Controlo isolado por moeda com conversão em tempo real</p>
                     </div>
                     <button onclick="imprimirSeccaoCustom('Orçamento & Câmbio', document.getElementById('tab-orcamento').innerHTML)" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-xl font-bold text-xs transition shadow-sm">🖨️ PDF Orçamento</button>
                 </div>
 
-                <div class="bg-slate-50 p-3 rounded-2xl border border-slate-200 space-y-1.5">
+                <div class="bg-slate-50 p-3 rounded-2xl border border-slate-200 space-y-2">
                     <span class="font-bold text-xs text-slate-700 block">💱 Cotação Atual em Reais (R$)</span>
                     <div class="grid grid-cols-2 gap-2">
                         <div class="flex items-center gap-1.5 bg-white p-2 border border-slate-200 rounded-xl shadow-sm">
@@ -132,6 +132,21 @@
                         <div class="flex items-center gap-1.5 bg-white p-2 border border-slate-200 rounded-xl shadow-sm">
                             <span class="font-bold text-xs text-blue-800">1CHF=R$</span>
                             <input type="number" id="input-cotacao-chf" step="0.01" oninput="atualizarCotacao('CHF', this.value)" class="w-full font-black text-xs outline-none text-slate-900" placeholder="6.50">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CARD DE CONVERSOR RÁPIDO DE MOEDA -->
+                <div class="bg-indigo-50/70 p-3.5 rounded-2xl border border-indigo-200 space-y-2 shadow-sm">
+                    <span class="font-black text-xs text-indigo-900 uppercase block">🧮 Conversor Rápido de Moeda</span>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 items-center">
+                        <input type="number" id="conv-valor" oninput="calcularConversaoRapida()" class="p-2 bg-white border border-indigo-200 rounded-xl font-black text-xs text-indigo-950 outline-none" placeholder="Valor estrangeiro...">
+                        <select id="conv-moeda" onchange="calcularConversaoRapida()" class="p-2 bg-white border border-indigo-200 rounded-xl font-bold text-xs text-indigo-950 outline-none">
+                            <option value="EUR">Euros (€)</option>
+                            <option value="CHF">Francos (CHF)</option>
+                        </select>
+                        <div class="bg-white p-2 rounded-xl border border-indigo-200 text-xs font-black text-emerald-700 text-center shadow-inner" id="conv-resultado">
+                            R$ 0.00
                         </div>
                     </div>
                 </div>
@@ -227,7 +242,7 @@
 
     <!-- BARRA DE FERRAMENTAS FIXA -->
     <nav class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-md text-white px-3 py-2.5 shadow-2xl border-t border-slate-800 text-xs flex items-center justify-around gap-1 overflow-x-auto no-scrollbar max-w-4xl mx-auto rounded-t-2xl">
-        <span class="bg-indigo-600 px-2 py-1 rounded font-mono font-bold text-[9px] shrink-0">v141.0</span>
+        <span class="bg-indigo-600 px-2 py-1 rounded font-mono font-bold text-[9px] shrink-0">v145.0</span>
         <button onclick="abrirGeminiModal()" class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-3 py-1.5 rounded-xl font-bold transition shrink-0 flex items-center gap-1 text-xs shadow-sm">
             <span>✨</span> Gemini
         </button>
@@ -266,7 +281,7 @@
     </div>
 
     <script>
-        const CHAVE_APP = "mariana_viagem_europa_v141";
+        const CHAVE_APP = "mariana_viagem_europa_v145";
         let destinoFiltro = 'todos';
         let tarefaFiltro = 'todas';
         let utilidadeFiltro = 'todos';
@@ -276,6 +291,12 @@
 
         let dadosApp = {
             destinosCadastrados: ["Zurique", "Freiburg", "França", "Interlaken"],
+            coresDestinos: {
+                "Zurique": "#3b82f6",
+                "Freiburg": "#f59e0b",
+                "França": "#ec4899",
+                "Interlaken": "#10b981"
+            },
             locaisCadastrados: [
                 "Zurich HB", "Zurich Bus Station (Sihlquai)", "ibis budget Zurich City West",
                 "Freiburg Hbf (Estação Central)", "Premier Inn Freiburg City Süd", "Europa-Park Rust",
@@ -353,11 +374,11 @@
                 navigator.serviceWorker.register(URL.createObjectURL(swBlob)).catch(err => {});
             }
 
-            if (!sessionStorage.getItem('sessao_ativa_v141')) {
+            if (!sessionStorage.getItem('sessao_ativa_v145')) {
                 document.getElementById('tela-bloqueio').classList.remove('hidden');
             }
 
-            const temaSalvo = localStorage.getItem('tema_v141');
+            const temaSalvo = localStorage.getItem('tema_v145');
             if (temaSalvo === 'dark') {
                 document.body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 document.body.classList.remove('bg-slate-100', 'text-slate-800');
@@ -370,6 +391,7 @@
                     if (parsed && parsed.itinerario) {
                         dadosApp = parsed;
                         if(!dadosApp.diasConcluidos) dadosApp.diasConcluidos = {};
+                        if(!dadosApp.coresDestinos) dadosApp.coresDestinos = { "Zurique": "#3b82f6", "Freiburg": "#f59e0b", "França": "#ec4899", "Interlaken": "#10b981" };
                         if(!dadosApp.statusPersonalizados) dadosApp.statusPersonalizados = { "Concluído": "#22c55e", "Aguardando": "#f59e0b" };
                         if(!dadosApp.cotacaoEur) dadosApp.cotacaoEur = 6.20;
                         if(!dadosApp.cotacaoChf) dadosApp.cotacaoChf = 6.50;
@@ -410,10 +432,10 @@
         }
 
         function desbloquearComPin() {
-            let pinSalvo = localStorage.getItem('app_pin_v141') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v145') || '1510';
             let digitado = document.getElementById('input-pin').value;
             if(digitado === pinSalvo) {
-                sessionStorage.setItem('sessao_ativa_v141', 'true');
+                sessionStorage.setItem('sessao_ativa_v145', 'true');
                 document.getElementById('tela-bloqueio').classList.add('hidden');
                 document.getElementById('erro-pin').classList.add('hidden');
             } else {
@@ -422,17 +444,17 @@
         }
 
         async function desbloquearComBiometria() {
-            sessionStorage.setItem('sessao_ativa_v141', 'true');
+            sessionStorage.setItem('sessao_ativa_v145', 'true');
             document.getElementById('tela-bloqueio').classList.add('hidden');
         }
 
         function alterarSenhaPin() {
             let atual = prompt("Digite a senha atual (Padrão: 1510):");
-            let pinSalvo = localStorage.getItem('app_pin_v141') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v145') || '1510';
             if(atual === pinSalvo) {
                 let nova = prompt("Digite a nova senha PIN:");
                 if(nova && nova.trim() !== '') {
-                    localStorage.setItem('app_pin_v141', nova.trim());
+                    localStorage.setItem('app_pin_v145', nova.trim());
                     alert("🔑 Senha alterada com sucesso!");
                 }
             } else {
@@ -445,11 +467,11 @@
             if(body.classList.contains('dark')) {
                 body.classList.remove('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.add('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v141', 'light');
+                localStorage.setItem('tema_v145', 'light');
             } else {
                 body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.remove('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v141', 'dark');
+                localStorage.setItem('tema_v145', 'dark');
             }
         }
 
@@ -489,6 +511,45 @@
             win.document.close();
         }
 
+        // FUNÇÃO DE IMPRESSÃO INDIVIDUAL DE CADA CARD
+        function imprimirBlocoUnico(id) {
+            let item = dadosApp.itinerario.find(i => i.id === id);
+            if(!item) return;
+            let win = window.open('', '_blank');
+            let dIni = item.dataInicio ? item.dataInicio.split('-').reverse().join('/') : '?';
+            let dFim = item.dataFim ? item.dataFim.split('-').reverse().join('/') : '?';
+            let corCard = item.cor || obterCorPorCategoria(item.categoria);
+            
+            let trechosStr = '';
+            if(item.trechos && item.trechos.length > 0) {
+                item.trechos.forEach(tr => {
+                    trechosStr += '<li class="mb-2"><b>' + (tr.origem || '?') + ' ➔ ' + (tr.destino || '?') + '</b> (' + (tr.transporte || 'Trem') + ')' + (tr.valor ? ' • <b>' + tr.valor + ' ' + (tr.moeda || 'EUR') + '</b>' : '') + (tr.notas ? '<br><i>Notas: ' + tr.notas + '</i>' : '') + '</li>';
+                });
+            } else {
+                trechosStr = '<li>Nenhum trecho registado.</li>';
+            }
+
+            let itensStr = '';
+            if(item.itens && item.itens.length > 0) {
+                item.itens.forEach(it => {
+                    if(it.texto && it.texto.trim() !== '') {
+                        itensStr += '<li class="mb-1">• ' + it.texto + '</li>';
+                    }
+                });
+            }
+
+            win.document.write('<html><head><meta charset="utf-8"><title>Roteiro - ' + (item.categoria || '') + '</title><script src="https://cdn.tailwindcss.com"><\/script></head><body class="p-8 bg-white text-slate-900 font-sans">');
+            win.document.write('<div class="p-6 rounded-3xl border-2 shadow-sm space-y-4" style="border-color: ' + corCard + ';">');
+            win.document.write('<div class="flex justify-between items-center border-b pb-3"><h2 class="text-xl font-black uppercase text-indigo-950">' + (item.categoria || 'Destino') + '</h2><span class="font-bold text-sm text-slate-600">📅 ' + dIni + ' ➔ ' + dFim + '</span></div>');
+            win.document.write('<div><h3 class="font-bold text-xs uppercase text-slate-700 mb-1">🚄 Trechos / Rotas:</h3><ul class="list-disc pl-5 text-xs text-slate-800">' + trechosStr + '</ul></div>');
+            if(itensStr) {
+                win.document.write('<div><h3 class="font-bold text-xs uppercase text-slate-700 mb-1">📌 Notas / Textos:</h3><ul class="text-xs text-slate-800">' + itensStr + '</ul></div>');
+            }
+            win.document.write('</div>');
+            win.document.write('<script>setTimeout(() => { window.print(); window.close(); }, 500);<\/script></body></html>');
+            win.document.close();
+        }
+
         function removerDoRoteiro(id) {
             registarEstadoAnterior();
             const item = dadosApp.itinerario.find(i => i.id === id);
@@ -524,6 +585,10 @@
             let item = dadosApp.itinerario.find(i => i.id === id);
             if(item) {
                 item.cor = cor;
+                if(item.categoria) {
+                    if(!dadosApp.coresDestinos) dadosApp.coresDestinos = {};
+                    dadosApp.coresDestinos[item.categoria] = cor;
+                }
                 salvarStorage();
                 atualizarTudo();
             }
@@ -564,14 +629,14 @@
 
         function obterCorPorCategoria(cat) {
             if(!cat) return '#3b82f6';
+            if(dadosApp.coresDestinos && dadosApp.coresDestinos[cat]) {
+                return dadosApp.coresDestinos[cat];
+            }
             let c = (cat || "").toLowerCase();
             if(c.includes('zurique') || c.includes('zurich')) return '#3b82f6';
             if(c.includes('freiburg')) return '#f59e0b';
             if(c.includes('frança') || c.includes('france') || c.includes('paris')) return '#ec4899';
             if(c.includes('interlaken')) return '#10b981';
-            
-            let item = dadosApp.itinerario.find(i => (i.categoria || "").toLowerCase() === c);
-            if(item && item.cor) return item.cor;
             
             return '#3b82f6';
         }
@@ -636,10 +701,13 @@
         }
 
         function adicionarNovoDestinoFiltro() {
-            let novo = prompt("Novo destino:");
+            let novo = prompt("Nome do novo destino:");
             if(novo && novo.trim() !== '') {
                 let limpo = novo.trim();
+                let corNova = prompt("Escolha a cor HEX para este destino (ex: #8b5cf6):", "#8b5cf6");
                 if(!dadosApp.destinosCadastrados.includes(limpo)) dadosApp.destinosCadastrados.push(limpo);
+                if(!dadosApp.coresDestinos) dadosApp.coresDestinos = {};
+                dadosApp.coresDestinos[limpo] = corNova || "#3b82f6";
                 salvarStorage();
                 atualizarTudo();
                 filtrarDestino(limpo);
@@ -733,7 +801,7 @@
             });
         }
 
-        // RENDERIZAR EDITAR (ESTÁVEL E LIMPO)
+        // RENDERIZAR EDITAR (COM TÍTULOS MENORZINHOS E BOTÃO DE IMPRESSÃO POR CARD)
         function renderizarBlocos() {
             const container = document.getElementById('lista-blocos');
             if(!container) return;
@@ -810,7 +878,7 @@
                     item.itens.forEach(it => {
                         itensHtml += '<div class="flex items-center gap-1.5 bg-white p-2 rounded-xl border border-slate-200 text-xs min-w-0 mb-1.5 shadow-sm">' +
                             '<input type="text" value="' + (it.texto || '') + '" oninput="atualizarTextoItemBloco(' + item.id + ', ' + it.id + ', this.value)" class="flex-1 min-w-0 bg-transparent outline-none font-bold text-slate-800 text-xs" placeholder="Escreva um texto livre...">' +
-                            '<button onclick="removerItemBloco(' + item.id + ', ' + it.id + ')" class="text-red-500 font-bold px-2 py-1 rounded-xl bg-red-50 text-xs shrink-0 hover:bg-red-100 transition">✕</button>' +
+                            '<button onclick="removerItemBloco(' + item.id + ', ' + it.id + ')" class="text-red-500 font-bold px-2.5 py-1.5 rounded-xl bg-red-50 text-xs shrink-0 hover:bg-red-100 transition">✕</button>' +
                         '</div>';
                     });
                 }
@@ -819,18 +887,30 @@
                 card.className = 'p-4 rounded-2xl border border-slate-300 space-y-3 transition shadow-sm min-w-0';
                 card.style.backgroundColor = corHex;
 
-                card.innerHTML = '<div class="flex justify-between items-center gap-2 border-b border-black/10 pb-2.5 flex-wrap"><div class="flex items-center gap-2 flex-wrap"><select onchange="lidarSelecaoDestino(' + item.id + ', this.value)" class="bg-white text-indigo-950 font-black px-3 py-1.5 rounded-xl text-xs border border-slate-300 outline-none shadow-sm">' + opcoesDestino + '</select><span class="bg-indigo-600 text-white font-bold px-2.5 py-1 rounded-xl text-xs shadow-sm">📅 ' + totalDias + 'd</span></div><div class="flex items-center gap-1.5 bg-white p-1 rounded-xl border border-slate-300 text-xs font-bold shadow-sm"><input type="date" value="' + (item.dataInicio || '') + '" onchange="atualizarDataInicio(' + item.id + ', this.value)" class="bg-transparent outline-none text-xs" title="Início"><span>➔</span><input type="date" value="' + (item.dataFim || '') + '" onchange="atualizarCampo(' + item.id + ', \'dataFim\', this.value)" class="bg-transparent outline-none text-xs" title="Fim"></div></div>' +
+                card.innerHTML = '<div class="flex justify-between items-center gap-2 border-b border-black/10 pb-2.5 flex-wrap"><div class="flex items-center gap-2 flex-wrap"><select onchange="lidarSelecaoDestino(' + item.id + ', this.value)" class="bg-white text-indigo-950 font-black px-3 py-1.5 rounded-xl text-xs border border-slate-300 outline-none shadow-sm">' + opcoesDestino + '</select><span class="bg-indigo-600 text-white font-bold px-2.5 py-1 rounded-xl text-xs shadow-sm">📅 ' + totalDias + 'd</span></div><div class="flex items-center gap-1.5"><button onclick="imprimirBlocoUnico(' + item.id + ')" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2.5 py-1.5 rounded-xl font-bold text-xs transition shadow-sm">🖨️ Imprimir</button><div class="flex items-center gap-1.5 bg-white p-1 rounded-xl border border-slate-300 text-xs font-bold shadow-sm"><input type="date" value="' + (item.dataInicio || '') + '" onchange="atualizarDataInicio(' + item.id + ', this.value)" class="bg-transparent outline-none text-xs" title="Início"><span>➔</span><input type="date" value="' + (item.dataFim || '') + '" onchange="atualizarCampo(' + item.id + ', \'dataFim\', this.value)" class="bg-transparent outline-none text-xs" title="Fim"></div></div></div>' +
                     '<div class="bg-white/95 p-3 rounded-2xl border border-slate-200 space-y-3 text-xs min-w-0 shadow-inner">' +
                         '<div class="space-y-1.5">' +
-                            '<div class="flex justify-between items-center"><span class="font-bold text-slate-700 uppercase text-[11px]">🚄 Rotas / Trechos</span><button onclick="adicionarTrecho(' + item.id + ')" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2.5 py-1 rounded-xl text-xs font-bold transition shadow-sm">➕ Rota / Trecho</button></div>' +
+                            '<div class="flex justify-between items-center"><span class="font-bold text-slate-700 uppercase text-[10px]">🚄 Trechos</span><button onclick="adicionarTrecho(' + item.id + ')" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2.5 py-1 rounded-xl text-[11px] font-bold transition shadow-sm">➕ Trecho</button></div>' +
                             '<div class="space-y-1.5 min-w-0">' + (trechosHtml || '<p class="text-xs text-slate-400 italic">Nenhum trecho adicionado.</p>') + '</div>' +
                         '</div>' +
                         '<div class="space-y-1.5 pt-2.5 border-t border-slate-200">' +
-                            '<div class="flex justify-between items-center"><span class="font-bold text-slate-700 uppercase text-[11px]">📌 Textos Livres / Notas</span><button onclick="adicionarItemBloco(' + item.id + ')" class="bg-indigo-600 hover:bg-indigo-700 text-white px-2.5 py-1 rounded-xl text-xs font-bold transition shadow-sm">➕ Texto</button></div>' +
+                            '<div class="flex justify-between items-center"><span class="font-bold text-slate-700 uppercase text-[10px]">📌 Notas</span><button onclick="adicionarItemBloco(' + item.id + ')" class="bg-indigo-600 hover:bg-indigo-700 text-white px-2.5 py-1 rounded-xl text-[11px] font-bold transition shadow-sm">➕ Texto</button></div>' +
                             '<div class="space-y-1.5 min-w-0">' + (itensHtml || '<p class="text-xs text-slate-400 italic">Nenhum texto adicionado.</p>') + '</div>' +
                         '</div>' +
                     '</div>' +
-                    '<div class="flex justify-between items-center pt-2 border-t border-black/10 flex-wrap gap-2"><div class="flex items-center gap-1.5 bg-white px-2.5 py-1.5 rounded-xl border border-slate-300 text-xs font-bold shadow-sm"><input type="color" id="input-cor-' + item.id + '" value="' + corHex + '" class="w-5 h-5 rounded-lg cursor-pointer border-0 bg-transparent" onchange="atualizarCorBlocoLocal(' + item.id + ', this.value)"><span>Cor Master</span></div><div class="flex items-center gap-1.5"><button onclick="alternarBloqueio(' + item.id + ')" class="' + lockBg + ' px-3 py-1.5 rounded-xl font-bold text-xs shadow-sm transition">' + lockIcon + '</button><button onclick="moverBloco(' + item.id + ', -1)" class="bg-slate-200 hover:bg-slate-300 px-2 py-1.5 rounded-xl text-xs font-bold transition">⬆️</button><button onclick="moverBloco(' + item.id + ', 1)" class="bg-slate-200 hover:bg-slate-300 px-2 py-1.5 rounded-xl text-xs font-bold transition">⬇️</button><button onclick="apagarBloco(' + item.id + ')" class="bg-red-50 hover:bg-red-100 text-red-600 px-3 py-1.5 rounded-xl text-xs font-bold transition">Excluir ✕</button></div></div>';
+                    '<div class="flex justify-between items-center pt-2 border-t border-black/10 flex-wrap gap-2">' +
+                        '<div class="flex items-center gap-1.5 bg-white px-2.5 py-1.5 rounded-xl border border-slate-300 text-xs font-bold shadow-sm">' +
+                            '<input type="color" id="input-cor-' + item.id + '" value="' + corHex + '" class="w-5 h-5 rounded-lg cursor-pointer border-0 bg-transparent">' +
+                            '<span>Cor Master</span>' +
+                            '<button onclick="atualizarCorBlocoLocal(' + item.id + ', document.getElementById(\'input-cor-' + item.id + '\').value)" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2 py-1 rounded-lg text-[10px] font-bold transition">OK</button>' +
+                        '</div>' +
+                        '<div class="flex items-center gap-1.5">' +
+                            '<button onclick="alternarBloqueio(' + item.id + ')" class="' + lockBg + ' px-3 py-1.5 rounded-xl font-bold text-xs shadow-sm transition">' + lockIcon + '</button>' +
+                            '<button onclick="moverBloco(' + item.id + ', -1)" class="bg-slate-200 hover:bg-slate-300 px-2 py-1.5 rounded-xl text-xs font-bold transition">⬆️</button>' +
+                            '<button onclick="moverBloco(' + item.id + ', 1)" class="bg-slate-200 hover:bg-slate-300 px-2 py-1.5 rounded-xl text-xs font-bold transition">⬇️</button>' +
+                            '<button onclick="apagarBloco(' + item.id + ')" class="bg-red-50 hover:bg-red-100 text-red-600 px-3 py-1.5 rounded-xl text-xs font-bold transition">Excluir ✕</button>' +
+                        '</div>' +
+                    '</div>';
                 container.appendChild(card);
             });
         }
@@ -962,14 +1042,17 @@
         function lidarSelecaoDestino(id, valor) {
             registarEstadoAnterior();
             if(valor === 'novo_destino') {
-                let novo = prompt("Novo destino:");
+                let novo = prompt("Nome do novo destino:");
                 if(novo && novo.trim() !== '') {
                     let limpo = novo.trim();
+                    let corNova = prompt("Escolha a cor HEX para este destino (ex: #8b5cf6):", "#8b5cf6");
                     if(!dadosApp.destinosCadastrados.includes(limpo)) dadosApp.destinosCadastrados.push(limpo);
+                    if(!dadosApp.coresDestinos) dadosApp.coresDestinos = {};
+                    dadosApp.coresDestinos[limpo] = corNova || "#3b82f6";
                     let item = dadosApp.itinerario.find(i => i.id === id);
                     if(item) {
                         item.categoria = limpo;
-                        item.cor = obterCorPorCategoria(limpo);
+                        item.cor = dadosApp.coresDestinos[limpo];
                     }
                     salvarStorage();
                     atualizarTudo();
@@ -1006,7 +1089,7 @@
                 } else {
                     dadosApp.voos.forEach(v => {
                         let pdfAction = v.pdfData ? '<button onclick="abrirLeitorPdf(\'' + v.id + '\', \'Passagem ' + (v.voo || 'Voo') + '\')" class="bg-indigo-600 text-white px-2.5 py-1 rounded-xl text-xs font-bold shadow-sm">📄 PDF</button>' : '<label class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-2.5 py-1 rounded-xl text-xs font-bold cursor-pointer border shadow-sm">📎 PDF<input type="file" accept="application/pdf" onchange="anexarPdfVoo(' + v.id + ', event)" class="hidden"></label>';
-                        voosHtml += '<div class="p-2.5 rounded-2xl border border-slate-200 bg-white space-y-2 shadow-sm text-xs"><div class="flex gap-2 items-center"><input type="text" value="' + v.cia + '" oninput="atualizarVoo(' + v.id + ', \'cia\', this.value)" class="w-16 p-1 bg-slate-50 border rounded-xl font-bold text-xs" placeholder="Cia"><input type="text" value="' + v.voo + '" oninput="atualizarVoo(' + v.id + ', \'voo\', this.value)" class="w-14 p-1 bg-slate-50 border rounded-xl font-bold text-xs" placeholder="Voo"><input type="text" value="' + v.pnr + '" oninput="atualizarVoo(' + v.id + ', \'pnr\', this.value)" class="flex-1 p-1 bg-amber-50 border border-amber-300 rounded-xl font-black text-amber-900 text-xs" placeholder="PNR">' + pdfAction + '<button onclick="apagarVoo(' + v.id + ')" class="text-red-500 font-bold bg-red-50 hover:bg-red-100 px-2 py-1 rounded-xl text-xs">✕</button></div><div class="flex gap-2"><input type="text" value="' + v.rota + '" oninput="atualizarVoo(' + v.id + ', \'rota\', this.value)" class="flex-1 p-1 bg-slate-50 border rounded-xl font-bold text-xs" placeholder="Rota"><input type="date" value="' + v.data + '" onchange="atualizarVoo(' + v.id + ', \'data\', this.value)" class="p-1 bg-slate-50 border rounded-xl font-bold text-xs"></div></div>';
+                        voosHtml += '<div class="p-2.5 rounded-2xl border border-slate-200 bg-white space-y-2 shadow-sm text-xs"><div class="flex gap-2 items-center"><input type="text" value="' + v.cia + '" oninput="atualizarVoo(' + v.id + ', \'cia\', this.value)" class="w-16 p-1 bg-slate-50 border rounded-xl font-bold text-xs" placeholder="Cia"><input type="text" value="' + v.voo + '" oninput="atualizarVoo(' + v.id + ', \'voo\', this.value)" class="w-14 p-1 bg-slate-50 border rounded-xl font-bold text-xs" placeholder="Voo"><input type="text" value="' + v.pnr + '" oninput="atualizarVoo(' + v.id + ', \'pnr\', this.value)" class="flex-1 p-1 bg-amber-50 border border-amber-300 rounded-xl font-black text-amber-900 text-xs" placeholder="PNR">' + pdfAction + '<button onclick="apagarVoo(' + v.id + ')" class="text-red-500 font-bold bg-red-50 hover:bg-red-100 px-2 py-1 rounded-xl text-xs">✕</button></div><div class="flex gap-2"><input type="text" value="' + v.rota + '" oninput="atualizarVoo(' + v.id + ', \'rota\', this.value)" class="flex-1 p-1 bg-slate-50 border rounded-xl font-bold text-xs" placeholder="Rota"><input type="date" value="' + v.data + '" onchange="atualizarVoo(' + v.id + ', \'data\', this.value)" class="p-1 bg-slate-50 border rounded font-bold text-xs"></div></div>';
                     });
                 }
                 container.innerHTML += '<div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-3" id="card-voos"><div class="flex justify-between items-center border-b pb-2"><h3 class="font-bold text-xs uppercase text-slate-800">✈️ Voos & Passagens</h3><div class="flex gap-1.5"><button onclick="imprimirSeccaoCustom(\'Voos & Passagens\', document.getElementById(\'card-voos\').innerHTML)" class="bg-emerald-600 text-white px-2.5 py-1 rounded-xl text-xs font-bold shadow-sm">🖨️ PDF</button><button onclick="adicionarVoo()" class="bg-indigo-600 text-white px-2.5 py-1 rounded-xl text-xs font-bold shadow-sm">➕ Voo</button></div></div><div class="space-y-2">' + voosHtml + '</div></div>';
@@ -1355,7 +1438,7 @@
             } else { atualizarVoucherCampo(id, 'categoria', valor); }
         }
 
-        // ORÇAMENTO (CORRIGIDO E ORGANIZADO)
+        // ORÇAMENTO
         function renderizarOrcamentoTab() {
             const containerEur = document.getElementById('lista-despesas-eur-html');
             const containerChf = document.getElementById('lista-despesas-chf-html');
@@ -1380,6 +1463,8 @@
 
             let gastoEur = 0;
             let gastoChf = 0;
+            let cotEur = parseFloat(dadosApp.cotacaoEur) || 6.20;
+            let cotChf = parseFloat(dadosApp.cotacaoChf) || 6.50;
 
             dadosApp.itinerario.forEach(item => {
                 if(item.trechos && item.trechos.length > 0) {
@@ -1387,12 +1472,13 @@
                         let val = parseFloat(tr.valor) || 0;
                         let moeda = tr.moeda || 'EUR';
                         if(val > 0) {
+                            let valBrl = moeda === 'EUR' ? val * cotEur : val * cotChf;
                             if(moeda === 'EUR') {
                                 gastoEur += val;
-                                containerEur.innerHTML += '<div class="p-2 rounded-xl bg-white border border-slate-200 flex justify-between items-center text-xs shadow-sm"><span class="font-bold truncate text-slate-800">🚄 ' + (tr.origem||'?') + '➔' + (tr.destino||'?') + '</span><span class="font-black text-amber-900">' + val.toFixed(2) + ' €</span></div>';
+                                containerEur.innerHTML += '<div class="p-2 rounded-xl bg-white border border-slate-200 flex justify-between items-center text-xs shadow-sm"><span class="font-bold truncate text-slate-800">🚄 ' + (tr.origem||'?') + '➔' + (tr.destino||'?') + '</span><div class="text-right"><span class="font-black text-amber-900 block">' + val.toFixed(2) + ' €</span><span class="text-emerald-700 font-bold text-[10px]">R$ ' + valBrl.toFixed(2) + '</span></div></div>';
                             } else if(moeda === 'CHF') {
                                 gastoChf += val;
-                                containerChf.innerHTML += '<div class="p-2 rounded-xl bg-white border border-slate-200 flex justify-between items-center text-xs shadow-sm"><span class="font-bold truncate text-slate-800">🚄 ' + (tr.origem||'?') + '➔' + (tr.destino||'?') + '</span><span class="font-black text-blue-900">' + val.toFixed(2) + ' CHF</span></div>';
+                                containerChf.innerHTML += '<div class="p-2 rounded-xl bg-white border border-slate-200 flex justify-between items-center text-xs shadow-sm"><span class="font-bold truncate text-slate-800">🚄 ' + (tr.origem||'?') + '➔' + (tr.destino||'?') + '</span><div class="text-right"><span class="font-black text-blue-900 block">' + val.toFixed(2) + ' CHF</span><span class="text-emerald-700 font-bold text-[10px]">R$ ' + valBrl.toFixed(2) + '</span></div></div>';
                             }
                         }
                     });
@@ -1403,9 +1489,10 @@
                 dadosApp.orcamento.forEach(d => {
                     let val = parseFloat(d.valor) || 0;
                     let moeda = d.moeda || 'EUR';
+                    let valBrl = moeda === 'EUR' ? val * cotEur : val * cotChf;
                     let htmlDespesa = '<div class="p-2 rounded-xl bg-white border border-slate-200 flex items-center justify-between gap-2 text-xs shadow-sm">' +
                         '<input type="text" value="' + d.descricao + '" oninput="atualizarOrcamentoDescricao(' + d.id + ', this.value)" class="flex-1 min-w-0 bg-transparent outline-none font-bold text-slate-800 text-xs" placeholder="Descrição...">' +
-                        '<input type="number" value="' + d.valor + '" oninput="atualizarOrcamentoValor(' + d.id + ', this.value)" class="w-20 p-1 bg-slate-50 border border-slate-300 rounded-xl font-black text-right text-xs" placeholder="0">' +
+                        '<div class="text-right shrink-0"><input type="number" value="' + d.valor + '" oninput="atualizarOrcamentoValor(' + d.id + ', this.value)" class="w-20 p-1 bg-slate-50 border border-slate-300 rounded-xl font-black text-right text-xs" placeholder="0"><span class="block text-[10px] text-emerald-700 font-bold">R$ ' + valBrl.toFixed(2) + '</span></div>' +
                         '<button onclick="apagarDespesa(' + d.id + ')" class="text-red-500 font-bold px-2 py-1 rounded-xl bg-red-50 hover:bg-red-100 text-xs">✕</button>' +
                     '</div>';
 
@@ -1424,13 +1511,21 @@
 
             let sobraEur = (parseFloat(dadosApp.saldoEur) || 0) - gastoEur;
             let sobraChf = (parseFloat(dadosApp.saldoChf) || 0) - gastoChf;
-            let cotEur = parseFloat(dadosApp.cotacaoEur) || 6.20;
-            let cotChf = parseFloat(dadosApp.cotacaoChf) || 6.50;
 
             if(restanteEurEl) restanteEurEl.innerText = sobraEur.toFixed(2);
             if(restanteChfEl) restanteChfEl.innerText = sobraChf.toFixed(2);
             if(restanteEurBrlEl) restanteEurBrlEl.innerText = 'R$ ' + (sobraEur * cotEur).toFixed(2);
             if(restanteChfBrlEl) restanteChfBrlEl.innerText = 'R$ ' + (sobraChf * cotChf).toFixed(2);
+            calcularConversaoRapida();
+        }
+
+        function calcularConversaoRapida() {
+            let val = parseFloat(document.getElementById('conv-valor').value) || 0;
+            let moeda = document.getElementById('conv-moeda').value;
+            let cotEur = parseFloat(dadosApp.cotacaoEur) || 6.20;
+            let cotChf = parseFloat(dadosApp.cotacaoChf) || 6.50;
+            let resultado = moeda === 'EUR' ? val * cotEur : val * cotChf;
+            document.getElementById('conv-resultado').innerText = 'R$ ' + resultado.toFixed(2);
         }
 
         function atualizarSaldoInicial(moeda, val) {
