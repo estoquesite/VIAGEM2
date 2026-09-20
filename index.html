@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v53.0)</title>
+    <title>Roteiro Europa - Mariana (v54.0)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Leaflet CSS para Mapas -->
@@ -11,7 +11,7 @@
     <!-- Manifest Dinâmico via JavaScript -->
     <link id="pwa-manifest" rel="manifest" href="">
 </head>
-<body class="bg-slate-100 text-slate-800 min-h-screen pb-44 select-none transition-colors duration-200">
+<body class="bg-slate-100 text-slate-800 min-h-screen pb-36 select-none transition-colors duration-200">
 
     <!-- TELA DE BLOQUEIO / SEGURANÇA (SENHA 1510 & DIGITAL) -->
     <div id="tela-bloqueio" class="fixed inset-0 z-[100] bg-slate-900 flex items-center justify-center p-4 backdrop-blur-md hidden">
@@ -37,17 +37,18 @@
     <!-- CABEÇALHO NORMAL NO TOPO -->
     <header class="bg-slate-900 text-white px-4 py-3 shadow-md border-b border-slate-700 text-xs flex justify-between items-center z-50 relative">
         <span class="font-bold tracking-wide">🚄 Roteiro Europa - Mariana</span>
-        <span class="bg-indigo-600 px-2 py-0.5 rounded font-mono font-bold text-[10px]">v53.0</span>
+        <span class="bg-indigo-600 px-2 py-0.5 rounded font-mono font-bold text-[10px]">v54.0</span>
     </header>
 
     <!-- CONTEÚDO PRINCIPAL -->
     <div class="max-w-4xl mx-auto p-3 sm:p-6 space-y-4 pt-4">
 
-        <!-- SEPARADORES (TABS) - 3 ABAS LIMPAS -->
-        <div class="grid grid-cols-3 gap-1.5 bg-slate-200 p-1.5 rounded-2xl text-xs font-bold shadow-sm">
+        <!-- SEPARADORES (TABS) - 4 ABAS COM MAPA GERAL -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-1.5 bg-slate-200 p-1.5 rounded-2xl text-xs font-bold shadow-sm">
             <button onclick="mudarTab('itinerario')" id="tab-btn-itinerario" class="py-2.5 rounded-xl bg-indigo-600 text-white shadow-sm transition">📅 Itinerário</button>
             <button onclick="mudarTab('tarefas')" id="tab-btn-tarefas" class="py-2.5 rounded-xl text-slate-600 hover:bg-white/50 transition">✅ Tarefas</button>
-            <button onclick="mudarTab('comprados')" id="tab-btn-comprados" class="py-2.5 rounded-xl text-slate-600 hover:bg-white/50 transition">🎟️ Vouchers & PDFs</button>
+            <button onclick="mudarTab('comprados')" id="tab-btn-comprados" class="py-2.5 rounded-xl text-slate-600 hover:bg-white/50 transition">🎟️ Vouchers</button>
+            <button onclick="mudarTab('mapa-geral')" id="tab-btn-mapa-geral" class="py-2.5 rounded-xl text-slate-600 hover:bg-white/50 transition">🗺️ Mapa Geral</button>
         </div>
 
         <!-- TAB 1: ITINERÁRIO EM BLOCOS -->
@@ -98,12 +99,27 @@
             </div>
         </div>
 
+        <!-- TAB 4: MAPA GERAL COM ROTAS PONTILHADAS -->
+        <div id="tab-mapa-geral" class="space-y-4 hidden">
+            <div class="bg-white p-5 rounded-3xl shadow-sm border border-slate-300 space-y-4">
+                <div class="flex justify-between items-center border-b pb-3 flex-wrap gap-2">
+                    <div>
+                        <h2 class="text-xs font-extrabold uppercase text-slate-800 tracking-wider">🗺️ Mapa Geral & Linhas de Rota</h2>
+                        <p class="text-[11px] text-slate-500 font-semibold mt-0.5">Visualização de todos os pontos e rotas pontilhadas da viagem</p>
+                    </div>
+                    <button onclick="adicionarPontoMapaGeral()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-2 rounded-xl text-xs font-bold transition shadow-sm">➕ Adicionar Novo Ponto no Mapa</button>
+                </div>
+                <div id="mapa-geral-view" class="w-full h-[450px] rounded-2xl z-10 border border-slate-300"></div>
+                <div id="mapa-geral-status" class="text-stone-500 text-center text-xs italic">A calcular coordenadas e rotas pontilhadas...</div>
+            </div>
+        </div>
+
     </div>
 
     <!-- BARRA DE FERRAMENTAS FIXA NO FINAL DA TELA -->
     <nav class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900 text-white px-4 py-2.5 shadow-2xl border-t border-slate-700 text-xs flex flex-wrap items-center justify-between gap-2">
         <div class="flex items-center gap-2">
-            <span class="bg-indigo-600 px-2 py-0.5 rounded font-mono font-bold text-[10px]">v53.0</span>
+            <span class="bg-indigo-600 px-2 py-0.5 rounded font-mono font-bold text-[10px]">v54.0</span>
             <span class="font-bold">Barra de Ações</span>
         </div>
         <div class="flex items-center gap-1.5 flex-wrap">
@@ -143,7 +159,7 @@
         </div>
     </div>
 
-    <!-- MODAL DO MAPA COM ROTA -->
+    <!-- MODAL DO MAPA INDIVIDUAL COM ROTA -->
     <div id="modal-mapa" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
         <div class="bg-white p-5 rounded-3xl shadow-2xl max-w-lg w-full space-y-3 text-xs">
             <div class="flex justify-between items-center border-b pb-2">
@@ -202,11 +218,12 @@
     <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
-        const CHAVE_APP = "mariana_viagem_europa_v53";
+        const CHAVE_APP = "mariana_viagem_europa_v54";
         let destinoFiltro = 'todos';
         let tarefaFiltro = 'todas';
         let campoFocoAtual = null;
         let mapInstance = null;
+        let mapaGeralInstance = null;
         let backupEstado = {};
         let deferredPrompt = null;
 
@@ -236,7 +253,7 @@
             const manifestBlob = new Blob([JSON.stringify(manifestObj)], {type: 'application/manifest+json'});
             document.getElementById('pwa-manifest').href = URL.createObjectURL(manifestBlob);
 
-            const temaSalvo = localStorage.getItem('tema_v53');
+            const temaSalvo = localStorage.getItem('tema_v54');
             if (temaSalvo === 'dark') {
                 document.body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 document.body.classList.remove('bg-slate-100', 'text-slate-800');
@@ -258,8 +275,8 @@
                     "Hotel Weisses Kreuz", "Grindelwald", "Jungfraujoch"
                 ];
             }
-            if(!dadosApp.coresBlocos) {
-                dadosApp.coresBlocos = {};
+            if(!dadosApp.pontosExtrasMapa) {
+                dadosApp.pontosExtrasMapa = [];
             }
             if(!dadosApp.statusPersonalizados) {
                 dadosApp.statusPersonalizados = {
@@ -277,8 +294,8 @@
                 ];
             }
             
-            // Sessão Inteligente (Mantém logado ao atualizar F5, pede senha ao abrir nova aba/fechar)
-            if (!sessionStorage.getItem('sessao_ativa_v53')) {
+            // Sessão Inteligente
+            if (!sessionStorage.getItem('sessao_ativa_v54')) {
                 document.getElementById('tela-bloqueio').classList.remove('hidden');
             } else {
                 document.getElementById('tela-bloqueio').classList.add('hidden');
@@ -300,7 +317,7 @@
                     deferredPrompt = null;
                 });
             } else {
-                document.getElementById('modal-instalacao').classList.remove('hidden');
+                document.getElementById('modal-instalacao').classList.add('hidden');
             }
         }
 
@@ -310,10 +327,10 @@
 
         // Funções de Segurança com a Senha 1510
         function desbloquearComPin() {
-            let pinSalvo = localStorage.getItem('app_pin_v53') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v54') || '1510';
             let digitado = document.getElementById('input-pin').value;
             if(digitado === pinSalvo) {
-                sessionStorage.setItem('sessao_ativa_v53', 'true');
+                sessionStorage.setItem('sessao_ativa_v54', 'true');
                 document.getElementById('tela-bloqueio').classList.add('hidden');
                 document.getElementById('erro-pin').classList.add('hidden');
             } else {
@@ -331,26 +348,26 @@
                     };
                     let credential = await navigator.credentials.get({ publicKey });
                     if(credential) {
-                        sessionStorage.setItem('sessao_ativa_v53', 'true');
+                        sessionStorage.setItem('sessao_ativa_v54', 'true');
                         document.getElementById('tela-bloqueio').classList.add('hidden');
                         return;
                     }
                 }
-                sessionStorage.setItem('sessao_ativa_v53', 'true');
+                sessionStorage.setItem('sessao_ativa_v54', 'true');
                 document.getElementById('tela-bloqueio').classList.add('hidden');
             } catch(e) {
-                sessionStorage.setItem('sessao_ativa_v53', 'true');
+                sessionStorage.setItem('sessao_ativa_v54', 'true');
                 document.getElementById('tela-bloqueio').classList.add('hidden');
             }
         }
 
         function alterarSenhaPin() {
             let atual = prompt("Digite a senha atual (Padrão: 1510):");
-            let pinSalvo = localStorage.getItem('app_pin_v53') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v54') || '1510';
             if(atual === pinSalvo) {
                 let nova = prompt("Digite a nova senha PIN:");
                 if(nova && nova.trim() !== '') {
-                    localStorage.setItem('app_pin_v53', nova.trim());
+                    localStorage.setItem('app_pin_v54', nova.trim());
                     alert("🔑 Senha alterada com sucesso!");
                 }
             } else {
@@ -363,11 +380,11 @@
             if(body.classList.contains('dark')) {
                 body.classList.remove('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.add('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v53', 'light');
+                localStorage.setItem('tema_v54', 'light');
             } else {
                 body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.remove('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v53', 'dark');
+                localStorage.setItem('tema_v54', 'dark');
             }
         }
 
@@ -381,6 +398,7 @@
                 "Hotel Weisses Kreuz", "Grindelwald", "Jungfraujoch"
             ],
             coresBlocos: {},
+            pontosExtrasMapa: [],
             statusPersonalizados: {
                 "Concluído": "#22c55e",
                 "Aguardando": "#f59e0b"
@@ -429,6 +447,9 @@
             renderizarTarefas();
             renderizarVouchersTab();
             calcularGastos();
+            if(!document.getElementById('tab-mapa-geral').classList.contains('hidden')) {
+                renderizarMapaGeral();
+            }
         }
 
         function calcularGastos() {
@@ -442,7 +463,7 @@
         }
 
         function mudarTab(tab) {
-            ['itinerario', 'tarefas', 'comprados'].forEach(t => {
+            ['itinerario', 'tarefas', 'comprados', 'mapa-geral'].forEach(t => {
                 document.getElementById('tab-' + t).classList.add('hidden');
                 let btn = document.getElementById('tab-btn-' + t);
                 if(btn) btn.className = "py-2.5 rounded-xl text-slate-600 hover:bg-white/50 transition";
@@ -450,6 +471,10 @@
             document.getElementById('tab-' + tab).classList.remove('hidden');
             let activeBtn = document.getElementById('tab-btn-' + tab);
             if(activeBtn) activeBtn.className = "py-2.5 rounded-xl bg-indigo-600 text-white shadow-sm transition";
+
+            if(tab === 'mapa-geral') {
+                setTimeout(() => { renderizarMapaGeral(); }, 250);
+            }
         }
 
         function obterCorBlocoHex(item) {
@@ -527,6 +552,17 @@
                     salvarStorage();
                 }
                 filtrarDestino(limpo);
+            }
+        }
+
+        function adicionarPontoMapaGeral() {
+            let nomePonto = prompt("Digite o nome do novo local/ponto para adicionar ao mapa geral:");
+            if(nomePonto && nomePonto.trim() !== '') {
+                if(!dadosApp.pontosExtrasMapa) dadosApp.pontosExtrasMapa = [];
+                dadosApp.pontosExtrasMapa.push(nomePonto.trim());
+                salvarStorage();
+                renderizarMapaGeral();
+                alert("📍 Ponto adicionado ao mapa com sucesso!");
             }
         }
 
@@ -840,6 +876,89 @@
             });
         }
 
+        // RENDERIZAR O MAPA GERAL COM LINHAS PONTILHADAS
+        async function renderizarMapaGeral() {
+            let statusEl = document.getElementById('mapa-geral-status');
+            if(!statusEl) return;
+            statusEl.innerText = "A geocodificar pontos e desenhar rotas pontilhadas...";
+
+            setTimeout(async () => {
+                if(!mapaGeralInstance) {
+                    mapaGeralInstance = L.map('mapa-geral-view').setView([47.3769, 8.5417], 6);
+                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                        maxZoom: 19,
+                        attribution: '© OpenStreetMap'
+                    }).addTo(mapaGeralInstance);
+                } else {
+                    mapaGeralInstance.invalidateSize();
+                }
+
+                mapaGeralInstance.eachLayer(layer => {
+                    if (layer instanceof L.Marker || layer instanceof L.Polyline) {
+                        mapaGeralInstance.removeLayer(layer);
+                    }
+                });
+
+                async function buscarCoords(query) {
+                    try {
+                        let res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}`);
+                        let data = await res.json();
+                        if(data && data.length > 0) {
+                            return [parseFloat(data[0].lat), parseFloat(data[0].lon)];
+                        }
+                    } catch(e) {}
+                    return null;
+                }
+
+                let bounds = [];
+
+                // Recolher todos os pontos de embarque e desembarque do itinerário
+                for(let item of dadosApp.itinerario) {
+                    if(item.embarque) {
+                        let coordsEmb = await buscarCoords(item.embarque);
+                        if(coordsEmb) {
+                            L.marker(coordsEmb).addTo(mapaGeralInstance).bindPopup(`<b>Embarque:</b> ${item.embarque} (${item.categoria})`);
+                            bounds.push(coordsEmb);
+                        }
+                    }
+                    if(item.desembarque) {
+                        let coordsDes = await buscarCoords(item.desembarque);
+                        if(coordsDes) {
+                            L.marker(coordsDes).addTo(mapaGeralInstance).bindPopup(`<b>Desembarque:</b> ${item.desembarque} (${item.categoria})`);
+                            bounds.push(coordsDes);
+                        }
+                    }
+
+                    // Desenhar linha pontilhada entre embarque e desembarque se ambos existirem
+                    if(item.embarque && item.desembarque) {
+                        let c1 = await buscarCoords(item.embarque);
+                        let c2 = await buscarCoords(item.desembarque);
+                        if(c1 && c2) {
+                            L.polyline([c1, c2], {color: '#4f46e5', weight: 4, dashArray: '6, 10', opacity: 0.8}).addTo(mapaGeralInstance);
+                        }
+                    }
+                }
+
+                // Adicionar pontos extras personalizados
+                if(dadosApp.pontosExtrasMapa) {
+                    for(let pt of dadosApp.pontosExtrasMapa) {
+                        let coordsPt = await buscarCoords(pt);
+                        if(coordsPt) {
+                            L.marker(coordsPt).addTo(mapaGeralInstance).bindPopup(`<b>Ponto Adicional:</b> ${pt}`);
+                            bounds.push(coordsPt);
+                        }
+                    }
+                }
+
+                if(bounds.length > 0) {
+                    mapaGeralInstance.fitBounds(bounds, {padding: [50, 50]});
+                    statusEl.innerText = "🗺️ Mapa geral carregado com todas as rotas pontilhadas!";
+                } else {
+                    statusEl.innerText = "Nenhum ponto válido encontrado para exibir no mapa.";
+                }
+            }, 300);
+        }
+
         function abrirModalTarefa(id) {
             const t = dadosApp.tarefas.find(item => item.id === id);
             if(t) {
@@ -970,7 +1089,7 @@
             }
         }
 
-        // Mapa com Rota Dinâmica (Origem ➔ Destino)
+        // Mapa com Rota Dinâmica Individual
         async function abrirMapaRuta(origem, destinoLocal, destinoCategoria) {
             document.getElementById('mapa-titulo').innerText = `🗺️ Rota: ${origem} ➔ ${destinoLocal} (${destinoCategoria})`;
             document.getElementById('mapa-status').innerText = "A traçar rota no mapa...";
