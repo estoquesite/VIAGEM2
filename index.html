@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v35.0)</title>
+    <title>Roteiro Europa - Mariana (v38.0)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Leaflet CSS para Mapas -->
@@ -11,32 +11,19 @@
     <!-- Manifest Dinâmico via JavaScript -->
     <link id="pwa-manifest" rel="manifest" href="">
 </head>
-<body class="bg-slate-100 text-slate-800 min-h-screen pb-36 select-none transition-colors duration-200">
+<body class="bg-slate-100 text-slate-800 min-h-screen pb-44 select-none transition-colors duration-200">
 
     <!-- CABEÇALHO NORMAL NO TOPO -->
     <header class="bg-slate-900 text-white px-4 py-3 shadow-md border-b border-slate-700 text-xs flex justify-between items-center z-50 relative">
         <span class="font-bold tracking-wide">🚄 Roteiro Europa - Mariana</span>
-        <span class="bg-indigo-600 px-2 py-0.5 rounded font-mono font-bold text-[10px]">v35.0</span>
+        <span class="bg-indigo-600 px-2 py-0.5 rounded font-mono font-bold text-[10px]">v38.0</span>
     </header>
 
     <!-- CONTEÚDO PRINCIPAL -->
-    <div class="max-w-4xl mx-auto p-3 sm:p-6 space-y-6 pt-4">
-        
-        <!-- CABEÇALHO DESCRITIVO -->
-        <div class="bg-white border border-slate-300 p-5 rounded-3xl shadow-sm flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-            <div>
-                <span class="text-[10px] font-extrabold uppercase tracking-widest bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full">Seletores Inteligentes de Origem/Destino v35.0</span>
-                <h1 class="text-xl sm:text-2xl font-black text-slate-900 mt-2">Zurique, Freiburg, Paris & Interlaken 🚄🏔️</h1>
-                <p class="text-xs text-slate-500 mt-1">Filtros no topo, hotéis integrados e listas completas de estações em cada bloco.</p>
-            </div>
-            <div class="bg-slate-50 px-4 py-3 rounded-2xl border border-slate-300 text-right shadow-sm w-full sm:w-auto shrink-0">
-                <span class="text-[10px] text-slate-400 block uppercase font-bold">Gastos Totais</span>
-                <div id="stat-gastos" class="text-sm font-black text-indigo-600 mt-0.5">CHF 0 / €0</div>
-            </div>
-        </div>
+    <div class="max-w-4xl mx-auto p-3 sm:p-6 space-y-4 pt-4">
 
         <!-- SEPARADORES (TABS) - 3 ABAS LIMPAS -->
-        <div class="grid grid-cols-3 gap-1.5 bg-slate-200 p-1.5 rounded-2xl text-xs font-bold">
+        <div class="grid grid-cols-3 gap-1.5 bg-slate-200 p-1.5 rounded-2xl text-xs font-bold shadow-sm">
             <button onclick="mudarTab('itinerario')" id="tab-btn-itinerario" class="py-2.5 rounded-xl bg-indigo-600 text-white shadow-sm transition">📅 Itinerário</button>
             <button onclick="mudarTab('tarefas')" id="tab-btn-tarefas" class="py-2.5 rounded-xl text-slate-600 hover:bg-white/50 transition">✅ Tarefas</button>
             <button onclick="mudarTab('comprados')" id="tab-btn-comprados" class="py-2.5 rounded-xl text-slate-600 hover:bg-white/50 transition">🎟️ Vouchers & PDFs</button>
@@ -44,12 +31,7 @@
 
         <!-- TAB 1: ITINERÁRIO EM BLOCOS -->
         <div id="tab-itinerario" class="space-y-4">
-            <!-- CARDS DE FILTRO NO TOPO -->
-            <div class="flex gap-1.5 overflow-x-auto pb-1 text-xs items-center" id="filtros-container">
-                <!-- Renderizado via JS -->
-            </div>
-
-            <div class="flex justify-between items-center px-1 pt-2">
+            <div class="flex justify-between items-center px-1 pt-1">
                 <h2 class="text-xs font-extrabold uppercase text-slate-600 tracking-wider">📦 Blocos de Destino & Hotéis</h2>
                 <button onclick="adicionarBloco()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-2 rounded-xl font-bold text-xs transition shadow-sm">
                     ➕ Adicionar Novo Bloco (Topo)
@@ -58,27 +40,26 @@
             <div id="lista-blocos" class="space-y-4"></div>
         </div>
 
-        <!-- TAB 2: TAREFAS -->
+        <!-- TAB 2: TAREFAS (COM CARD DE RESUMO E MESMA LINHA) -->
         <div id="tab-tarefas" class="space-y-4 hidden">
-            <div class="bg-white p-5 rounded-3xl shadow-sm border border-slate-300 space-y-4">
-                <div class="flex justify-between items-center border-b pb-3 flex-wrap gap-2">
-                    <div>
-                        <h2 class="text-xs font-extrabold uppercase text-slate-800 tracking-wider">✅ Lista de Tarefas & Controlo</h2>
-                        <p id="stat-tarefas" class="text-[11px] text-slate-500 font-semibold mt-0.5">0 / 0 Concluídas</p>
-                    </div>
-                    <button onclick="adicionarTarefa()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-2 rounded-xl text-xs font-bold transition shadow-sm">➕ Nova Tarefa</button>
+            <!-- CARD DE RESUMO NO TOPO -->
+            <div class="bg-indigo-900 text-white p-4 rounded-3xl shadow-md flex justify-between items-center">
+                <div>
+                    <h2 class="text-xs font-black uppercase tracking-wider text-indigo-200">📊 Progresso das Tarefas</h2>
+                    <p id="stat-tarefas" class="text-sm font-black mt-0.5">0 / 0 Concluídas</p>
                 </div>
-                <div id="lista-tarefas-html" class="space-y-3 text-xs"></div>
+                <button onclick="adicionarTarefa()" class="bg-indigo-600 hover:bg-indigo-500 text-white px-3.5 py-2 rounded-2xl text-xs font-bold transition shadow-sm">➕ Nova Tarefa</button>
             </div>
+            <div id="lista-tarefas-html" class="space-y-3 text-xs"></div>
         </div>
 
-        <!-- TAB 3: VOUCHERS & PDFS -->
+        <!-- TAB 3: VOUCHERS & PDFS (COM ANEXO DIRETO NO CARD) -->
         <div id="tab-comprados" class="space-y-4 hidden">
             <div class="bg-white p-5 rounded-3xl shadow-sm border border-slate-300 space-y-4">
                 <div class="flex justify-between items-center border-b pb-3 flex-wrap gap-2">
                     <div>
                         <h2 class="text-xs font-extrabold uppercase text-slate-800 tracking-wider">🎟️ Gestão de Vouchers & PDFs</h2>
-                        <p class="text-[11px] text-slate-500 font-semibold mt-0.5">Adicione, edite e anexe PDFs livremente</p>
+                        <p class="text-[11px] text-slate-500 font-semibold mt-0.5">Adicione o arquivo PDF diretamente em cada cartão</p>
                     </div>
                     <button onclick="adicionarVoucher()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-2 rounded-xl text-xs font-bold transition shadow-sm">➕ Adicionar Novo Voucher / PDF</button>
                 </div>
@@ -88,10 +69,15 @@
 
     </div>
 
+    <!-- BARRA DE FILTROS FLUTUANTE NO RODAPÉ (ACIMA DA NAV) -->
+    <div id="filtros-container" class="fixed bottom-14 left-0 right-0 z-40 bg-slate-800/95 backdrop-blur-md px-3 py-2 border-t border-slate-700 overflow-x-auto flex gap-1.5 text-xs no-scrollbar items-center justify-start sm:justify-center shadow-lg">
+        <!-- Renderizado via JS -->
+    </div>
+
     <!-- BARRA DE FERRAMENTAS FIXA NO FINAL DA TELA -->
     <nav class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900 text-white px-4 py-2.5 shadow-2xl border-t border-slate-700 text-xs flex flex-wrap items-center justify-between gap-2">
         <div class="flex items-center gap-2">
-            <span class="bg-indigo-600 px-2 py-0.5 rounded font-mono font-bold text-[10px]">v35.0</span>
+            <span class="bg-indigo-600 px-2 py-0.5 rounded font-mono font-bold text-[10px]">v38.0</span>
             <span class="font-bold">Barra de Ações</span>
         </div>
         <div class="flex items-center gap-1.5 flex-wrap">
@@ -140,7 +126,7 @@
         </div>
     </div>
 
-    <!-- MODAL DE DETALHES / PDF (LÁPIS) -->
+    <!-- MODAL DE DETALHES / PDF (LÁPIS DO ITINERÁRIO) -->
     <div id="modal-detalhes" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
         <div class="bg-white p-6 rounded-3xl shadow-2xl max-w-md w-full space-y-4 border border-slate-300 text-xs">
             <div class="flex justify-between items-center border-b pb-3">
@@ -165,38 +151,10 @@
         </div>
     </div>
 
-    <!-- MODAL DE EDITAR VOUCHER -->
-    <div id="modal-voucher" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
-        <div class="bg-white p-6 rounded-3xl shadow-2xl max-w-md w-full space-y-4 border border-slate-300 text-xs">
-            <div class="flex justify-between items-center border-b pb-3">
-                <h3 class="font-bold text-sm text-slate-900">🎟️ Editar Voucher / PDF</h3>
-                <button onclick="fecharModalVoucher()" class="text-slate-400 hover:text-slate-600 font-bold">✕</button>
-            </div>
-            <input type="hidden" id="voucher-edit-id">
-            <div>
-                <label class="block font-semibold text-slate-600 mb-1">Título do Documento / Voucher</label>
-                <input type="text" id="voucher-titulo" class="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-xl outline-none font-bold text-slate-900" placeholder="Ex: Bilhete Europa-Park, Seguro Viagem...">
-            </div>
-            <div>
-                <label class="block font-semibold text-slate-600 mb-1">Categoria / Destino</label>
-                <input type="text" id="voucher-categoria" class="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-xl outline-none" placeholder="Ex: Zurique, Disney, Geral...">
-            </div>
-            <div>
-                <label class="block font-semibold text-slate-600 mb-1">Carregar / Atualizar Ficheiro PDF</label>
-                <input type="file" id="voucher-file" accept="application/pdf" class="w-full p-1 bg-slate-50 border border-slate-300 rounded-xl text-[10px]">
-                <div id="voucher-pdf-status" class="mt-1 text-[11px] text-slate-500"></div>
-            </div>
-            <div class="flex gap-2 pt-2">
-                <button onclick="salvarVoucherModal()" class="flex-1 bg-indigo-600 text-white py-2.5 rounded-xl font-bold">Guardar Voucher</button>
-                <button onclick="fecharModalVoucher()" class="bg-slate-200 text-slate-700 px-4 py-2.5 rounded-xl">Cancelar</button>
-            </div>
-        </div>
-    </div>
-
     <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
-        const CHAVE_APP = "mariana_viagem_europa_v35";
+        const CHAVE_APP = "mariana_viagem_europa_v38";
         let destinoFiltro = 'todos';
         let campoFocoAtual = null;
         let mapInstance = null;
@@ -231,7 +189,7 @@
             const manifestBlob = new Blob([JSON.stringify(manifestObj)], {type: 'application/manifest+json'});
             document.getElementById('pwa-manifest').href = URL.createObjectURL(manifestBlob);
 
-            const temaSalvo = localStorage.getItem('tema_v35');
+            const temaSalvo = localStorage.getItem('tema_v38');
             if (temaSalvo === 'dark') {
                 document.body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 document.body.classList.remove('bg-slate-100', 'text-slate-800');
@@ -291,11 +249,11 @@
             if(body.classList.contains('dark')) {
                 body.classList.remove('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.add('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v35', 'light');
+                localStorage.setItem('tema_v38', 'light');
             } else {
                 body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.remove('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v35', 'dark');
+                localStorage.setItem('tema_v38', 'dark');
             }
         }
 
@@ -501,7 +459,6 @@
                 });
                 opcoesDestino += `<option value="novo_destino">➕ Outro (Cadastrar novo)...</option>`;
 
-                // Gerar opções de locais para Origem e Destino
                 if(!dadosApp.locaisCadastrados.includes(item.embarque) && item.embarque) {
                     dadosApp.locaisCadastrados.push(item.embarque);
                 }
@@ -782,6 +739,114 @@
             }
         }
 
+        // Vouchers com anexo de PDF direto no card
+        function renderizarVouchersTab() {
+            const container = document.getElementById('lista-comprados-html');
+            container.innerHTML = '';
+
+            if(!dadosApp.vouchers || dadosApp.vouchers.length === 0) {
+                container.innerHTML = '<p class="text-xs text-slate-400 italic text-center py-4">Nenhum voucher ou PDF registado.</p>';
+                return;
+            }
+
+            dadosApp.vouchers.forEach(v => {
+                let dis = v.bloqueado ? 'disabled' : '';
+                let cardBg = v.bloqueado ? 'bg-slate-50 border-slate-300' : 'bg-white border-indigo-200 shadow-sm';
+                let btnOkText = v.bloqueado ? '🔒 OK (Bloqueado)' : '✅ OK';
+                let btnOkClass = v.bloqueado ? 'bg-emerald-600 text-white' : 'bg-slate-200 text-slate-700 hover:bg-emerald-500 hover:text-white';
+                
+                let pdfPreview = v.pdfData ? 
+                    `<a href="${v.pdfData}" download="${v.pdfNome || 'voucher.pdf'}" class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-xl font-bold inline-block text-[11px]">📄 Baixar PDF (${v.pdfNome || 'Documento'})</a>` : 
+                    `<span class="text-slate-400 italic text-[11px]">Nenhum PDF anexado</span>`;
+
+                let div = document.createElement('div');
+                div.className = `p-4 rounded-2xl border ${cardBg} space-y-3 transition`;
+                div.innerHTML = `
+                    <div class="flex justify-between items-center gap-2">
+                        <input type="text" value="${v.titulo}" ${dis} oninput="atualizarVoucherCampo(${v.id}, 'titulo', this.value)" class="w-full p-2 bg-transparent border-b border-slate-300 outline-none font-black text-slate-900" placeholder="Título do Voucher...">
+                        <input type="text" value="${v.categoria}" ${dis} oninput="atualizarVoucherCampo(${v.id}, 'categoria', this.value)" class="w-32 p-2 bg-slate-50 border rounded-xl outline-none text-xs font-bold text-indigo-700" placeholder="Categoria/Destino">
+                    </div>
+                    <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
+                        <div>${pdfPreview}</div>
+                        <div>
+                            <label class="text-[10px] font-bold text-slate-500 block mb-0.5">Anexar / Substituir PDF:</label>
+                            <input type="file" accept="application/pdf" ${dis} onchange="anexarPdfVoucher(${v.id}, event)" class="text-[10px] w-full">
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap justify-end items-center gap-1.5 pt-1 border-t border-slate-100">
+                        <button onclick="desfazerVoucher(${v.id})" class="bg-amber-100 text-amber-800 hover:bg-amber-200 px-2.5 py-1.5 rounded-xl font-bold text-xs">↩️ Desfazer</button>
+                        <button onclick="alternarBloqueioVoucher(${v.id})" class="${btnOkClass} px-3 py-1.5 rounded-xl font-bold text-xs transition">${btnOkText}</button>
+                        <button onclick="apagarVoucher(${v.id})" class="text-red-500 hover:text-red-700 font-bold px-2.5 py-1.5 bg-red-50 rounded-xl">✕</button>
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function anexarPdfVoucher(id, event) {
+            const file = event.target.files[0];
+            if(file) {
+                const reader = new FileReader();
+                reader.onload = function(evt) {
+                    const v = dadosApp.vouchers.find(item => item.id === id);
+                    if(v) {
+                        if(!backupVoucherEstado[id]) backupVoucherEstado[id] = JSON.parse(JSON.stringify(v));
+                        v.pdfData = evt.target.result;
+                        v.pdfNome = file.name;
+                        salvarStorage();
+                        alert("📄 PDF anexado com sucesso!");
+                    }
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function atualizarVoucherCampo(id, campo, valor) {
+            const v = dadosApp.vouchers.find(item => item.id === id);
+            if(v) {
+                if(!backupVoucherEstado[id]) backupVoucherEstado[id] = JSON.parse(JSON.stringify(v));
+                v[campo] = valor;
+                salvarStorage();
+            }
+        }
+
+        function alternarBloqueioVoucher(id) {
+            const v = dadosApp.vouchers.find(item => item.id === id);
+            if(v) {
+                if(!v.bloqueado) backupVoucherEstado[id] = JSON.parse(JSON.stringify(v));
+                v.bloqueado = !v.bloqueado;
+                salvarStorage();
+                renderizarVouchersTab();
+            }
+        }
+
+        function desfazerVoucher(id) {
+            if(backupVoucherEstado[id]) {
+                const index = dadosApp.vouchers.findIndex(item => item.id === id);
+                if(index !== -1) {
+                    dadosApp.vouchers[index] = JSON.parse(JSON.stringify(backupVoucherEstado[id]));
+                    salvarStorage();
+                    renderizarVouchersTab();
+                    alert("↩️ Voucher restaurado com sucesso!");
+                }
+            } else {
+                alert("Nenhum histórico para desfazer neste voucher.");
+            }
+        }
+
+        function adicionarVoucher() {
+            const novoId = dadosApp.vouchers.length > 0 ? Math.max(...dadosApp.vouchers.map(v => v.id)) + 1 : 1;
+            dadosApp.vouchers.unshift({ id: novoId, titulo: "Novo Voucher / PDF", categoria: "Geral", pdfData: "", pdfNome: "", bloqueado: false });
+            salvarStorage();
+        }
+
+        function apagarVoucher(id) {
+            if(confirm("Deseja excluir este voucher?")) {
+                dadosApp.vouchers = dadosApp.vouchers.filter(v => v.id !== id);
+                salvarStorage();
+            }
+        }
+
         // Mapa com Rota Dinâmica (Origem ➔ Destino)
         async function abrirMapaRuta(origem, destinoLocal, destinoCategoria) {
             document.getElementById('mapa-titulo').innerText = `🗺️ Rota: ${origem} ➔ ${destinoLocal} (${destinoCategoria})`;
@@ -883,137 +948,6 @@
                     salvarStorage();
                     renderizarBlocos();
                     fecharModalDetalhes();
-                }
-            }
-        }
-
-        // Gestão de Vouchers
-        function renderizarVouchersTab() {
-            const container = document.getElementById('lista-comprados-html');
-            container.innerHTML = '';
-
-            if(!dadosApp.vouchers || dadosApp.vouchers.length === 0) {
-                container.innerHTML = '<p class="text-xs text-slate-400 italic text-center py-4">Nenhum voucher ou PDF registado.</p>';
-                return;
-            }
-
-            dadosApp.vouchers.forEach(v => {
-                let dis = v.bloqueado ? 'disabled' : '';
-                let cardBg = v.bloqueado ? 'bg-slate-50 border-slate-300' : 'bg-white border-indigo-200 shadow-sm';
-                let btnOkText = v.bloqueado ? '🔒 OK (Bloqueado)' : '✅ OK';
-                let btnOkClass = v.bloqueado ? 'bg-emerald-600 text-white' : 'bg-slate-200 text-slate-700 hover:bg-emerald-500 hover:text-white';
-                
-                let pdfArea = v.pdfData ? 
-                    `<a href="${v.pdfData}" download="${v.pdfNome || 'voucher.pdf'}" class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-xl font-bold">📄 Ver / Baixar PDF</a>` : 
-                    `<span class="text-slate-400 italic text-[11px]">Nenhum PDF anexado</span>`;
-
-                let div = document.createElement('div');
-                div.className = `p-4 rounded-2xl border ${cardBg} space-y-3 transition`;
-                div.innerHTML = `
-                    <div class="flex justify-between items-center gap-2">
-                        <input type="text" value="${v.titulo}" ${dis} oninput="atualizarVoucherCampo(${v.id}, 'titulo', this.value)" class="w-full p-2 bg-transparent border-b border-slate-300 outline-none font-black text-slate-900" placeholder="Título do Voucher...">
-                        <input type="text" value="${v.categoria}" ${dis} oninput="atualizarVoucherCampo(${v.id}, 'categoria', this.value)" class="w-32 p-2 bg-slate-50 border rounded-xl outline-none text-xs font-bold text-indigo-700" placeholder="Categoria/Destino">
-                    </div>
-                    <div class="flex flex-wrap justify-between items-center gap-2 pt-2 border-t border-slate-100">
-                        <div>${pdfArea}</div>
-                        <div class="flex items-center gap-1.5">
-                            <button onclick="abrirModalVoucher(${v.id})" class="bg-white hover:bg-slate-100 border border-slate-300 px-2.5 py-1.5 rounded-xl font-bold text-xs" title="Editar Voucher e PDF">✏️ Lápis</button>
-                            <button onclick="desfazerVoucher(${v.id})" class="bg-amber-100 text-amber-800 hover:bg-amber-200 px-2.5 py-1.5 rounded-xl font-bold text-xs">↩️ Desfazer</button>
-                            <button onclick="alternarBloqueioVoucher(${v.id})" class="${btnOkClass} px-3 py-1.5 rounded-xl font-bold text-xs transition">${btnOkText}</button>
-                            <button onclick="apagarVoucher(${v.id})" class="text-red-500 hover:text-red-700 font-bold px-2.5 py-1.5 bg-red-50 rounded-xl">✕</button>
-                        </div>
-                    </div>
-                `;
-                container.appendChild(div);
-            });
-        }
-
-        function atualizarVoucherCampo(id, campo, valor) {
-            const v = dadosApp.vouchers.find(item => item.id === id);
-            if(v) {
-                if(!backupVoucherEstado[id]) backupVoucherEstado[id] = JSON.parse(JSON.stringify(v));
-                v[campo] = valor;
-                salvarStorage();
-            }
-        }
-
-        function alternarBloqueioVoucher(id) {
-            const v = dadosApp.vouchers.find(item => item.id === id);
-            if(v) {
-                if(!v.bloqueado) backupVoucherEstado[id] = JSON.parse(JSON.stringify(v));
-                v.bloqueado = !v.bloqueado;
-                salvarStorage();
-                renderizarVouchersTab();
-            }
-        }
-
-        function desfazerVoucher(id) {
-            if(backupVoucherEstado[id]) {
-                const index = dadosApp.vouchers.findIndex(item => item.id === id);
-                if(index !== -1) {
-                    dadosApp.vouchers[index] = JSON.parse(JSON.stringify(backupVoucherEstado[id]));
-                    salvarStorage();
-                    renderizarVouchersTab();
-                    alert("↩️ Voucher restaurado com sucesso!");
-                }
-            } else {
-                alert("Nenhum histórico para desfazer neste voucher.");
-            }
-        }
-
-        function adicionarVoucher() {
-            const novoId = dadosApp.vouchers.length > 0 ? Math.max(...dadosApp.vouchers.map(v => v.id)) + 1 : 1;
-            dadosApp.vouchers.unshift({ id: novoId, titulo: "Novo Voucher / PDF", categoria: "Geral", pdfData: "", pdfNome: "", bloqueado: false });
-            salvarStorage();
-        }
-
-        function apagarVoucher(id) {
-            if(confirm("Deseja excluir este voucher?")) {
-                dadosApp.vouchers = dadosApp.vouchers.filter(v => v.id !== id);
-                salvarStorage();
-            }
-        }
-
-        function abrirModalVoucher(id) {
-            const v = dadosApp.vouchers.find(item => item.id === id);
-            if(v) {
-                document.getElementById('voucher-edit-id').value = v.id;
-                document.getElementById('voucher-titulo').value = v.titulo || '';
-                document.getElementById('voucher-categoria').value = v.categoria || '';
-                document.getElementById('voucher-file').value = '';
-                document.getElementById('voucher-pdf-status').innerText = v.pdfNome ? `PDF atual: ${v.pdfNome}` : 'Nenhum PDF anexado';
-                document.getElementById('modal-voucher').classList.remove('hidden');
-            }
-        }
-
-        function fecharModalVoucher() {
-            document.getElementById('modal-voucher').classList.add('hidden');
-        }
-
-        function salvarVoucherModal() {
-            const id = parseInt(document.getElementById('voucher-edit-id').value);
-            const titulo = document.getElementById('voucher-titulo').value;
-            const categoria = document.getElementById('voucher-categoria').value;
-            const fileInput = document.getElementById('voucher-file');
-            const v = dadosApp.vouchers.find(item => item.id === id);
-
-            if(v) {
-                if(!backupVoucherEstado[id]) backupVoucherEstado[id] = JSON.parse(JSON.stringify(v));
-                v.titulo = titulo;
-                v.categoria = categoria;
-
-                if(fileInput.files && fileInput.files[0]) {
-                    const reader = new FileReader();
-                    reader.onload = function(evt) {
-                        v.pdfData = evt.target.result;
-                        v.pdfNome = fileInput.files[0].name;
-                        salvarStorage();
-                        fecharModalVoucher();
-                    };
-                    reader.readAsDataURL(fileInput.files[0]);
-                } else {
-                    salvarStorage();
-                    fecharModalVoucher();
                 }
             }
         }
