@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v58.0)</title>
+    <title>Roteiro Europa - Mariana (v60.0)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Leaflet CSS para Mapas -->
@@ -11,7 +11,7 @@
     <!-- Manifest Dinâmico via JavaScript -->
     <link id="pwa-manifest" rel="manifest" href="">
 </head>
-<body class="bg-slate-100 text-slate-800 min-h-screen pb-36 select-none transition-colors duration-200">
+<body class="bg-slate-100 text-slate-800 min-h-screen pb-44 select-none transition-colors duration-200">
 
     <!-- TELA DE BLOQUEIO / SEGURANÇA (SENHA 1510 & DIGITAL) -->
     <div id="tela-bloqueio" class="fixed inset-0 z-[100] bg-slate-900 flex items-center justify-center p-4 backdrop-blur-md hidden">
@@ -37,13 +37,13 @@
     <!-- CABEÇALHO NORMAL NO TOPO -->
     <header class="bg-slate-900 text-white px-4 py-3 shadow-md border-b border-slate-700 text-xs flex justify-between items-center z-50 relative">
         <span class="font-bold tracking-wide">🚄 Roteiro Europa - Mariana</span>
-        <span class="bg-indigo-600 px-2 py-0.5 rounded font-mono font-bold text-[10px]">v58.0</span>
+        <span class="bg-indigo-600 px-2 py-0.5 rounded font-mono font-bold text-[10px]">v60.0</span>
     </header>
 
     <!-- CONTEÚDO PRINCIPAL -->
     <div class="max-w-4xl mx-auto p-3 sm:p-6 space-y-4 pt-4">
 
-        <!-- SEPARADORES (TABS) - 4 ABAS COM MAPA GERAL -->
+        <!-- SEPARADORES (TABS) - 4 ABAS OTIMIZADAS PARA MOBILE -->
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-1.5 bg-slate-200 p-1.5 rounded-2xl text-xs font-bold shadow-sm">
             <button onclick="mudarTab('itinerario')" id="tab-btn-itinerario" class="py-2.5 rounded-xl bg-indigo-600 text-white shadow-sm transition">📅 Itinerário</button>
             <button onclick="mudarTab('tarefas')" id="tab-btn-tarefas" class="py-2.5 rounded-xl text-slate-600 hover:bg-white/50 transition">✅ Tarefas</button>
@@ -117,28 +117,28 @@
     </div>
 
     <!-- BARRA DE FERRAMENTAS FIXA NO FINAL DA TELA COM GEMINI IA -->
-    <nav class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900 text-white px-4 py-2.5 shadow-2xl border-t border-slate-700 text-xs flex flex-wrap items-center justify-between gap-2">
-        <div class="flex items-center gap-2">
-            <span class="bg-indigo-600 px-2 py-0.5 rounded font-mono font-bold text-[10px]">v58.0</span>
-            <span class="font-bold">Barra de Ações</span>
+    <nav class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900 text-white px-3 py-2.5 shadow-2xl border-t border-slate-700 text-xs flex flex-wrap items-center justify-between gap-1.5">
+        <div class="flex items-center gap-1.5">
+            <span class="bg-indigo-600 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v60.0</span>
+            <span class="font-bold">Ações</span>
         </div>
-        <div class="flex items-center gap-1.5 flex-wrap">
-            <button onclick="abrirGeminiModal()" class="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white px-2.5 py-1.5 rounded-xl font-bold transition shadow-sm flex items-center gap-1">
-                <span>✨</span> Gemini IA
+        <div class="flex items-center gap-1 flex-wrap">
+            <button onclick="abrirGeminiModal()" class="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white px-2 py-1.5 rounded-xl font-bold transition shadow-sm flex items-center gap-1 text-[11px]">
+                <span>✨</span> Gemini
             </button>
-            <button onclick="ativarMicrofone()" class="bg-purple-600 hover:bg-purple-700 text-white px-2.5 py-1.5 rounded-xl font-bold transition shadow-sm flex items-center gap-1">
+            <button onclick="ativarMicrofone()" class="bg-purple-600 hover:bg-purple-700 text-white px-2 py-1.5 rounded-xl font-bold transition shadow-sm flex items-center gap-1 text-[11px]">
                 <span>🎤</span> Ditar
             </button>
-            <button onclick="alternarTema()" class="bg-slate-800 hover:bg-slate-700 text-white px-2.5 py-1.5 rounded-xl font-bold transition border border-slate-700 flex items-center gap-1">
+            <button onclick="alternarTema()" class="bg-slate-800 hover:bg-slate-700 text-white px-2 py-1.5 rounded-xl font-bold transition border border-slate-700 flex items-center gap-1 text-[11px]">
                 <span>🌓</span> Tema
             </button>
-            <button onclick="alterarSenhaPin()" class="bg-amber-600 hover:bg-amber-700 text-white px-2.5 py-1.5 rounded-xl font-bold transition shadow-sm flex items-center gap-1">
+            <button onclick="alterarSenhaPin()" class="bg-amber-600 hover:bg-amber-700 text-white px-2 py-1.5 rounded-xl font-bold transition shadow-sm flex items-center gap-1 text-[11px]">
                 <span>🔑</span> Senha
             </button>
-            <button onclick="exportarWord()" class="bg-indigo-700 hover:bg-indigo-800 text-white px-2.5 py-1.5 rounded-xl font-bold transition shadow-sm flex items-center gap-1">
+            <button onclick="exportarWord()" class="bg-indigo-700 hover:bg-indigo-800 text-white px-2 py-1.5 rounded-xl font-bold transition shadow-sm flex items-center gap-1 text-[11px]">
                 <span>📥</span> Word
             </button>
-            <button onclick="tentarInstalarApp()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2.5 py-1.5 rounded-xl font-bold transition shadow-sm flex items-center gap-1">
+            <button onclick="tentarInstalarApp()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2 py-1.5 rounded-xl font-bold transition shadow-sm flex items-center gap-1 text-[11px]">
                 <span>📱</span> App
             </button>
         </div>
@@ -238,7 +238,7 @@
     <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
-        const CHAVE_APP = "mariana_viagem_europa_v58";
+        const CHAVE_APP = "mariana_viagem_europa_v60";
         let destinoFiltro = 'todos';
         let tarefaFiltro = 'todas';
         let campoFocoAtual = null;
@@ -274,7 +274,7 @@
             const manifestBlob = new Blob([JSON.stringify(manifestObj)], {type: 'application/manifest+json'});
             document.getElementById('pwa-manifest').href = URL.createObjectURL(manifestBlob);
 
-            const temaSalvo = localStorage.getItem('tema_v58');
+            const temaSalvo = localStorage.getItem('tema_v60');
             if (temaSalvo === 'dark') {
                 document.body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 document.body.classList.remove('bg-slate-100', 'text-slate-800');
@@ -319,7 +319,7 @@
             }
             
             // Sessão Inteligente
-            if (!sessionStorage.getItem('sessao_ativa_v58')) {
+            if (!sessionStorage.getItem('sessao_ativa_v60')) {
                 document.getElementById('tela-bloqueio').classList.remove('hidden');
             } else {
                 document.getElementById('tela-bloqueio').classList.add('hidden');
@@ -340,7 +340,7 @@
                     deferredPrompt = null;
                 });
             } else {
-                document.getElementById('modal-instalacao').classList.add('hidden');
+                document.getElementById('modal-instalacao').classList.remove('hidden');
             }
         }
 
@@ -350,10 +350,10 @@
 
         // Funções de Segurança com a Senha 1510
         function desbloquearComPin() {
-            let pinSalvo = localStorage.getItem('app_pin_v58') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v60') || '1510';
             let digitado = document.getElementById('input-pin').value;
             if(digitado === pinSalvo) {
-                sessionStorage.setItem('sessao_ativa_v58', 'true');
+                sessionStorage.setItem('sessao_ativa_v60', 'true');
                 document.getElementById('tela-bloqueio').classList.add('hidden');
                 document.getElementById('erro-pin').classList.add('hidden');
             } else {
@@ -371,26 +371,26 @@
                     };
                     let credential = await navigator.credentials.get({ publicKey });
                     if(credential) {
-                        sessionStorage.setItem('sessao_ativa_v58', 'true');
+                        sessionStorage.setItem('sessao_ativa_v60', 'true');
                         document.getElementById('tela-bloqueio').classList.add('hidden');
                         return;
                     }
                 }
-                sessionStorage.setItem('sessao_ativa_v58', 'true');
+                sessionStorage.setItem('sessao_ativa_v60', 'true');
                 document.getElementById('tela-bloqueio').classList.add('hidden');
             } catch(e) {
-                sessionStorage.setItem('sessao_ativa_v58', 'true');
+                sessionStorage.setItem('sessao_ativa_v60', 'true');
                 document.getElementById('tela-bloqueio').classList.add('hidden');
             }
         }
 
         function alterarSenhaPin() {
             let atual = prompt("Digite a senha atual (Padrão: 1510):");
-            let pinSalvo = localStorage.getItem('app_pin_v58') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v60') || '1510';
             if(atual === pinSalvo) {
                 let nova = prompt("Digite a nova senha PIN:");
                 if(nova && nova.trim() !== '') {
-                    localStorage.setItem('app_pin_v58', nova.trim());
+                    localStorage.setItem('app_pin_v60', nova.trim());
                     alert("🔑 Senha alterada com sucesso!");
                 }
             } else {
@@ -403,11 +403,11 @@
             if(body.classList.contains('dark')) {
                 body.classList.remove('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.add('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v58', 'light');
+                localStorage.setItem('tema_v60', 'light');
             } else {
                 body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.remove('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v58', 'dark');
+                localStorage.setItem('tema_v60', 'dark');
             }
         }
 
@@ -467,13 +467,13 @@
                 "Aguardando": "#f59e0b"
             },
             itinerario: [
-                { id: 1, categoria: "Zurique", dataInicio: "2026-12-30", dataFim: "2027-01-02", trecho: "Estadia no ibis budget Zurich City West", transporte: "Caminhada / Transporte local", numeroTransporte: "", embarque: "Zurich HB", desembarque: "ibis budget Zurich City West", moeda: "CHF", valor: "0", status: "Comprado", notas: "", textoLivre: "Check-in a partir das 15h00. Primeiros dias em Zurique.", pdfData: "", pdfNome: "", bloqueado: false, cor: "#e0f2fe" },
-                { id: 2, categoria: "Freiburg", dataInicio: "2027-01-02", dataFim: "2027-01-05", trecho: "Zurique ➔ Premier Inn Freiburg", transporte: "Ônibus FlixBus", numeroTransporte: "Linha 72", embarque: "Zurich Bus Station (Sihlquai)", desembarque: "Premier Inn Freiburg City Süd", moeda: "EUR", valor: "25", status: "Aguardando", notas: "", textoLivre: "Check-in a partir das 15h00. Estadia no Premier Inn Freiburg City Süd.", pdfData: "", pdfNome: "", bloqueado: false, cor: "#fef3c7" },
-                { id: 3, categoria: "Freiburg", dataInicio: "2027-01-03", dataFim: "2027-01-03", trecho: "Freiburg ➔ Europa-Park (Papai)", transporte: "Ônibus regional", numeroTransporte: "Bus 7200", embarque: "Premier Inn Freiburg City Süd", desembarque: "Europa-Park Rust", moeda: "EUR", valor: "65", status: "Aguardando", notas: "", textoLivre: "Dia inteiro no Europa-Park.", pdfData: "", pdfNome: "", bloqueado: false, cor: "#fef3c7" },
-                { id: 4, categoria: "França", dataInicio: "2027-01-05", dataFim: "2027-01-07", trecho: "Freiburg ➔ Disney Hotel Santa Fe", transporte: "Trem TGV / Conexão", numeroTransporte: "TGV 9572", embarque: "Freiburg Hbf (Estação Central)", desembarque: "Disney Hotel Santa Fe", moeda: "EUR", valor: "220", status: "Aguardando", notas: "", textoLivre: "Check-in às 15h00. Estadia no Disney Hotel Santa Fe.", pdfData: "", pdfNome: "", bloqueado: false, cor: "#f3e8ff" },
-                { id: 5, categoria: "França", dataInicio: "2027-01-07", dataFim: "2027-01-08", trecho: "Disney ➔ Campanile Paris Bercy", transporte: "RER A / Metrô", numeroTransporte: "RER A", embarque: "Disney Hotel Santa Fe", desembarque: "CAMPOSANILE PARIS 12 - Bercy Village", moeda: "EUR", valor: "150", status: "Aguardando", notas: "", textoLivre: "Check-in às 14h00. Passagem pelo outlet La Vallée Village e estadia em Paris Bercy.", pdfData: "", pdfNome: "", bloqueado: false, cor: "#f3e8ff" },
-                { id: 6, categoria: "Interlaken", dataInicio: "2027-01-08", dataFim: "2027-01-12", trecho: "Paris ➔ Hotel Weisses Kreuz (Interlaken)", transporte: "Trem TGV Lyria / SBB", numeroTransporte: "TGV Lyria 9201", embarque: "Gare de Lyon (Paris)", desembarque: "Hotel Weisses Kreuz", moeda: "CHF", valor: "110", status: "Aguardando", notas: "", textoLivre: "Check-in às 15h00. Estadia alpina no Hotel Weisses Kreuz.", pdfData: "", pdfNome: "", bloqueado: false, cor: "#d1fae5" },
-                { id: 7, categoria: "Zurique", dataInicio: "2027-01-12", dataFim: "2027-01-12", trecho: "Interlaken ➔ Zurique (Retorno)", transporte: "Trem SBB", numeroTransporte: "IC 8", embarque: "Interlaken Ost", desembarque: "Zurich HB", moeda: "CHF", valor: "76", status: "Aguardando", notas: "", textoLivre: "Regresso a Zurique para voo de retorno.", pdfData: "", pdfNome: "", bloqueado: false, cor: "#e0f2fe" }
+                { id: 1, categoria: "Zurique", dataInicio: "2026-12-30", dataFim: "2027-01-02", trecho: "Estadia no ibis budget Zurich City West", transporte: "Caminhada / Transporte local", numeroTransporte: "", embarque: "Zurich HB", desembarque: "ibis budget Zurich City West", moeda: "CHF", valor: "0", status: "Comprado", notas: "", textoLivre: "Check-in a partir das 15h00. Primeiros dias em Zurique.", pdfData: "", pdfNome: "", bloqueado: false, cor: "#e0f2fe", subBlocos: [] },
+                { id: 2, categoria: "Freiburg", dataInicio: "2027-01-02", dataFim: "2027-01-05", trecho: "Zurique ➔ Premier Inn Freiburg", transporte: "Ônibus FlixBus", numeroTransporte: "Linha 72", embarque: "Zurich Bus Station (Sihlquai)", desembarque: "Premier Inn Freiburg City Süd", moeda: "EUR", valor: "25", status: "Aguardando", notas: "", textoLivre: "Check-in a partir das 15h00. Estadia no Premier Inn Freiburg City Süd.", pdfData: "", pdfNome: "", bloqueado: false, cor: "#fef3c7", subBlocos: [] },
+                { id: 3, categoria: "Freiburg", dataInicio: "2027-01-03", dataFim: "2027-01-03", trecho: "Freiburg ➔ Europa-Park (Papai)", transporte: "Ônibus regional", numeroTransporte: "Bus 7200", embarque: "Premier Inn Freiburg City Süd", desembarque: "Europa-Park Rust", moeda: "EUR", valor: "65", status: "Aguardando", notas: "", textoLivre: "Dia inteiro no Europa-Park.", pdfData: "", pdfNome: "", bloqueado: false, cor: "#fef3c7", subBlocos: [] },
+                { id: 4, categoria: "França", dataInicio: "2027-01-05", dataFim: "2027-01-07", trecho: "Freiburg ➔ Disney Hotel Santa Fe", transporte: "Trem TGV / Conexão", numeroTransporte: "TGV 9572", embarque: "Freiburg Hbf (Estação Central)", desembarque: "Disney Hotel Santa Fe", moeda: "EUR", valor: "220", status: "Aguardando", notas: "", textoLivre: "Check-in às 15h00. Estadia no Disney Hotel Santa Fe.", pdfData: "", pdfNome: "", bloqueado: false, cor: "#f3e8ff", subBlocos: [] },
+                { id: 5, categoria: "França", dataInicio: "2027-01-07", dataFim: "2027-01-08", trecho: "Disney ➔ Campanile Paris Bercy", transporte: "RER A / Metrô", numeroTransporte: "RER A", embarque: "Disney Hotel Santa Fe", desembarque: "CAMPOSANILE PARIS 12 - Bercy Village", moeda: "EUR", valor: "150", status: "Aguardando", notas: "", textoLivre: "Check-in às 14h00. Passagem pelo outlet La Vallée Village e estadia em Paris Bercy.", pdfData: "", pdfNome: "", bloqueado: false, cor: "#f3e8ff", subBlocos: [] },
+                { id: 6, categoria: "Interlaken", dataInicio: "2027-01-08", dataFim: "2027-01-12", trecho: "Paris ➔ Hotel Weisses Kreuz (Interlaken)", transporte: "Trem TGV Lyria / SBB", numeroTransporte: "TGV Lyria 9201", embarque: "Gare de Lyon (Paris)", desembarque: "Hotel Weisses Kreuz", moeda: "CHF", valor: "110", status: "Aguardando", notas: "", textoLivre: "Check-in às 15h00. Estadia alpina no Hotel Weisses Kreuz.", pdfData: "", pdfNome: "", bloqueado: false, cor: "#d1fae5", subBlocos: [] },
+                { id: 7, categoria: "Zurique", dataInicio: "2027-01-12", dataFim: "2027-01-12", trecho: "Interlaken ➔ Zurique (Retorno)", transporte: "Trem SBB", numeroTransporte: "IC 8", embarque: "Interlaken Ost", desembarque: "Zurich HB", moeda: "CHF", valor: "76", status: "Aguardando", notas: "", textoLivre: "Regresso a Zurique para voo de retorno.", pdfData: "", pdfNome: "", bloqueado: false, cor: "#e0f2fe", subBlocos: [] }
             ],
             tarefas: [
                 { id: 1, texto: "Comprar cartões Wise e Nomad", status: "Concluído", bloqueado: false },
@@ -503,6 +503,62 @@
                     dadosApp.itinerario[index] = dadosApp.itinerario[novoIndex];
                     dadosApp.itinerario[novoIndex] = temp;
                     salvarStorage();
+                }
+            }
+        }
+
+        // Funções para manipular caixinhas internas personalizadas
+        function adicionarSubBloco(itemId) {
+            let item = dadosApp.itinerario.find(i => i.id === itemId);
+            if(item) {
+                if(!item.subBlocos) item.subBlocos = [];
+                item.subBlocos.push({ id: Date.now(), titulo: "Nova Caixinha", conteudo: "" });
+                salvarStorage();
+            }
+        }
+
+        function moverSubBloco(itemId, subId, direcao) {
+            let item = dadosApp.itinerario.find(i => i.id === itemId);
+            if(item && item.subBlocos) {
+                let idx = item.subBlocos.findIndex(s => s.id === subId);
+                if(idx !== -1) {
+                    let novoIdx = idx + direcao;
+                    if(novoIdx >= 0 && novoIdx < item.subBlocos.length) {
+                        let temp = item.subBlocos[idx];
+                        item.subBlocos[idx] = item.subBlocos[novoIdx];
+                        item.subBlocos[novoIdx] = temp;
+                        salvarStorage();
+                    }
+                }
+            }
+        }
+
+        function removerSubBloco(itemId, subId) {
+            let item = dadosApp.itinerario.find(i => i.id === itemId);
+            if(item && item.subBlocos) {
+                item.subBlocos = item.subBlocos.filter(s => s.id !== subId);
+                salvarStorage();
+            }
+        }
+
+        function atualizarSubBlocoTitulo(itemId, subId, val) {
+            let item = dadosApp.itinerario.find(i => i.id === itemId);
+            if(item && item.subBlocos) {
+                let sub = item.subBlocos.find(s => s.id === subId);
+                if(sub) {
+                    sub.titulo = val;
+                    localStorage.setItem(CHAVE_APP, JSON.stringify(dadosApp));
+                }
+            }
+        }
+
+        function atualizarSubBlocoConteudo(itemId, subId, val) {
+            let item = dadosApp.itinerario.find(i => i.id === itemId);
+            if(item && item.subBlocos) {
+                let sub = item.subBlocos.find(s => s.id === subId);
+                if(sub) {
+                    sub.conteudo = val;
+                    localStorage.setItem(CHAVE_APP, JSON.stringify(dadosApp));
                 }
             }
         }
@@ -801,25 +857,45 @@
                 });
                 opcoesLocaisDesembarque += `<option value="outro_local">➕ Outro (Cadastrar novo local)...</option>`;
 
+                // Renderizar caixinhas personalizadas internas (subBlocos)
+                let subBlocosHtml = '';
+                if(item.subBlocos && item.subBlocos.length > 0) {
+                    item.subBlocos.forEach(sb => {
+                        subBlocosHtml += `
+                            <div class="bg-white/80 p-2.5 rounded-2xl border border-black/15 space-y-1.5 shadow-sm">
+                                <div class="flex items-center justify-between gap-1">
+                                    <input type="text" value="${sb.titulo}" oninput="atualizarSubBlocoTitulo(${item.id}, ${sb.id}, this.value)" class="bg-transparent font-black text-indigo-900 text-xs outline-none w-full border-b border-indigo-200 pb-0.5" placeholder="Título da Caixinha...">
+                                    <div class="flex items-center gap-1 shrink-0">
+                                        <button onclick="moverSubBloco(${item.id}, ${sb.id}, -1)" class="bg-slate-200 px-1.5 py-0.5 rounded text-[10px] font-bold" title="Mover para cima">⬆️</button>
+                                        <button onclick="moverSubBloco(${item.id}, ${sb.id}, 1)" class="bg-slate-200 px-1.5 py-0.5 rounded text-[10px] font-bold" title="Mover para baixo">⬇️</button>
+                                        <button onclick="removerSubBloco(${item.id}, ${sb.id})" class="text-red-500 font-bold px-1.5 py-0.5 rounded bg-red-50 text-[10px]" title="Excluir">✕</button>
+                                    </div>
+                                </div>
+                                <textarea rows="2" oninput="atualizarSubBlocoConteudo(${item.id}, ${sb.id}, this.value)" class="w-full p-1.5 bg-white border border-slate-200 rounded-xl outline-none text-xs text-slate-800" placeholder="Escreva o conteúdo desta caixinha...">${sb.conteudo || ''}</textarea>
+                            </div>
+                        `;
+                    });
+                }
+
                 let card = document.createElement('div');
-                card.className = `p-4 sm:p-5 rounded-3xl border border-black/15 space-y-3 transition shadow-sm`;
+                card.className = `p-3 sm:p-4 rounded-3xl border border-black/15 space-y-2.5 transition shadow-sm`;
                 card.style.backgroundColor = corHex;
 
                 card.innerHTML = `
-                    <div class="flex justify-between items-center gap-2 border-b border-black/10 pb-2 flex-wrap">
-                        <div class="flex items-center gap-2 flex-wrap">
-                            <select onchange="lidarSelecaoDestino(${item.id}, this.value)" ${dis} class="bg-white text-indigo-900 font-black px-3 py-1.5 rounded-xl text-xs border border-black/15 outline-none shadow-sm">
+                    <div class="flex justify-between items-center gap-1.5 border-b border-black/10 pb-2 flex-wrap">
+                        <div class="flex items-center gap-1.5 flex-wrap">
+                            <select onchange="lidarSelecaoDestino(${item.id}, this.value)" ${dis} class="bg-white text-indigo-900 font-black px-2.5 py-1 rounded-xl text-xs border border-black/15 outline-none shadow-sm">
                                 ${opcoesDestino}
                             </select>
-                            <span class="bg-indigo-600 text-white font-black px-2.5 py-1 rounded-xl text-[10px]">📅 ${textoDias}</span>
+                            <span class="bg-indigo-600 text-white font-black px-2 py-0.5 rounded-xl text-[10px]">📅 ${textoDias}</span>
                         </div>
-                        <div class="flex items-center gap-1.5 flex-wrap">
+                        <div class="flex items-center gap-1 flex-wrap">
                             <div class="flex items-center gap-1 bg-white p-1 rounded-xl border border-black/15 text-[11px] font-bold">
-                                <input type="date" value="${item.dataInicio || ''}" ${dis} onchange="atualizarCampo(${item.id}, 'dataInicio', this.value)" class="bg-transparent outline-none text-slate-800" title="Início">
+                                <input type="date" value="${item.dataInicio || ''}" ${dis} onchange="atualizarCampo(${item.id}, 'dataInicio', this.value)" class="bg-transparent outline-none text-slate-800 text-[11px]" title="Início">
                                 <span class="text-slate-400">➔</span>
-                                <input type="date" value="${item.dataFim || ''}" ${dis} onchange="atualizarCampo(${item.id}, 'dataFim', this.value)" class="bg-transparent outline-none text-slate-800" title="Fim">
+                                <input type="date" value="${item.dataFim || ''}" ${dis} onchange="atualizarCampo(${item.id}, 'dataFim', this.value)" class="bg-transparent outline-none text-slate-800 text-[11px]" title="Fim">
                             </div>
-                            <select onchange="atualizarCampo(${item.id}, 'status', this.value)" ${dis} class="border border-black/15 rounded-xl px-2.5 py-1.5 text-xs font-bold outline-none ${item.status === 'Comprado' ? 'bg-emerald-100 text-emerald-800' : item.status === 'Reservado' ? 'bg-blue-100 text-blue-800' : 'bg-amber-100 text-amber-800'}">
+                            <select onchange="atualizarCampo(${item.id}, 'status', this.value)" ${dis} class="border border-black/15 rounded-xl px-2 py-1 text-xs font-bold outline-none ${item.status === 'Comprado' ? 'bg-emerald-100 text-emerald-800' : item.status === 'Reservado' ? 'bg-blue-100 text-blue-800' : 'bg-amber-100 text-amber-800'}">
                                 <option value="Comprado" ${item.status === 'Comprado' ? 'selected' : ''}>Comprado</option>
                                 <option value="Aguardando" ${item.status === 'Aguardando' ? 'selected' : ''}>Aguardando</option>
                                 <option value="Reservado" ${item.status === 'Reservado' ? 'selected' : ''}>Reservado</option>
@@ -827,68 +903,77 @@
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs bg-white/90 p-3 rounded-2xl border border-black/15 shadow-inner">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs bg-white/90 p-2.5 rounded-2xl border border-black/15 shadow-inner">
                         <div>
-                            <label class="block font-black mb-1 text-slate-900">📍 Local de Origem (Embarque)</label>
-                            <select onchange="lidarSelecaoLocal(${item.id}, 'embarque', this.value)" ${dis} class="w-full p-2.5 bg-white border border-black/15 rounded-xl outline-none font-bold text-slate-900 shadow-sm">
+                            <label class="block font-black mb-0.5 text-slate-900 text-[11px]">📍 Local de Origem (Embarque)</label>
+                            <select onchange="lidarSelecaoLocal(${item.id}, 'embarque', this.value)" ${dis} class="w-full p-2 bg-white border border-black/15 rounded-xl outline-none font-bold text-slate-900 text-xs shadow-sm">
                                 ${opcoesLocaisEmbarque}
                             </select>
                         </div>
                         <div>
-                            <label class="block font-black mb-1 text-slate-900">🏁 Local de Destino (Desembarque)</label>
-                            <select onchange="lidarSelecaoLocal(${item.id}, 'desembarque', this.value)" ${dis} class="w-full p-2.5 bg-white border border-black/15 rounded-xl outline-none font-bold text-slate-900 shadow-sm">
+                            <label class="block font-black mb-0.5 text-slate-900 text-[11px]">🏁 Local de Destino (Desembarque)</label>
+                            <select onchange="lidarSelecaoLocal(${item.id}, 'desembarque', this.value)" ${dis} class="w-full p-2 bg-white border border-black/15 rounded-xl outline-none font-bold text-slate-900 text-xs shadow-sm">
                                 ${opcoesLocaisDesembarque}
                             </select>
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs">
                         <div class="sm:col-span-1">
-                            <label class="block font-semibold text-slate-700 mb-0.5">Trecho / Rota</label>
-                            <input type="text" value="${item.trecho}" ${dis} onfocus="registarFoco(this)" oninput="atualizarCampo(${item.id}, 'trecho', this.value)" class="w-full p-2.5 bg-white border border-black/15 rounded-xl outline-none font-bold text-slate-900" placeholder="Ex: Zurique ➔ Freiburg">
+                            <label class="block font-semibold text-slate-700 mb-0.5 text-[11px]">Trecho / Rota</label>
+                            <input type="text" value="${item.trecho}" ${dis} onfocus="registarFoco(this)" oninput="atualizarCampo(${item.id}, 'trecho', this.value)" class="w-full p-2 bg-white border border-black/15 rounded-xl outline-none font-bold text-slate-900 text-xs" placeholder="Ex: Zurique ➔ Freiburg">
                         </div>
                         <div>
-                            <label class="block font-semibold text-slate-700 mb-0.5">Transporte</label>
-                            <input type="text" value="${item.transporte}" ${dis} onfocus="registarFoco(this)" oninput="atualizarCampo(${item.id}, 'transporte', this.value)" class="w-full p-2.5 bg-white border border-black/15 rounded-xl outline-none" placeholder="Ex: Trem / Ônibus">
+                            <label class="block font-semibold text-slate-700 mb-0.5 text-[11px]">Transporte</label>
+                            <input type="text" value="${item.transporte}" ${dis} onfocus="registarFoco(this)" oninput="atualizarCampo(${item.id}, 'transporte', this.value)" class="w-full p-2 bg-white border border-black/15 rounded-xl outline-none text-xs" placeholder="Ex: Trem / Ônibus">
                         </div>
                         <div>
-                            <label class="block font-semibold text-slate-700 mb-0.5">Nº do Ônibus / Trem / Voo</label>
-                            <input type="text" value="${item.numeroTransporte || ''}" ${dis} onfocus="registarFoco(this)" oninput="atualizarCampo(${item.id}, 'numeroTransporte', this.value)" class="w-full p-2.5 bg-white border border-black/15 rounded-xl outline-none font-bold text-indigo-900" placeholder="Ex: TGV 9235 / Linha 4">
+                            <label class="block font-semibold text-slate-700 mb-0.5 text-[11px]">Nº Ônibus/Trem/Voo</label>
+                            <input type="text" value="${item.numeroTransporte || ''}" ${dis} onfocus="registarFoco(this)" oninput="atualizarCampo(${item.id}, 'numeroTransporte', this.value)" class="w-full p-2 bg-white border border-black/15 rounded-xl outline-none font-bold text-indigo-900 text-xs" placeholder="Ex: TGV 9235">
                         </div>
                     </div>
 
                     <div>
-                        <label class="block font-semibold text-slate-700 mb-1">📝 Descrição / Notas Livres do Dia (Amplo)</label>
-                        <textarea ${dis} onfocus="registarFoco(this)" oninput="atualizarCampo(${item.id}, 'textoLivre', this.value)" rows="3" class="w-full p-3 bg-white border border-black/15 rounded-2xl outline-none text-xs text-slate-800" placeholder="Escreva aqui tudo o que quiser com bastante espaço (atrações, hotéis, dicas)...">${item.textoLivre || ''}</textarea>
+                        <label class="block font-semibold text-slate-700 mb-0.5 text-[11px]">📝 Descrição / Notas Livres do Dia</label>
+                        <textarea ${dis} onfocus="registarFoco(this)" oninput="atualizarCampo(${item.id}, 'textoLivre', this.value)" rows="2" class="w-full p-2.5 bg-white border border-black/15 rounded-xl outline-none text-xs text-slate-800" placeholder="Escreva aqui dicas, hotéis, atrações...">${item.textoLivre || ''}</textarea>
+                    </div>
+
+                    <!-- CONTAINER DAS CAIXINHAS INTERNAS PERSONALIZADAS -->
+                    <div class="space-y-2 pt-1">
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-[11px] text-slate-700 uppercase tracking-wide">📂 Caixinhas Internas Personalizadas</span>
+                            <button onclick="adicionarSubBloco(${item.id})" class="bg-indigo-600 hover:bg-indigo-700 text-white px-2.5 py-1 rounded-xl text-[10px] font-bold shadow-sm">➕ Adicionar Caixinha</button>
+                        </div>
+                        <div class="space-y-2">${subBlocosHtml}</div>
                     </div>
 
                     <!-- BARRA INFERIOR COM MAPA, LÁPIS, SETAS DE REPOSICIONAR E SELETOR DE COR -->
-                    <div class="flex flex-wrap justify-between items-center gap-2 pt-2 border-t border-black/10">
-                        <div class="flex items-center gap-1.5 flex-wrap">
+                    <div class="flex flex-wrap justify-between items-center gap-1.5 pt-2 border-t border-black/10">
+                        <div class="flex items-center gap-1 flex-wrap">
                             <select onchange="atualizarCampo(${item.id}, 'moeda', this.value)" ${dis} class="p-1 bg-white font-bold border border-black/15 rounded-lg text-xs outline-none">
                                 <option value="CHF" ${item.moeda === 'CHF' ? 'selected' : ''}>CHF</option>
                                 <option value="EUR" ${item.moeda === 'EUR' ? 'selected' : ''}>EUR</option>
                                 <option value="-" ${item.moeda === '-' ? 'selected' : ''}>-</option>
                             </select>
-                            <input type="text" value="${item.valor}" ${dis} onfocus="registarFoco(this)" oninput="atualizarCampo(${item.id}, 'valor', this.value)" class="w-20 p-1 bg-white font-black border border-black/15 rounded-lg text-xs outline-none" placeholder="Valor">
+                            <input type="text" value="${item.valor}" ${dis} onfocus="registarFoco(this)" oninput="atualizarCampo(${item.id}, 'valor', this.value)" class="w-16 p-1 bg-white font-black border border-black/15 rounded-lg text-xs outline-none" placeholder="Valor">
                             ${pdfBadge}
                         </div>
                         
                         <div class="flex items-center gap-1 flex-wrap">
-                            <!-- Botões de Reposicionar (Setas) -->
-                            <button onclick="moverBloco(${item.id}, -1)" class="bg-slate-200 hover:bg-slate-300 px-2 py-1.5 rounded-xl font-bold text-xs" title="Mover para cima">⬆️</button>
-                            <button onclick="moverBloco(${item.id}, 1)" class="bg-slate-200 hover:bg-slate-300 px-2 py-1.5 rounded-xl font-bold text-xs" title="Mover para baixo">⬇️</button>
+                            <!-- Botões de Reposicionar Bloco (Setas) -->
+                            <button onclick="moverBloco(${item.id}, -1)" class="bg-slate-200 hover:bg-slate-300 px-2 py-1 rounded-lg font-bold text-xs" title="Mover bloco para cima">⬆️</button>
+                            <button onclick="moverBloco(${item.id}, 1)" class="bg-slate-200 hover:bg-slate-300 px-2 py-1 rounded-lg font-bold text-xs" title="Mover bloco para baixo">⬇️</button>
 
                             <!-- Seletor de Cor + OK -->
-                            <div class="flex items-center gap-1 bg-white px-2 py-1 rounded-xl border border-black/15 text-[11px] font-bold">
+                            <div class="flex items-center gap-1 bg-white px-1.5 py-0.5 rounded-lg border border-black/15 text-[10px] font-bold">
                                 <input type="color" id="input-cor-${item.id}" value="${corHex}" class="w-5 h-5 rounded cursor-pointer border-0 bg-transparent" title="Escolher cor">
                                 <button onclick="atualizarCorBlocoLocal(${item.id})" class="bg-indigo-600 hover:bg-indigo-700 text-white px-1.5 py-0.5 rounded text-[10px] font-bold">OK</button>
                             </div>
 
-                            <button onclick="abrirMapaRuta('${item.embarque}', '${item.desembarque}', '${item.categoria}', '${item.transporte || ''}', '${item.numeroTransporte || ''}')" class="bg-sky-100 text-sky-800 hover:bg-sky-200 px-2.5 py-1.5 rounded-xl font-bold text-xs flex items-center gap-1" title="Ver Rota no Mapa">🗺️ Mapa Rota</button>
-                            <button onclick="abrirModalDetalhes(${item.id})" class="bg-white hover:bg-slate-100 border border-black/15 px-2.5 py-1.5 rounded-xl font-bold text-xs" title="Editar notas e PDF">✏️ Lápis</button>
-                            <button onclick="alternarBloqueio(${item.id})" class="${btnOkClass} px-3 py-1.5 rounded-xl font-bold text-xs transition border border-black/15" title="Bloquear/Desbloquear">${btnOkText}</button>
-                            <button onclick="apagarBloco(${item.id})" class="bg-red-50 text-red-500 hover:bg-red-100 px-2.5 py-1.5 rounded-xl font-bold text-xs" title="Excluir">✕</button>
+                            <button onclick="abrirMapaRuta('${item.embarque}', '${item.desembarque}', '${item.categoria}', '${item.transporte || ''}', '${item.numeroTransporte || ''}')" class="bg-sky-100 text-sky-800 hover:bg-sky-200 px-2 py-1 rounded-lg font-bold text-xs" title="Ver Rota no Mapa">🗺️ Mapa</button>
+                            <button onclick="abrirModalDetalhes(${item.id})" class="bg-white hover:bg-slate-100 border border-black/15 px-2 py-1 rounded-lg font-bold text-xs" title="Editar notas e PDF">✏️</button>
+                            <button onclick="alternarBloqueio(${item.id})" class="${btnOkClass} px-2.5 py-1 rounded-lg font-bold text-xs transition border border-black/15" title="Bloquear/Desbloquear">${btnOkText}</button>
+                            <button onclick="apagarBloco(${item.id})" class="bg-red-50 text-red-500 hover:bg-red-100 px-2 py-1 rounded-lg font-bold text-xs" title="Excluir">✕</button>
                         </div>
                     </div>
                 `;
@@ -919,7 +1004,7 @@
             filtradas.forEach(t => {
                 let dis = t.bloqueado ? 'disabled' : '';
                 let cardBg = t.bloqueado ? 'bg-slate-50 border-slate-300' : 'bg-white border-indigo-200 shadow-sm';
-                let btnOkText = t.bloqueado ? '🔒 OK' : '✅ OK';
+                let btnOkText = t.bloqueado ? '🔒' : '✅';
                 let btnOkClass = t.bloqueado ? 'bg-emerald-600 text-white' : 'bg-slate-200 text-slate-700 hover:bg-emerald-500 hover:text-white';
 
                 let statusAtual = t.status || "Aguardando";
@@ -932,24 +1017,24 @@
                     let sel = statusAtual === st ? 'selected' : '';
                     opcoesStatus += `<option value="${st}" ${sel}>${st}</option>`;
                 });
-                opcoesStatus += `<option value="novo_status">➕ Novo Status...</option>`;
+                opcoesStatus += `<option value="novo_status">➕ Novo...</option>`;
 
                 let div = document.createElement('div');
-                div.className = `p-3.5 rounded-2xl border ${cardBg} space-y-2 transition`;
+                div.className = `p-3 rounded-2xl border ${cardBg} space-y-2 transition`;
                 div.style.borderLeft = `6px solid ${corStatus}`;
 
                 div.innerHTML = `
-                    <div class="flex items-center justify-between gap-2 flex-wrap">
-                        <div class="flex items-center gap-1.5 flex-1 min-w-[200px]">
+                    <div class="flex items-center justify-between gap-1.5 flex-wrap">
+                        <div class="flex items-center gap-1.5 flex-1 min-w-[180px]">
                             <button onclick="abrirModalTarefa(${t.id})" class="bg-slate-100 hover:bg-slate-200 p-1.5 rounded-lg text-slate-700 font-bold text-[11px] shrink-0" title="Editar Tarefa">✏️</button>
-                            <input type="text" value="${t.texto}" ${dis} oninput="atualizarTarefaTexto(${t.id}, this.value)" class="w-full p-1.5 bg-transparent border-b border-slate-200 outline-none ${textStyle} text-xs" placeholder="Descrição da tarefa...">
+                            <input type="text" value="${t.texto}" ${dis} oninput="atualizarTarefaTexto(${t.id}, this.value)" class="w-full p-1 bg-transparent border-b border-slate-200 outline-none ${textStyle} text-xs" placeholder="Descrição da tarefa...">
                         </div>
-                        <div class="flex items-center gap-1.5 flex-wrap">
-                            <select onchange="lidarSelecaoStatusTarefa(${t.id}, this.value)" ${dis} class="border rounded-xl px-2.5 py-1 text-xs font-bold outline-none shadow-sm text-white" style="background-color: ${corStatus};">
+                        <div class="flex items-center gap-1 flex-wrap">
+                            <select onchange="lidarSelecaoStatusTarefa(${t.id}, this.value)" ${dis} class="border rounded-xl px-2 py-1 text-xs font-bold outline-none shadow-sm text-white" style="background-color: ${corStatus};">
                                 ${opcoesStatus}
                             </select>
                             <button onclick="desfazerTarefa(${t.id})" class="bg-amber-100 text-amber-800 hover:bg-amber-200 px-2 py-1 rounded-lg font-bold text-[11px]" title="Desfazer">↩️</button>
-                            <button onclick="alternarBloqueioTarefa(${t.id})" class="${btnOkClass} px-2.5 py-1 rounded-lg font-bold text-[11px] transition border border-black/15" title="Bloquear/Desbloquear">${btnOkText}</button>
+                            <button onclick="alternarBloqueioTarefa(${t.id})" class="${btnOkClass} px-2 py-1 rounded-lg font-bold text-[11px] transition border border-black/15" title="Bloquear/Desbloquear">${btnOkText}</button>
                             <button onclick="apagarTarefa(${t.id})" class="text-red-500 hover:text-red-700 font-bold px-2 py-1 bg-red-50 rounded-lg text-[11px]" title="Excluir">✕</button>
                         </div>
                     </div>
@@ -1121,7 +1206,8 @@
                 pdfData: "",
                 pdfNome: "",
                 bloqueado: false,
-                cor: "#e0f2fe"
+                cor: "#e0f2fe",
+                subBlocos: []
             };
             dadosApp.itinerario.unshift(novoItem);
             salvarStorage();
