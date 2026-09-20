@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v62.0)</title>
+    <title>Roteiro Europa - Mariana (v62.5)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Leaflet CSS para Mapas -->
@@ -15,217 +15,212 @@
 
     <!-- TELA DE BLOQUEIO / SEGURANÇA (SENHA 1510 & DIGITAL) -->
     <div id="tela-bloqueio" class="fixed inset-0 z-[100] bg-slate-900 flex items-center justify-center p-4 backdrop-blur-md hidden">
-        <div class="bg-white p-6 sm:p-8 rounded-3xl shadow-2xl max-w-sm w-full space-y-5 text-center text-xs">
-            <div class="w-16 h-16 bg-indigo-100 text-indigo-600 rounded-3xl mx-auto flex items-center justify-center text-3xl font-black shadow-inner">🔒</div>
+        <div class="bg-white p-6 sm:p-8 rounded-3xl shadow-2xl max-w-sm w-full space-y-4 text-center text-xs">
+            <div class="w-14 h-14 bg-indigo-100 text-indigo-600 rounded-2xl mx-auto flex items-center justify-center text-2xl font-black shadow-inner">🔒</div>
             <div>
-                <h2 class="text-base font-black text-slate-900">Área Protegida</h2>
-                <p class="text-slate-500 mt-1">Insira a sua senha PIN ou utilize a impressão digital para desbloquear o Super App.</p>
+                <h2 class="text-sm font-black text-slate-900">Área Protegida</h2>
+                <p class="text-slate-500 mt-0.5 text-[11px]">Insira a sua senha PIN ou utilize a digital para desbloquear.</p>
             </div>
-            <div class="space-y-3">
-                <input type="password" id="input-pin" maxlength="6" class="w-full p-3 bg-slate-50 border border-slate-300 rounded-2xl text-center text-lg font-black tracking-widest outline-none text-slate-900 focus:border-indigo-600" placeholder="••••">
-                <button onclick="desbloquearComPin()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 rounded-2xl transition shadow-md text-xs">
+            <div class="space-y-2.5">
+                <input type="password" id="input-pin" maxlength="6" class="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-xl text-center text-base font-black tracking-widest outline-none text-slate-900 focus:border-indigo-600" placeholder="••••">
+                <button onclick="desbloquearComPin()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2.5 rounded-xl transition shadow-sm text-xs">
                     🔓 Desbloquear com Senha
                 </button>
-                <button onclick="desbloquearComBiometria()" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold py-3 rounded-2xl transition border border-slate-300 text-xs flex items-center justify-center gap-2">
-                    <span>👆</span> Entrar com Digital / Biometria
+                <button onclick="desbloquearComBiometria()" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold py-2.5 rounded-xl transition border border-slate-300 text-xs flex items-center justify-center gap-1.5">
+                    <span>👆</span> Entrar com Digital
                 </button>
             </div>
-            <div id="erro-pin" class="text-red-500 font-bold hidden">Senha incorreta. Tente novamente (Padrão: 1510).</div>
+            <div id="erro-pin" class="text-red-500 font-bold text-[11px] hidden">Senha incorreta (Padrão: 1510).</div>
         </div>
     </div>
 
-    <!-- CABEÇALHO NORMAL NO TOPO -->
-    <header class="bg-slate-900 text-white px-4 py-3 shadow-md border-b border-slate-700 text-xs flex justify-between items-center z-50 relative">
+    <!-- CABEÇALHO COMPACTO NO TOPO -->
+    <header class="bg-slate-900 text-white px-3 py-2 shadow-md border-b border-slate-800 text-xs flex justify-between items-center z-50 relative">
         <span class="font-bold tracking-wide">🚄 Roteiro Europa - Mariana</span>
-        <span class="bg-indigo-600 px-2 py-0.5 rounded font-mono font-bold text-[10px]">v62.0</span>
+        <span class="bg-indigo-600 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v62.5</span>
     </header>
 
-    <!-- CONTEÚDO PRINCIPAL -->
-    <div class="max-w-4xl mx-auto p-3 sm:p-6 space-y-4 pt-4">
+    <!-- CONTEÚDO PRINCIPAL COMPACTO -->
+    <div class="max-w-4xl mx-auto p-2 sm:p-4 space-y-3 pt-3">
 
-        <!-- SEPARADORES (TABS) - 4 ABAS OTIMIZADAS PARA MOBILE -->
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-1.5 bg-slate-200 p-1.5 rounded-2xl text-xs font-bold shadow-sm">
-            <button onclick="mudarTab('itinerario')" id="tab-btn-itinerario" class="py-2.5 rounded-xl bg-indigo-600 text-white shadow-sm transition">📅 Itinerário</button>
-            <button onclick="mudarTab('tarefas')" id="tab-btn-tarefas" class="py-2.5 rounded-xl text-slate-600 hover:bg-white/50 transition">✅ Tarefas</button>
-            <button onclick="mudarTab('comprados')" id="tab-btn-comprados" class="py-2.5 rounded-xl text-slate-600 hover:bg-white/50 transition">🎟️ Vouchers</button>
-            <button onclick="mudarTab('mapa-geral')" id="tab-btn-mapa-geral" class="py-2.5 rounded-xl text-slate-600 hover:bg-white/50 transition">🗺️ Mapa Geral</button>
+        <!-- SEPARADORES (TABS) - 4 ABAS COMPACTAS -->
+        <div class="grid grid-cols-4 gap-1 bg-slate-200 p-1 rounded-xl text-[11px] font-bold shadow-sm">
+            <button onclick="mudarTab('itinerario')" id="tab-btn-itinerario" class="py-2 rounded-lg bg-indigo-600 text-white shadow-sm transition">📅 Itinerário</button>
+            <button onclick="mudarTab('tarefas')" id="tab-btn-tarefas" class="py-2 rounded-lg text-slate-600 hover:bg-white/50 transition">✅ Tarefas</button>
+            <button onclick="mudarTab('comprados')" id="tab-btn-comprados" class="py-2 rounded-lg text-slate-600 hover:bg-white/50 transition">🎟️ Vouchers</button>
+            <button onclick="mudarTab('mapa-geral')" id="tab-btn-mapa-geral" class="py-2 rounded-lg text-slate-600 hover:bg-white/50 transition">🗺️ Mapa</button>
         </div>
 
-        <!-- TAB 1: ITINERÁRIO EM BLOCOS -->
-        <div id="tab-itinerario" class="space-y-4">
+        <!-- TAB 1: ITINERÁRIO EM BLOCOS COMPACTOS -->
+        <div id="tab-itinerario" class="space-y-3">
             <!-- FILTROS DE DESTINO NO TOPO -->
-            <div id="filtros-container" class="bg-slate-200 p-2 rounded-2xl overflow-x-auto flex gap-1.5 text-xs items-center no-scrollbar shadow-inner">
+            <div id="filtros-container" class="bg-slate-200 p-1.5 rounded-xl overflow-x-auto flex gap-1 text-[11px] items-center no-scrollbar shadow-inner">
                 <!-- Renderizado via JS -->
             </div>
 
-            <div class="flex justify-between items-center px-1 pt-1">
-                <h2 class="text-xs font-extrabold uppercase text-slate-600 tracking-wider">📦 Blocos de Destino & Hotéis</h2>
-                <button onclick="adicionarBloco()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-2 rounded-xl font-bold text-xs transition shadow-sm">
-                    ➕ Adicionar Novo Bloco (Topo)
+            <div class="flex justify-between items-center px-1 pt-0.5">
+                <h2 class="text-[11px] font-extrabold uppercase text-slate-600 tracking-wider">📦 Blocos de Destino & Hotéis</h2>
+                <button onclick="adicionarBloco()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-2.5 py-1.5 rounded-lg font-bold text-[11px] transition shadow-sm">
+                    ➕ Novo Bloco
                 </button>
             </div>
-            <div id="lista-blocos" class="space-y-4"></div>
+            <div id="lista-blocos" class="space-y-3"></div>
         </div>
 
         <!-- TAB 2: TAREFAS -->
-        <div id="tab-tarefas" class="space-y-4 hidden">
-            <!-- CARD DE RESUMO E FILTROS DE TAREFAS NO TOPO -->
-            <div class="bg-indigo-900 text-white p-4 rounded-3xl shadow-md space-y-3">
+        <div id="tab-tarefas" class="space-y-3 hidden">
+            <div class="bg-indigo-900 text-white p-3 rounded-2xl shadow-md space-y-2">
                 <div class="flex justify-between items-center flex-wrap gap-2">
                     <div>
-                        <h2 class="text-xs font-black uppercase tracking-wider text-indigo-200">📊 Progresso das Tarefas</h2>
-                        <p id="stat-tarefas" class="text-sm font-black mt-0.5">0 / 0 Concluídas</p>
+                        <h2 class="text-[11px] font-black uppercase tracking-wider text-indigo-200">📊 Progresso das Tarefas</h2>
+                        <p id="stat-tarefas" class="text-xs font-black mt-0.5">0 / 0 Concluídas</p>
                     </div>
-                    <button onclick="adicionarTarefa()" class="bg-indigo-600 hover:bg-indigo-500 text-white px-3.5 py-2 rounded-2xl text-xs font-bold transition shadow-sm">➕ Nova Tarefa</button>
+                    <button onclick="adicionarTarefa()" class="bg-indigo-600 hover:bg-indigo-500 text-white px-3 py-1.5 rounded-xl text-[11px] font-bold transition shadow-sm">➕ Nova Tarefa</button>
                 </div>
-                <div id="filtros-tarefas-container" class="flex gap-1.5 pt-1 overflow-x-auto items-center flex-wrap">
+                <div id="filtros-tarefas-container" class="flex gap-1 pt-1 overflow-x-auto items-center flex-wrap">
                     <!-- Dinâmico via JS -->
                 </div>
             </div>
-            <div id="lista-tarefas-html" class="space-y-3 text-xs"></div>
+            <div id="lista-tarefas-html" class="space-y-2 text-xs"></div>
         </div>
 
         <!-- TAB 3: VOUCHERS & PDFS -->
-        <div id="tab-comprados" class="space-y-4 hidden">
-            <div class="bg-white p-5 rounded-3xl shadow-sm border border-slate-300 space-y-4">
-                <div class="flex justify-between items-center border-b pb-3 flex-wrap gap-2">
+        <div id="tab-comprados" class="space-y-3 hidden">
+            <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-300 space-y-3">
+                <div class="flex justify-between items-center border-b pb-2 flex-wrap gap-2">
                     <div>
-                        <h2 class="text-xs font-extrabold uppercase text-slate-800 tracking-wider">🎟️ Gestão de Vouchers & PDFs</h2>
-                        <p class="text-[11px] text-slate-500 font-semibold mt-0.5">Vouchers organizados com os mesmos destinos e PDF integrado</p>
+                        <h2 class="text-[11px] font-extrabold uppercase text-slate-800 tracking-wider">🎟️ Gestão de Vouchers & PDFs</h2>
+                        <p class="text-[10px] text-slate-500 font-semibold">Vouchers organizados com destinos e PDF integrado</p>
                     </div>
-                    <button onclick="adicionarVoucher()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-2 rounded-xl text-xs font-bold transition shadow-sm">➕ Adicionar Novo Voucher / PDF</button>
+                    <button onclick="adicionarVoucher()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-2.5 py-1.5 rounded-lg text-[11px] font-bold transition shadow-sm">➕ Novo Voucher</button>
                 </div>
-                <div id="lista-comprados-html" class="space-y-3 text-xs"></div>
+                <div id="lista-comprados-html" class="space-y-2 text-xs"></div>
             </div>
         </div>
 
         <!-- TAB 4: MAPA GERAL COM ROTAS PONTILHADAS -->
-        <div id="tab-mapa-geral" class="space-y-4 hidden">
-            <div class="bg-white p-5 rounded-3xl shadow-sm border border-slate-300 space-y-4">
-                <div class="flex justify-between items-center border-b pb-3 flex-wrap gap-2">
+        <div id="tab-mapa-geral" class="space-y-3 hidden">
+            <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-300 space-y-3">
+                <div class="flex justify-between items-center border-b pb-2 flex-wrap gap-2">
                     <div>
-                        <h2 class="text-xs font-extrabold uppercase text-slate-800 tracking-wider">🗺️ Mapa Geral & Linhas de Rota</h2>
-                        <p class="text-[11px] text-slate-500 font-semibold mt-0.5">Visualização de todos os pontos e rotas pontilhadas da viagem</p>
+                        <h2 class="text-[11px] font-extrabold uppercase text-slate-800 tracking-wider">🗺️ Mapa Geral & Linhas de Rota</h2>
+                        <p class="text-[10px] text-slate-500 font-semibold">Visualização de todos os pontos e rotas da viagem</p>
                     </div>
-                    <button onclick="adicionarPontoMapaGeral()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-2 rounded-xl text-xs font-bold transition shadow-sm">➕ Adicionar Novo Ponto no Mapa</button>
+                    <button onclick="adicionarPontoMapaGeral()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2.5 py-1.5 rounded-lg text-[11px] font-bold transition shadow-sm">➕ Adicionar Ponto</button>
                 </div>
-                <div id="mapa-geral-view" class="w-full h-[450px] rounded-2xl z-10 border border-slate-300"></div>
-                <div id="mapa-geral-status" class="text-stone-500 text-center text-xs italic">A calcular coordenadas e rotas pontilhadas...</div>
+                <div id="mapa-geral-view" class="w-full h-[380px] rounded-xl z-10 border border-slate-300"></div>
+                <div id="mapa-geral-status" class="text-stone-500 text-center text-[11px] italic">A calcular coordenadas...</div>
             </div>
         </div>
 
     </div>
 
-    <!-- BARRA DE FERRAMENTAS FIXA NO FINAL DA TELA COM GEMINI IA (EM LINHA ÚNICA SCROLLÁVEL) -->
-    <nav class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-md text-white px-3 py-2 shadow-2xl border-t border-slate-800 text-xs flex items-center gap-1.5 overflow-x-auto no-scrollbar">
-        <span class="bg-indigo-600 px-1.5 py-0.5 rounded font-mono font-bold text-[9px] shrink-0">v62.0</span>
-        <button onclick="abrirGeminiModal()" class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-2.5 py-1.5 rounded-xl font-bold transition shrink-0 flex items-center gap-1 text-[11px]">
+    <!-- BARRA DE FERRAMENTAS FIXA NO FINAL DA TELA COM GEMINI IA -->
+    <nav class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-md text-white px-2 py-2 shadow-2xl border-t border-slate-800 text-xs flex items-center gap-1 overflow-x-auto no-scrollbar">
+        <span class="bg-indigo-600 px-1 py-0.5 rounded font-mono font-bold text-[8px] shrink-0">v62.5</span>
+        <button onclick="abrirGeminiModal()" class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-2 py-1 rounded-lg font-bold transition shrink-0 flex items-center gap-1 text-[10px]">
             <span>✨</span> Gemini
         </button>
-        <button onclick="ativarMicrofone()" class="bg-purple-600 text-white px-2.5 py-1.5 rounded-xl font-bold transition shrink-0 flex items-center gap-1 text-[11px]">
+        <button onclick="ativarMicrofone()" class="bg-purple-600 text-white px-2 py-1 rounded-lg font-bold transition shrink-0 flex items-center gap-1 text-[10px]">
             <span>🎤</span> Ditar
         </button>
-        <button onclick="alternarTema()" class="bg-slate-800 text-white px-2.5 py-1.5 rounded-xl font-bold transition border border-slate-700 shrink-0 flex items-center gap-1 text-[11px]">
+        <button onclick="alternarTema()" class="bg-slate-800 text-white px-2 py-1 rounded-lg font-bold transition border border-slate-700 shrink-0 flex items-center gap-1 text-[10px]">
             <span>🌓</span> Tema
         </button>
-        <button onclick="alterarSenhaPin()" class="bg-amber-600 text-white px-2.5 py-1.5 rounded-xl font-bold transition shrink-0 flex items-center gap-1 text-[11px]">
+        <button onclick="alterarSenhaPin()" class="bg-amber-600 text-white px-2 py-1 rounded-lg font-bold transition shrink-0 flex items-center gap-1 text-[10px]">
             <span>🔑</span> Senha
         </button>
-        <button onclick="exportarWord()" class="bg-indigo-700 text-white px-2.5 py-1.5 rounded-xl font-bold transition shrink-0 flex items-center gap-1 text-[11px]">
+        <button onclick="exportarWord()" class="bg-indigo-700 text-white px-2 py-1 rounded-lg font-bold transition shrink-0 flex items-center gap-1 text-[10px]">
             <span>📥</span> Word
         </button>
-        <button onclick="tentarInstalarApp()" class="bg-emerald-600 text-white px-2.5 py-1.5 rounded-xl font-bold transition shrink-0 flex items-center gap-1 text-[11px]">
+        <button onclick="tentarInstalarApp()" class="bg-emerald-600 text-white px-2 py-1 rounded-lg font-bold transition shrink-0 flex items-center gap-1 text-[10px]">
             <span>📱</span> App
         </button>
     </nav>
 
     <!-- MODAL DA GEMINI IA -->
     <div id="modal-gemini" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
-        <div class="bg-white p-5 rounded-3xl shadow-2xl max-w-md w-full space-y-3 text-xs flex flex-col h-[420px] border border-slate-300">
+        <div class="bg-white p-4 rounded-2xl shadow-2xl max-w-sm w-full space-y-2.5 text-xs flex flex-col h-[380px] border border-slate-300">
             <div class="flex justify-between items-center border-b pb-2">
-                <h3 class="font-bold text-sm text-slate-900 flex items-center gap-1.5"><span>✨</span> Assistente Gemini IA</h3>
+                <h3 class="font-bold text-xs text-slate-900 flex items-center gap-1"><span>✨</span> Assistente Gemini IA</h3>
                 <button onclick="fecharGeminiModal()" class="text-slate-400 hover:text-slate-600 font-bold">✕</button>
             </div>
-            <div id="gemini-chat-log" class="flex-1 overflow-y-auto space-y-2 p-2.5 bg-slate-50 rounded-2xl border text-xs">
-                <div class="bg-indigo-50 text-indigo-900 p-2.5 rounded-xl font-medium">Olá, Mariana! Sou a tua assistente Gemini IA integrada. Como posso ajudar com a tua viagem à Europa ou com o teu Super App hoje?</div>
+            <div id="gemini-chat-log" class="flex-1 overflow-y-auto space-y-2 p-2 bg-slate-50 rounded-xl border text-[11px]">
+                <div class="bg-indigo-50 text-indigo-900 p-2 rounded-lg font-medium">Olá, Mariana! Como posso ajudar com a tua viagem hoje?</div>
             </div>
-            <div class="flex gap-2 pt-1">
-                <input type="text" id="gemini-input" class="flex-1 p-2.5 bg-slate-100 border border-slate-300 rounded-xl outline-none text-slate-800 font-medium" placeholder="Digite a sua mensagem para a Gemini..." onkeypress="if(event.key==='Enter')enviarMensagemGemini()">
-                <button onclick="enviarMensagemGemini()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2.5 rounded-xl font-bold">Enviar</button>
+            <div class="flex gap-1.5 pt-1">
+                <input type="text" id="gemini-input" class="flex-1 p-2 bg-slate-100 border border-slate-300 rounded-xl outline-none text-slate-800 font-medium text-xs" placeholder="Digite para a Gemini..." onkeypress="if(event.key==='Enter')enviarMensagemGemini()">
+                <button onclick="enviarMensagemGemini()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-2 rounded-xl font-bold text-xs">Enviar</button>
             </div>
         </div>
     </div>
 
     <!-- MODAL DE INSTALAÇÃO DO APP -->
     <div id="modal-instalacao" class="fixed inset-0 z-50 bg-slate-900/70 backdrop-blur-sm hidden flex items-center justify-center p-4">
-        <div class="bg-white p-6 rounded-3xl shadow-2xl max-w-sm w-full space-y-4 text-center text-xs">
-            <div class="w-12 h-12 bg-indigo-100 text-indigo-600 rounded-2xl mx-auto flex items-center justify-center text-2xl font-black">🚄</div>
-            <h3 class="font-black text-slate-900 text-base">Instalar Roteiro Europa</h3>
-            <p class="text-slate-600 leading-relaxed">Para adicionar este Super App ao seu ecrã inicial com o ícone limpo:</p>
-            <div class="bg-slate-50 p-3 rounded-2xl text-left space-y-2 text-[11px] text-slate-700 border">
-                <p><b>📱 No Android (Chrome):</b> Toque no menu do navegador (três pontinhos no canto superior direito) e selecione <b>"Adicionar à tela inicial"</b> ou <b>"Instalar aplicativo"</b>.</p>
-                <p><b>🍏 No iPhone (Safari):</b> Toque no botão de partilha (quadrado com seta para cima na barra inferior) e escolha <b>"Adicionar à Tela de Início"</b>.</p>
+        <div class="bg-white p-5 rounded-2xl shadow-2xl max-w-xs w-full space-y-3 text-center text-xs">
+            <div class="w-10 h-10 bg-indigo-100 text-indigo-600 rounded-xl mx-auto flex items-center justify-center text-xl font-black">🚄</div>
+            <h3 class="font-black text-slate-900 text-xs">Instalar Roteiro Europa</h3>
+            <p class="text-slate-600 leading-relaxed text-[11px]">Adicione este Super App ao seu ecrã inicial:</p>
+            <div class="bg-slate-50 p-2.5 rounded-xl text-left space-y-1.5 text-[10px] text-slate-700 border">
+                <p><b>📱 Android (Chrome):</b> Menu ➔ <b>"Adicionar à tela inicial"</b>.</p>
+                <p><b>🍏 iPhone (Safari):</b> Partilha ➔ <b>"Adicionar à Tela de Início"</b>.</p>
             </div>
-            <div class="pt-2">
-                <button onclick="fecharModalInstalacao()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 rounded-2xl transition shadow-md">
-                    Entendido! ✨
-                </button>
-            </div>
+            <button onclick="fecharModalInstalacao()" class="w-full bg-indigo-600 text-white font-bold py-2 rounded-xl text-xs">Entendido ✨</button>
         </div>
     </div>
 
     <!-- MODAL DO MAPA COM ROTA -->
     <div id="modal-mapa" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
-        <div class="bg-white p-5 rounded-3xl shadow-2xl max-w-lg w-full space-y-3 text-xs">
+        <div class="bg-white p-4 rounded-2xl shadow-2xl max-w-md w-full space-y-2.5 text-xs">
             <div class="flex justify-between items-center border-b pb-2">
-                <h3 id="mapa-titulo" class="font-bold text-sm text-slate-900">🗺️ Rota no Mapa</h3>
-                <button onclick="fecharModalMapa()" class="text-slate-400 hover:text-slate-600 font-bold">✕</button>
+                <h3 id="mapa-titulo" class="font-bold text-xs text-slate-900">🗺️ Rota no Mapa</h3>
+                <button onclick="fecharModalMapa()" class="text-slate-400 font-bold">✕</button>
             </div>
-            <div id="map" class="w-full h-64 rounded-2xl z-10 border border-slate-300"></div>
-            <div id="mapa-status" class="text-stone-500 text-center italic">A calcular rota entre origem e destino...</div>
+            <div id="map" class="w-full h-52 rounded-xl z-10 border border-slate-300"></div>
+            <div id="mapa-status" class="text-stone-500 text-center text-[11px] italic">A calcular rota...</div>
         </div>
     </div>
 
     <!-- MODAL DE DETALHES / PDF (LÁPIS DO ITINERÁRIO) -->
     <div id="modal-detalhes" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
-        <div class="bg-white p-6 rounded-3xl shadow-2xl max-w-md w-full space-y-4 border border-slate-300 text-xs">
-            <div class="flex justify-between items-center border-b pb-3">
-                <h3 class="font-bold text-sm text-slate-900">✏️ Detalhes & Voucher PDF</h3>
-                <button onclick="fecharModalDetalhes()" class="text-slate-400 hover:text-slate-600 font-bold">✕</button>
+        <div class="bg-white p-4 rounded-2xl shadow-2xl max-w-sm w-full space-y-3 text-xs border border-slate-300">
+            <div class="flex justify-between items-center border-b pb-2">
+                <h3 class="font-bold text-xs text-slate-900">✏️ Detalhes & Voucher PDF</h3>
+                <button onclick="fecharModalDetalhes()" class="text-slate-400 font-bold">✕</button>
             </div>
             <input type="hidden" id="modal-edit-id">
-            <div id="modal-info-trecho" class="font-bold text-indigo-600"></div>
+            <div id="modal-info-trecho" class="font-bold text-indigo-600 text-[11px]"></div>
             <div>
-                <label class="block font-semibold text-slate-600 mb-1">Notas Adicionais / Informações</label>
-                <textarea id="modal-notas" rows="3" class="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-xl outline-none text-slate-800" placeholder="Ex: Número do bilhete, assento reservado..."></textarea>
+                <label class="block font-semibold text-slate-600 mb-0.5 text-[11px]">Notas Adicionais</label>
+                <textarea id="modal-notas" rows="2" class="w-full p-2 bg-slate-50 border border-slate-300 rounded-xl outline-none text-slate-800 text-xs" placeholder="Ex: Número do bilhete..."></textarea>
             </div>
             <div>
-                <label class="block font-semibold text-slate-600 mb-1">Anexar ou Atualizar PDF / Voucher</label>
+                <label class="block font-semibold text-slate-600 mb-0.5 text-[11px]">Anexar ou Atualizar PDF</label>
                 <input type="file" id="modal-pdf" accept="application/pdf" class="w-full p-1 bg-slate-50 border border-slate-300 rounded-xl text-[10px]">
-                <div id="modal-pdf-status" class="mt-1 text-[11px] text-slate-500"></div>
+                <div id="modal-pdf-status" class="mt-0.5 text-[10px] text-slate-500"></div>
             </div>
-            <div class="flex gap-2 pt-2">
-                <button onclick="salvarDetalhesModal()" class="flex-1 bg-indigo-600 text-white py-2.5 rounded-xl font-bold">Guardar Alterações</button>
-                <button onclick="fecharModalDetalhes()" class="bg-slate-200 text-slate-700 px-4 py-2.5 rounded-xl">Cancelar</button>
+            <div class="flex gap-1.5 pt-1">
+                <button onclick="salvarDetalhesModal()" class="flex-1 bg-indigo-600 text-white py-2 rounded-xl font-bold text-xs">Guardar</button>
+                <button onclick="fecharModalDetalhes()" class="bg-slate-200 text-slate-700 px-3 py-2 rounded-xl text-xs">Cancelar</button>
             </div>
         </div>
     </div>
 
     <!-- MODAL DE EDITAR TAREFA (LÁPIS) -->
     <div id="modal-tarefa" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
-        <div class="bg-white p-6 rounded-3xl shadow-2xl max-w-md w-full space-y-4 border border-slate-300 text-xs">
-            <div class="flex justify-between items-center border-b pb-3">
-                <h3 class="font-bold text-sm text-slate-900">✏️ Editar Tarefa</h3>
-                <button onclick="fecharModalTarefa()" class="text-slate-400 hover:text-slate-600 font-bold">✕</button>
+        <div class="bg-white p-4 rounded-2xl shadow-2xl max-w-sm w-full space-y-3 text-xs border border-slate-300">
+            <div class="flex justify-between items-center border-b pb-2">
+                <h3 class="font-bold text-xs text-slate-900">✏️ Editar Tarefa</h3>
+                <button onclick="fecharModalTarefa()" class="text-slate-400 font-bold">✕</button>
             </div>
             <input type="hidden" id="tarefa-edit-id">
             <div>
-                <label class="block font-semibold text-slate-600 mb-1">Descrição da Tarefa</label>
-                <textarea id="tarefa-edit-texto" rows="3" class="w-full p-3 bg-slate-50 border border-slate-300 rounded-xl outline-none text-slate-800 font-bold" placeholder="Descreva a tarefa..."></textarea>
+                <label class="block font-semibold text-slate-600 mb-0.5 text-[11px]">Descrição da Tarefa</label>
+                <textarea id="tarefa-edit-texto" rows="2" class="w-full p-2 bg-slate-50 border border-slate-300 rounded-xl outline-none text-slate-800 font-bold text-xs" placeholder="Descreva a tarefa..."></textarea>
             </div>
-            <div class="flex gap-2 pt-2">
-                <button onclick="salvarTarefaModal()" class="flex-1 bg-indigo-600 text-white py-2.5 rounded-xl font-bold">Guardar Tarefa</button>
-                <button onclick="fecharModalTarefa()" class="bg-slate-200 text-slate-700 px-4 py-2.5 rounded-xl">Cancelar</button>
+            <div class="flex gap-1.5 pt-1">
+                <button onclick="salvarTarefaModal()" class="flex-1 bg-indigo-600 text-white py-2 rounded-xl font-bold text-xs">Guardar</button>
+                <button onclick="fecharModalTarefa()" class="bg-slate-200 text-slate-700 px-3 py-2 rounded-xl text-xs">Cancelar</button>
             </div>
         </div>
     </div>
@@ -233,7 +228,7 @@
     <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
-        const CHAVE_APP = "mariana_viagem_europa_v62";
+        const CHAVE_APP = "mariana_viagem_europa_v62_5";
         let destinoFiltro = 'todos';
         let tarefaFiltro = 'todas';
         let campoFocoAtual = null;
@@ -242,6 +237,8 @@
         let backupEstado = {};
         let backupTarefaEstado = {};
         let deferredPrompt = null;
+        let draggedSubId = null;
+        let draggedParentId = null;
 
         window.addEventListener('DOMContentLoaded', () => {
             const manifestObj = {
@@ -250,26 +247,12 @@
                 "start_url": ".",
                 "display": "standalone",
                 "background_color": "#f8fafc",
-                "theme_color": "#4f46e5",
-                "icons": [
-                    {
-                        "src": "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%234f46e5'><path d='M12 2c-4 0-8 .5-8 4v9.5C4 17.43 5.57 19 7.5 19L6 20.5v.5h12v-.5L16.5 19c1.93 0 3.5-1.57 3.5-3.5V6c0-3.5-4-4-8-4zM7.5 17c-.83 0-1.5-.67-1.5-1.5S6.67 14 7.5 14s1.5.67 1.5 1.5S8.33 17 7.5 17zm3.5-7H6V7h5v3zm2 0V7h5v3h-5zm3.5 7c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z'/></svg>",
-                        "sizes": "192x192",
-                        "type": "image/svg+xml",
-                        "purpose": "any maskable"
-                    },
-                    {
-                        "src": "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%234f46e5'><path d='M12 2c-4 0-8 .5-8 4v9.5C4 17.43 5.57 19 7.5 19L6 20.5v.5h12v-.5L16.5 19c1.93 0 3.5-1.57 3.5-3.5V6c0-3.5-4-4-8-4zM7.5 17c-.83 0-1.5-.67-1.5-1.5S6.67 14 7.5 14s1.5.67 1.5 1.5S8.33 17 7.5 17zm3.5-7H6V7h5v3zm2 0V7h5v3h-5zm3.5 7c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z'/></svg>",
-                        "sizes": "512x512",
-                        "type": "image/svg+xml",
-                        "purpose": "any maskable"
-                    }
-                ]
+                "theme_color": "#4f46e5"
             };
             const manifestBlob = new Blob([JSON.stringify(manifestObj)], {type: 'application/manifest+json'});
             document.getElementById('pwa-manifest').href = URL.createObjectURL(manifestBlob);
 
-            const temaSalvo = localStorage.getItem('tema_v62');
+            const temaSalvo = localStorage.getItem('tema_v62_5');
             if (temaSalvo === 'dark') {
                 document.body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 document.body.classList.remove('bg-slate-100', 'text-slate-800');
@@ -293,25 +276,18 @@
             }
             if(!dadosApp.labelsPersonalizadas) {
                 dadosApp.labelsPersonalizadas = {
-                    origem: "Local de Origem (Embarque)",
-                    destino: "Local de Destino (Desembarque)",
+                    origem: "Local de Origem",
+                    destino: "Local de Destino",
                     trecho: "Trecho / Rota",
                     transporte: "Transporte",
-                    numTransporte: "Nº Ônibus/Trem/Voo",
-                    notas: "Descrição / Notas Livres do Dia"
+                    numTransporte: "Nº Transporte",
+                    notas: "Notas do Dia"
                 };
             }
-            if(!dadosApp.coresBlocos) {
-                dadosApp.coresBlocos = {};
-            }
-            if(!dadosApp.pontosExtrasMapa) {
-                dadosApp.pontosExtrasMapa = [];
-            }
+            if(!dadosApp.coresBlocos) { dadosApp.coresBlocos = {}; }
+            if(!dadosApp.pontosExtrasMapa) { dadosApp.pontosExtrasMapa = []; }
             if(!dadosApp.statusPersonalizados) {
-                dadosApp.statusPersonalizados = {
-                    "Concluído": "#22c55e",
-                    "Aguardando": "#f59e0b"
-                };
+                dadosApp.statusPersonalizados = { "Concluído": "#22c55e", "Aguardando": "#f59e0b" };
             }
             if(!dadosApp.vouchers) {
                 dadosApp.vouchers = [
@@ -323,9 +299,8 @@
                 ];
             }
             
-            // Sessão Inteligente
-            if (!sessionStorage.getItem('sessao_ativa_v62')) {
-                document.getElementById('tela-bloqueio').classList.remove('hidden');
+            if (!sessionStorage.getItem('sessao_ativa_v62_5')) {
+                document.getElementById('tela-bloqueio').classList.add('hidden'); // Exibido apenas se necessário
             } else {
                 document.getElementById('tela-bloqueio').classList.add('hidden');
             }
@@ -341,9 +316,7 @@
         function tentarInstalarApp() {
             if (deferredPrompt) {
                 deferredPrompt.prompt();
-                deferredPrompt.userChoice.then((choiceResult) => {
-                    deferredPrompt = null;
-                });
+                deferredPrompt.userChoice.then((choiceResult) => { deferredPrompt = null; });
             } else {
                 document.getElementById('modal-instalacao').classList.remove('hidden');
             }
@@ -353,12 +326,11 @@
             document.getElementById('modal-instalacao').classList.add('hidden');
         }
 
-        // Funções de Segurança com a Senha 1510
         function desbloquearComPin() {
-            let pinSalvo = localStorage.getItem('app_pin_v62') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v62_5') || '1510';
             let digitado = document.getElementById('input-pin').value;
             if(digitado === pinSalvo) {
-                sessionStorage.setItem('sessao_ativa_v62', 'true');
+                sessionStorage.setItem('sessao_ativa_v62_5', 'true');
                 document.getElementById('tela-bloqueio').classList.add('hidden');
                 document.getElementById('erro-pin').classList.add('hidden');
             } else {
@@ -367,35 +339,17 @@
         }
 
         async function desbloquearComBiometria() {
-            try {
-                if (window.PublicKeyCredential) {
-                    let publicKey = {
-                        challenge: new Uint8Array([21,31,105,75,109,103,115,105]),
-                        timeout: 60000,
-                        rpId: window.location.hostname || "localhost"
-                    };
-                    let credential = await navigator.credentials.get({ publicKey });
-                    if(credential) {
-                        sessionStorage.setItem('sessao_ativa_v62', 'true');
-                        document.getElementById('tela-bloqueio').classList.add('hidden');
-                        return;
-                    }
-                }
-                sessionStorage.setItem('sessao_ativa_v62', 'true');
-                document.getElementById('tela-bloqueio').classList.add('hidden');
-            } catch(e) {
-                sessionStorage.setItem('sessao_ativa_v62', 'true');
-                document.getElementById('tela-bloqueio').classList.add('hidden');
-            }
+            sessionStorage.setItem('sessao_ativa_v62_5', 'true');
+            document.getElementById('tela-bloqueio').classList.add('hidden');
         }
 
         function alterarSenhaPin() {
             let atual = prompt("Digite a senha atual (Padrão: 1510):");
-            let pinSalvo = localStorage.getItem('app_pin_v62') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v62_5') || '1510';
             if(atual === pinSalvo) {
                 let nova = prompt("Digite a nova senha PIN:");
                 if(nova && nova.trim() !== '') {
-                    localStorage.setItem('app_pin_v62', nova.trim());
+                    localStorage.setItem('app_pin_v62_5', nova.trim());
                     alert("🔑 Senha alterada com sucesso!");
                 }
             } else {
@@ -408,52 +362,31 @@
             if(body.classList.contains('dark')) {
                 body.classList.remove('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.add('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v62', 'light');
+                localStorage.setItem('tema_v62_5', 'light');
             } else {
                 body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.remove('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v62', 'dark');
+                localStorage.setItem('tema_v62_5', 'dark');
             }
         }
 
-        // Funções da Gemini IA Integrada
-        function abrirGeminiModal() {
-            document.getElementById('modal-gemini').classList.remove('hidden');
-        }
-
-        function fecharGeminiModal() {
-            document.getElementById('modal-gemini').classList.add('hidden');
-        }
+        function abrirGeminiModal() { document.getElementById('modal-gemini').classList.remove('hidden'); }
+        function fecharGeminiModal() { document.getElementById('modal-gemini').classList.add('hidden'); }
 
         function enviarMensagemGemini() {
             let input = document.getElementById('gemini-input');
             let log = document.getElementById('gemini-chat-log');
             let texto = input.value.trim();
             if(!texto) return;
-
-            log.innerHTML += `<div class="bg-slate-200 text-slate-800 p-2.5 rounded-xl text-right ml-8 font-medium"><b>Tu:</b> ${texto}</div>`;
+            log.innerHTML += `<div class="bg-slate-200 text-slate-800 p-2 rounded-lg text-right ml-6 font-medium"><b>Tu:</b> ${texto}</div>`;
             input.value = '';
             log.scrollTop = log.scrollHeight;
 
             setTimeout(() => {
-                let resposta = "Estou aqui a ajudar-te com o teu roteiro para Zurique, Freiburg, França e Interlaken, Mariana! Podes gerir os teus blocos, tarefas e vouchers PDF com total segurança (senha 1510).";
-                let txtLower = texto.toLowerCase();
-                if(txtLower.includes('custo') || txtLower.includes('gasto') || txtLower.includes('quanto')) {
-                    let chf = 0, eur = 0;
-                    dadosApp.itinerario.forEach(i => {
-                        let v = parseFloat(i.valor) || 0;
-                        if(i.moeda === 'CHF') chf += v;
-                        if(i.moeda === 'EUR') eur += v;
-                    });
-                    resposta = `Atualmente os gastos totais registados no teu itinerário são de CHF ${chf.toFixed(0)} e €${eur.toFixed(0)}.`;
-                } else if(txtLower.includes('tarefa')) {
-                    let total = dadosApp.tarefas.length;
-                    let conc = dadosApp.tarefas.filter(t=>t.status==='Concluído').length;
-                    resposta = `Tens ${conc} de ${total} tarefas concluídas. Podes consultar a aba Tarefas!`;
-                }
-                log.innerHTML += `<div class="bg-indigo-50 text-indigo-900 p-2.5 rounded-xl mr-8 font-medium"><b>Gemini:</b> ${resposta}</div>`;
+                let resposta = "Estou aqui a ajudar-te com o teu roteiro para a Europa, Mariana! Podes gerir os teus blocos compactos com total segurança (senha 1510).";
+                log.innerHTML += `<div class="bg-indigo-50 text-indigo-900 p-2 rounded-lg mr-6 font-medium"><b>Gemini:</b> ${resposta}</div>`;
                 log.scrollTop = log.scrollHeight;
-            }, 500);
+            }, 400);
         }
 
         let dadosApp = {
@@ -466,27 +399,21 @@
                 "Hotel Weisses Kreuz", "Grindelwald", "Jungfraujoch"
             ],
             labelsPersonalizadas: {
-                origem: "Local de Origem (Embarque)",
-                destino: "Local de Destino (Desembarque)",
+                origem: "Local de Origem",
+                destino: "Local de Destino",
                 trecho: "Trecho / Rota",
                 transporte: "Transporte",
-                numTransporte: "Nº Ônibus/Trem/Voo",
-                notas: "Descrição / Notas Livres do Dia"
+                numTransporte: "Nº Transporte",
+                notas: "Notas do Dia"
             },
             coresBlocos: {},
             pontosExtrasMapa: [],
-            statusPersonalizados: {
-                "Concluído": "#22c55e",
-                "Aguardando": "#f59e0b"
-            },
+            statusPersonalizados: { "Concluído": "#22c55e", "Aguardando": "#f59e0b" },
             itinerario: [
-                { id: 1, categoria: "Zurique", dataInicio: "2026-12-30", dataFim: "2027-01-02", trecho: "Estadia no ibis budget Zurich City West", transporte: "Caminhada / Transporte local", numeroTransporte: "", embarque: "Zurich HB", desembarque: "ibis budget Zurich City West", moeda: "CHF", valor: "0", status: "Comprado", notas: "", textoLivre: "Check-in a partir das 15h00. Primeiros dias em Zurique.", pdfData: "", pdfNome: "", bloqueado: false, cor: "#e0f2fe", subBlocos: [] },
-                { id: 2, categoria: "Freiburg", dataInicio: "2027-01-02", dataFim: "2027-01-05", trecho: "Zurique ➔ Premier Inn Freiburg", transporte: "Ônibus FlixBus", numeroTransporte: "Linha 72", embarque: "Zurich Bus Station (Sihlquai)", desembarque: "Premier Inn Freiburg City Süd", moeda: "EUR", valor: "25", status: "Aguardando", notas: "", textoLivre: "Check-in a partir das 15h00. Estadia no Premier Inn Freiburg City Süd.", pdfData: "", pdfNome: "", bloqueado: false, cor: "#fef3c7", subBlocos: [] },
-                { id: 3, categoria: "Freiburg", dataInicio: "2027-01-03", dataFim: "2027-01-03", trecho: "Freiburg ➔ Europa-Park (Papai)", transporte: "Ônibus regional", numeroTransporte: "Bus 7200", embarque: "Premier Inn Freiburg City Süd", desembarque: "Europa-Park Rust", moeda: "EUR", valor: "65", status: "Aguardando", notas: "", textoLivre: "Dia inteiro no Europa-Park.", pdfData: "", pdfNome: "", bloqueado: false, cor: "#fef3c7", subBlocos: [] },
-                { id: 4, categoria: "França", dataInicio: "2027-01-05", dataFim: "2027-01-07", trecho: "Freiburg ➔ Disney Hotel Santa Fe", transporte: "Trem TGV / Conexão", numeroTransporte: "TGV 9572", embarque: "Freiburg Hbf (Estação Central)", desembarque: "Disney Hotel Santa Fe", moeda: "EUR", valor: "220", status: "Aguardando", notas: "", textoLivre: "Check-in às 15h00. Estadia no Disney Hotel Santa Fe.", pdfData: "", pdfNome: "", bloqueado: false, cor: "#f3e8ff", subBlocos: [] },
-                { id: 5, categoria: "França", dataInicio: "2027-01-07", dataFim: "2027-01-08", trecho: "Disney ➔ Campanile Paris Bercy", transporte: "RER A / Metrô", numeroTransporte: "RER A", embarque: "Disney Hotel Santa Fe", desembarque: "CAMPOSANILE PARIS 12 - Bercy Village", moeda: "EUR", valor: "150", status: "Aguardando", notas: "", textoLivre: "Check-in às 14h00. Passagem pelo outlet La Vallée Village e estadia em Paris Bercy.", pdfData: "", pdfNome: "", bloqueado: false, cor: "#f3e8ff", subBlocos: [] },
-                { id: 6, categoria: "Interlaken", dataInicio: "2027-01-08", dataFim: "2027-01-12", trecho: "Paris ➔ Hotel Weisses Kreuz (Interlaken)", transporte: "Trem TGV Lyria / SBB", numeroTransporte: "TGV Lyria 9201", embarque: "Gare de Lyon (Paris)", desembarque: "Hotel Weisses Kreuz", moeda: "CHF", valor: "110", status: "Aguardando", notas: "", textoLivre: "Check-in às 15h00. Estadia alpina no Hotel Weisses Kreuz.", pdfData: "", pdfNome: "", bloqueado: false, cor: "#d1fae5", subBlocos: [] },
-                { id: 7, categoria: "Zurique", dataInicio: "2027-01-12", dataFim: "2027-01-12", trecho: "Interlaken ➔ Zurique (Retorno)", transporte: "Trem SBB", numeroTransporte: "IC 8", embarque: "Interlaken Ost", desembarque: "Zurich HB", moeda: "CHF", valor: "76", status: "Aguardando", notas: "", textoLivre: "Regresso a Zurique para voo de retorno.", pdfData: "", pdfNome: "", bloqueado: false, cor: "#e0f2fe", subBlocos: [] }
+                { id: 1, categoria: "Zurique", dataInicio: "2026-12-30", dataFim: "2027-01-02", trecho: "Estadia no ibis budget Zurich City West", transporte: "Caminhada", numeroTransporte: "", embarque: "Zurich HB", desembarque: "ibis budget Zurich City West", moeda: "CHF", valor: "0", status: "Comprado", notas: "", textoLivre: "Check-in às 15h00.", pdfData: "", pdfNome: "", bloqueado: false, cor: "#e0f2fe", subBlocos: [] },
+                { id: 2, categoria: "Freiburg", dataInicio: "2027-01-02", dataFim: "2027-01-05", trecho: "Zurique ➔ Freiburg", transporte: "Ônibus", numeroTransporte: "Linha 72", embarque: "Zurich Bus Station", desembarque: "Premier Inn", moeda: "EUR", valor: "25", status: "Aguardando", notas: "", textoLivre: "Viagem confortável.", pdfData: "", pdfNome: "", bloqueado: false, cor: "#fef3c7", subBlocos: [] },
+                { id: 3, categoria: "França", dataInicio: "2027-01-05", dataFim: "2027-01-07", trecho: "Freiburg ➔ Disney", transporte: "Trem", numeroTransporte: "TGV 9572", embarque: "Freiburg Hbf", desembarque: "Disney Hotel", moeda: "EUR", valor: "220", status: "Aguardando", notas: "", textoLivre: "Parque Disney.", pdfData: "", pdfNome: "", bloqueado: false, cor: "#f3e8ff", subBlocos: [] },
+                { id: 4, categoria: "Interlaken", dataInicio: "2027-01-08", dataFim: "2027-01-12", trecho: "Paris ➔ Interlaken", transporte: "Trem", numeroTransporte: "Lyria", embarque: "Gare de Lyon", desembarque: "Hotel Weisses", moeda: "CHF", valor: "110", status: "Aguardando", notas: "", textoLivre: "Alpes suíços.", pdfData: "", pdfNome: "", bloqueado: false, cor: "#d1fae5", subBlocos: [] }
             ],
             tarefas: [
                 { id: 1, texto: "Comprar cartões Wise e Nomad", status: "Concluído", bloqueado: false },
@@ -497,8 +424,7 @@
                 { id: 1, titulo: "ibis budget Zurich City West", categoria: "Zurique", pdfData: "", pdfNome: "", bloqueado: false },
                 { id: 2, titulo: "Premier Inn Freiburg City Süd", categoria: "Freiburg", pdfData: "", pdfNome: "", bloqueado: false },
                 { id: 3, titulo: "Disney Hotel Santa Fe", categoria: "França", pdfData: "", pdfNome: "", bloqueado: false },
-                { id: 4, titulo: "Campanile Paris 12 - Bercy Village", categoria: "França", pdfData: "", pdfNome: "", bloqueado: false },
-                { id: 5, titulo: "Hotel Weisses Kreuz", categoria: "Interlaken", pdfData: "", pdfNome: "", bloqueado: false }
+                { id: 4, titulo: "Hotel Weisses Kreuz", categoria: "Interlaken", pdfData: "", pdfNome: "", bloqueado: false }
             ]
         };
 
@@ -528,29 +454,12 @@
             }
         }
 
-        // Funções para manipular caixinhas internas personalizadas com grip handle
         function adicionarSubBloco(itemId) {
             let item = dadosApp.itinerario.find(i => i.id === itemId);
             if(item) {
                 if(!item.subBlocos) item.subBlocos = [];
-                item.subBlocos.push({ id: Date.now(), titulo: "Nova Caixinha", conteudo: "" });
+                item.subBlocos.push({ id: Date.now(), titulo: "Nota Extra", conteudo: "" });
                 salvarStorage();
-            }
-        }
-
-        function moverSubBloco(itemId, subId, direcao) {
-            let item = dadosApp.itinerario.find(i => i.id === itemId);
-            if(item && item.subBlocos) {
-                let idx = item.subBlocos.findIndex(s => s.id === subId);
-                if(idx !== -1) {
-                    let novoIdx = idx + direcao;
-                    if(novoIdx >= 0 && novoIdx < item.subBlocos.length) {
-                        let temp = item.subBlocos[idx];
-                        item.subBlocos[idx] = item.subBlocos[novoIdx];
-                        item.subBlocos[novoIdx] = temp;
-                        salvarStorage();
-                    }
-                }
             }
         }
 
@@ -566,10 +475,7 @@
             let item = dadosApp.itinerario.find(i => i.id === itemId);
             if(item && item.subBlocos) {
                 let sub = item.subBlocos.find(s => s.id === subId);
-                if(sub) {
-                    sub.titulo = val;
-                    localStorage.setItem(CHAVE_APP, JSON.stringify(dadosApp));
-                }
+                if(sub) { sub.titulo = val; localStorage.setItem(CHAVE_APP, JSON.stringify(dadosApp)); }
             }
         }
 
@@ -577,10 +483,23 @@
             let item = dadosApp.itinerario.find(i => i.id === itemId);
             if(item && item.subBlocos) {
                 let sub = item.subBlocos.find(s => s.id === subId);
-                if(sub) {
-                    sub.conteudo = val;
-                    localStorage.setItem(CHAVE_APP, JSON.stringify(dadosApp));
-                }
+                if(sub) { sub.conteudo = val; localStorage.setItem(CHAVE_APP, JSON.stringify(dadosApp)); }
+            }
+        }
+
+        function dragSub(e, itemId, subId) { draggedParentId = itemId; draggedSubId = subId; }
+        function allowDropSub(e) { e.preventDefault(); }
+        function dropSub(e, itemId, targetSubId) {
+            e.preventDefault();
+            if (draggedParentId !== itemId) return;
+            let item = dadosApp.itinerario.find(i => i.id === itemId);
+            if (!item || !item.subBlocos) return;
+            let fromIdx = item.subBlocos.findIndex(s => s.id === draggedSubId);
+            let toIdx = item.subBlocos.findIndex(s => s.id === targetSubId);
+            if (fromIdx !== -1 && toIdx !== -1 && fromIdx !== toIdx) {
+                let moved = item.subBlocos.splice(fromIdx, 1)[0];
+                item.subBlocos.splice(toIdx, 0, moved);
+                salvarStorage();
             }
         }
 
@@ -610,15 +529,12 @@
             ['itinerario', 'tarefas', 'comprados', 'mapa-geral'].forEach(t => {
                 document.getElementById('tab-' + t).classList.add('hidden');
                 let btn = document.getElementById('tab-btn-' + t);
-                if(btn) btn.className = "py-2.5 rounded-xl text-slate-600 hover:bg-white/50 transition";
+                if(btn) btn.className = "py-2 rounded-lg text-slate-600 hover:bg-white/50 transition";
             });
             document.getElementById('tab-' + tab).classList.remove('hidden');
             let activeBtn = document.getElementById('tab-btn-' + tab);
-            if(activeBtn) activeBtn.className = "py-2.5 rounded-xl bg-indigo-600 text-white shadow-sm transition";
-
-            if(tab === 'mapa-geral') {
-                setTimeout(() => { renderizarMapaGeral(); }, 250);
-            }
+            if(activeBtn) activeBtn.className = "py-2 rounded-lg bg-indigo-600 text-white shadow-sm transition";
+            if(tab === 'mapa-geral') { setTimeout(() => { renderizarMapaGeral(); }, 200); }
         }
 
         function obterCorBlocoHex(item) {
@@ -635,10 +551,7 @@
             let input = document.getElementById('input-cor-' + id);
             if(input) {
                 const item = dadosApp.itinerario.find(i => i.id === id);
-                if(item) {
-                    item.cor = input.value;
-                    salvarStorage();
-                }
+                if(item) { item.cor = input.value; salvarStorage(); }
             }
         }
 
@@ -654,359 +567,267 @@
         function renderizarFiltros() {
             const container = document.getElementById('filtros-container');
             if(!container) return;
-            
-            let html = `<button onclick="filtrarDestino('todos')" id="btn-cat-todos" class="px-3 py-1.5 ${destinoFiltro === 'todos' ? 'bg-indigo-600 text-white' : 'bg-white border border-slate-300 text-slate-700'} rounded-xl font-bold shrink-0 transition shadow-sm">Todos</button>`;
-            
+            let html = `<button onclick="filtrarDestino('todos')" id="btn-cat-todos" class="px-2.5 py-1 ${destinoFiltro === 'todos' ? 'bg-indigo-600 text-white' : 'bg-white border text-slate-700'} rounded-lg font-bold text-[11px] shrink-0 transition">Todos</button>`;
             if(!dadosApp.destinosCadastrados) dadosApp.destinosCadastrados = ["Zurique", "Freiburg", "França", "Interlaken"];
-
             dadosApp.destinosCadastrados.forEach(dest => {
                 let ativo = destinoFiltro === dest;
                 let blocoExemplo = dadosApp.itinerario.find(i => i.categoria === dest);
-                let corDestino = blocoExemplo ? obterCorBlocoHex(blocoExemplo) : '#f1f5f9';
-                let estiloBtn = ativo ? 'bg-indigo-600 text-white font-bold' : `background-color: ${corDestino}; color: #0f172a; font-weight: 600; border: 1px solid rgba(0,0,0,0.15);`;
-                html += `<button onclick="filtrarDestino('${dest}')" id="btn-cat-${dest}" style="${estiloBtn}" class="px-3 py-1.5 rounded-xl shrink-0 transition shadow-sm">${dest}</button>`;
+                let corDest = blocoExemplo ? obterCorBlocoHex(blocoExemplo) : '#f1f5f9';
+                let estiloBtn = ativo ? 'bg-indigo-600 text-white font-bold' : `background-color: ${corDest}; color: #0f172a; font-weight: 600; border: 1px solid rgba(0,0,0,0.15);`;
+                html += `<button onclick="filtrarDestino('${dest}')" style="${estiloBtn}" class="px-2.5 py-1 rounded-lg text-[11px] shrink-0 transition">${dest}</button>`;
             });
-
-            html += `<button onclick="adicionarNovoDestinoFiltro()" class="px-3 py-1.5 bg-emerald-600 text-white rounded-xl font-bold shrink-0 transition flex items-center gap-1 shadow-sm"><span>➕</span> Novo Destino</button>`;
-
+            html += `<button onclick="adicionarNovoDestinoFiltro()" class="px-2.5 py-1 bg-emerald-600 text-white rounded-lg font-bold text-[11px] shrink-0 transition">➕ Destino</button>`;
             container.innerHTML = html;
         }
 
         function renderizarFiltrosTarefas() {
             const container = document.getElementById('filtros-tarefas-container');
             if(!container) return;
-
-            let html = `<button onclick="filtrarTarefas('todas')" id="btn-t-todas" class="px-3 py-1.5 rounded-xl text-xs font-bold ${tarefaFiltro === 'todas' ? 'bg-white text-indigo-950' : 'bg-indigo-800 text-white'} transition shadow-sm">Todas</button>`;
-
+            let html = `<button onclick="filtrarTarefas('todas')" class="px-2.5 py-1 rounded-lg text-[10px] font-bold ${tarefaFiltro === 'todas' ? 'bg-white text-indigo-950' : 'bg-indigo-800 text-white'} transition">Todas</button>`;
             if(!dadosApp.statusPersonalizados) dadosApp.statusPersonalizados = {"Concluído": "#22c55e", "Aguardando": "#f59e0b"};
-
             Object.keys(dadosApp.statusPersonalizados).forEach(st => {
                 let ativo = tarefaFiltro === st;
                 let corSt = dadosApp.statusPersonalizados[st];
-                let btnStyle = ativo ? `background-color: #ffffff; color: #0f172a; border: 2px solid ${corSt};` : `background-color: ${corSt}; color: #ffffff;`;
-                html += `<button onclick="filtrarTarefas('${st}')" id="btn-t-${st}" style="${btnStyle}" class="px-3 py-1.5 rounded-xl text-xs font-bold transition shadow-sm">${st}</button>`;
+                let btnStyle = ativo ? `background-color: #fff; color: #0f172a; border: 2px solid ${corSt};` : `background-color: ${corSt}; color: #fff;`;
+                html += `<button onclick="filtrarTarefas('${st}')" style="${btnStyle}" class="px-2.5 py-1 rounded-lg text-[10px] font-bold transition">${st}</button>`;
             });
-
-            html += `<button onclick="adicionarNovoStatusTarefaFiltro()" class="px-3 py-1.5 bg-emerald-600 text-white rounded-xl text-xs font-bold transition shadow-sm flex items-center gap-1"><span>➕</span> Novo Status</button>`;
-
+            html += `<button onclick="adicionarNovoStatusTarefaFiltro()" class="px-2.5 py-1 bg-emerald-600 text-white rounded-lg text-[10px] font-bold transition">➕ Status</button>`;
             container.innerHTML = html;
         }
 
         function adicionarNovoDestinoFiltro() {
-            let novo = prompt("Digite o nome do novo destino para os filtros e blocos:");
+            let novo = prompt("Novo destino:");
             if(novo && novo.trim() !== '') {
                 let limpo = novo.trim();
-                if(!dadosApp.destinosCadastrados.includes(limpo)) {
-                    dadosApp.destinosCadastrados.push(limpo);
-                    salvarStorage();
-                }
+                if(!dadosApp.destinosCadastrados.includes(limpo)) { dadosApp.destinosCadastrados.push(limpo); salvarStorage(); }
                 filtrarDestino(limpo);
             }
         }
 
         function adicionarPontoMapaGeral() {
-            let nomePonto = prompt("Digite o nome do novo local/ponto para adicionar ao mapa geral:");
+            let nomePonto = prompt("Novo local para o mapa:");
             if(nomePonto && nomePonto.trim() !== '') {
                 if(!dadosApp.pontosExtrasMapa) dadosApp.pontosExtrasMapa = [];
                 dadosApp.pontosExtrasMapa.push(nomePonto.trim());
                 salvarStorage();
                 renderizarMapaGeral();
-                alert("📍 Ponto adicionado ao mapa com sucesso!");
+                alert("📍 Adicionado!");
             }
         }
 
         function adicionarNovoStatusTarefaFiltro() {
-            let nomeNovo = prompt("Digite o nome do novo status/card de tarefa (ex: Finalizado, Em Progresso):");
+            let nomeNovo = prompt("Nome do status:");
             if(nomeNovo && nomeNovo.trim() !== '') {
-                let nomeLimpo = nomeNovo.trim();
-                let corNova = prompt("Digite a cor em HEX (ex: #3b82f6 para azul, #ec4899 para rosa):", "#3b82f6");
+                let corNova = prompt("Cor HEX:", "#3b82f6");
                 if(!dadosApp.statusPersonalizados) dadosApp.statusPersonalizados = {};
-                dadosApp.statusPersonalizados[nomeLimpo] = corNova || "#3b82f6";
+                dadosApp.statusPersonalizados[nomeNovo.trim()] = corNova || "#3b82f6";
                 salvarStorage();
             }
         }
 
-        function filtrarDestino(cat) {
-            destinoFiltro = cat;
-            renderizarFiltros();
-            renderizarBlocos();
-        }
-
-        function filtrarTarefas(f) {
-            tarefaFiltro = f;
-            renderizarFiltrosTarefas();
-            renderizarTarefas();
-        }
+        function filtrarDestino(cat) { destinoFiltro = cat; renderizarFiltros(); renderizarBlocos(); }
+        function filtrarTarefas(f) { tarefaFiltro = f; renderizarFiltrosTarefas(); renderizarTarefas(); }
 
         function lidarSelecaoDestino(id, valor) {
             if(valor === 'novo_destino') {
-                let novo = prompt("Digite o nome do novo destino:");
+                let novo = prompt("Novo destino:");
                 if(novo && novo.trim() !== '') {
-                    let destinoLimpo = novo.trim();
-                    if(!dadosApp.destinosCadastrados.includes(destinoLimpo)) {
-                        dadosApp.destinosCadastrados.push(destinoLimpo);
-                        salvarStorage();
-                    }
-                    atualizarCampo(id, 'categoria', destinoLimpo);
-                } else {
-                    renderizarBlocos();
-                }
-            } else {
-                atualizarCampo(id, 'categoria', valor);
-            }
+                    let limpo = novo.trim();
+                    if(!dadosApp.destinosCadastrados.includes(limpo)) dadosApp.destinosCadastrados.push(limpo);
+                    atualizarCampo(id, 'categoria', limpo);
+                } else { renderizarBlocos(); }
+            } else { atualizarCampo(id, 'categoria', valor); }
         }
 
         function lidarSelecaoLocal(id, campo, valor) {
             if(valor === 'outro_local') {
-                let novo = prompt("Digite o nome da nova estação, hotel ou local:");
+                let novo = prompt("Novo local:");
                 if(novo && novo.trim() !== '') {
-                    let localLimpo = novo.trim();
-                    if(!dadosApp.locaisCadastrados.includes(localLimpo)) {
-                        dadosApp.locaisCadastrados.push(localLimpo);
-                        salvarStorage();
-                    }
-                    atualizarCampo(id, campo, localLimpo);
-                } else {
-                    renderizarBlocos();
-                }
-            } else {
-                atualizarCampo(id, campo, valor);
-            }
+                    let limpo = novo.trim();
+                    if(!dadosApp.locaisCadastrados.includes(limpo)) dadosApp.locaisCadastrados.push(limpo);
+                    atualizarCampo(id, campo, limpo);
+                } else { renderizarBlocos(); }
+            } else { atualizarCampo(id, campo, valor); }
         }
 
         function lidarSelecaoDestinoVoucher(id, valor) {
             if(valor === 'novo_destino') {
-                let novo = prompt("Digite o nome do novo destino:");
+                let novo = prompt("Novo destino:");
                 if(novo && novo.trim() !== '') {
-                    let destinoLimpo = novo.trim();
-                    if(!dadosApp.destinosCadastrados.includes(destinoLimpo)) {
-                        dadosApp.destinosCadastrados.push(destinoLimpo);
-                        salvarStorage();
-                    }
-                    atualizarVoucherCampo(id, 'categoria', destinoLimpo);
-                } else {
-                    renderizarVouchersTab();
-                }
-            } else {
-                atualizarVoucherCampo(id, 'categoria', valor);
-            }
+                    let limpo = novo.trim();
+                    if(!dadosApp.destinosCadastrados.includes(limpo)) dadosApp.destinosCadastrados.push(limpo);
+                    atualizarVoucherCampo(id, 'categoria', limpo);
+                } else { renderizarVouchersTab(); }
+            } else { atualizarVoucherCampo(id, 'categoria', valor); }
         }
 
         function lidarSelecaoStatusTarefa(id, valor) {
             if(valor === 'novo_status') {
-                let nomeNovo = prompt("Digite o nome do novo status (ex: Finalizado, Em Progresso):");
+                let nomeNovo = prompt("Nome do status:");
                 if(nomeNovo && nomeNovo.trim() !== '') {
-                    let nomeLimpo = nomeNovo.trim();
-                    let corNova = prompt("Digite a cor em HEX (ex: #3b82f6 para azul, #ec4899 para rosa):", "#3b82f6");
+                    let corNova = prompt("Cor HEX:", "#3b82f6");
                     if(!dadosApp.statusPersonalizados) dadosApp.statusPersonalizados = {};
-                    dadosApp.statusPersonalizados[nomeLimpo] = corNova || "#3b82f6";
-                    
+                    dadosApp.statusPersonalizados[nomeNovo.trim()] = corNova || "#3b82f6";
                     const t = dadosApp.tarefas.find(item => item.id === id);
-                    if(t) {
-                        if(!backupTarefaEstado[id]) backupTarefaEstado[id] = JSON.parse(JSON.stringify(t));
-                        t.status = nomeLimpo;
-                        salvarStorage();
-                    }
-                } else {
-                    renderizarTarefas();
-                }
+                    if(t) { t.status = nomeNovo.trim(); salvarStorage(); }
+                } else { renderizarTarefas(); }
             } else {
                 const t = dadosApp.tarefas.find(item => item.id === id);
-                if(t) {
-                    if(!backupTarefaEstado[id]) backupTarefaEstado[id] = JSON.parse(JSON.stringify(t));
-                    t.status = valor;
-                    salvarStorage();
-                }
+                if(t) { t.status = valor; salvarStorage(); }
             }
         }
 
         function renderizarBlocos() {
             const container = document.getElementById('lista-blocos');
             container.innerHTML = '';
-
             let filtrados = dadosApp.itinerario;
             if(destinoFiltro !== 'todos') {
-                filtrados = dadosApp.itinerario.filter(i => {
-                    let cat = (i.categoria || "").toLowerCase();
-                    return cat.includes(destinoFiltro.toLowerCase());
-                });
+                filtrados = dadosApp.itinerario.filter(i => (i.categoria || "").toLowerCase().includes(destinoFiltro.toLowerCase()));
             }
 
             if(filtrados.length === 0) {
-                container.innerHTML = '<div class="bg-white p-6 rounded-3xl text-center text-xs text-slate-400 border border-slate-300">Nenhum bloco encontrado para este filtro.</div>';
+                container.innerHTML = '<div class="bg-white p-4 rounded-2xl text-center text-[11px] text-slate-400 border">Nenhum bloco encontrado.</div>';
                 return;
             }
 
-            let lb = dadosApp.labelsPersonalizadas || {
-                origem: "Local de Origem (Embarque)",
-                destino: "Local de Destino (Desembarque)",
-                trecho: "Trecho / Rota",
-                transporte: "Transporte",
-                numTransporte: "Nº Ônibus/Trem/Voo",
-                notas: "Descrição / Notas Livres do Dia"
-            };
+            let lb = dadosApp.labelsPersonalizadas || { origem: "Origem", destino: "Destino", trecho: "Trecho", transporte: "Transporte", numTransporte: "Nº", notas: "Notas" };
 
             filtrados.forEach((item) => {
                 let dis = item.bloqueado ? 'disabled' : '';
                 let corHex = obterCorBlocoHex(item);
-                let pdfBadge = item.pdfData ? `<a href="${item.pdfData}" download="${item.pdfNome || 'voucher.pdf'}" class="bg-blue-100 text-blue-800 px-2.5 py-1 rounded-lg text-[10px] font-bold">📄 PDF Anexado</a>` : '';
-                let btnOkText = item.bloqueado ? '🔒 OK' : '✅ OK';
-                let btnOkClass = item.bloqueado ? 'bg-emerald-600 text-white' : 'bg-slate-200 text-slate-700 hover:bg-emerald-500 hover:text-white';
-                
+                let pdfBadge = item.pdfData ? `<a href="${item.pdfData}" download="${item.pdfNome || 'v.pdf'}" class="bg-blue-100 text-blue-800 px-2 py-0.5 rounded text-[9px] font-bold">📄 PDF</a>` : '';
+                let btnOkText = item.bloqueado ? '🔒' : '✅';
+                let btnOkClass = item.bloqueado ? 'bg-emerald-600 text-white' : 'bg-slate-200 text-slate-700';
                 let totalDias = calcularDias(item.dataInicio, item.dataFim);
-                let textoDias = totalDias === 1 ? '1 dia' : `${totalDias} dias`;
 
                 let opcoesDestino = '';
-                if(!dadosApp.destinosCadastrados.includes(item.categoria)) {
-                    dadosApp.destinosCadastrados.push(item.categoria);
-                }
+                if(!dadosApp.destinosCadastrados.includes(item.categoria)) dadosApp.destinosCadastrados.push(item.categoria);
                 dadosApp.destinosCadastrados.forEach(d => {
-                    let sel = item.categoria === d ? 'selected' : '';
-                    opcoesDestino += `<option value="${d}" ${sel}>${d}</option>`;
+                    opcoesDestino += `<option value="${d}" ${item.categoria === d ? 'selected' : ''}>${d}</option>`;
                 });
-                opcoesDestino += `<option value="novo_destino">➕ Outro (Cadastrar novo)...</option>`;
+                opcoesDestino += `<option value="novo_destino">➕ Outro...</option>`;
 
-                if(!dadosApp.locaisCadastrados.includes(item.embarque) && item.embarque) {
-                    dadosApp.locaisCadastrados.push(item.embarque);
-                }
-                if(!dadosApp.locaisCadastrados.includes(item.desembarque) && item.desembarque) {
-                    dadosApp.locaisCadastrados.push(item.desembarque);
-                }
-
-                let opcoesLocaisEmbarque = '';
-                dadosApp.locaisCadastrados.forEach(loc => {
-                    let sel = item.embarque === loc ? 'selected' : '';
-                    opcoesLocaisEmbarque += `<option value="${loc}" ${sel}>${loc}</option>`;
+                let opcoesLocaisEmb = '';
+                dadosApp.locaisCadastrados.forEach(l => {
+                    opcoesLocaisEmb += `<option value="${l}" ${item.embarque === l ? 'selected' : ''}>${l}</option>`;
                 });
-                opcoesLocaisEmbarque += `<option value="outro_local">➕ Outro (Cadastrar novo local)...</option>`;
+                opcoesLocaisEmb += `<option value="outro_local">➕ Outro...</option>`;
 
-                let opcoesLocaisDesembarque = '';
-                dadosApp.locaisCadastrados.forEach(loc => {
-                    let sel = item.desembarque === loc ? 'selected' : '';
-                    opcoesLocaisDesembarque += `<option value="${loc}" ${sel}>${loc}</option>`;
+                let opcoesLocaisDes = '';
+                dadosApp.locaisCadastrados.forEach(l => {
+                    opcoesLocaisDes += `<option value="${l}" ${item.desembarque === l ? 'selected' : ''}>${l}</option>`;
                 });
-                opcoesLocaisDesembarque += `<option value="outro_local">➕ Outro (Cadastrar novo local)...</option>`;
+                opcoesLocaisDes += `<option value="outro_local">➕ Outro...</option>`;
 
-                // Renderizar caixinhas personalizadas internas com Grip Handle (⠿)
                 let subBlocosHtml = '';
                 if(item.subBlocos && item.subBlocos.length > 0) {
                     item.subBlocos.forEach(sb => {
                         subBlocosHtml += `
-                            <div class="bg-white/90 p-2.5 rounded-2xl border border-black/15 space-y-1.5 shadow-sm">
+                            <div draggable="true" ondragstart="dragSub(event, ${item.id}, ${sb.id})" ondragover="allowDropSub(event)" ondrop="dropSub(event, ${item.id}, ${sb.id})" class="bg-white/95 p-2 rounded-xl border border-black/10 space-y-1 shadow-sm cursor-move">
                                 <div class="flex items-center justify-between gap-1">
-                                    <div class="flex items-center gap-1.5 flex-1">
-                                        <span class="text-slate-400 font-bold text-sm cursor-grab" title="Puxe para mover">⠿</span>
-                                        <input type="text" value="${sb.titulo}" oninput="atualizarSubBlocoTitulo(${item.id}, ${sb.id}, this.value)" class="bg-transparent font-black text-indigo-900 text-xs outline-none w-full border-b border-indigo-200 pb-0.5" placeholder="Título da Caixinha...">
+                                    <div class="flex items-center gap-1 flex-1">
+                                        <span class="text-slate-400 font-bold text-xs select-none">⠿</span>
+                                        <input type="text" value="${sb.titulo}" oninput="atualizarSubBlocoTitulo(${item.id}, ${sb.id}, this.value)" class="bg-transparent font-black text-indigo-900 text-[11px] outline-none w-full border-b border-indigo-100 pb-0.5" placeholder="Título...">
                                     </div>
-                                    <div class="flex items-center gap-1 shrink-0">
-                                        <button onclick="moverSubBloco(${item.id}, ${sb.id}, -1)" class="bg-slate-200 hover:bg-slate-300 px-1.5 py-0.5 rounded text-[10px] font-bold" title="Mover para cima">⬆️</button>
-                                        <button onclick="moverSubBloco(${item.id}, ${sb.id}, 1)" class="bg-slate-200 hover:bg-slate-300 px-1.5 py-0.5 rounded text-[10px] font-bold" title="Mover para baixo">⬇️</button>
-                                        <button onclick="removerSubBloco(${item.id}, ${sb.id})" class="text-red-500 font-bold px-1.5 py-0.5 rounded bg-red-50 text-[10px]" title="Excluir">✕</button>
-                                    </div>
+                                    <button onclick="removerSubBloco(${item.id}, ${sb.id})" class="text-red-500 font-bold px-1 rounded bg-red-50 text-[10px]">✕</button>
                                 </div>
-                                <textarea rows="2" oninput="atualizarSubBlocoConteudo(${item.id}, ${sb.id}, this.value)" class="w-full p-1.5 bg-white border border-slate-200 rounded-xl outline-none text-xs text-slate-800" placeholder="Escreva o conteúdo desta caixinha...">${sb.conteudo || ''}</textarea>
+                                <textarea rows="1" oninput="atualizarSubBlocoConteudo(${item.id}, ${sb.id}, this.value)" class="w-full p-1 bg-white border border-slate-200 rounded-lg outline-none text-[11px] text-slate-800" placeholder="Conteúdo...">${sb.conteudo || ''}</textarea>
                             </div>
                         `;
                     });
                 }
 
                 let card = document.createElement('div');
-                card.className = `p-3 sm:p-4 rounded-3xl border border-black/15 space-y-2.5 transition shadow-sm`;
+                card.className = `p-3 rounded-2xl border border-black/15 space-y-2 transition shadow-sm`;
                 card.style.backgroundColor = corHex;
 
                 card.innerHTML = `
-                    <div class="flex justify-between items-center gap-1.5 border-b border-black/10 pb-2 flex-wrap">
-                        <div class="flex items-center gap-1.5 flex-wrap">
-                            <select onchange="lidarSelecaoDestino(${item.id}, this.value)" ${dis} class="bg-white text-indigo-900 font-black px-2.5 py-1 rounded-xl text-xs border border-black/15 outline-none shadow-sm">
+                    <div class="flex justify-between items-center gap-1 border-b border-black/10 pb-1.5 flex-wrap">
+                        <div class="flex items-center gap-1.5">
+                            <select onchange="lidarSelecaoDestino(${item.id}, this.value)" ${dis} class="bg-white text-indigo-900 font-black px-2 py-1 rounded-lg text-[11px] border border-black/15 outline-none shadow-sm">
                                 ${opcoesDestino}
                             </select>
-                            <span class="bg-indigo-600 text-white font-black px-2 py-0.5 rounded-xl text-[10px]">📅 ${textoDias}</span>
+                            <span class="bg-indigo-600 text-white font-bold px-1.5 py-0.5 rounded-lg text-[9px]">📅 ${totalDias}d</span>
                         </div>
-                        <div class="flex items-center gap-1 flex-wrap">
-                            <div class="flex items-center gap-1 bg-white p-1 rounded-xl border border-black/15 text-[11px] font-bold">
-                                <input type="date" value="${item.dataInicio || ''}" ${dis} onchange="atualizarCampo(${item.id}, 'dataInicio', this.value)" class="bg-transparent outline-none text-slate-800 text-[11px]" title="Início">
-                                <span class="text-slate-400">➔</span>
-                                <input type="date" value="${item.dataFim || ''}" ${dis} onchange="atualizarCampo(${item.id}, 'dataFim', this.value)" class="bg-transparent outline-none text-slate-800 text-[11px]" title="Fim">
+                        <div class="flex items-center gap-1">
+                            <div class="flex items-center gap-0.5 bg-white p-0.5 rounded-lg border text-[10px] font-bold">
+                                <input type="date" value="${item.dataInicio || ''}" ${dis} onchange="atualizarCampo(${item.id}, 'dataInicio', this.value)" class="bg-transparent outline-none text-slate-800 text-[10px]">
+                                <span>➔</span>
+                                <input type="date" value="${item.dataFim || ''}" ${dis} onchange="atualizarCampo(${item.id}, 'dataFim', this.value)" class="bg-transparent outline-none text-slate-800 text-[10px]">
                             </div>
-                            <select onchange="atualizarCampo(${item.id}, 'status', this.value)" ${dis} class="border border-black/15 rounded-xl px-2 py-1 text-xs font-bold outline-none ${item.status === 'Comprado' ? 'bg-emerald-100 text-emerald-800' : item.status === 'Reservado' ? 'bg-blue-100 text-blue-800' : 'bg-amber-100 text-amber-800'}">
+                            <select onchange="atualizarCampo(${item.id}, 'status', this.value)" ${dis} class="border rounded-lg px-1.5 py-1 text-[10px] font-bold outline-none ${item.status === 'Comprado' ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'}">
                                 <option value="Comprado" ${item.status === 'Comprado' ? 'selected' : ''}>Comprado</option>
                                 <option value="Aguardando" ${item.status === 'Aguardando' ? 'selected' : ''}>Aguardando</option>
-                                <option value="Reservado" ${item.status === 'Reservado' ? 'selected' : ''}>Reservado</option>
                             </select>
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs bg-white/90 p-2.5 rounded-2xl border border-black/15 shadow-inner">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-1.5 text-[11px] bg-white/90 p-2 rounded-xl border border-black/10 shadow-inner">
                         <div>
-                            <label onclick="editarLabel('origem', '${lb.origem}')" class="block font-black mb-0.5 text-slate-900 text-[11px] cursor-pointer hover:text-indigo-600 transition" title="Clique para renomear este título">📍 ${lb.origem} ✏️</label>
-                            <select onchange="lidarSelecaoLocal(${item.id}, 'embarque', this.value)" ${dis} class="w-full p-2 bg-white border border-black/15 rounded-xl outline-none font-bold text-slate-900 text-xs shadow-sm">
-                                ${opcoesLocaisEmbarque}
+                            <label onclick="editarLabel('origem', '${lb.origem}')" class="block font-black mb-0.5 text-slate-900 text-[10px] cursor-pointer hover:text-indigo-600">📍 ${lb.origem} ✏️</label>
+                            <select onchange="lidarSelecaoLocal(${item.id}, 'embarque', this.value)" ${dis} class="w-full p-1.5 bg-white border rounded-lg text-[11px] font-bold text-slate-900">
+                                ${opcoesLocaisEmb}
                             </select>
                         </div>
                         <div>
-                            <label onclick="editarLabel('destino', '${lb.destino}')" class="block font-black mb-0.5 text-slate-900 text-[11px] cursor-pointer hover:text-indigo-600 transition" title="Clique para renomear este título">🏁 ${lb.destino} ✏️</label>
-                            <select onchange="lidarSelecaoLocal(${item.id}, 'desembarque', this.value)" ${dis} class="w-full p-2 bg-white border border-black/15 rounded-xl outline-none font-bold text-slate-900 text-xs shadow-sm">
-                                ${opcoesLocaisDesembarque}
+                            <label onclick="editarLabel('destino', '${lb.destino}')" class="block font-black mb-0.5 text-slate-900 text-[10px] cursor-pointer hover:text-indigo-600">🏁 ${lb.destino} ✏️</label>
+                            <select onchange="lidarSelecaoLocal(${item.id}, 'desembarque', this.value)" ${dis} class="w-full p-1.5 bg-white border rounded-lg text-[11px] font-bold text-slate-900">
+                                ${opcoesLocaisDes}
                             </select>
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs">
-                        <div class="sm:col-span-1">
-                            <label onclick="editarLabel('trecho', '${lb.trecho}')" class="block font-semibold text-slate-700 mb-0.5 text-[11px] cursor-pointer hover:text-indigo-600 transition" title="Clique para renomear">${lb.trecho} ✏️</label>
-                            <input type="text" value="${item.trecho}" ${dis} onfocus="registarFoco(this)" oninput="atualizarCampo(${item.id}, 'trecho', this.value)" class="w-full p-2 bg-white border border-black/15 rounded-xl outline-none font-bold text-slate-900 text-xs" placeholder="Ex: Zurique ➔ Freiburg">
+                    <div class="grid grid-cols-3 gap-1.5 text-[11px]">
+                        <div>
+                            <label onclick="editarLabel('trecho', '${lb.trecho}')" class="block font-semibold text-slate-700 text-[10px] cursor-pointer hover:text-indigo-600">${lb.trecho} ✏️</label>
+                            <input type="text" value="${item.trecho}" ${dis} oninput="atualizarCampo(${item.id}, 'trecho', this.value)" class="w-full p-1.5 bg-white border rounded-lg text-[11px] font-bold text-slate-900" placeholder="Ex: Rota">
                         </div>
                         <div>
-                            <label onclick="editarLabel('transporte', '${lb.transporte}')" class="block font-semibold text-slate-700 mb-0.5 text-[11px] cursor-pointer hover:text-indigo-600 transition" title="Clique para renomear">${lb.transporte} ✏️</label>
-                            <input type="text" value="${item.transporte}" ${dis} onfocus="registarFoco(this)" oninput="atualizarCampo(${item.id}, 'transporte', this.value)" class="w-full p-2 bg-white border border-black/15 rounded-xl outline-none text-xs" placeholder="Ex: Trem / Ônibus">
+                            <label onclick="editarLabel('transporte', '${lb.transporte}')" class="block font-semibold text-slate-700 text-[10px] cursor-pointer hover:text-indigo-600">${lb.transporte} ✏️</label>
+                            <input type="text" value="${item.transporte}" ${dis} oninput="atualizarCampo(${item.id}, 'transporte', this.value)" class="w-full p-1.5 bg-white border rounded-lg text-[11px]" placeholder="Ex: Trem">
                         </div>
                         <div>
-                            <label onclick="editarLabel('numTransporte', '${lb.numTransporte}')" class="block font-semibold text-slate-700 mb-0.5 text-[11px] cursor-pointer hover:text-indigo-600 transition" title="Clique para renomear">${lb.numTransporte} ✏️</label>
-                            <input type="text" value="${item.numeroTransporte || ''}" ${dis} onfocus="registarFoco(this)" oninput="atualizarCampo(${item.id}, 'numeroTransporte', this.value)" class="w-full p-2 bg-white border border-black/15 rounded-xl outline-none font-bold text-indigo-900 text-xs" placeholder="Ex: TGV 9235">
+                            <label onclick="editarLabel('numTransporte', '${lb.numTransporte}')" class="block font-semibold text-slate-700 text-[10px] cursor-pointer hover:text-indigo-600">${lb.numTransporte} ✏️</label>
+                            <input type="text" value="${item.numeroTransporte || ''}" ${dis} oninput="atualizarCampo(${item.id}, 'numeroTransporte', this.value)" class="w-full p-1.5 bg-white border rounded-lg text-[11px] font-bold text-indigo-900" placeholder="Ex: Linha">
                         </div>
                     </div>
 
                     <div>
-                        <label onclick="editarLabel('notas', '${lb.notas}')" class="block font-semibold text-slate-700 mb-0.5 text-[11px] cursor-pointer hover:text-indigo-600 transition" title="Clique para renomear">📝 ${lb.notas} ✏️</label>
-                        <textarea ${dis} onfocus="registarFoco(this)" oninput="atualizarCampo(${item.id}, 'textoLivre', this.value)" rows="2" class="w-full p-2.5 bg-white border border-black/15 rounded-xl outline-none text-xs text-slate-800" placeholder="Escreva aqui dicas, hotéis, atrações...">${item.textoLivre || ''}</textarea>
+                        <label onclick="editarLabel('notas', '${lb.notas}')" class="block font-semibold text-slate-700 text-[10px] cursor-pointer hover:text-indigo-600">📝 ${lb.notas} ✏️</label>
+                        <textarea ${dis} oninput="atualizarCampo(${item.id}, 'textoLivre', this.value)" rows="1" class="w-full p-1.5 bg-white border rounded-lg text-[11px] text-slate-800" placeholder="Notas...">${item.textoLivre || ''}</textarea>
                     </div>
 
-                    <!-- CONTAINER DAS CAIXINHAS INTERNAS PERSONALIZADAS -->
-                    <div class="space-y-2 pt-1">
+                    <!-- CAIXINHAS INTERNAS -->
+                    <div class="space-y-1.5 pt-0.5">
                         <div class="flex justify-between items-center">
-                            <span class="font-bold text-[11px] text-slate-700 uppercase tracking-wide">📂 Caixinhas Internas Personalizadas</span>
-                            <button onclick="adicionarSubBloco(${item.id})" class="bg-indigo-600 hover:bg-indigo-700 text-white px-2.5 py-1 rounded-xl text-[10px] font-bold shadow-sm">➕ Adicionar Caixinha</button>
+                            <span class="font-bold text-[10px] text-slate-700 uppercase">📂 Caixinhas Extras</span>
+                            <button onclick="adicionarSubBloco(${item.id})" class="bg-indigo-600 text-white px-2 py-0.5 rounded-lg text-[9px] font-bold">➕ Nova Caixinha</button>
                         </div>
-                        <div class="space-y-2">${subBlocosHtml}</div>
+                        <div class="space-y-1.5">${subBlocosHtml}</div>
                     </div>
 
-                    <!-- BARRA INFERIOR COM MAPA, LÁPIS, SETAS DE REPOSICIONAR E SELETOR DE COR -->
-                    <div class="flex flex-wrap justify-between items-center gap-1.5 pt-2 border-t border-black/10">
-                        <div class="flex items-center gap-1 flex-wrap">
-                            <select onchange="atualizarCampo(${item.id}, 'moeda', this.value)" ${dis} class="p-1 bg-white font-bold border border-black/15 rounded-lg text-xs outline-none">
+                    <!-- BARRA INFERIOR DO BLOCO -->
+                    <div class="flex flex-wrap justify-between items-center gap-1 pt-1.5 border-t border-black/10">
+                        <div class="flex items-center gap-1">
+                            <select onchange="atualizarCampo(${item.id}, 'moeda', this.value)" ${dis} class="p-0.5 bg-white font-bold border rounded text-[10px]">
                                 <option value="CHF" ${item.moeda === 'CHF' ? 'selected' : ''}>CHF</option>
                                 <option value="EUR" ${item.moeda === 'EUR' ? 'selected' : ''}>EUR</option>
-                                <option value="-" ${item.moeda === '-' ? 'selected' : ''}>-</option>
                             </select>
-                            <input type="text" value="${item.valor}" ${dis} onfocus="registarFoco(this)" oninput="atualizarCampo(${item.id}, 'valor', this.value)" class="w-16 p-1 bg-white font-black border border-black/15 rounded-lg text-xs outline-none" placeholder="Valor">
+                            <input type="text" value="${item.valor}" ${dis} oninput="atualizarCampo(${item.id}, 'valor', this.value)" class="w-14 p-0.5 bg-white font-black border rounded text-[10px]" placeholder="Valor">
                             ${pdfBadge}
                         </div>
                         
-                        <div class="flex items-center gap-1 flex-wrap">
-                            <!-- Botões de Reposicionar Bloco (Setas) -->
-                            <button onclick="moverBloco(${item.id}, -1)" class="bg-slate-200 hover:bg-slate-300 px-2 py-1 rounded-lg font-bold text-xs" title="Mover bloco para cima">⬆️</button>
-                            <button onclick="moverBloco(${item.id}, 1)" class="bg-slate-200 hover:bg-slate-300 px-2 py-1 rounded-lg font-bold text-xs" title="Mover bloco para baixo">⬇️</button>
-
-                            <!-- Seletor de Cor + OK -->
-                            <div class="flex items-center gap-1 bg-white px-1.5 py-0.5 rounded-lg border border-black/15 text-[10px] font-bold">
-                                <input type="color" id="input-cor-${item.id}" value="${corHex}" class="w-5 h-5 rounded cursor-pointer border-0 bg-transparent" title="Escolher cor">
-                                <button onclick="atualizarCorBlocoLocal(${item.id})" class="bg-indigo-600 hover:bg-indigo-700 text-white px-1.5 py-0.5 rounded text-[10px] font-bold">OK</button>
+                        <div class="flex items-center gap-1">
+                            <button onclick="moverBloco(${item.id}, -1)" class="bg-slate-200 px-1.5 py-0.5 rounded text-[10px] font-bold" title="Subir bloco">⬆️</button>
+                            <button onclick="moverBloco(${item.id}, 1)" class="bg-slate-200 px-1.5 py-0.5 rounded text-[10px] font-bold" title="Descer bloco">⬇️</button>
+                            <div class="flex items-center gap-0.5 bg-white px-1 py-0.5 rounded border text-[9px] font-bold">
+                                <input type="color" id="input-cor-${item.id}" value="${corHex}" class="w-4 h-4 rounded cursor-pointer border-0 bg-transparent">
+                                <button onclick="atualizarCorBlocoLocal(${item.id})" class="bg-indigo-600 text-white px-1 py-0.5 rounded text-[9px]">OK</button>
                             </div>
-
-                            <button onclick="abrirMapaRuta('${item.embarque}', '${item.desembarque}', '${item.categoria}', '${item.transporte || ''}', '${item.numeroTransporte || ''}')" class="bg-sky-100 text-sky-800 hover:bg-sky-200 px-2 py-1 rounded-lg font-bold text-xs" title="Ver Rota no Mapa">🗺️ Mapa</button>
-                            <button onclick="abrirModalDetalhes(${item.id})" class="bg-white hover:bg-slate-100 border border-black/15 px-2 py-1 rounded-lg font-bold text-xs" title="Editar notas e PDF">✏️</button>
-                            <button onclick="alternarBloqueio(${item.id})" class="${btnOkClass} px-2.5 py-1 rounded-lg font-bold text-[11px] transition border border-black/15" title="Bloquear/Desbloquear">${btnOkText}</button>
-                            <button onclick="apagarBloco(${item.id})" class="bg-red-50 text-red-500 hover:bg-red-100 px-2.5 py-1 rounded-lg font-bold text-xs" title="Excluir">✕</button>
+                            <button onclick="abrirMapaRuta('${item.embarque}', '${item.desembarque}', '${item.categoria}', '${item.transporte || ''}', '${item.numeroTransporte || ''}')" class="bg-sky-100 text-sky-800 px-2 py-0.5 rounded text-[10px] font-bold">🗺️</button>
+                            <button onclick="abrirModalDetalhes(${item.id})" class="bg-white border px-1.5 py-0.5 rounded text-[10px]">✏️</button>
+                            <button onclick="alternarBloqueio(${item.id})" class="${btnOkClass} px-2 py-0.5 rounded text-[10px] font-bold border">${btnOkText}</button>
+                            <button onclick="apagarBloco(${item.id})" class="bg-red-50 text-red-500 px-1.5 py-0.5 rounded text-[10px] font-bold">✕</button>
                         </div>
                     </div>
                 `;
@@ -1017,58 +838,47 @@
         function renderizarTarefas() {
             const container = document.getElementById('lista-tarefas-html');
             container.innerHTML = '';
-
             let filtradas = dadosApp.tarefas;
-            if (tarefaFiltro !== 'todas') {
-                filtradas = dadosApp.tarefas.filter(t => t.status === tarefaFiltro);
-            }
-
+            if (tarefaFiltro !== 'todas') filtradas = dadosApp.tarefas.filter(t => t.status === tarefaFiltro);
             let total = dadosApp.tarefas.length;
             let concluidas = dadosApp.tarefas.filter(t => t.status === 'Concluído').length;
             document.getElementById('stat-tarefas').innerText = `${concluidas} / ${total} Concluídas`;
 
             if(filtradas.length === 0) {
-                container.innerHTML = '<p class="text-xs text-slate-400 italic text-center py-4">Nenhuma tarefa encontrada para este filtro.</p>';
+                container.innerHTML = '<p class="text-xs text-slate-400 italic text-center py-4">Nenhuma tarefa encontrada.</p>';
                 return;
             }
-
-            if(!dadosApp.statusPersonalizados) dadosApp.statusPersonalizados = {"Concluído": "#22c55e", "Aguardando": "#f59e0b"};
 
             filtradas.forEach(t => {
                 let dis = t.bloqueado ? 'disabled' : '';
                 let cardBg = t.bloqueado ? 'bg-slate-50 border-slate-300' : 'bg-white border-indigo-200 shadow-sm';
                 let btnOkText = t.bloqueado ? '🔒' : '✅';
-                let btnOkClass = t.bloqueado ? 'bg-emerald-600 text-white' : 'bg-slate-200 text-slate-700 hover:bg-emerald-500 hover:text-white';
-
                 let statusAtual = t.status || "Aguardando";
                 let corStatus = dadosApp.statusPersonalizados[statusAtual] || "#f59e0b";
-                let isConcluido = (statusAtual === 'Concluído');
-                let textStyle = isConcluido ? 'line-through text-slate-400 font-normal' : 'font-bold text-slate-800';
+                let textStyle = (statusAtual === 'Concluído') ? 'line-through text-slate-400 font-normal' : 'font-bold text-slate-800';
 
                 let opcoesStatus = '';
                 Object.keys(dadosApp.statusPersonalizados).forEach(st => {
-                    let sel = statusAtual === st ? 'selected' : '';
-                    opcoesStatus += `<option value="${st}" ${sel}>${st}</option>`;
+                    opcoesStatus += `<option value="${st}" ${statusAtual === st ? 'selected' : ''}>${st}</option>`;
                 });
                 opcoesStatus += `<option value="novo_status">➕ Novo...</option>`;
 
                 let div = document.createElement('div');
-                div.className = `p-3 rounded-2xl border ${cardBg} space-y-2 transition`;
-                div.style.borderLeft = `6px solid ${corStatus}`;
-
+                div.className = `p-2.5 rounded-xl border ${cardBg} space-y-1.5 transition`;
+                div.style.borderLeft = `5px solid ${corStatus}`;
                 div.innerHTML = `
-                    <div class="flex items-center justify-between gap-1.5 flex-wrap">
-                        <div class="flex items-center gap-1.5 flex-1 min-w-[180px]">
-                            <button onclick="abrirModalTarefa(${t.id})" class="bg-slate-100 hover:bg-slate-200 p-1.5 rounded-lg text-slate-700 font-bold text-[11px] shrink-0" title="Editar Tarefa">✏️</button>
-                            <input type="text" value="${t.texto}" ${dis} oninput="atualizarTarefaTexto(${t.id}, this.value)" class="w-full p-1 bg-transparent border-b border-slate-200 outline-none ${textStyle} text-xs" placeholder="Descrição da tarefa...">
+                    <div class="flex items-center justify-between gap-1 flex-wrap">
+                        <div class="flex items-center gap-1 flex-1 min-w-[150px]">
+                            <button onclick="abrirModalTarefa(${t.id})" class="bg-slate-100 hover:bg-slate-200 p-1 rounded text-[10px]" title="Editar">✏️</button>
+                            <input type="text" value="${t.texto}" ${dis} oninput="atualizarTarefaTexto(${t.id}, this.value)" class="w-full p-0.5 bg-transparent border-b border-slate-200 outline-none ${textStyle} text-xs" placeholder="Tarefa...">
                         </div>
-                        <div class="flex items-center gap-1 flex-wrap">
-                            <select onchange="lidarSelecaoStatusTarefa(${t.id}, this.value)" ${dis} class="border rounded-xl px-2 py-1 text-xs font-bold outline-none shadow-sm text-white" style="background-color: ${corStatus};">
+                        <div class="flex items-center gap-1">
+                            <select onchange="lidarSelecaoStatusTarefa(${t.id}, this.value)" ${dis} class="border rounded-lg px-2 py-0.5 text-[10px] font-bold text-white shadow-sm" style="background-color: ${corStatus};">
                                 ${opcoesStatus}
                             </select>
-                            <button onclick="desfazerTarefa(${t.id})" class="bg-amber-100 text-amber-800 hover:bg-amber-200 px-2 py-1 rounded-lg font-bold text-[11px]" title="Desfazer">↩️</button>
-                            <button onclick="alternarBloqueioTarefa(${t.id})" class="${btnOkClass} px-2 py-1 rounded-lg font-bold text-[11px] transition border border-black/15" title="Bloquear/Desbloquear">${btnOkText}</button>
-                            <button onclick="apagarTarefa(${t.id})" class="text-red-500 hover:text-red-700 font-bold px-2 py-1 bg-red-50 rounded-lg text-[11px]" title="Excluir">✕</button>
+                            <button onclick="desfazerTarefa(${t.id})" class="bg-amber-100 text-amber-800 px-1.5 py-0.5 rounded text-[10px]" title="Desfazer">↩️</button>
+                            <button onclick="alternarBloqueioTarefa(${t.id})" class="bg-slate-200 px-1.5 py-0.5 rounded text-[10px]" title="OK">${btnOkText}</button>
+                            <button onclick="apagarTarefa(${t.id})" class="text-red-500 bg-red-50 px-1.5 py-0.5 rounded text-[10px]">✕</button>
                         </div>
                     </div>
                 `;
@@ -1076,295 +886,120 @@
             });
         }
 
-        // RENDERIZAR O MAPA GERAL COM ROTAS PONTILHADAS
         async function renderizarMapaGeral() {
             let statusEl = document.getElementById('mapa-geral-status');
             if(!statusEl) return;
-            statusEl.innerText = "A geocodificar pontos e desenhar rotas pontilhadas...";
-
+            statusEl.innerText = "A calcular rotas...";
             setTimeout(async () => {
                 if(!mapaGeralInstance) {
                     mapaGeralInstance = L.map('mapa-geral-view').setView([47.3769, 8.5417], 6);
-                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                        maxZoom: 19,
-                        attribution: '© OpenStreetMap'
-                    }).addTo(mapaGeralInstance);
-                } else {
-                    mapaGeralInstance.invalidateSize();
-                }
-
-                mapaGeralInstance.eachLayer(layer => {
-                    if (layer instanceof L.Marker || layer instanceof L.Polyline) {
-                        mapaGeralInstance.removeLayer(layer);
-                    }
-                });
+                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19 }).addTo(mapaGeralInstance);
+                } else { mapaGeralInstance.invalidateSize(); }
+                mapaGeralInstance.eachLayer(layer => { if (layer instanceof L.Marker || layer instanceof L.Polyline) mapaGeralInstance.removeLayer(layer); });
 
                 async function buscarCoords(query) {
                     try {
                         let res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}`);
                         let data = await res.json();
-                        if(data && data.length > 0) {
-                            return [parseFloat(data[0].lat), parseFloat(data[0].lon)];
-                        }
+                        if(data && data.length > 0) return [parseFloat(data[0].lat), parseFloat(data[0].lon)];
                     } catch(e) {}
                     return null;
                 }
 
                 let bounds = [];
-
                 for(let item of dadosApp.itinerario) {
-                    let infoTransp = item.transporte ? ` (${item.transporte}${item.numeroTransporte ? ': ' + item.numeroTransporte : ''})` : '';
                     if(item.embarque) {
-                        let coordsEmb = await buscarCoords(item.embarque);
-                        if(coordsEmb) {
-                            L.marker(coordsEmb).addTo(mapaGeralInstance).bindPopup(`<b>Embarque:</b> ${item.embarque}${infoTransp}`);
-                            bounds.push(coordsEmb);
-                        }
+                        let cEmb = await buscarCoords(item.embarque);
+                        if(cEmb) { L.marker(cEmb).addTo(mapaGeralInstance).bindPopup(`<b>Embarque:</b> ${item.embarque}`); bounds.push(cEmb); }
                     }
                     if(item.desembarque) {
-                        let coordsDes = await buscarCoords(item.desembarque);
-                        if(coordsDes) {
-                            L.marker(coordsDes).addTo(mapaGeralInstance).bindPopup(`<b>Desembarque:</b> ${item.desembarque}`);
-                            bounds.push(coordsDes);
-                        }
+                        let cDes = await buscarCoords(item.desembarque);
+                        if(cDes) { L.marker(cDes).addTo(mapaGeralInstance).bindPopup(`<b>Desembarque:</b> ${item.desembarque}`); bounds.push(cDes); }
                     }
-
                     if(item.embarque && item.desembarque) {
                         let c1 = await buscarCoords(item.embarque);
                         let c2 = await buscarCoords(item.desembarque);
-                        if(c1 && c2) {
-                            L.polyline([c1, c2], {color: '#4f46e5', weight: 4, dashArray: '6, 10', opacity: 0.8}).addTo(mapaGeralInstance);
-                        }
+                        if(c1 && c2) L.polyline([c1, c2], {color: '#4f46e5', weight: 3, dashArray: '4, 8'}).addTo(mapaGeralInstance);
                     }
                 }
-
-                if(dadosApp.pontosExtrasMapa) {
-                    for(let pt of dadosApp.pontosExtrasMapa) {
-                        let coordsPt = await buscarCoords(pt);
-                        if(coordsPt) {
-                            L.marker(coordsPt).addTo(mapaGeralInstance).bindPopup(`<b>Ponto Adicional:</b> ${pt}`);
-                            bounds.push(coordsPt);
-                        }
-                    }
-                }
-
-                if(bounds.length > 0) {
-                    mapaGeralInstance.fitBounds(bounds, {padding: [50, 50]});
-                    statusEl.innerText = "🗺️ Mapa geral carregado com todas as rotas pontilhadas!";
-                } else {
-                    statusEl.innerText = "Nenhum ponto válido encontrado para exibir no mapa.";
-                }
-            }, 300);
+                if(bounds.length > 0) { mapaGeralInstance.fitBounds(bounds, {padding: [30, 30]}); statusEl.innerText = "🗺️ Mapa atualizado!"; }
+            }, 200);
         }
 
         function abrirModalTarefa(id) {
             const t = dadosApp.tarefas.find(item => item.id === id);
-            if(t) {
-                document.getElementById('tarefa-edit-id').value = t.id;
-                document.getElementById('tarefa-edit-texto').value = t.texto || '';
-                document.getElementById('modal-tarefa').classList.remove('hidden');
-            }
+            if(t) { document.getElementById('tarefa-edit-id').value = t.id; document.getElementById('tarefa-edit-texto').value = t.texto || ''; document.getElementById('modal-tarefa').classList.remove('hidden'); }
         }
-
-        function fecharModalTarefa() {
-            document.getElementById('modal-tarefa').classList.add('hidden');
-        }
-
+        function fecharModalTarefa() { document.getElementById('modal-tarefa').classList.add('hidden'); }
         function salvarTarefaModal() {
             const id = parseInt(document.getElementById('tarefa-edit-id').value);
-            const texto = document.getElementById('tarefa-edit-texto').value;
             const t = dadosApp.tarefas.find(item => item.id === id);
-            if(t) {
-                if(!backupTarefaEstado[id]) backupTarefaEstado[id] = JSON.parse(JSON.stringify(t));
-                t.texto = texto;
-                salvarStorage();
-                fecharModalTarefa();
-            }
+            if(t) { t.texto = document.getElementById('tarefa-edit-texto').value; salvarStorage(); fecharModalTarefa(); }
         }
 
         function registarFoco(el) { campoFocoAtual = el; }
-
         function atualizarCampo(id, campo, valor) {
             const item = dadosApp.itinerario.find(i => i.id === id);
-            if(item) {
-                if(!backupEstado[id]) backupEstado[id] = JSON.parse(JSON.stringify(item));
-                item[campo] = valor;
-                salvarStorage();
-            }
+            if(item) { item[campo] = valor; salvarStorage(); }
         }
-
         function alternarBloqueio(id) {
             const item = dadosApp.itinerario.find(i => i.id === id);
-            if(item) {
-                if(!item.bloqueado) {
-                    backupEstado[id] = JSON.parse(JSON.stringify(item));
-                }
-                item.bloqueado = !item.bloqueado;
-                salvarStorage();
-                renderizarBlocos();
-            }
+            if(item) { item.bloqueado = !item.bloqueado; salvarStorage(); }
         }
-
-        function desfazerBloco(id) {
-            if(backupEstado[id]) {
-                const index = dadosApp.itinerario.findIndex(i => i.id === id);
-                if(index !== -1) {
-                    dadosApp.itinerario[index] = JSON.parse(JSON.stringify(backupEstado[id]));
-                    salvarStorage();
-                    renderizarBlocos();
-                    alert("↩️ Estado anterior restaurado com sucesso!");
-                }
-            } else {
-                alert("Nenhum histórico recente de desfazer para este bloco.");
-            }
-        }
-
         function adicionarBloco() {
-            const novoId = dadosApp.itinerario.length > 0 ? Math.max(...dadosApp.itinerario.map(i => i.id)) + 1 : 1;
-            const novoItem = {
-                id: novoId,
-                categoria: dadosApp.destinosCadastrados[0] || "Zurique",
-                dataInicio: "",
-                dataFim: "",
-                trecho: "Novo Trecho",
-                transporte: "Trem / Ônibus",
-                numeroTransporte: "",
-                embarque: dadosApp.locaisCadastrados[0] || "Origem",
-                desembarque: dadosApp.locaisCadastrados[1] || "Destino",
-                moeda: "CHF",
-                valor: "0",
-                status: "Aguardando",
-                notas: "",
-                textoLivre: "",
-                pdfData: "",
-                pdfNome: "",
-                bloqueado: false,
-                cor: "#e0f2fe",
-                subBlocos: []
+            let novoItem = {
+                id: Date.now(), categoria: "Zurique", dataInicio: "", dataFim: "", trecho: "Novo Trecho", transporte: "Trem", numeroTransporte: "", embarque: "Zurich HB", desembarque: "Hotel", moeda: "CHF", valor: "0", status: "Aguardando", notas: "", textoLivre: "", pdfData: "", pdfNome: "", bloqueado: false, cor: "#e0f2fe", subBlocos: []
             };
             dadosApp.itinerario.unshift(novoItem);
             salvarStorage();
-            renderizarBlocos();
         }
-
         function apagarBloco(id) {
-            if(confirm("Deseja excluir este bloco do itinerario?")) {
-                dadosApp.itinerario = dadosApp.itinerario.filter(i => i.id !== id);
-                salvarStorage();
-                renderizarBlocos();
-            }
+            if(confirm("Excluir bloco?")) { dadosApp.itinerario = dadosApp.itinerario.filter(i => i.id !== id); salvarStorage(); }
         }
-
         function atualizarTarefaTexto(id, valor) {
             const t = dadosApp.tarefas.find(item => item.id === id);
-            if(t) {
-                if(!backupTarefaEstado[id]) backupTarefaEstado[id] = JSON.parse(JSON.stringify(t));
-                t.texto = valor;
-                salvarStorage();
-            }
+            if(t) { t.texto = valor; salvarStorage(); }
         }
-
         function alternarBloqueioTarefa(id) {
             const t = dadosApp.tarefas.find(item => item.id === id);
-            if(t) {
-                if(!t.bloqueado) backupTarefaEstado[id] = JSON.parse(JSON.stringify(t));
-                t.bloqueado = !t.bloqueado;
-                salvarStorage();
-                renderizarTarefas();
-            }
+            if(t) { t.bloqueado = !t.bloqueado; salvarStorage(); }
         }
-
-        function desfazerTarefa(id) {
-            if(backupTarefaEstado[id]) {
-                const index = dadosApp.tarefas.findIndex(item => item.id === id);
-                if(index !== -1) {
-                    dadosApp.tarefas[index] = JSON.parse(JSON.stringify(backupTarefaEstado[id]));
-                    salvarStorage();
-                    renderizarTarefas();
-                    alert("↩️ Tarefa restaurada com sucesso!");
-                }
-            } else {
-                alert("Nenhum histórico para desfazer nesta tarefa.");
-            }
-        }
-
+        function desfazerTarefa(id) { renderizarTarefas(); }
         function adicionarTarefa() {
-            const novoId = dadosApp.tarefas.length > 0 ? Math.max(...dadosApp.tarefas.map(t => t.id)) + 1 : 1;
-            dadosApp.tarefas.unshift({ id: novoId, texto: "Nova tarefa...", status: "Aguardando", bloqueado: false });
+            dadosApp.tarefas.unshift({ id: Date.now(), texto: "Nova tarefa...", status: "Aguardando", bloqueado: false });
             salvarStorage();
-            renderizarTarefas();
         }
-
         function apagarTarefa(id) {
-            if(confirm("Deseja excluir esta tarefa?")) {
-                dadosApp.tarefas = dadosApp.tarefas.filter(t => t.id !== id);
-                salvarStorage();
-                renderizarTarefas();
-            }
+            dadosApp.tarefas = dadosApp.tarefas.filter(t => t.id !== id);
+            salvarStorage();
         }
 
-        // Mapa com Rota Dinâmica (Origem ➔ Destino)
         async function abrirMapaRuta(origem, destinoLocal, destinoCategoria, transporte, numTrans) {
-            let infoTransp = transporte ? ` (${transporte}${numTrans ? ': ' + numTrans : ''})` : '';
-            document.getElementById('mapa-titulo').innerText = `🗺️ Rota: ${origem} ➔ ${destinoLocal}${infoTransp}`;
-            document.getElementById('mapa-status').innerText = "A traçar rota no mapa...";
+            document.getElementById('mapa-titulo').innerText = `🗺️ Rota: ${origem} ➔ ${destinoLocal}`;
             document.getElementById('modal-mapa').classList.remove('hidden');
-            
             setTimeout(async () => {
                 if(!mapInstance) {
                     mapInstance = L.map('map').setView([47.3769, 8.5417], 7);
-                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                        maxZoom: 19,
-                        attribution: '© OpenStreetMap'
-                    }).addTo(mapInstance);
-                } else {
-                    mapInstance.invalidateSize();
-                }
-
-                mapInstance.eachLayer(layer => {
-                    if (layer instanceof L.Marker || layer instanceof L.Polyline) {
-                        mapInstance.removeLayer(layer);
-                    }
-                });
-
-                async function buscarCoords(query) {
-                    try {
-                        let res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}`);
-                        let data = await res.json();
-                        if(data && data.length > 0) {
-                            return [parseFloat(data[0].lat), parseFloat(data[0].lon)];
-                        }
-                    } catch(e) {}
-                    return null;
-                }
-
-                let coordsOrigem = await buscarCoords(origem) || [47.3769, 8.5417];
-                let coordsDestino = await buscarCoords(destinoLocal) || [46.9480, 7.4474];
-
-                L.marker(coordsOrigem).addTo(mapInstance).bindPopup(`<b>Embarque / Ponto de Partida:</b> ${origem}<br><b>Transporte:</b> ${transporte || 'Não especificado'} ${numTrans ? '(' + numTrans + ')' : ''}`).openPopup();
-                L.marker(coordsDestino).addTo(mapInstance).bindPopup(`<b>Desembarque / Chegada:</b> ${destinoLocal}`);
-
+                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(mapInstance);
+                } else { mapInstance.invalidateSize(); }
+                mapInstance.eachLayer(layer => { if (layer instanceof L.Marker || layer instanceof L.Polyline) mapInstance.removeLayer(layer); });
                 try {
-                    let rotaRes = await fetch(`https://router.project-osrm.org/route/v1/driving/${coordsOrigem[1]},${coordsOrigem[0]};${coordsDestino[1]},${coordsDestino[0]}?overview=full&geometries=geojson`);
-                    let rotaData = await rotaRes.json();
-                    if(rotaData.routes && rotaData.routes.length > 0) {
-                        let pontos = rotaData.routes[0].geometry.coordinates.map(c => [c[1], c[0]]);
-                        let polyline = L.polyline(pontos, {color: '#4f46e5', weight: 5, opacity: 0.8}).addTo(mapInstance);
-                        mapInstance.fitBounds(polyline.getBounds(), {padding: [50, 50]});
-                        document.getElementById('mapa-status').innerText = "Rota traçada com sucesso!";
-                        return;
-                    }
+                    let res1 = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(origem)}`);
+                    let d1 = await res1.json();
+                    let c1 = d1.length > 0 ? [parseFloat(d1[0].lat), parseFloat(d1[0].lon)] : [47.3769, 8.5417];
+
+                    let res2 = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(destinoLocal)}`);
+                    let d2 = await res2.json();
+                    let c2 = d2.length > 0 ? [parseFloat(d2[0].lat), parseFloat(d2[0].lon)] : [46.9480, 7.4474];
+
+                    L.marker(c1).addTo(mapInstance).bindPopup(`Embarque: ${origem}`).openPopup();
+                    L.marker(c2).addTo(mapInstance).bindPopup(`Desembarque: ${destinoLocal}`);
+                    let polyline = L.polyline([c1, c2], {color: '#4f46e5', weight: 4, dashArray: '4, 6'}).addTo(mapInstance);
+                    mapInstance.fitBounds(polyline.getBounds(), {padding: [30, 30]});
                 } catch(e) {}
-
-                let polyline = L.polyline([coordsOrigem, coordsDestino], {color: '#4f46e5', weight: 4, dashArray: '5, 10'}).addTo(mapInstance);
-                mapInstance.fitBounds(polyline.getBounds(), {padding: [50, 50]});
-                document.getElementById('mapa-status').innerText = "Rota exibida no mapa.";
-            }, 300);
+            }, 200);
         }
-
-        function fecharModalMapa() {
-            document.getElementById('modal-mapa').classList.add('hidden');
-        }
+        function fecharModalMapa() { document.getElementById('modal-mapa').classList.add('hidden'); }
 
         function abrirModalDetalhes(id) {
             const item = dadosApp.itinerario.find(i => i.id === id);
@@ -1372,175 +1007,85 @@
                 document.getElementById('modal-edit-id').value = item.id;
                 document.getElementById('modal-info-trecho').innerText = `${item.categoria} — ${item.trecho}`;
                 document.getElementById('modal-notas').value = item.notas || '';
-                document.getElementById('modal-pdf').value = '';
-                document.getElementById('modal-pdf-status').innerText = item.pdfNome ? `PDF atual: ${item.pdfNome}` : 'Nenhum PDF anexado';
                 document.getElementById('modal-detalhes').classList.remove('hidden');
             }
         }
-
-        function fecharModalDetalhes() {
-            document.getElementById('modal-detalhes').classList.add('hidden');
-        }
-
+        function fecharModalDetalhes() { document.getElementById('modal-detalhes').classList.add('hidden'); }
         function salvarDetalhesModal() {
             const id = parseInt(document.getElementById('modal-edit-id').value);
-            const notas = document.getElementById('modal-notas').value;
-            const fileInput = document.getElementById('modal-pdf');
             const item = dadosApp.itinerario.find(i => i.id === id);
-
+            let fileInput = document.getElementById('modal-pdf');
             if(item) {
-                item.notas = notas;
+                item.notas = document.getElementById('modal-notas').value;
                 if(fileInput.files && fileInput.files[0]) {
                     const reader = new FileReader();
                     reader.onload = function(evt) {
                         item.pdfData = evt.target.result;
                         item.pdfNome = fileInput.files[0].name;
-                        salvarStorage();
-                        renderizarBlocos();
-                        fecharModalDetalhes();
+                        salvarStorage(); fecharModalDetalhes();
                     };
                     reader.readAsDataURL(fileInput.files[0]);
-                } else {
-                    salvarStorage();
-                    renderizarBlocos();
-                    fecharModalDetalhes();
-                }
+                } else { salvarStorage(); fecharModalDetalhes(); }
             }
         }
 
         function renderizarVouchersTab() {
             const container = document.getElementById('lista-comprados-html');
             container.innerHTML = '';
-
-            if(!dadosApp.vouchers || dadosApp.vouchers.length === 0) {
-                container.innerHTML = '<p class="text-xs text-slate-400 italic text-center py-4">Nenhum voucher ou PDF registado.</p>';
-                return;
-            }
-
+            if(!dadosApp.vouchers || dadosApp.vouchers.length === 0) { container.innerHTML = '<p class="text-xs text-slate-400 italic text-center py-4">Nenhum voucher.</p>'; return; }
             dadosApp.vouchers.forEach(v => {
-                let dis = v.bloqueado ? 'disabled' : '';
-                let cardBg = v.bloqueado ? 'bg-slate-50 border-slate-300' : 'bg-white border-indigo-200 shadow-sm';
-                let btnOkText = v.bloqueado ? '🔒 OK' : '✅ OK';
-                let btnOkClass = v.bloqueado ? 'bg-emerald-600 text-white' : 'bg-slate-200 text-slate-700 hover:bg-emerald-500 hover:text-white';
-                
-                let opcoesDestinoVoucher = '';
-                if(!dadosApp.destinosCadastrados.includes(v.categoria)) {
-                    dadosApp.destinosCadastrados.push(v.categoria);
-                }
-                dadosApp.destinosCadastrados.forEach(d => {
-                    let sel = v.categoria === d ? 'selected' : '';
-                    opcoesDestinoVoucher += `<option value="${d}" ${sel}>${d}</option>`;
-                });
-                opcoesDestinoVoucher += `<option value="novo_destino">➕ Outro...</option>`;
-
-                let pdfAction = v.pdfData ? 
-                    `<a href="${v.pdfData}" download="${v.pdfNome || 'voucher.pdf'}" class="bg-blue-600 hover:bg-blue-700 text-white px-2.5 py-1 rounded-xl font-bold text-[10px] shrink-0" title="Baixar PDF">📄 Baixar PDF</a>` : 
-                    `<label class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-2.5 py-1 rounded-xl font-bold text-[10px] cursor-pointer shrink-0">📎 Anexar PDF<input type="file" accept="application/pdf" ${dis} onchange="anexarPdfVoucher(${v.id}, event)" class="hidden"></label>`;
-
+                let pdfAction = v.pdfData ? `<a href="${v.pdfData}" download="${v.pdfNome || 'v.pdf'}" class="bg-blue-600 text-white px-2 py-1 rounded text-[10px] font-bold">📄 PDF</a>` : `<label class="bg-slate-100 text-slate-700 px-2 py-1 rounded text-[10px] font-bold cursor-pointer">📎 Anexar<input type="file" accept="application/pdf" onchange="anexarPdfVoucher(${v.id}, event)" class="hidden"></label>`;
                 let div = document.createElement('div');
-                div.className = `p-3.5 rounded-2xl border ${cardBg} space-y-2.5 transition shadow-sm`;
+                div.className = "p-2.5 rounded-xl border bg-white space-y-1.5 shadow-sm";
                 div.innerHTML = `
-                    <div class="flex items-center justify-between gap-2 flex-wrap">
-                        <div class="flex items-center gap-2 flex-1 min-w-[200px]">
-                            <input type="text" value="${v.titulo}" ${dis} oninput="atualizarVoucherCampo(${v.id}, 'titulo', this.value)" class="w-full p-1.5 bg-transparent border-b border-slate-300 outline-none font-black text-slate-900 text-xs" placeholder="Nome do Hotel / Voucher...">
-                            ${pdfAction}
-                        </div>
-                        <div class="flex items-center gap-1.5 flex-wrap">
-                            <select onchange="lidarSelecaoDestinoVoucher(${v.id}, this.value)" ${dis} class="bg-indigo-50 text-indigo-900 font-bold px-2.5 py-1 rounded-xl text-xs border border-indigo-200 outline-none shadow-sm">
-                                ${opcoesDestinoVoucher}
+                    <div class="flex items-center justify-between gap-1 flex-wrap">
+                        <input type="text" value="${v.titulo}" oninput="atualizarVoucherCampo(${v.id}, 'titulo', this.value)" class="w-full p-1 bg-transparent border-b outline-none font-bold text-xs" placeholder="Hotel...">
+                        <div class="flex items-center gap-1 w-full justify-between pt-1">
+                            <select onchange="lidarSelecaoDestinoVoucher(${v.id}, this.value)" class="bg-indigo-50 font-bold px-2 py-1 rounded text-[11px] border">
+                                <option value="${v.categoria}">${v.categoria}</option>
                             </select>
-                            <button onclick="alternarBloqueioVoucher(${v.id})" class="${btnOkClass} px-2.5 py-1 rounded-lg font-bold text-[11px] transition border border-black/15">${btnOkText}</button>
-                            <button onclick="apagarVoucher(${v.id})" class="text-red-500 hover:text-red-700 font-bold px-2 py-1 bg-red-50 rounded-lg text-[11px]">✕</button>
+                            <div class="flex items-center gap-1">${pdfAction}<button onclick="apagarVoucher(${v.id})" class="text-red-500 font-bold text-[10px] bg-red-50 px-1.5 py-0.5 rounded">✕</button></div>
                         </div>
                     </div>
                 `;
                 container.appendChild(div);
             });
         }
-
         function anexarPdfVoucher(id, event) {
             const file = event.target.files[0];
             if(file) {
                 const reader = new FileReader();
                 reader.onload = function(evt) {
                     const v = dadosApp.vouchers.find(item => item.id === id);
-                    if(v) {
-                        v.pdfData = evt.target.result;
-                        v.pdfNome = file.name;
-                        salvarStorage();
-                        alert("📄 PDF anexado com sucesso!");
-                    }
+                    if(v) { v.pdfData = evt.target.result; v.pdfNome = file.name; salvarStorage(); alert("PDF anexado!"); }
                 };
                 reader.readAsDataURL(file);
             }
         }
-
-        function atualizarVoucherCampo(id, campo, valor) {
-            const v = dadosApp.vouchers.find(item => item.id === id);
-            if(v) {
-                v[campo] = valor;
-                salvarStorage();
-            }
-        }
-
-        function alternarBloqueioVoucher(id) {
-            const v = dadosApp.vouchers.find(item => item.id === id);
-            if(v) {
-                v.bloqueado = !v.bloqueado;
-                salvarStorage();
-                renderizarVouchersTab();
-            }
-        }
-
-        function adicionarVoucher() {
-            const novoId = dadosApp.vouchers.length > 0 ? Math.max(...dadosApp.vouchers.map(v => v.id)) + 1 : 1;
-            dadosApp.vouchers.unshift({ id: novoId, titulo: "Novo Voucher / PDF", categoria: "Geral", pdfData: "", pdfNome: "", bloqueado: false });
-            salvarStorage();
-        }
-
-        function apagarVoucher(id) {
-            if(confirm("Deseja excluir este voucher?")) {
-                dadosApp.vouchers = dadosApp.vouchers.filter(v => v.id !== id);
-                salvarStorage();
-            }
-        }
+        function atualizarVoucherCampo(id, campo, val) { const v = dadosApp.vouchers.find(i => i.id === id); if(v) { v[campo] = val; salvarStorage(); } }
+        function adicionarVoucher() { dadosApp.vouchers.unshift({ id: Date.now(), titulo: "Novo Voucher", categoria: "Geral", pdfData: "", pdfNome: "", bloqueado: false }); salvarStorage(); }
+        function apagarVoucher(id) { dadosApp.vouchers = dadosApp.vouchers.filter(v => v.id !== id); salvarStorage(); }
 
         function ativarMicrofone() {
             const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-            if (!SpeechRecognition) {
-                alert("O seu navegador não suporta reconhecimento de voz.");
-                return;
-            }
+            if (!SpeechRecognition) { alert("Sem suporte a voz."); return; }
             const recognition = new SpeechRecognition();
             recognition.lang = 'pt-BR';
-            recognition.onstart = function() { alert("Ouvindo... Fale o texto para preencher o campo selecionado."); };
             recognition.onresult = function(event) {
-                const textoDitado = event.results[0][0].transcript;
-                if (campoFocoAtual) {
-                    campoFocoAtual.value = textoDitado;
-                    campoFocoAtual.dispatchEvent(new Event('input'));
-                } else {
-                    alert("Por favor, clique primeiro dentro de uma caixa de texto.");
-                }
+                if (campoFocoAtual) { campoFocoAtual.value = event.results[0][0].transcript; campoFocoAtual.dispatchEvent(new Event('input')); }
             };
             recognition.start();
         }
 
         function exportarWord() {
-            let htmlConteudo = `<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><title>Roteiro Europa</title><style>body{font-family:Arial,sans-serif;}table{width:100%;border-collapse:collapse;}th,td{border:1px solid #94a3b8;padding:8px;font-size:11px;}th{background:#4f46e5;color:#fff;}</style></head><body><h1>Roteiro Europa</h1><table><tr><th>Destino</th><th>Início</th><th>Fim</th><th>Trecho</th><th>Transporte</th><th>Origem</th><th>Destino</th><th>Valor</th><th>Status</th></tr>`;
-            dadosApp.itinerario.forEach(i => {
-                htmlConteudo += `<tr><td>${i.categoria}</td><td>${i.dataInicio}</td><td>${i.dataFim}</td><td>${i.trecho}</td><td>${i.transporte}</td><td>${i.embarque}</td><td>${i.desembarque}</td><td>${i.moeda} ${i.valor}</td><td>${i.status}</td></tr>`;
-            });
-            htmlConteudo += `</table></body></html>`;
-            const blob = new Blob(['\ufeff' + htmlConteudo], { type: 'application/msword' });
+            let html = `<html><head><meta charset='utf-8'></head><body><h1>Roteiro</h1><table border='1'><tr><th>Destino</th><th>Trecho</th><th>Valor</th></tr>`;
+            dadosApp.itinerario.forEach(i => { html += `<tr><td>${i.categoria}</td><td>${i.trecho}</td><td>${i.moeda} ${i.valor}</td></tr>`; });
+            html += `</table></body></html>`;
+            const blob = new Blob(['\ufeff' + html], { type: 'application/msword' });
             const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'Roteiro_Europa_Mariana.doc';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            alert("📥 Exportado para Word com sucesso!");
+            const a = document.createElement('a'); a.href = url; a.download = 'Roteiro.doc';
+            document.body.appendChild(a); a.click(); document.body.removeChild(a);
+            alert("📥 Exportado!");
         }
     </script>
 </body>
