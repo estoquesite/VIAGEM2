@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v55.0)</title>
+    <title>Roteiro Europa - Mariana (v56.0)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Leaflet CSS para Mapas -->
@@ -37,7 +37,7 @@
     <!-- CABEÇALHO NORMAL NO TOPO -->
     <header class="bg-slate-900 text-white px-4 py-3 shadow-md border-b border-slate-700 text-xs flex justify-between items-center z-50 relative">
         <span class="font-bold tracking-wide">🚄 Roteiro Europa - Mariana</span>
-        <span class="bg-indigo-600 px-2 py-0.5 rounded font-mono font-bold text-[10px]">v55.0</span>
+        <span class="bg-indigo-600 px-2 py-0.5 rounded font-mono font-bold text-[10px]">v56.0</span>
     </header>
 
     <!-- CONTEÚDO PRINCIPAL -->
@@ -116,13 +116,16 @@
 
     </div>
 
-    <!-- BARRA DE FERRAMENTAS FIXA NO FINAL DA TELA -->
+    <!-- BARRA DE FERRAMENTAS FIXA NO FINAL DA TELA COM GEMINI IA -->
     <nav class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900 text-white px-4 py-2.5 shadow-2xl border-t border-slate-700 text-xs flex flex-wrap items-center justify-between gap-2">
         <div class="flex items-center gap-2">
-            <span class="bg-indigo-600 px-2 py-0.5 rounded font-mono font-bold text-[10px]">v55.0</span>
+            <span class="bg-indigo-600 px-2 py-0.5 rounded font-mono font-bold text-[10px]">v56.0</span>
             <span class="font-bold">Barra de Ações</span>
         </div>
         <div class="flex items-center gap-1.5 flex-wrap">
+            <button onclick="abrirGeminiModal()" class="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white px-2.5 py-1.5 rounded-xl font-bold transition shadow-sm flex items-center gap-1">
+                <span>✨</span> Gemini IA
+            </button>
             <button onclick="ativarMicrofone()" class="bg-purple-600 hover:bg-purple-700 text-white px-2.5 py-1.5 rounded-xl font-bold transition shadow-sm flex items-center gap-1">
                 <span>🎤</span> Ditar
             </button>
@@ -140,6 +143,23 @@
             </button>
         </div>
     </nav>
+
+    <!-- MODAL DA GEMINI IA -->
+    <div id="modal-gemini" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-white p-5 rounded-3xl shadow-2xl max-w-md w-full space-y-3 text-xs flex flex-col h-[420px] border border-slate-300">
+            <div class="flex justify-between items-center border-b pb-2">
+                <h3 class="font-bold text-sm text-slate-900 flex items-center gap-1.5"><span>✨</span> Assistente Gemini IA</h3>
+                <button onclick="fecharGeminiModal()" class="text-slate-400 hover:text-slate-600 font-bold">✕</button>
+            </div>
+            <div id="gemini-chat-log" class="flex-1 overflow-y-auto space-y-2 p-2.5 bg-slate-50 rounded-2xl border text-xs">
+                <div class="bg-indigo-50 text-indigo-900 p-2.5 rounded-xl font-medium">Olá, Mariana! Sou a tua assistente Gemini IA integrada. Como posso ajudar com a tua viagem à Europa ou com o teu Super App hoje?</div>
+            </div>
+            <div class="flex gap-2 pt-1">
+                <input type="text" id="gemini-input" class="flex-1 p-2.5 bg-slate-100 border border-slate-300 rounded-xl outline-none text-slate-800 font-medium" placeholder="Digite a sua mensagem para a Gemini..." onkeypress="if(event.key==='Enter')enviarMensagemGemini()">
+                <button onclick="enviarMensagemGemini()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2.5 rounded-xl font-bold">Enviar</button>
+            </div>
+        </div>
+    </div>
 
     <!-- MODAL DE INSTALAÇÃO DO APP -->
     <div id="modal-instalacao" class="fixed inset-0 z-50 bg-slate-900/70 backdrop-blur-sm hidden flex items-center justify-center p-4">
@@ -218,7 +238,7 @@
     <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
-        const CHAVE_APP = "mariana_viagem_europa_v55";
+        const CHAVE_APP = "mariana_viagem_europa_v56";
         let destinoFiltro = 'todos';
         let tarefaFiltro = 'todas';
         let campoFocoAtual = null;
@@ -254,7 +274,7 @@
             const manifestBlob = new Blob([JSON.stringify(manifestObj)], {type: 'application/manifest+json'});
             document.getElementById('pwa-manifest').href = URL.createObjectURL(manifestBlob);
 
-            const temaSalvo = localStorage.getItem('tema_v55');
+            const temaSalvo = localStorage.getItem('tema_v56');
             if (temaSalvo === 'dark') {
                 document.body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 document.body.classList.remove('bg-slate-100', 'text-slate-800');
@@ -299,7 +319,7 @@
             }
             
             // Sessão Inteligente
-            if (!sessionStorage.getItem('sessao_ativa_v55')) {
+            if (!sessionStorage.getItem('sessao_ativa_v56')) {
                 document.getElementById('tela-bloqueio').classList.remove('hidden');
             } else {
                 document.getElementById('tela-bloqueio').classList.add('hidden');
@@ -321,7 +341,7 @@
                     deferredPrompt = null;
                 });
             } else {
-                document.getElementById('modal-instalacao').classList.add('hidden');
+                document.getElementById('modal-instalacao').classList.remove('hidden');
             }
         }
 
@@ -331,10 +351,10 @@
 
         // Funções de Segurança com a Senha 1510
         function desbloquearComPin() {
-            let pinSalvo = localStorage.getItem('app_pin_v55') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v56') || '1510';
             let digitado = document.getElementById('input-pin').value;
             if(digitado === pinSalvo) {
-                sessionStorage.setItem('sessao_ativa_v55', 'true');
+                sessionStorage.setItem('sessao_ativa_v56', 'true');
                 document.getElementById('tela-bloqueio').classList.add('hidden');
                 document.getElementById('erro-pin').classList.add('hidden');
             } else {
@@ -352,26 +372,26 @@
                     };
                     let credential = await navigator.credentials.get({ publicKey });
                     if(credential) {
-                        sessionStorage.setItem('sessao_ativa_v55', 'true');
+                        sessionStorage.setItem('sessao_ativa_v56', 'true');
                         document.getElementById('tela-bloqueio').classList.add('hidden');
                         return;
                     }
                 }
-                sessionStorage.setItem('sessao_ativa_v55', 'true');
+                sessionStorage.setItem('sessao_ativa_v56', 'true');
                 document.getElementById('tela-bloqueio').classList.add('hidden');
             } catch(e) {
-                sessionStorage.setItem('sessao_ativa_v55', 'true');
+                sessionStorage.setItem('sessao_ativa_v56', 'true');
                 document.getElementById('tela-bloqueio').classList.add('hidden');
             }
         }
 
         function alterarSenhaPin() {
             let atual = prompt("Digite a senha atual (Padrão: 1510):");
-            let pinSalvo = localStorage.getItem('app_pin_v55') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v56') || '1510';
             if(atual === pinSalvo) {
                 let nova = prompt("Digite a nova senha PIN:");
                 if(nova && nova.trim() !== '') {
-                    localStorage.setItem('app_pin_v55', nova.trim());
+                    localStorage.setItem('app_pin_v56', nova.trim());
                     alert("🔑 Senha alterada com sucesso!");
                 }
             } else {
@@ -384,12 +404,52 @@
             if(body.classList.contains('dark')) {
                 body.classList.remove('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.add('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v55', 'light');
+                localStorage.setItem('tema_v56', 'light');
             } else {
                 body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.remove('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v55', 'dark');
+                localStorage.setItem('tema_v56', 'dark');
             }
+        }
+
+        // Funções da Gemini IA Integrada
+        function abrirGeminiModal() {
+            document.getElementById('modal-gemini').classList.remove('hidden');
+        }
+
+        function fecharGeminiModal() {
+            document.getElementById('modal-gemini').classList.add('hidden');
+        }
+
+        function enviarMensagemGemini() {
+            let input = document.getElementById('gemini-input');
+            let log = document.getElementById('gemini-chat-log');
+            let texto = input.value.trim();
+            if(!texto) return;
+
+            log.innerHTML += `<div class="bg-slate-200 text-slate-800 p-2.5 rounded-xl text-right ml-8 font-medium"><b>Tu:</b> ${texto}</div>`;
+            input.value = '';
+            log.scrollTop = log.scrollHeight;
+
+            setTimeout(() => {
+                let resposta = "Estou aqui a ajudar-te com o teu roteiro para Zurique, Freiburg, França e Interlaken, Mariana! Podes gerir os teus blocos, tarefas e vouchers PDF com total segurança (senha 1510).";
+                let txtLower = texto.toLowerCase();
+                if(txtLower.includes('custo') || txtLower.includes('gasto') || txtLower.includes('quanto')) {
+                    let chf = 0, eur = 0;
+                    dadosApp.itinerario.forEach(i => {
+                        let v = parseFloat(i.valor) || 0;
+                        if(i.moeda === 'CHF') chf += v;
+                        if(i.moeda === 'EUR') eur += v;
+                    });
+                    resposta = `Atualmente os gastos totais registados no teu itinerário são de CHF ${chf.toFixed(0)} e €${eur.toFixed(0)}.`;
+                } else if(txtLower.includes('tarefa')) {
+                    let total = dadosApp.tarefas.length;
+                    let conc = dadosApp.tarefas.filter(t=>t.status==='Concluído').length;
+                    resposta = `Tens ${conc} de ${total} tarefas concluídas. Podes consultar a aba Tarefas!`;
+                }
+                log.innerHTML += `<div class="bg-indigo-50 text-indigo-900 p-2.5 rounded-xl mr-8 font-medium"><b>Gemini:</b> ${resposta}</div>`;
+                log.scrollTop = log.scrollHeight;
+            }, 500);
         }
 
         let dadosApp = {
