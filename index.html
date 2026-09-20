@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v60.0)</title>
+    <title>Roteiro Europa - Mariana (v61.0)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Leaflet CSS para Mapas -->
@@ -37,7 +37,7 @@
     <!-- CABEÇALHO NORMAL NO TOPO -->
     <header class="bg-slate-900 text-white px-4 py-3 shadow-md border-b border-slate-700 text-xs flex justify-between items-center z-50 relative">
         <span class="font-bold tracking-wide">🚄 Roteiro Europa - Mariana</span>
-        <span class="bg-indigo-600 px-2 py-0.5 rounded font-mono font-bold text-[10px]">v60.0</span>
+        <span class="bg-indigo-600 px-2 py-0.5 rounded font-mono font-bold text-[10px]">v61.0</span>
     </header>
 
     <!-- CONTEÚDO PRINCIPAL -->
@@ -119,7 +119,7 @@
     <!-- BARRA DE FERRAMENTAS FIXA NO FINAL DA TELA COM GEMINI IA -->
     <nav class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900 text-white px-3 py-2.5 shadow-2xl border-t border-slate-700 text-xs flex flex-wrap items-center justify-between gap-1.5">
         <div class="flex items-center gap-1.5">
-            <span class="bg-indigo-600 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v60.0</span>
+            <span class="bg-indigo-600 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v61.0</span>
             <span class="font-bold">Ações</span>
         </div>
         <div class="flex items-center gap-1 flex-wrap">
@@ -238,7 +238,7 @@
     <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
-        const CHAVE_APP = "mariana_viagem_europa_v60";
+        const CHAVE_APP = "mariana_viagem_europa_v61";
         let destinoFiltro = 'todos';
         let tarefaFiltro = 'todas';
         let campoFocoAtual = null;
@@ -274,7 +274,7 @@
             const manifestBlob = new Blob([JSON.stringify(manifestObj)], {type: 'application/manifest+json'});
             document.getElementById('pwa-manifest').href = URL.createObjectURL(manifestBlob);
 
-            const temaSalvo = localStorage.getItem('tema_v60');
+            const temaSalvo = localStorage.getItem('tema_v61');
             if (temaSalvo === 'dark') {
                 document.body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 document.body.classList.remove('bg-slate-100', 'text-slate-800');
@@ -319,7 +319,7 @@
             }
             
             // Sessão Inteligente
-            if (!sessionStorage.getItem('sessao_ativa_v60')) {
+            if (!sessionStorage.getItem('sessao_ativa_v61')) {
                 document.getElementById('tela-bloqueio').classList.remove('hidden');
             } else {
                 document.getElementById('tela-bloqueio').classList.add('hidden');
@@ -350,10 +350,10 @@
 
         // Funções de Segurança com a Senha 1510
         function desbloquearComPin() {
-            let pinSalvo = localStorage.getItem('app_pin_v60') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v61') || '1510';
             let digitado = document.getElementById('input-pin').value;
             if(digitado === pinSalvo) {
-                sessionStorage.setItem('sessao_ativa_v60', 'true');
+                sessionStorage.setItem('sessao_ativa_v61', 'true');
                 document.getElementById('tela-bloqueio').classList.add('hidden');
                 document.getElementById('erro-pin').classList.add('hidden');
             } else {
@@ -371,26 +371,26 @@
                     };
                     let credential = await navigator.credentials.get({ publicKey });
                     if(credential) {
-                        sessionStorage.setItem('sessao_ativa_v60', 'true');
+                        sessionStorage.setItem('sessao_ativa_v61', 'true');
                         document.getElementById('tela-bloqueio').classList.add('hidden');
                         return;
                     }
                 }
-                sessionStorage.setItem('sessao_ativa_v60', 'true');
+                sessionStorage.setItem('sessao_ativa_v61', 'true');
                 document.getElementById('tela-bloqueio').classList.add('hidden');
             } catch(e) {
-                sessionStorage.setItem('sessao_ativa_v60', 'true');
+                sessionStorage.setItem('sessao_ativa_v61', 'true');
                 document.getElementById('tela-bloqueio').classList.add('hidden');
             }
         }
 
         function alterarSenhaPin() {
             let atual = prompt("Digite a senha atual (Padrão: 1510):");
-            let pinSalvo = localStorage.getItem('app_pin_v60') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v61') || '1510';
             if(atual === pinSalvo) {
                 let nova = prompt("Digite a nova senha PIN:");
                 if(nova && nova.trim() !== '') {
-                    localStorage.setItem('app_pin_v60', nova.trim());
+                    localStorage.setItem('app_pin_v61', nova.trim());
                     alert("🔑 Senha alterada com sucesso!");
                 }
             } else {
@@ -403,11 +403,11 @@
             if(body.classList.contains('dark')) {
                 body.classList.remove('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.add('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v60', 'light');
+                localStorage.setItem('tema_v61', 'light');
             } else {
                 body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.remove('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v60', 'dark');
+                localStorage.setItem('tema_v61', 'dark');
             }
         }
 
@@ -507,7 +507,7 @@
             }
         }
 
-        // Funções para manipular caixinhas internas personalizadas
+        // Funções para manipular caixinhas internas personalizadas com grip handle
         function adicionarSubBloco(itemId) {
             let item = dadosApp.itinerario.find(i => i.id === itemId);
             if(item) {
@@ -857,17 +857,20 @@
                 });
                 opcoesLocaisDesembarque += `<option value="outro_local">➕ Outro (Cadastrar novo local)...</option>`;
 
-                // Renderizar caixinhas personalizadas internas (subBlocos)
+                // Renderizar caixinhas personalizadas internas com Grip Handle (⠿)
                 let subBlocosHtml = '';
                 if(item.subBlocos && item.subBlocos.length > 0) {
                     item.subBlocos.forEach(sb => {
                         subBlocosHtml += `
-                            <div class="bg-white/80 p-2.5 rounded-2xl border border-black/15 space-y-1.5 shadow-sm">
+                            <div class="bg-white/90 p-2.5 rounded-2xl border border-black/15 space-y-1.5 shadow-sm">
                                 <div class="flex items-center justify-between gap-1">
-                                    <input type="text" value="${sb.titulo}" oninput="atualizarSubBlocoTitulo(${item.id}, ${sb.id}, this.value)" class="bg-transparent font-black text-indigo-900 text-xs outline-none w-full border-b border-indigo-200 pb-0.5" placeholder="Título da Caixinha...">
+                                    <div class="flex items-center gap-1.5 flex-1">
+                                        <span class="text-slate-400 font-bold text-sm cursor-grab" title="Puxe para mover">⠿</span>
+                                        <input type="text" value="${sb.titulo}" oninput="atualizarSubBlocoTitulo(${item.id}, ${sb.id}, this.value)" class="bg-transparent font-black text-indigo-900 text-xs outline-none w-full border-b border-indigo-200 pb-0.5" placeholder="Título da Caixinha...">
+                                    </div>
                                     <div class="flex items-center gap-1 shrink-0">
-                                        <button onclick="moverSubBloco(${item.id}, ${sb.id}, -1)" class="bg-slate-200 px-1.5 py-0.5 rounded text-[10px] font-bold" title="Mover para cima">⬆️</button>
-                                        <button onclick="moverSubBloco(${item.id}, ${sb.id}, 1)" class="bg-slate-200 px-1.5 py-0.5 rounded text-[10px] font-bold" title="Mover para baixo">⬇️</button>
+                                        <button onclick="moverSubBloco(${item.id}, ${sb.id}, -1)" class="bg-slate-200 hover:bg-slate-300 px-1.5 py-0.5 rounded text-[10px] font-bold" title="Mover para cima">⬆️</button>
+                                        <button onclick="moverSubBloco(${item.id}, ${sb.id}, 1)" class="bg-slate-200 hover:bg-slate-300 px-1.5 py-0.5 rounded text-[10px] font-bold" title="Mover para baixo">⬇️</button>
                                         <button onclick="removerSubBloco(${item.id}, ${sb.id})" class="text-red-500 font-bold px-1.5 py-0.5 rounded bg-red-50 text-[10px]" title="Excluir">✕</button>
                                     </div>
                                 </div>
@@ -972,8 +975,8 @@
 
                             <button onclick="abrirMapaRuta('${item.embarque}', '${item.desembarque}', '${item.categoria}', '${item.transporte || ''}', '${item.numeroTransporte || ''}')" class="bg-sky-100 text-sky-800 hover:bg-sky-200 px-2 py-1 rounded-lg font-bold text-xs" title="Ver Rota no Mapa">🗺️ Mapa</button>
                             <button onclick="abrirModalDetalhes(${item.id})" class="bg-white hover:bg-slate-100 border border-black/15 px-2 py-1 rounded-lg font-bold text-xs" title="Editar notas e PDF">✏️</button>
-                            <button onclick="alternarBloqueio(${item.id})" class="${btnOkClass} px-2.5 py-1 rounded-lg font-bold text-xs transition border border-black/15" title="Bloquear/Desbloquear">${btnOkText}</button>
-                            <button onclick="apagarBloco(${item.id})" class="bg-red-50 text-red-500 hover:bg-red-100 px-2 py-1 rounded-lg font-bold text-xs" title="Excluir">✕</button>
+                            <button onclick="alternarBloqueio(${item.id})" class="${btnOkClass} px-2.5 py-1 rounded-lg font-bold text-[11px] transition border border-black/15" title="Bloquear/Desbloquear">${btnOkText}</button>
+                            <button onclick="apagarBloco(${item.id})" class="bg-red-50 text-red-500 hover:bg-red-100 px-2.5 py-1 rounded-lg font-bold text-xs" title="Excluir">✕</button>
                         </div>
                     </div>
                 `;
