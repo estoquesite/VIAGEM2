@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v76.0)</title>
+    <title>Roteiro Europa - Mariana (v77.0)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Manifest Dinâmico via JavaScript -->
@@ -35,23 +35,23 @@
     <!-- CABEÇALHO COMPACTO NO TOPO -->
     <header class="bg-slate-900 text-white px-3 py-2 shadow-md border-b border-slate-800 text-xs flex justify-between items-center z-50 relative">
         <span class="font-bold tracking-wide">🚄 Roteiro Europa - Mariana</span>
-        <span class="bg-indigo-600 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v76.0</span>
+        <span class="bg-indigo-600 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v77.0</span>
     </header>
 
     <!-- CONTEÚDO PRINCIPAL COMPACTO -->
     <div class="max-w-4xl mx-auto p-2 sm:p-4 space-y-3 pt-3">
 
-        <!-- SEPARADORES (TABS) - 4 ABAS COMPACTAS -->
-        <div class="grid grid-cols-4 gap-1 bg-slate-200 p-1 rounded-xl text-[11px] font-bold shadow-sm">
-            <button onclick="mudarTab('itinerario')" id="tab-btn-itinerario" class="py-2 rounded-lg bg-indigo-600 text-white shadow-sm transition">📅 Itinerário</button>
+        <!-- SEPARADORES (TABS) - 5 ABAS COM MODO VIAGEM LIMPO -->
+        <div class="grid grid-cols-5 gap-1 bg-slate-200 p-1 rounded-xl text-[10px] font-bold shadow-sm">
+            <button onclick="mudarTab('itinerario')" id="tab-btn-itinerario" class="py-2 rounded-lg bg-indigo-600 text-white shadow-sm transition">📅 Editar</button>
+            <button onclick="mudarTab('leitura')" id="tab-btn-leitura" class="py-2 rounded-lg text-slate-600 hover:bg-white/50 transition">📋 Leitura & Feito</button>
             <button onclick="mudarTab('tarefas')" id="tab-btn-tarefas" class="py-2 rounded-lg text-slate-600 hover:bg-white/50 transition">✅ Tarefas</button>
             <button onclick="mudarTab('comprados')" id="tab-btn-comprados" class="py-2 rounded-lg text-slate-600 hover:bg-white/50 transition">🎟️ Vouchers</button>
             <button onclick="mudarTab('mapa-geral')" id="tab-btn-mapa-geral" class="py-2 rounded-lg text-slate-600 hover:bg-white/50 transition">🗺️ Mapa</button>
         </div>
 
-        <!-- TAB 1: ITINERÁRIO EM BLOCOS COMPACTOS -->
+        <!-- TAB 1: ITINERÁRIO EM BLOCOS EDITÁVEIS -->
         <div id="tab-itinerario" class="space-y-3">
-            <!-- FILTROS DE DESTINO NO TOPO -->
             <div id="filtros-container" class="bg-slate-200 p-1.5 rounded-xl overflow-x-auto flex gap-1 text-[11px] items-center no-scrollbar shadow-inner">
                 <!-- Renderizado via JS -->
             </div>
@@ -65,7 +65,19 @@
             <div id="lista-blocos" class="space-y-3"></div>
         </div>
 
-        <!-- TAB 2: TAREFAS -->
+        <!-- TAB 2: MODO LEITURA LIMPA COM CHECKBOX -->
+        <div id="tab-leitura" class="space-y-3 hidden">
+            <div class="bg-gradient-to-r from-indigo-900 to-slate-900 text-white p-3 rounded-2xl shadow-md flex justify-between items-center">
+                <div>
+                    <h2 class="text-xs font-black uppercase tracking-wider text-indigo-200">✈️ Modo Viagem (Roteiro Limpo)</h2>
+                    <p class="text-[10px] text-slate-300">Marque "OK, feito" à medida que cumpre o seu itinerário na estrada.</p>
+                </div>
+                <div id="progresso-viagem" class="bg-indigo-600 px-3 py-1.5 rounded-xl text-xs font-black shadow-inner">0 / 0 Feito</div>
+            </div>
+            <div id="lista-leitura-html" class="space-y-3"></div>
+        </div>
+
+        <!-- TAB 3: TAREFAS -->
         <div id="tab-tarefas" class="space-y-3 hidden">
             <div class="bg-indigo-900 text-white p-3 rounded-2xl shadow-md space-y-2">
                 <div class="flex justify-between items-center flex-wrap gap-2">
@@ -82,7 +94,7 @@
             <div id="lista-tarefas-html" class="space-y-2 text-xs"></div>
         </div>
 
-        <!-- TAB 3: VOUCHERS & PDFS -->
+        <!-- TAB 4: VOUCHERS & PDFS -->
         <div id="tab-comprados" class="space-y-3 hidden">
             <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-300 space-y-3">
                 <div class="flex justify-between items-center border-b pb-2 flex-wrap gap-2">
@@ -96,7 +108,7 @@
             </div>
         </div>
 
-        <!-- TAB 4: GOOGLE MAPS INTERATIVO -->
+        <!-- TAB 5: GOOGLE MAPS INTERATIVO -->
         <div id="tab-mapa-geral" class="space-y-3 hidden">
             <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-300 space-y-3">
                 <div class="flex justify-between items-center border-b pb-2 flex-wrap gap-2">
@@ -117,7 +129,7 @@
 
     <!-- BARRA DE FERRAMENTAS FIXA NO FINAL DA TELA COM GEMINI IA -->
     <nav class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-md text-white px-2 py-2 shadow-2xl border-t border-slate-800 text-xs flex items-center gap-1 overflow-x-auto no-scrollbar">
-        <span class="bg-indigo-600 px-1 py-0.5 rounded font-mono font-bold text-[8px] shrink-0">v76.0</span>
+        <span class="bg-indigo-600 px-1 py-0.5 rounded font-mono font-bold text-[8px] shrink-0">v77.0</span>
         <button onclick="abrirGeminiModal()" class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-2 py-1 rounded-lg font-bold transition shrink-0 flex items-center gap-1 text-[10px]">
             <span>✨</span> Gemini
         </button>
@@ -214,7 +226,7 @@
     </div>
 
     <script>
-        const CHAVE_APP = "mariana_viagem_europa_v76";
+        const CHAVE_APP = "mariana_viagem_europa_v77";
         let destinoFiltro = 'todos';
         let tarefaFiltro = 'todas';
         let campoFocoAtual = null;
@@ -250,10 +262,10 @@
             pontosExtrasMapa: [],
             statusPersonalizados: { "Concluído": "#22c55e", "Aguardando": "#f59e0b" },
             itinerario: [
-                { id: 1, categoria: "Zurique", dataInicio: "2026-12-30", dataFim: "2027-01-02", trecho: "Estadia no ibis budget Zurich City West", transporte: "Caminhada", numeroTransporte: "", embarque: "Zurich HB", desembarque: "ibis budget Zurich City West", moeda: "CHF", valor: "0", status: "Comprado", notas: "", textoLivre: "Check-in às 15h00.", pdfData: "", pdfNome: "", bloqueado: false, cor: "#3b82f6", ordemSecoes: ['origemDestino', 'transporte', 'notas', 'extras'], subBlocos: [] },
-                { id: 2, categoria: "Freiburg", dataInicio: "2027-01-02", dataFim: "2027-01-05", trecho: "Zurique ➔ Freiburg", transporte: "Ônibus", numeroTransporte: "Linha 72", embarque: "Zurich Bus Station", desembarque: "Premier Inn", moeda: "EUR", valor: "25", status: "Aguardando", notas: "", textoLivre: "Viagem confortável.", pdfData: "", pdfNome: "", bloqueado: false, cor: "#f59e0b", ordemSecoes: ['origemDestino', 'transporte', 'notas', 'extras'], subBlocos: [] },
-                { id: 3, categoria: "França", dataInicio: "2027-01-05", dataFim: "2027-01-07", trecho: "Freiburg ➔ Disney", transporte: "Trem", numeroTransporte: "TGV 9572", embarque: "Freiburg Hbf", desembarque: "Disney Hotel", moeda: "EUR", valor: "220", status: "Aguardando", notas: "", textoLivre: "Parque Disney.", pdfData: "", pdfNome: "", bloqueado: false, cor: "#ec4899", ordemSecoes: ['origemDestino', 'transporte', 'notas', 'extras'], subBlocos: [] },
-                { id: 4, categoria: "Interlaken", dataInicio: "2027-01-08", dataFim: "2027-01-12", trecho: "Paris ➔ Interlaken", transporte: "Trem", numeroTransporte: "Lyria", embarque: "Gare de Lyon", desembarque: "Hotel Weisses", moeda: "CHF", valor: "110", status: "Aguardando", notas: "", textoLivre: "Alpes suíços.", pdfData: "", pdfNome: "", bloqueado: false, cor: "#10b981", ordemSecoes: ['origemDestino', 'transporte', 'notas', 'extras'], subBlocos: [] }
+                { id: 1, categoria: "Zurique", dataInicio: "2026-12-30", dataFim: "2027-01-02", trecho: "Estadia no ibis budget Zurich City West", transporte: "Caminhada", numeroTransporte: "", embarque: "Zurich HB", desembarque: "ibis budget Zurich City West", moeda: "CHF", valor: "0", status: "Comprado", notas: "", textoLivre: "Check-in às 15h00.", pdfData: "", pdfNome: "", bloqueado: false, cor: "#3b82f6", ordemSecoes: ['origemDestino', 'transporte', 'notas', 'extras'], subBlocos: [], concluido: false },
+                { id: 2, categoria: "Freiburg", dataInicio: "2027-01-02", dataFim: "2027-01-05", trecho: "Zurique ➔ Freiburg", transporte: "Ônibus", numeroTransporte: "Linha 72", embarque: "Zurich Bus Station", desembarque: "Premier Inn", moeda: "EUR", valor: "25", status: "Aguardando", notas: "", textoLivre: "Viagem confortável.", pdfData: "", pdfNome: "", bloqueado: false, cor: "#f59e0b", ordemSecoes: ['origemDestino', 'transporte', 'notas', 'extras'], subBlocos: [], concluido: false },
+                { id: 3, categoria: "França", dataInicio: "2027-01-05", dataFim: "2027-01-07", trecho: "Freiburg ➔ Disney", transporte: "Trem", numeroTransporte: "TGV 9572", embarque: "Freiburg Hbf", desembarque: "Disney Hotel", moeda: "EUR", valor: "220", status: "Aguardando", notas: "", textoLivre: "Parque Disney.", pdfData: "", pdfNome: "", bloqueado: false, cor: "#ec4899", ordemSecoes: ['origemDestino', 'transporte', 'notas', 'extras'], subBlocos: [], concluido: false },
+                { id: 4, categoria: "Interlaken", dataInicio: "2027-01-08", dataFim: "2027-01-12", trecho: "Paris ➔ Interlaken", transporte: "Trem", numeroTransporte: "Lyria", embarque: "Gare de Lyon", desembarque: "Hotel Weisses", moeda: "CHF", valor: "110", status: "Aguardando", notas: "", textoLivre: "Alpes suíços.", pdfData: "", pdfNome: "", bloqueado: false, cor: "#10b981", ordemSecoes: ['origemDestino', 'transporte', 'notas', 'extras'], subBlocos: [], concluido: false }
             ],
             tarefas: [
                 { id: 1, texto: "Comprar cartões Wise e Nomad", status: "Concluído", bloqueado: false },
@@ -280,15 +292,15 @@
             const manifestBlob = new Blob([JSON.stringify(manifestObj)], {type: 'application/manifest+json'});
             document.getElementById('pwa-manifest').href = URL.createObjectURL(manifestBlob);
 
-            const temaSalvo = localStorage.getItem('tema_v76');
+            const temaSalvo = localStorage.getItem('tema_v77');
             if (temaSalvo === 'dark') {
                 document.body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 document.body.classList.remove('bg-slate-100', 'text-slate-800');
             }
 
-            // Sistema de Auto-Migração de Versões Anteriores (Recupera dados antigos se existirem)
+            // Auto-Migração inteligente de versões anteriores
             let dadosEncontrados = null;
-            ['mariana_viagem_europa_v75', 'mariana_viagem_europa_v74', 'mariana_viagem_europa_v73', 'mariana_viagem_europa_v72', CHAVE_APP].forEach(k => {
+            ['mariana_viagem_europa_v76', 'mariana_viagem_europa_v75', 'mariana_viagem_europa_v74', CHAVE_APP].forEach(k => {
                 let d = localStorage.getItem(k);
                 if(d) {
                     try {
@@ -326,10 +338,10 @@
         }
 
         function desbloquearComPin() {
-            let pinSalvo = localStorage.getItem('app_pin_v76') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v77') || '1510';
             let digitado = document.getElementById('input-pin').value;
             if(digitado === pinSalvo) {
-                sessionStorage.setItem('sessao_ativa_v76', 'true');
+                sessionStorage.setItem('sessao_ativa_v77', 'true');
                 document.getElementById('tela-bloqueio').classList.add('hidden');
                 document.getElementById('erro-pin').classList.add('hidden');
             } else {
@@ -338,17 +350,17 @@
         }
 
         async function desbloquearComBiometria() {
-            sessionStorage.setItem('sessao_ativa_v76', 'true');
+            sessionStorage.setItem('sessao_ativa_v77', 'true');
             document.getElementById('tela-bloqueio').classList.add('hidden');
         }
 
         function alterarSenhaPin() {
             let atual = prompt("Digite a senha atual (Padrão: 1510):");
-            let pinSalvo = localStorage.getItem('app_pin_v76') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v77') || '1510';
             if(atual === pinSalvo) {
                 let nova = prompt("Digite a nova senha PIN:");
                 if(nova && nova.trim() !== '') {
-                    localStorage.setItem('app_pin_v76', nova.trim());
+                    localStorage.setItem('app_pin_v77', nova.trim());
                     alert("🔑 Senha alterada com sucesso!");
                 }
             } else {
@@ -361,11 +373,11 @@
             if(body.classList.contains('dark')) {
                 body.classList.remove('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.add('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v76', 'light');
+                localStorage.setItem('tema_v77', 'light');
             } else {
                 body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.remove('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v76', 'dark');
+                localStorage.setItem('tema_v77', 'dark');
             }
         }
 
@@ -503,6 +515,15 @@
             }
         }
 
+        function alternarConcluidoLeitura(id) {
+            let item = dadosApp.itinerario.find(i => i.id === id);
+            if(item) {
+                item.concluido = !item.concluido;
+                salvarStorage();
+                renderizarModoLeitura();
+            }
+        }
+
         function dragSub(e, itemId, subId) { draggedParentId = itemId; draggedSubId = subId; }
         function allowDropSub(e) { e.preventDefault(); }
         function dropSub(e, itemId, targetSubId) {
@@ -526,6 +547,7 @@
             renderizarBlocos();
             renderizarTarefas();
             renderizarVouchersTab();
+            renderizarModoLeitura();
             calcularGastos();
         }
 
@@ -540,7 +562,7 @@
         }
 
         function mudarTab(tab) {
-            ['itinerario', 'tarefas', 'comprados', 'mapa-geral'].forEach(t => {
+            ['itinerario', 'leitura', 'tarefas', 'comprados', 'mapa-geral'].forEach(t => {
                 document.getElementById('tab-' + t).classList.add('hidden');
                 let btn = document.getElementById('tab-btn-' + t);
                 if(btn) btn.className = "py-2 rounded-lg text-slate-600 hover:bg-white/50 transition";
@@ -548,6 +570,7 @@
             document.getElementById('tab-' + tab).classList.remove('hidden');
             let activeBtn = document.getElementById('tab-btn-' + tab);
             if(activeBtn) activeBtn.className = "py-2 rounded-lg bg-indigo-600 text-white shadow-sm transition";
+            if(tab === 'leitura') { renderizarModoLeitura(); }
         }
 
         function obterCorBlocoHex(item) {
@@ -678,6 +701,67 @@
                 const t = dadosApp.tarefas.find(item => item.id === id);
                 if(t) { t.status = valor; salvarStorage(); renderizarTarefas(); }
             }
+        }
+
+        function renderizarModoLeitura() {
+            const container = document.getElementById('lista-leitura-html');
+            const progressoEl = document.getElementById('progresso-viagem');
+            if(!container) return;
+            container.innerHTML = '';
+
+            let total = dadosApp.itinerario.length;
+            let concluidos = dadosApp.itinerario.filter(i => i.concluido).length;
+            if(progressoEl) progressoEl.innerText = `${concluidos} / ${total} Feito`;
+
+            if(total === 0) {
+                container.innerHTML = '<div class="bg-white p-4 rounded-2xl text-center text-xs text-slate-400 border">Nenhum itinerário criado.</div>';
+                return;
+            }
+
+            dadosApp.itinerario.forEach(item => {
+                let corHex = obterCorBlocoHex(item);
+                let isChecked = item.concluido ? 'checked' : '';
+                let bgStyle = item.concluido ? 'bg-emerald-50 border-emerald-300 opacity-80' : 'bg-white border-slate-200';
+                let textDecor = item.concluido ? 'line-through text-slate-400' : 'text-slate-800 font-semibold';
+
+                let extrasText = '';
+                if(item.subBlocos && item.subBlocos.length > 0) {
+                    item.subBlocos.forEach(sb => {
+                        extrasText += `<div class="mt-1 text-[11px] text-slate-600"><b>• ${sb.titulo}:</b> ${sb.conteudo || ''}</div>`;
+                    });
+                }
+
+                let card = document.createElement('div');
+                card.className = `p-4 rounded-2xl border shadow-sm space-y-2 transition ${bgStyle}`;
+                card.style.borderLeft = `6px solid ${corHex}`;
+
+                card.innerHTML = `
+                    <div class="flex justify-between items-center gap-2">
+                        <div class="flex items-center gap-2">
+                            <span class="bg-indigo-100 text-indigo-800 font-black px-2.5 py-0.5 rounded-lg text-xs">${item.categoria}</span>
+                            <span class="text-slate-500 font-bold text-[11px]">📅 ${item.dataInicio || '?'} ➔ ${item.dataFim || '?'}</span>
+                        </div>
+                        <label class="flex items-center gap-1.5 cursor-pointer bg-slate-100 hover:bg-slate-200 px-3 py-1 rounded-xl text-xs font-bold transition">
+                            <input type="checkbox" ${isChecked} onchange="alternarConcluidoLeitura(${item.id})" class="w-4 h-4 accent-emerald-600 rounded cursor-pointer">
+                            <span>OK, feito</span>
+                        </label>
+                    </div>
+
+                    <div class="space-y-1 text-xs pt-1">
+                        <div class="${textDecor}"><b>📍 Origem:</b> ${item.embarque || 'Não definida'}</div>
+                        <div class="${textDecor}"><b>🏁 Destino:</b> ${item.desembarque || 'Não definido'}</div>
+                        <div class="${textDecor}"><b>🚄 Rota:</b> ${item.trecho || ''} (${item.transporte || ''} ${item.numeroTransporte ? '- ' + item.numeroTransporte : ''})</div>
+                        ${item.textoLivre ? `<div class="bg-slate-50 p-2 rounded-xl text-[11px] text-slate-700 mt-1">📝 ${item.textoLivre}</div>` : ''}
+                        ${extrasText}
+                    </div>
+
+                    <div class="flex justify-between items-center pt-2 border-t text-[11px] text-slate-500 font-bold">
+                        <span>💰 ${item.moeda || 'CHF'} ${item.valor || '0'}</span>
+                        <button onclick="abrirMapaRuta('${item.embarque}', '${item.desembarque}', '${item.categoria}', '${item.transporte || ''}', '${item.numeroTransporte || ''}')" class="bg-sky-100 text-sky-800 hover:bg-sky-200 px-2.5 py-1 rounded-xl font-bold">🗺️ Ver Rota no Google Maps</button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
         }
 
         function renderizarBlocos() {
@@ -962,7 +1046,7 @@
         }
         function adicionarBloco() {
             let novoItem = {
-                id: Date.now(), categoria: "Zurique", dataInicio: "", dataFim: "", trecho: "Novo Trecho", transporte: "Trem", numeroTransporte: "", embarque: "Zurich HB", desembarque: "Hotel", moeda: "CHF", valor: "0", status: "Aguardando", notas: "", textoLivre: "", pdfData: "", pdfNome: "", bloqueado: false, cor: "#3b82f6", ordemSecoes: ['origemDestino', 'transporte', 'notas', 'extras'], subBlocos: []
+                id: Date.now(), categoria: "Zurique", dataInicio: "", dataFim: "", trecho: "Novo Trecho", transporte: "Trem", numeroTransporte: "", embarque: "Zurich HB", desembarque: "Hotel", moeda: "CHF", valor: "0", status: "Aguardando", notas: "", textoLivre: "", pdfData: "", pdfNome: "", bloqueado: false, cor: "#3b82f6", ordemSecoes: ['origemDestino', 'transporte', 'notas', 'extras'], subBlocos: [], concluido: false
             };
             dadosApp.itinerario.unshift(novoItem);
             salvarStorage();
