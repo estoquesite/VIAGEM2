@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v71.0)</title>
+    <title>Roteiro Europa - Mariana (v72.0)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Leaflet CSS para Mapas -->
@@ -37,7 +37,7 @@
     <!-- CABEÇALHO COMPACTO NO TOPO -->
     <header class="bg-slate-900 text-white px-3 py-2 shadow-md border-b border-slate-800 text-xs flex justify-between items-center z-50 relative">
         <span class="font-bold tracking-wide">🚄 Roteiro Europa - Mariana</span>
-        <span class="bg-indigo-600 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v71.0</span>
+        <span class="bg-indigo-600 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v72.0</span>
     </header>
 
     <!-- CONTEÚDO PRINCIPAL COMPACTO -->
@@ -98,18 +98,24 @@
             </div>
         </div>
 
-        <!-- TAB 4: MAPA GERAL COM PONTOS COLORIDOS -->
+        <!-- TAB 4: MAPA GERAL COM PONTOS COLORIDOS E CARDS DE CONTROLO -->
         <div id="tab-mapa-geral" class="space-y-3 hidden">
             <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-300 space-y-3">
                 <div class="flex justify-between items-center border-b pb-2 flex-wrap gap-2">
                     <div>
-                        <h2 class="text-[11px] font-extrabold uppercase text-slate-800 tracking-wider">🗺️ Mapa Geral & Pontos Coloridos</h2>
-                        <p class="text-[10px] text-slate-500 font-semibold">Visualização com as cores dos destinos e rotas pontilhadas</p>
+                        <h2 class="text-[11px] font-extrabold uppercase text-slate-800 tracking-wider">🗺️ Mapa Geral & Gestão de Pontos</h2>
+                        <p class="text-[10px] text-slate-500 font-semibold">Visualização com as cores dos destinos e cartões de controlo</p>
                     </div>
                     <button onclick="adicionarPontoMapaGeral()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2.5 py-1.5 rounded-lg font-bold text-[11px] transition shadow-sm">➕ Adicionar Ponto</button>
                 </div>
-                <div id="mapa-geral-view" class="w-full h-[380px] rounded-xl z-10 border border-slate-300"></div>
+                <div id="mapa-geral-view" class="w-full h-[320px] rounded-xl z-10 border border-slate-300"></div>
                 <div id="mapa-geral-status" class="text-stone-500 text-center text-[11px] italic">A calcular coordenadas...</div>
+                
+                <!-- CARDS DE CONTROLO DOS PONTOS DO MAPA -->
+                <div class="pt-2 border-t space-y-2">
+                    <h3 class="font-black text-[11px] text-slate-700 uppercase">📋 Cartões de Controlo do Mapa (Edite se algum local falhar)</h3>
+                    <div id="cards-pontos-mapa" class="space-y-2 max-h-56 overflow-y-auto pr-1"></div>
+                </div>
             </div>
         </div>
 
@@ -117,7 +123,7 @@
 
     <!-- BARRA DE FERRAMENTAS FIXA NO FINAL DA TELA COM GEMINI IA -->
     <nav class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-md text-white px-2 py-2 shadow-2xl border-t border-slate-800 text-xs flex items-center gap-1 overflow-x-auto no-scrollbar">
-        <span class="bg-indigo-600 px-1 py-0.5 rounded font-mono font-bold text-[8px] shrink-0">v71.0</span>
+        <span class="bg-indigo-600 px-1 py-0.5 rounded font-mono font-bold text-[8px] shrink-0">v72.0</span>
         <button onclick="abrirGeminiModal()" class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-2 py-1 rounded-lg font-bold transition shrink-0 flex items-center gap-1 text-[10px]">
             <span>✨</span> Gemini
         </button>
@@ -228,7 +234,7 @@
     <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
-        const CHAVE_APP = "mariana_viagem_europa_v71";
+        const CHAVE_APP = "mariana_viagem_europa_v72";
         let destinoFiltro = 'todos';
         let tarefaFiltro = 'todas';
         let campoFocoAtual = null;
@@ -252,7 +258,7 @@
             const manifestBlob = new Blob([JSON.stringify(manifestObj)], {type: 'application/manifest+json'});
             document.getElementById('pwa-manifest').href = URL.createObjectURL(manifestBlob);
 
-            const temaSalvo = localStorage.getItem('tema_v71');
+            const temaSalvo = localStorage.getItem('tema_v72');
             if (temaSalvo === 'dark') {
                 document.body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 document.body.classList.remove('bg-slate-100', 'text-slate-800');
@@ -328,10 +334,10 @@
         }
 
         function desbloquearComPin() {
-            let pinSalvo = localStorage.getItem('app_pin_v71') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v72') || '1510';
             let digitado = document.getElementById('input-pin').value;
             if(digitado === pinSalvo) {
-                sessionStorage.setItem('sessao_ativa_v71', 'true');
+                sessionStorage.setItem('sessao_ativa_v72', 'true');
                 document.getElementById('tela-bloqueio').classList.add('hidden');
                 document.getElementById('erro-pin').classList.add('hidden');
             } else {
@@ -340,17 +346,17 @@
         }
 
         async function desbloquearComBiometria() {
-            sessionStorage.setItem('sessao_ativa_v71', 'true');
+            sessionStorage.setItem('sessao_ativa_v72', 'true');
             document.getElementById('tela-bloqueio').classList.add('hidden');
         }
 
         function alterarSenhaPin() {
             let atual = prompt("Digite a senha atual (Padrão: 1510):");
-            let pinSalvo = localStorage.getItem('app_pin_v71') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v72') || '1510';
             if(atual === pinSalvo) {
                 let nova = prompt("Digite a nova senha PIN:");
                 if(nova && nova.trim() !== '') {
-                    localStorage.setItem('app_pin_v71', nova.trim());
+                    localStorage.setItem('app_pin_v72', nova.trim());
                     alert("🔑 Senha alterada com sucesso!");
                 }
             } else {
@@ -363,11 +369,11 @@
             if(body.classList.contains('dark')) {
                 body.classList.remove('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.add('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v71', 'light');
+                localStorage.setItem('tema_v72', 'light');
             } else {
                 body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.remove('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v71', 'dark');
+                localStorage.setItem('tema_v72', 'dark');
             }
         }
 
@@ -566,6 +572,7 @@
             renderizarBlocos();
             renderizarTarefas();
             renderizarVouchersTab();
+            renderizarCardsMapa();
             calcularGastos();
             if(!document.getElementById('tab-mapa-geral').classList.contains('hidden')) {
                 renderizarMapaGeral();
@@ -747,7 +754,7 @@
                 return;
             }
 
-            let lb = dadosApp.labelsPersonalizadas || { origem: "Origem", destino: "Destino", trecho: "Trecho", transporte: "Transporte", numTransporte: "Nº", notas: "Notas" };
+            let lb = dadosApp.labelsPersonalizadas || { origem: "Local de Origem", destino: "Local de Destino", trecho: "Trecho / Rota", transporte: "Transporte", numTransporte: "Nº Transporte", notas: "Notas do Dia" };
             let ts = dadosApp.titulosSecoes || { origemDestino: "ORIGEMDESTINO", transporte: "TRANSPORTE", notas: "NOTAS", extras: "EXTRAS" };
 
             filtrados.forEach((item) => {
@@ -784,6 +791,7 @@
                     let nomeSecaoAtual = ts[secKey] || secKey.toUpperCase();
                     let controleSecao = `
                         <div class="flex items-center gap-1 shrink-0">
+                            <span class="text-slate-400 font-bold text-xs select-none" title="Secção móvel">⋮⋮</span>
                             <span onclick="editarTituloSecao('${secKey}', '${nomeSecaoAtual}')" class="text-[9px] font-bold text-slate-700 uppercase tracking-wider cursor-pointer hover:text-indigo-600" title="Clique para renomear">${nomeSecaoAtual} ✏️</span>
                             <button onclick="moverSecaoBloco(${item.id}, '${secKey}', -1)" class="bg-slate-200 hover:bg-slate-300 px-1.5 py-0.5 rounded text-[10px] font-bold" title="Subir">⬆️</button>
                             <button onclick="moverSecaoBloco(${item.id}, '${secKey}', 1)" class="bg-slate-200 hover:bg-slate-300 px-1.5 py-0.5 rounded text-[10px] font-bold" title="Descer">⬇️</button>
@@ -929,6 +937,36 @@
                 `;
                 container.appendChild(card);
             });
+        }
+
+        function renderizarCardsMapa() {
+            const container = document.getElementById('cards-pontos-mapa');
+            if(!container) return;
+            container.innerHTML = '';
+
+            dadosApp.itinerario.forEach((item, idx) => {
+                let div = document.createElement('div');
+                div.className = "bg-slate-50 p-2 rounded-xl border flex items-center justify-between gap-2 text-[11px]";
+                div.innerHTML = `
+                    <div class="flex items-center gap-2 flex-1">
+                        <span class="w-3 h-3 rounded-full shrink-0" style="background-color: ${obterCorBlocoHex(item)}"></span>
+                        <input type="text" value="${item.embarque || ''}" oninput="atualizarEmbarqueMapa(${item.id}, this.value)" class="bg-white border px-1.5 py-0.5 rounded text-[10px] w-1/2 font-semibold" placeholder="Origem">
+                        <span>➔</span>
+                        <input type="text" value="${item.desembarque || ''}" oninput="atualizarDesembarqueMapa(${item.id}, this.value)" class="bg-white border px-1.5 py-0.5 rounded text-[10px] w-1/2 font-semibold" placeholder="Destino">
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function atualizarEmbarqueMapa(id, val) {
+            let item = dadosApp.itinerario.find(i => i.id === id);
+            if(item) { item.embarque = val; localStorage.setItem(CHAVE_APP, JSON.stringify(dadosApp)); }
+        }
+
+        function atualizarDesembarqueMapa(id, val) {
+            let item = dadosApp.itinerario.find(i => i.id === id);
+            if(item) { item.desembarque = val; localStorage.setItem(CHAVE_APP, JSON.stringify(dadosApp)); }
         }
 
         function renderizarTarefas() {
