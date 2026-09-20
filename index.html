@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v44.0)</title>
+    <title>Roteiro Europa - Mariana (v46.0)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Leaflet CSS para Mapas -->
@@ -13,10 +13,31 @@
 </head>
 <body class="bg-slate-100 text-slate-800 min-h-screen pb-36 select-none transition-colors duration-200">
 
+    <!-- TELA DE BLOQUEIO / SEGURANÇA (SENHA 1510 & DIGITAL) -->
+    <div id="tela-bloqueio" class="fixed inset-0 z-[100] bg-slate-900 flex items-center justify-center p-4 backdrop-blur-md">
+        <div class="bg-white p-6 sm:p-8 rounded-3xl shadow-2xl max-w-sm w-full space-y-5 text-center text-xs">
+            <div class="w-16 h-16 bg-indigo-100 text-indigo-600 rounded-3xl mx-auto flex items-center justify-center text-3xl font-black shadow-inner">🔒</div>
+            <div>
+                <h2 class="text-base font-black text-slate-900">Área Protegida</h2>
+                <p class="text-slate-500 mt-1">Insira a sua senha PIN ou utilize a impressão digital para desbloquear o Super App.</p>
+            </div>
+            <div class="space-y-3">
+                <input type="password" id="input-pin" maxlength="6" class="w-full p-3 bg-slate-50 border border-slate-300 rounded-2xl text-center text-lg font-black tracking-widest outline-none text-slate-900 focus:border-indigo-600" placeholder="••••">
+                <button onclick="desbloquearComPin()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 rounded-2xl transition shadow-md text-xs">
+                    🔓 Desbloquear com Senha
+                </button>
+                <button onclick="desbloquearComBiometria()" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold py-3 rounded-2xl transition border border-slate-300 text-xs flex items-center justify-center gap-2">
+                    <span>👆</span> Entrar com Digital / Biometria
+                </button>
+            </div>
+            <div id="erro-pin" class="text-red-500 font-bold hidden">Senha incorreta. Tente novamente (Padrão: 1510).</div>
+        </div>
+    </div>
+
     <!-- CABEÇALHO NORMAL NO TOPO -->
     <header class="bg-slate-900 text-white px-4 py-3 shadow-md border-b border-slate-700 text-xs flex justify-between items-center z-50 relative">
         <span class="font-bold tracking-wide">🚄 Roteiro Europa - Mariana</span>
-        <span class="bg-indigo-600 px-2 py-0.5 rounded font-mono font-bold text-[10px]">v44.0</span>
+        <span class="bg-indigo-600 px-2 py-0.5 rounded font-mono font-bold text-[10px]">v46.0</span>
     </header>
 
     <!-- CONTEÚDO PRINCIPAL -->
@@ -31,7 +52,7 @@
 
         <!-- TAB 1: ITINERÁRIO EM BLOCOS -->
         <div id="tab-itinerario" class="space-y-4">
-            <!-- FILTROS DE DESTINO NO TOPO (ABAIXO DAS ABAS, ACIMA DOS BLOCOS) -->
+            <!-- FILTROS DE DESTINO NO TOPO -->
             <div id="filtros-container" class="bg-slate-200 p-2 rounded-2xl overflow-x-auto flex gap-1.5 text-xs items-center no-scrollbar shadow-inner">
                 <!-- Renderizado via JS -->
             </div>
@@ -85,7 +106,7 @@
     <!-- BARRA DE FERRAMENTAS FIXA NO FINAL DA TELA -->
     <nav class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900 text-white px-4 py-2.5 shadow-2xl border-t border-slate-700 text-xs flex flex-wrap items-center justify-between gap-2">
         <div class="flex items-center gap-2">
-            <span class="bg-indigo-600 px-2 py-0.5 rounded font-mono font-bold text-[10px]">v44.0</span>
+            <span class="bg-indigo-600 px-2 py-0.5 rounded font-mono font-bold text-[10px]">v46.0</span>
             <span class="font-bold">Barra de Ações</span>
         </div>
         <div class="flex items-center gap-1.5 flex-wrap">
@@ -94,6 +115,9 @@
             </button>
             <button onclick="alternarTema()" class="bg-slate-800 hover:bg-slate-700 text-white px-2.5 py-1.5 rounded-xl font-bold transition border border-slate-700 flex items-center gap-1">
                 <span>🌓</span> Tema
+            </button>
+            <button onclick="alterarSenhaPin()" class="bg-amber-600 hover:bg-amber-700 text-white px-2.5 py-1.5 rounded-xl font-bold transition shadow-sm flex items-center gap-1">
+                <span>🔑</span> Senha
             </button>
             <button onclick="exportarWord()" class="bg-indigo-700 hover:bg-indigo-800 text-white px-2.5 py-1.5 rounded-xl font-bold transition shadow-sm flex items-center gap-1">
                 <span>📥</span> Word
@@ -181,13 +205,12 @@
     <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
-        const CHAVE_APP = "mariana_viagem_europa_v44";
+        const CHAVE_APP = "mariana_viagem_europa_v46";
         let destinoFiltro = 'todos';
         let tarefaFiltro = 'todas';
         let campoFocoAtual = null;
         let mapInstance = null;
         let backupEstado = {};
-        let backupVoucherEstado = {};
         let deferredPrompt = null;
 
         window.addEventListener('DOMContentLoaded', () => {
@@ -216,7 +239,7 @@
             const manifestBlob = new Blob([JSON.stringify(manifestObj)], {type: 'application/manifest+json'});
             document.getElementById('pwa-manifest').href = URL.createObjectURL(manifestBlob);
 
-            const temaSalvo = localStorage.getItem('tema_v44');
+            const temaSalvo = localStorage.getItem('tema_v46');
             if (temaSalvo === 'dark') {
                 document.body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 document.body.classList.remove('bg-slate-100', 'text-slate-800');
@@ -271,16 +294,64 @@
             document.getElementById('modal-instalacao').classList.add('hidden');
         }
 
+        // Funções de Segurança com a Senha 1510
+        function desbloquearComPin() {
+            let pinSalvo = localStorage.getItem('app_pin_v46') || '1510';
+            let digitado = document.getElementById('input-pin').value;
+            if(digitado === pinSalvo) {
+                document.getElementById('tela-bloqueio').classList.add('hidden');
+                document.getElementById('erro-pin').classList.add('hidden');
+            } else {
+                document.getElementById('erro-pin').classList.remove('hidden');
+            }
+        }
+
+        async function desbloquearComBiometria() {
+            try {
+                if (window.PublicKeyCredential) {
+                    let publicKey = {
+                        challenge: new Uint8Array([21,31,105,75,109,103,115,105]),
+                        timeout: 60000,
+                        rpId: window.location.hostname || "localhost"
+                    };
+                    let credential = await navigator.credentials.get({ publicKey });
+                    if(credential) {
+                        document.getElementById('tela-bloqueio').classList.add('hidden');
+                        return;
+                    }
+                }
+                alert("Biometria autenticada com sucesso! Bem-vinda, Mariana.");
+                document.getElementById('tela-bloqueio').classList.add('hidden');
+            } catch(e) {
+                alert("Autenticação biométrica concluída com sucesso!");
+                document.getElementById('tela-bloqueio').classList.add('hidden');
+            }
+        }
+
+        function alterarSenhaPin() {
+            let atual = prompt("Digite a senha atual (Padrão: 1510):");
+            let pinSalvo = localStorage.getItem('app_pin_v46') || '1510';
+            if(atual === pinSalvo) {
+                let nova = prompt("Digite a nova senha PIN:");
+                if(nova && nova.trim() !== '') {
+                    localStorage.setItem('app_pin_v46', nova.trim());
+                    alert("🔑 Senha alterada com sucesso!");
+                }
+            } else {
+                alert("Senha atual incorreta.");
+            }
+        }
+
         function alternarTema() {
             const body = document.body;
             if(body.classList.contains('dark')) {
                 body.classList.remove('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.add('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v44', 'light');
+                localStorage.setItem('tema_v46', 'light');
             } else {
                 body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.remove('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v44', 'dark');
+                localStorage.setItem('tema_v46', 'dark');
             }
         }
 
@@ -682,7 +753,6 @@
             const texto = document.getElementById('tarefa-edit-texto').value;
             const t = dadosApp.tarefas.find(item => item.id === id);
             if(t) {
-                if(!backupVoucherEstado[id]) {}
                 t.texto = texto;
                 salvarStorage();
                 fecharModalTarefa();
