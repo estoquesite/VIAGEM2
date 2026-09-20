@@ -1,192 +1,110 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v7.0)</title>
+    <title>Roteiro Europa - Mariana (v8.0)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { darkMode: 'class' }
+    </script>
     <link id="pwa-manifest" rel="manifest" href="data:application/manifest+json;charset=utf-8,{
         %22name%22: %22Roteiro Europa - Mariana%22,
         %22short_name%22: %22Viagem Europa%22,
         %22start_url%22: %22.%22,
         %22display%22: %22standalone%22,
-        %22background_color%22: %22%23f8fafc%22,
+        %22background_color%22: %22%230f172a%22,
         %22theme_color%22: %22%234f46e5%22,
         %22icons%22: [{%22src%22: %22https://cdn-icons-png.flaticon.com/512/3135/3135715.png%22, %22sizes%22: %22512x512%22, %22type%22: %22image/png%22}]
     }">
 </head>
-<body class="bg-slate-50 text-slate-800 min-h-screen pb-32 select-none">
+<body class="bg-slate-100 dark:bg-slate-900 text-slate-800 dark:text-slate-100 min-h-screen pb-32 select-none transition-colors duration-200">
 
-    <!-- BARRA SUPERIOR FIXA COM VERSÃO -->
-    <div class="fixed top-0 left-0 right-0 z-50 bg-slate-900 text-white px-4 py-2.5 shadow-md flex items-center justify-between text-xs">
+    <!-- BARRA SUPERIOR DESLOCADA E ORGANIZADA -->
+    <header class="bg-slate-900 text-white px-4 py-3 shadow-md border-b border-slate-700 text-xs flex flex-wrap items-center justify-between gap-2">
         <div class="flex items-center gap-2">
-            <span class="bg-indigo-600 px-2 py-0.5 rounded font-mono font-bold text-[10px]">v7.0</span>
-            <span class="font-bold tracking-wide">🇪🇺 Super App de Viagem - Europa</span>
+            <span class="bg-indigo-600 px-2 py-0.5 rounded font-mono font-bold text-[10px]">v8.0</span>
+            <span class="font-bold tracking-wide">🚄 Roteiro Europa (Excel Estilo Direto)</span>
         </div>
-        <div class="flex items-center gap-2">
-            <button onclick="exportarWord()" class="bg-indigo-700 hover:bg-indigo-800 text-white px-2.5 py-1 rounded-lg font-bold transition shadow-sm">
+        <div class="flex items-center gap-2 flex-wrap">
+            <button onclick="ativarMicrofone()" class="bg-purple-600 hover:bg-purple-700 text-white px-2.5 py-1.5 rounded-xl font-bold transition flex items-center gap-1" title="Ditar por voz">
+                🎤 Ditar
+            </button>
+            <button onclick="alternarTema()" class="bg-slate-800 hover:bg-slate-700 text-white px-2.5 py-1.5 rounded-xl font-bold transition border border-slate-700">
+                🌓 Dia/Noite
+            </button>
+            <button onclick="exportarWord()" class="bg-indigo-700 hover:bg-indigo-800 text-white px-2.5 py-1.5 rounded-xl font-bold transition">
                 📥 Word
             </button>
-            <button onclick="instalarApp()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2.5 py-1 rounded-lg font-bold transition">
-                📱 Instalar App
+            <button onclick="instalarApp()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2.5 py-1.5 rounded-xl font-bold transition">
+                📱 App
             </button>
         </div>
-    </div>
+    </header>
 
     <!-- CONTEÚDO PRINCIPAL -->
-    <div class="max-w-4xl mx-auto p-3 sm:p-6 pt-20 space-y-6">
+    <div class="max-w-6xl mx-auto p-3 sm:p-6 space-y-6 pt-6">
         
-        <!-- CABEÇALHO SUAVE E MODERNO -->
-        <div class="bg-white border border-slate-200 p-6 rounded-3xl shadow-sm flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <!-- CABEÇALHO E RESUMO FINANCEIRO CORRIGIDO (NÃO CORTA) -->
+        <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-6 rounded-3xl shadow-sm flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
             <div>
-                <span class="text-[10px] font-extrabold uppercase tracking-widest bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full">Itinerário Oficial Detalhado</span>
-                <h1 class="text-2xl sm:text-3xl font-black text-slate-900 mt-2">Zurique, Freiburg, Disney & Interlaken 🏔️🚄</h1>
-                <p class="text-xs text-slate-500 mt-1">Gestão de transportes, ônibus, locais de embarque e comprovativos.</p>
+                <span class="text-[10px] font-extrabold uppercase tracking-widest bg-indigo-100 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300 px-3 py-1 rounded-full">Itinerário & Ônibus (Edição Direta)</span>
+                <h1 class="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white mt-2">Zurique, Freiburg, Disney & Interlaken 🚄🏔️</h1>
+                <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Altere qualquer campo diretamente nas linhas abaixo, como no Excel.</p>
             </div>
-            <div class="bg-slate-50 px-4 py-3 rounded-2xl border border-slate-200 text-right shadow-sm w-full sm:w-auto">
-                <span class="text-[10px] text-slate-400 block uppercase font-bold">Gastos Totais</span>
-                <span id="stat-gastos" class="text-base font-black text-indigo-600">CHF 0 / €0</span>
-            </div>
-        </div>
-
-        <!-- SEPARADORES (TABS) -->
-        <div class="flex gap-1.5 bg-slate-200 p-1.5 rounded-2xl text-xs font-bold">
-            <button onclick="mudarTab('itinerario')" id="tab-btn-itinerario" class="flex-1 py-2.5 rounded-xl bg-indigo-600 text-white shadow-sm transition">📅 Itinerário & Ônibus</button>
-            <button onclick="mudarTab('tarefas')" id="tab-btn-tarefas" class="flex-1 py-2.5 rounded-xl text-slate-600 hover:bg-white/50 transition">✅ Tarefas</button>
-            <button onclick="mudarTab('comprados')" id="tab-btn-comprados" class="flex-1 py-2.5 rounded-xl text-slate-600 hover:bg-white/50 transition">🎟️ Vouchers & PDFs</button>
-        </div>
-
-        <!-- TAB 1: ITINERÁRIO (EM LINHAS) -->
-        <div id="tab-itinerario" class="space-y-4">
-            <!-- FILTROS DE DESTINO COM INDICADOR ATIVO -->
-            <div class="flex gap-1.5 overflow-x-auto pb-1 text-xs" id="filtros-container">
-                <button onclick="filtrarDestino('todos')" id="btn-cat-todos" class="px-3 py-1.5 bg-indigo-600 text-white rounded-xl font-bold shadow-sm shrink-0 transition">Todos</button>
-                <button onclick="filtrarDestino('Zurique')" id="btn-cat-Zurique" class="px-3 py-1.5 bg-white border border-slate-300 text-slate-700 rounded-xl font-semibold shrink-0 transition">Zurique</button>
-                <button onclick="filtrarDestino('Freiburg')" id="btn-cat-Freiburg" class="px-3 py-1.5 bg-white border border-slate-300 text-slate-700 rounded-xl font-semibold shrink-0 transition">Freiburg / Park</button>
-                <button onclick="filtrarDestino('Disney')" id="btn-cat-Disney" class="px-3 py-1.5 bg-white border border-slate-300 text-slate-700 rounded-xl font-semibold shrink-0 transition">Disney / Outlet</button>
-                <button onclick="filtrarDestino('Interlaken')" id="btn-cat-Interlaken" class="px-3 py-1.5 bg-white border border-slate-300 text-slate-700 rounded-xl font-semibold shrink-0 transition">Interlaken</button>
-            </div>
-            
-            <div id="lista-destinos" class="space-y-2"></div>
-        </div>
-
-        <!-- TAB 2: TAREFAS -->
-        <div id="tab-tarefas" class="space-y-4 hidden">
-            <div class="bg-white p-5 rounded-3xl shadow-sm border border-slate-200 space-y-3">
-                <div class="flex justify-between items-center border-b pb-2">
-                    <h2 class="text-xs font-extrabold uppercase text-slate-800 tracking-wider">✅ Lista de Tarefas</h2>
-                    <button onclick="adicionarTarefa()" class="bg-indigo-600 text-white px-3 py-1.5 rounded-xl text-xs font-bold">➕ Nova Tarefa</button>
-                </div>
-                <div id="lista-tarefas-html" class="space-y-2 text-xs"></div>
+            <div class="bg-slate-50 dark:bg-slate-900 px-5 py-3 rounded-2xl border border-slate-200 dark:border-slate-700 text-right shadow-sm w-full md:w-auto shrink-0">
+                <span class="text-[10px] text-slate-400 block uppercase font-bold">Gastos Totais Acumulados</span>
+                <div id="stat-gastos" class="text-base font-black text-indigo-600 dark:text-indigo-400 mt-0.5">CHF 0 / €0</div>
             </div>
         </div>
 
-        <!-- TAB 3: VOUCHERS & PDFS -->
-        <div id="tab-comprados" class="space-y-4 hidden">
-            <div class="bg-white p-5 rounded-3xl shadow-sm border border-slate-200 space-y-3">
-                <div class="flex justify-between items-center border-b pb-2">
-                    <h2 class="text-xs font-extrabold uppercase text-slate-800 tracking-wider">🎟️ Comprovativos e PDFs Guardados</h2>
-                    <span class="text-[10px] text-slate-400">Acesse ou edite os bilhetes</span>
-                </div>
-                <div id="lista-comprados-html" class="space-y-3 text-xs"></div>
-            </div>
+        <!-- FILTROS DE DESTINO COM INDICADOR ATIVO -->
+        <div class="flex gap-1.5 overflow-x-auto pb-1 text-xs">
+            <button onclick="filtrarDestino('todos')" id="btn-cat-todos" class="px-3 py-1.5 bg-indigo-600 text-white rounded-xl font-bold shadow-sm shrink-0 transition">Todos</button>
+            <button onclick="filtrarDestino('Zurique')" id="btn-cat-Zurique" class="px-3 py-1.5 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-200 rounded-xl font-semibold shrink-0 transition">Zurique</button>
+            <button onclick="filtrarDestino('Freiburg')" id="btn-cat-Freiburg" class="px-3 py-1.5 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-200 rounded-xl font-semibold shrink-0 transition">Freiburg / Park</button>
+            <button onclick="filtrarDestino('Disney')" id="btn-cat-Disney" class="px-3 py-1.5 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-200 rounded-xl font-semibold shrink-0 transition">Disney / Outlet</button>
+            <button onclick="filtrarDestino('Interlaken')" id="btn-cat-Interlaken" class="px-3 py-1.5 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-200 rounded-xl font-semibold shrink-0 transition">Interlaken</button>
         </div>
 
-    </div>
-
-    <!-- MODAL DE ADICIONAR / EDITAR TRECHO -->
-    <div id="modal-item" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
-        <div class="bg-white p-6 sm:p-8 rounded-3xl shadow-2xl max-w-md w-full space-y-4 border border-slate-200">
-            <div class="flex justify-between items-center border-b pb-3">
-                <h3 id="modal-titulo" class="text-base font-bold text-slate-900">➕ Adicionar Trecho</h3>
-                <button onclick="fecharModalItem()" class="text-slate-400 hover:text-slate-600 font-bold">✕</button>
-            </div>
-            
-            <form onsubmit="guardarItemModal(event)" class="space-y-3 text-xs">
-                <input type="hidden" id="form-id">
-                <div>
-                    <label class="block font-semibold text-slate-600 mb-1">Destino (Categoria)</label>
-                    <select id="form-categoria" class="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-xl outline-none">
-                        <option value="Zurique">Zurique</option>
-                        <option value="Freiburg">Freiburg / Europa-Park</option>
-                        <option value="Disney">Disney / Marne-la-Vallée / Outlet</option>
-                        <option value="Interlaken">Interlaken</option>
-                    </select>
-                </div>
-                <div>
-                    <label class="block font-semibold text-slate-600 mb-1">Data (Ex: 2 Jan - Tarde)</label>
-                    <input type="text" id="form-data" required class="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-xl outline-none">
-                </div>
-                <div>
-                    <label class="block font-semibold text-slate-600 mb-1">Trajeto / Rota</label>
-                    <input type="text" id="form-trecho" required class="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-xl outline-none">
-                </div>
-                <div>
-                    <label class="block font-semibold text-slate-600 mb-1">Ônibus / Trem / Companhia</label>
-                    <input type="text" id="form-transporte" class="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-xl outline-none" placeholder="Ex: FlixBus 452, Trem SBB...">
-                </div>
-                <div>
-                    <label class="block font-semibold text-slate-600 mb-1">Local de Embarque</label>
-                    <input type="text" id="form-embarque" class="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-xl outline-none" placeholder="Ex: Zurich Bus Station, Plataforma 4...">
-                </div>
-                <div class="grid grid-cols-2 gap-2">
-                    <div>
-                        <label class="block font-semibold text-slate-600 mb-1">Moeda</label>
-                        <select id="form-moeda" class="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-xl outline-none">
-                            <option value="CHF">CHF</option>
-                            <option value="EUR">EUR</option>
-                            <option value="-">-</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block font-semibold text-slate-600 mb-1">Valor</label>
-                        <input type="text" id="form-valor" value="0" class="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-xl outline-none">
-                    </div>
-                </div>
-                <div>
-                    <label class="block font-semibold text-slate-600 mb-1">Estado</label>
-                    <select id="form-status" class="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-xl outline-none">
-                        <option value="✅ Já comprei / Adquirido">✅ Já comprei / Adquirido</option>
-                        <option value="⏳ Aguardando compra">⏳ Aguardando compra</option>
-                    </select>
-                </div>
-                <div>
-                    <label class="block font-semibold text-slate-600 mb-1">Anexar PDF / Voucher (Opcional)</label>
-                    <input type="file" id="form-pdf" accept="application/pdf" class="w-full p-1 bg-slate-50 border border-slate-300 rounded-xl text-[10px]">
-                </div>
-                <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 rounded-xl transition shadow-sm">
-                    💾 Guardar Registo
+        <!-- TABELA ESTILO EXCEL (LINHAS DIRETAS) -->
+        <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden">
+            <div class="p-4 border-b border-slate-100 dark:border-slate-700 flex justify-between items-center bg-slate-50/50 dark:bg-slate-900/50">
+                <h2 class="text-xs font-extrabold uppercase text-slate-700 dark:text-slate-300 tracking-wider">📋 Itinerário, Ônibus e Valores (Edição em Linha)</h2>
+                <button onclick="adicionarLinha()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1.5 rounded-xl font-bold text-xs transition shadow-sm">
+                    ➕ Adicionar Nova Linha
                 </button>
-            </form>
-        </div>
-    </div>
+            </div>
 
-    <!-- MODAL DE EDITAR TAREFA -->
-    <div id="modal-tarefa" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
-        <div class="bg-white p-6 rounded-3xl shadow-2xl max-w-sm w-full space-y-3">
-            <h3 class="text-sm font-bold text-slate-900">✏️ Editar Tarefa</h3>
-            <input type="hidden" id="tarefa-form-id">
-            <input type="text" id="tarefa-form-texto" class="w-full p-2.5 bg-slate-50 border rounded-xl text-xs outline-none">
-            <div class="flex gap-2">
-                <button onclick="salvarEdicaoTarefa()" class="flex-1 bg-indigo-600 text-white py-2 rounded-xl text-xs font-bold">Salvar</button>
-                <button onclick="document.getElementById('modal-tarefa').classList.add('hidden')" class="bg-slate-200 text-slate-700 px-3 py-2 rounded-xl text-xs">Cancelar</button>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-xs border-collapse">
+                    <thead>
+                        <tr class="bg-slate-100 dark:bg-slate-900 text-slate-600 dark:text-slate-400 uppercase text-[10px] tracking-wider border-b border-slate-200 dark:border-slate-700">
+                            <th class="p-3">Destino</th>
+                            <th class="p-3">Data</th>
+                            <th class="p-3">Trecho / Rota</th>
+                            <th class="p-3">Ônibus / Trem</th>
+                            <th class="p-3">Embarque</th>
+                            <th class="p-3">Valor</th>
+                            <th class="p-3">Estado</th>
+                            <th class="p-3 text-center">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabela-corpo" class="divide-y divide-slate-100 dark:divide-slate-700">
+                        <!-- Preenchido via JS -->
+                    </tbody>
+                </table>
             </div>
         </div>
+
     </div>
 
-    <!-- BARRA INFERIOR FIXA -->
-    <div class="print-hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-200 px-4 py-3 flex justify-between items-center max-w-4xl mx-auto rounded-t-2xl shadow-lg text-xs">
-        <span class="text-slate-500 font-semibold">Roteiro Europa v7.0</span>
-        <button onclick="abrirModalItem()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-xl font-bold transition shadow-sm flex items-center gap-1">
-            <span>➕</span> Adicionar Destino / Ônibus
-        </button>
-    </div>
-
-    <!-- SCRIPT DA APLICAÇÃO V7.0 -->
+    <!-- SCRIPT DA APLICAÇÃO V8.0 -->
     <script>
-        const CHAVE_APP = "mariana_viagem_europa_v7";
+        const CHAVE_APP = "mariana_viagem_europa_v8";
         let destinoFiltro = 'todos';
+        let campoFocoAtual = null;
         let deferredPrompt = null;
 
         window.addEventListener('beforeinstallprompt', (e) => {
@@ -203,48 +121,48 @@
             }
         }
 
-        let dadosApp = {
-            itinerario: [
-                { id: 1, categoria: "Zurique", data: "Dia 1º e 2 Jan", trecho: "Zurique (Estadia Inicial)", transporte: "Transporte local", embarque: "Centro de Zurique", moeda: "CHF", valor: "0", status: "✅ Já comprei / Adquirido", pdfData: "", pdfNome: "" },
-                { id: 2, categoria: "Zurique", data: "2 Jan (Tarde)", trecho: "Zurique ➔ Freiburg", transporte: "FlixBus / Trem", embarque: "Zurich Bus Station", moeda: "EUR", valor: "25", status: "⏳ Aguardando compra", pdfData: "", pdfNome: "" },
-                { id: 3, categoria: "Freiburg", data: "3 Jan", trecho: "Freiburg ➔ Europa-Park (Papai) ➔ Freiburg", transporte: "Ônibus regional", embarque: "Estação Freiburg", moeda: "EUR", valor: "65", status: "⏳ Aguardando compra", pdfData: "", pdfNome: "" },
-                { id: 4, categoria: "Freiburg", data: "4 Jan", trecho: "Freiburg (Dia livre)", transporte: "A pé", embarque: "Hotel", moeda: "EUR", valor: "0", status: "✅ Já comprei / Adquirido", pdfData: "", pdfNome: "" },
-                { id: 5, categoria: "Disney", data: "5 e 6 Jan", trecho: "Marne-la-Vallée (Disneyland Paris)", transporte: "Trem TGV", embarque: "Estação central", moeda: "EUR", valor: "220", status: "⏳ Aguardando compra", pdfData: "", pdfNome: "" },
-                { id: 6, categoria: "Disney", data: "7 Jan", trecho: "La Vallée Village (Outlet)", transporte: "RER A", embarque: "Chessy", moeda: "EUR", valor: "150", status: "⏳ Aguardando compra", pdfData: "", pdfNome: "" },
-                { id: 7, categoria: "Interlaken", data: "8 Jan", trecho: "França ➔ Interlaken", transporte: "Trem TGV Lyria", embarque: "Estação na França", moeda: "CHF", valor: "110", status: "⏳ Aguardando compra", pdfData: "", pdfNome: "" },
-                { id: 8, categoria: "Interlaken", data: "8 a 12 Jan", trecho: "Interlaken (Estadia Alpina)", transporte: "Autocarros locais", embarque: "Interlaken Ost", moeda: "CHF", valor: "0", status: "✅ Já comprei / Adquirido", pdfData: "", pdfNome: "" },
-                { id: 9, categoria: "Interlaken", data: "12 Jan", trecho: "Interlaken ➔ Zurique (Regresso)", transporte: "Trem SBB", embarque: "Interlaken Ost", moeda: "CHF", valor: "76", status: "⏳ Aguardando compra", pdfData: "", pdfNome: "" }
-            ],
-            tarefas: [
-                { id: 1, texto: "Comprar cartões Wise e Nomad", feito: true },
-                { id: 2, texto: "Reservar bilhetes Europa-Park", feito: false },
-                { id: 3, texto: "Reservar passes Disney", feito: false }
-            ]
-        };
+        function alternarTema() {
+            const html = document.documentElement;
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                localStorage.setItem('tema_v8', 'light');
+            } else {
+                html.classList.add('dark');
+                localStorage.setItem('tema_v8', 'dark');
+            }
+        }
+
+        let dadosApp = [
+            { id: 1, categoria: "Zurique", data: "Dia 1º e 2 Jan", trecho: "Zurique (Estadia Inicial)", transporte: "Transporte local", embarque: "Centro de Zurique", moeda: "CHF", valor: "0", status: "Comprado" },
+            { id: 2, categoria: "Zurique", data: "2 Jan (Tarde)", trecho: "Zurique ➔ Freiburg", transporte: "FlixBus / Trem", embarque: "Zurich Bus Station", moeda: "EUR", valor: "25", status: "Aguardando" },
+            { id: 3, categoria: "Freiburg", data: "3 Jan", trecho: "Freiburg ➔ Europa-Park (Papai) ➔ Freiburg", transporte: "Ônibus regional", embarque: "Estação Freiburg", moeda: "EUR", valor: "65", status: "Aguardando" },
+            { id: 4, categoria: "Freiburg", data: "4 Jan", trecho: "Freiburg (Dia livre)", transporte: "A pé", embarque: "Hotel", moeda: "EUR", valor: "0", status: "Comprado" },
+            { id: 5, categoria: "Disney", data: "5 e 6 Jan", trecho: "Marne-la-Vallée (Disneyland Paris)", transporte: "Trem TGV", embarque: "Estação central", moeda: "EUR", valor: "220", status: "Aguardando" },
+            { id: 6, categoria: "Disney", data: "7 Jan", trecho: "La Vallée Village (Outlet)", transporte: "RER A", embarque: "Chessy", moeda: "EUR", valor: "150", status: "Aguardando" },
+            { id: 7, categoria: "Interlaken", data: "8 Jan", trecho: "França ➔ Interlaken", transporte: "Trem TGV Lyria", embarque: "Estação na França", moeda: "CHF", valor: "110", status: "Aguardando" },
+            { id: 8, categoria: "Interlaken", data: "8 a 12 Jan", trecho: "Interlaken (Estadia Alpina)", transporte: "Autocarros locais", embarque: "Interlaken Ost", moeda: "CHF", valor: "0", status: "Comprado" },
+            { id: 9, categoria: "Interlaken", data: "12 Jan", trecho: "Interlaken ➔ Zurique (Regresso)", transporte: "Trem SBB", embarque: "Interlaken Ost", moeda: "CHF", valor: "76", status: "Aguardando" }
+        ];
 
         window.addEventListener('DOMContentLoaded', () => {
+            const temaSalvo = localStorage.getItem('tema_v8');
+            if (temaSalvo === 'light') document.documentElement.classList.remove('dark');
+
             const salvo = localStorage.getItem(CHAVE_APP);
             if (salvo) {
                 try { dadosApp = JSON.parse(salvo); } catch(e){}
             }
-            atualizarTudo();
+            renderizarTabela();
         });
 
         function salvarStorage() {
             localStorage.setItem(CHAVE_APP, JSON.stringify(dadosApp));
-            atualizarTudo();
-        }
-
-        function atualizarTudo() {
-            renderizarItinerario();
-            renderizarTarefas();
-            renderizarComprados();
             calcularGastos();
         }
 
         function calcularGastos() {
             let chf = 0, eur = 0;
-            dadosApp.itinerario.forEach(i => {
+            dadosApp.forEach(i => {
                 let v = parseFloat(i.valor) || 0;
                 if(i.moeda === 'CHF') chf += v;
                 if(i.moeda === 'EUR') eur += v;
@@ -252,247 +170,148 @@
             document.getElementById('stat-gastos').innerText = `CHF ${chf.toFixed(0)} / €${eur.toFixed(0)}`;
         }
 
-        function mudarTab(tab) {
-            ['itinerario', 'tarefas', 'comprados'].forEach(t => {
-                document.getElementById('tab-' + t).classList.add('hidden');
-                document.getElementById('tab-btn-' + t).className = "flex-1 py-2.5 rounded-xl text-slate-600 hover:bg-white/50 transition";
-            });
-            document.getElementById('tab-' + tab).classList.remove('hidden');
-            document.getElementById('tab-btn-' + tab).className = "flex-1 py-2.5 rounded-xl bg-indigo-600 text-white shadow-sm transition";
-        }
+        function renderizarTabela() {
+            const corpo = document.getElementById('tabela-corpo');
+            corpo.innerHTML = '';
 
-        function renderizarItinerario() {
-            const container = document.getElementById('lista-destinos');
-            container.innerHTML = '';
-            let filtrados = destinoFiltro === 'todos' ? dadosApp.itinerario : dadosApp.itinerario.filter(i => i.categoria === destinoFiltro);
+            let filtrados = destinoFiltro === 'todos' ? dadosApp : dadosApp.filter(i => i.categoria === destinoFiltro);
 
             if(filtrados.length === 0) {
-                container.innerHTML = '<div class="bg-white p-6 rounded-3xl text-center text-xs text-slate-400">Nenhum registo encontrado.</div>';
+                corpo.innerHTML = '<tr><td colspan="8" class="p-6 text-center text-slate-400">Nenhum registo encontrado.</td></tr>';
+                calcularGastos();
                 return;
             }
 
             filtrados.forEach(item => {
-                let badge = item.status.includes('Já comprei') ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800';
-                let pdfBadge = item.pdfData ? `<a href="${item.pdfData}" download="${item.pdfNome || 'voucher.pdf'}" class="bg-blue-50 text-blue-700 hover:bg-blue-100 px-2 py-1 rounded-lg font-bold">📄 PDF</a>` : '';
-
-                let card = document.createElement('div');
-                card.className = "bg-white p-3.5 sm:p-4 rounded-2xl shadow-sm border border-slate-200 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 text-xs";
-                card.innerHTML = `
-                    <div class="space-y-1 flex-1">
-                        <div class="flex items-center gap-2 flex-wrap">
-                            <span class="bg-slate-100 text-slate-700 font-bold px-2 py-0.5 rounded text-[10px]">${item.categoria}</span>
-                            <span class="text-slate-400 font-semibold">📅 ${item.data}</span>
-                            <span class="${badge} font-bold px-2 py-0.5 rounded text-[10px]">${item.status}</span>
+                let tr = document.createElement('tr');
+                tr.className = "hover:bg-slate-50 dark:hover:bg-slate-900/50 transition";
+                tr.innerHTML = `
+                    <td class="p-3">
+                        <select onchange="atualizarCampo(${item.id}, 'categoria', this.value)" class="bg-slate-100 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg p-1 text-xs font-bold text-indigo-600 dark:text-indigo-400 outline-none">
+                            <option value="Zurique" ${item.categoria === 'Zurique' ? 'selected' : ''}>Zurique</option>
+                            <option value="Freiburg" ${item.categoria === 'Freiburg' ? 'selected' : ''}>Freiburg</option>
+                            <option value="Disney" ${item.categoria === 'Disney' ? 'selected' : ''}>Disney</option>
+                            <option value="Interlaken" ${item.categoria === 'Interlaken' ? 'selected' : ''}>Interlaken</option>
+                        </select>
+                    </td>
+                    <td class="p-3">
+                        <input type="text" value="${item.data}" onfocus="registarFoco(this)" oninput="atualizarCampo(${item.id}, 'data', this.value)" class="w-24 bg-transparent border-b border-slate-300 dark:border-slate-700 focus:border-indigo-600 outline-none p-0.5">
+                    </td>
+                    <td class="p-3">
+                        <input type="text" value="${item.trecho}" onfocus="registarFoco(this)" oninput="atualizarCampo(${item.id}, 'trecho', this.value)" class="w-44 bg-transparent border-b border-slate-300 dark:border-slate-700 focus:border-indigo-600 outline-none p-0.5 font-bold">
+                    </td>
+                    <td class="p-3">
+                        <input type="text" value="${item.transporte}" onfocus="registarFoco(this)" oninput="atualizarCampo(${item.id}, 'transporte', this.value)" class="w-32 bg-transparent border-b border-slate-300 dark:border-slate-700 focus:border-indigo-600 outline-none p-0.5">
+                    </td>
+                    <td class="p-3">
+                        <input type="text" value="${item.embarque}" onfocus="registarFoco(this)" oninput="atualizarCampo(${item.id}, 'embarque', this.value)" class="w-32 bg-transparent border-b border-slate-300 dark:border-slate-700 focus:border-indigo-600 outline-none p-0.5">
+                    </td>
+                    <td class="p-3">
+                        <div class="flex items-center gap-1">
+                            <select onchange="atualizarCampo(${item.id}, 'moeda', this.value)" class="bg-transparent font-bold text-slate-700 dark:text-slate-300 outline-none">
+                                <option value="CHF" ${item.moeda === 'CHF' ? 'selected' : ''}>CHF</option>
+                                <option value="EUR" ${item.moeda === 'EUR' ? 'selected' : ''}>EUR</option>
+                                <option value="-" ${item.moeda === '-' ? 'selected' : ''}>-</option>
+                            </select>
+                            <input type="text" value="${item.valor}" onfocus="registarFoco(this)" oninput="atualizarCampo(${item.id}, 'valor', this.value)" class="w-14 bg-transparent border-b border-slate-300 dark:border-slate-700 focus:border-indigo-600 outline-none p-0.5 font-black">
                         </div>
-                        <h3 class="font-bold text-sm text-slate-900">📍 ${item.trecho}</h3>
-                        <p class="text-slate-500">🚌 <b>Transporte:</b> ${item.transporte || 'N/A'} | 📌 <b>Embarque:</b> ${item.embarque || 'N/A'}</p>
-                    </div>
-                    <div class="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-end shrink-0 pt-2 sm:pt-0 border-t sm:border-t-0 border-slate-100">
-                        <span class="font-black text-slate-800 text-sm">${item.moeda} ${item.valor}</span>
-                        <div class="flex items-center gap-1.5">
-                            ${pdfBadge}
-                            <button onclick="editarItem(${item.id})" class="bg-slate-100 hover:bg-slate-200 p-1.5 rounded-xl font-bold" title="Editar">✏️</button>
-                            <button onclick="apagarItem(${item.id})" class="bg-red-50 text-red-500 hover:bg-red-100 p-1.5 rounded-xl font-bold" title="Excluir">✕</button>
-                        </div>
-                    </div>
+                    </td>
+                    <td class="p-3">
+                        <select onchange="atualizarCampo(${item.id}, 'status', this.value)" class="border rounded-lg p-1 text-[11px] font-bold outline-none ${item.status === 'Comprado' ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300' : 'bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300'}">
+                            <option value="Comprado" ${item.status === 'Comprado' ? 'selected' : ''}>Comprado</option>
+                            <option value="Aguardando" ${item.status === 'Aguardando' ? 'selected' : ''}>Aguardando</option>
+                        </select>
+                    </td>
+                    <td class="p-3 text-center">
+                        <button onclick="apagarLinha(${item.id})" class="text-red-400 hover:text-red-600 font-bold p-1" title="Excluir">✕</button>
+                    </td>
                 `;
-                container.appendChild(card);
+                corpo.appendChild(tr);
             });
+            calcularGastos();
+        }
+
+        function registarFoco(el) {
+            campoFocoAtual = el;
+        }
+
+        function atualizarCampo(id, campo, valor) {
+            const item = dadosApp.find(i => i.id === id);
+            if(item) {
+                item[campo] = valor;
+                salvarStorage();
+            }
+        }
+
+        function adicionarLinha() {
+            const novoId = dadosApp.length > 0 ? Math.max(...dadosApp.map(i => i.id)) + 1 : 1;
+            dadosApp.push({
+                id: novoId,
+                categoria: destinoFiltro === 'todos' ? 'Zurique' : destinoFiltro,
+                data: "Novo Dia",
+                trecho: "Novo Destino",
+                transporte: "Trem / Ônibus",
+                embarque: "Local",
+                moeda: "CHF",
+                valor: "0",
+                status: "Aguardando"
+            });
+            salvarStorage();
+            renderizarTabela();
+        }
+
+        function apagarLinha(id) {
+            if(confirm("Deseja apagar esta linha?")) {
+                dadosApp = dadosApp.filter(i => i.id !== id);
+                salvarStorage();
+                renderizarTabela();
+            }
         }
 
         function filtrarDestino(cat) {
             destinoFiltro = cat;
-            // Atualizar cores dos botões de filtro
             ['todos', 'Zurique', 'Freiburg', 'Disney', 'Interlaken'].forEach(c => {
                 let btn = document.getElementById('btn-cat-' + c);
                 if(btn) {
                     if(c === cat) {
                         btn.className = "px-3 py-1.5 bg-indigo-600 text-white rounded-xl font-bold shadow-sm shrink-0 transition";
                     } else {
-                        btn.className = "px-3 py-1.5 bg-white border border-slate-300 text-slate-700 rounded-xl font-semibold shrink-0 transition";
+                        btn.className = "px-3 py-1.5 bg-white dark:bg-slate-850 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-200 rounded-xl font-semibold shrink-0 transition";
                     }
                 }
             });
-            renderizarItinerario();
+            renderizarTabela();
         }
 
-        function renderizarComprados() {
-            const container = document.getElementById('lista-comprados-html');
-            container.innerHTML = '';
-            let comprados = dadosApp.itinerario.filter(i => i.status.includes('Já comprei'));
-
-            if(comprados.length === 0) {
-                container.innerHTML = '<p class="text-xs text-slate-400 italic text-center py-4">Nenhum item marcado como comprado ainda.</p>';
+        function ativarMicrofone() {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (!SpeechRecognition) {
+                alert("O seu navegador não suporta reconhecimento de voz.");
                 return;
             }
-
-            comprados.forEach(item => {
-                let pdfArea = item.pdfData ? 
-                    `<a href="${item.pdfData}" download="${item.pdfNome || 'voucher.pdf'}" class="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1.5 rounded-xl font-bold">📄 Baixar / Ver PDF</a>` : 
-                    `<span class="text-slate-400 italic text-[11px]">Nenhum PDF anexado</span>`;
-
-                let div = document.createElement('div');
-                div.className = "p-3 bg-slate-50 rounded-2xl border border-slate-200 flex justify-between items-center gap-2";
-                div.innerHTML = `
-                    <div>
-                        <b class="text-slate-900">${item.trecho}</b> (${item.data})<br>
-                        <span class="text-slate-500">${item.transporte} — ${item.moeda} ${item.valor}</span>
-                    </div>
-                    <div>${pdfArea}</div>
-                `;
-                container.appendChild(div);
-            });
-        }
-
-        function renderizarTarefas() {
-            const container = document.getElementById('lista-tarefas-html');
-            container.innerHTML = '';
-            dadosApp.tarefas.forEach(t => {
-                let div = document.createElement('div');
-                div.className = "flex items-center justify-between p-2.5 bg-slate-50 rounded-2xl border border-slate-200";
-                div.innerHTML = `
-                    <label class="flex items-center gap-2 cursor-pointer flex-1">
-                        <input type="checkbox" ${t.feito ? 'checked' : ''} onchange="alternarTarefa(${t.id})" class="w-4 h-4 accent-indigo-600 rounded">
-                        <span class="${t.feito ? 'line-through opacity-50' : ''}">${t.texto}</span>
-                    </label>
-                    <div class="flex gap-1">
-                        <button onclick="abrirEdicaoTarefa(${t.id})" class="bg-slate-100 hover:bg-slate-200 px-2 py-1 rounded-lg font-bold text-xs" title="Editar">✏️</button>
-                        <button onclick="apagarTarefa(${t.id})" class="text-red-400 hover:text-red-600 px-2 font-bold">✕</button>
-                    </div>
-                `;
-                container.appendChild(div);
-            });
-        }
-
-        function adicionarTarefa() {
-            const texto = prompt("Nova tarefa / item:");
-            if(!texto) return;
-            const novoId = dadosApp.tarefas.length > 0 ? Math.max(...dadosApp.tarefas.map(t => t.id)) + 1 : 1;
-            dadosApp.tarefas.push({ id: novoId, texto: texto, feito: false });
-            salvarStorage();
-        }
-
-        function abrirEdicaoTarefa(id) {
-            const t = dadosApp.tarefas.find(item => item.id === id);
-            if(t) {
-                document.getElementById('tarefa-form-id').value = t.id;
-                document.getElementById('tarefa-form-texto').value = t.texto;
-                document.getElementById('modal-tarefa').classList.remove('hidden');
-            }
-        }
-
-        function salvarEdicaoTarefa() {
-            const id = parseInt(document.getElementById('tarefa-form-id').value);
-            const texto = document.getElementById('tarefa-form-texto').value;
-            const t = dadosApp.tarefas.find(item => item.id === id);
-            if(t && texto) {
-                t.texto = texto;
-                document.getElementById('modal-tarefa').classList.add('hidden');
-                salvarStorage();
-            }
-        }
-
-        function alternarTarefa(id) {
-            const t = dadosApp.tarefas.find(item => item.id === id);
-            if(t) { t.feito = !t.feito; salvarStorage(); }
-        }
-
-        function apagarTarefa(id) {
-            dadosApp.tarefas = dadosApp.tarefas.filter(t => t.id !== id);
-            salvarStorage();
-        }
-
-        function abrirModalItem(id = null) {
-            document.getElementById('modal-item').classList.remove('hidden');
-            if(id) {
-                const item = dadosApp.itinerario.find(i => i.id === id);
-                if(item) {
-                    document.getElementById('modal-titulo').innerText = "✏️ Editar Trecho";
-                    document.getElementById('form-id').value = item.id;
-                    document.getElementById('form-categoria').value = item.categoria;
-                    document.getElementById('form-data').value = item.data;
-                    document.getElementById('form-trecho').value = item.trecho;
-                    document.getElementById('form-transporte').value = item.transporte;
-                    document.getElementById('form-embarque').value = item.embarque;
-                    document.getElementById('form-moeda').value = item.moeda;
-                    document.getElementById('form-valor').value = item.valor;
-                    document.getElementById('form-status').value = item.status;
-                }
-            } else {
-                document.getElementById('modal-titulo').innerText = "➕ Adicionar Novo Trecho";
-                document.getElementById('form-id').value = '';
-                document.getElementById('form-categoria').value = 'Zurique';
-                document.getElementById('form-data').value = '';
-                document.getElementById('form-trecho').value = '';
-                document.getElementById('form-transporte').value = '';
-                document.getElementById('form-embarque').value = '';
-                document.getElementById('form-moeda').value = 'CHF';
-                document.getElementById('form-valor').value = '0';
-                document.getElementById('form-status').value = '⏳ Aguardando compra';
-                document.getElementById('form-pdf').value = '';
-            }
-        }
-
-        function fecharModalItem() { document.getElementById('modal-item').classList.add('hidden'); }
-
-        function guardarItemModal(e) {
-            e.preventDefault();
-            const id = document.getElementById('form-id').value;
-            const fileInput = document.getElementById('form-pdf');
-            
-            const processarItem = (pdfData = "", pdfNome = "") => {
-                const itemObj = {
-                    id: id ? parseInt(id) : (dadosApp.itinerario.length > 0 ? Math.max(...dadosApp.itinerario.map(i => i.id)) + 1 : 1),
-                    categoria: document.getElementById('form-categoria').value,
-                    data: document.getElementById('form-data').value,
-                    trecho: document.getElementById('form-trecho').value,
-                    transporte: document.getElementById('form-transporte').value,
-                    embarque: document.getElementById('form-embarque').value,
-                    moeda: document.getElementById('form-moeda').value,
-                    valor: document.getElementById('form-valor').value,
-                    status: document.getElementById('form-status').value,
-                    pdfData: pdfData,
-                    pdfNome: pdfNome
-                };
-
-                if(id) {
-                    const index = dadosApp.itinerario.findIndex(i => i.id === parseInt(id));
-                    if(index !== -1) {
-                        if(!pdfData) itemObj.pdfData = dadosApp.itinerario[index].pdfData;
-                        if(!pdfNome) itemObj.pdfNome = dadosApp.itinerario[index].pdfNome;
-                        dadosApp.itinerario[index] = itemObj;
-                    }
-                } else {
-                    dadosApp.itinerario.push(itemObj);
-                }
-
-                fecharModalItem();
-                salvarStorage();
+            const recognition = new SpeechRecognition();
+            recognition.lang = 'pt-BR';
+            recognition.onstart = function() {
+                alert("Ouvindo... Fale o texto para preencher o campo selecionado.");
             };
-
-            if(fileInput.files && fileInput.files[0]) {
-                const reader = new FileReader();
-                reader.onload = function(evt) {
-                    processarItem(evt.target.result, fileInput.files[0].name);
-                };
-                reader.readAsDataURL(fileInput.files[0]);
-            } else {
-                processarItem();
-            }
-        }
-
-        function editarItem(id) { abrirModalItem(id); }
-
-        function apagarItem(id) {
-            if(confirm("Deseja excluir este registo?")) {
-                dadosApp.itinerario = dadosApp.itinerario.filter(i => i.id !== id);
-                salvarStorage();
-            }
+            recognition.onresult = function(event) {
+                const textoDitado = event.results[0][0].transcript;
+                if (campoFocoAtual) {
+                    campoFocoAtual.value = textoDitado;
+                    campoFocoAtual.dispatchEvent(new Event('input'));
+                } else {
+                    alert("Por favor, clique primeiro dentro de uma caixa de texto na tabela antes de falar.");
+                }
+            };
+            recognition.onerror = function() {
+                alert("Erro no reconhecimento de voz.");
+            };
+            recognition.start();
         }
 
         function exportarWord() {
-            let htmlConteudo = `<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><title>Roteiro Europa</title><style>body{font-family:Arial,sans-serif;}table{width:100%;border-collapse:collapse;}th,td{border:1px solid #d6d3d1;padding:8px;font-size:11px;}th{background:#4f46e5;color:#fff;}</style></head><body><h1>Roteiro Europa</h1><table><tr><th>Categoria</th><th>Data</th><th>Trecho</th><th>Transporte</th><th>Embarque</th><th>Valor</th><th>Estado</th></tr>`;
-            dadosApp.itinerario.forEach(i => {
+            let htmlConteudo = `<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><title>Roteiro Europa</title><style>body{font-family:Arial,sans-serif;}table{width:100%;border-collapse:collapse;}th,td{border:1px solid #cbd5e1;padding:8px;font-size:11px;}th{background:#4f46e5;color:#fff;}</style></head><body><h1>Roteiro Europa</h1><table><tr><th>Categoria</th><th>Data</th><th>Trecho</th><th>Transporte</th><th>Embarque</th><th>Valor</th><th>Estado</th></tr>`;
+            dadosApp.forEach(i => {
                 htmlConteudo += `<tr><td>${i.categoria}</td><td>${i.data}</td><td>${i.trecho}</td><td>${i.transporte}</td><td>${i.embarque}</td><td>${i.moeda} ${i.valor}</td><td>${i.status}</td></tr>`;
             });
             htmlConteudo += `</table></body></html>`;
