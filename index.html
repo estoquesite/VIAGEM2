@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v93.0)</title>
+    <title>Roteiro Europa - Mariana (v94.0)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Manifest Dinâmico via JavaScript -->
@@ -35,7 +35,7 @@
     <!-- CABEÇALHO COMPACTO NO TOPO -->
     <header class="bg-slate-900 text-white px-3 py-2 shadow-md border-b border-slate-800 text-xs flex justify-between items-center z-50 relative">
         <span class="font-bold tracking-wide">🚄 Roteiro Europa - Mariana</span>
-        <span class="bg-indigo-600 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v93.0</span>
+        <span class="bg-indigo-600 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v94.0</span>
     </header>
 
     <!-- CONTEÚDO PRINCIPAL COMPACTO -->
@@ -49,7 +49,7 @@
             <button onclick="mudarTab('tarefas')" id="tab-btn-tarefas" class="py-2 rounded-lg text-slate-600 hover:bg-white/50 transition">✅ Tarefas</button>
         </div>
 
-        <!-- TAB 1: ROTEIRO EM QUADRADINHOS COMPACTOS COM BOTÃO DE ELIMINAR DIRETO -->
+        <!-- TAB 1: ROTEIRO EM QUADRADINHOS COMPACTOS -->
         <div id="tab-leitura" class="space-y-2">
             <div class="bg-gradient-to-r from-indigo-900 to-slate-900 text-white p-2.5 rounded-2xl shadow-md flex justify-between items-center">
                 <div>
@@ -85,13 +85,13 @@
             <div id="lista-blocos" class="space-y-2"></div>
         </div>
 
-        <!-- TAB 3: VOUCHERS & PDFS -->
+        <!-- TAB 3: VUCHERS & PDFS (COM OPÇÃO 'OUTRO...' PARA LOCAIS) -->
         <div id="tab-comprados" class="space-y-3 hidden">
             <div class="bg-white p-3 rounded-2xl shadow-sm border border-slate-300 space-y-3">
                 <div class="flex justify-between items-center border-b pb-2 flex-wrap gap-2">
                     <div>
                         <h2 class="text-[11px] font-extrabold uppercase text-slate-800 tracking-wider">🎟️ Gestão de Vouchers & PDFs</h2>
-                        <p class="text-[10px] text-slate-500 font-semibold">Selecione os locais e visualize instantaneamente</p>
+                        <p class="text-[10px] text-slate-500 font-semibold">Selecione os locais (com opção de adicionar novo) e visualize PDFs</p>
                     </div>
                     <button onclick="adicionarVoucher()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-2.5 py-1.5 rounded-lg font-bold text-[11px] transition shadow-sm">➕ Novo Voucher</button>
                 </div>
@@ -99,7 +99,7 @@
             </div>
         </div>
 
-        <!-- TAB 4: TAREFAS (STATUS NA MESMA LINHA E BOTÃO DE ADICIONAR) -->
+        <!-- TAB 4: TAREFAS -->
         <div id="tab-tarefas" class="space-y-3 hidden">
             <div class="bg-indigo-900 text-white p-3 rounded-2xl shadow-md space-y-2">
                 <div class="flex justify-between items-center flex-wrap gap-2">
@@ -136,7 +136,7 @@
 
     <!-- BARRA DE FERRAMENTAS FIXA -->
     <nav class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-md text-white px-2 py-2 shadow-2xl border-t border-slate-800 text-xs flex items-center gap-1 overflow-x-auto no-scrollbar">
-        <span class="bg-indigo-600 px-1 py-0.5 rounded font-mono font-bold text-[8px] shrink-0">v93.0</span>
+        <span class="bg-indigo-600 px-1 py-0.5 rounded font-mono font-bold text-[8px] shrink-0">v94.0</span>
         <button onclick="abrirGeminiModal()" class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-2 py-1 rounded-lg font-bold transition shrink-0 flex items-center gap-1 text-[10px]">
             <span>✨</span> Gemini
         </button>
@@ -208,7 +208,7 @@
     </div>
 
     <script>
-        const CHAVE_APP = "mariana_viagem_europa_v93";
+        const CHAVE_APP = "mariana_viagem_europa_v94";
         let destinoFiltro = 'todos';
         let tarefaFiltro = 'todas';
         let campoFocoAtual = null;
@@ -282,7 +282,7 @@
             const manifestBlob = new Blob([JSON.stringify(manifestObj)], {type: 'application/manifest+json'});
             document.getElementById('pwa-manifest').href = URL.createObjectURL(manifestBlob);
 
-            const temaSalvo = localStorage.getItem('tema_v93');
+            const temaSalvo = localStorage.getItem('tema_v94');
             if (temaSalvo === 'dark') {
                 document.body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 document.body.classList.remove('bg-slate-100', 'text-slate-800');
@@ -326,10 +326,10 @@
         }
 
         function desbloquearComPin() {
-            let pinSalvo = localStorage.getItem('app_pin_v93') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v94') || '1510';
             let digitado = document.getElementById('input-pin').value;
             if(digitado === pinSalvo) {
-                sessionStorage.setItem('sessao_ativa_v93', 'true');
+                sessionStorage.setItem('sessao_ativa_v94', 'true');
                 document.getElementById('tela-bloqueio').classList.add('hidden');
                 document.getElementById('erro-pin').classList.add('hidden');
             } else {
@@ -338,17 +338,17 @@
         }
 
         async function desbloquearComBiometria() {
-            sessionStorage.setItem('sessao_ativa_v93', 'true');
+            sessionStorage.setItem('sessao_ativa_v94', 'true');
             document.getElementById('tela-bloqueio').classList.add('hidden');
         }
 
         function alterarSenhaPin() {
             let atual = prompt("Digite a senha atual (Padrão: 1510):");
-            let pinSalvo = localStorage.getItem('app_pin_v93') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v94') || '1510';
             if(atual === pinSalvo) {
                 let nova = prompt("Digite a nova senha PIN:");
                 if(nova && nova.trim() !== '') {
-                    localStorage.setItem('app_pin_v93', nova.trim());
+                    localStorage.setItem('app_pin_v94', nova.trim());
                     alert("🔑 Senha alterada com sucesso!");
                 }
             } else {
@@ -361,11 +361,11 @@
             if(body.classList.contains('dark')) {
                 body.classList.remove('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.add('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v93', 'light');
+                localStorage.setItem('tema_v94', 'light');
             } else {
                 body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.remove('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v93', 'dark');
+                localStorage.setItem('tema_v94', 'dark');
             }
         }
 
@@ -765,7 +765,7 @@
             }
         }
 
-        // VOUCHERS COM LEITOR DE PDF INTEGRADO E CORES SINCRONIZADAS
+        // VOUCHERS COM LEITOR DE PDF INTEGRADO E OPÇÃO "OUTRO..." NOS DESTINOS
         function renderizarVouchersTab() {
             const container = document.getElementById('lista-comprados-html');
             if(!container) return;
@@ -784,6 +784,7 @@
                 dadosApp.locaisCadastrados.forEach(l => {
                     opcoesLocaisV += `<option value="${l}" ${v.titulo === l ? 'selected' : ''}>${l}</option>`;
                 });
+                opcoesLocaisV += `<option value="outro_local">➕ Outro...</option>`;
 
                 let opcoesDestinoV = '';
                 if(!dadosApp.destinosCadastrados.includes(v.categoria)) dadosApp.destinosCadastrados.push(v.categoria);
@@ -809,7 +810,7 @@
 
                 div.innerHTML = `
                     <div class="space-y-1">
-                        <select onchange="atualizarVoucherCampo(${v.id}, 'titulo', this.value)" class="w-full p-1 bg-slate-50 border border-slate-200 rounded-lg outline-none font-bold text-[10px] text-slate-900">
+                        <select onchange="lidarSelecaoLocalVoucher(${v.id}, this.value)" class="w-full p-1 bg-slate-50 border border-slate-200 rounded-lg outline-none font-bold text-[10px] text-slate-900">
                             ${opcoesLocaisV}
                         </select>
                         <div class="flex items-center justify-between gap-1 pt-0.5">
@@ -825,6 +826,18 @@
                 `;
                 container.appendChild(div);
             });
+        }
+
+        function lidarSelecaoLocalVoucher(id, valor) {
+            registarEstadoAnterior();
+            if(valor === 'outro_local') {
+                let novo = prompt("Novo local/hotel:");
+                if(novo && novo.trim() !== '') {
+                    let limpo = novo.trim();
+                    if(!dadosApp.locaisCadastrados.includes(limpo)) dadosApp.locaisCadastrados.push(limpo);
+                    atualizarVoucherCampo(id, 'titulo', limpo);
+                } else { renderizarVouchersTab(); }
+            } else { atualizarVoucherCampo(id, 'titulo', valor); }
         }
 
         function abrirLeitorPdf(id, titulo) {
@@ -865,7 +878,7 @@
         function atualizarVoucherCampo(id, campo, val) { 
             registarEstadoAnterior();
             const v = dadosApp.vouchers.find(i => i.id === id); 
-            if(v) { v[campo] = val; salvarStorage(); } 
+            if(v) { v[campo] = val; salvarStorage(); renderizarVouchersTab(); } 
         }
 
         function adicionarVoucher() { 
@@ -892,7 +905,7 @@
             document.getElementById('stat-tarefas').innerText = `${concluidas} / ${total} Concluídas`;
 
             if(filtradas.length === 0) {
-                container.innerHTML = '<p class="text-xs text-slate-400 italic text-center py-4">Nenhuma tarefa.</p>';
+                container.innerHTML = '<p class="col-span-full text-xs text-slate-400 italic text-center py-4">Nenhuma tarefa cadastrada.</p>';
                 return;
             }
 
@@ -905,6 +918,7 @@
                 Object.keys(dadosApp.statusPersonalizados).forEach(st => {
                     opcoesStatus += `<option value="${st}" ${statusAtual === st ? 'selected' : ''}>${st}</option>`;
                 });
+                opcoesStatus += `<option value="novo_status">➕ Outro...</option>`;
 
                 let div = document.createElement('div');
                 div.className = `p-2 rounded-xl border bg-white space-y-1 shadow-sm`;
@@ -922,6 +936,23 @@
                 `;
                 container.appendChild(div);
             });
+        }
+
+        function lidarSelecaoStatusTarefa(id, valor) {
+            registarEstadoAnterior();
+            if(valor === 'novo_status') {
+                let nomeNovo = prompt("Nome do novo status:");
+                if(nomeNovo && nomeNovo.trim() !== '') {
+                    let corNova = prompt("Cor HEX do status:", "#3b82f6");
+                    if(!dadosApp.statusPersonalizados) dadosApp.statusPersonalizados = {};
+                    dadosApp.statusPersonalizados[nomeNovo.trim()] = corNova || "#3b82f6";
+                    const t = dadosApp.tarefas.find(item => item.id === id);
+                    if(t) { t.status = nomeNovo.trim(); salvarStorage(); renderizarTarefas(); }
+                } else { renderizarTarefas(); }
+            } else {
+                const t = dadosApp.tarefas.find(item => item.id === id);
+                if(t) { t.status = valor; salvarStorage(); renderizarTarefas(); }
+            }
         }
 
         function atualizarTarefaTexto(id, valor) {
