@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v101.0)</title>
+    <title>Roteiro Europa - Mariana (v102.0)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Manifest Dinâmico via JavaScript -->
@@ -35,7 +35,7 @@
     <!-- CABEÇALHO COMPACTO NO TOPO -->
     <header class="bg-slate-900 text-white px-3 py-2 shadow-md border-b border-slate-800 text-xs flex justify-between items-center z-50 relative">
         <span class="font-bold tracking-wide">🚄 Roteiro Europa - Mariana</span>
-        <span class="bg-indigo-600 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v101.0</span>
+        <span class="bg-indigo-600 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v102.0</span>
     </header>
 
     <!-- CONTEÚDO PRINCIPAL COMPACTO -->
@@ -251,7 +251,7 @@
 
     <!-- BARRA DE FERRAMENTAS FIXA -->
     <nav class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-md text-white px-2 py-2 shadow-2xl border-t border-slate-800 text-xs flex items-center gap-1 overflow-x-auto no-scrollbar">
-        <span class="bg-indigo-600 px-1 py-0.5 rounded font-mono font-bold text-[8px] shrink-0">v101.0</span>
+        <span class="bg-indigo-600 px-1 py-0.5 rounded font-mono font-bold text-[8px] shrink-0">v102.0</span>
         <button onclick="abrirGeminiModal()" class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-2 py-1 rounded-lg font-bold transition shrink-0 flex items-center gap-1 text-[10px]">
             <span>✨</span> Gemini
         </button>
@@ -304,7 +304,7 @@
     </div>
 
     <script>
-        const CHAVE_APP = "mariana_viagem_europa_v101";
+        const CHAVE_APP = "mariana_viagem_europa_v102";
         let destinoFiltro = 'todos';
         let tarefaFiltro = 'todas';
         let campoFocoAtual = null;
@@ -329,9 +329,9 @@
                 { id: 4, categoria: "Interlaken", dataInicio: "2027-01-08", dataFim: "2027-01-12", trecho: "Paris ➔ Interlaken", embarque: "Gare de Lyon", desembarque: "Hotel Weisses", notasExtras: "", cor: "#10b981", bloqueado: false, concluido: false }
             ],
             tarefas: [
-                { id: 1, texto: "Comprar cartões Wise e Nomad", status: "Concluído", categoria: "Zurique" },
-                { id: 2, texto: "Reservar bilhetes Europa-Park", status: "Aguardando", categoria: "Freiburg" },
-                { id: 3, texto: "Reservar passes Disney", status: "Aguardando", categoria: "França" }
+                { id: 1, texto: "Comprar cartões Wise e Nomad", status: "", categoria: "" },
+                { id: 2, texto: "Reservar bilhetes Europa-Park", status: "", categoria: "" },
+                { id: 3, texto: "Reservar passes Disney", status: "", categoria: "" }
             ],
             vouchers: [
                 { id: 1, titulo: "ibis budget Zurich City West", categoria: "Zurique", pdfData: "", pdfNome: "" },
@@ -389,7 +389,7 @@
             const manifestBlob = new Blob([JSON.stringify(manifestObj)], {type: 'application/manifest+json'});
             document.getElementById('pwa-manifest').href = URL.createObjectURL(manifestBlob);
 
-            const temaSalvo = localStorage.getItem('tema_v101');
+            const temaSalvo = localStorage.getItem('tema_v102');
             if (temaSalvo === 'dark') {
                 document.body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 document.body.classList.remove('bg-slate-100', 'text-slate-800');
@@ -436,10 +436,10 @@
         }
 
         function desbloquearComPin() {
-            let pinSalvo = localStorage.getItem('app_pin_v101') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v102') || '1510';
             let digitado = document.getElementById('input-pin').value;
             if(digitado === pinSalvo) {
-                sessionStorage.setItem('sessao_ativa_v101', 'true');
+                sessionStorage.setItem('sessao_ativa_v102', 'true');
                 document.getElementById('tela-bloqueio').classList.add('hidden');
                 document.getElementById('erro-pin').classList.add('hidden');
             } else {
@@ -448,17 +448,17 @@
         }
 
         async function desbloquearComBiometria() {
-            sessionStorage.setItem('sessao_ativa_v101', 'true');
+            sessionStorage.setItem('sessao_ativa_v102', 'true');
             document.getElementById('tela-bloqueio').classList.add('hidden');
         }
 
         function alterarSenhaPin() {
             let atual = prompt("Digite a senha atual (Padrão: 1510):");
-            let pinSalvo = localStorage.getItem('app_pin_v101') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v102') || '1510';
             if(atual === pinSalvo) {
                 let nova = prompt("Digite a nova senha PIN:");
                 if(nova && nova.trim() !== '') {
-                    localStorage.setItem('app_pin_v101', nova.trim());
+                    localStorage.setItem('app_pin_v102', nova.trim());
                     alert("🔑 Senha alterada com sucesso!");
                 }
             } else {
@@ -471,11 +471,11 @@
             if(body.classList.contains('dark')) {
                 body.classList.remove('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.add('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v101', 'light');
+                localStorage.setItem('tema_v102', 'light');
             } else {
                 body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.remove('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v101', 'dark');
+                localStorage.setItem('tema_v102', 'dark');
             }
         }
 
@@ -565,6 +565,7 @@
         }
 
         function obterCorPorCategoria(cat) {
+            if(!cat) return '#64748b';
             let item = dadosApp.itinerario.find(i => (i.categoria || "").toLowerCase() === (cat || "").toLowerCase());
             if(item && item.cor) return item.cor;
             let c = (cat || "").toLowerCase();
@@ -572,7 +573,7 @@
             if(c.includes('freiburg')) return '#f59e0b';
             if(c.includes('frança') || c.includes('france') || c.includes('paris')) return '#ec4899';
             if(c.includes('interlaken')) return '#10b981';
-            return '#3b82f6';
+            return '#64748b';
         }
 
         function renderizarFiltros() {
@@ -913,7 +914,7 @@
             }
         }
 
-        // VOUCHERS (TODOS OS ELEMENTOS NUMA SÓ LINHA)
+        // VOUCHERS (COM TUDO NUMA SÓ LINHA)
         function renderizarVouchersTab() {
             const container = document.getElementById('lista-comprados-html');
             if(!container) return;
@@ -943,12 +944,12 @@
 
                 let pdfAction = v.pdfData ? 
                     `<div class="flex items-center gap-1">
-                        <button onclick="abrirLeitorPdf('${v.id}', '${v.titulo.replace(/'/g, "\\'")}')" class="bg-indigo-600 hover:bg-indigo-700 text-white px-2.5 py-1 rounded text-[9px] font-bold">📄 PDF</button>
-                        <label class="bg-amber-100 hover:bg-amber-200 text-amber-800 px-2 py-1 rounded text-[9px] font-bold cursor-pointer">
+                        <button onclick="abrirLeitorPdf('${v.id}', '${v.titulo.replace(/'/g, "\\'")}')" class="bg-indigo-600 hover:bg-indigo-700 text-white px-2 py-0.5 rounded text-[8px] font-bold">📄 PDF</button>
+                        <label class="bg-amber-100 hover:bg-amber-200 text-amber-800 px-1.5 py-0.5 rounded text-[8px] font-bold cursor-pointer">
                             🔄<input type="file" accept="application/pdf" onchange="anexarPdfVoucher(${v.id}, event)" class="hidden">
                         </label>
                      </div>` : 
-                    `<label class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-2.5 py-1 rounded text-[9px] font-bold cursor-pointer border">
+                    `<label class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-1.5 py-0.5 rounded text-[8px] font-bold cursor-pointer border">
                         📎 Anexar<input type="file" accept="application/pdf" onchange="anexarPdfVoucher(${v.id}, event)" class="hidden">
                     </label>`;
 
@@ -963,13 +964,13 @@
                         </select>
                     </div>
                     <div>
-                        <select onchange="lidarSelecaoDestinoVoucher(${v.id}, this.value)" class="font-bold px-2 py-1 rounded-lg text-[9px] border text-white truncate max-w-[90px]" style="background-color: ${corVoucher};">
+                        <select onchange="lidarSelecaoDestinoVoucher(${v.id}, this.value)" class="font-bold px-1.5 py-0.5 rounded-lg text-[9px] border text-white truncate max-w-[90px]" style="background-color: ${corVoucher};">
                             ${opcoesDestinoV}
                         </select>
                     </div>
                     <div>${pdfAction}</div>
                     <div>
-                        <button onclick="apagarVoucher(${v.id})" class="text-red-500 font-bold text-[10px] bg-red-50 hover:bg-red-100 px-2 py-1 rounded transition">✕</button>
+                        <button onclick="apagarVoucher(${v.id})" class="text-red-500 font-bold text-[8px] bg-red-50 hover:bg-red-100 px-1.5 py-0.2 rounded transition">✕</button>
                     </div>
                 `;
                 container.appendChild(div);
@@ -1059,34 +1060,34 @@
             }
 
             filtradas.forEach(t => {
-                let statusAtual = t.status || "Aguardando";
-                let corStatus = dadosApp.statusPersonalizados[statusAtual] || "#f59e0b";
-                let corDestino = obterCorPorCategoria(t.categoria || 'Zurique');
+                let statusAtual = t.status || "";
+                let corStatus = dadosApp.statusPersonalizados[statusAtual] || "#94a3b8";
+                let corDestino = obterCorPorCategoria(t.categoria || '');
                 let textStyle = (statusAtual === 'Concluído') ? 'line-through text-slate-400 font-normal' : 'font-bold text-slate-800';
 
-                let opcoesStatus = '';
+                let opcoesStatus = `<option value="" ${statusAtual === "" ? 'selected' : ''}>Status...</option>`;
                 Object.keys(dadosApp.statusPersonalizados).forEach(st => {
                     opcoesStatus += `<option value="${st}" ${statusAtual === st ? 'selected' : ''}>${st}</option>`;
                 });
                 opcoesStatus += `<option value="novo_status">➕ Outro...</option>`;
 
-                let opcoesDestinoT = '';
-                if(!dadosApp.destinosCadastrados.includes(t.categoria)) dadosApp.destinosCadastrados.push(t.categoria || "Zurique");
+                let opcoesDestinoT = `<option value="" ${!t.categoria ? 'selected' : ''}>Destino...</option>`;
+                if(!dadosApp.destinosCadastrados.includes(t.categoria) && t.categoria) dadosApp.destinosCadastrados.push(t.categoria);
                 dadosApp.destinosCadastrados.forEach(d => {
-                    opcoesDestinoT += `<option value="${d}" ${(t.categoria || 'Zurique') === d ? 'selected' : ''}>${d}</option>`;
+                    opcoesDestinoT += `<option value="${d}" ${(t.categoria || '') === d ? 'selected' : ''}>${d}</option>`;
                 });
                 opcoesDestinoT += `<option value="novo_destino">➕ Outro...</option>`;
 
                 let div = document.createElement('div');
                 div.className = "p-2 rounded-xl border bg-white flex items-center justify-between gap-1.5 shadow-sm";
-                div.style.borderLeft = `4px solid ${corDestino}`;
+                div.style.borderLeft = `4px solid ${t.categoria ? corDestino : '#94a3b8'}`;
                 div.innerHTML = `
                     <button onclick="abrirModalTarefa(${t.id})" class="bg-slate-100 hover:bg-slate-200 p-1 rounded text-[10px] shrink-0" title="Editar Tarefa">✏️</button>
                     <input type="text" value="${t.texto}" oninput="atualizarTarefaTexto(${t.id}, this.value)" class="flex-1 min-w-0 p-1 bg-transparent outline-none ${textStyle} text-[10px] truncate" placeholder="Tarefa...">
-                    <select onchange="lidarSelecaoDestinoTarefa(${t.id}, this.value)" class="border rounded px-1.5 py-1 text-[9px] font-bold text-white shrink-0 max-w-[80px]" style="background-color: ${corDestino};">
+                    <select onchange="lidarSelecaoDestinoTarefa(${t.id}, this.value)" class="border rounded px-1.5 py-1 text-[9px] font-bold text-white shrink-0 max-w-[80px]" style="background-color: ${t.categoria ? corDestino : '#64748b'};">
                         ${opcoesDestinoT}
                     </select>
-                    <select onchange="lidarSelecaoStatusTarefa(${t.id}, this.value)" class="border rounded px-1.5 py-1 text-[9px] font-bold text-white shrink-0 max-w-[80px]" style="background-color: ${corStatus};">
+                    <select onchange="lidarSelecaoStatusTarefa(${t.id}, this.value)" class="border rounded px-1.5 py-1 text-[9px] font-bold text-white shrink-0 max-w-[80px]" style="background-color: ${statusAtual ? corStatus : '#64748b'};">
                         ${opcoesStatus}
                     </select>
                     <button onclick="apagarTarefa(${t.id})" class="text-red-500 font-bold text-[10px] bg-red-50 hover:bg-red-100 px-2 py-1 rounded transition shrink-0">✕</button>
@@ -1155,7 +1156,7 @@
         }
         function adicionarTarefa() {
             registarEstadoAnterior();
-            dadosApp.tarefas.unshift({ id: Date.now(), texto: "Nova tarefa...", status: "Aguardando", categoria: "Zurique" });
+            dadosApp.tarefas.unshift({ id: Date.now(), texto: "Nova tarefa...", status: "", categoria: "" });
             salvarStorage();
             renderizarTarefas();
         }
