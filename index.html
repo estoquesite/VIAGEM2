@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v111.0)</title>
+    <title>Roteiro Europa - Mariana (v114.0)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Manifest Dinâmico via JavaScript -->
@@ -37,7 +37,7 @@
         <span class="font-bold tracking-wide">🚄 Roteiro Europa - Mariana</span>
         <div class="flex items-center gap-2">
             <button onclick="exportarPdfPrint()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2 py-0.5 rounded font-bold text-[9px] transition">🖨️ PDF / Imprimir</button>
-            <span class="bg-indigo-600 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v111.0</span>
+            <span class="bg-indigo-600 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v114.0</span>
         </div>
     </header>
 
@@ -90,28 +90,24 @@
             <div id="lista-blocos" class="space-y-2"></div>
         </div>
 
-        <!-- TAB 3: VOOS & PASSAGENS (COM PDF) -->
+        <!-- TAB 3: VOOS & PASSAGENS E CONTATOS -->
         <div id="tab-voos" class="space-y-3 hidden">
-            <div class="bg-white p-3 rounded-2xl shadow-sm border border-slate-300 space-y-3 text-xs">
-                <div class="flex justify-between items-center border-b pb-2 flex-wrap gap-2">
-                    <div>
-                        <h2 class="text-[11px] font-extrabold uppercase text-slate-800 tracking-wider">✈️ Gestão de Voos & Passagens (PDF)</h2>
-                        <p class="text-[10px] text-slate-500 font-semibold">Passagens aéreas e códigos PNR</p>
+            <div class="grid grid-cols-2 gap-2">
+                <div class="bg-white p-2.5 rounded-2xl border shadow-sm space-y-2">
+                    <div class="flex justify-between items-center border-b pb-1 flex-wrap gap-1">
+                        <h2 class="text-[10px] font-extrabold uppercase text-slate-800 tracking-wider">✈️ Voos & Passagens</h2>
+                        <button onclick="adicionarVoo()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-2 py-0.5 rounded font-bold text-[9px] transition shadow-sm">➕ Voo</button>
                     </div>
-                    <button onclick="adicionarVoo()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-2.5 py-1.5 rounded-lg font-bold text-[11px] transition shadow-sm">➕ Novo Voo</button>
+                    <div id="lista-voos-html" class="space-y-1.5 text-[11px]"></div>
                 </div>
-                <div id="lista-voos-html" class="space-y-2"></div>
-            </div>
 
-            <div class="bg-white p-3 rounded-2xl shadow-sm border border-slate-300 space-y-3 text-xs">
-                <div class="flex justify-between items-center border-b pb-2 flex-wrap gap-2">
-                    <div>
-                        <h2 class="text-[11px] font-extrabold uppercase text-slate-800 tracking-wider">📞 Contatos Úteis & Emergência</h2>
-                        <p class="text-[10px] text-slate-500 font-semibold">Números essenciais</p>
+                <div class="bg-white p-2.5 rounded-2xl border shadow-sm space-y-2">
+                    <div class="flex justify-between items-center border-b pb-1 flex-wrap gap-1">
+                        <h2 class="text-[10px] font-extrabold uppercase text-slate-800 tracking-wider">📞 Contatos Úteis</h2>
+                        <button onclick="adicionarContato()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-2 py-0.5 rounded font-bold text-[9px] transition shadow-sm">➕ Contato</button>
                     </div>
-                    <button onclick="adicionarContato()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-2.5 py-1.5 rounded-lg font-bold text-[11px] transition shadow-sm">➕ Novo Contato</button>
+                    <div id="lista-contatos-html" class="space-y-1.5 text-[11px]"></div>
                 </div>
-                <div id="lista-contatos-html" class="space-y-2"></div>
             </div>
         </div>
 
@@ -160,7 +156,7 @@
             </div>
         </div>
 
-        <!-- TAB 6: ORÇAMENTO & CÂMBIO (BLOCOS MENORES LADO A LADO) -->
+        <!-- TAB 6: ORÇAMENTO & CÂMBIO -->
         <div id="tab-orcamento" class="space-y-3 hidden">
             <div class="bg-white p-2.5 sm:p-3 rounded-2xl shadow-sm border border-slate-300 space-y-2.5 text-xs">
                 <div class="border-b pb-1.5">
@@ -186,46 +182,52 @@
                 <!-- BLOCOS LADO A LADO PARA EUROS E FRANCOS (COMPACTOS) -->
                 <div class="grid grid-cols-2 gap-2">
                     <!-- BLOCO EUR -->
-                    <div class="bg-amber-50/60 p-2 rounded-xl border border-amber-200 space-y-1.5">
-                        <h3 class="font-black text-amber-900 text-[10px] uppercase border-b border-amber-200 pb-0.5">🇪🇺 Euros (€)</h3>
-                        <div>
-                            <label class="block font-bold text-[9px] text-amber-800 mb-0.5">Disponível (€)</label>
-                            <input type="number" id="input-saldo-eur" oninput="atualizarSaldoInicial('EUR', this.value)" class="w-full p-1 bg-white border rounded font-black text-amber-900 text-xs" placeholder="0">
+                    <div class="bg-amber-50/60 p-2 rounded-xl border border-amber-200 space-y-1.5 flex flex-col justify-between">
+                        <div class="space-y-1.5">
+                            <h3 class="font-black text-amber-900 text-[10px] uppercase border-b border-amber-200 pb-0.5">🇪🇺 Euros (€)</h3>
+                            <div>
+                                <label class="block font-bold text-[9px] text-amber-800 mb-0.5">Disponível (€)</label>
+                                <input type="number" id="input-saldo-eur" oninput="atualizarSaldoInicial('EUR', this.value)" class="w-full p-1 bg-white border rounded font-black text-amber-900 text-xs" placeholder="0">
+                            </div>
+                            <div class="flex justify-between items-center bg-white p-1.5 rounded-lg border text-[10px]">
+                                <span class="font-semibold text-slate-600">Restante:</span>
+                                <span id="restante-eur" class="font-black text-amber-900 text-xs">0.00</span>
+                            </div>
+                            <div class="flex justify-between items-center bg-white p-1.5 rounded-lg border text-[10px]">
+                                <span class="font-semibold text-slate-600">Em R$:</span>
+                                <span id="restante-eur-brl" class="font-black text-emerald-700 text-xs">R$ 0.00</span>
+                            </div>
+                            <div class="space-y-1 pt-1">
+                                <span class="font-bold text-[9px] text-amber-900 uppercase block">Despesas €:</span>
+                                <div id="lista-despesas-eur-html" class="space-y-1"></div>
+                            </div>
                         </div>
-                        <div class="flex justify-between items-center bg-white p-1.5 rounded-lg border text-[10px]">
-                            <span class="font-semibold text-slate-600">Restante:</span>
-                            <span id="restante-eur" class="font-black text-amber-900 text-xs">0.00</span>
-                        </div>
-                        <div class="flex justify-between items-center bg-white p-1.5 rounded-lg border text-[10px]">
-                            <span class="font-semibold text-slate-600">Em R$:</span>
-                            <span id="restante-eur-brl" class="font-black text-emerald-700 text-xs">R$ 0.00</span>
-                        </div>
-                        <button onclick="adicionarDespesa('EUR')" class="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold py-1 rounded-lg text-[10px] transition shadow-sm">➕ Despesa EUR</button>
+                        <button onclick="adicionarDespesa('EUR')" class="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold py-1 rounded-lg text-[10px] transition shadow-sm mt-2">➕ Despesa EUR</button>
                     </div>
 
                     <!-- BLOCO CHF -->
-                    <div class="bg-blue-50/60 p-2 rounded-xl border border-blue-200 space-y-1.5">
-                        <h3 class="font-black text-blue-900 text-[10px] uppercase border-b border-blue-200 pb-0.5">🇨🇭 Francos (CHF)</h3>
-                        <div>
-                            <label class="block font-bold text-[9px] text-blue-800 mb-0.5">Disponível (CHF)</label>
-                            <input type="number" id="input-saldo-chf" oninput="atualizarSaldoInicial('CHF', this.value)" class="w-full p-1 bg-white border rounded font-black text-blue-900 text-xs" placeholder="0">
+                    <div class="bg-blue-50/60 p-2 rounded-xl border border-blue-200 space-y-1.5 flex flex-col justify-between">
+                        <div class="space-y-1.5">
+                            <h3 class="font-black text-blue-900 text-[10px] uppercase border-b border-blue-200 pb-0.5">🇨🇭 Francos (CHF)</h3>
+                            <div>
+                                <label class="block font-bold text-[9px] text-blue-800 mb-0.5">Disponível (CHF)</label>
+                                <input type="number" id="input-saldo-chf" oninput="atualizarSaldoInicial('CHF', this.value)" class="w-full p-1 bg-white border rounded font-black text-blue-900 text-xs" placeholder="0">
+                            </div>
+                            <div class="flex justify-between items-center bg-white p-1.5 rounded-lg border text-[10px]">
+                                <span class="font-semibold text-slate-600">Restante:</span>
+                                <span id="restante-chf" class="font-black text-blue-900 text-xs">0.00</span>
+                            </div>
+                            <div class="flex justify-between items-center bg-white p-1.5 rounded-lg border text-[10px]">
+                                <span class="font-semibold text-slate-600">Em R$:</span>
+                                <span id="restante-chf-brl" class="font-black text-emerald-700 text-xs">R$ 0.00</span>
+                            </div>
+                            <div class="space-y-1 pt-1">
+                                <span class="font-bold text-[9px] text-blue-900 uppercase block">Despesas CHF:</span>
+                                <div id="lista-despesas-chf-html" class="space-y-1"></div>
+                            </div>
                         </div>
-                        <div class="flex justify-between items-center bg-white p-1.5 rounded-lg border text-[10px]">
-                            <span class="font-semibold text-slate-600">Restante:</span>
-                            <span id="restante-chf" class="font-black text-blue-900 text-xs">0.00</span>
-                        </div>
-                        <div class="flex justify-between items-center bg-white p-1.5 rounded-lg border text-[10px]">
-                            <span class="font-semibold text-slate-600">Em R$:</span>
-                            <span id="restante-chf-brl" class="font-black text-emerald-700 text-xs">R$ 0.00</span>
-                        </div>
-                        <button onclick="adicionarDespesa('CHF')" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-1 rounded-lg text-[10px] transition shadow-sm">➕ Despesa CHF</button>
+                        <button onclick="adicionarDespesa('CHF')" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-1 rounded-lg text-[10px] transition shadow-sm mt-2">➕ Despesa CHF</button>
                     </div>
-                </div>
-
-                <!-- LISTAGEM DE CUSTOS -->
-                <div class="space-y-1.5 pt-1.5 border-t">
-                    <h3 class="font-bold text-[10px] uppercase text-slate-700">📋 Custos do Itinerário & Despesas</h3>
-                    <div id="lista-despesas-completa-html" class="space-y-1"></div>
                 </div>
             </div>
         </div>
@@ -269,7 +271,7 @@
 
     <!-- BARRA DE FERRAMENTAS FIXA -->
     <nav class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-md text-white px-2 py-2 shadow-2xl border-t border-slate-800 text-xs flex items-center gap-1 overflow-x-auto no-scrollbar">
-        <span class="bg-indigo-600 px-1 py-0.5 rounded font-mono font-bold text-[8px] shrink-0">v110.0</span>
+        <span class="bg-indigo-600 px-1 py-0.5 rounded font-mono font-bold text-[8px] shrink-0">v114.0</span>
         <button onclick="abrirGeminiModal()" class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-2 py-1 rounded-lg font-bold transition shrink-0 flex items-center gap-1 text-[10px]">
             <span>✨</span> Gemini
         </button>
@@ -322,7 +324,7 @@
     </div>
 
     <script>
-        const CHAVE_APP = "mariana_viagem_europa_v110";
+        const CHAVE_APP = "mariana_viagem_europa_v114";
         let destinoFiltro = 'todos';
         let tarefaFiltro = 'todas';
         let campoFocoAtual = null;
@@ -391,7 +393,7 @@
             const manifestBlob = new Blob([JSON.stringify(manifestObj)], {type: 'application/manifest+json'});
             document.getElementById('pwa-manifest').href = URL.createObjectURL(manifestBlob);
 
-            const temaSalvo = localStorage.getItem('tema_v110');
+            const temaSalvo = localStorage.getItem('tema_v114');
             if (temaSalvo === 'dark') {
                 document.body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 document.body.classList.remove('bg-slate-100', 'text-slate-800');
@@ -408,6 +410,7 @@
                         if(!dadosApp.cotacaoEur) dadosApp.cotacaoEur = 6.20;
                         if(!dadosApp.cotacaoChf) dadosApp.cotacaoChf = 6.50;
                         if(!dadosApp.voos) dadosApp.voos = [];
+                        if(!dadosApp.tarefas) dadosApp.tarefas = [];
                         if(!dadosApp.orcamento) dadosApp.orcamento = [];
                         if(!dadosApp.checklist) dadosApp.checklist = [];
                         if(!dadosApp.contatos) dadosApp.contatos = [];
@@ -442,10 +445,10 @@
         }
 
         function desbloquearComPin() {
-            let pinSalvo = localStorage.getItem('app_pin_v110') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v114') || '1510';
             let digitado = document.getElementById('input-pin').value;
             if(digitado === pinSalvo) {
-                sessionStorage.setItem('sessao_ativa_v110', 'true');
+                sessionStorage.setItem('sessao_ativa_v114', 'true');
                 document.getElementById('tela-bloqueio').classList.add('hidden');
                 document.getElementById('erro-pin').classList.add('hidden');
             } else {
@@ -454,17 +457,17 @@
         }
 
         async function desbloquearComBiometria() {
-            sessionStorage.setItem('sessao_ativa_v110', 'true');
+            sessionStorage.setItem('sessao_ativa_v114', 'true');
             document.getElementById('tela-bloqueio').classList.add('hidden');
         }
 
         function alterarSenhaPin() {
             let atual = prompt("Digite a senha atual (Padrão: 1510):");
-            let pinSalvo = localStorage.getItem('app_pin_v110') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v114') || '1510';
             if(atual === pinSalvo) {
                 let nova = prompt("Digite a nova senha PIN:");
                 if(nova && nova.trim() !== '') {
-                    localStorage.setItem('app_pin_v110', nova.trim());
+                    localStorage.setItem('app_pin_v114', nova.trim());
                     alert("🔑 Senha alterada com sucesso!");
                 }
             } else {
@@ -477,11 +480,11 @@
             if(body.classList.contains('dark')) {
                 body.classList.remove('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.add('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v110', 'light');
+                localStorage.setItem('tema_v114', 'light');
             } else {
                 body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.remove('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v110', 'dark');
+                localStorage.setItem('tema_v114', 'dark');
             }
         }
 
@@ -577,15 +580,17 @@
         }
 
         function obterCorPorCategoria(cat) {
-            if(!cat) return '#64748b';
-            let item = dadosApp.itinerario.find(i => (i.categoria || "").toLowerCase() === (cat || "").toLowerCase());
-            if(item && item.cor) return item.cor;
+            if(!cat) return '#3b82f6';
             let c = (cat || "").toLowerCase();
             if(c.includes('zurique') || c.includes('zurich')) return '#3b82f6';
             if(c.includes('freiburg')) return '#f59e0b';
             if(c.includes('frança') || c.includes('france') || c.includes('paris')) return '#ec4899';
             if(c.includes('interlaken')) return '#10b981';
-            return '#64748b';
+            
+            let item = dadosApp.itinerario.find(i => (i.categoria || "").toLowerCase() === c);
+            if(item && item.cor) return item.cor;
+            
+            return '#3b82f6';
         }
 
         function obterInfoClima(cat) {
@@ -876,6 +881,7 @@
                         <div class="flex items-center gap-1 bg-white px-1.5 py-0.5 rounded border text-[9px] font-bold">
                             <input type="color" id="input-cor-${item.id}" value="${corHex}" class="w-4 h-4 rounded cursor-pointer border-0 bg-transparent" onchange="atualizarCorBlocoLocal(${item.id}, this.value)">
                             <span>Cor Master</span>
+                            <button onclick="atualizarTudo()" class="bg-emerald-600 text-white px-1.5 py-0.5 rounded font-bold text-[8px] ml-1">OK</button>
                         </div>
                         <div class="flex items-center gap-1">
                             <button onclick="alternarBloqueio(${item.id})" class="${lockBg} px-2.5 py-1 rounded font-bold text-[10px] shadow-sm transition">${lockIcon}</button>
@@ -929,7 +935,7 @@
         function adicionarBloco() {
             registarEstadoAnterior();
             let novoItem = {
-                id: Date.now(), categoria: "Zurique", dataInicio: "", dataFim: "", trecho: "Nova Rota", transporte: "Trem", numeroTransporte: "", valor: 0, moeda: "EUR", embarque: "Zurich HB", desembarque: "Hotel", notasExtras: "", cor: "#3b82f6", bloqueado: false, concluido: false, subBlocos: []
+                id: Date.now(), categoria: "Zurique", dataInicio: "", dataFim: "", trecho: "Nova Rota", transporte: "Trem", numeroTransporte: "", valor: 0, moeda: "EUR", embarque: "Zurich HB", desembarque: "Hotel", notasExtras: "", cor: obterCorPorCategoria("Zurique"), bloqueado: false, concluido: false, subBlocos: []
             };
             if(!dadosApp.itinerario) dadosApp.itinerario = [];
             dadosApp.itinerario.unshift(novoItem);
@@ -937,39 +943,82 @@
             atualizarTudo();
         }
 
-        // VOOS & PASSAGENS (COM PDF)
+        function lidarSelecaoDestino(id, valor) {
+            registarEstadoAnterior();
+            if(valor === 'novo_destino') {
+                let novo = prompt("Novo destino:");
+                if(novo && novo.trim() !== '') {
+                    let limpo = novo.trim();
+                    if(!dadosApp.destinosCadastrados.includes(limpo)) dadosApp.destinosCadastrados.push(limpo);
+                    let item = dadosApp.itinerario.find(i => i.id === id);
+                    if(item) {
+                        item.categoria = limpo;
+                        item.cor = obterCorPorCategoria(limpo);
+                    }
+                    salvarStorage();
+                    atualizarTudo();
+                } else { renderizarBlocos(); }
+            } else {
+                let item = dadosApp.itinerario.find(i => i.id === id);
+                if(item) {
+                    item.categoria = valor;
+                    item.cor = obterCorPorCategoria(valor);
+                }
+                salvarStorage();
+                atualizarTudo();
+            }
+        }
+
+        // VOOS & PASSAGENS (COM PDF) E CONTATOS LADO A LADO
         function renderizarVoosTab() {
-            const container = document.getElementById('lista-voos-html');
-            if(!container) return;
-            container.innerHTML = '';
+            const containerV = document.getElementById('lista-voos-html');
+            const containerC = document.getElementById('lista-contatos-html');
+            if(!containerV || !containerC) return;
+
+            containerV.innerHTML = '';
+            containerC.innerHTML = '';
 
             if(!dadosApp.voos || dadosApp.voos.length === 0) {
-                container.innerHTML = '<p class="text-xs text-slate-400 italic text-center py-2">Nenhum voo registado.</p>';
-                return;
+                containerV.innerHTML = '<p class="text-[10px] text-slate-400 italic text-center py-2">Nenhum voo.</p>';
+            } else {
+                dadosApp.voos.forEach(v => {
+                    let pdfAction = v.pdfData ? 
+                        `<button onclick="abrirLeitorPdf('${v.id}', 'Passagem ${v.voo || 'Voo'}')" class="bg-indigo-600 text-white px-1.5 py-0.5 rounded text-[8px] font-bold">📄 PDF</button>` : 
+                        `<label class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-1.5 py-0.5 rounded text-[8px] font-bold cursor-pointer border">📎 PDF<input type="file" accept="application/pdf" onchange="anexarPdfVoo(${v.id}, event)" class="hidden"></label>`;
+
+                    let div = document.createElement('div');
+                    div.className = "p-1.5 rounded-lg border bg-white space-y-1 shadow-sm text-[11px]";
+                    div.innerHTML = `
+                        <div class="flex gap-1 items-center">
+                            <input type="text" value="${v.cia}" oninput="atualizarVoo(${v.id}, 'cia', this.value)" class="w-14 p-0.5 bg-slate-50 border rounded font-bold text-[10px]" placeholder="Cia">
+                            <input type="text" value="${v.voo}" oninput="atualizarVoo(${v.id}, 'voo', this.value)" class="w-12 p-0.5 bg-slate-50 border rounded font-bold text-[10px]" placeholder="Voo">
+                            <input type="text" value="${v.pnr}" oninput="atualizarVoo(${v.id}, 'pnr', this.value)" class="flex-1 p-0.5 bg-amber-50 border border-amber-300 rounded font-black text-amber-900 text-[10px]" placeholder="PNR">
+                            ${pdfAction}
+                            <button onclick="apagarVoo(${v.id})" class="text-red-500 font-bold bg-red-50 px-1 rounded text-[9px]">✕</button>
+                        </div>
+                        <div class="flex gap-1">
+                            <input type="text" value="${v.rota}" oninput="atualizarVoo(${v.id}, 'rota', this.value)" class="flex-1 p-0.5 bg-slate-50 border rounded font-bold text-[10px]" placeholder="Rota">
+                            <input type="date" value="${v.data}" onchange="atualizarVoo(${v.id}, 'data', this.value)" class="p-0.5 bg-slate-50 border rounded font-bold text-[10px]">
+                        </div>
+                    `;
+                    containerV.appendChild(div);
+                });
             }
 
-            dadosApp.voos.forEach(v => {
-                let pdfAction = v.pdfData ? 
-                    `<button onclick="abrirLeitorPdf('${v.id}', 'Passagem ${v.voo || 'Voo'}')" class="bg-indigo-600 text-white px-2 py-1 rounded text-[9px] font-bold">📄 PDF</button>` : 
-                    `<label class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-2 py-1 rounded text-[9px] font-bold cursor-pointer border">📎 PDF<input type="file" accept="application/pdf" onchange="anexarPdfVoo(${v.id}, event)" class="hidden"></label>`;
-
-                let div = document.createElement('div');
-                div.className = "p-2 rounded-xl border bg-white space-y-1 shadow-sm text-xs";
-                div.innerHTML = `
-                    <div class="flex gap-1 items-center">
-                        <input type="text" value="${v.cia}" oninput="atualizarVoo(${v.id}, 'cia', this.value)" class="w-20 p-1 bg-slate-50 border rounded font-bold" placeholder="Cia">
-                        <input type="text" value="${v.voo}" oninput="atualizarVoo(${v.id}, 'voo', this.value)" class="w-16 p-1 bg-slate-50 border rounded font-bold" placeholder="Voo">
-                        <input type="text" value="${v.pnr}" oninput="atualizarVoo(${v.id}, 'pnr', this.value)" class="flex-1 p-1 bg-amber-50 border border-amber-300 rounded font-black text-amber-900" placeholder="PNR (Reserva)">
-                        ${pdfAction}
-                        <button onclick="apagarVoo(${v.id})" class="text-red-500 font-bold bg-red-50 px-2 py-1 rounded">✕</button>
-                    </div>
-                    <div class="flex gap-1">
-                        <input type="text" value="${v.rota}" oninput="atualizarVoo(${v.id}, 'rota', this.value)" class="flex-1 p-1 bg-slate-50 border rounded font-bold" placeholder="Rota (Ex: GIG ➔ ZRH)">
-                        <input type="date" value="${v.data}" onchange="atualizarVoo(${v.id}, 'data', this.value)" class="p-1 bg-slate-50 border rounded font-bold">
-                    </div>
-                `;
-                container.appendChild(div);
-            });
+            if(!dadosApp.contatos || dadosApp.contatos.length === 0) {
+                containerC.innerHTML = '<p class="text-[10px] text-slate-400 italic text-center py-2">Nenhum contato.</p>';
+            } else {
+                dadosApp.contatos.forEach(ct => {
+                    let div = document.createElement('div');
+                    div.className = "p-1.5 rounded-lg border bg-white flex items-center justify-between gap-1 shadow-sm text-[11px]";
+                    div.innerHTML = `
+                        <input type="text" value="${ct.nome}" oninput="atualizarContatoNome(${ct.id}, this.value)" class="flex-1 bg-transparent outline-none font-bold text-slate-800 truncate text-[10px]" placeholder="Nome...">
+                        <input type="text" value="${ct.numero}" oninput="atualizarContatoNumero(${ct.id}, this.value)" class="w-20 p-0.5 bg-slate-50 border rounded font-black text-[10px]" placeholder="Número...">
+                        <button onclick="apagarContato(${ct.id})" class="text-red-500 font-bold bg-red-50 hover:bg-red-100 px-1.5 py-0.5 rounded transition shrink-0 text-[9px]">✕</button>
+                    `;
+                    containerC.appendChild(div);
+                });
+            }
         }
 
         function adicionarVoo() {
@@ -1141,30 +1190,6 @@
             renderizarVouchersTab(); 
         }
 
-        function lidarSelecaoDestino(id, valor) {
-            registarEstadoAnterior();
-            if(valor === 'novo_destino') {
-                let novo = prompt("Novo destino:");
-                if(novo && novo.trim() !== '') {
-                    let limpo = novo.trim();
-                    if(!dadosApp.destinosCadastrados.includes(limpo)) dadosApp.destinosCadastrados.push(limpo);
-                    atualizarCampo(id, 'categoria', limpo);
-                } else { renderizarBlocos(); }
-            } else { atualizarCampo(id, 'categoria', valor); }
-        }
-
-        function lidarSelecaoLocal(id, campo, valor) {
-            registarEstadoAnterior();
-            if(valor === 'outro_local') {
-                let novo = prompt("Novo local:");
-                if(novo && novo.trim() !== '') {
-                    let limpo = novo.trim();
-                    if(!dadosApp.locaisCadastrados.includes(limpo)) dadosApp.locaisCadastrados.push(limpo);
-                    atualizarCampo(id, campo, limpo);
-                } else { renderizarBlocos(); }
-            } else { atualizarCampo(id, campo, valor); }
-        }
-
         function lidarSelecaoDestinoVoucher(id, valor) {
             registarEstadoAnterior();
             if(valor === 'novo_destino') {
@@ -1175,42 +1200,6 @@
                     atualizarVoucherCampo(id, 'categoria', limpo);
                 } else { renderizarVouchersTab(); }
             } else { atualizarVoucherCampo(id, 'categoria', valor); }
-        }
-
-        function atualizarCampo(id, campo, valor) {
-            registarEstadoAnterior();
-            let item = dadosApp.itinerario.find(i => i.id === id);
-            if(item) { item[campo] = valor; salvarStorage(); atualizarTudo(); }
-        }
-
-        function atualizarCampoDireto(id, campo, valor) {
-            let item = dadosApp.itinerario.find(i => i.id === id);
-            if(item) { item[campo] = valor; localStorage.setItem(CHAVE_APP, JSON.stringify(dadosApp)); }
-        }
-
-        function atualizarCorBlocoLocal(id, corHex) {
-            registarEstadoAnterior();
-            let item = dadosApp.itinerario.find(i => i.id === id);
-            if(item) { 
-                item.cor = corHex; 
-                salvarStorage(); 
-                atualizarTudo(); 
-            }
-        }
-
-        function moverBloco(id, direcao) {
-            registarEstadoAnterior();
-            let index = dadosApp.itinerario.findIndex(i => i.id === id);
-            if(index !== -1) {
-                let novoIndex = index + direcao;
-                if(novoIndex >= 0 && novoIndex < dadosApp.itinerario.length) {
-                    let temp = dadosApp.itinerario[index];
-                    dadosApp.itinerario[index] = dadosApp.itinerario[novoIndex];
-                    dadosApp.itinerario[novoIndex] = temp;
-                    salvarStorage();
-                    atualizarTudo();
-                }
-            }
         }
 
         // TAREFAS & CHECKLIST
@@ -1385,9 +1374,10 @@
             if(c) { c.item = val; localStorage.setItem(CHAVE_APP, JSON.stringify(dadosApp)); }
         }
 
-        // ORÇAMENTO
+        // ORÇAMENTO (COM DESPESAS ISOLADAS DENTRO DE CADA BLOCO, BEM MENOR E MAIS COMPACTO)
         function renderizarOrcamentoTab() {
-            const containerDespesas = document.getElementById('lista-despesas-completa-html');
+            const containerEur = document.getElementById('lista-despesas-eur-html');
+            const containerChf = document.getElementById('lista-despesas-chf-html');
             const inputEur = document.getElementById('input-saldo-eur');
             const inputChf = document.getElementById('input-saldo-chf');
             const inputCotacaoEur = document.getElementById('input-cotacao-eur');
@@ -1398,8 +1388,9 @@
             const restanteEurBrlEl = document.getElementById('restante-eur-brl');
             const restanteChfBrlEl = document.getElementById('restante-chf-brl');
 
-            if(!containerDespesas) return;
-            containerDespesas.innerHTML = '';
+            if(!containerEur || !containerChf) return;
+            containerEur.innerHTML = '';
+            containerChf.innerHTML = '';
 
             if(inputEur) inputEur.value = dadosApp.saldoEur || 0;
             if(inputChf) inputChf.value = dadosApp.saldoChf || 0;
@@ -1409,43 +1400,55 @@
             let gastoEur = 0;
             let gastoChf = 0;
 
+            // Custos do Itinerário
             let custosRoteiro = dadosApp.itinerario.filter(i => parseFloat(i.valor) > 0);
             custosRoteiro.forEach(item => {
                 let val = parseFloat(item.valor) || 0;
                 let moeda = item.moeda || 'EUR';
-                if(moeda === 'EUR') gastoEur += val;
-                if(moeda === 'CHF') gastoChf += val;
-
-                let div = document.createElement('div');
-                div.className = "p-1.5 rounded-lg border bg-slate-50 flex items-center justify-between text-[11px]";
-                div.innerHTML = `
-                    <span class="font-bold text-slate-800">📍 [Editar] ${item.categoria || 'Bloco'} (${item.trecho || 'Trecho'})</span>
-                    <span class="font-black text-indigo-900">${val.toFixed(2)} ${moeda}</span>
-                `;
-                containerDespesas.appendChild(div);
+                if(moeda === 'EUR') {
+                    gastoEur += val;
+                    containerEur.innerHTML += `
+                        <div class="p-1 rounded bg-white border flex justify-between items-center text-[10px]">
+                            <span class="font-bold truncate">📍 ${item.categoria || 'Bloco'}</span>
+                            <span class="font-black text-amber-900">${val.toFixed(2)}€</span>
+                        </div>`;
+                } else if(moeda === 'CHF') {
+                    gastoChf += val;
+                    containerChf.innerHTML += `
+                        <div class="p-1 rounded bg-white border flex justify-between items-center text-[10px]">
+                            <span class="font-bold truncate">📍 ${item.categoria || 'Bloco'}</span>
+                            <span class="font-black text-blue-900">${val.toFixed(2)} CHF</span>
+                        </div>`;
+                }
             });
 
+            // Despesas manuais
             if(dadosApp.orcamento && dadosApp.orcamento.length > 0) {
                 dadosApp.orcamento.forEach(d => {
                     let val = parseFloat(d.valor) || 0;
-                    if(d.moeda === 'EUR') gastoEur += val;
-                    if(d.moeda === 'CHF') gastoChf += val;
-
-                    let div = document.createElement('div');
-                    div.className = "p-2 rounded-xl border bg-white flex items-center justify-between gap-2 shadow-sm text-xs";
-                    div.innerHTML = `
-                        <input type="text" value="${d.descricao}" oninput="atualizarOrcamentoDescricao(${d.id}, this.value)" class="flex-1 bg-transparent outline-none font-bold text-slate-800 truncate" placeholder="Descrição...">
-                        <input type="number" value="${d.valor}" oninput="atualizarOrcamentoValor(${d.id}, this.value)" class="w-16 p-1 bg-slate-50 border rounded font-black text-right text-xs" placeholder="0">
-                        <span class="font-bold px-1.5 py-0.5 rounded text-[10px] text-white ${d.moeda === 'EUR' ? 'bg-amber-600' : 'bg-blue-600'}">${d.moeda}</span>
-                        <button onclick="apagarDespesa(${d.id})" class="text-red-500 font-bold bg-red-50 hover:bg-red-100 px-2 py-1 rounded transition">✕</button>
-                    `;
-                    containerDespesas.appendChild(div);
+                    let moeda = d.moeda || 'EUR';
+                    if(moeda === 'EUR') {
+                        gastoEur += val;
+                        containerEur.innerHTML += `
+                            <div class="p-1 rounded bg-white border flex items-center justify-between gap-1 text-[10px]">
+                                <input type="text" value="${d.descricao}" oninput="atualizarOrcamentoDescricao(${d.id}, this.value)" class="flex-1 bg-transparent outline-none font-bold truncate text-[10px]" placeholder="Desc...">
+                                <input type="number" value="${d.valor}" oninput="atualizarOrcamentoValor(${d.id}, this.value)" class="w-12 p-0.5 bg-slate-50 border rounded font-black text-right text-[10px]">
+                                <button onclick="apagarDespesa(${d.id})" class="text-red-500 font-bold px-1 text-[9px]">✕</button>
+                            </div>`;
+                    } else if(moeda === 'CHF') {
+                        gastoChf += val;
+                        containerChf.innerHTML += `
+                            <div class="p-1 rounded bg-white border flex items-center justify-between gap-1 text-[10px]">
+                                <input type="text" value="${d.descricao}" oninput="atualizarOrcamentoDescricao(${d.id}, this.value)" class="flex-1 bg-transparent outline-none font-bold truncate text-[10px]" placeholder="Desc...">
+                                <input type="number" value="${d.valor}" oninput="atualizarOrcamentoValor(${d.id}, this.value)" class="w-12 p-0.5 bg-slate-50 border rounded font-black text-right text-[10px]">
+                                <button onclick="apagarDespesa(${d.id})" class="text-red-500 font-bold px-1 text-[9px]">✕</button>
+                            </div>`;
+                    }
                 });
             }
 
-            if(custosRoteiro.length === 0 && (!dadosApp.orcamento || dadosApp.orcamento.length === 0)) {
-                containerDespesas.innerHTML = '<p class="text-[10px] text-slate-400 italic text-center py-2">Nenhum custo registado.</p>';
-            }
+            if(containerEur.innerHTML === '') containerEur.innerHTML = '<p class="text-[9px] text-slate-400 italic">Sem despesas.</p>';
+            if(containerChf.innerHTML === '') containerChf.innerHTML = '<p class="text-[9px] text-slate-400 italic">Sem despesas.</p>';
 
             let sobraEur = (parseFloat(dadosApp.saldoEur) || 0) - gastoEur;
             let sobraChf = (parseFloat(dadosApp.saldoChf) || 0) - gastoChf;
@@ -1472,10 +1475,10 @@
             renderizarOrcamentoTab();
         }
 
-        function adicionarDespesa(moedaForcada = 'EUR') {
+        function adicionarDespesa(moedaForcada) {
             registarEstadoAnterior();
             if(!dadosApp.orcamento) dadosApp.orcamento = [];
-            dadosApp.orcamento.unshift({ id: Date.now(), descricao: "Nova despesa manual", valor: 0, moeda: moedaForcada });
+            dadosApp.orcamento.unshift({ id: Date.now(), descricao: "Despesa", valor: 0, moeda: moedaForcada });
             salvarStorage();
             renderizarOrcamentoTab();
         }
