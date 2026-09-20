@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v95.0)</title>
+    <title>Roteiro Europa - Mariana (v96.0)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Manifest Dinâmico via JavaScript -->
@@ -35,7 +35,7 @@
     <!-- CABEÇALHO COMPACTO NO TOPO -->
     <header class="bg-slate-900 text-white px-3 py-2 shadow-md border-b border-slate-800 text-xs flex justify-between items-center z-50 relative">
         <span class="font-bold tracking-wide">🚄 Roteiro Europa - Mariana</span>
-        <span class="bg-indigo-600 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v95.0</span>
+        <span class="bg-indigo-600 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v96.0</span>
     </header>
 
     <!-- CONTEÚDO PRINCIPAL COMPACTO -->
@@ -54,7 +54,7 @@
             <div class="bg-gradient-to-r from-indigo-900 to-slate-900 text-white p-2.5 rounded-2xl shadow-md flex justify-between items-center">
                 <div>
                     <h2 class="text-xs font-black uppercase tracking-wider text-indigo-200">✈️ Roteiro Oficial (Aprovados)</h2>
-                    <p class="text-[9px] text-slate-300">Marque "Feito" ou clique em ✕ para remover do roteiro (mantém no Editar).</p>
+                    <p class="text-[9px] text-slate-300">Marque "Feito" para riscar ou elimine diretamente aqui se precisar.</p>
                 </div>
                 <div id="progresso-viagem" class="bg-indigo-600 px-2.5 py-1 rounded-xl text-[11px] font-black shadow-inner">0 / 0 Aprovados</div>
             </div>
@@ -68,7 +68,7 @@
             <div id="lista-leitura-html" class="grid grid-cols-1 sm:grid-cols-2 gap-2"></div>
         </div>
 
-        <!-- TAB 2: ITINERÁRIO EDITÁVEL (COM TRANSPORTE E CAIXINHAS EXTRAS) -->
+        <!-- TAB 2: ITINERÁRIO EDITÁVEL -->
         <div id="tab-itinerario" class="space-y-3 hidden">
             <div id="filtros-container" class="bg-slate-200 p-1.5 rounded-xl overflow-x-auto flex gap-1 text-[11px] items-center no-scrollbar shadow-inner">
                 <!-- Renderizado via JS -->
@@ -99,7 +99,7 @@
             </div>
         </div>
 
-        <!-- TAB 4: TAREFAS -->
+        <!-- TAB 4: TAREFAS (COM BOTÃO DE DESFAZER E ADICIONAR STATUS) -->
         <div id="tab-tarefas" class="space-y-3 hidden">
             <div class="bg-indigo-900 text-white p-3 rounded-2xl shadow-md space-y-2">
                 <div class="flex justify-between items-center flex-wrap gap-2">
@@ -107,7 +107,10 @@
                         <h2 class="text-[11px] font-black uppercase tracking-wider text-indigo-200">📊 Progresso das Tarefas</h2>
                         <p id="stat-tarefas" class="text-xs font-black mt-0.5">0 / 0 Concluídas</p>
                     </div>
-                    <button onclick="adicionarTarefa()" class="bg-indigo-600 hover:bg-indigo-500 text-white px-3 py-1.5 rounded-xl text-[11px] font-bold transition shadow-sm">➕ Nova Tarefa</button>
+                    <div class="flex gap-1">
+                        <button onclick="desfazerUltimaAcao()" class="bg-amber-600 hover:bg-amber-700 text-white px-2.5 py-1.5 rounded-xl text-[11px] font-bold transition shadow-sm">↩️ Desfazer</button>
+                        <button onclick="adicionarTarefa()" class="bg-indigo-600 hover:bg-indigo-500 text-white px-3 py-1.5 rounded-xl text-[11px] font-bold transition shadow-sm">➕ Nova Tarefa</button>
+                    </div>
                 </div>
                 <div id="filtros-tarefas-container" class="flex gap-1 pt-1 overflow-x-auto items-center flex-wrap">
                     <!-- Renderizado via JS -->
@@ -136,7 +139,7 @@
 
     <!-- BARRA DE FERRAMENTAS FIXA -->
     <nav class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-md text-white px-2 py-2 shadow-2xl border-t border-slate-800 text-xs flex items-center gap-1 overflow-x-auto no-scrollbar">
-        <span class="bg-indigo-600 px-1 py-0.5 rounded font-mono font-bold text-[8px] shrink-0">v95.0</span>
+        <span class="bg-indigo-600 px-1 py-0.5 rounded font-mono font-bold text-[8px] shrink-0">v96.0</span>
         <button onclick="abrirGeminiModal()" class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-2 py-1 rounded-lg font-bold transition shrink-0 flex items-center gap-1 text-[10px]">
             <span>✨</span> Gemini
         </button>
@@ -208,7 +211,7 @@
     </div>
 
     <script>
-        const CHAVE_APP = "mariana_viagem_europa_v95";
+        const CHAVE_APP = "mariana_viagem_europa_v96";
         let destinoFiltro = 'todos';
         let tarefaFiltro = 'todas';
         let campoFocoAtual = null;
@@ -225,11 +228,12 @@
                 "Hotel Weisses Kreuz", "Grindelwald", "Jungfraujoch"
             ],
             diasConcluidos: {},
+            statusPersonalizados: { "Concluído": "#22c55e", "Aguardando": "#f59e0b" },
             itinerario: [
-                { id: 1, categoria: "Zurique", dataInicio: "2026-12-30", dataFim: "2027-01-02", trecho: "Estadia no ibis budget Zurich City West", transporte: "Trem", numeroTransporte: "", embarque: "Zurich HB", desembarque: "ibis budget Zurich City West", notasExtras: "Check-in às 15h", cor: "#3b82f6", bloqueado: true, concluido: false, subBlocos: [] },
-                { id: 2, categoria: "Freiburg", dataInicio: "2027-01-02", dataFim: "2027-01-05", trecho: "Zurique ➔ Freiburg", transporte: "Ônibus", numeroTransporte: "Linha 72", embarque: "Zurich Bus Station", desembarque: "Premier Inn", notasExtras: "", cor: "#f59e0b", bloqueado: false, concluido: false, subBlocos: [] },
-                { id: 3, categoria: "França", dataInicio: "2027-01-05", dataFim: "2027-01-07", trecho: "Freiburg ➔ Disney", transporte: "Trem", numeroTransporte: "TGV 9572", embarque: "Freiburg Hbf", desembarque: "Disney Hotel", notasExtras: "", cor: "#ec4899", bloqueado: false, concluido: false, subBlocos: [] },
-                { id: 4, categoria: "Interlaken", dataInicio: "2027-01-08", dataFim: "2027-01-12", trecho: "Paris ➔ Interlaken", transporte: "Trem", numeroTransporte: "Lyria", embarque: "Gare de Lyon", desembarque: "Hotel Weisses", notasExtras: "", cor: "#10b981", bloqueado: false, concluido: false, subBlocos: [] }
+                { id: 1, categoria: "Zurique", dataInicio: "2026-12-30", dataFim: "2027-01-02", trecho: "Estadia no ibis budget Zurich City West", embarque: "Zurich HB", desembarque: "ibis budget Zurich City West", notasExtras: "Check-in às 15h", cor: "#3b82f6", bloqueado: true, concluido: false },
+                { id: 2, categoria: "Freiburg", dataInicio: "2027-01-02", dataFim: "2027-01-05", trecho: "Zurique ➔ Freiburg", embarque: "Zurich Bus Station", desembarque: "Premier Inn", notasExtras: "", cor: "#f59e0b", bloqueado: false, concluido: false },
+                { id: 3, categoria: "França", dataInicio: "2027-01-05", dataFim: "2027-01-07", trecho: "Freiburg ➔ Disney", embarque: "Freiburg Hbf", desembarque: "Disney Hotel", notasExtras: "", cor: "#ec4899", bloqueado: false, concluido: false },
+                { id: 4, categoria: "Interlaken", dataInicio: "2027-01-08", dataFim: "2027-01-12", trecho: "Paris ➔ Interlaken", embarque: "Gare de Lyon", desembarque: "Hotel Weisses", notasExtras: "", cor: "#10b981", bloqueado: false, concluido: false }
             ],
             tarefas: [
                 { id: 1, texto: "Comprar cartões Wise e Nomad", status: "Concluído" },
@@ -282,7 +286,7 @@
             const manifestBlob = new Blob([JSON.stringify(manifestObj)], {type: 'application/manifest+json'});
             document.getElementById('pwa-manifest').href = URL.createObjectURL(manifestBlob);
 
-            const temaSalvo = localStorage.getItem('tema_v95');
+            const temaSalvo = localStorage.getItem('tema_v96');
             if (temaSalvo === 'dark') {
                 document.body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 document.body.classList.remove('bg-slate-100', 'text-slate-800');
@@ -295,6 +299,7 @@
                     if (parsed && parsed.itinerario) {
                         dadosApp = parsed;
                         if(!dadosApp.diasConcluidos) dadosApp.diasConcluidos = {};
+                        if(!dadosApp.statusPersonalizados) dadosApp.statusPersonalizados = { "Concluído": "#22c55e", "Aguardando": "#f59e0b" };
                     }
                 }
             } catch(e) {}
@@ -326,10 +331,10 @@
         }
 
         function desbloquearComPin() {
-            let pinSalvo = localStorage.getItem('app_pin_v95') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v96') || '1510';
             let digitado = document.getElementById('input-pin').value;
             if(digitado === pinSalvo) {
-                sessionStorage.setItem('sessao_ativa_v95', 'true');
+                sessionStorage.setItem('sessao_ativa_v96', 'true');
                 document.getElementById('tela-bloqueio').classList.add('hidden');
                 document.getElementById('erro-pin').classList.add('hidden');
             } else {
@@ -338,17 +343,17 @@
         }
 
         async function desbloquearComBiometria() {
-            sessionStorage.setItem('sessao_ativa_v95', 'true');
+            sessionStorage.setItem('sessao_ativa_v96', 'true');
             document.getElementById('tela-bloqueio').classList.add('hidden');
         }
 
         function alterarSenhaPin() {
             let atual = prompt("Digite a senha atual (Padrão: 1510):");
-            let pinSalvo = localStorage.getItem('app_pin_v95') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v96') || '1510';
             if(atual === pinSalvo) {
                 let nova = prompt("Digite a nova senha PIN:");
                 if(nova && nova.trim() !== '') {
-                    localStorage.setItem('app_pin_v95', nova.trim());
+                    localStorage.setItem('app_pin_v96', nova.trim());
                     alert("🔑 Senha alterada com sucesso!");
                 }
             } else {
@@ -361,11 +366,11 @@
             if(body.classList.contains('dark')) {
                 body.classList.remove('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.add('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v95', 'light');
+                localStorage.setItem('tema_v96', 'light');
             } else {
                 body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.remove('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v95', 'dark');
+                localStorage.setItem('tema_v96', 'dark');
             }
         }
 
@@ -392,12 +397,11 @@
             localStorage.setItem(CHAVE_APP, JSON.stringify(dadosApp));
         }
 
-        // DESBLOQUEAR / REMOVER DO ROTEIRO MAS MANTER NO EDITAR (EM VEZ DE APAGAR TUDO)
         function removerDoRoteiro(id) {
             registarEstadoAnterior();
             const item = dadosApp.itinerario.find(i => i.id === id);
             if(item) { 
-                item.bloqueado = false; // Apenas destranca, tirando do roteiro e devolvendo ao editar
+                item.bloqueado = false; 
                 salvarStorage(); 
                 atualizarTudo(); 
             }
@@ -493,6 +497,7 @@
                 let btnStyle = ativo ? `background-color: #fff; color: #0f172a; border: 2px solid ${corSt};` : `background-color: ${corSt}; color: #fff;`;
                 html += `<button onclick="filtrarTarefas('${st}')" style="${btnStyle}" class="px-2 py-0.5 rounded-lg text-[10px] font-bold transition">${st}</button>`;
             });
+            html += `<button onclick="adicionarNovoStatusTarefa()" class="px-2 py-0.5 bg-emerald-600 text-white rounded-lg text-[10px] font-bold transition">➕ Status</button>`;
             container.innerHTML = html;
         }
 
@@ -507,6 +512,18 @@
             }
         }
 
+        function adicionarNovoStatusTarefa() {
+            registarEstadoAnterior();
+            let nomeNovo = prompt("Nome do novo status:");
+            if(nomeNovo && nomeNovo.trim() !== '') {
+                let corNova = prompt("Cor HEX do status:", "#3b82f6");
+                if(!dadosApp.statusPersonalizados) dadosApp.statusPersonalizados = {};
+                dadosApp.statusPersonalizados[nomeNovo.trim()] = corNova || "#3b82f6";
+                salvarStorage();
+                atualizarTudo();
+            }
+        }
+
         function filtrarDestino(cat) { 
             destinoFiltro = cat; 
             renderizarFiltros(); 
@@ -515,7 +532,7 @@
         }
         function filtrarTarefas(f) { tarefaFiltro = f; renderizarFiltrosTarefas(); renderizarTarefas(); }
 
-        // ROTEIRO COM BOTÃO ✕ QUE APENAS DESBLOQUEIA (NÃO APAGA DO EDITAR)
+        // ROTEIRO
         function renderizarModoLeitura() {
             const container = document.getElementById('lista-leitura-html');
             const progressoEl = document.getElementById('progresso-viagem');
@@ -560,7 +577,7 @@
                                     <span>Feito</span>
                                 </label>
                                 <button onclick="abrirMapaRuta('${item.embarque}', '${item.desembarque}')" class="bg-sky-100 text-sky-800 hover:bg-sky-200 px-1.5 py-0.5 rounded font-bold text-[9px]">🗺️ Mapa</button>
-                                <button onclick="removerDoRoteiro(${item.id})" class="bg-amber-50 hover:bg-amber-100 text-amber-700 px-1.5 py-0.5 rounded font-bold text-[9px]" title="Retirar do Roteiro (mantém no Editar)">✕</button>
+                                <button onclick="removerDoRoteiro(${item.id})" class="bg-amber-50 hover:bg-amber-100 text-amber-700 px-1.5 py-0.5 rounded font-bold text-[9px]" title="Retirar do Roteiro">✕</button>
                             </div>
                         </div>
 
@@ -578,7 +595,7 @@
             });
         }
 
-        // RENDERIZAR BLOCOS EDITÁVEIS (COM TRANSPORTE E CAIXINHAS EXTRAS)
+        // RENDERIZAR EDITAR
         function renderizarBlocos() {
             const container = document.getElementById('lista-blocos');
             if(!container) return;
@@ -787,7 +804,7 @@
             }
         }
 
-        // VOUCHERS COM LEITOR DE PDF INTEGRADO E OPÇÃO "OUTRO..." NOS LOCAIS
+        // VOUCHERS
         function renderizarVouchersTab() {
             const container = document.getElementById('lista-comprados-html');
             if(!container) return;
@@ -917,6 +934,7 @@
             renderizarVouchersTab(); 
         }
 
+        // TAREFAS
         function renderizarTarefas() {
             const container = document.getElementById('lista-tarefas-html');
             container.innerHTML = '';
@@ -968,8 +986,8 @@
                     let corNova = prompt("Cor HEX do status:", "#3b82f6");
                     if(!dadosApp.statusPersonalizados) dadosApp.statusPersonalizados = {};
                     dadosApp.statusPersonalizados[nomeNovo.trim()] = corNova || "#3b82f6";
-                    const t = dadosApp.tarefas.find(item => item.id === id);
-                    if(t) { t.status = nomeNovo.trim(); salvarStorage(); renderizarTarefas(); }
+                    salvarStorage();
+                    renderizarTarefas();
                 } else { renderizarTarefas(); }
             } else {
                 const t = dadosApp.tarefas.find(item => item.id === id);
