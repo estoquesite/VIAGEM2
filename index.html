@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v105.0)</title>
+    <title>Roteiro Europa - Mariana (v106.0)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Manifest Dinâmico via JavaScript -->
@@ -37,7 +37,7 @@
         <span class="font-bold tracking-wide">🚄 Roteiro Europa - Mariana</span>
         <div class="flex items-center gap-2">
             <button onclick="exportarPdfPrint()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2 py-0.5 rounded font-bold text-[9px] transition">🖨️ PDF / Imprimir</button>
-            <span class="bg-indigo-600 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v105.0</span>
+            <span class="bg-indigo-600 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v106.0</span>
         </div>
     </header>
 
@@ -74,14 +74,14 @@
             <div id="lista-leitura-html" class="grid grid-cols-1 sm:grid-cols-2 gap-2"></div>
         </div>
 
-        <!-- TAB 2: ITINERÁRIO EDITÁVEL (COM VALOR E CAIXINHAS EXTRAS) -->
+        <!-- TAB 2: ITINERÁRIO EDITÁVEL -->
         <div id="tab-itinerario" class="space-y-3 hidden">
             <div id="filtros-container" class="bg-slate-200 p-1.5 rounded-xl overflow-x-auto flex gap-1 text-[11px] items-center no-scrollbar shadow-inner">
                 <!-- Renderizado via JS -->
             </div>
 
             <div class="flex justify-between items-center px-1 pt-0.5">
-                <h2 class="text-[11px] font-extrabold uppercase text-slate-600 tracking-wider">📦 Blocos de Destino (Valores sincronizam no Orçamento)</h2>
+                <h2 class="text-[11px] font-extrabold uppercase text-slate-600 tracking-wider">📦 Blocos de Destino (Valores alimentam o Orçamento)</h2>
                 <div class="flex gap-1">
                     <button onclick="desfazerUltimaAcao()" class="bg-amber-600 hover:bg-amber-700 text-white px-2.5 py-1.5 rounded-lg font-bold text-[11px] transition shadow-sm">↩️ Voltar</button>
                     <button onclick="adicionarBloco()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-2.5 py-1.5 rounded-lg font-bold text-[11px] transition shadow-sm">➕ Novo Bloco</button>
@@ -150,47 +150,73 @@
             </div>
         </div>
 
-        <!-- TAB 6: ORÇAMENTO & CÂMBIO (COM DADOS DO EDITAR AUTOMÁTICOS) -->
+        <!-- TAB 6: ORÇAMENTO & CÂMBIO (SEPARADO POR MOEDAS E CONVERSOR EM REAIS) -->
         <div id="tab-orcamento" class="space-y-3 hidden">
             <div class="bg-white p-3 rounded-2xl shadow-sm border border-slate-300 space-y-3 text-xs">
                 <div class="flex justify-between items-center border-b pb-2 flex-wrap gap-2">
                     <div>
-                        <h2 class="text-[11px] font-extrabold uppercase text-slate-800 tracking-wider">💰 Orçamento & Calculadora de Saldo</h2>
-                        <p class="text-[10px] text-slate-500 font-semibold">Inclui custos do Editor e despesas manuais</p>
+                        <h2 class="text-[11px] font-extrabold uppercase text-slate-800 tracking-wider">💰 Orçamento, Câmbio & Conversor R$</h2>
+                        <p class="text-[10px] text-slate-500 font-semibold">Controlo separado por moedas e conversão em Reais</p>
                     </div>
-                    <button onclick="adicionarDespesa()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-2.5 py-1.5 rounded-lg font-bold text-[11px] transition shadow-sm">➕ Nova Despesa</button>
+                    <button onclick="adicionarDespesa()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-2.5 py-1.5 rounded-lg font-bold text-[11px] transition shadow-sm">➕ Nova Despesa Manual</button>
                 </div>
 
-                <div class="grid grid-cols-2 gap-2 bg-slate-50 p-2.5 rounded-xl border">
-                    <div>
-                        <label class="block font-bold text-[10px] text-amber-800 mb-0.5">💵 Total Disponível EUR (€)</label>
-                        <input type="number" id="input-saldo-eur" oninput="atualizarSaldoInicial('EUR', this.value)" class="w-full p-1.5 bg-white border rounded font-black text-amber-900 text-sm" placeholder="0">
-                    </div>
-                    <div>
-                        <label class="block font-bold text-[10px] text-blue-800 mb-0.5">💵 Total Disponível CHF</label>
-                        <input type="number" id="input-saldo-chf" oninput="atualizarSaldoInicial('CHF', this.value)" class="w-full p-1.5 bg-white border rounded font-black text-blue-900 text-sm" placeholder="0">
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-2 gap-2">
-                    <div class="bg-amber-100 border border-amber-300 p-2 rounded-xl text-center">
-                        <span class="text-[9px] font-bold text-amber-900 block">Restante EUR (€)</span>
-                        <span id="restante-eur" class="text-xs font-black text-amber-950">0.00</span>
-                    </div>
-                    <div class="bg-blue-100 border border-blue-300 p-2 rounded-xl text-center">
-                        <span class="text-[9px] font-bold text-blue-900 block">Restante CHF</span>
-                        <span id="restante-chf" class="text-xs font-black text-blue-950">0.00</span>
+                <!-- COTAÇÕES EDITÁVEIS PARA REAIS (BRL) -->
+                <div class="bg-slate-50 p-2.5 rounded-xl border space-y-1.5">
+                    <span class="font-bold text-[10px] text-slate-700 block">💱 Cotação Atual (1 Unidade em Reais - R$)</span>
+                    <div class="grid grid-cols-2 gap-2">
+                        <div class="flex items-center gap-1 bg-white p-1.5 border rounded-lg">
+                            <span class="font-bold text-[10px] text-amber-800">1 € = R$</span>
+                            <input type="number" id="input-cotacao-eur" step="0.01" oninput="atualizarCotacao('EUR', this.value)" class="w-full font-black text-xs outline-none text-slate-900" placeholder="6.20">
+                        </div>
+                        <div class="flex items-center gap-1 bg-white p-1.5 border rounded-lg">
+                            <span class="font-bold text-[10px] text-blue-800">1 CHF = R$</span>
+                            <input type="number" id="input-cotacao-chf" step="0.01" oninput="atualizarCotacao('CHF', this.value)" class="w-full font-black text-xs outline-none text-slate-900" placeholder="6.50">
+                        </div>
                     </div>
                 </div>
 
-                <div class="space-y-2">
-                    <h3 class="font-bold text-[11px] uppercase text-slate-700 pt-2 border-t">📋 Custos Vindos do Editor (Itinerário)</h3>
-                    <div id="lista-custos-roteiro-html" class="space-y-1"></div>
+                <!-- BLOCOS SEPARADOS POR MOEDA (METADE CADA) -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <!-- BLOCO DE EUROS (€) -->
+                    <div class="bg-amber-50/60 p-2.5 rounded-2xl border border-amber-200 space-y-2">
+                        <h3 class="font-black text-amber-900 text-xs uppercase border-b border-amber-200 pb-1">🇪🇺 Bloco de Euros (€)</h3>
+                        <div>
+                            <label class="block font-bold text-[10px] text-amber-800 mb-0.5">Total Disponível (€)</label>
+                            <input type="number" id="input-saldo-eur" oninput="atualizarSaldoInicial('EUR', this.value)" class="w-full p-1.5 bg-white border rounded font-black text-amber-900 text-sm" placeholder="0">
+                        </div>
+                        <div class="flex justify-between items-center bg-white p-2 rounded-xl border text-[11px]">
+                            <span class="font-semibold text-slate-600">Restante (€):</span>
+                            <span id="restante-eur" class="font-black text-amber-900 text-sm">0.00</span>
+                        </div>
+                        <div class="flex justify-between items-center bg-white p-2 rounded-xl border text-[11px]">
+                            <span class="font-semibold text-slate-600">Equivalente em R$:</span>
+                            <span id="restante-eur-brl" class="font-black text-emerald-700 text-sm">R$ 0.00</span>
+                        </div>
+                    </div>
+
+                    <!-- BLOCO DE FRANCOS (CHF) -->
+                    <div class="bg-blue-50/60 p-2.5 rounded-2xl border border-blue-200 space-y-2">
+                        <h3 class="font-black text-blue-900 text-xs uppercase border-b border-blue-200 pb-1">🇨🇭 Bloco de Francos (CHF)</h3>
+                        <div>
+                            <label class="block font-bold text-[10px] text-blue-800 mb-0.5">Total Disponível (CHF)</label>
+                            <input type="number" id="input-saldo-chf" oninput="atualizarSaldoInicial('CHF', this.value)" class="w-full p-1.5 bg-white border rounded font-black text-blue-900 text-sm" placeholder="0">
+                        </div>
+                        <div class="flex justify-between items-center bg-white p-2 rounded-xl border text-[11px]">
+                            <span class="font-semibold text-slate-600">Restante (CHF):</span>
+                            <span id="restante-chf" class="font-black text-blue-900 text-sm">0.00</span>
+                        </div>
+                        <div class="flex justify-between items-center bg-white p-2 rounded-xl border text-[11px]">
+                            <span class="font-semibold text-slate-600">Equivalente em R$:</span>
+                            <span id="restante-chf-brl" class="font-black text-emerald-700 text-sm">R$ 0.00</span>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="space-y-2 pt-2">
-                    <h3 class="font-bold text-[11px] uppercase text-slate-700 border-t pt-2">➕ Outras Despesas Manuais</h3>
-                    <div id="lista-despesas-html" class="space-y-2"></div>
+                <!-- LISTAGEM DE GASTOS (AUTOMÁTICOS DO EDITAR + MANUAIS) -->
+                <div class="space-y-2 pt-2 border-t">
+                    <h3 class="font-bold text-[11px] uppercase text-slate-700">📋 Custos do Itinerario (Editar) & Despesas Manuais</h3>
+                    <div id="lista-despesas-completa-html" class="space-y-1.5"></div>
                 </div>
             </div>
         </div>
@@ -248,7 +274,7 @@
 
     <!-- BARRA DE FERRAMENTAS FIXA -->
     <nav class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-md text-white px-2 py-2 shadow-2xl border-t border-slate-800 text-xs flex items-center gap-1 overflow-x-auto no-scrollbar">
-        <span class="bg-indigo-600 px-1 py-0.5 rounded font-mono font-bold text-[8px] shrink-0">v105.0</span>
+        <span class="bg-indigo-600 px-1 py-0.5 rounded font-mono font-bold text-[8px] shrink-0">v106.0</span>
         <button onclick="abrirGeminiModal()" class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-2 py-1 rounded-lg font-bold transition shrink-0 flex items-center gap-1 text-[10px]">
             <span>✨</span> Gemini
         </button>
@@ -301,7 +327,7 @@
     </div>
 
     <script>
-        const CHAVE_APP = "mariana_viagem_europa_v105";
+        const CHAVE_APP = "mariana_viagem_europa_v106";
         let destinoFiltro = 'todos';
         let tarefaFiltro = 'todas';
         let campoFocoAtual = null;
@@ -321,6 +347,8 @@
             statusPersonalizados: { "Concluído": "#22c55e", "Aguardando": "#f59e0b" },
             saldoEur: 0,
             saldoChf: 0,
+            cotacaoEur: 6.20,
+            cotacaoChf: 6.50,
             itinerario: [],
             voos: [],
             tarefas: [],
@@ -368,7 +396,7 @@
             const manifestBlob = new Blob([JSON.stringify(manifestObj)], {type: 'application/manifest+json'});
             document.getElementById('pwa-manifest').href = URL.createObjectURL(manifestBlob);
 
-            const temaSalvo = localStorage.getItem('tema_v105');
+            const temaSalvo = localStorage.getItem('tema_v106');
             if (temaSalvo === 'dark') {
                 document.body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 document.body.classList.remove('bg-slate-100', 'text-slate-800');
@@ -382,6 +410,8 @@
                         dadosApp = parsed;
                         if(!dadosApp.diasConcluidos) dadosApp.diasConcluidos = {};
                         if(!dadosApp.statusPersonalizados) dadosApp.statusPersonalizados = { "Concluído": "#22c55e", "Aguardando": "#f59e0b" };
+                        if(!dadosApp.cotacaoEur) dadosApp.cotacaoEur = 6.20;
+                        if(!dadosApp.cotacaoChf) dadosApp.cotacaoChf = 6.50;
                         if(!dadosApp.voos) dadosApp.voos = [];
                         if(!dadosApp.orcamento) dadosApp.orcamento = [];
                         if(!dadosApp.checklist) dadosApp.checklist = [];
@@ -417,10 +447,10 @@
         }
 
         function desbloquearComPin() {
-            let pinSalvo = localStorage.getItem('app_pin_v105') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v106') || '1510';
             let digitado = document.getElementById('input-pin').value;
             if(digitado === pinSalvo) {
-                sessionStorage.setItem('sessao_ativa_v105', 'true');
+                sessionStorage.setItem('sessao_ativa_v106', 'true');
                 document.getElementById('tela-bloqueio').classList.add('hidden');
                 document.getElementById('erro-pin').classList.add('hidden');
             } else {
@@ -429,17 +459,17 @@
         }
 
         async function desbloquearComBiometria() {
-            sessionStorage.setItem('sessao_ativa_v105', 'true');
+            sessionStorage.setItem('sessao_ativa_v106', 'true');
             document.getElementById('tela-bloqueio').classList.add('hidden');
         }
 
         function alterarSenhaPin() {
             let atual = prompt("Digite a senha atual (Padrão: 1510):");
-            let pinSalvo = localStorage.getItem('app_pin_v105') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v106') || '1510';
             if(atual === pinSalvo) {
                 let nova = prompt("Digite a nova senha PIN:");
                 if(nova && nova.trim() !== '') {
-                    localStorage.setItem('app_pin_v105', nova.trim());
+                    localStorage.setItem('app_pin_v106', nova.trim());
                     alert("🔑 Senha alterada com sucesso!");
                 }
             } else {
@@ -452,11 +482,11 @@
             if(body.classList.contains('dark')) {
                 body.classList.remove('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.add('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v105', 'light');
+                localStorage.setItem('tema_v106', 'light');
             } else {
                 body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.remove('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v105', 'dark');
+                localStorage.setItem('tema_v106', 'dark');
             }
         }
 
@@ -676,7 +706,6 @@
                 let textDecor = item.concluido ? 'line-through text-slate-400 font-semibold' : 'text-slate-800 font-semibold';
                 let dIni = item.dataInicio ? item.dataInicio.split('-').reverse().join('/') : '?';
                 let dFim = item.dataFim ? item.dataFim.split('-').reverse().join('/') : '?';
-                let climaDica = obterInfoClima(item.categoria);
 
                 let card = document.createElement('div');
                 card.className = `p-2.5 rounded-xl border shadow-sm space-y-1.5 transition flex flex-col justify-between ${bgStyle}`;
@@ -714,7 +743,7 @@
             });
         }
 
-        // RENDERIZAR EDITAR (COM VALOR E CAIXINHAS EXTRAS)
+        // RENDERIZAR EDITAR
         function renderizarBlocos() {
             const container = document.getElementById('lista-blocos');
             if(!container) return;
@@ -1083,6 +1112,97 @@
             renderizarVouchersTab(); 
         }
 
+        function lidarSelecaoDestino(id, valor) {
+            registarEstadoAnterior();
+            if(valor === 'novo_destino') {
+                let novo = prompt("Novo destino:");
+                if(novo && novo.trim() !== '') {
+                    let limpo = novo.trim();
+                    if(!dadosApp.destinosCadastrados.includes(limpo)) dadosApp.destinosCadastrados.push(limpo);
+                    atualizarCampo(id, 'categoria', limpo);
+                } else { renderizarBlocos(); }
+            } else { atualizarCampo(id, 'categoria', valor); }
+        }
+
+        function lidarSelecaoLocal(id, campo, valor) {
+            registarEstadoAnterior();
+            if(valor === 'outro_local') {
+                let novo = prompt("Novo local:");
+                if(novo && novo.trim() !== '') {
+                    let limpo = novo.trim();
+                    if(!dadosApp.locaisCadastrados.includes(limpo)) dadosApp.locaisCadastrados.push(limpo);
+                    atualizarCampo(id, campo, limpo);
+                } else { renderizarBlocos(); }
+            } else { atualizarCampo(id, campo, valor); }
+        }
+
+        function lidarSelecaoDestinoVoucher(id, valor) {
+            registarEstadoAnterior();
+            if(valor === 'novo_destino') {
+                let novo = prompt("Novo destino:");
+                if(novo && novo.trim() !== '') {
+                    let limpo = novo.trim();
+                    if(!dadosApp.destinosCadastrados.includes(limpo)) dadosApp.destinosCadastrados.push(limpo);
+                    atualizarVoucherCampo(id, 'categoria', limpo);
+                } else { renderizarVouchersTab(); }
+            } else { atualizarVoucherCampo(id, 'categoria', valor); }
+        }
+
+        function atualizarCampo(id, campo, valor) {
+            registarEstadoAnterior();
+            let item = dadosApp.itinerario.find(i => i.id === id);
+            if(item) { item[campo] = valor; salvarStorage(); atualizarTudo(); }
+        }
+
+        function atualizarCampoDireto(id, campo, valor) {
+            let item = dadosApp.itinerario.find(i => i.id === id);
+            if(item) { item[campo] = valor; localStorage.setItem(CHAVE_APP, JSON.stringify(dadosApp)); }
+        }
+
+        function atualizarCorBlocoLocal(id, corHex) {
+            registarEstadoAnterior();
+            let item = dadosApp.itinerario.find(i => i.id === id);
+            if(item) { 
+                item.cor = corHex; 
+                salvarStorage(); 
+                atualizarTudo(); 
+            }
+        }
+
+        function moverBloco(id, direcao) {
+            registarEstadoAnterior();
+            let index = dadosApp.itinerario.findIndex(i => i.id === id);
+            if(index !== -1) {
+                let novoIndex = index + direcao;
+                if(novoIndex >= 0 && novoIndex < dadosApp.itinerario.length) {
+                    let temp = dadosApp.itinerario[index];
+                    dadosApp.itinerario[index] = dadosApp.itinerario[novoIndex];
+                    dadosApp.itinerario[novoIndex] = temp;
+                    salvarStorage();
+                    atualizarTudo();
+                }
+            }
+        }
+
+        function adicionarBloco() {
+            registarEstadoAnterior();
+            let novoItem = {
+                id: Date.now(), categoria: "Zurique", dataInicio: "", dataFim: "", trecho: "Nova Rota", transporte: "Trem", numeroTransporte: "", embarque: "Zurich HB", desembarque: "Hotel", notasExtras: "", cor: "#3b82f6", bloqueado: false, concluido: false
+            };
+            dadosApp.itinerario.unshift(novoItem);
+            salvarStorage();
+            atualizarTudo();
+        }
+
+        function apagarBloco(id) {
+            if(confirm("Excluir definitivamente este bloco?")) {
+                registarEstadoAnterior();
+                dadosApp.itinerario = dadosApp.itinerario.filter(i => i.id !== id);
+                salvarStorage();
+                atualizarTudo();
+            }
+        }
+
         // TAREFAS & CHECKLIST
         function renderizarTarefasTab() {
             const containerT = document.getElementById('lista-tarefas-html');
@@ -1255,50 +1375,49 @@
             if(c) { c.item = val; localStorage.setItem(CHAVE_APP, JSON.stringify(dadosApp)); }
         }
 
-        // ORÇAMENTO (COM CUSTOS AUTOMÁTICOS DO EDITAR + DESPESAS MANUAIS)
+        // ORÇAMENTO (COM CUSTOS DO EDITAR + DESPESAS MANUAIS + CONVERSOR BRL)
         function renderizarOrcamentoTab() {
-            const containerCustos = document.getElementById('lista-custos-roteiro-html');
-            const containerDespesas = document.getElementById('lista-despesas-html');
+            const containerDespesas = document.getElementById('lista-despesas-completa-html');
             const inputEur = document.getElementById('input-saldo-eur');
             const inputChf = document.getElementById('input-saldo-chf');
+            const inputCotacaoEur = document.getElementById('input-cotacao-eur');
+            const inputCotacaoChf = document.getElementById('input-cotacao-chf');
+            
             const restanteEurEl = document.getElementById('restante-eur');
             const restanteChfEl = document.getElementById('restante-chf');
-            if(!containerCustos || !containerDespesas) return;
+            const restanteEurBrlEl = document.getElementById('restante-eur-brl');
+            const restanteChfBrlEl = document.getElementById('restante-chf-brl');
 
-            containerCustos.innerHTML = '';
+            if(!containerDespesas) return;
             containerDespesas.innerHTML = '';
 
             if(inputEur) inputEur.value = dadosApp.saldoEur || 0;
             if(inputChf) inputChf.value = dadosApp.saldoChf || 0;
+            if(inputCotacaoEur) inputCotacaoEur.value = dadosApp.cotacaoEur || 6.20;
+            if(inputCotacaoChf) inputCotacaoChf.value = dadosApp.cotacaoChf || 6.50;
 
             let gastoEur = 0;
             let gastoChf = 0;
 
-            // 1. Custos automáticos vindos dos blocos do Editar
+            // 1. Custos automáticos do Editar
             let custosRoteiro = dadosApp.itinerario.filter(i => parseFloat(i.valor) > 0);
-            if(custosRoteiro.length === 0) {
-                containerCustos.innerHTML = '<p class="text-[10px] text-slate-400 italic">Nenhum custo registado nos blocos do Editar.</p>';
-            } else {
-                custosRoteiro.forEach(item => {
-                    let val = parseFloat(item.valor) || 0;
-                    let moeda = item.moeda || 'EUR';
-                    if(moeda === 'EUR') gastoEur += val;
-                    if(moeda === 'CHF') gastoChf += val;
+            custosRoteiro.forEach(item => {
+                let val = parseFloat(item.valor) || 0;
+                let moeda = item.moeda || 'EUR';
+                if(moeda === 'EUR') gastoEur += val;
+                if(moeda === 'CHF') gastoChf += val;
 
-                    let div = document.createElement('div');
-                    div.className = "p-1.5 rounded-lg border bg-slate-50 flex items-center justify-between text-[11px]";
-                    div.innerHTML = `
-                        <span class="font-bold text-slate-800">📍 ${item.categoria || 'Bloco'} (${item.trecho || 'Trecho'})</span>
-                        <span class="font-black text-indigo-900">${val.toFixed(2)} ${moeda}</span>
-                    `;
-                    containerCustos.appendChild(div);
-                });
-            }
+                let div = document.createElement('div');
+                div.className = "p-1.5 rounded-lg border bg-slate-50 flex items-center justify-between text-[11px]";
+                div.innerHTML = `
+                    <span class="font-bold text-slate-800">📍 [Editar] ${item.categoria || 'Bloco'} (${item.trecho || 'Trecho'})</span>
+                    <span class="font-black text-indigo-900">${val.toFixed(2)} ${moeda}</span>
+                `;
+                containerDespesas.appendChild(div);
+            });
 
             // 2. Despesas manuais
-            if(!dadosApp.orcamento || dadosApp.orcamento.length === 0) {
-                containerDespesas.innerHTML = '<p class="text-[10px] text-slate-400 italic">Nenhuma despesa manual.</p>';
-            } else {
+            if(dadosApp.orcamento && dadosApp.orcamento.length > 0) {
                 dadosApp.orcamento.forEach(d => {
                     let val = parseFloat(d.valor) || 0;
                     if(d.moeda === 'EUR') gastoEur += val;
@@ -1319,16 +1438,31 @@
                 });
             }
 
+            if(custosRoteiro.length === 0 && (!dadosApp.orcamento || dadosApp.orcamento.length === 0)) {
+                containerDespesas.innerHTML = '<p class="text-[10px] text-slate-400 italic text-center py-2">Nenhum custo registado.</p>';
+            }
+
             let sobraEur = (parseFloat(dadosApp.saldoEur) || 0) - gastoEur;
             let sobraChf = (parseFloat(dadosApp.saldoChf) || 0) - gastoChf;
+            let cotEur = parseFloat(dadosApp.cotacaoEur) || 6.20;
+            let cotChf = parseFloat(dadosApp.cotacaoChf) || 6.50;
 
             if(restanteEurEl) restanteEurEl.innerText = sobraEur.toFixed(2);
             if(restanteChfEl) restanteChfEl.innerText = sobraChf.toFixed(2);
+            if(restanteEurBrlEl) restanteEurBrlEl.innerText = `R$ ${(sobraEur * cotEur).toFixed(2)}`;
+            if(restanteChfBrlEl) restanteChfBrlEl.innerText = `R$ ${(sobraChf * cotChf).toFixed(2)}`;
         }
 
         function atualizarSaldoInicial(moeda, val) {
             if(moeda === 'EUR') dadosApp.saldoEur = parseFloat(val) || 0;
             if(moeda === 'CHF') dadosApp.saldoChf = parseFloat(val) || 0;
+            salvarStorage();
+            renderizarOrcamentoTab();
+        }
+
+        function atualizarCotacao(moeda, val) {
+            if(moeda === 'EUR') dadosApp.cotacaoEur = parseFloat(val) || 6.20;
+            if(moeda === 'CHF') dadosApp.cotacaoChf = parseFloat(val) || 6.50;
             salvarStorage();
             renderizarOrcamentoTab();
         }
