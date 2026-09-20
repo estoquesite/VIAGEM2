@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v96.0)</title>
+    <title>Roteiro Europa - Mariana (v97.0)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Manifest Dinâmico via JavaScript -->
@@ -35,7 +35,7 @@
     <!-- CABEÇALHO COMPACTO NO TOPO -->
     <header class="bg-slate-900 text-white px-3 py-2 shadow-md border-b border-slate-800 text-xs flex justify-between items-center z-50 relative">
         <span class="font-bold tracking-wide">🚄 Roteiro Europa - Mariana</span>
-        <span class="bg-indigo-600 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v96.0</span>
+        <span class="bg-indigo-600 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v97.0</span>
     </header>
 
     <!-- CONTEÚDO PRINCIPAL COMPACTO -->
@@ -54,7 +54,7 @@
             <div class="bg-gradient-to-r from-indigo-900 to-slate-900 text-white p-2.5 rounded-2xl shadow-md flex justify-between items-center">
                 <div>
                     <h2 class="text-xs font-black uppercase tracking-wider text-indigo-200">✈️ Roteiro Oficial (Aprovados)</h2>
-                    <p class="text-[9px] text-slate-300">Marque "Feito" para riscar ou elimine diretamente aqui se precisar.</p>
+                    <p class="text-[9px] text-slate-300">Marque "Feito" ou clique em ✕ para devolver ao Editar (sem apagar).</p>
                 </div>
                 <div id="progresso-viagem" class="bg-indigo-600 px-2.5 py-1 rounded-xl text-[11px] font-black shadow-inner">0 / 0 Aprovados</div>
             </div>
@@ -99,7 +99,7 @@
             </div>
         </div>
 
-        <!-- TAB 4: TAREFAS (COM BOTÃO DE DESFAZER E ADICIONAR STATUS) -->
+        <!-- TAB 4: TAREFAS (COM BOTÃO DE DESFAZER E CORES DE DESTINO) -->
         <div id="tab-tarefas" class="space-y-3 hidden">
             <div class="bg-indigo-900 text-white p-3 rounded-2xl shadow-md space-y-2">
                 <div class="flex justify-between items-center flex-wrap gap-2">
@@ -139,7 +139,7 @@
 
     <!-- BARRA DE FERRAMENTAS FIXA -->
     <nav class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-md text-white px-2 py-2 shadow-2xl border-t border-slate-800 text-xs flex items-center gap-1 overflow-x-auto no-scrollbar">
-        <span class="bg-indigo-600 px-1 py-0.5 rounded font-mono font-bold text-[8px] shrink-0">v96.0</span>
+        <span class="bg-indigo-600 px-1 py-0.5 rounded font-mono font-bold text-[8px] shrink-0">v97.0</span>
         <button onclick="abrirGeminiModal()" class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-2 py-1 rounded-lg font-bold transition shrink-0 flex items-center gap-1 text-[10px]">
             <span>✨</span> Gemini
         </button>
@@ -211,7 +211,7 @@
     </div>
 
     <script>
-        const CHAVE_APP = "mariana_viagem_europa_v96";
+        const CHAVE_APP = "mariana_viagem_europa_v97";
         let destinoFiltro = 'todos';
         let tarefaFiltro = 'todas';
         let campoFocoAtual = null;
@@ -230,15 +230,15 @@
             diasConcluidos: {},
             statusPersonalizados: { "Concluído": "#22c55e", "Aguardando": "#f59e0b" },
             itinerario: [
-                { id: 1, categoria: "Zurique", dataInicio: "2026-12-30", dataFim: "2027-01-02", trecho: "Estadia no ibis budget Zurich City West", embarque: "Zurich HB", desembarque: "ibis budget Zurich City West", notasExtras: "Check-in às 15h", cor: "#3b82f6", bloqueado: true, concluido: false },
-                { id: 2, categoria: "Freiburg", dataInicio: "2027-01-02", dataFim: "2027-01-05", trecho: "Zurique ➔ Freiburg", embarque: "Zurich Bus Station", desembarque: "Premier Inn", notasExtras: "", cor: "#f59e0b", bloqueado: false, concluido: false },
+                { id: 1, categoria: "Zurique", dataInicio: "2026-12-30", dataFim: "2027-01-02", trecho: "Estadia no ibis budget Zurich City West", transporte: "Trem", numeroTransporte: "", embarque: "Zurich HB", desembarque: "ibis budget Zurich City West", notasExtras: "Check-in às 15h", cor: "#3b82f6", bloqueado: true, concluido: false },
+                { id: 2, categoria: "Freiburg", dataInicio: "2027-01-02", dataFim: "2027-01-05", trecho: "Zurique ➔ Freiburg", transporte: "Ônibus", numeroTransporte: "Linha 72", embarque: "Zurich Bus Station", desembarque: "Premier Inn", notasExtras: "", cor: "#f59e0b", bloqueado: false, concluido: false },
                 { id: 3, categoria: "França", dataInicio: "2027-01-05", dataFim: "2027-01-07", trecho: "Freiburg ➔ Disney", embarque: "Freiburg Hbf", desembarque: "Disney Hotel", notasExtras: "", cor: "#ec4899", bloqueado: false, concluido: false },
                 { id: 4, categoria: "Interlaken", dataInicio: "2027-01-08", dataFim: "2027-01-12", trecho: "Paris ➔ Interlaken", embarque: "Gare de Lyon", desembarque: "Hotel Weisses", notasExtras: "", cor: "#10b981", bloqueado: false, concluido: false }
             ],
             tarefas: [
-                { id: 1, texto: "Comprar cartões Wise e Nomad", status: "Concluído" },
-                { id: 2, texto: "Reservar bilhetes Europa-Park", status: "Aguardando" },
-                { id: 3, texto: "Reservar passes Disney", status: "Aguardando" }
+                { id: 1, texto: "Comprar cartões Wise e Nomad", status: "Concluído", categoria: "Zurique" },
+                { id: 2, texto: "Reservar bilhetes Europa-Park", status: "Aguardando", categoria: "Freiburg" },
+                { id: 3, texto: "Reservar passes Disney", status: "Aguardando", categoria: "França" }
             ],
             vouchers: [
                 { id: 1, titulo: "ibis budget Zurich City West", categoria: "Zurique", pdfData: "", pdfNome: "" },
@@ -286,7 +286,7 @@
             const manifestBlob = new Blob([JSON.stringify(manifestObj)], {type: 'application/manifest+json'});
             document.getElementById('pwa-manifest').href = URL.createObjectURL(manifestBlob);
 
-            const temaSalvo = localStorage.getItem('tema_v96');
+            const temaSalvo = localStorage.getItem('tema_v97');
             if (temaSalvo === 'dark') {
                 document.body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 document.body.classList.remove('bg-slate-100', 'text-slate-800');
@@ -331,10 +331,10 @@
         }
 
         function desbloquearComPin() {
-            let pinSalvo = localStorage.getItem('app_pin_v96') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v97') || '1510';
             let digitado = document.getElementById('input-pin').value;
             if(digitado === pinSalvo) {
-                sessionStorage.setItem('sessao_ativa_v96', 'true');
+                sessionStorage.setItem('sessao_ativa_v97', 'true');
                 document.getElementById('tela-bloqueio').classList.add('hidden');
                 document.getElementById('erro-pin').classList.add('hidden');
             } else {
@@ -343,17 +343,17 @@
         }
 
         async function desbloquearComBiometria() {
-            sessionStorage.setItem('sessao_ativa_v96', 'true');
+            sessionStorage.setItem('sessao_ativa_v97', 'true');
             document.getElementById('tela-bloqueio').classList.add('hidden');
         }
 
         function alterarSenhaPin() {
             let atual = prompt("Digite a senha atual (Padrão: 1510):");
-            let pinSalvo = localStorage.getItem('app_pin_v96') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v97') || '1510';
             if(atual === pinSalvo) {
                 let nova = prompt("Digite a nova senha PIN:");
                 if(nova && nova.trim() !== '') {
-                    localStorage.setItem('app_pin_v96', nova.trim());
+                    localStorage.setItem('app_pin_v97', nova.trim());
                     alert("🔑 Senha alterada com sucesso!");
                 }
             } else {
@@ -366,11 +366,11 @@
             if(body.classList.contains('dark')) {
                 body.classList.remove('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.add('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v96', 'light');
+                localStorage.setItem('tema_v97', 'light');
             } else {
                 body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.remove('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v96', 'dark');
+                localStorage.setItem('tema_v97', 'dark');
             }
         }
 
@@ -934,7 +934,7 @@
             renderizarVouchersTab(); 
         }
 
-        // TAREFAS
+        // TAREFAS COM CORES DE DESTINO
         function renderizarTarefas() {
             const container = document.getElementById('lista-tarefas-html');
             container.innerHTML = '';
@@ -952,6 +952,7 @@
             filtradas.forEach(t => {
                 let statusAtual = t.status || "Aguardando";
                 let corStatus = dadosApp.statusPersonalizados[statusAtual] || "#f59e0b";
+                let corDestino = obterCorPorCategoria(t.categoria || 'Zurique');
                 let textStyle = (statusAtual === 'Concluído') ? 'line-through text-slate-400 font-normal' : 'font-bold text-slate-800';
 
                 let opcoesStatus = '';
@@ -960,22 +961,50 @@
                 });
                 opcoesStatus += `<option value="novo_status">➕ Outro...</option>`;
 
+                let opcoesDestinoT = '';
+                if(!dadosApp.destinosCadastrados.includes(t.categoria)) dadosApp.destinosCadastrados.push(t.categoria || "Zurique");
+                dadosApp.destinosCadastrados.forEach(d => {
+                    opcoesDestinoT += `<option value="${d}" ${(t.categoria || 'Zurique') === d ? 'selected' : ''}>${d}</option>`;
+                });
+                opcoesDestinoT += `<option value="novo_destino">➕ Outro...</option>`;
+
                 let div = document.createElement('div');
                 div.className = `p-2 rounded-xl border bg-white space-y-1 shadow-sm`;
-                div.style.borderLeft = `4px solid ${corStatus}`;
+                div.style.borderLeft = `4px solid ${corDestino}`;
                 div.innerHTML = `
                     <div class="flex items-center justify-between gap-1 flex-wrap">
                         <input type="text" value="${t.texto}" oninput="atualizarTarefaTexto(${t.id}, this.value)" class="w-full p-0.5 bg-transparent border-b border-slate-200 outline-none ${textStyle} text-[11px]" placeholder="Tarefa...">
                         <div class="flex items-center gap-1 w-full justify-between pt-0.5">
-                            <select onchange="lidarSelecaoStatusTarefa(${t.id}, this.value)" class="border rounded px-1.5 py-0.2 text-[9px] font-bold text-white shadow-sm" style="background-color: ${corStatus};">
-                                ${opcoesStatus}
-                            </select>
+                            <div class="flex items-center gap-1">
+                                <select onchange="lidarSelecaoDestinoTarefa(${t.id}, this.value)" class="border rounded px-1.5 py-0.2 text-[9px] font-bold text-white shadow-sm" style="background-color: ${corDestino};">
+                                    ${opcoesDestinoT}
+                                </select>
+                                <select onchange="lidarSelecaoStatusTarefa(${t.id}, this.value)" class="border rounded px-1.5 py-0.2 text-[9px] font-bold text-white shadow-sm" style="background-color: ${corStatus};">
+                                    ${opcoesStatus}
+                                </select>
+                            </div>
                             <button onclick="apagarTarefa(${t.id})" class="text-red-500 bg-red-50 px-1.5 py-0.2 rounded text-[9px]">✕</button>
                         </div>
                     </div>
                 `;
                 container.appendChild(div);
             });
+        }
+
+        function lidarSelecaoDestinoTarefa(id, valor) {
+            registarEstadoAnterior();
+            if(valor === 'novo_destino') {
+                let novo = prompt("Novo destino:");
+                if(novo && novo.trim() !== '') {
+                    let limpo = novo.trim();
+                    if(!dadosApp.destinosCadastrados.includes(limpo)) dadosApp.destinosCadastrados.push(limpo);
+                    const t = dadosApp.tarefas.find(item => item.id === id);
+                    if(t) { t.categoria = limpo; salvarStorage(); renderizarTarefas(); }
+                } else { renderizarTarefas(); }
+            } else {
+                const t = dadosApp.tarefas.find(item => item.id === id);
+                if(t) { t.categoria = valor; salvarStorage(); renderizarTarefas(); }
+            }
         }
 
         function lidarSelecaoStatusTarefa(id, valor) {
@@ -1001,7 +1030,7 @@
         }
         function adicionarTarefa() {
             registarEstadoAnterior();
-            dadosApp.tarefas.unshift({ id: Date.now(), texto: "Nova tarefa...", status: "Aguardando" });
+            dadosApp.tarefas.unshift({ id: Date.now(), texto: "Nova tarefa...", status: "Aguardando", categoria: "Zurique" });
             salvarStorage();
             renderizarTarefas();
         }
