@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v106.0)</title>
+    <title>Roteiro Europa - Mariana (v107.0)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Manifest Dinâmico via JavaScript -->
@@ -37,7 +37,7 @@
         <span class="font-bold tracking-wide">🚄 Roteiro Europa - Mariana</span>
         <div class="flex items-center gap-2">
             <button onclick="exportarPdfPrint()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2 py-0.5 rounded font-bold text-[9px] transition">🖨️ PDF / Imprimir</button>
-            <span class="bg-indigo-600 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v106.0</span>
+            <span class="bg-indigo-600 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v107.0</span>
         </div>
     </header>
 
@@ -150,7 +150,7 @@
             </div>
         </div>
 
-        <!-- TAB 6: ORÇAMENTO & CÂMBIO (SEPARADO POR MOEDAS E CONVERSOR EM REAIS) -->
+        <!-- TAB 6: ORÇAMENTO & CÂMBIO -->
         <div id="tab-orcamento" class="space-y-3 hidden">
             <div class="bg-white p-3 rounded-2xl shadow-sm border border-slate-300 space-y-3 text-xs">
                 <div class="flex justify-between items-center border-b pb-2 flex-wrap gap-2">
@@ -161,7 +161,6 @@
                     <button onclick="adicionarDespesa()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-2.5 py-1.5 rounded-lg font-bold text-[11px] transition shadow-sm">➕ Nova Despesa Manual</button>
                 </div>
 
-                <!-- COTAÇÕES EDITÁVEIS PARA REAIS (BRL) -->
                 <div class="bg-slate-50 p-2.5 rounded-xl border space-y-1.5">
                     <span class="font-bold text-[10px] text-slate-700 block">💱 Cotação Atual (1 Unidade em Reais - R$)</span>
                     <div class="grid grid-cols-2 gap-2">
@@ -176,9 +175,7 @@
                     </div>
                 </div>
 
-                <!-- BLOCOS SEPARADOS POR MOEDA (METADE CADA) -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    <!-- BLOCO DE EUROS (€) -->
                     <div class="bg-amber-50/60 p-2.5 rounded-2xl border border-amber-200 space-y-2">
                         <h3 class="font-black text-amber-900 text-xs uppercase border-b border-amber-200 pb-1">🇪🇺 Bloco de Euros (€)</h3>
                         <div>
@@ -195,7 +192,6 @@
                         </div>
                     </div>
 
-                    <!-- BLOCO DE FRANCOS (CHF) -->
                     <div class="bg-blue-50/60 p-2.5 rounded-2xl border border-blue-200 space-y-2">
                         <h3 class="font-black text-blue-900 text-xs uppercase border-b border-blue-200 pb-1">🇨🇭 Bloco de Francos (CHF)</h3>
                         <div>
@@ -213,9 +209,8 @@
                     </div>
                 </div>
 
-                <!-- LISTAGEM DE GASTOS (AUTOMÁTICOS DO EDITAR + MANUAIS) -->
                 <div class="space-y-2 pt-2 border-t">
-                    <h3 class="font-bold text-[11px] uppercase text-slate-700">📋 Custos do Itinerario (Editar) & Despesas Manuais</h3>
+                    <h3 class="font-bold text-[11px] uppercase text-slate-700">📋 Custos do Itinerário (Editar) & Despesas Manuais</h3>
                     <div id="lista-despesas-completa-html" class="space-y-1.5"></div>
                 </div>
             </div>
@@ -274,7 +269,7 @@
 
     <!-- BARRA DE FERRAMENTAS FIXA -->
     <nav class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-md text-white px-2 py-2 shadow-2xl border-t border-slate-800 text-xs flex items-center gap-1 overflow-x-auto no-scrollbar">
-        <span class="bg-indigo-600 px-1 py-0.5 rounded font-mono font-bold text-[8px] shrink-0">v106.0</span>
+        <span class="bg-indigo-600 px-1 py-0.5 rounded font-mono font-bold text-[8px] shrink-0">v107.0</span>
         <button onclick="abrirGeminiModal()" class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-2 py-1 rounded-lg font-bold transition shrink-0 flex items-center gap-1 text-[10px]">
             <span>✨</span> Gemini
         </button>
@@ -327,7 +322,7 @@
     </div>
 
     <script>
-        const CHAVE_APP = "mariana_viagem_europa_v106";
+        const CHAVE_APP = "mariana_viagem_europa_v107";
         let destinoFiltro = 'todos';
         let tarefaFiltro = 'todas';
         let campoFocoAtual = null;
@@ -396,7 +391,7 @@
             const manifestBlob = new Blob([JSON.stringify(manifestObj)], {type: 'application/manifest+json'});
             document.getElementById('pwa-manifest').href = URL.createObjectURL(manifestBlob);
 
-            const temaSalvo = localStorage.getItem('tema_v106');
+            const temaSalvo = localStorage.getItem('tema_v107');
             if (temaSalvo === 'dark') {
                 document.body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 document.body.classList.remove('bg-slate-100', 'text-slate-800');
@@ -447,10 +442,10 @@
         }
 
         function desbloquearComPin() {
-            let pinSalvo = localStorage.getItem('app_pin_v106') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v107') || '1510';
             let digitado = document.getElementById('input-pin').value;
             if(digitado === pinSalvo) {
-                sessionStorage.setItem('sessao_ativa_v106', 'true');
+                sessionStorage.setItem('sessao_ativa_v107', 'true');
                 document.getElementById('tela-bloqueio').classList.add('hidden');
                 document.getElementById('erro-pin').classList.add('hidden');
             } else {
@@ -459,17 +454,17 @@
         }
 
         async function desbloquearComBiometria() {
-            sessionStorage.setItem('sessao_ativa_v106', 'true');
+            sessionStorage.setItem('sessao_ativa_v107', 'true');
             document.getElementById('tela-bloqueio').classList.add('hidden');
         }
 
         function alterarSenhaPin() {
             let atual = prompt("Digite a senha atual (Padrão: 1510):");
-            let pinSalvo = localStorage.getItem('app_pin_v106') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v107') || '1510';
             if(atual === pinSalvo) {
                 let nova = prompt("Digite a nova senha PIN:");
                 if(nova && nova.trim() !== '') {
-                    localStorage.setItem('app_pin_v106', nova.trim());
+                    localStorage.setItem('app_pin_v107', nova.trim());
                     alert("🔑 Senha alterada com sucesso!");
                 }
             } else {
@@ -482,11 +477,11 @@
             if(body.classList.contains('dark')) {
                 body.classList.remove('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.add('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v106', 'light');
+                localStorage.setItem('tema_v107', 'light');
             } else {
                 body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.remove('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v106', 'dark');
+                localStorage.setItem('tema_v107', 'dark');
             }
         }
 
@@ -755,7 +750,7 @@
             }
 
             if(filtrados.length === 0) {
-                container.innerHTML = '<div class="bg-white p-4 rounded-2xl text-center text-[11px] text-slate-400 border">Nenhum bloco encontrado.</div>';
+                container.innerHTML = '<div class="bg-white p-4 rounded-2xl text-center text-[11px] text-slate-400 border">Nenhum bloco encontrado. Clique em "➕ Novo Bloco" em cima para começar.</div>';
                 return;
             }
 
@@ -930,6 +925,17 @@
                 let sub = item.subBlocos.find(s => s.id === subId);
                 if(sub) { sub.conteudo = val; salvarStorage(); }
             }
+        }
+
+        function adicionarBloco() {
+            registarEstadoAnterior();
+            let novoItem = {
+                id: Date.now(), categoria: "Zurique", dataInicio: "", dataFim: "", trecho: "Nova Rota", transporte: "Trem", numeroTransporte: "", valor: 0, moeda: "EUR", embarque: "Zurich HB", desembarque: "Hotel", notasExtras: "", cor: "#3b82f6", bloqueado: false, concluido: false, subBlocos: []
+            };
+            if(!dadosApp.itinerario) dadosApp.itinerario = [];
+            dadosApp.itinerario.unshift(novoItem);
+            salvarStorage();
+            atualizarTudo();
         }
 
         // VOOS & PNR
@@ -1184,16 +1190,6 @@
             }
         }
 
-        function adicionarBloco() {
-            registarEstadoAnterior();
-            let novoItem = {
-                id: Date.now(), categoria: "Zurique", dataInicio: "", dataFim: "", trecho: "Nova Rota", transporte: "Trem", numeroTransporte: "", embarque: "Zurich HB", desembarque: "Hotel", notasExtras: "", cor: "#3b82f6", bloqueado: false, concluido: false
-            };
-            dadosApp.itinerario.unshift(novoItem);
-            salvarStorage();
-            atualizarTudo();
-        }
-
         function apagarBloco(id) {
             if(confirm("Excluir definitivamente este bloco?")) {
                 registarEstadoAnterior();
@@ -1375,7 +1371,7 @@
             if(c) { c.item = val; localStorage.setItem(CHAVE_APP, JSON.stringify(dadosApp)); }
         }
 
-        // ORÇAMENTO (COM CUSTOS DO EDITAR + DESPESAS MANUAIS + CONVERSOR BRL)
+        // ORÇAMENTO
         function renderizarOrcamentoTab() {
             const containerDespesas = document.getElementById('lista-despesas-completa-html');
             const inputEur = document.getElementById('input-saldo-eur');
@@ -1399,7 +1395,6 @@
             let gastoEur = 0;
             let gastoChf = 0;
 
-            // 1. Custos automáticos do Editar
             let custosRoteiro = dadosApp.itinerario.filter(i => parseFloat(i.valor) > 0);
             custosRoteiro.forEach(item => {
                 let val = parseFloat(item.valor) || 0;
@@ -1416,7 +1411,6 @@
                 containerDespesas.appendChild(div);
             });
 
-            // 2. Despesas manuais
             if(dadosApp.orcamento && dadosApp.orcamento.length > 0) {
                 dadosApp.orcamento.forEach(d => {
                     let val = parseFloat(d.valor) || 0;
