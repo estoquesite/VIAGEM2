@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v78.0)</title>
+    <title>Roteiro Europa - Mariana (v79.0)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Manifest Dinâmico via JavaScript -->
@@ -35,7 +35,7 @@
     <!-- CABEÇALHO COMPACTO NO TOPO -->
     <header class="bg-slate-900 text-white px-3 py-2 shadow-md border-b border-slate-800 text-xs flex justify-between items-center z-50 relative">
         <span class="font-bold tracking-wide">🚄 Roteiro Europa - Mariana</span>
-        <span class="bg-indigo-600 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v78.0</span>
+        <span class="bg-indigo-600 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v79.0</span>
     </header>
 
     <!-- CONTEÚDO PRINCIPAL COMPACTO -->
@@ -49,7 +49,7 @@
             <button onclick="mudarTab('comprados')" id="tab-btn-comprados" class="py-2 rounded-lg text-slate-600 hover:bg-white/50 transition">🎟️ Vouchers</button>
         </div>
 
-        <!-- TAB 1: ROTEIRO EM QUADRADINHOS DIA A DIA (COMPACTO) -->
+        <!-- TAB 1: ROTEIRO EM QUADRADINHOS DIA A DIA -->
         <div id="tab-leitura" class="space-y-3">
             <div class="bg-gradient-to-r from-indigo-900 to-slate-900 text-white p-3 rounded-2xl shadow-md flex justify-between items-center">
                 <div>
@@ -100,17 +100,17 @@
             <div id="lista-tarefas-html" class="space-y-2 text-xs"></div>
         </div>
 
-        <!-- TAB 4: VOUCHERS & PDFS -->
+        <!-- TAB 4: VOUCHERS & PDFS (COMPACTOS EM QUADRADINHOS) -->
         <div id="tab-comprados" class="space-y-3 hidden">
-            <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-300 space-y-3">
+            <div class="bg-white p-3 rounded-2xl shadow-sm border border-slate-300 space-y-3">
                 <div class="flex justify-between items-center border-b pb-2 flex-wrap gap-2">
                     <div>
                         <h2 class="text-[11px] font-extrabold uppercase text-slate-800 tracking-wider">🎟️ Gestão de Vouchers & PDFs</h2>
-                        <p class="text-[10px] text-slate-500 font-semibold">Vouchers organizados com destinos e PDF integrado</p>
+                        <p class="text-[10px] text-slate-500 font-semibold">Hotéis e vouchers pré-definidos com gestão de PDF</p>
                     </div>
                     <button onclick="adicionarVoucher()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-2.5 py-1.5 rounded-lg font-bold text-[11px] transition shadow-sm">➕ Novo Voucher</button>
                 </div>
-                <div id="lista-comprados-html" class="space-y-2 text-xs"></div>
+                <div id="lista-comprados-html" class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs"></div>
             </div>
         </div>
 
@@ -118,7 +118,7 @@
 
     <!-- BARRA DE FERRAMENTAS FIXA -->
     <nav class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-md text-white px-2 py-2 shadow-2xl border-t border-slate-800 text-xs flex items-center gap-1 overflow-x-auto no-scrollbar">
-        <span class="bg-indigo-600 px-1 py-0.5 rounded font-mono font-bold text-[8px] shrink-0">v78.0</span>
+        <span class="bg-indigo-600 px-1 py-0.5 rounded font-mono font-bold text-[8px] shrink-0">v79.0</span>
         <button onclick="abrirGeminiModal()" class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-2 py-1 rounded-lg font-bold transition shrink-0 flex items-center gap-1 text-[10px]">
             <span>✨</span> Gemini
         </button>
@@ -214,7 +214,7 @@
     </div>
 
     <script>
-        const CHAVE_APP = "mariana_viagem_europa_v78";
+        const CHAVE_APP = "mariana_viagem_europa_v79";
         let destinoFiltro = 'todos';
         let tarefaFiltro = 'todas';
         let campoFocoAtual = null;
@@ -276,7 +276,7 @@
             const manifestBlob = new Blob([JSON.stringify(manifestObj)], {type: 'application/manifest+json'});
             document.getElementById('pwa-manifest').href = URL.createObjectURL(manifestBlob);
 
-            const temaSalvo = localStorage.getItem('tema_v78');
+            const temaSalvo = localStorage.getItem('tema_v79');
             if (temaSalvo === 'dark') {
                 document.body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 document.body.classList.remove('bg-slate-100', 'text-slate-800');
@@ -319,10 +319,10 @@
         }
 
         function desbloquearComPin() {
-            let pinSalvo = localStorage.getItem('app_pin_v78') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v79') || '1510';
             let digitado = document.getElementById('input-pin').value;
             if(digitado === pinSalvo) {
-                sessionStorage.setItem('sessao_ativa_v78', 'true');
+                sessionStorage.setItem('sessao_ativa_v79', 'true');
                 document.getElementById('tela-bloqueio').classList.add('hidden');
                 document.getElementById('erro-pin').classList.add('hidden');
             } else {
@@ -331,17 +331,17 @@
         }
 
         async function desbloquearComBiometria() {
-            sessionStorage.setItem('sessao_ativa_v78', 'true');
+            sessionStorage.setItem('sessao_ativa_v79', 'true');
             document.getElementById('tela-bloqueio').classList.add('hidden');
         }
 
         function alterarSenhaPin() {
             let atual = prompt("Digite a senha atual (Padrão: 1510):");
-            let pinSalvo = localStorage.getItem('app_pin_v78') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v79') || '1510';
             if(atual === pinSalvo) {
                 let nova = prompt("Digite a nova senha PIN:");
                 if(nova && nova.trim() !== '') {
-                    localStorage.setItem('app_pin_v78', nova.trim());
+                    localStorage.setItem('app_pin_v79', nova.trim());
                     alert("🔑 Senha alterada com sucesso!");
                 }
             } else {
@@ -354,11 +354,11 @@
             if(body.classList.contains('dark')) {
                 body.classList.remove('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.add('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v78', 'light');
+                localStorage.setItem('tema_v79', 'light');
             } else {
                 body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.remove('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v78', 'dark');
+                localStorage.setItem('tema_v79', 'dark');
             }
         }
 
@@ -530,6 +530,7 @@
             let activeBtn = document.getElementById('tab-btn-' + tab);
             if(activeBtn) activeBtn.className = "py-2 rounded-lg bg-indigo-600 text-white shadow-sm transition";
             if(tab === 'leitura') { renderizarModoLeitura(); }
+            if(tab === 'comprados') { renderizarVouchersTab(); }
         }
 
         function obterCorBlocoHex(item) {
@@ -669,7 +670,7 @@
             }
         }
 
-        // GERADOR DOS QUADRADINHOS DIA A DIA (COMPACTO)
+        // GERADOR DOS QUADRADINHOS DIA A DIA
         function renderizarModoLeitura() {
             const container = document.getElementById('lista-leitura-html');
             const progressoEl = document.getElementById('progresso-viagem');
@@ -774,6 +775,96 @@
                 `;
                 container.appendChild(card);
             });
+        }
+
+        // RENDERIZAR VOUCHERS EM QUADRADINHOS COMPACTOS COM GESTÃO DE PDF
+        function renderizarVouchersTab() {
+            const container = document.getElementById('lista-comprados-html');
+            if(!container) return;
+            container.innerHTML = '';
+            
+            if(!dadosApp.vouchers || dadosApp.vouchers.length === 0) { 
+                container.innerHTML = '<p class="col-span-full text-xs text-slate-400 italic text-center py-4">Nenhum voucher.</p>'; 
+                return; 
+            }
+
+            dadosApp.vouchers.forEach(v => {
+                let opcoesDestinoV = '';
+                if(!dadosApp.destinosCadastrados.includes(v.categoria)) dadosApp.destinosCadastrados.push(v.categoria);
+                dadosApp.destinosCadastrados.forEach(d => {
+                    opcoesDestinoV += `<option value="${d}" ${v.categoria === d ? 'selected' : ''}>${d}</option>`;
+                });
+                opcoesDestinoV += `<option value="novo_destino">➕ Outro...</option>`;
+
+                let pdfAction = v.pdfData ? 
+                    `<div class="flex items-center gap-1">
+                        <a href="${v.pdfData}" download="${v.pdfNome || 'v.pdf'}" class="bg-blue-600 hover:bg-blue-700 text-white px-2 py-1 rounded text-[9px] font-bold">📄 Ver/Baixar</a>
+                        <button onclick="removerPdfVoucher(${v.id})" class="bg-amber-100 hover:bg-amber-200 text-amber-800 px-1.5 py-1 rounded text-[9px] font-bold" title="Excluir PDF atual">🗑️ Trocar</button>
+                     </div>` : 
+                    `<label class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-2 py-1 rounded text-[9px] font-bold cursor-pointer border">📎 Anexar PDF<input type="file" accept="application/pdf" onchange="anexarPdfVoucher(${v.id}, event)" class="hidden"></label>`;
+
+                let div = document.createElement('div');
+                div.className = "p-2.5 rounded-xl border bg-white space-y-2 shadow-sm flex flex-col justify-between";
+                div.innerHTML = `
+                    <div class="space-y-1.5">
+                        <input type="text" value="${v.titulo}" oninput="atualizarVoucherCampo(${v.id}, 'titulo', this.value)" class="w-full p-1 bg-slate-50 border border-slate-200 rounded-lg outline-none font-bold text-xs text-slate-900" placeholder="Nome do Hotel / Voucher...">
+                        <div class="flex items-center justify-between gap-1">
+                            <select onchange="lidarSelecaoDestinoVoucher(${v.id}, this.value)" class="bg-indigo-50 font-bold px-2 py-1 rounded-lg text-[10px] border border-indigo-200 text-indigo-900">
+                                ${opcoesDestinoV}
+                            </select>
+                            ${pdfAction}
+                        </div>
+                    </div>
+                    <div class="flex justify-end pt-1.5 border-t mt-1">
+                        <button onclick="apagarVoucher(${v.id})" class="text-red-500 font-bold text-[10px] bg-red-50 hover:bg-red-100 px-2 py-0.5 rounded-lg transition">Excluir Card ✕</button>
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function anexarPdfVoucher(id, event) {
+            const file = event.target.files[0];
+            if(file) {
+                const reader = new FileReader();
+                reader.onload = function(evt) {
+                    const v = dadosApp.vouchers.find(item => item.id === id);
+                    if(v) { 
+                        v.pdfData = evt.target.result; 
+                        v.pdfNome = file.name; 
+                        salvarStorage(); 
+                        renderizarVouchersTab(); 
+                    }
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function removerPdfVoucher(id) {
+            let v = dadosApp.vouchers.find(item => item.id === id);
+            if(v) {
+                v.pdfData = "";
+                v.pdfNome = "";
+                salvarStorage();
+                renderizarVouchersTab();
+            }
+        }
+
+        function atualizarVoucherCampo(id, campo, val) { 
+            const v = dadosApp.vouchers.find(i => i.id === id); 
+            if(v) { v[campo] = val; salvarStorage(); } 
+        }
+
+        function adicionarVoucher() { 
+            dadosApp.vouchers.unshift({ id: Date.now(), titulo: "Novo Hotel / Voucher", categoria: "Zurique", pdfData: "", pdfNome: "", bloqueado: false }); 
+            salvarStorage(); 
+            renderizarVouchersTab(); 
+        }
+
+        function apagarVoucher(id) { 
+            dadosApp.vouchers = dadosApp.vouchers.filter(v => v.id !== id); 
+            salvarStorage(); 
+            renderizarVouchersTab(); 
         }
 
         function renderizarBlocos() {
@@ -1108,43 +1199,6 @@
                 } else { salvarStorage(); fecharModalDetalhes(); atualizarTudo(); }
             }
         }
-
-        function renderizarVouchersTab() {
-            const container = document.getElementById('lista-comprados-html');
-            container.innerHTML = '';
-            if(!dadosApp.vouchers || dadosApp.vouchers.length === 0) { container.innerHTML = '<p class="text-xs text-slate-400 italic text-center py-4">Nenhum voucher.</p>'; return; }
-            dadosApp.vouchers.forEach(v => {
-                let pdfAction = v.pdfData ? `<a href="${v.pdfData}" download="${v.pdfNome || 'v.pdf'}" class="bg-blue-600 text-white px-2 py-1 rounded text-[10px] font-bold">📄 PDF</a>` : `<label class="bg-slate-100 text-slate-700 px-2 py-1 rounded text-[10px] font-bold cursor-pointer">📎 Anexar<input type="file" accept="application/pdf" onchange="anexarPdfVoucher(${v.id}, event)" class="hidden"></label>`;
-                let div = document.createElement('div');
-                div.className = "p-2.5 rounded-xl border bg-white space-y-1.5 shadow-sm";
-                div.innerHTML = `
-                    <div class="flex items-center justify-between gap-1 flex-wrap">
-                        <input type="text" value="${v.titulo}" oninput="atualizarVoucherCampo(${v.id}, 'titulo', this.value)" class="w-full p-1 bg-transparent border-b outline-none font-bold text-xs" placeholder="Hotel...">
-                        <div class="flex items-center gap-1 w-full justify-between pt-1">
-                            <select onchange="lidarSelecaoDestinoVoucher(${v.id}, this.value)" class="bg-indigo-50 font-bold px-2 py-1 rounded text-[11px] border">
-                                <option value="${v.categoria}">${v.categoria}</option>
-                            </select>
-                            <div class="flex items-center gap-1">${pdfAction}<button onclick="apagarVoucher(${v.id})" class="text-red-500 font-bold text-[10px] bg-red-50 px-1.5 py-0.5 rounded">✕</button></div>
-                        </div>
-                    </div>
-                `;
-                container.appendChild(div);
-            });
-        }
-        function anexarPdfVoucher(id, event) {
-            const file = event.target.files[0];
-            if(file) {
-                const reader = new FileReader();
-                reader.onload = function(evt) {
-                    const v = dadosApp.vouchers.find(item => item.id === id);
-                    if(v) { v.pdfData = evt.target.result; v.pdfNome = file.name; salvarStorage(); alert("PDF anexado!"); renderizarVouchersTab(); }
-                };
-                reader.readAsDataURL(file);
-            }
-        }
-        function atualizarVoucherCampo(id, campo, val) { const v = dadosApp.vouchers.find(i => i.id === id); if(v) { v[campo] = val; localStorage.setItem(CHAVE_APP, JSON.stringify(dadosApp)); } }
-        function adicionarVoucher() { dadosApp.vouchers.unshift({ id: Date.now(), titulo: "Novo Voucher", categoria: "Geral", pdfData: "", pdfNome: "", bloqueado: false }); salvarStorage(); renderizarVouchersTab(); }
-        function apagarVoucher(id) { dadosApp.vouchers = dadosApp.vouchers.filter(v => v.id !== id); salvarStorage(); renderizarVouchersTab(); }
 
         function ativarMicrofone() {
             const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
