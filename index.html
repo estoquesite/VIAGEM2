@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v115.0)</title>
+    <title>Roteiro Europa - Mariana (v116.0)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Manifest Dinâmico via JavaScript -->
@@ -37,20 +37,19 @@
         <span class="font-bold tracking-wide">🚄 Roteiro Europa - Mariana</span>
         <div class="flex items-center gap-2">
             <button onclick="exportarPdfPrint()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2 py-0.5 rounded font-bold text-[9px] transition">🖨️ PDF / Imprimir</button>
-            <span class="bg-indigo-600 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v115.0</span>
+            <span class="bg-indigo-600 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v116.0</span>
         </div>
     </header>
 
     <!-- CONTEÚDO PRINCIPAL COMPACTO -->
     <div class="max-w-4xl mx-auto p-2 sm:p-4 space-y-3 pt-3">
 
-        <!-- SEPARADORES (TABS) - MENU HORIZONTAL DESLIZANTE -->
+        <!-- SEPARADORES (TABS) - MENU SUPERIOR OTIMIZADO -->
         <div class="flex gap-1 bg-slate-200 p-1 rounded-xl text-[10px] font-bold shadow-sm overflow-x-auto no-scrollbar">
             <button onclick="mudarTab('leitura')" id="tab-btn-leitura" class="px-3 py-2 rounded-lg bg-indigo-600 text-white shadow-sm transition shrink-0">✈️ Roteiro</button>
             <button onclick="mudarTab('itinerario')" id="tab-btn-itinerario" class="px-3 py-2 rounded-lg text-slate-600 hover:bg-white/50 transition shrink-0">📅 Editar</button>
-            <button onclick="mudarTab('voos')" id="tab-btn-voos" class="px-3 py-2 rounded-lg text-slate-600 hover:bg-white/50 transition shrink-0">✈️ Voos & Úteis</button>
             <button onclick="mudarTab('comprados')" id="tab-btn-comprados" class="px-3 py-2 rounded-lg text-slate-600 hover:bg-white/50 transition shrink-0">🎟️ Vouchers</button>
-            <button onclick="mudarTab('tarefas')" id="tab-btn-tarefas" class="px-3 py-2 rounded-lg text-slate-600 hover:bg-white/50 transition shrink-0">✅ Tarefas & Checklist</button>
+            <button onclick="mudarTab('utilidades')" id="tab-btn-utilidades" class="px-3 py-2 rounded-lg text-slate-600 hover:bg-white/50 transition shrink-0">📋 Utilidades</button>
             <button onclick="mudarTab('orcamento')" id="tab-btn-orcamento" class="px-3 py-2 rounded-lg text-slate-600 hover:bg-white/50 transition shrink-0">💰 Orçamento & R$</button>
         </div>
 
@@ -80,7 +79,7 @@
             </div>
 
             <div class="flex justify-between items-center px-1 pt-0.5 bg-white p-2 rounded-xl border shadow-sm">
-                <h2 class="text-[10px] font-extrabold uppercase text-slate-700 tracking-wider">📦 Blocos de Destino & Múltiplos Trechos</h2>
+                <h2 class="text-[10px] font-extrabold uppercase text-slate-700 tracking-wider">📦 Blocos de Destino</h2>
                 <div class="flex gap-1">
                     <button onclick="desfazerUltimaAcao()" class="bg-amber-600 hover:bg-amber-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm">↩️ Voltar</button>
                     <button onclick="adicionarBloco()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm">➕ Novo Bloco</button>
@@ -90,28 +89,7 @@
             <div id="lista-blocos" class="space-y-2"></div>
         </div>
 
-        <!-- TAB 3: VOOS & PASSAGENS E CONTATOS (LADO A LADO) -->
-        <div id="tab-voos" class="space-y-3 hidden">
-            <div class="grid grid-cols-2 gap-2">
-                <div class="bg-white p-2.5 rounded-2xl border shadow-sm space-y-2">
-                    <div class="flex justify-between items-center border-b pb-1 flex-wrap gap-1">
-                        <h2 class="text-[10px] font-extrabold uppercase text-slate-800 tracking-wider">✈️ Voos & Passagens</h2>
-                        <button onclick="adicionarVoo()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-2 py-0.5 rounded font-bold text-[9px] transition shadow-sm">➕ Voo</button>
-                    </div>
-                    <div id="lista-voos-html" class="space-y-1.5 text-[11px]"></div>
-                </div>
-
-                <div class="bg-white p-2.5 rounded-2xl border shadow-sm space-y-2">
-                    <div class="flex justify-between items-center border-b pb-1 flex-wrap gap-1">
-                        <h2 class="text-[10px] font-extrabold uppercase text-slate-800 tracking-wider">📞 Contatos Úteis</h2>
-                        <button onclick="adicionarContato()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-2 py-0.5 rounded font-bold text-[9px] transition shadow-sm">➕ Contato</button>
-                    </div>
-                    <div id="lista-contatos-html" class="space-y-1.5 text-[11px]"></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- TAB 4: VOUCHERS & PDFS -->
+        <!-- TAB 3: VOUCHERS & PDFS -->
         <div id="tab-comprados" class="space-y-3 hidden">
             <div class="bg-white p-3 rounded-2xl shadow-sm border border-slate-300 space-y-3">
                 <div class="flex justify-between items-center border-b pb-2 flex-wrap gap-2">
@@ -125,38 +103,58 @@
             </div>
         </div>
 
-        <!-- TAB 5: TAREFAS & CHECKLIST -->
-        <div id="tab-tarefas" class="space-y-3 hidden">
-            <div class="bg-indigo-900 text-white p-3 rounded-2xl shadow-md space-y-2">
-                <div class="flex justify-between items-center flex-wrap gap-2">
-                    <div>
-                        <h2 class="text-[11px] font-black uppercase tracking-wider text-indigo-200">✅ Tarefas & 🎒 Checklist</h2>
-                        <p id="stat-tarefas" class="text-xs font-black mt-0.5">0 Concluídas</p>
-                    </div>
-                    <div class="flex gap-1">
-                        <button onclick="desfazerUltimaAcao()" class="bg-amber-600 hover:bg-amber-700 text-white px-2.5 py-1.5 rounded-xl text-[11px] font-bold transition shadow-sm">↩️ Voltar</button>
-                        <button onclick="adicionarTarefa()" class="bg-indigo-600 hover:bg-indigo-500 text-white px-2.5 py-1 rounded-xl text-[10px] font-bold transition shadow-sm">➕ Tarefa</button>
-                        <button onclick="adicionarItemChecklist()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2.5 py-1 rounded-xl text-[10px] font-bold transition shadow-sm">➕ Item</button>
-                    </div>
+        <!-- TAB 4: UTILIDADES (HUB UNIFICADO: VOOS, CONTATOS, TAREFAS E CHECKLIST) -->
+        <div id="tab-utilidades" class="space-y-3 hidden">
+            <!-- Barra de Resumo das Tarefas -->
+            <div class="bg-indigo-900 text-white p-2.5 rounded-2xl shadow-md flex justify-between items-center flex-wrap gap-2">
+                <div>
+                    <h2 class="text-[11px] font-black uppercase tracking-wider text-indigo-200">📋 Hub de Listas & Utilidades</h2>
+                    <p id="stat-tarefas" class="text-[10px] font-bold text-slate-200">0 Concluídas</p>
                 </div>
-                <div id="filtros-tarefas-container" class="flex gap-1 pt-1 overflow-x-auto items-center flex-wrap">
-                    <!-- Renderizado via JS -->
-                </div>
+                <button onclick="desfazerUltimaAcao()" class="bg-amber-600 hover:bg-amber-700 text-white px-2 py-1 rounded-xl text-[10px] font-bold transition shadow-sm">↩️ Voltar</button>
             </div>
 
-            <div class="grid grid-cols-2 gap-2">
+            <!-- GRELHA DE 4 CARTÕES UNIFICADOS -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                <!-- 1. Voos -->
                 <div class="bg-white p-2.5 rounded-2xl border shadow-sm space-y-2">
-                    <h3 class="font-bold text-[11px] uppercase text-slate-700 border-b pb-1">📋 Tarefas</h3>
+                    <div class="flex justify-between items-center border-b pb-1">
+                        <h3 class="font-bold text-[10px] uppercase text-slate-800">✈️ Voos & Passagens</h3>
+                        <button onclick="adicionarVoo()" class="bg-indigo-600 text-white px-2 py-0.5 rounded text-[9px] font-bold">➕ Voo</button>
+                    </div>
+                    <div id="lista-voos-html" class="space-y-1.5 text-[11px]"></div>
+                </div>
+
+                <!-- 2. Contatos Úteis -->
+                <div class="bg-white p-2.5 rounded-2xl border shadow-sm space-y-2">
+                    <div class="flex justify-between items-center border-b pb-1">
+                        <h3 class="font-bold text-[10px] uppercase text-slate-800">📞 Contatos Úteis</h3>
+                        <button onclick="adicionarContato()" class="bg-indigo-600 text-white px-2 py-0.5 rounded text-[9px] font-bold">➕ Contato</button>
+                    </div>
+                    <div id="lista-contatos-html" class="space-y-1.5 text-[11px]"></div>
+                </div>
+
+                <!-- 3. Tarefas -->
+                <div class="bg-white p-2.5 rounded-2xl border shadow-sm space-y-2">
+                    <div class="flex justify-between items-center border-b pb-1">
+                        <h3 class="font-bold text-[10px] uppercase text-slate-800">📋 Tarefas</h3>
+                        <button onclick="adicionarTarefa()" class="bg-indigo-600 text-white px-2 py-0.5 rounded text-[9px] font-bold">➕ Tarefa</button>
+                    </div>
                     <div id="lista-tarefas-html" class="space-y-1.5 text-[11px]"></div>
                 </div>
+
+                <!-- 4. Checklist -->
                 <div class="bg-white p-2.5 rounded-2xl border shadow-sm space-y-2">
-                    <h3 class="font-bold text-[11px] uppercase text-slate-700 border-b pb-1">🎒 Checklist</h3>
+                    <div class="flex justify-between items-center border-b pb-1">
+                        <h3 class="font-bold text-[10px] uppercase text-slate-800">🎒 Checklist</h3>
+                        <button onclick="adicionarItemChecklist()" class="bg-emerald-600 text-white px-2 py-0.5 rounded text-[9px] font-bold">➕ Item</button>
+                    </div>
                     <div id="lista-checklist-html" class="space-y-1 text-[11px]"></div>
                 </div>
             </div>
         </div>
 
-        <!-- TAB 6: ORÇAMENTO & CÂMBIO -->
+        <!-- TAB 5: ORÇAMENTO & CÂMBIO -->
         <div id="tab-orcamento" class="space-y-3 hidden">
             <div class="bg-white p-2.5 sm:p-3 rounded-2xl shadow-sm border border-slate-300 space-y-2.5 text-xs">
                 <div class="border-b pb-1.5">
@@ -271,7 +269,7 @@
 
     <!-- BARRA DE FERRAMENTAS FIXA -->
     <nav class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-md text-white px-2 py-2 shadow-2xl border-t border-slate-800 text-xs flex items-center gap-1 overflow-x-auto no-scrollbar">
-        <span class="bg-indigo-600 px-1 py-0.5 rounded font-mono font-bold text-[8px] shrink-0">v115.0</span>
+        <span class="bg-indigo-600 px-1 py-0.5 rounded font-mono font-bold text-[8px] shrink-0">v116.0</span>
         <button onclick="abrirGeminiModal()" class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-2 py-1 rounded-lg font-bold transition shrink-0 flex items-center gap-1 text-[10px]">
             <span>✨</span> Gemini
         </button>
@@ -324,7 +322,7 @@
     </div>
 
     <script>
-        const CHAVE_APP = "mariana_viagem_europa_v115";
+        const CHAVE_APP = "mariana_viagem_europa_v116";
         let destinoFiltro = 'todos';
         let tarefaFiltro = 'todas';
         let campoFocoAtual = null;
@@ -393,7 +391,7 @@
             const manifestBlob = new Blob([JSON.stringify(manifestObj)], {type: 'application/manifest+json'});
             document.getElementById('pwa-manifest').href = URL.createObjectURL(manifestBlob);
 
-            const temaSalvo = localStorage.getItem('tema_v115');
+            const temaSalvo = localStorage.getItem('tema_v116');
             if (temaSalvo === 'dark') {
                 document.body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 document.body.classList.remove('bg-slate-100', 'text-slate-800');
@@ -445,10 +443,10 @@
         }
 
         function desbloquearComPin() {
-            let pinSalvo = localStorage.getItem('app_pin_v115') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v116') || '1510';
             let digitado = document.getElementById('input-pin').value;
             if(digitado === pinSalvo) {
-                sessionStorage.setItem('sessao_ativa_v115', 'true');
+                sessionStorage.setItem('sessao_ativa_v116', 'true');
                 document.getElementById('tela-bloqueio').classList.add('hidden');
                 document.getElementById('erro-pin').classList.add('hidden');
             } else {
@@ -457,17 +455,17 @@
         }
 
         async function desbloquearComBiometria() {
-            sessionStorage.setItem('sessao_ativa_v115', 'true');
+            sessionStorage.setItem('sessao_ativa_v116', 'true');
             document.getElementById('tela-bloqueio').classList.add('hidden');
         }
 
         function alterarSenhaPin() {
             let atual = prompt("Digite a senha atual (Padrão: 1510):");
-            let pinSalvo = localStorage.getItem('app_pin_v115') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v116') || '1510';
             if(atual === pinSalvo) {
                 let nova = prompt("Digite a nova senha PIN:");
                 if(nova && nova.trim() !== '') {
-                    localStorage.setItem('app_pin_v115', nova.trim());
+                    localStorage.setItem('app_pin_v116', nova.trim());
                     alert("🔑 Senha alterada com sucesso!");
                 }
             } else {
@@ -480,11 +478,11 @@
             if(body.classList.contains('dark')) {
                 body.classList.remove('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.add('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v115', 'light');
+                localStorage.setItem('tema_v116', 'light');
             } else {
                 body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.remove('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v115', 'dark');
+                localStorage.setItem('tema_v116', 'dark');
             }
         }
 
@@ -513,53 +511,6 @@
 
         function exportarPdfPrint() {
             window.print();
-        }
-
-        function renderizarContatosTab() {
-            const container = document.getElementById('lista-contatos-html');
-            if(!container) return;
-            container.innerHTML = '';
-
-            if(!dadosApp.contatos || dadosApp.contatos.length === 0) {
-                container.innerHTML = '<p class="text-[10px] text-slate-400 italic text-center py-2">Nenhum contato.</p>';
-                return;
-            }
-
-            dadosApp.contatos.forEach(ct => {
-                let div = document.createElement('div');
-                div.className = "p-1.5 rounded-lg border bg-white flex items-center justify-between gap-1 shadow-sm text-[11px]";
-                div.innerHTML = `
-                    <input type="text" value="${ct.nome}" oninput="atualizarContatoNome(${ct.id}, this.value)" class="flex-1 bg-transparent outline-none font-bold text-slate-800 truncate text-[10px]" placeholder="Nome...">
-                    <input type="text" value="${ct.numero}" oninput="atualizarContatoNumero(${ct.id}, this.value)" class="w-20 p-0.5 bg-slate-50 border rounded font-black text-[10px]" placeholder="Número...">
-                    <button onclick="apagarContato(${ct.id})" class="text-red-500 font-bold bg-red-50 hover:bg-red-100 px-1.5 py-0.5 rounded transition shrink-0 text-[9px]">✕</button>
-                `;
-                container.appendChild(div);
-            });
-        }
-
-        function adicionarContato() {
-            registarEstadoAnterior();
-            if(!dadosApp.contatos) dadosApp.contatos = [];
-            dadosApp.contatos.unshift({ id: Date.now(), nome: "Contato", numero: "0000" });
-            salvarStorage();
-            atualizarTudo();
-        }
-
-        function apagarContato(id) {
-            registarEstadoAnterior();
-            dadosApp.contatos = dadosApp.contatos.filter(c => c.id !== id);
-            salvarStorage();
-            atualizarTudo();
-        }
-
-        function atualizarContatoNome(id, val) {
-            let c = dadosApp.contatos.find(item => item.id === id);
-            if(c) { c.nome = val; localStorage.setItem(CHAVE_APP, JSON.stringify(dadosApp)); }
-        }
-
-        function atualizarContatoNumero(id, val) {
-            let c = dadosApp.contatos.find(item => item.id === id);
-            if(c) { c.numero = val; localStorage.setItem(CHAVE_APP, JSON.stringify(dadosApp)); }
         }
 
         function removerDoRoteiro(id) {
@@ -609,7 +560,7 @@
         }
 
         function mudarTab(tab) {
-            ['itinerario', 'leitura', 'voos', 'comprados', 'tarefas', 'orcamento'].forEach(t => {
+            ['itinerario', 'leitura', 'comprados', 'utilidades', 'orcamento'].forEach(t => {
                 let el = document.getElementById('tab-' + t);
                 if(el) el.classList.add('hidden');
                 let btn = document.getElementById('tab-btn-' + t);
@@ -620,9 +571,8 @@
             let activeBtn = document.getElementById('tab-btn-' + tab);
             if(activeBtn) activeBtn.className = "px-3 py-2 rounded-lg bg-indigo-600 text-white shadow-sm transition shrink-0";
             if(tab === 'leitura') { renderizarModoLeitura(); }
-            if(tab === 'voos') { renderizarVoosTab(); }
+            if(tab === 'utilidades') { renderizarVoosTab(); renderizarContatosTab(); renderizarTarefasTab(); }
             if(tab === 'comprados') { renderizarVouchersTab(); }
-            if(tab === 'tarefas') { renderizarTarefasTab(); }
             if(tab === 'orcamento') { renderizarOrcamentoTab(); }
         }
 
@@ -1035,11 +985,8 @@
         // VOOS & PASSAGENS
         function renderizarVoosTab() {
             const containerV = document.getElementById('lista-voos-html');
-            const containerC = document.getElementById('lista-contatos-html');
-            if(!containerV || !containerC) return;
-
+            if(!containerV) return;
             containerV.innerHTML = '';
-            containerC.innerHTML = '';
 
             if(!dadosApp.voos || dadosApp.voos.length === 0) {
                 containerV.innerHTML = '<p class="text-[10px] text-slate-400 italic text-center py-2">Nenhum voo.</p>';
@@ -1065,21 +1012,6 @@
                         </div>
                     `;
                     containerV.appendChild(div);
-                });
-            }
-
-            if(!dadosApp.contatos || dadosApp.contatos.length === 0) {
-                containerC.innerHTML = '<p class="text-[10px] text-slate-400 italic text-center py-2">Nenhum contato.</p>';
-            } else {
-                dadosApp.contatos.forEach(ct => {
-                    let div = document.createElement('div');
-                    div.className = "p-1.5 rounded-lg border bg-white flex items-center justify-between gap-1 shadow-sm text-[11px]";
-                    div.innerHTML = `
-                        <input type="text" value="${ct.nome}" oninput="atualizarContatoNome(${ct.id}, this.value)" class="flex-1 bg-transparent outline-none font-bold text-slate-800 truncate text-[10px]" placeholder="Nome...">
-                        <input type="text" value="${ct.numero}" oninput="atualizarContatoNumero(${ct.id}, this.value)" class="w-20 p-0.5 bg-slate-50 border rounded font-black text-[10px]" placeholder="Número...">
-                        <button onclick="apagarContato(${ct.id})" class="text-red-500 font-bold bg-red-50 hover:bg-red-100 px-1.5 py-0.5 rounded transition shrink-0 text-[9px]">✕</button>
-                    `;
-                    containerC.appendChild(div);
                 });
             }
         }
