@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v154.0)</title>
+    <title>Roteiro Europa - Mariana (v156.0)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Manifest Dinâmico via JavaScript -->
@@ -32,12 +32,13 @@
         </div>
     </div>
 
-    <!-- CABEÇALHO COMPACTO NO TOPO -->
+    <!-- CABEÇALHO COMPACTO NO TOPO COM BOTÃO DE ATUALIZAR -->
     <header class="bg-slate-900 text-white px-4 py-3 shadow-md border-b border-slate-800 text-xs flex justify-between items-center z-50 relative">
         <span class="font-bold tracking-wide">🚄 Roteiro Europa - Mariana</span>
         <div class="flex items-center gap-2">
+            <button onclick="window.location.reload()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-2.5 py-1 rounded-lg font-bold text-[10px] transition shadow-sm" title="Atualizar Página">🔄 Atualizar</button>
             <button onclick="exportarPdfPrint()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2.5 py-1 rounded-lg font-bold text-[10px] transition shadow-sm">🖨️ Imprimir Tudo</button>
-            <span class="bg-indigo-600 px-2 py-1 rounded-lg font-mono font-bold text-[10px]">v154.0</span>
+            <span class="bg-indigo-800 px-2 py-1 rounded-lg font-mono font-bold text-[10px]">v156.0</span>
         </div>
     </header>
 
@@ -242,7 +243,7 @@
 
     <!-- BARRA DE FERRAMENTAS FIXA -->
     <nav class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-md text-white px-3 py-2.5 shadow-2xl border-t border-slate-800 text-xs flex items-center justify-around gap-1 overflow-x-auto no-scrollbar max-w-4xl mx-auto rounded-t-2xl">
-        <span class="bg-indigo-600 px-2 py-1 rounded font-mono font-bold text-[9px] shrink-0">v154.0</span>
+        <span class="bg-indigo-600 px-2 py-1 rounded font-mono font-bold text-[9px] shrink-0">v155.0</span>
         <button onclick="abrirGeminiModal()" class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-3 py-1.5 rounded-xl font-bold transition shrink-0 flex items-center gap-1 text-xs shadow-sm">
             <span>✨</span> Gemini
         </button>
@@ -281,7 +282,7 @@
     </div>
 
     <script>
-        const CHAVE_APP = "mariana_viagem_europa_v154";
+        const CHAVE_APP = "mariana_viagem_europa_v155";
         let destinoFiltro = 'todos';
         let tarefaFiltro = 'todas';
         let utilidadeFiltro = 'todos';
@@ -374,11 +375,11 @@
                 navigator.serviceWorker.register(URL.createObjectURL(swBlob)).catch(err => {});
             }
 
-            if (!sessionStorage.getItem('sessao_ativa_v154')) {
+            if (!sessionStorage.getItem('sessao_ativa_v155')) {
                 document.getElementById('tela-bloqueio').classList.remove('hidden');
             }
 
-            const temaSalvo = localStorage.getItem('tema_v154');
+            const temaSalvo = localStorage.getItem('tema_v155');
             if (temaSalvo === 'dark') {
                 document.body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 document.body.classList.remove('bg-slate-100', 'text-slate-800');
@@ -409,7 +410,9 @@
 
             try {
                 atualizarTudo();
-                mudarTab('leitura');
+                // Recupera a última aba ativa ou assume 'leitura'
+                let tabSalva = localStorage.getItem('tab_ativa_v155') || 'leitura';
+                mudarTab(tabSalva);
             } catch(e) {
                 console.error("Erro ao iniciar:", e);
             }
@@ -432,10 +435,10 @@
         }
 
         function desbloquearComPin() {
-            let pinSalvo = localStorage.getItem('app_pin_v154') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v155') || '1510';
             let digitado = document.getElementById('input-pin').value;
             if(digitado === pinSalvo) {
-                sessionStorage.setItem('sessao_ativa_v154', 'true');
+                sessionStorage.setItem('sessao_ativa_v155', 'true');
                 document.getElementById('tela-bloqueio').classList.add('hidden');
                 document.getElementById('erro-pin').classList.add('hidden');
             } else {
@@ -444,17 +447,17 @@
         }
 
         async function desbloquearComBiometria() {
-            sessionStorage.setItem('sessao_ativa_v154', 'true');
+            sessionStorage.setItem('sessao_ativa_v155', 'true');
             document.getElementById('tela-bloqueio').classList.add('hidden');
         }
 
         function alterarSenhaPin() {
             let atual = prompt("Digite a senha atual (Padrão: 1510):");
-            let pinSalvo = localStorage.getItem('app_pin_v154') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v155') || '1510';
             if(atual === pinSalvo) {
                 let nova = prompt("Digite a nova senha PIN:");
                 if(nova && nova.trim() !== '') {
-                    localStorage.setItem('app_pin_v154', nova.trim());
+                    localStorage.setItem('app_pin_v155', nova.trim());
                     alert("🔑 Senha alterada com sucesso!");
                 }
             } else {
@@ -467,11 +470,11 @@
             if(body.classList.contains('dark')) {
                 body.classList.remove('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.add('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v154', 'light');
+                localStorage.setItem('tema_v155', 'light');
             } else {
                 body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.remove('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v154', 'dark');
+                localStorage.setItem('tema_v155', 'dark');
             }
         }
 
@@ -640,6 +643,7 @@
         }
 
         function mudarTab(tab) {
+            localStorage.setItem('tab_ativa_v155', tab);
             if(tab === 'itinerario' || tab === 'leitura') {
                 destinoFiltro = 'todos';
             }
@@ -919,13 +923,13 @@
                                     '<option value="Carro" ' + (tr.transporte==='Carro'?'selected':'') + '>Carro</option>' +
                                     '<option value="Outro" ' + (tr.transporte==='Outro'?'selected':'') + '>Outro</option>' +
                                 '</select>' +
-                                '<input type="number" value="' + (tr.valor || 0 + '') + '" oninput="atualizarTrecho(\'' + item.id + '\', \'' + tr.id + '\', \'valor\', this.value); atualizarTudo();" class="w-20 shrink-0 p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs" placeholder="0">' +
+                                '<input type="number" value="' + (tr.valor || 0) + '" onchange="atualizarTrecho(\'' + item.id + '\', \'' + tr.id + '\', \'valor\', this.value); atualizarTudo();" class="w-20 shrink-0 p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs" placeholder="0">' +
                                 '<select onchange="atualizarTrecho(\'' + item.id + '\', \'' + tr.id + '\', \'moeda\', this.value); atualizarTudo();" class="w-20 shrink-0 p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs">' +
                                     '<option value="EUR" ' + (tr.moeda==='EUR'?'selected':'') + '>EUR</option>' +
                                     '<option value="CHF" ' + (tr.moeda==='CHF'?'selected':'') + '>CHF</option>' +
                                 '</select>' +
                             '</div>' +
-                            '<input type="text" value="' + (tr.notas || '') + '" oninput="atualizarTrecho(\'' + item.id + '\', \'' + tr.id + '\', \'notas\', this.value)" class="w-full p-2 bg-slate-50 border border-slate-300 rounded-xl font-medium text-xs" placeholder="Informações adicionais para este trecho...">' +
+                            '<input type="text" value="' + (tr.notas || '') + '" onchange="atualizarTrecho(\'' + item.id + '\', \'' + tr.id + '\', \'notas\', this.value)" class="w-full p-2 bg-slate-50 border border-slate-300 rounded-xl font-medium text-xs" placeholder="Informações adicionais para este trecho...">' +
                         '</div>';
                     });
                 }
@@ -934,7 +938,7 @@
                 if(item.itens && item.itens.length > 0) {
                     item.itens.forEach(it => {
                         itensHtml += '<div class="flex items-center gap-1.5 bg-white p-2 rounded-xl border border-slate-200 text-xs min-w-0 mb-1.5 shadow-sm">' +
-                            '<input type="text" value="' + (it.texto || '') + '" oninput="atualizarTextoItemBloco(\'' + item.id + '\', \'' + it.id + '\', this.value)" class="flex-1 min-w-0 bg-transparent outline-none font-bold text-slate-800 text-xs" placeholder="Escreva um texto livre...">' +
+                            '<input type="text" value="' + (it.texto || '') + '" onchange="atualizarTextoItemBloco(\'' + item.id + '\', \'' + it.id + '\', this.value)" class="flex-1 min-w-0 bg-transparent outline-none font-bold text-slate-800 text-xs" placeholder="Escreva um texto livre...">' +
                             '<button onclick="removerItemBloco(\'' + item.id + '\', \'' + it.id + '\')" class="text-red-500 font-bold px-2.5 py-1.5 rounded-xl bg-red-50 text-xs shrink-0 hover:bg-red-100 transition">✕</button>' +
                         '</div>';
                     });
@@ -1148,7 +1152,7 @@
                 } else {
                     dadosApp.voos.forEach(v => {
                         let pdfAction = v.pdfData ? '<button onclick="abrirLeitorPdf(\'' + v.id + '\', \'Passagem ' + (v.voo || 'Voo') + '\')" class="bg-indigo-600 text-white px-2.5 py-1 rounded-xl text-xs font-bold shadow-sm">📄 PDF</button>' : '<label class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-2.5 py-1 rounded-xl text-xs font-bold cursor-pointer border shadow-sm">📎 PDF<input type="file" accept="application/pdf" onchange="anexarPdfVoo(' + v.id + ', event)" class="hidden"></label>';
-                        voosHtml += '<div class="p-2.5 rounded-2xl border border-slate-200 bg-white space-y-2 shadow-sm text-xs min-w-0"><div class="flex gap-1.5 items-center min-w-0"><input type="text" value="' + v.cia + '" oninput="atualizarVoo(' + v.id + ', \'cia\', this.value)" class="w-16 shrink-0 p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs" placeholder="Cia"><input type="text" value="' + v.voo + '" oninput="atualizarVoo(' + v.id + ', \'voo\', this.value)" class="w-14 shrink-0 p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs" placeholder="Voo"><input type="text" value="' + v.pnr + '" oninput="atualizarVoo(' + v.id + ', \'pnr\', this.value)" class="flex-1 min-w-0 p-1.5 bg-amber-50 border border-amber-300 rounded-xl font-black text-amber-900 text-xs truncate" placeholder="PNR"></div><div class="flex gap-1.5 items-center min-w-0"><input type="text" value="' + v.rota + '" oninput="atualizarVoo(' + v.id + ', \'rota\', this.value)" class="flex-1 min-w-0 p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs truncate" placeholder="Rota"><input type="date" value="' + v.data + '" onchange="atualizarVoo(' + v.id + ', \'data\', this.value)" class="w-28 shrink-0 p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs"><div class="shrink-0 flex items-center gap-1">' + pdfAction + '<button onclick="apagarVoo(' + v.id + ')" class="text-red-500 font-bold px-2 py-1.5 rounded-xl bg-red-50 hover:bg-red-100 text-xs shrink-0">✕</button></div></div></div>';
+                        voosHtml += '<div class="p-2.5 rounded-2xl border border-slate-200 bg-white space-y-2 shadow-sm text-xs min-w-0"><div class="flex gap-1.5 items-center min-w-0"><input type="text" value="' + v.cia + '" onchange="atualizarVoo(' + v.id + ', \'cia\', this.value)" class="w-16 shrink-0 p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs" placeholder="Cia"><input type="text" value="' + v.voo + '" onchange="atualizarVoo(' + v.id + ', \'voo\', this.value)" class="w-14 shrink-0 p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs" placeholder="Voo"><input type="text" value="' + v.pnr + '" onchange="atualizarVoo(' + v.id + ', \'pnr\', this.value)" class="flex-1 min-w-0 p-1.5 bg-amber-50 border border-amber-300 rounded-xl font-black text-amber-900 text-xs truncate" placeholder="PNR"></div><div class="flex gap-1.5 items-center min-w-0"><input type="text" value="' + v.rota + '" onchange="atualizarVoo(' + v.id + ', \'rota\', this.value)" class="flex-1 min-w-0 p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs truncate" placeholder="Rota"><input type="date" value="' + v.data + '" onchange="atualizarVoo(' + v.id + ', \'data\', this.value)" class="w-28 shrink-0 p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs"><div class="shrink-0 flex items-center gap-1">' + pdfAction + '<button onclick="apagarVoo(' + v.id + ')" class="text-red-500 font-bold px-2 py-1.5 rounded-xl bg-red-50 hover:bg-red-100 text-xs shrink-0">✕</button></div></div></div>';
                     });
                 }
                 container.innerHTML += '<div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-3 min-w-0" id="card-voos"><div class="flex justify-between items-center border-b pb-2"><h3 class="font-bold text-xs uppercase text-slate-800">✈️ Voos & Passagens</h3><div class="flex gap-1.5"><button onclick="imprimirSeccaoCustom(\'Voos & Passagens\', document.getElementById(\'card-voos\').innerHTML)" class="bg-emerald-600 text-white px-2.5 py-1 rounded-xl text-xs font-bold shadow-sm">🖨️ PDF</button><button onclick="adicionarVoo()" class="bg-indigo-600 text-white px-2.5 py-1 rounded-xl text-xs font-bold shadow-sm">➕ Voo</button></div></div><div class="space-y-2 min-w-0">' + voosHtml + '</div></div>';
@@ -1160,7 +1164,7 @@
                     contatosHtml = '<p class="text-xs text-slate-400 italic text-center py-2">Nenhum contato registado.</p>';
                 } else {
                     dadosApp.contatos.forEach(ct => {
-                        contatosHtml += '<div class="p-2.5 rounded-2xl border border-slate-200 bg-white flex items-center justify-between gap-2 shadow-sm text-xs"><input type="text" value="' + ct.nome + '" oninput="atualizarContatoNome(' + ct.id + ', this.value)" class="flex-1 bg-transparent outline-none font-bold text-slate-800 text-xs" placeholder="Nome..."><input type="text" value="' + ct.numero + '" oninput="atualizarContatoNumero(' + ct.id + ', this.value)" class="w-24 p-1 bg-slate-50 border rounded-xl font-black text-xs" placeholder="Número..."><button onclick="apagarContato(' + ct.id + ')" class="text-red-500 font-bold bg-red-50 hover:bg-red-100 px-2 py-1 rounded-xl text-xs">✕</button></div>';
+                        contatosHtml += '<div class="p-2.5 rounded-2xl border border-slate-200 bg-white flex items-center justify-between gap-2 shadow-sm text-xs"><input type="text" value="' + ct.nome + '" onchange="atualizarContatoNome(' + ct.id + ', this.value)" class="flex-1 bg-transparent outline-none font-bold text-slate-800 text-xs" placeholder="Nome..."><input type="text" value="' + ct.numero + '" onchange="atualizarContatoNumero(' + ct.id + ', this.value)" class="w-24 p-1 bg-slate-50 border rounded-xl font-black text-xs" placeholder="Número..."><button onclick="apagarContato(' + ct.id + ')" class="text-red-500 font-bold bg-red-50 hover:bg-red-100 px-2 py-1 rounded-xl text-xs">✕</button></div>';
                     });
                 }
                 container.innerHTML += '<div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-3" id="card-contatos"><div class="flex justify-between items-center border-b pb-2"><h3 class="font-bold text-xs uppercase text-slate-800">📞 Contatos Úteis</h3><div class="flex gap-1.5"><button onclick="imprimirSeccaoCustom(\'Contatos Úteis\', document.getElementById(\'card-contatos\').innerHTML)" class="bg-emerald-600 text-white px-2.5 py-1 rounded-xl text-xs font-bold shadow-sm">🖨️ PDF</button><button onclick="adicionarContato()" class="bg-indigo-600 text-white px-2.5 py-1 rounded-xl text-xs font-bold shadow-sm">➕ Contato</button></div></div><div class="space-y-2">' + contatosHtml + '</div></div>';
@@ -1189,7 +1193,7 @@
                             opcoesDestinoT += '<option value="' + d + '" ' + ((t.categoria || '') === d ? 'selected' : '') + '>' + d + '</option>';
                         });
 
-                        tarefasHtml += '<div class="p-3 rounded-2xl border border-slate-200 bg-white flex flex-col gap-2 shadow-sm" style="border-left: 4px solid ' + (t.categoria ? corDestino : '#94a3b8') + ';"><div class="flex items-center gap-2"><button onclick="abrirModalTarefa(' + t.id + ')" class="bg-slate-100 hover:bg-slate-200 p-1.5 rounded-xl text-xs shrink-0" title="Editar">✏️</button><input type="text" value="' + t.texto + '" oninput="atualizarTarefaTexto(' + t.id + ', this.value)" class="flex-1 min-w-0 p-1 bg-transparent outline-none ' + textStyle + ' text-xs" placeholder="Tarefa..."><button onclick="apagarTarefa(' + t.id + ')" class="text-red-500 font-bold text-xs bg-red-50 hover:bg-red-100 px-2 py-1 rounded-xl">✕</button></div><div class="flex gap-2 items-center"><select onchange="lidarSelecaoDestinoTarefa(' + t.id + ', this.value)" class="flex-1 border border-slate-300 rounded-xl px-2.5 py-1 text-xs font-bold text-white shadow-sm" style="background-color: ' + (t.categoria ? corDestino : '#64748b') + ';">' + opcoesDestinoT + '</select><select onchange="lidarSelecaoStatusTarefa(' + t.id + ', this.value)" class="flex-1 border border-slate-300 rounded-xl px-2 py-1 text-xs font-bold text-white shadow-sm" style="background-color: ' + (statusAtual ? corStatus : '#64748b') + ';">' + opcoesStatus + '</select></div></div>';
+                        tarefasHtml += '<div class="p-3 rounded-2xl border border-slate-200 bg-white flex flex-col gap-2 shadow-sm" style="border-left: 4px solid ' + (t.categoria ? corDestino : '#94a3b8') + ';"><div class="flex items-center gap-2"><button onclick="abrirModalTarefa(' + t.id + ')" class="bg-slate-100 hover:bg-slate-200 p-1.5 rounded-xl text-xs shrink-0" title="Editar">✏️</button><input type="text" value="' + t.texto + '" onchange="atualizarTarefaTexto(' + t.id + ', this.value)" class="flex-1 min-w-0 p-1 bg-transparent outline-none ' + textStyle + ' text-xs" placeholder="Tarefa..."><button onclick="apagarTarefa(' + t.id + ')" class="text-red-500 font-bold text-xs bg-red-50 hover:bg-red-100 px-2 py-1 rounded-xl">✕</button></div><div class="flex gap-2 items-center"><select onchange="lidarSelecaoDestinoTarefa(' + t.id + ', this.value)" class="flex-1 border border-slate-300 rounded-xl px-2.5 py-1 text-xs font-bold text-white shadow-sm" style="background-color: ' + (t.categoria ? corDestino : '#64748b') + ';">' + opcoesDestinoT + '</select><select onchange="lidarSelecaoStatusTarefa(' + t.id + ', this.value)" class="flex-1 border border-slate-300 rounded-xl px-2.5 py-1 text-xs font-bold text-white shadow-sm" style="background-color: ' + (statusAtual ? corStatus : '#64748b') + ';">' + opcoesStatus + '</select></div></div>';
                     });
                 }
                 container.innerHTML += '<div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-3" id="card-tarefas"><div class="flex justify-between items-center border-b pb-2"><h3 class="font-bold text-xs uppercase text-slate-800">📋 Tarefas</h3><div class="flex gap-1.5"><button onclick="imprimirSeccaoCustom(\'Tarefas\', document.getElementById(\'card-tarefas\').innerHTML)" class="bg-emerald-600 text-white px-2.5 py-1 rounded-xl text-xs font-bold shadow-sm">🖨️ PDF</button><button onclick="adicionarTarefa()" class="bg-indigo-600 text-white px-2.5 py-1 rounded-xl text-xs font-bold shadow-sm">➕ Tarefa</button></div></div><div class="space-y-2.5 text-xs">' + tarefasHtml + '</div></div>';
@@ -1201,7 +1205,7 @@
                     checklistHtml = '<p class="text-xs text-slate-400 italic text-center py-2">Nenhum item no checklist.</p>';
                 } else {
                     dadosApp.checklist.forEach(c => {
-                        checklistHtml += '<div class="p-2.5 rounded-2xl border border-slate-200 bg-white flex items-center justify-between gap-2 shadow-sm text-xs"><label class="flex items-center gap-2 flex-1 cursor-pointer min-w-0"><input type="checkbox" ' + (c.feito ? 'checked' : '') + ' onchange="alternarItemChecklist(' + c.id + ')" class="w-4 h-4 accent-indigo-600 rounded cursor-pointer shrink-0"><input type="text" value="' + c.item + '" oninput="atualizarItemChecklistText(' + c.id + ', this.value)" class="flex-1 bg-transparent outline-none font-bold ' + (c.feito ? 'line-through text-slate-400' : 'text-slate-800') + ' truncate text-xs" placeholder="Item..."></label><button onclick="apagarItemChecklist(' + c.id + ')" class="text-red-500 font-bold bg-red-50 hover:bg-red-100 px-2 py-1 rounded-xl transition shrink-0 text-xs">✕</button></div>';
+                        checklistHtml += '<div class="p-2.5 rounded-2xl border border-slate-200 bg-white flex items-center justify-between gap-2 shadow-sm text-xs"><label class="flex items-center gap-2 flex-1 cursor-pointer min-w-0"><input type="checkbox" ' + (c.feito ? 'checked' : '') + ' onchange="alternarItemChecklist(' + c.id + ')" class="w-4 h-4 accent-indigo-600 rounded cursor-pointer shrink-0"><input type="text" value="' + c.item + '" onchange="atualizarItemChecklistText(' + c.id + ', this.value)" class="flex-1 bg-transparent outline-none font-bold ' + (c.feito ? 'line-through text-slate-400' : 'text-slate-800') + ' truncate text-xs" placeholder="Item..."></label><button onclick="apagarItemChecklist(' + c.id + ')" class="text-red-500 font-bold bg-red-50 hover:bg-red-100 px-2 py-1 rounded-xl transition shrink-0 text-xs">✕</button></div>';
                     });
                 }
                 container.innerHTML += '<div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-3" id="card-checklist"><div class="flex justify-between items-center border-b pb-2"><h3 class="font-bold text-xs uppercase text-slate-800">🎒 Checklist</h3><div class="flex gap-1.5"><button onclick="imprimirSeccaoCustom(\'Checklist\', document.getElementById(\'card-checklist\').innerHTML)" class="bg-emerald-600 text-white px-2.5 py-1 rounded-xl text-xs font-bold shadow-sm">🖨️ PDF</button><button onclick="adicionarItemChecklist()" class="bg-emerald-600 text-white px-2.5 py-1 rounded-xl text-xs font-bold shadow-sm">➕ Item</button></div></div><div class="space-y-2 text-xs">' + checklistHtml + '</div></div>';
@@ -1227,7 +1231,7 @@
                     chatHubHtml = '<p class="text-xs text-slate-400 italic text-center py-2">Nenhuma nota registada.</p>';
                 } else {
                     dadosApp.chat.forEach(ch => {
-                        chatHubHtml += '<div class="p-2.5 rounded-2xl border border-slate-200 bg-white flex items-center justify-between gap-2 shadow-sm text-xs"><input type="text" value="' + ch.texto + '" oninput="atualizarChat(' + ch.id + ', this.value)" class="flex-1 bg-transparent outline-none font-bold text-slate-800 text-xs truncate" placeholder="Escreva uma nota..."><button onclick="apagarChat(' + ch.id + ')" class="text-red-500 font-bold bg-red-50 hover:bg-red-100 px-2 py-1 rounded-xl text-xs">✕</button></div>';
+                        chatHubHtml += '<div class="p-2.5 rounded-2xl border border-slate-200 bg-white flex items-center justify-between gap-2 shadow-sm text-xs"><input type="text" value="' + ch.texto + '" onchange="atualizarChat(' + ch.id + ', this.value)" class="flex-1 bg-transparent outline-none font-bold text-slate-800 text-xs truncate" placeholder="Escreva uma nota..."><button onclick="apagarChat(' + ch.id + ')" class="text-red-500 font-bold bg-red-50 hover:bg-red-100 px-2 py-1 rounded-xl text-xs">✕</button></div>';
                     });
                 }
                 container.innerHTML += '<div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-3" id="card-chat"><div class="flex justify-between items-center border-b pb-2"><h3 class="font-bold text-xs uppercase text-slate-800">💬 Chat / Notas Rápidas</h3><div class="flex gap-1.5"><button onclick="imprimirSeccaoCustom(\'Chat & Notas\', document.getElementById(\'card-chat\').innerHTML)" class="bg-emerald-600 text-white px-2.5 py-1 rounded-xl text-xs font-bold shadow-sm">🖨️ PDF</button><button onclick="adicionarChat()" class="bg-indigo-600 text-white px-2.5 py-1 rounded-xl text-xs font-bold shadow-sm">➕ Nota</button></div></div><div class="space-y-2 text-xs">' + chatHubHtml + '</div></div>';
@@ -1239,7 +1243,7 @@
                     outrosHtml = '<p class="text-xs text-slate-400 italic text-center py-2">Nenhum item em Outros.</p>';
                 } else {
                     dadosApp.outros.forEach(o => {
-                        outrosHtml += '<div class="p-2.5 rounded-2xl border border-slate-200 bg-white flex items-center justify-between gap-2 shadow-sm text-xs"><input type="text" value="' + o.titulo + '" oninput="atualizarOutro(' + o.id + ', this.value)" class="flex-1 bg-transparent outline-none font-bold text-slate-800 text-xs truncate" placeholder="Item..."><button onclick="apagarOutro(' + o.id + ')" class="text-red-500 font-bold bg-red-50 hover:bg-red-100 px-2 py-1 rounded-xl text-xs">✕</button></div>';
+                        outrosHtml += '<div class="p-2.5 rounded-2xl border border-slate-200 bg-white flex items-center justify-between gap-2 shadow-sm text-xs"><input type="text" value="' + o.titulo + '" onchange="atualizarOutro(' + o.id + ', this.value)" class="flex-1 bg-transparent outline-none font-bold text-slate-800 text-xs truncate" placeholder="Item..."><button onclick="apagarOutro(' + o.id + ')" class="text-red-500 font-bold bg-red-50 hover:bg-red-100 px-2 py-1 rounded-xl text-xs">✕</button></div>';
                     });
                 }
                 container.innerHTML += '<div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-3" id="card-outros"><div class="flex justify-between items-center border-b pb-2"><h3 class="font-bold text-xs uppercase text-slate-800">✨ Outros</h3><div class="flex gap-1.5"><button onclick="imprimirSeccaoCustom(\'Outros\', document.getElementById(\'card-outros\').innerHTML)" class="bg-emerald-600 text-white px-2.5 py-1 rounded-xl text-xs font-bold shadow-sm">🖨️ PDF</button><button onclick="adicionarItemOutroPrompt()" class="bg-emerald-600 text-white px-2.5 py-1 rounded-xl text-xs font-bold shadow-sm">➕ Outro</button></div></div><div class="space-y-2 text-xs">' + outrosHtml + '</div></div>';
@@ -1550,8 +1554,8 @@
                     let moeda = d.moeda || 'EUR';
                     let valBrl = moeda === 'EUR' ? val * cotEur : val * cotChf;
                     let htmlDespesa = '<div class="p-2 rounded-xl bg-white border border-slate-200 flex items-center justify-between gap-2 text-xs shadow-sm">' +
-                        '<input type="text" value="' + d.descricao + '" oninput="atualizarOrcamentoDescricao(' + d.id + ', this.value)" class="flex-1 min-w-0 bg-transparent outline-none font-bold text-slate-800 text-xs" placeholder="Descrição...">' +
-                        '<div class="text-right shrink-0"><input type="number" value="' + d.valor + '" oninput="atualizarOrcamentoValor(' + d.id + ', this.value)" class="w-20 p-1 bg-slate-50 border border-slate-300 rounded-xl font-black text-right text-xs" placeholder="0"><span class="block text-[10px] text-emerald-700 font-bold">R$ ' + valBrl.toFixed(2) + '</span></div>' +
+                        '<input type="text" value="' + d.descricao + '" onchange="atualizarOrcamentoDescricao(' + d.id + ', this.value)" class="flex-1 min-w-0 bg-transparent outline-none font-bold text-slate-800 text-xs" placeholder="Descrição...">' +
+                        '<div class="text-right shrink-0"><input type="number" value="' + d.valor + '" onchange="atualizarOrcamentoValor(' + d.id + ', this.value)" class="w-20 p-1 bg-slate-50 border border-slate-300 rounded-xl font-black text-right text-xs" placeholder="0"><span class="block text-[10px] text-emerald-700 font-bold">R$ ' + valBrl.toFixed(2) + '</span></div>' +
                         '<button onclick="apagarDespesa(' + d.id + ')" class="text-red-500 font-bold px-2 py-1 rounded-xl bg-red-50 hover:bg-red-100 text-xs">✕</button>' +
                     '</div>';
 
