@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v92.0)</title>
+    <title>Roteiro Europa - Mariana (v93.0)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Manifest Dinâmico via JavaScript -->
@@ -35,7 +35,7 @@
     <!-- CABEÇALHO COMPACTO NO TOPO -->
     <header class="bg-slate-900 text-white px-3 py-2 shadow-md border-b border-slate-800 text-xs flex justify-between items-center z-50 relative">
         <span class="font-bold tracking-wide">🚄 Roteiro Europa - Mariana</span>
-        <span class="bg-indigo-600 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v92.0</span>
+        <span class="bg-indigo-600 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v93.0</span>
     </header>
 
     <!-- CONTEÚDO PRINCIPAL COMPACTO -->
@@ -49,12 +49,12 @@
             <button onclick="mudarTab('tarefas')" id="tab-btn-tarefas" class="py-2 rounded-lg text-slate-600 hover:bg-white/50 transition">✅ Tarefas</button>
         </div>
 
-        <!-- TAB 1: ROTEIRO EM QUADRADINHOS COMPACTOS COM RISCO AO CONCLUIR -->
+        <!-- TAB 1: ROTEIRO EM QUADRADINHOS COMPACTOS COM BOTÃO DE ELIMINAR DIRETO -->
         <div id="tab-leitura" class="space-y-2">
             <div class="bg-gradient-to-r from-indigo-900 to-slate-900 text-white p-2.5 rounded-2xl shadow-md flex justify-between items-center">
                 <div>
                     <h2 class="text-xs font-black uppercase tracking-wider text-indigo-200">✈️ Roteiro Oficial (Aprovados)</h2>
-                    <p class="text-[9px] text-slate-300">Marque "Feito" para riscar o item concluído.</p>
+                    <p class="text-[9px] text-slate-300">Marque "Feito" para riscar ou elimine diretamente aqui se precisar.</p>
                 </div>
                 <div id="progresso-viagem" class="bg-indigo-600 px-2.5 py-1 rounded-xl text-[11px] font-black shadow-inner">0 / 0 Aprovados</div>
             </div>
@@ -68,7 +68,7 @@
             <div id="lista-leitura-html" class="grid grid-cols-1 sm:grid-cols-2 gap-2"></div>
         </div>
 
-        <!-- TAB 2: ITINERÁRIO EDITÁVEL (CARTÕES VERTICAIS COMPACTOS COM NOTAS) -->
+        <!-- TAB 2: ITINERÁRIO EDITÁVEL -->
         <div id="tab-itinerario" class="space-y-3 hidden">
             <div id="filtros-container" class="bg-slate-200 p-1.5 rounded-xl overflow-x-auto flex gap-1 text-[11px] items-center no-scrollbar shadow-inner">
                 <!-- Renderizado via JS -->
@@ -85,7 +85,7 @@
             <div id="lista-blocos" class="space-y-2"></div>
         </div>
 
-        <!-- TAB 3: VOUCHERS & PDFS (MANTIDO PERFEITO) -->
+        <!-- TAB 3: VOUCHERS & PDFS -->
         <div id="tab-comprados" class="space-y-3 hidden">
             <div class="bg-white p-3 rounded-2xl shadow-sm border border-slate-300 space-y-3">
                 <div class="flex justify-between items-center border-b pb-2 flex-wrap gap-2">
@@ -99,7 +99,7 @@
             </div>
         </div>
 
-        <!-- TAB 4: TAREFAS (STATUS NO CANTO E DESFAZER) -->
+        <!-- TAB 4: TAREFAS (STATUS NA MESMA LINHA E BOTÃO DE ADICIONAR) -->
         <div id="tab-tarefas" class="space-y-3 hidden">
             <div class="bg-indigo-900 text-white p-3 rounded-2xl shadow-md space-y-2">
                 <div class="flex justify-between items-center flex-wrap gap-2">
@@ -110,7 +110,7 @@
                     <button onclick="adicionarTarefa()" class="bg-indigo-600 hover:bg-indigo-500 text-white px-3 py-1.5 rounded-xl text-[11px] font-bold transition shadow-sm">➕ Nova Tarefa</button>
                 </div>
                 <div id="filtros-tarefas-container" class="flex gap-1 pt-1 overflow-x-auto items-center flex-wrap">
-                    <!-- Dinâmico via JS -->
+                    <!-- Renderizado via JS -->
                 </div>
             </div>
             <div id="lista-tarefas-html" class="space-y-2 text-xs"></div>
@@ -136,7 +136,7 @@
 
     <!-- BARRA DE FERRAMENTAS FIXA -->
     <nav class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-md text-white px-2 py-2 shadow-2xl border-t border-slate-800 text-xs flex items-center gap-1 overflow-x-auto no-scrollbar">
-        <span class="bg-indigo-600 px-1 py-0.5 rounded font-mono font-bold text-[8px] shrink-0">v92.0</span>
+        <span class="bg-indigo-600 px-1 py-0.5 rounded font-mono font-bold text-[8px] shrink-0">v93.0</span>
         <button onclick="abrirGeminiModal()" class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-2 py-1 rounded-lg font-bold transition shrink-0 flex items-center gap-1 text-[10px]">
             <span>✨</span> Gemini
         </button>
@@ -208,7 +208,7 @@
     </div>
 
     <script>
-        const CHAVE_APP = "mariana_viagem_europa_v92";
+        const CHAVE_APP = "mariana_viagem_europa_v93";
         let destinoFiltro = 'todos';
         let tarefaFiltro = 'todas';
         let campoFocoAtual = null;
@@ -282,7 +282,7 @@
             const manifestBlob = new Blob([JSON.stringify(manifestObj)], {type: 'application/manifest+json'});
             document.getElementById('pwa-manifest').href = URL.createObjectURL(manifestBlob);
 
-            const temaSalvo = localStorage.getItem('tema_v92');
+            const temaSalvo = localStorage.getItem('tema_v93');
             if (temaSalvo === 'dark') {
                 document.body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 document.body.classList.remove('bg-slate-100', 'text-slate-800');
@@ -326,10 +326,10 @@
         }
 
         function desbloquearComPin() {
-            let pinSalvo = localStorage.getItem('app_pin_v92') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v93') || '1510';
             let digitado = document.getElementById('input-pin').value;
             if(digitado === pinSalvo) {
-                sessionStorage.setItem('sessao_ativa_v92', 'true');
+                sessionStorage.setItem('sessao_ativa_v93', 'true');
                 document.getElementById('tela-bloqueio').classList.add('hidden');
                 document.getElementById('erro-pin').classList.add('hidden');
             } else {
@@ -338,17 +338,17 @@
         }
 
         async function desbloquearComBiometria() {
-            sessionStorage.setItem('sessao_ativa_v92', 'true');
+            sessionStorage.setItem('sessao_ativa_v93', 'true');
             document.getElementById('tela-bloqueio').classList.add('hidden');
         }
 
         function alterarSenhaPin() {
             let atual = prompt("Digite a senha atual (Padrão: 1510):");
-            let pinSalvo = localStorage.getItem('app_pin_v92') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v93') || '1510';
             if(atual === pinSalvo) {
                 let nova = prompt("Digite a nova senha PIN:");
                 if(nova && nova.trim() !== '') {
-                    localStorage.setItem('app_pin_v92', nova.trim());
+                    localStorage.setItem('app_pin_v93', nova.trim());
                     alert("🔑 Senha alterada com sucesso!");
                 }
             } else {
@@ -361,11 +361,11 @@
             if(body.classList.contains('dark')) {
                 body.classList.remove('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.add('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v92', 'light');
+                localStorage.setItem('tema_v93', 'light');
             } else {
                 body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.remove('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v92', 'dark');
+                localStorage.setItem('tema_v93', 'dark');
             }
         }
 
@@ -504,7 +504,7 @@
         }
         function filtrarTarefas(f) { tarefaFiltro = f; renderizarFiltrosTarefas(); renderizarTarefas(); }
 
-        // GERADOR DO ROTEIRO: 1 BLOCO TRANCADO (🔒) = 1 CARTÃO COMPACTO COM RISCO AO CONCLUIR
+        // ROTEIRO COM BOTÃO ✕ DIRETO PARA ELIMINAR NO ROTEIRO
         function renderizarModoLeitura() {
             const container = document.getElementById('lista-leitura-html');
             const progressoEl = document.getElementById('progresso-viagem');
@@ -549,6 +549,7 @@
                                     <span>Feito</span>
                                 </label>
                                 <button onclick="abrirMapaRuta('${item.embarque}', '${item.desembarque}')" class="bg-sky-100 text-sky-800 hover:bg-sky-200 px-1.5 py-0.5 rounded font-bold text-[9px]">🗺️ Mapa</button>
+                                <button onclick="apagarBloco(${item.id})" class="bg-red-50 hover:bg-red-100 text-red-600 px-1.5 py-0.5 rounded font-bold text-[9px]" title="Eliminar card">✕</button>
                             </div>
                         </div>
 
@@ -566,7 +567,7 @@
             });
         }
 
-        // RENDERIZAR BLOCOS EDITÁVEIS COMPACTOS (CARTÕES VERTICAIS COM CAIXINHA DE NOTAS EMBAIXO)
+        // RENDERIZAR BLOCOS EDITÁVEIS COMPACTOS
         function renderizarBlocos() {
             const container = document.getElementById('lista-blocos');
             if(!container) return;
@@ -650,7 +651,6 @@
                             <input type="text" value="${item.trecho || ''}" oninput="atualizarCampoDireto(${item.id}, 'trecho', this.value)" class="w-full p-1 bg-white border rounded text-[10px] font-bold" placeholder="Ex: Trem, Autocarro...">
                         </div>
 
-                        <!-- QUADRADO EMBAIXO PARA INFORMAÇÕES EXTRAS -->
                         <div>
                             <label class="block font-semibold text-slate-700">📝 Informações Adicionais / Notas</label>
                             <textarea rows="1" oninput="atualizarCampoDireto(${item.id}, 'notasExtras', this.value)" class="w-full p-1 bg-white border rounded text-[10px] text-slate-800" placeholder="Ex: Check-in às 15h, bilhete nº...">${item.notasExtras || ''}</textarea>
