@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v66.0)</title>
+    <title>Roteiro Europa - Mariana (v67.0)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Leaflet CSS para Mapas -->
@@ -37,7 +37,7 @@
     <!-- CABEÇALHO COMPACTO NO TOPO -->
     <header class="bg-slate-900 text-white px-3 py-2 shadow-md border-b border-slate-800 text-xs flex justify-between items-center z-50 relative">
         <span class="font-bold tracking-wide">🚄 Roteiro Europa - Mariana</span>
-        <span class="bg-indigo-600 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v66.0</span>
+        <span class="bg-indigo-600 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v67.0</span>
     </header>
 
     <!-- CONTEÚDO PRINCIPAL COMPACTO -->
@@ -98,13 +98,13 @@
             </div>
         </div>
 
-        <!-- TAB 4: MAPA GERAL COM ROTAS PONTILHADAS -->
+        <!-- TAB 4: MAPA GERAL COM PONTOS COLORIDOS E ROTAS PONTILHADAS -->
         <div id="tab-mapa-geral" class="space-y-3 hidden">
             <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-300 space-y-3">
                 <div class="flex justify-between items-center border-b pb-2 flex-wrap gap-2">
                     <div>
-                        <h2 class="text-[11px] font-extrabold uppercase text-slate-800 tracking-wider">🗺️ Mapa Geral & Linhas de Rota</h2>
-                        <p class="text-[10px] text-slate-500 font-semibold">Visualização de todos os pontos e rotas da viagem</p>
+                        <h2 class="text-[11px] font-extrabold uppercase text-slate-800 tracking-wider">🗺️ Mapa Geral & Pontos Coloridos</h2>
+                        <p class="text-[10px] text-slate-500 font-semibold">Visualização com as cores dos destinos e rotas pontilhadas</p>
                     </div>
                     <button onclick="adicionarPontoMapaGeral()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2.5 py-1.5 rounded-lg text-[11px] font-bold transition shadow-sm">➕ Adicionar Ponto</button>
                 </div>
@@ -117,7 +117,7 @@
 
     <!-- BARRA DE FERRAMENTAS FIXA NO FINAL DA TELA COM GEMINI IA -->
     <nav class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-md text-white px-2 py-2 shadow-2xl border-t border-slate-800 text-xs flex items-center gap-1 overflow-x-auto no-scrollbar">
-        <span class="bg-indigo-600 px-1 py-0.5 rounded font-mono font-bold text-[8px] shrink-0">v66.0</span>
+        <span class="bg-indigo-600 px-1 py-0.5 rounded font-mono font-bold text-[8px] shrink-0">v67.0</span>
         <button onclick="abrirGeminiModal()" class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-2 py-1 rounded-lg font-bold transition shrink-0 flex items-center gap-1 text-[10px]">
             <span>✨</span> Gemini
         </button>
@@ -228,7 +228,7 @@
     <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
-        const CHAVE_APP = "mariana_viagem_europa_v66";
+        const CHAVE_APP = "mariana_viagem_europa_v67";
         let destinoFiltro = 'todos';
         let tarefaFiltro = 'todas';
         let campoFocoAtual = null;
@@ -252,7 +252,7 @@
             const manifestBlob = new Blob([JSON.stringify(manifestObj)], {type: 'application/manifest+json'});
             document.getElementById('pwa-manifest').href = URL.createObjectURL(manifestBlob);
 
-            const temaSalvo = localStorage.getItem('tema_v66');
+            const temaSalvo = localStorage.getItem('tema_v67');
             if (temaSalvo === 'dark') {
                 document.body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 document.body.classList.remove('bg-slate-100', 'text-slate-800');
@@ -320,10 +320,10 @@
         }
 
         function desbloquearComPin() {
-            let pinSalvo = localStorage.getItem('app_pin_v66') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v67') || '1510';
             let digitado = document.getElementById('input-pin').value;
             if(digitado === pinSalvo) {
-                sessionStorage.setItem('sessao_ativa_v66', 'true');
+                sessionStorage.setItem('sessao_ativa_v67', 'true');
                 document.getElementById('tela-bloqueio').classList.add('hidden');
                 document.getElementById('erro-pin').classList.add('hidden');
             } else {
@@ -332,17 +332,17 @@
         }
 
         async function desbloquearComBiometria() {
-            sessionStorage.setItem('sessao_ativa_v66', 'true');
+            sessionStorage.setItem('sessao_ativa_v67', 'true');
             document.getElementById('tela-bloqueio').classList.add('hidden');
         }
 
         function alterarSenhaPin() {
             let atual = prompt("Digite a senha atual (Padrão: 1510):");
-            let pinSalvo = localStorage.getItem('app_pin_v66') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v67') || '1510';
             if(atual === pinSalvo) {
                 let nova = prompt("Digite a nova senha PIN:");
                 if(nova && nova.trim() !== '') {
-                    localStorage.setItem('app_pin_v66', nova.trim());
+                    localStorage.setItem('app_pin_v67', nova.trim());
                     alert("🔑 Senha alterada com sucesso!");
                 }
             } else {
@@ -355,11 +355,11 @@
             if(body.classList.contains('dark')) {
                 body.classList.remove('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.add('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v66', 'light');
+                localStorage.setItem('tema_v67', 'light');
             } else {
                 body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.remove('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v66', 'dark');
+                localStorage.setItem('tema_v67', 'dark');
             }
         }
 
@@ -730,7 +730,6 @@
                 });
                 opcoesLocaisDes += `<option value="outro_local">➕ Outro...</option>`;
 
-                // Ordem das secções internas do bloco (agora móveis com botões de subir/descer)
                 if(!item.ordemSecoes) item.ordemSecoes = [...dadosApp.ordemSecoesPadrao];
                 
                 let htmlSecoes = '';
@@ -738,8 +737,8 @@
                     let controleSecao = `
                         <div class="flex items-center gap-1 shrink-0">
                             <span class="text-[9px] font-bold text-slate-600 uppercase tracking-wider">${secKey}</span>
-                            <button onclick="moverSecaoBloco(${item.id}, '${secKey}', -1)" class="bg-slate-200 hover:bg-slate-300 px-1.5 py-0.5 rounded text-[10px] font-bold" title="Subir esta secção">⬆️</button>
-                            <button onclick="moverSecaoBloco(${item.id}, '${secKey}', 1)" class="bg-slate-200 hover:bg-slate-300 px-1.5 py-0.5 rounded text-[10px] font-bold" title="Descer esta secção">⬇️</button>
+                            <button onclick="moverSecaoBloco(${item.id}, '${secKey}', -1)" class="bg-slate-200 hover:bg-slate-300 px-1.5 py-0.5 rounded text-[10px] font-bold" title="Subir">⬆️</button>
+                            <button onclick="moverSecaoBloco(${item.id}, '${secKey}', 1)" class="bg-slate-200 hover:bg-slate-300 px-1.5 py-0.5 rounded text-[10px] font-bold" title="Descer">⬇️</button>
                         </div>
                     `;
 
@@ -747,16 +746,16 @@
                         htmlSecoes += `
                             <div class="bg-white/95 p-2 rounded-xl border border-black/10 space-y-1">
                                 <div class="flex justify-between items-center border-b pb-0.5 mb-1">${controleSecao}</div>
-                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-1.5 text-[11px]">
+                                <div class="grid grid-cols-2 gap-1.5 text-[11px]">
                                     <div>
-                                        <label onclick="editarLabel('origem', '${lb.origem}')" class="block font-black mb-0.5 text-slate-900 text-[10px] cursor-pointer hover:text-indigo-600">📍 ${lb.origem} ✏️</label>
-                                        <select onchange="lidarSelecaoLocal(${item.id}, 'embarque', this.value)" ${dis} class="w-full p-1.5 bg-white border rounded-lg text-[11px] font-bold text-slate-900">
+                                        <label onclick="editarLabel('origem', '${lb.origem}')" class="block font-black mb-0.5 text-slate-900 text-[10px] cursor-pointer hover:text-indigo-600 truncate">📍 ${lb.origem} ✏️</label>
+                                        <select onchange="lidarSelecaoLocal(${item.id}, 'embarque', this.value)" ${dis} class="w-full p-1 bg-white border rounded-lg text-[10px] font-bold text-slate-900">
                                             ${opcoesLocaisEmb}
                                         </select>
                                     </div>
                                     <div>
-                                        <label onclick="editarLabel('destino', '${lb.destino}')" class="block font-black mb-0.5 text-slate-900 text-[10px] cursor-pointer hover:text-indigo-600">🏁 ${lb.destino} ✏️</label>
-                                        <select onchange="lidarSelecaoLocal(${item.id}, 'desembarque', this.value)" ${dis} class="w-full p-1.5 bg-white border rounded-lg text-[11px] font-bold text-slate-900">
+                                        <label onclick="editarLabel('destino', '${lb.destino}')" class="block font-black mb-0.5 text-slate-900 text-[10px] cursor-pointer hover:text-indigo-600 truncate">🏁 ${lb.destino} ✏️</label>
+                                        <select onchange="lidarSelecaoLocal(${item.id}, 'desembarque', this.value)" ${dis} class="w-full p-1 bg-white border rounded-lg text-[10px] font-bold text-slate-900">
                                             ${opcoesLocaisDes}
                                         </select>
                                     </div>
@@ -767,18 +766,18 @@
                         htmlSecoes += `
                             <div class="bg-white/95 p-2 rounded-xl border border-black/10 space-y-1">
                                 <div class="flex justify-between items-center border-b pb-0.5 mb-1">${controleSecao}</div>
-                                <div class="grid grid-cols-3 gap-1.5 text-[11px]">
+                                <div class="grid grid-cols-3 gap-1 text-[11px]">
                                     <div>
-                                        <label onclick="editarLabel('trecho', '${lb.trecho}')" class="block font-semibold text-slate-700 text-[10px] cursor-pointer hover:text-indigo-600">${lb.trecho} ✏️</label>
-                                        <input type="text" value="${item.trecho}" ${dis} oninput="atualizarCampo(${item.id}, 'trecho', this.value)" class="w-full p-1.5 bg-white border rounded-lg text-[11px] font-bold text-slate-900" placeholder="Rota">
+                                        <label onclick="editarLabel('trecho', '${lb.trecho}')" class="block font-semibold text-slate-700 text-[9px] cursor-pointer hover:text-indigo-600 truncate">${lb.trecho} ✏️</label>
+                                        <input type="text" value="${item.trecho}" ${dis} oninput="atualizarCampo(${item.id}, 'trecho', this.value)" class="w-full p-1 bg-white border rounded-lg text-[10px] font-bold text-slate-900" placeholder="Rota">
                                     </div>
                                     <div>
-                                        <label onclick="editarLabel('transporte', '${lb.transporte}')" class="block font-semibold text-slate-700 text-[10px] cursor-pointer hover:text-indigo-600">${lb.transporte} ✏️</label>
-                                        <input type="text" value="${item.transporte}" ${dis} oninput="atualizarCampo(${item.id}, 'transporte', this.value)" class="w-full p-1.5 bg-white border rounded-lg text-[11px]" placeholder="Trem">
+                                        <label onclick="editarLabel('transporte', '${lb.transporte}')" class="block font-semibold text-slate-700 text-[9px] cursor-pointer hover:text-indigo-600 truncate">${lb.transporte} ✏️</label>
+                                        <input type="text" value="${item.transporte}" ${dis} oninput="atualizarCampo(${item.id}, 'transporte', this.value)" class="w-full p-1 bg-white border rounded-lg text-[10px]" placeholder="Trem">
                                     </div>
                                     <div>
-                                        <label onclick="editarLabel('numTransporte', '${lb.numTransporte}')" class="block font-semibold text-slate-700 text-[10px] cursor-pointer hover:text-indigo-600">${lb.numTransporte} ✏️</label>
-                                        <input type="text" value="${item.numeroTransporte || ''}" ${dis} oninput="atualizarCampo(${item.id}, 'numeroTransporte', this.value)" class="w-full p-1.5 bg-white border rounded-lg text-[11px] font-bold text-indigo-900" placeholder="Nº">
+                                        <label onclick="editarLabel('numTransporte', '${lb.numTransporte}')" class="block font-semibold text-slate-700 text-[9px] cursor-pointer hover:text-indigo-600 truncate">${lb.numTransporte} ✏️</label>
+                                        <input type="text" value="${item.numeroTransporte || ''}" ${dis} oninput="atualizarCampo(${item.id}, 'numeroTransporte', this.value)" class="w-full p-1 bg-white border rounded-lg text-[10px] font-bold text-indigo-900" placeholder="Nº">
                                     </div>
                                 </div>
                             </div>
@@ -815,7 +814,7 @@
                             <div class="bg-white/95 p-2 rounded-xl border border-black/10 space-y-1">
                                 <div class="flex justify-between items-center border-b pb-0.5 mb-1">
                                     ${controleSecao}
-                                    <button onclick="adicionarSubBloco(${item.id})" class="bg-indigo-600 text-white px-2 py-0.5 rounded text-[9px] font-bold">➕ Nova Caixinha</button>
+                                    <button onclick="adicionarSubBloco(${item.id})" class="bg-indigo-600 text-white px-2 py-0.5 rounded text-[9px] font-bold">➕ Caixinha</button>
                                 </div>
                                 <div class="space-y-1">${subBlocosHtml || '<p class="text-[10px] text-slate-400 italic">Nenhuma caixinha extra.</p>'}</div>
                             </div>
@@ -848,7 +847,7 @@
                         </div>
                     </div>
 
-                    <!-- Secções móveis de dentro do quadrado -->
+                    <!-- Secções móveis de dentro do quadrado (lado a lado na origem/destino) -->
                     <div class="space-y-1.5">${htmlSecoes}</div>
 
                     <!-- BARRA INFERIOR DO BLOCO -->
@@ -934,7 +933,7 @@
         async function renderizarMapaGeral() {
             let statusEl = document.getElementById('mapa-geral-status');
             if(!statusEl) return;
-            statusEl.innerText = "A calcular rotas...";
+            statusEl.innerText = "A calcular rotas e cores...";
             setTimeout(async () => {
                 if(!mapaGeralInstance) {
                     mapaGeralInstance = L.map('mapa-geral-view').setView([47.3769, 8.5417], 6);
@@ -951,23 +950,35 @@
                     return null;
                 }
 
+                function criarPontoColorido(corHex) {
+                    return L.divIcon({
+                        className: 'custom-div-icon',
+                        html: `<div style="background-color: ${corHex}; width: 14px; height: 14px; border-radius: 50%; border: 2px solid white; box-shadow: 0 0 4px rgba(0,0,0,0.5);"></div>`,
+                        iconSize: [14, 14],
+                        iconAnchor: [7, 7]
+                    });
+                }
+
                 let bounds = [];
                 for(let item of dadosApp.itinerario) {
+                    let corHex = obterCorBlocoHex(item);
+                    let iconePonto = criarPontoColorido(corHex);
+
                     if(item.embarque) {
                         let cEmb = await buscarCoords(item.embarque);
-                        if(cEmb) { L.marker(cEmb).addTo(mapaGeralInstance).bindPopup(`Embarque: ${item.embarque}`); bounds.push(cEmb); }
+                        if(cEmb) { L.marker(cEmb, { icon: iconePonto }).addTo(mapaGeralInstance).bindPopup(`<b>Embarque:</b> ${item.embarque} (${item.categoria})`); bounds.push(cEmb); }
                     }
                     if(item.desembarque) {
                         let cDes = await buscarCoords(item.desembarque);
-                        if(cDes) { L.marker(cDes).addTo(mapaGeralInstance).bindPopup(`Desembarque: ${item.desembarque}`); bounds.push(cDes); }
+                        if(cDes) { L.marker(cDes, { icon: iconePonto }).addTo(mapaGeralInstance).bindPopup(`<b>Desembarque:</b> ${item.desembarque} (${item.categoria})`); bounds.push(cDes); }
                     }
                     if(item.embarque && item.desembarque) {
                         let c1 = await buscarCoords(item.embarque);
                         let c2 = await buscarCoords(item.desembarque);
-                        if(c1 && c2) L.polyline([c1, c2], {color: '#4f46e5', weight: 3, dashArray: '4, 8'}).addTo(mapaGeralInstance);
+                        if(c1 && c2) L.polyline([c1, c2], {color: corHex, weight: 3, dashArray: '4, 8'}).addTo(mapaGeralInstance);
                     }
                 }
-                if(bounds.length > 0) { mapaGeralInstance.fitBounds(bounds, {padding: [30, 30]}); statusEl.innerText = "🗺️ Mapa atualizado!"; }
+                if(bounds.length > 0) { mapaGeralInstance.fitBounds(bounds, {padding: [30, 30]}); statusEl.innerText = "🗺️ Mapa atualizado com pontos coloridos!"; }
             }, 200);
         }
 
