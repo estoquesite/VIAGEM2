@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v13.0)</title>
+    <title>Roteiro Europa - Mariana (v17.0)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Leaflet CSS para Mapas -->
@@ -24,8 +24,8 @@
     <!-- BARRA SUPERIOR FIXA -->
     <header class="bg-slate-900 text-white px-3 py-2.5 shadow-md border-b border-slate-700 text-xs flex flex-wrap items-center justify-between gap-2 z-50">
         <div class="flex items-center gap-2">
-            <span class="bg-indigo-600 px-2 py-0.5 rounded font-mono font-bold text-[10px]">v13.0</span>
-            <span class="font-bold tracking-wide">🚄 Roteiro Europa (Blocos Coloridos & Dias)</span>
+            <span class="bg-indigo-600 px-2 py-0.5 rounded font-mono font-bold text-[10px]">v17.0</span>
+            <span class="font-bold tracking-wide">🚄 Roteiro Europa (Filtros & Seletor)</span>
         </div>
         <div class="flex items-center gap-1.5 flex-wrap">
             <button onclick="ativarMicrofone()" class="bg-purple-600 hover:bg-purple-700 text-white px-2 py-1 rounded-lg font-bold transition">
@@ -37,7 +37,7 @@
             <button onclick="exportarWord()" class="bg-indigo-700 hover:bg-indigo-800 text-white px-2 py-1 rounded-lg font-bold transition">
                 📥 Word
             </button>
-            <button onclick="instalarApp()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2 py-1 rounded-lg font-bold transition">
+            <button onclick="tentarInstalarApp()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2.5 py-1 rounded-lg font-bold transition shadow-sm">
                 📱 App
             </button>
         </div>
@@ -49,9 +49,9 @@
         <!-- CABEÇALHO -->
         <div class="bg-white border border-slate-300 p-5 rounded-3xl shadow-sm flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
             <div>
-                <span class="text-[10px] font-extrabold uppercase tracking-widest bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full">Itinerário com Cores por Destino</span>
+                <span class="text-[10px] font-extrabold uppercase tracking-widest bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full">Itinerário com Filtros Superiores</span>
                 <h1 class="text-xl sm:text-2xl font-black text-slate-900 mt-2">Zurique, Freiburg, França & Interlaken 🚄🏔️</h1>
-                <p class="text-xs text-slate-500 mt-1">Blocos coloridos personalizados, contagem de dias e gestão de PDFs.</p>
+                <p class="text-xs text-slate-500 mt-1">Filtre por destino no topo e selecione ou adicione novos locais facilmente.</p>
             </div>
             <div class="bg-slate-50 px-4 py-3 rounded-2xl border border-slate-300 text-right shadow-sm w-full sm:w-auto shrink-0">
                 <span class="text-[10px] text-slate-400 block uppercase font-bold">Gastos Totais</span>
@@ -68,8 +68,17 @@
 
         <!-- TAB 1: ITINERÁRIO EM BLOCOS -->
         <div id="tab-itinerario" class="space-y-4">
-            <div class="flex justify-between items-center px-1">
-                <h2 class="text-xs font-extrabold uppercase text-slate-600 tracking-wider">📦 Blocos de Destino Independentes</h2>
+            <!-- BOTÕES DE FILTRO NO TOPO -->
+            <div class="flex gap-1.5 overflow-x-auto pb-1 text-xs" id="filtros-container">
+                <button onclick="filtrarDestino('todos')" id="btn-cat-todos" class="px-3 py-1.5 bg-indigo-600 text-white rounded-xl font-bold shadow-sm shrink-0 transition">Todos</button>
+                <button onclick="filtrarDestino('Zurique')" id="btn-cat-Zurique" class="px-3 py-1.5 bg-white border border-slate-300 text-slate-700 rounded-xl font-semibold shrink-0 transition">Zurique</button>
+                <button onclick="filtrarDestino('Freiburg')" id="btn-cat-Freiburg" class="px-3 py-1.5 bg-white border border-slate-300 text-slate-700 rounded-xl font-semibold shrink-0 transition">Freiburg</button>
+                <button onclick="filtrarDestino('França')" id="btn-cat-França" class="px-3 py-1.5 bg-white border border-slate-300 text-slate-700 rounded-xl font-semibold shrink-0 transition">França / Disney</button>
+                <button onclick="filtrarDestino('Interlaken')" id="btn-cat-Interlaken" class="px-3 py-1.5 bg-white border border-slate-300 text-slate-700 rounded-xl font-semibold shrink-0 transition">Interlaken</button>
+            </div>
+
+            <div class="flex justify-between items-center px-1 pt-2">
+                <h2 class="text-xs font-extrabold uppercase text-slate-600 tracking-wider">📦 Blocos de Destino</h2>
                 <button onclick="adicionarBloco()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-2 rounded-xl font-bold text-xs transition shadow-sm">
                     ➕ Adicionar Novo Bloco
                 </button>
@@ -99,6 +108,23 @@
             </div>
         </div>
 
+    </div>
+
+    <!-- MODAL DE INSTALAÇÃO DO APP -->
+    <div id="modal-instalacao" class="fixed inset-0 z-50 bg-slate-900/70 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-white p-6 rounded-3xl shadow-2xl max-w-sm w-full space-y-4 text-center text-xs">
+            <div class="w-12 h-12 bg-indigo-100 text-indigo-600 rounded-2xl mx-auto flex items-center justify-center text-2xl font-black">🚄</div>
+            <h3 class="font-black text-slate-900 text-base">Instalar Roteiro Europa</h3>
+            <p class="text-slate-600 leading-relaxed">Adiciona esta aplicação diretamente ao teu ecrã inicial para acederes a todo o roteiro, bilhetes e mapas mesmo sem internet!</p>
+            <div class="space-y-2 pt-2">
+                <button onclick="executarInstalacaoNativa()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-2xl transition shadow-md">
+                    📲 Adicionar ao Ecrã Inicial
+                </button>
+                <button onclick="fecharModalInstalacao()" class="w-full bg-slate-100 text-slate-700 font-bold py-2.5 rounded-2xl transition">
+                    Agora Não
+                </button>
+            </div>
+        </div>
     </div>
 
     <!-- MODAL DO MAPA -->
@@ -141,7 +167,8 @@
     <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
-        const CHAVE_APP = "mariana_viagem_europa_v13";
+        const CHAVE_APP = "mariana_viagem_europa_v17";
+        let destinoFiltro = 'todos';
         let campoFocoAtual = null;
         let mapInstance = null;
         let backupEstado = {};
@@ -152,13 +179,32 @@
             deferredPrompt = e;
         });
 
-        function instalarApp() {
+        function tentarInstalarApp() {
             if (deferredPrompt) {
                 deferredPrompt.prompt();
-                deferredPrompt.userChoice.then((choiceResult) => { deferredPrompt = null; });
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    deferredPrompt = null;
+                });
             } else {
-                alert("📱 Para instalar no telemóvel:\n\n• No Android (Chrome): Toque nos 3 pontinhos e selecione 'Adicionar à tela inicial'.\n• No iPhone (Safari): Toque em Compartilhar e escolha 'Adicionar à Tela de Início'.");
+                document.getElementById('modal-instalacao').classList.remove('hidden');
             }
+        }
+
+        function executarInstalacaoNativa() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    deferredPrompt = null;
+                    fecharModalInstalacao();
+                });
+            } else {
+                alert("✨ Para fixar o app no ecrã principal, podes também usar o menu do teu navegador e selecionar 'Adicionar ao ecrã inicial'.");
+                fecharModalInstalacao();
+            }
+        }
+
+        function fecharModalInstalacao() {
+            document.getElementById('modal-instalacao').classList.add('hidden');
         }
 
         function alternarTema() {
@@ -166,25 +212,25 @@
             if(body.classList.contains('dark')) {
                 body.classList.remove('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.add('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v13', 'light');
+                localStorage.setItem('tema_v17', 'light');
             } else {
                 body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.remove('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v13', 'dark');
+                localStorage.setItem('tema_v17', 'dark');
             }
         }
 
         let dadosApp = {
             itinerario: [
-                { id: 1, categoria: "Zurique", data: "Dia 1º e 2 Jan", trecho: "Zurique (Estadia Inicial)", transporte: "Transporte local / Caminhada", embarque: "Centro", desembarque: "Hotel", moeda: "CHF", valor: "0", status: "Comprado", notas: "", pdfData: "", pdfNome: "", bloqueado: true },
-                { id: 2, categoria: "Zurique", data: "2 Jan (Tarde)", trecho: "Zurique ➔ Freiburg", transporte: "Ônibus FlixBus", embarque: "Zurich Bus Station", desembarque: "Freiburg Station", moeda: "EUR", valor: "25", status: "Aguardando", notas: "", pdfData: "", pdfNome: "", bloqueado: false },
-                { id: 3, categoria: "Freiburg", data: "3 Jan", trecho: "Freiburg ➔ Europa-Park (Papai)", transporte: "Ônibus regional", embarque: "Freiburg Central", desembarque: "Europa-Park Rust", moeda: "EUR", valor: "65", status: "Aguardando", notas: "", pdfData: "", pdfNome: "", bloqueado: false },
-                { id: 4, categoria: "Freiburg", data: "4 Jan", trecho: "Freiburg (Dia livre)", transporte: "A pé", embarque: "Hotel", desembarque: "Hotel", moeda: "EUR", valor: "0", status: "Comprado", notas: "", pdfData: "", pdfNome: "", bloqueado: false },
-                { id: 5, categoria: "França", data: "5 e 6 Jan", trecho: "França / Disneyland Paris", transporte: "Trem TGV", embarque: "Estação Central", desembarque: "Marne-la-Vallée Chessy", moeda: "EUR", valor: "220", status: "Aguardando", notas: "", pdfData: "", pdfNome: "", bloqueado: false },
-                { id: 6, categoria: "França", data: "7 Jan", trecho: "La Vallée Village (Outlet de Compras)", transporte: "RER A", embarque: "Chessy", desembarque: "Val d'Europe", moeda: "EUR", valor: "150", status: "Aguardando", notas: "", pdfData: "", pdfNome: "", bloqueado: false },
-                { id: 7, categoria: "Interlaken", data: "8 Jan", trecho: "França ➔ Interlaken", transporte: "Trem TGV Lyria", embarque: "Estação França", desembarque: "Interlaken Ost", moeda: "CHF", valor: "110", status: "Aguardando", notas: "", pdfData: "", pdfNome: "", bloqueado: false },
-                { id: 8, categoria: "Interlaken", data: "8 a 12 Jan", trecho: "Interlaken (Estadia Alpina)", transporte: "Autocarros locais", embarque: "Interlaken Ost", desembarque: "Alpes", moeda: "CHF", valor: "0", status: "Comprado", notas: "", pdfData: "", pdfNome: "", bloqueado: true },
-                { id: 9, categoria: "Interlaken", data: "12 Jan", trecho: "Interlaken ➔ Zurique", transporte: "Trem SBB", embarque: "Interlaken Ost", desembarque: "Zurich HB", moeda: "CHF", valor: "76", status: "Aguardando", notas: "", pdfData: "", pdfNome: "", bloqueado: false }
+                { id: 1, categoria: "Zurique", dataInicio: "2026-12-30", dataFim: "2027-01-02", trecho: "Zurique (Estadia Inicial)", transporte: "Transporte local / Caminhada", embarque: "Centro", desembarque: "Hotel", moeda: "CHF", valor: "0", status: "Comprado", notas: "", pdfData: "", pdfNome: "", bloqueado: true },
+                { id: 2, categoria: "Zurique", dataInicio: "2027-01-02", dataFim: "2027-01-02", trecho: "Zurique ➔ Freiburg", transporte: "Ônibus FlixBus", embarque: "Zurich Bus Station", desembarque: "Freiburg Station", moeda: "EUR", valor: "25", status: "Aguardando", notas: "", pdfData: "", pdfNome: "", bloqueado: false },
+                { id: 3, categoria: "Freiburg", dataInicio: "2027-01-03", dataFim: "2027-01-03", trecho: "Freiburg ➔ Europa-Park (Papai)", transporte: "Ônibus regional", embarque: "Freiburg Central", desembarque: "Europa-Park Rust", moeda: "EUR", valor: "65", status: "Aguardando", notas: "", pdfData: "", pdfNome: "", bloqueado: false },
+                { id: 4, categoria: "Freiburg", dataInicio: "2027-01-04", dataFim: "2027-01-04", trecho: "Freiburg (Dia livre)", transporte: "A pé", embarque: "Hotel", desembarque: "Hotel", moeda: "EUR", valor: "0", status: "Comprado", notas: "", pdfData: "", pdfNome: "", bloqueado: false },
+                { id: 5, categoria: "França", dataInicio: "2027-01-05", dataFim: "2027-01-06", trecho: "França / Disneyland Paris", transporte: "Trem TGV", embarque: "Estação Central", desembarque: "Marne-la-Vallée Chessy", moeda: "EUR", valor: "220", status: "Aguardando", notas: "", pdfData: "", pdfNome: "", bloqueado: false },
+                { id: 6, categoria: "França", dataInicio: "2027-01-07", dataFim: "2027-01-07", trecho: "La Vallée Village (Outlet de Compras)", transporte: "RER A", embarque: "Chessy", desembarque: "Val d'Europe", moeda: "EUR", valor: "150", status: "Aguardando", notas: "", pdfData: "", pdfNome: "", bloqueado: false },
+                { id: 7, categoria: "Interlaken", dataInicio: "2027-01-08", dataFim: "2027-01-08", trecho: "França ➔ Interlaken", transporte: "Trem TGV Lyria", embarque: "Estação França", desembarque: "Interlaken Ost", moeda: "CHF", valor: "110", status: "Aguardando", notas: "", pdfData: "", pdfNome: "", bloqueado: false },
+                { id: 8, categoria: "Interlaken", dataInicio: "2027-01-08", dataFim: "2027-01-12", trecho: "Interlaken (Estadia Alpina)", transporte: "Autocarros locais", embarque: "Interlaken Ost", desembarque: "Alpes", moeda: "CHF", valor: "0", status: "Comprado", notas: "", pdfData: "", pdfNome: "", bloqueado: true },
+                { id: 9, categoria: "Interlaken", dataInicio: "2027-01-12", dataFim: "2027-01-12", trecho: "Interlaken ➔ Zurique", transporte: "Trem SBB", embarque: "Interlaken Ost", desembarque: "Zurich HB", moeda: "CHF", valor: "76", status: "Aguardando", notas: "", pdfData: "", pdfNome: "", bloqueado: false }
             ],
             tarefas: [
                 { id: 1, texto: "Comprar cartões Wise e Nomad", feito: true },
@@ -194,7 +240,7 @@
         };
 
         window.addEventListener('DOMContentLoaded', () => {
-            const temaSalvo = localStorage.getItem('tema_v13');
+            const temaSalvo = localStorage.getItem('tema_v17');
             if (temaSalvo === 'dark') {
                 document.body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 document.body.classList.remove('bg-slate-100', 'text-slate-800');
@@ -240,44 +286,114 @@
 
         function obterCorBloco(cat) {
             let c = (cat || "").toLowerCase();
-            if(c.includes('zurique')) return 'bg-sky-50 border-sky-300';
+            if(c.includes('zurique') || c.includes('zurich')) return 'bg-sky-50 border-sky-300';
             if(c.includes('freiburg')) return 'bg-amber-50 border-amber-300';
-            if(c.includes('disney') || c.includes('frança') || c.includes('outlet')) return 'bg-purple-50 border-purple-300';
+            if(c.includes('frança') || c.includes('france') || c.includes('disney') || c.includes('outlet')) return 'bg-purple-50 border-purple-300';
             if(c.includes('interlaken')) return 'bg-emerald-50 border-emerald-300';
             return 'bg-slate-50 border-slate-300';
+        }
+
+        function calcularDias(inicio, fim) {
+            if(!inicio || !fim) return 1;
+            let d1 = new Date(inicio);
+            let d2 = new Date(fim);
+            let diffTime = Math.abs(d2 - d1);
+            let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
+            return diffDays > 0 ? diffDays : 1;
+        }
+
+        function filtrarDestino(cat) {
+            destinoFiltro = cat;
+            ['todos', 'Zurique', 'Freiburg', 'França', 'Interlaken'].forEach(c => {
+                let btn = document.getElementById('btn-cat-' + c);
+                if(btn) {
+                    if(c === cat) {
+                        btn.className = "px-3 py-1.5 bg-indigo-600 text-white rounded-xl font-bold shadow-sm shrink-0 transition";
+                    } else {
+                        btn.className = "px-3 py-1.5 bg-white border border-slate-300 text-slate-700 rounded-xl font-semibold shrink-0 transition";
+                    }
+                }
+            });
+            renderizarBlocos();
+        }
+
+        function lidarSelecaoCategoria(id, valor) {
+            if (valor === 'outro') {
+                let novoDestino = prompt("Digite o nome do novo destino:");
+                if (novoDestino && novoDestino.trim() !== '') {
+                    atualizarCampo(id, 'categoria', novoDestino.trim());
+                    renderizarBlocos();
+                } else {
+                    renderizarBlocos(); // Reverte para o anterior se cancelar
+                }
+            } else {
+                atualizarCampo(id, 'categoria', valor);
+                renderizarBlocos();
+            }
         }
 
         function renderizarBlocos() {
             const container = document.getElementById('lista-blocos');
             container.innerHTML = '';
 
-            if(dadosApp.itinerario.length === 0) {
-                container.innerHTML = '<div class="bg-white p-6 rounded-3xl text-center text-xs text-slate-400 border border-slate-300">Nenhum bloco registado.</div>';
+            let filtrados = dadosApp.itinerario;
+            if(destinoFiltro !== 'todos') {
+                filtrados = dadosApp.itinerario.filter(i => {
+                    let cat = (i.categoria || "").toLowerCase();
+                    return cat.includes(destinoFiltro.toLowerCase());
+                });
+            }
+
+            if(filtrados.length === 0) {
+                container.innerHTML = '<div class="bg-white p-6 rounded-3xl text-center text-xs text-slate-400 border border-slate-300">Nenhum bloco encontrado para este filtro.</div>';
                 return;
             }
 
-            dadosApp.itinerario.forEach((item, index) => {
+            filtrados.forEach((item) => {
                 let dis = item.bloqueado ? 'disabled' : '';
                 let corTema = item.bloqueado ? 'bg-slate-100 border-slate-300 opacity-90' : obterCorBloco(item.categoria);
                 let pdfBadge = item.pdfData ? `<a href="${item.pdfData}" download="${item.pdfNome || 'voucher.pdf'}" class="bg-blue-100 text-blue-800 px-2.5 py-1 rounded-lg text-[10px] font-bold">📄 PDF Anexado</a>` : '';
                 let btnOkText = item.bloqueado ? '🔒 OK (Bloqueado)' : '✅ OK';
                 let btnOkClass = item.bloqueado ? 'bg-emerald-600 text-white' : 'bg-slate-200 text-slate-700 hover:bg-emerald-500 hover:text-white';
-                let numDia = index + 1;
+                
+                let totalDias = calcularDias(item.dataInicio, item.dataFim);
+                let textoDias = totalDias === 1 ? '1 dia' : `${totalDias} dias`;
+
+                let catLower = (item.categoria || "").toLowerCase();
+                let isStandardCat = catLower.includes('zurique') || catLower.includes('freiburg') || catLower.includes('frança') || catLower.includes('interlaken');
+                let selectVal = isStandardCat ? item.categoria : 'outro';
 
                 let card = document.createElement('div');
                 card.className = `p-4 sm:p-5 rounded-3xl border ${corTema} space-y-3 transition shadow-sm`;
                 card.innerHTML = `
                     <div class="flex justify-between items-center gap-2 border-b border-black/10 pb-2">
                         <div class="flex items-center gap-2 flex-wrap">
-                            <span class="bg-indigo-600 text-white font-black px-2.5 py-0.5 rounded-full text-[10px]">Dia ${numDia}</span>
-                            <input type="text" value="${item.categoria}" ${dis} onfocus="registarFoco(this)" oninput="atualizarCampo(${item.id}, 'categoria', this.value)" class="bg-white/80 text-indigo-900 font-black px-2.5 py-1 rounded-xl text-xs border border-black/10 outline-none w-32" placeholder="Destino">
-                            <input type="text" value="${item.data}" ${dis} onfocus="registarFoco(this)" oninput="atualizarCampo(${item.id}, 'data', this.value)" class="bg-white/80 text-slate-700 font-bold px-2.5 py-1 rounded-xl text-xs border border-black/10 outline-none w-28" placeholder="Data">
+                            <span class="bg-indigo-600 text-white font-black px-2.5 py-0.5 rounded-full text-[10px]">📅 ${textoDias}</span>
+                            <select onchange="lidarSelecaoCategoria(${item.id}, this.value)" ${dis} class="bg-white/90 text-indigo-900 font-black px-2.5 py-1 rounded-xl text-xs border border-black/10 outline-none">
+                                <option value="Zurique" ${item.categoria === 'Zurique' ? 'selected' : ''}>Zurique</option>
+                                <option value="Freiburg" ${item.categoria === 'Freiburg' ? 'selected' : ''}>Freiburg</option>
+                                <option value="França" ${item.categoria === 'França' ? 'selected' : ''}>França / Disney</option>
+                                <option value="Interlaken" ${item.categoria === 'Interlaken' ? 'selected' : ''}>Interlaken</option>
+                                <option value="outro" ${!isStandardCat ? 'selected' : ''}>Outro (${item.categoria || 'Personalizado'})...</option>
+                            </select>
                         </div>
                         <select onchange="atualizarCampo(${item.id}, 'status', this.value)" ${dis} class="border border-black/10 rounded-xl px-2.5 py-1 text-xs font-bold outline-none ${item.status === 'Comprado' ? 'bg-emerald-100 text-emerald-800' : item.status === 'Reservado' ? 'bg-blue-100 text-blue-800' : 'bg-amber-100 text-amber-800'}">
                             <option value="Comprado" ${item.status === 'Comprado' ? 'selected' : ''}>Comprado</option>
                             <option value="Aguardando" ${item.status === 'Aguardando' ? 'selected' : ''}>Aguardando</option>
                             <option value="Reservado" ${item.status === 'Reservado' ? 'selected' : ''}>Reservado</option>
                         </select>
+                    </div>
+
+                    <!-- SELEÇÃO DE DATAS INÍCIO E FIM -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs bg-white/60 p-2.5 rounded-2xl border border-black/5">
+                        <div>
+                            <label class="block font-semibold text-slate-600 mb-0.5">Data de Início</label>
+                            <input type="date" value="${item.dataInicio || ''}" ${dis} onchange="atualizarCampo(${item.id}, 'dataInicio', this.value)" class="w-full p-2 bg-white border border-black/10 rounded-xl outline-none font-bold text-slate-900">
+                        </div>
+                        <div>
+                            <label class="block font-semibold text-slate-600 mb-0.5">Data de Fim</label>
+                            <input type="date" value="${item.dataFim || ''}" ${dis} onchange="atualizarCampo(${item.id}, 'dataFim', this.value)" class="w-full p-2 bg-white border border-black/10 rounded-xl outline-none font-bold text-slate-900">
+                        </div>
                     </div>
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
@@ -363,8 +479,9 @@
             const novoId = dadosApp.itinerario.length > 0 ? Math.max(...dadosApp.itinerario.map(i => i.id)) + 1 : 1;
             dadosApp.itinerario.push({
                 id: novoId,
-                categoria: "Novo Destino",
-                data: "Data",
+                categoria: "Zurique",
+                dataInicio: "2027-01-01",
+                dataFim: "2027-01-01",
                 trecho: "Novo Trecho",
                 transporte: "Trem / Ônibus",
                 embarque: "Origem",
@@ -475,7 +592,7 @@
                 div.className = "p-3 bg-slate-50 rounded-2xl border border-slate-300 flex justify-between items-center gap-2";
                 div.innerHTML = `
                     <div>
-                        <b class="text-slate-900">${item.trecho}</b> (${item.data})<br>
+                        <b class="text-slate-900">${item.trecho}</b> (${item.dataInicio} a ${item.dataFim})<br>
                         <span class="text-slate-500">${item.transporte} — ${item.moeda} ${item.valor}</span>
                     </div>
                     <div>${pdfArea}</div>
@@ -541,9 +658,9 @@
         }
 
         function exportarWord() {
-            let htmlConteudo = `<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><title>Roteiro Europa</title><style>body{font-family:Arial,sans-serif;}table{width:100%;border-collapse:collapse;}th,td{border:1px solid #94a3b8;padding:8px;font-size:11px;}th{background:#4f46e5;color:#fff;}</style></head><body><h1>Roteiro Europa</h1><table><tr><th>Destino</th><th>Data</th><th>Trecho</th><th>Transporte</th><th>Embarque</th><th>Desembarque</th><th>Valor</th><th>Status</th></tr>`;
+            let htmlConteudo = `<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><title>Roteiro Europa</title><style>body{font-family:Arial,sans-serif;}table{width:100%;border-collapse:collapse;}th,td{border:1px solid #94a3b8;padding:8px;font-size:11px;}th{background:#4f46e5;color:#fff;}</style></head><body><h1>Roteiro Europa</h1><table><tr><th>Destino</th><th>Início</th><th>Fim</th><th>Trecho</th><th>Transporte</th><th>Embarque</th><th>Desembarque</th><th>Valor</th><th>Status</th></tr>`;
             dadosApp.itinerario.forEach(i => {
-                htmlConteudo += `<tr><td>${i.categoria}</td><td>${i.data}</td><td>${i.trecho}</td><td>${i.transporte}</td><td>${i.embarque}</td><td>${i.desembarque}</td><td>${i.moeda} ${i.valor}</td><td>${i.status}</td></tr>`;
+                htmlConteudo += `<tr><td>${i.categoria}</td><td>${i.dataInicio}</td><td>${i.dataFim}</td><td>${i.trecho}</td><td>${i.transporte}</td><td>${i.embarque}</td><td>${i.desembarque}</td><td>${i.moeda} ${i.valor}</td><td>${i.status}</td></tr>`;
             });
             htmlConteudo += `</table></body></html>`;
             const blob = new Blob(['\ufeff' + htmlConteudo], { type: 'application/msword' });
