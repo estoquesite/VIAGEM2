@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v77.0)</title>
+    <title>Roteiro Europa - Mariana (v78.0)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Manifest Dinâmico via JavaScript -->
@@ -35,7 +35,7 @@
     <!-- CABEÇALHO COMPACTO NO TOPO -->
     <header class="bg-slate-900 text-white px-3 py-2 shadow-md border-b border-slate-800 text-xs flex justify-between items-center z-50 relative">
         <span class="font-bold tracking-wide">🚄 Roteiro Europa - Mariana</span>
-        <span class="bg-indigo-600 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v77.0</span>
+        <span class="bg-indigo-600 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v78.0</span>
     </header>
 
     <!-- CONTEÚDO PRINCIPAL COMPACTO -->
@@ -49,12 +49,12 @@
             <button onclick="mudarTab('comprados')" id="tab-btn-comprados" class="py-2 rounded-lg text-slate-600 hover:bg-white/50 transition">🎟️ Vouchers</button>
         </div>
 
-        <!-- TAB 1: ROTEIRO EM QUADRADINHOS DIA A DIA -->
+        <!-- TAB 1: ROTEIRO EM QUADRADINHOS DIA A DIA (COMPACTO) -->
         <div id="tab-leitura" class="space-y-3">
             <div class="bg-gradient-to-r from-indigo-900 to-slate-900 text-white p-3 rounded-2xl shadow-md flex justify-between items-center">
                 <div>
                     <h2 class="text-xs font-black uppercase tracking-wider text-indigo-200">✈️ Roteiro em Quadradinhos (Dia a Dia)</h2>
-                    <p class="text-[10px] text-slate-300">Visão geral e rotas de transporte de cada dia.</p>
+                    <p class="text-[10px] text-slate-300">Visão compacta e organizada dos dias e rotas.</p>
                 </div>
                 <div id="progresso-viagem" class="bg-indigo-600 px-3 py-1.5 rounded-xl text-xs font-black shadow-inner">0 / 0 Dias</div>
             </div>
@@ -64,8 +64,8 @@
                 <!-- Renderizado via JS -->
             </div>
 
-            <!-- GRELHA DE QUADRADINHOS -->
-            <div id="lista-leitura-html" class="grid grid-cols-1 sm:grid-cols-2 gap-2.5"></div>
+            <!-- GRELHA DE QUADRADINHOS COMPACTOS -->
+            <div id="lista-leitura-html" class="grid grid-cols-1 sm:grid-cols-2 gap-2"></div>
         </div>
 
         <!-- TAB 2: ITINERÁRIO EDITÁVEL -->
@@ -118,7 +118,7 @@
 
     <!-- BARRA DE FERRAMENTAS FIXA -->
     <nav class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-md text-white px-2 py-2 shadow-2xl border-t border-slate-800 text-xs flex items-center gap-1 overflow-x-auto no-scrollbar">
-        <span class="bg-indigo-600 px-1 py-0.5 rounded font-mono font-bold text-[8px] shrink-0">v77.0</span>
+        <span class="bg-indigo-600 px-1 py-0.5 rounded font-mono font-bold text-[8px] shrink-0">v78.0</span>
         <button onclick="abrirGeminiModal()" class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-2 py-1 rounded-lg font-bold transition shrink-0 flex items-center gap-1 text-[10px]">
             <span>✨</span> Gemini
         </button>
@@ -214,7 +214,7 @@
     </div>
 
     <script>
-        const CHAVE_APP = "mariana_viagem_europa_v77";
+        const CHAVE_APP = "mariana_viagem_europa_v78";
         let destinoFiltro = 'todos';
         let tarefaFiltro = 'todas';
         let campoFocoAtual = null;
@@ -276,7 +276,7 @@
             const manifestBlob = new Blob([JSON.stringify(manifestObj)], {type: 'application/manifest+json'});
             document.getElementById('pwa-manifest').href = URL.createObjectURL(manifestBlob);
 
-            const temaSalvo = localStorage.getItem('tema_v77');
+            const temaSalvo = localStorage.getItem('tema_v78');
             if (temaSalvo === 'dark') {
                 document.body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 document.body.classList.remove('bg-slate-100', 'text-slate-800');
@@ -319,10 +319,10 @@
         }
 
         function desbloquearComPin() {
-            let pinSalvo = localStorage.getItem('app_pin_v77') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v78') || '1510';
             let digitado = document.getElementById('input-pin').value;
             if(digitado === pinSalvo) {
-                sessionStorage.setItem('sessao_ativa_v77', 'true');
+                sessionStorage.setItem('sessao_ativa_v78', 'true');
                 document.getElementById('tela-bloqueio').classList.add('hidden');
                 document.getElementById('erro-pin').classList.add('hidden');
             } else {
@@ -331,17 +331,17 @@
         }
 
         async function desbloquearComBiometria() {
-            sessionStorage.setItem('sessao_ativa_v77', 'true');
+            sessionStorage.setItem('sessao_ativa_v78', 'true');
             document.getElementById('tela-bloqueio').classList.add('hidden');
         }
 
         function alterarSenhaPin() {
             let atual = prompt("Digite a senha atual (Padrão: 1510):");
-            let pinSalvo = localStorage.getItem('app_pin_v77') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v78') || '1510';
             if(atual === pinSalvo) {
                 let nova = prompt("Digite a nova senha PIN:");
                 if(nova && nova.trim() !== '') {
-                    localStorage.setItem('app_pin_v77', nova.trim());
+                    localStorage.setItem('app_pin_v78', nova.trim());
                     alert("🔑 Senha alterada com sucesso!");
                 }
             } else {
@@ -354,11 +354,11 @@
             if(body.classList.contains('dark')) {
                 body.classList.remove('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.add('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v77', 'light');
+                localStorage.setItem('tema_v78', 'light');
             } else {
                 body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.remove('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v77', 'dark');
+                localStorage.setItem('tema_v78', 'dark');
             }
         }
 
@@ -669,7 +669,7 @@
             }
         }
 
-        // GERADOR DOS QUADRADINHOS DIA A DIA
+        // GERADOR DOS QUADRADINHOS DIA A DIA (COMPACTO)
         function renderizarModoLeitura() {
             const container = document.getElementById('lista-leitura-html');
             const progressoEl = document.getElementById('progresso-viagem');
@@ -734,7 +734,7 @@
             if(progressoEl) progressoEl.innerText = `${concluidos} / ${total} Dias`;
 
             if(total === 0) {
-                container.innerHTML = '<div class="col-span-full bg-white p-4 rounded-2xl text-center text-xs text-slate-400 border">Nenhum dia encontrado para este filtro.</div>';
+                container.innerHTML = '<div class="col-span-full bg-white p-3 rounded-xl text-center text-xs text-slate-400 border">Nenhum dia encontrado para este filtro.</div>';
                 return;
             }
 
@@ -743,33 +743,33 @@
                 let textDecor = dia.concluido ? 'line-through text-slate-400' : 'text-slate-800';
 
                 let card = document.createElement('div');
-                card.className = `p-3 rounded-2xl border shadow-sm space-y-2 transition flex flex-col justify-between ${bgStyle}`;
-                card.style.borderLeft = `6px solid ${dia.cor}`;
+                card.className = `p-2.5 rounded-xl border shadow-sm space-y-1.5 transition flex flex-col justify-between ${bgStyle}`;
+                card.style.borderLeft = `5px solid ${dia.cor}`;
 
                 card.innerHTML = `
-                    <div class="space-y-1.5">
+                    <div class="space-y-1">
                         <div class="flex justify-between items-center gap-1">
-                            <span class="bg-indigo-100 text-indigo-800 font-black px-2 py-0.5 rounded text-[10px]">${dia.categoria}</span>
-                            <span class="text-slate-500 font-bold text-[10px]">📅 ${dia.diaLabel}</span>
+                            <span class="bg-indigo-100 text-indigo-800 font-black px-1.5 py-0.2 rounded text-[9px]">${dia.categoria}</span>
+                            <span class="text-slate-500 font-bold text-[9px]">📅 ${dia.diaLabel}</span>
                         </div>
 
-                        <div class="text-[11px] font-bold ${textDecor} truncate">
+                        <div class="text-[10px] font-bold ${textDecor} truncate">
                             📍 ${dia.embarque} ➔ 🏁 ${dia.desembarque}
                         </div>
 
-                        <div class="text-[10px] text-slate-600">
-                            <b>🚄 Rota:</b> ${dia.trecho} ${dia.transporte ? '(' + dia.transporte + (dia.numeroTransporte ? ' ' + dia.numeroTransporte : '') + ')' : ''}
+                        <div class="text-[9px] text-slate-600">
+                            <b>🚄:</b> ${dia.trecho} ${dia.transporte ? '(' + dia.transporte + (dia.numeroTransporte ? ' ' + dia.numeroTransporte : '') + ')' : ''}
                         </div>
 
-                        ${dia.textoLivre ? `<div class="bg-slate-50 p-1.5 rounded-xl text-[10px] text-slate-700">📝 ${dia.textoLivre}</div>` : ''}
+                        ${dia.textoLivre ? `<div class="bg-slate-50 p-1 rounded-lg text-[9px] text-slate-700">📝 ${dia.textoLivre}</div>` : ''}
                     </div>
 
-                    <div class="flex justify-between items-center pt-2 border-t mt-2 text-[10px]">
-                        <label class="flex items-center gap-1 cursor-pointer font-bold bg-slate-100 hover:bg-slate-200 px-2 py-1 rounded-lg transition">
-                            <input type="checkbox" ${dia.concluido ? 'checked' : ''} onchange="alternarConcluidoLeitura(${dia.parentId})" class="w-3.5 h-3.5 accent-emerald-600 rounded cursor-pointer">
+                    <div class="flex justify-between items-center pt-1.5 border-t mt-1 text-[9px]">
+                        <label class="flex items-center gap-1 cursor-pointer font-bold bg-slate-100 hover:bg-slate-200 px-1.5 py-0.5 rounded transition">
+                            <input type="checkbox" ${dia.concluido ? 'checked' : ''} onchange="alternarConcluidoLeitura(${dia.parentId})" class="w-3 h-3 accent-emerald-600 rounded cursor-pointer">
                             <span>Feito</span>
                         </label>
-                        <button onclick="abrirMapaRuta('${dia.embarque}', '${dia.desembarque}')" class="bg-sky-100 text-sky-800 hover:bg-sky-200 px-2 py-1 rounded-lg font-bold">🗺️ Mapa (Transit)</button>
+                        <button onclick="abrirMapaRuta('${dia.embarque}', '${dia.desembarque}')" class="bg-sky-100 text-sky-800 hover:bg-sky-200 px-1.5 py-0.5 rounded font-bold">🗺️ Mapa</button>
                     </div>
                 `;
                 container.appendChild(card);
