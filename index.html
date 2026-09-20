@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v100.0)</title>
+    <title>Roteiro Europa - Mariana (v101.0)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Manifest Dinâmico via JavaScript -->
@@ -35,18 +35,22 @@
     <!-- CABEÇALHO COMPACTO NO TOPO -->
     <header class="bg-slate-900 text-white px-3 py-2 shadow-md border-b border-slate-800 text-xs flex justify-between items-center z-50 relative">
         <span class="font-bold tracking-wide">🚄 Roteiro Europa - Mariana</span>
-        <span class="bg-indigo-600 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v100.0</span>
+        <span class="bg-indigo-600 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v101.0</span>
     </header>
 
     <!-- CONTEÚDO PRINCIPAL COMPACTO -->
     <div class="max-w-4xl mx-auto p-2 sm:p-4 space-y-3 pt-3">
 
-        <!-- SEPARADORES (TABS) - 4 ABAS OTIMIZADAS -->
-        <div class="grid grid-cols-4 gap-1 bg-slate-200 p-1 rounded-xl text-[10px] font-bold shadow-sm">
-            <button onclick="mudarTab('leitura')" id="tab-btn-leitura" class="py-2 rounded-lg bg-indigo-600 text-white shadow-sm transition">✈️ Roteiro</button>
-            <button onclick="mudarTab('itinerario')" id="tab-btn-itinerario" class="py-2 rounded-lg text-slate-600 hover:bg-white/50 transition">📅 Editar</button>
-            <button onclick="mudarTab('comprados')" id="tab-btn-comprados" class="py-2 rounded-lg text-slate-600 hover:bg-white/50 transition">🎟️ Vouchers</button>
-            <button onclick="mudarTab('tarefas')" id="tab-btn-tarefas" class="py-2 rounded-lg text-slate-600 hover:bg-white/50 transition">✅ Tarefas</button>
+        <!-- SEPARADORES (TABS) - MENU HORIZONTAL DESLIZANTE -->
+        <div class="flex gap-1 bg-slate-200 p-1 rounded-xl text-[10px] font-bold shadow-sm overflow-x-auto no-scrollbar">
+            <button onclick="mudarTab('leitura')" id="tab-btn-leitura" class="px-3 py-2 rounded-lg bg-indigo-600 text-white shadow-sm transition shrink-0">✈️ Roteiro</button>
+            <button onclick="mudarTab('itinerario')" id="tab-btn-itinerario" class="px-3 py-2 rounded-lg text-slate-600 hover:bg-white/50 transition shrink-0">📅 Editar</button>
+            <button onclick="mudarTab('comprados')" id="tab-btn-comprados" class="px-3 py-2 rounded-lg text-slate-600 hover:bg-white/50 transition shrink-0">🎟️ Vouchers</button>
+            <button onclick="mudarTab('tarefas')" id="tab-btn-tarefas" class="px-3 py-2 rounded-lg text-slate-600 hover:bg-white/50 transition shrink-0">✅ Tarefas</button>
+            <button onclick="mudarTab('orcamento')" id="tab-btn-orcamento" class="px-3 py-2 rounded-lg text-slate-600 hover:bg-white/50 transition shrink-0">💰 Orçamento</button>
+            <button onclick="mudarTab('checklist')" id="tab-btn-checklist" class="px-3 py-2 rounded-lg text-slate-600 hover:bg-white/50 transition shrink-0">🎒 Checklist</button>
+            <button onclick="mudarTab('clima')" id="tab-btn-clima" class="px-3 py-2 rounded-lg text-slate-600 hover:bg-white/50 transition shrink-0">🌤️ Clima</button>
+            <button onclick="mudarTab('contatos')" id="tab-btn-contatos" class="px-3 py-2 rounded-lg text-slate-600 hover:bg-white/50 transition shrink-0">📞 Úteis</button>
         </div>
 
         <!-- TAB 1: ROTEIRO EM QUADRADINHOS COMPACTOS -->
@@ -85,7 +89,7 @@
             <div id="lista-blocos" class="space-y-2"></div>
         </div>
 
-        <!-- TAB 3: VOUCHERS & PDFS (SUPER COMPACTOS NUMA SÓ LINHA) -->
+        <!-- TAB 3: VOUCHERS & PDFS -->
         <div id="tab-comprados" class="space-y-3 hidden">
             <div class="bg-white p-3 rounded-2xl shadow-sm border border-slate-300 space-y-3">
                 <div class="flex justify-between items-center border-b pb-2 flex-wrap gap-2">
@@ -99,7 +103,7 @@
             </div>
         </div>
 
-        <!-- TAB 4: TAREFAS (TUDO NA MESMA LINHA E COMPACTO) -->
+        <!-- TAB 4: TAREFAS -->
         <div id="tab-tarefas" class="space-y-3 hidden">
             <div class="bg-indigo-900 text-white p-3 rounded-2xl shadow-md space-y-2">
                 <div class="flex justify-between items-center flex-wrap gap-2">
@@ -117,6 +121,95 @@
                 </div>
             </div>
             <div id="lista-tarefas-html" class="space-y-2 text-xs"></div>
+        </div>
+
+        <!-- TAB 5: ORÇAMENTO & CÂMBIO -->
+        <div id="tab-orcamento" class="space-y-3 hidden">
+            <div class="bg-white p-3 rounded-2xl shadow-sm border border-slate-300 space-y-3 text-xs">
+                <div class="flex justify-between items-center border-b pb-2 flex-wrap gap-2">
+                    <div>
+                        <h2 class="text-[11px] font-extrabold uppercase text-slate-800 tracking-wider">💰 Controle de Gastos & Câmbio</h2>
+                        <p class="text-[10px] text-slate-500 font-semibold">Registe despesas em EUR e CHF</p>
+                    </div>
+                    <button onclick="adicionarDespesa()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-2.5 py-1.5 rounded-lg font-bold text-[11px] transition shadow-sm">➕ Nova Despesa</button>
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                    <div class="bg-amber-50 border border-amber-200 p-2.5 rounded-xl text-center">
+                        <span class="text-[10px] font-bold text-amber-800 block">Total EUR (€)</span>
+                        <span id="total-eur" class="text-sm font-black text-amber-900">0.00</span>
+                    </div>
+                    <div class="bg-blue-50 border border-blue-200 p-2.5 rounded-xl text-center">
+                        <span class="text-[10px] font-bold text-blue-800 block">Total CHF (CHF)</span>
+                        <span id="total-chf" class="text-sm font-black text-blue-900">0.00</span>
+                    </div>
+                </div>
+                <div id="lista-despesas-html" class="space-y-2"></div>
+            </div>
+        </div>
+
+        <!-- TAB 6: CHECKLIST DE VIAGEM -->
+        <div id="tab-checklist" class="space-y-3 hidden">
+            <div class="bg-white p-3 rounded-2xl shadow-sm border border-slate-300 space-y-3 text-xs">
+                <div class="flex justify-between items-center border-b pb-2 flex-wrap gap-2">
+                    <div>
+                        <h2 class="text-[11px] font-extrabold uppercase text-slate-800 tracking-wider">🎒 Checklist (Mala & Documentos)</h2>
+                        <p class="text-[10px] text-slate-500 font-semibold">Não se esqueça de nada essencial</p>
+                    </div>
+                    <button onclick="adicionarItemChecklist()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-2.5 py-1.5 rounded-lg font-bold text-[11px] transition shadow-sm">➕ Novo Item</button>
+                </div>
+                <div id="lista-checklist-html" class="space-y-1.5"></div>
+            </div>
+        </div>
+
+        <!-- TAB 7: PREVISÃO DO TEMPO -->
+        <div id="tab-clima" class="space-y-3 hidden">
+            <div class="bg-white p-3 rounded-2xl shadow-sm border border-slate-300 space-y-3 text-xs">
+                <div class="border-b pb-2">
+                    <h2 class="text-[11px] font-extrabold uppercase text-slate-800 tracking-wider">🌤️ Clima nos Destinos (Inverno Europeu)</h2>
+                    <p class="text-[10px] text-slate-500 font-semibold">Previsão e vestuário recomendado</p>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    <div class="bg-blue-50 border border-blue-200 p-2.5 rounded-xl space-y-1">
+                        <h3 class="font-bold text-blue-900 text-xs">❄️ Zurique & Interlaken (Suíça)</h3>
+                        <p class="text-[11px] text-blue-800">Temperaturas frias (-2°C a 5°C). Alta probabilidade de neve nas montanhas (Jungfraujoch / Grindelwald).</p>
+                        <p class="text-[10px] text-slate-600"><b>Essencial:</b> Casaco corta-vento impermeável, térmicas, luvas e gorro.</p>
+                    </div>
+                    <div class="bg-amber-50 border border-amber-200 p-2.5 rounded-xl space-y-1">
+                        <h3 class="font-bold text-amber-900 text-xs">🍂 Freiburg & Europa-Park (Alemanha)</h3>
+                        <p class="text-[11px] text-amber-800">Frio moderado (0°C a 7°C). Dias secos mas gelados.</p>
+                        <p class="text-[10px] text-slate-600"><b>Essencial:</b> Cachecol, calçado confortável e térmicas leves.</p>
+                    </div>
+                    <div class="bg-pink-50 border border-pink-200 p-2.5 rounded-xl space-y-1 sm:col-span-2">
+                        <h3 class="font-bold text-pink-900 text-xs">🏰 Paris & Disneyland (França)</h3>
+                        <p class="text-[11px] text-pink-800">Frio urbano (3°C a 9°C), ventos e possibilidade de chuva leve.</p>
+                        <p class="text-[10px] text-slate-600"><b>Essencial:</b> Guarda-chuva compacto, casaco confortável e botas de caminhada.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 8: CONTATOS ÚTEIS -->
+        <div id="tab-contatos" class="space-y-3 hidden">
+            <div class="bg-white p-3 rounded-2xl shadow-sm border border-slate-300 space-y-3 text-xs">
+                <div class="border-b pb-2">
+                    <h2 class="text-[11px] font-extrabold uppercase text-slate-800 tracking-wider">📞 Contatos Úteis & Emergência</h2>
+                    <p class="text-[10px] text-slate-500 font-semibold">Números essenciais na Europa</p>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    <div class="p-2.5 bg-slate-50 border rounded-xl">
+                        <span class="font-bold text-slate-900 block">🇪🇺 Emergência Geral (Europa)</span>
+                        <span class="text-indigo-600 font-black text-sm">112</span>
+                    </div>
+                    <div class="p-2.5 bg-slate-50 border rounded-xl">
+                        <span class="font-bold text-slate-900 block">💳 Suporte Cartão Wise / Nomad</span>
+                        <span class="text-slate-700 font-medium text-[11px]">Consultar app do banco (bloqueio imediato)</span>
+                    </div>
+                    <div class="p-2.5 bg-slate-50 border rounded-xl">
+                        <span class="font-bold text-slate-900 block">🏥 Seguro de Viagem</span>
+                        <span class="text-slate-700 font-medium text-[11px]">Ver apólice no e-mail / Voucher</span>
+                    </div>
+                </div>
+            </div>
         </div>
 
     </div>
@@ -158,7 +251,7 @@
 
     <!-- BARRA DE FERRAMENTAS FIXA -->
     <nav class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-md text-white px-2 py-2 shadow-2xl border-t border-slate-800 text-xs flex items-center gap-1 overflow-x-auto no-scrollbar">
-        <span class="bg-indigo-600 px-1 py-0.5 rounded font-mono font-bold text-[8px] shrink-0">v100.0</span>
+        <span class="bg-indigo-600 px-1 py-0.5 rounded font-mono font-bold text-[8px] shrink-0">v101.0</span>
         <button onclick="abrirGeminiModal()" class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-2 py-1 rounded-lg font-bold transition shrink-0 flex items-center gap-1 text-[10px]">
             <span>✨</span> Gemini
         </button>
@@ -211,7 +304,7 @@
     </div>
 
     <script>
-        const CHAVE_APP = "mariana_viagem_europa_v100";
+        const CHAVE_APP = "mariana_viagem_europa_v101";
         let destinoFiltro = 'todos';
         let tarefaFiltro = 'todas';
         let campoFocoAtual = null;
@@ -245,6 +338,16 @@
                 { id: 2, titulo: "Premier Inn Freiburg City Süd", categoria: "Freiburg", pdfData: "", pdfNome: "" },
                 { id: 3, titulo: "Disney Hotel Santa Fe", categoria: "França", pdfData: "", pdfNome: "" },
                 { id: 4, titulo: "Hotel Weisses Kreuz", categoria: "Interlaken", pdfData: "", pdfNome: "" }
+            ],
+            orcamento: [
+                { id: 1, descricao: "Cartão Wise", valor: 500, moeda: "EUR" },
+                { id: 2, descricao: "Passe Ferroviário Suíço", valor: 350, moeda: "CHF" }
+            ],
+            checklist: [
+                { id: 1, item: "Passaporte válido", feito: true },
+                { id: 2, item: "Seguro Viagem impresso", feito: false },
+                { id: 3, item: "Cartão Wise / Nomad", feito: true },
+                { id: 4, item: "Roupas térmicas e casacos", feito: false }
             ]
         };
 
@@ -286,7 +389,7 @@
             const manifestBlob = new Blob([JSON.stringify(manifestObj)], {type: 'application/manifest+json'});
             document.getElementById('pwa-manifest').href = URL.createObjectURL(manifestBlob);
 
-            const temaSalvo = localStorage.getItem('tema_v100');
+            const temaSalvo = localStorage.getItem('tema_v101');
             if (temaSalvo === 'dark') {
                 document.body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 document.body.classList.remove('bg-slate-100', 'text-slate-800');
@@ -300,6 +403,8 @@
                         dadosApp = parsed;
                         if(!dadosApp.diasConcluidos) dadosApp.diasConcluidos = {};
                         if(!dadosApp.statusPersonalizados) dadosApp.statusPersonalizados = { "Concluído": "#22c55e", "Aguardando": "#f59e0b" };
+                        if(!dadosApp.orcamento) dadosApp.orcamento = [];
+                        if(!dadosApp.checklist) dadosApp.checklist = [];
                     }
                 }
             } catch(e) {}
@@ -331,10 +436,10 @@
         }
 
         function desbloquearComPin() {
-            let pinSalvo = localStorage.getItem('app_pin_v100') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v101') || '1510';
             let digitado = document.getElementById('input-pin').value;
             if(digitado === pinSalvo) {
-                sessionStorage.setItem('sessao_ativa_v100', 'true');
+                sessionStorage.setItem('sessao_ativa_v101', 'true');
                 document.getElementById('tela-bloqueio').classList.add('hidden');
                 document.getElementById('erro-pin').classList.add('hidden');
             } else {
@@ -343,17 +448,17 @@
         }
 
         async function desbloquearComBiometria() {
-            sessionStorage.setItem('sessao_ativa_v100', 'true');
+            sessionStorage.setItem('sessao_ativa_v101', 'true');
             document.getElementById('tela-bloqueio').classList.add('hidden');
         }
 
         function alterarSenhaPin() {
             let atual = prompt("Digite a senha atual (Padrão: 1510):");
-            let pinSalvo = localStorage.getItem('app_pin_v100') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v101') || '1510';
             if(atual === pinSalvo) {
                 let nova = prompt("Digite a nova senha PIN:");
                 if(nova && nova.trim() !== '') {
-                    localStorage.setItem('app_pin_v100', nova.trim());
+                    localStorage.setItem('app_pin_v101', nova.trim());
                     alert("🔑 Senha alterada com sucesso!");
                 }
             } else {
@@ -366,11 +471,11 @@
             if(body.classList.contains('dark')) {
                 body.classList.remove('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.add('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v100', 'light');
+                localStorage.setItem('tema_v101', 'light');
             } else {
                 body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.remove('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v100', 'dark');
+                localStorage.setItem('tema_v101', 'dark');
             }
         }
 
@@ -434,6 +539,8 @@
                 renderizarBlocos();
                 renderizarTarefas();
                 renderizarVouchersTab();
+                renderizarOrcamentoTab();
+                renderizarChecklistTab();
                 renderizarModoLeitura();
             } catch(e) {
                 console.error("Erro no render:", e);
@@ -441,18 +548,20 @@
         }
 
         function mudarTab(tab) {
-            ['itinerario', 'leitura', 'comprados', 'tarefas'].forEach(t => {
+            ['itinerario', 'leitura', 'comprados', 'tarefas', 'orcamento', 'checklist', 'clima', 'contatos'].forEach(t => {
                 let el = document.getElementById('tab-' + t);
                 if(el) el.classList.add('hidden');
                 let btn = document.getElementById('tab-btn-' + t);
-                if(btn) btn.className = "py-2 rounded-lg text-slate-600 hover:bg-white/50 transition";
+                if(btn) btn.className = "px-3 py-2 rounded-lg text-slate-600 hover:bg-white/50 transition shrink-0";
             });
             let target = document.getElementById('tab-' + tab);
             if(target) target.classList.remove('hidden');
             let activeBtn = document.getElementById('tab-btn-' + tab);
-            if(activeBtn) activeBtn.className = "py-2 rounded-lg bg-indigo-600 text-white shadow-sm transition";
+            if(activeBtn) activeBtn.className = "px-3 py-2 rounded-lg bg-indigo-600 text-white shadow-sm transition shrink-0";
             if(tab === 'leitura') { renderizarModoLeitura(); }
             if(tab === 'comprados') { renderizarVouchersTab(); }
+            if(tab === 'orcamento') { renderizarOrcamentoTab(); }
+            if(tab === 'checklist') { renderizarChecklistTab(); }
         }
 
         function obterCorPorCategoria(cat) {
@@ -804,7 +913,7 @@
             }
         }
 
-        // VOUCHERS (COM TUDO NUMA SÓ LINHA)
+        // VOUCHERS (TODOS OS ELEMENTOS NUMA SÓ LINHA)
         function renderizarVouchersTab() {
             const container = document.getElementById('lista-comprados-html');
             if(!container) return;
@@ -835,11 +944,11 @@
                 let pdfAction = v.pdfData ? 
                     `<div class="flex items-center gap-1">
                         <button onclick="abrirLeitorPdf('${v.id}', '${v.titulo.replace(/'/g, "\\'")}')" class="bg-indigo-600 hover:bg-indigo-700 text-white px-2.5 py-1 rounded text-[9px] font-bold">📄 PDF</button>
-                        <label class="bg-amber-100 hover:bg-amber-200 text-amber-800 px-2.5 py-1 rounded text-[9px] font-bold cursor-pointer">
+                        <label class="bg-amber-100 hover:bg-amber-200 text-amber-800 px-2 py-1 rounded text-[9px] font-bold cursor-pointer">
                             🔄<input type="file" accept="application/pdf" onchange="anexarPdfVoucher(${v.id}, event)" class="hidden">
                         </label>
                      </div>` : 
-                    `<label class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1 rounded text-[9px] font-bold cursor-pointer border">
+                    `<label class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-2.5 py-1 rounded text-[9px] font-bold cursor-pointer border">
                         📎 Anexar<input type="file" accept="application/pdf" onchange="anexarPdfVoucher(${v.id}, event)" class="hidden">
                     </label>`;
 
@@ -934,7 +1043,7 @@
             renderizarVouchersTab(); 
         }
 
-        // TAREFAS TUDO NUMA SÓ LINHA COMPACTA
+        // TAREFAS (TUDO NA MESMA LINHA COMPACTA)
         function renderizarTarefas() {
             const container = document.getElementById('lista-tarefas-html');
             container.innerHTML = '';
@@ -1041,7 +1150,7 @@
         }
 
         function atualizarTarefaTexto(id, valor) {
-            const t = dadosApp.tarefas.find(item => id === t.id);
+            const t = dadosApp.tarefas.find(item => item.id === id);
             if(t) { t.texto = valor; localStorage.setItem(CHAVE_APP, JSON.stringify(dadosApp)); }
         }
         function adicionarTarefa() {
@@ -1055,6 +1164,129 @@
             dadosApp.tarefas = dadosApp.tarefas.filter(t => t.id !== id);
             salvarStorage();
             renderizarTarefas();
+        }
+
+        // ORÇAMENTO
+        function renderizarOrcamentoTab() {
+            const container = document.getElementById('lista-despesas-html');
+            const totalEurEl = document.getElementById('total-eur');
+            const totalChfEl = document.getElementById('total-chf');
+            if(!container) return;
+            container.innerHTML = '';
+
+            let somaEur = 0;
+            let somaChf = 0;
+
+            if(!dadosApp.orcamento || dadosApp.orcamento.length === 0) {
+                container.innerHTML = '<p class="text-xs text-slate-400 italic text-center py-2">Nenhuma despesa registada.</p>';
+                totalEurEl.innerText = "0.00";
+                totalChfEl.innerText = "0.00";
+                return;
+            }
+
+            dadosApp.orcamento.forEach(d => {
+                let val = parseFloat(d.valor) || 0;
+                if(d.moeda === 'EUR') somaEur += val;
+                if(d.moeda === 'CHF') somaChf += val;
+
+                let div = document.createElement('div');
+                div.className = "p-2 rounded-xl border bg-white flex items-center justify-between gap-2 shadow-sm text-xs";
+                div.innerHTML = `
+                    <input type="text" value="${d.descricao}" oninput="atualizarOrcamentoDescricao(${d.id}, this.value)" class="flex-1 bg-transparent outline-none font-bold text-slate-800 truncate" placeholder="Descrição...">
+                    <input type="number" value="${d.valor}" oninput="atualizarOrcamentoValor(${d.id}, this.value)" class="w-16 p-1 bg-slate-50 border rounded font-black text-right text-xs" placeholder="0">
+                    <select onchange="atualizarOrcamentoMoeda(${d.id}, this.value)" class="p-1 bg-slate-50 border rounded font-bold text-xs">
+                        <option value="EUR" ${d.moeda === 'EUR' ? 'selected' : ''}>EUR</option>
+                        <option value="CHF" ${d.moeda === 'CHF' ? 'selected' : ''}>CHF</option>
+                    </select>
+                    <button onclick="apagarDespesa(${d.id})" class="text-red-500 font-bold bg-red-50 hover:bg-red-100 px-2 py-1 rounded transition">✕</button>
+                `;
+                container.appendChild(div);
+            });
+
+            totalEurEl.innerText = somaEur.toFixed(2);
+            totalChfEl.innerText = somaChf.toFixed(2);
+        }
+
+        function adicionarDespesa() {
+            registarEstadoAnterior();
+            if(!dadosApp.orcamento) dadosApp.orcamento = [];
+            dadosApp.orcamento.unshift({ id: Date.now(), descricao: "Nova despesa", valor: 0, moeda: "EUR" });
+            salvarStorage();
+            renderizarOrcamentoTab();
+        }
+
+        function apagarDespesa(id) {
+            registarEstadoAnterior();
+            dadosApp.orcamento = dadosApp.orcamento.filter(d => d.id !== id);
+            salvarStorage();
+            renderizarOrcamentoTab();
+        }
+
+        function atualizarOrcamentoDescricao(id, val) {
+            let d = dadosApp.orcamento.find(item => item.id === id);
+            if(d) { d.descricao = val; localStorage.setItem(CHAVE_APP, JSON.stringify(dadosApp)); }
+        }
+
+        function atualizarOrcamentoValor(id, val) {
+            let d = dadosApp.orcamento.find(item => item.id === id);
+            if(d) { d.valor = val; salvarStorage(); }
+        }
+
+        function atualizarOrcamentoMoeda(id, val) {
+            registarEstadoAnterior();
+            let d = dadosApp.orcamento.find(item => item.id === id);
+            if(d) { d.moeda = val; salvarStorage(); renderizarOrcamentoTab(); }
+        }
+
+        // CHECKLIST
+        function renderizarChecklistTab() {
+            const container = document.getElementById('lista-checklist-html');
+            if(!container) return;
+            container.innerHTML = '';
+
+            if(!dadosApp.checklist || dadosApp.checklist.length === 0) {
+                container.innerHTML = '<p class="text-xs text-slate-400 italic text-center py-2">Nenhum item no checklist.</p>';
+                return;
+            }
+
+            dadosApp.checklist.forEach(c => {
+                let div = document.createElement('div');
+                div.className = "p-2 rounded-xl border bg-white flex items-center justify-between gap-2 shadow-sm text-xs";
+                div.innerHTML = `
+                    <label class="flex items-center gap-2 flex-1 cursor-pointer">
+                        <input type="checkbox" ${c.feito ? 'checked' : ''} onchange="alternarItemChecklist(${c.id})" class="w-4 h-4 accent-indigo-600 rounded cursor-pointer">
+                        <input type="text" value="${c.item}" oninput="atualizarItemChecklistText(${c.id}, this.value)" class="flex-1 bg-transparent outline-none font-bold ${c.feito ? 'line-through text-slate-400' : 'text-slate-800'} truncate">
+                    </label>
+                    <button onclick="apagarItemChecklist(${c.id})" class="text-red-500 font-bold bg-red-50 hover:bg-red-100 px-2 py-1 rounded transition">✕</button>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function adicionarItemChecklist() {
+            registarEstadoAnterior();
+            if(!dadosApp.checklist) dadosApp.checklist = [];
+            dadosApp.checklist.push({ id: Date.now(), item: "Novo item...", feito: false });
+            salvarStorage();
+            renderizarChecklistTab();
+        }
+
+        function apagarItemChecklist(id) {
+            registarEstadoAnterior();
+            dadosApp.checklist = dadosApp.checklist.filter(c => c.id !== id);
+            salvarStorage();
+            renderizarChecklistTab();
+        }
+
+        function alternarItemChecklist(id) {
+            registarEstadoAnterior();
+            let c = dadosApp.checklist.find(item => item.id === id);
+            if(c) { c.feito = !c.feito; salvarStorage(); renderizarChecklistTab(); }
+        }
+
+        function atualizarItemChecklistText(id, val) {
+            let c = dadosApp.checklist.find(item => item.id === id);
+            if(c) { c.item = val; localStorage.setItem(CHAVE_APP, JSON.stringify(dadosApp)); }
         }
 
         async function abrirMapaRuta(origem, destinoLocal) {
