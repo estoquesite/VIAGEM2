@@ -3,11 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v11.0)</title>
+    <title>Roteiro Europa - Mariana (v13.0)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Leaflet CSS para Mapas -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <!-- Manifest PWA com Ícone de Trem -->
     <link id="pwa-manifest" rel="manifest" href="data:application/manifest+json;charset=utf-8,{
         %22name%22: %22Roteiro Europa - Mariana%22,
         %22short_name%22: %22Viagem Europa%22,
@@ -15,7 +16,7 @@
         %22display%22: %22standalone%22,
         %22background_color%22: %22%23f8fafc%22,
         %22theme_color%22: %22%234f46e5%22,
-        %22icons%22: [{%22src%22: %22https://cdn-icons-png.flaticon.com/512/3135/3135715.png%22, %22sizes%22: %22512x512%22, %22type%22: %22image/png%22}]
+        %22icons%22: [{%22src%22: %22data:image/svg+xml;utf8,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27 fill=%27%234f46e5%27><path d=%27M12 2c-4 0-8 .5-8 4v9.5C4 17.43 5.57 19 7.5 19L6 20.5v.5h12v-.5L16.5 19c1.93 0 3.5-1.57 3.5-3.5V6c0-3.5-4-4-8-4zM7.5 17c-.83 0-1.5-.67-1.5-1.5S6.67 14 7.5 14s1.5.67 1.5 1.5S8.33 17 7.5 17zm3.5-7H6V7h5v3zm2 0V7h5v3h-5zm3.5 7c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z%27/></svg>%22, %22sizes%22: %22512x512%22, %22type%22: %22image/svg+xml%22}]
     }">
 </head>
 <body class="bg-slate-100 text-slate-800 min-h-screen pb-32 select-none transition-colors duration-200">
@@ -23,8 +24,8 @@
     <!-- BARRA SUPERIOR FIXA -->
     <header class="bg-slate-900 text-white px-3 py-2.5 shadow-md border-b border-slate-700 text-xs flex flex-wrap items-center justify-between gap-2 z-50">
         <div class="flex items-center gap-2">
-            <span class="bg-indigo-600 px-2 py-0.5 rounded font-mono font-bold text-[10px]">v11.0</span>
-            <span class="font-bold tracking-wide">🚄 Roteiro Europa (Blocos & Mapas)</span>
+            <span class="bg-indigo-600 px-2 py-0.5 rounded font-mono font-bold text-[10px]">v13.0</span>
+            <span class="font-bold tracking-wide">🚄 Roteiro Europa (Blocos Coloridos & Dias)</span>
         </div>
         <div class="flex items-center gap-1.5 flex-wrap">
             <button onclick="ativarMicrofone()" class="bg-purple-600 hover:bg-purple-700 text-white px-2 py-1 rounded-lg font-bold transition">
@@ -48,9 +49,9 @@
         <!-- CABEÇALHO -->
         <div class="bg-white border border-slate-300 p-5 rounded-3xl shadow-sm flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
             <div>
-                <span class="text-[10px] font-extrabold uppercase tracking-widest bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full">Itinerário em Blocos Independentes</span>
-                <h1 class="text-xl sm:text-2xl font-black text-slate-900 mt-2">Zurique, Freiburg, Disney & Interlaken 🚄🏔️</h1>
-                <p class="text-xs text-slate-500 mt-1">Gerencie destinos, transporte detalhado, mapas e comprovativos.</p>
+                <span class="text-[10px] font-extrabold uppercase tracking-widest bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full">Itinerário com Cores por Destino</span>
+                <h1 class="text-xl sm:text-2xl font-black text-slate-900 mt-2">Zurique, Freiburg, França & Interlaken 🚄🏔️</h1>
+                <p class="text-xs text-slate-500 mt-1">Blocos coloridos personalizados, contagem de dias e gestão de PDFs.</p>
             </div>
             <div class="bg-slate-50 px-4 py-3 rounded-2xl border border-slate-300 text-right shadow-sm w-full sm:w-auto shrink-0">
                 <span class="text-[10px] text-slate-400 block uppercase font-bold">Gastos Totais</span>
@@ -68,7 +69,7 @@
         <!-- TAB 1: ITINERÁRIO EM BLOCOS -->
         <div id="tab-itinerario" class="space-y-4">
             <div class="flex justify-between items-center px-1">
-                <h2 class="text-xs font-extrabold uppercase text-slate-600 tracking-wider">📦 Blocos de Destino & Transporte</h2>
+                <h2 class="text-xs font-extrabold uppercase text-slate-600 tracking-wider">📦 Blocos de Destino Independentes</h2>
                 <button onclick="adicionarBloco()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-2 rounded-xl font-bold text-xs transition shadow-sm">
                     ➕ Adicionar Novo Bloco
                 </button>
@@ -140,7 +141,7 @@
     <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
-        const CHAVE_APP = "mariana_viagem_europa_v11";
+        const CHAVE_APP = "mariana_viagem_europa_v13";
         let campoFocoAtual = null;
         let mapInstance = null;
         let backupEstado = {};
@@ -165,11 +166,11 @@
             if(body.classList.contains('dark')) {
                 body.classList.remove('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.add('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v11', 'light');
+                localStorage.setItem('tema_v13', 'light');
             } else {
                 body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.remove('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v11', 'dark');
+                localStorage.setItem('tema_v13', 'dark');
             }
         }
 
@@ -179,8 +180,8 @@
                 { id: 2, categoria: "Zurique", data: "2 Jan (Tarde)", trecho: "Zurique ➔ Freiburg", transporte: "Ônibus FlixBus", embarque: "Zurich Bus Station", desembarque: "Freiburg Station", moeda: "EUR", valor: "25", status: "Aguardando", notas: "", pdfData: "", pdfNome: "", bloqueado: false },
                 { id: 3, categoria: "Freiburg", data: "3 Jan", trecho: "Freiburg ➔ Europa-Park (Papai)", transporte: "Ônibus regional", embarque: "Freiburg Central", desembarque: "Europa-Park Rust", moeda: "EUR", valor: "65", status: "Aguardando", notas: "", pdfData: "", pdfNome: "", bloqueado: false },
                 { id: 4, categoria: "Freiburg", data: "4 Jan", trecho: "Freiburg (Dia livre)", transporte: "A pé", embarque: "Hotel", desembarque: "Hotel", moeda: "EUR", valor: "0", status: "Comprado", notas: "", pdfData: "", pdfNome: "", bloqueado: false },
-                { id: 5, categoria: "Disney", data: "5 e 6 Jan", trecho: "Marne-la-Vallée (Disney)", transporte: "Trem TGV", embarque: "Estação Central", desembarque: "Chessy Marne-la-Vallée", moeda: "EUR", valor: "220", status: "Aguardando", notas: "", pdfData: "", pdfNome: "", bloqueado: false },
-                { id: 6, categoria: "Disney", data: "7 Jan", trecho: "La Vallée Village (Outlet)", transporte: "RER A", embarque: "Chessy", desembarque: "Val d'Europe", moeda: "EUR", valor: "150", status: "Aguardando", notas: "", pdfData: "", pdfNome: "", bloqueado: false },
+                { id: 5, categoria: "França", data: "5 e 6 Jan", trecho: "França / Disneyland Paris", transporte: "Trem TGV", embarque: "Estação Central", desembarque: "Marne-la-Vallée Chessy", moeda: "EUR", valor: "220", status: "Aguardando", notas: "", pdfData: "", pdfNome: "", bloqueado: false },
+                { id: 6, categoria: "França", data: "7 Jan", trecho: "La Vallée Village (Outlet de Compras)", transporte: "RER A", embarque: "Chessy", desembarque: "Val d'Europe", moeda: "EUR", valor: "150", status: "Aguardando", notas: "", pdfData: "", pdfNome: "", bloqueado: false },
                 { id: 7, categoria: "Interlaken", data: "8 Jan", trecho: "França ➔ Interlaken", transporte: "Trem TGV Lyria", embarque: "Estação França", desembarque: "Interlaken Ost", moeda: "CHF", valor: "110", status: "Aguardando", notas: "", pdfData: "", pdfNome: "", bloqueado: false },
                 { id: 8, categoria: "Interlaken", data: "8 a 12 Jan", trecho: "Interlaken (Estadia Alpina)", transporte: "Autocarros locais", embarque: "Interlaken Ost", desembarque: "Alpes", moeda: "CHF", valor: "0", status: "Comprado", notas: "", pdfData: "", pdfNome: "", bloqueado: true },
                 { id: 9, categoria: "Interlaken", data: "12 Jan", trecho: "Interlaken ➔ Zurique", transporte: "Trem SBB", embarque: "Interlaken Ost", desembarque: "Zurich HB", moeda: "CHF", valor: "76", status: "Aguardando", notas: "", pdfData: "", pdfNome: "", bloqueado: false }
@@ -193,7 +194,7 @@
         };
 
         window.addEventListener('DOMContentLoaded', () => {
-            const temaSalvo = localStorage.getItem('tema_v11');
+            const temaSalvo = localStorage.getItem('tema_v13');
             if (temaSalvo === 'dark') {
                 document.body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 document.body.classList.remove('bg-slate-100', 'text-slate-800');
@@ -237,6 +238,15 @@
             document.getElementById('tab-btn-' + tab).className = "flex-1 py-2.5 rounded-xl bg-indigo-600 text-white shadow-sm transition";
         }
 
+        function obterCorBloco(cat) {
+            let c = (cat || "").toLowerCase();
+            if(c.includes('zurique')) return 'bg-sky-50 border-sky-300';
+            if(c.includes('freiburg')) return 'bg-amber-50 border-amber-300';
+            if(c.includes('disney') || c.includes('frança') || c.includes('outlet')) return 'bg-purple-50 border-purple-300';
+            if(c.includes('interlaken')) return 'bg-emerald-50 border-emerald-300';
+            return 'bg-slate-50 border-slate-300';
+        }
+
         function renderizarBlocos() {
             const container = document.getElementById('lista-blocos');
             container.innerHTML = '';
@@ -246,22 +256,24 @@
                 return;
             }
 
-            dadosApp.itinerario.forEach(item => {
+            dadosApp.itinerario.forEach((item, index) => {
                 let dis = item.bloqueado ? 'disabled' : '';
-                let cardBg = item.bloqueado ? 'bg-slate-50 border-slate-300' : 'bg-white border-indigo-200 shadow-md';
+                let corTema = item.bloqueado ? 'bg-slate-100 border-slate-300 opacity-90' : obterCorBloco(item.categoria);
                 let pdfBadge = item.pdfData ? `<a href="${item.pdfData}" download="${item.pdfNome || 'voucher.pdf'}" class="bg-blue-100 text-blue-800 px-2.5 py-1 rounded-lg text-[10px] font-bold">📄 PDF Anexado</a>` : '';
                 let btnOkText = item.bloqueado ? '🔒 OK (Bloqueado)' : '✅ OK';
                 let btnOkClass = item.bloqueado ? 'bg-emerald-600 text-white' : 'bg-slate-200 text-slate-700 hover:bg-emerald-500 hover:text-white';
+                let numDia = index + 1;
 
                 let card = document.createElement('div');
-                card.className = `p-4 sm:p-5 rounded-3xl border ${cardBg} space-y-3 transition`;
+                card.className = `p-4 sm:p-5 rounded-3xl border ${corTema} space-y-3 transition shadow-sm`;
                 card.innerHTML = `
-                    <div class="flex justify-between items-center gap-2 border-b pb-2">
+                    <div class="flex justify-between items-center gap-2 border-b border-black/10 pb-2">
                         <div class="flex items-center gap-2 flex-wrap">
-                            <input type="text" value="${item.categoria}" ${dis} onfocus="registarFoco(this)" oninput="atualizarCampo(${item.id}, 'categoria', this.value)" class="bg-indigo-50 text-indigo-700 font-black px-2.5 py-1 rounded-xl text-xs border border-indigo-200 outline-none w-32" placeholder="Destino">
-                            <input type="text" value="${item.data}" ${dis} onfocus="registarFoco(this)" oninput="atualizarCampo(${item.id}, 'data', this.value)" class="bg-slate-100 text-slate-700 font-bold px-2.5 py-1 rounded-xl text-xs border border-slate-200 outline-none w-28" placeholder="Data">
+                            <span class="bg-indigo-600 text-white font-black px-2.5 py-0.5 rounded-full text-[10px]">Dia ${numDia}</span>
+                            <input type="text" value="${item.categoria}" ${dis} onfocus="registarFoco(this)" oninput="atualizarCampo(${item.id}, 'categoria', this.value)" class="bg-white/80 text-indigo-900 font-black px-2.5 py-1 rounded-xl text-xs border border-black/10 outline-none w-32" placeholder="Destino">
+                            <input type="text" value="${item.data}" ${dis} onfocus="registarFoco(this)" oninput="atualizarCampo(${item.id}, 'data', this.value)" class="bg-white/80 text-slate-700 font-bold px-2.5 py-1 rounded-xl text-xs border border-black/10 outline-none w-28" placeholder="Data">
                         </div>
-                        <select onchange="atualizarCampo(${item.id}, 'status', this.value)" ${dis} class="border rounded-xl px-2.5 py-1 text-xs font-bold outline-none ${item.status === 'Comprado' ? 'bg-emerald-100 text-emerald-800' : item.status === 'Reservado' ? 'bg-blue-100 text-blue-800' : 'bg-amber-100 text-amber-800'}">
+                        <select onchange="atualizarCampo(${item.id}, 'status', this.value)" ${dis} class="border border-black/10 rounded-xl px-2.5 py-1 text-xs font-bold outline-none ${item.status === 'Comprado' ? 'bg-emerald-100 text-emerald-800' : item.status === 'Reservado' ? 'bg-blue-100 text-blue-800' : 'bg-amber-100 text-amber-800'}">
                             <option value="Comprado" ${item.status === 'Comprado' ? 'selected' : ''}>Comprado</option>
                             <option value="Aguardando" ${item.status === 'Aguardando' ? 'selected' : ''}>Aguardando</option>
                             <option value="Reservado" ${item.status === 'Reservado' ? 'selected' : ''}>Reservado</option>
@@ -270,37 +282,37 @@
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
                         <div>
-                            <label class="block font-semibold text-slate-500 mb-0.5">Trecho / Rota</label>
-                            <input type="text" value="${item.trecho}" ${dis} onfocus="registarFoco(this)" oninput="atualizarCampo(${item.id}, 'trecho', this.value)" class="w-full p-2 bg-slate-50 border border-slate-300 rounded-xl outline-none font-bold text-slate-900" placeholder="Ex: Zurique ➔ Freiburg">
+                            <label class="block font-semibold text-slate-600 mb-0.5">Trecho / Rota</label>
+                            <input type="text" value="${item.trecho}" ${dis} onfocus="registarFoco(this)" oninput="atualizarCampo(${item.id}, 'trecho', this.value)" class="w-full p-2.5 bg-white border border-black/10 rounded-xl outline-none font-bold text-slate-900" placeholder="Ex: Zurique ➔ Freiburg">
                         </div>
                         <div>
-                            <label class="block font-semibold text-slate-500 mb-0.5">Transporte & Detalhes</label>
-                            <input type="text" value="${item.transporte}" ${dis} onfocus="registarFoco(this)" oninput="atualizarCampo(${item.id}, 'transporte', this.value)" class="w-full p-2 bg-slate-50 border border-slate-300 rounded-xl outline-none" placeholder="Ex: Trem SBB / Ônibus FlixBus">
+                            <label class="block font-semibold text-slate-600 mb-0.5">Transporte & Detalhes</label>
+                            <input type="text" value="${item.transporte}" ${dis} onfocus="registarFoco(this)" oninput="atualizarCampo(${item.id}, 'transporte', this.value)" class="w-full p-2.5 bg-white border border-black/10 rounded-xl outline-none" placeholder="Ex: Trem SBB / Ônibus FlixBus">
                         </div>
                         <div>
-                            <label class="block font-semibold text-slate-500 mb-0.5">Local de Embarque</label>
-                            <input type="text" value="${item.embarque}" ${dis} onfocus="registarFoco(this)" oninput="atualizarCampo(${item.id}, 'embarque', this.value)" class="w-full p-2 bg-slate-50 border border-slate-300 rounded-xl outline-none" placeholder="Onde embarca?">
+                            <label class="block font-semibold text-slate-600 mb-0.5">Local de Embarque</label>
+                            <input type="text" value="${item.embarque}" ${dis} onfocus="registarFoco(this)" oninput="atualizarCampo(${item.id}, 'embarque', this.value)" class="w-full p-2.5 bg-white border border-black/10 rounded-xl outline-none" placeholder="Onde embarca?">
                         </div>
                         <div>
-                            <label class="block font-semibold text-slate-500 mb-0.5">Local de Desembarque</label>
-                            <input type="text" value="${item.desembarque}" ${dis} onfocus="registarFoco(this)" oninput="atualizarCampo(${item.id}, 'desembarque', this.value)" class="w-full p-2 bg-slate-50 border border-slate-300 rounded-xl outline-none" placeholder="Onde desembarca?">
+                            <label class="block font-semibold text-slate-600 mb-0.5">Local de Desembarque</label>
+                            <input type="text" value="${item.desembarque}" ${dis} onfocus="registarFoco(this)" oninput="atualizarCampo(${item.id}, 'desembarque', this.value)" class="w-full p-2.5 bg-white border border-black/10 rounded-xl outline-none" placeholder="Onde desembarca?">
                         </div>
                     </div>
 
-                    <div class="flex flex-wrap justify-between items-center gap-2 pt-2 border-t">
+                    <div class="flex flex-wrap justify-between items-center gap-2 pt-2 border-t border-black/10">
                         <div class="flex items-center gap-1.5">
-                            <select onchange="atualizarCampo(${item.id}, 'moeda', this.value)" ${dis} class="p-1 bg-slate-100 font-bold border rounded-lg text-xs outline-none">
+                            <select onchange="atualizarCampo(${item.id}, 'moeda', this.value)" ${dis} class="p-1 bg-white font-bold border border-black/10 rounded-lg text-xs outline-none">
                                 <option value="CHF" ${item.moeda === 'CHF' ? 'selected' : ''}>CHF</option>
                                 <option value="EUR" ${item.moeda === 'EUR' ? 'selected' : ''}>EUR</option>
                                 <option value="-" ${item.moeda === '-' ? 'selected' : ''}>-</option>
                             </select>
-                            <input type="text" value="${item.valor}" ${dis} onfocus="registarFoco(this)" oninput="atualizarCampo(${item.id}, 'valor', this.value)" class="w-20 p-1 bg-slate-100 font-black border rounded-lg text-xs outline-none" placeholder="Valor">
+                            <input type="text" value="${item.valor}" ${dis} onfocus="registarFoco(this)" oninput="atualizarCampo(${item.id}, 'valor', this.value)" class="w-20 p-1 bg-white font-black border border-black/10 rounded-lg text-xs outline-none" placeholder="Valor">
                             ${pdfBadge}
                         </div>
                         
                         <div class="flex items-center gap-1 flex-wrap">
                             <button onclick="abrirMapa('${item.embarque}', '${item.desembarque}', '${item.categoria}')" class="bg-sky-100 text-sky-800 hover:bg-sky-200 px-2.5 py-1.5 rounded-xl font-bold text-xs flex items-center gap-1" title="Ver no Mapa">🗺️ Mapa</button>
-                            <button onclick="abrirModalDetalhes(${item.id})" class="bg-slate-200 hover:bg-slate-300 px-2.5 py-1.5 rounded-xl font-bold text-xs" title="Editar notas e PDF">✏️ Lápis</button>
+                            <button onclick="abrirModalDetalhes(${item.id})" class="bg-white hover:bg-slate-100 border border-black/10 px-2.5 py-1.5 rounded-xl font-bold text-xs" title="Editar notas e PDF">✏️ Lápis</button>
                             <button onclick="desfazerBloco(${item.id})" class="bg-amber-100 text-amber-800 hover:bg-amber-200 px-2.5 py-1.5 rounded-xl font-bold text-xs" title="Desfazer alterações">↩️ Desfazer</button>
                             <button onclick="alternarBloqueio(${item.id})" class="${btnOkClass} px-3 py-1.5 rounded-xl font-bold text-xs transition" title="Bloquear/Desbloquear">${btnOkText}</button>
                             <button onclick="apagarBloco(${item.id})" class="bg-red-50 text-red-500 hover:bg-red-100 px-2.5 py-1.5 rounded-xl font-bold text-xs" title="Excluir">✕</button>
@@ -392,7 +404,6 @@
                 } else {
                     mapInstance.invalidateSize();
                 }
-                // Adicionar marcador genérico para a região da Suíça/Europa
                 L.marker([47.3769, 8.5417]).addTo(mapInstance)
                   .bindPopup(`<b>${destino}</b><br>Embarque: ${embarque}<br>Desembarque: ${desembarque}`).openPopup();
             }, 300);
