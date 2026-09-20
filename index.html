@@ -3,20 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v34.0)</title>
+    <title>Roteiro Europa - Mariana (v35.0)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Leaflet CSS para Mapas -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <!-- Manifest Dinâmico via JavaScript (Ícone Limpo sem Selo do Navegador) -->
+    <!-- Manifest Dinâmico via JavaScript -->
     <link id="pwa-manifest" rel="manifest" href="">
 </head>
-<body class="bg-slate-100 text-slate-800 min-h-screen pb-44 select-none transition-colors duration-200">
+<body class="bg-slate-100 text-slate-800 min-h-screen pb-36 select-none transition-colors duration-200">
 
     <!-- CABEÇALHO NORMAL NO TOPO -->
     <header class="bg-slate-900 text-white px-4 py-3 shadow-md border-b border-slate-700 text-xs flex justify-between items-center z-50 relative">
         <span class="font-bold tracking-wide">🚄 Roteiro Europa - Mariana</span>
-        <span class="bg-indigo-600 px-2 py-0.5 rounded font-mono font-bold text-[10px]">v34.0</span>
+        <span class="bg-indigo-600 px-2 py-0.5 rounded font-mono font-bold text-[10px]">v35.0</span>
     </header>
 
     <!-- CONTEÚDO PRINCIPAL -->
@@ -25,9 +25,9 @@
         <!-- CABEÇALHO DESCRITIVO -->
         <div class="bg-white border border-slate-300 p-5 rounded-3xl shadow-sm flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
             <div>
-                <span class="text-[10px] font-extrabold uppercase tracking-widest bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full">Ícone Nativo Limpo v34.0</span>
+                <span class="text-[10px] font-extrabold uppercase tracking-widest bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full">Seletores Inteligentes de Origem/Destino v35.0</span>
                 <h1 class="text-xl sm:text-2xl font-black text-slate-900 mt-2">Zurique, Freiburg, Paris & Interlaken 🚄🏔️</h1>
-                <p class="text-xs text-slate-500 mt-1">Aplicação otimizada para instalação limpa no ecrã inicial sem o selo do Chrome.</p>
+                <p class="text-xs text-slate-500 mt-1">Filtros no topo, hotéis integrados e listas completas de estações em cada bloco.</p>
             </div>
             <div class="bg-slate-50 px-4 py-3 rounded-2xl border border-slate-300 text-right shadow-sm w-full sm:w-auto shrink-0">
                 <span class="text-[10px] text-slate-400 block uppercase font-bold">Gastos Totais</span>
@@ -35,35 +35,20 @@
             </div>
         </div>
 
-        <!-- SEPARADORES (TABS) -->
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-1.5 bg-slate-200 p-1.5 rounded-2xl text-xs font-bold">
+        <!-- SEPARADORES (TABS) - 3 ABAS LIMPAS -->
+        <div class="grid grid-cols-3 gap-1.5 bg-slate-200 p-1.5 rounded-2xl text-xs font-bold">
             <button onclick="mudarTab('itinerario')" id="tab-btn-itinerario" class="py-2.5 rounded-xl bg-indigo-600 text-white shadow-sm transition">📅 Itinerário</button>
-            <button onclick="mudarTab('ia')" id="tab-btn-ia" class="py-2.5 rounded-xl text-slate-600 hover:bg-white/50 transition">🤖 Assistente IA</button>
             <button onclick="mudarTab('tarefas')" id="tab-btn-tarefas" class="py-2.5 rounded-xl text-slate-600 hover:bg-white/50 transition">✅ Tarefas</button>
-            <button onclick="mudarTab('comprados')" id="tab-btn-comprados" class="py-2.5 rounded-xl text-slate-600 hover:bg-white/50 transition">🎟️ Vouchers</button>
+            <button onclick="mudarTab('comprados')" id="tab-btn-comprados" class="py-2.5 rounded-xl text-slate-600 hover:bg-white/50 transition">🎟️ Vouchers & PDFs</button>
         </div>
-
-        <!-- DATALIST GLOBAL PARA SUGESTÕES DE ESTAÇÕES E HOTÉIS -->
-        <datalist id="sugestoes-locais">
-            <option value="Zurich HB">
-            <option value="Zurich Bus Station (Sihlquai)">
-            <option value="ibis budget Zurich City West">
-            <option value="Freiburg Hbf (Estação Central)">
-            <option value="Premier Inn Freiburg City Süd">
-            <option value="Europa-Park Rust">
-            <option value="Disney Hotel Santa Fe">
-            <option value="Marne-la-Vallée Chessy (Disney)">
-            <option value="Val d'Europe (Outlet)">
-            <option value="CAMPOSANILE PARIS 12 - Bercy Village">
-            <option value="Gare de Lyon (Paris)">
-            <option value="Interlaken Ost">
-            <option value="Hotel Weisses Kreuz">
-            <option value="Grindelwald">
-            <option value="Jungfraujoch">
-        </datalist>
 
         <!-- TAB 1: ITINERÁRIO EM BLOCOS -->
         <div id="tab-itinerario" class="space-y-4">
+            <!-- CARDS DE FILTRO NO TOPO -->
+            <div class="flex gap-1.5 overflow-x-auto pb-1 text-xs items-center" id="filtros-container">
+                <!-- Renderizado via JS -->
+            </div>
+
             <div class="flex justify-between items-center px-1 pt-2">
                 <h2 class="text-xs font-extrabold uppercase text-slate-600 tracking-wider">📦 Blocos de Destino & Hotéis</h2>
                 <button onclick="adicionarBloco()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-2 rounded-xl font-bold text-xs transition shadow-sm">
@@ -73,33 +58,7 @@
             <div id="lista-blocos" class="space-y-4"></div>
         </div>
 
-        <!-- TAB 2: ASSISTENTE IA -->
-        <div id="tab-ia" class="space-y-4 hidden">
-            <div class="bg-white p-5 rounded-3xl shadow-sm border border-slate-300 space-y-4">
-                <div class="border-b pb-3 flex items-center justify-between">
-                    <div>
-                        <h2 class="text-sm font-black text-slate-900">🤖 Assistente IA de Transportes e Logística</h2>
-                        <p class="text-xs text-slate-500">Pergunte qual ônibus, trem ou rota usar na sua viagem pela Europa.</p>
-                    </div>
-                    <span class="text-2xl">💡</span>
-                </div>
-                <div class="space-y-3 text-xs">
-                    <div>
-                        <label class="block font-semibold text-slate-600 mb-1">O que gostaria de saber sobre o seu trajeto?</label>
-                        <textarea id="ia-pergunta" rows="3" class="w-full p-3 bg-slate-50 border border-slate-300 rounded-2xl outline-none text-slate-800" placeholder="Ex: Qual ônibus pego de Freiburg para o Europa-Park? Ou qual trem para Interlaken?"></textarea>
-                    </div>
-                    <button onclick="consultarIA()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 rounded-2xl transition shadow-sm">
-                        ✨ Perguntar à IA
-                    </button>
-                    <div id="ia-resposta-container" class="hidden space-y-2 pt-3 border-t">
-                        <label class="block font-semibold text-indigo-700">Resposta da IA:</label>
-                        <div id="ia-resposta" class="p-4 bg-indigo-50/60 rounded-2xl border border-indigo-200 text-slate-800 leading-relaxed text-xs"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- TAB 3: TAREFAS -->
+        <!-- TAB 2: TAREFAS -->
         <div id="tab-tarefas" class="space-y-4 hidden">
             <div class="bg-white p-5 rounded-3xl shadow-sm border border-slate-300 space-y-4">
                 <div class="flex justify-between items-center border-b pb-3 flex-wrap gap-2">
@@ -113,7 +72,7 @@
             </div>
         </div>
 
-        <!-- TAB 4: VOUCHERS & PDFS -->
+        <!-- TAB 3: VOUCHERS & PDFS -->
         <div id="tab-comprados" class="space-y-4 hidden">
             <div class="bg-white p-5 rounded-3xl shadow-sm border border-slate-300 space-y-4">
                 <div class="flex justify-between items-center border-b pb-3 flex-wrap gap-2">
@@ -129,15 +88,10 @@
 
     </div>
 
-    <!-- BARRA DE FILTROS FLUTUANTE NO RODAPÉ (ACIMA DA NAV) -->
-    <div id="filtros-container" class="fixed bottom-14 left-0 right-0 z-40 bg-slate-800/95 backdrop-blur-md px-3 py-2 border-t border-slate-700 overflow-x-auto flex gap-1.5 text-xs no-scrollbar items-center justify-start sm:justify-center shadow-lg">
-        <!-- Renderizado via JS -->
-    </div>
-
     <!-- BARRA DE FERRAMENTAS FIXA NO FINAL DA TELA -->
     <nav class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900 text-white px-4 py-2.5 shadow-2xl border-t border-slate-700 text-xs flex flex-wrap items-center justify-between gap-2">
         <div class="flex items-center gap-2">
-            <span class="bg-indigo-600 px-2 py-0.5 rounded font-mono font-bold text-[10px]">v34.0</span>
+            <span class="bg-indigo-600 px-2 py-0.5 rounded font-mono font-bold text-[10px]">v35.0</span>
             <span class="font-bold">Barra de Ações</span>
         </div>
         <div class="flex items-center gap-1.5 flex-wrap">
@@ -242,7 +196,7 @@
     <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
-        const CHAVE_APP = "mariana_viagem_europa_v34";
+        const CHAVE_APP = "mariana_viagem_europa_v35";
         let destinoFiltro = 'todos';
         let campoFocoAtual = null;
         let mapInstance = null;
@@ -277,7 +231,7 @@
             const manifestBlob = new Blob([JSON.stringify(manifestObj)], {type: 'application/manifest+json'});
             document.getElementById('pwa-manifest').href = URL.createObjectURL(manifestBlob);
 
-            const temaSalvo = localStorage.getItem('tema_v34');
+            const temaSalvo = localStorage.getItem('tema_v35');
             if (temaSalvo === 'dark') {
                 document.body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 document.body.classList.remove('bg-slate-100', 'text-slate-800');
@@ -289,6 +243,15 @@
             }
             if(!dadosApp.destinosCadastrados) {
                 dadosApp.destinosCadastrados = ["Zurique", "Freiburg", "França", "Interlaken"];
+            }
+            if(!dadosApp.locaisCadastrados) {
+                dadosApp.locaisCadastrados = [
+                    "Zurich HB", "Zurich Bus Station (Sihlquai)", "ibis budget Zurich City West",
+                    "Freiburg Hbf (Estação Central)", "Premier Inn Freiburg City Süd", "Europa-Park Rust",
+                    "Disney Hotel Santa Fe", "Marne-la-Vallée Chessy (Disney)", "Val d'Europe (Outlet)",
+                    "CAMPOSANILE PARIS 12 - Bercy Village", "Gare de Lyon (Paris)", "Interlaken Ost",
+                    "Hotel Weisses Kreuz", "Grindelwald", "Jungfraujoch"
+                ];
             }
             if(!dadosApp.vouchers) {
                 dadosApp.vouchers = [
@@ -328,24 +291,31 @@
             if(body.classList.contains('dark')) {
                 body.classList.remove('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.add('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v34', 'light');
+                localStorage.setItem('tema_v35', 'light');
             } else {
                 body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.remove('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v34', 'dark');
+                localStorage.setItem('tema_v35', 'dark');
             }
         }
 
         let dadosApp = {
             destinosCadastrados: ["Zurique", "Freiburg", "França", "Interlaken"],
+            locaisCadastrados: [
+                "Zurich HB", "Zurich Bus Station (Sihlquai)", "ibis budget Zurich City West",
+                "Freiburg Hbf (Estação Central)", "Premier Inn Freiburg City Süd", "Europa-Park Rust",
+                "Disney Hotel Santa Fe", "Marne-la-Vallée Chessy (Disney)", "Val d'Europe (Outlet)",
+                "CAMPOSANILE PARIS 12 - Bercy Village", "Gare de Lyon (Paris)", "Interlaken Ost",
+                "Hotel Weisses Kreuz", "Grindelwald", "Jungfraujoch"
+            ],
             itinerario: [
                 { id: 1, categoria: "Zurique", dataInicio: "2026-12-30", dataFim: "2027-01-02", trecho: "Estadia no ibis budget Zurich City West", transporte: "Caminhada / Transporte local", embarque: "Zurich HB", desembarque: "ibis budget Zurich City West", moeda: "CHF", valor: "0", status: "Comprado", notas: "", textoLivre: "Check-in a partir das 15h00. Primeiros dias em Zurique.", pdfData: "", pdfNome: "", bloqueado: false },
                 { id: 2, categoria: "Freiburg", dataInicio: "2027-01-02", dataFim: "2027-01-05", trecho: "Zurique ➔ Premier Inn Freiburg", transporte: "Ônibus FlixBus", embarque: "Zurich Bus Station (Sihlquai)", desembarque: "Premier Inn Freiburg City Süd", moeda: "EUR", valor: "25", status: "Aguardando", notas: "", textoLivre: "Check-in a partir das 15h00. Estadia no Premier Inn Freiburg City Süd.", pdfData: "", pdfNome: "", bloqueado: false },
                 { id: 3, categoria: "Freiburg", dataInicio: "2027-01-03", dataFim: "2027-01-03", trecho: "Freiburg ➔ Europa-Park (Papai)", transporte: "Ônibus regional", embarque: "Premier Inn Freiburg City Süd", desembarque: "Europa-Park Rust", moeda: "EUR", valor: "65", status: "Aguardando", notas: "", textoLivre: "Dia inteiro no Europa-Park.", pdfData: "", pdfNome: "", bloqueado: false },
-                { id: 4, categoria: "França", dataInicio: "2027-01-05", dataFim: "2027-01-07", trecho: "Freiburg ➔ Disney Hotel Santa Fe", transporte: "Trem TGV / Conexão", embarque: "Freiburg Hbf", desembarque: "Disney Hotel Santa Fe", moeda: "EUR", valor: "220", status: "Aguardando", notas: "", textoLivre: "Check-in às 15h00. Estadia no Disney Hotel Santa Fe.", pdfData: "", pdfNome: "", bloqueado: false },
+                { id: 4, categoria: "França", dataInicio: "2027-01-05", dataFim: "2027-01-07", trecho: "Freiburg ➔ Disney Hotel Santa Fe", transporte: "Trem TGV / Conexão", embarque: "Freiburg Hbf (Estação Central)", desembarque: "Disney Hotel Santa Fe", moeda: "EUR", valor: "220", status: "Aguardando", notas: "", textoLivre: "Check-in às 15h00. Estadia no Disney Hotel Santa Fe.", pdfData: "", pdfNome: "", bloqueado: false },
                 { id: 5, categoria: "França", dataInicio: "2027-01-07", dataFim: "2027-01-08", trecho: "Disney ➔ Campanile Paris Bercy", transporte: "RER A / Metrô", embarque: "Disney Hotel Santa Fe", desembarque: "CAMPOSANILE PARIS 12 - Bercy Village", moeda: "EUR", valor: "150", status: "Aguardando", notas: "", textoLivre: "Check-in às 14h00. Passagem pelo outlet La Vallée Village e estadia em Paris Bercy.", pdfData: "", pdfNome: "", bloqueado: false },
-                { id: 6, categoria: "Interlaken", dataInicio: "2027-01-08", dataFim: "2027-01-12", trecho: "Paris ➔ Hotel Weisses Kreuz (Interlaken)", transporte: "Trem TGV Lyria / SBB", embarque: "Gare de Lyon (Paris)", desembarque: "Hotel Weisses Kreuz (Interlaken)", moeda: "CHF", valor: "110", status: "Aguardando", notas: "", textoLivre: "Check-in às 15h00. Estadia alpina no Hotel Weisses Kreuz.", pdfData: "", pdfNome: "", bloqueado: false },
-                { id: 7, categoria: "Zurique", dataInicio: "2027-01-12", dataFim: "2027-01-12", trecho: "Interlaken ➔ Zurique (Retorno)", transporte: "Trem SBB", embarque: "Interlaken Ost", desembarque: "Zurich HB (Aeroporto/Estação)", moeda: "CHF", valor: "76", status: "Aguardando", notas: "", textoLivre: "Regresso a Zurique para voo de retorno.", pdfData: "", pdfNome: "", bloqueado: false }
+                { id: 6, categoria: "Interlaken", dataInicio: "2027-01-08", dataFim: "2027-01-12", trecho: "Paris ➔ Hotel Weisses Kreuz (Interlaken)", transporte: "Trem TGV Lyria / SBB", embarque: "Gare de Lyon (Paris)", desembarque: "Hotel Weisses Kreuz", moeda: "CHF", valor: "110", status: "Aguardando", notas: "", textoLivre: "Check-in às 15h00. Estadia alpina no Hotel Weisses Kreuz.", pdfData: "", pdfNome: "", bloqueado: false },
+                { id: 7, categoria: "Zurique", dataInicio: "2027-01-12", dataFim: "2027-01-12", trecho: "Interlaken ➔ Zurique (Retorno)", transporte: "Trem SBB", embarque: "Interlaken Ost", desembarque: "Zurich HB", moeda: "CHF", valor: "76", status: "Aguardando", notas: "", textoLivre: "Regresso a Zurique para voo de retorno.", pdfData: "", pdfNome: "", bloqueado: false }
             ],
             tarefas: [
                 { id: 1, texto: "Comprar cartões Wise e Nomad", status: "Concluído", bloqueado: false },
@@ -394,7 +364,7 @@
         }
 
         function mudarTab(tab) {
-            ['itinerario', 'ia', 'tarefas', 'comprados'].forEach(t => {
+            ['itinerario', 'tarefas', 'comprados'].forEach(t => {
                 document.getElementById('tab-' + t).classList.add('hidden');
                 let btn = document.getElementById('tab-btn-' + t);
                 if(btn) btn.className = "py-2.5 rounded-xl text-slate-600 hover:bg-white/50 transition";
@@ -476,6 +446,24 @@
             }
         }
 
+        function lidarSelecaoLocal(id, campo, valor) {
+            if(valor === 'outro_local') {
+                let novo = prompt("Digite o nome da nova estação, hotel ou local:");
+                if(novo && novo.trim() !== '') {
+                    let localLimpo = novo.trim();
+                    if(!dadosApp.locaisCadastrados.includes(localLimpo)) {
+                        dadosApp.locaisCadastrados.push(localLimpo);
+                        salvarStorage();
+                    }
+                    atualizarCampo(id, campo, localLimpo);
+                } else {
+                    renderizarBlocos();
+                }
+            } else {
+                atualizarCampo(id, campo, valor);
+            }
+        }
+
         function renderizarBlocos() {
             const container = document.getElementById('lista-blocos');
             container.innerHTML = '';
@@ -513,6 +501,28 @@
                 });
                 opcoesDestino += `<option value="novo_destino">➕ Outro (Cadastrar novo)...</option>`;
 
+                // Gerar opções de locais para Origem e Destino
+                if(!dadosApp.locaisCadastrados.includes(item.embarque) && item.embarque) {
+                    dadosApp.locaisCadastrados.push(item.embarque);
+                }
+                if(!dadosApp.locaisCadastrados.includes(item.desembarque) && item.desembarque) {
+                    dadosApp.locaisCadastrados.push(item.desembarque);
+                }
+
+                let opcoesLocaisEmbarque = '';
+                dadosApp.locaisCadastrados.forEach(loc => {
+                    let sel = item.embarque === loc ? 'selected' : '';
+                    opcoesLocaisEmbarque += `<option value="${loc}" ${sel}>${loc}</option>`;
+                });
+                opcoesLocaisEmbarque += `<option value="outro_local">➕ Outro (Cadastrar novo local)...</option>`;
+
+                let opcoesLocaisDesembarque = '';
+                dadosApp.locaisCadastrados.forEach(loc => {
+                    let sel = item.desembarque === loc ? 'selected' : '';
+                    opcoesLocaisDesembarque += `<option value="${loc}" ${sel}>${loc}</option>`;
+                });
+                opcoesLocaisDesembarque += `<option value="outro_local">➕ Outro (Cadastrar novo local)...</option>`;
+
                 let card = document.createElement('div');
                 card.className = `p-4 sm:p-5 rounded-3xl border ${corTema} space-y-3 transition shadow-sm`;
                 card.innerHTML = `
@@ -538,15 +548,19 @@
                         </div>
                     </div>
 
-                    <!-- ORIGEM E DESTINO COM DATALIST DE MEMÓRIA INTELIGENTE -->
+                    <!-- ORIGEM E DESTINO COM SELECT COMPLETO DE TODOS OS LOCAIS E OPÇÃO DE CADASTRAR -->
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs bg-indigo-50/70 p-3 rounded-2xl border border-indigo-200">
                         <div>
-                            <label class="block font-black text-indigo-900 mb-1">📍 Local de Origem (Embarque exato)</label>
-                            <input type="text" list="sugestoes-locais" value="${item.embarque}" ${dis} onfocus="registarFoco(this)" oninput="atualizarCampo(${item.id}, 'embarque', this.value)" class="w-full p-2.5 bg-white border border-indigo-300 rounded-xl outline-none font-bold text-slate-900 shadow-sm" placeholder="Ex: Zurich HB, Plataforma 4...">
+                            <label class="block font-black text-indigo-900 mb-1">📍 Local de Origem (Embarque)</label>
+                            <select onchange="lidarSelecaoLocal(${item.id}, 'embarque', this.value)" ${dis} class="w-full p-2.5 bg-white border border-indigo-300 rounded-xl outline-none font-bold text-slate-900 shadow-sm">
+                                ${opcoesLocaisEmbarque}
+                            </select>
                         </div>
                         <div>
-                            <label class="block font-black text-indigo-900 mb-1">🏁 Local de Destino (Desembarque exato)</label>
-                            <input type="text" list="sugestoes-locais" value="${item.desembarque}" ${dis} onfocus="registarFoco(this)" oninput="atualizarCampo(${item.id}, 'desembarque', this.value)" class="w-full p-2.5 bg-white border border-indigo-300 rounded-xl outline-none font-bold text-slate-900 shadow-sm" placeholder="Ex: Hotel ou Estação...">
+                            <label class="block font-black text-indigo-900 mb-1">🏁 Local de Destino (Desembarque)</label>
+                            <select onchange="lidarSelecaoLocal(${item.id}, 'desembarque', this.value)" ${dis} class="w-full p-2.5 bg-white border border-indigo-300 rounded-xl outline-none font-bold text-slate-900 shadow-sm">
+                                ${opcoesLocaisDesembarque}
+                            </select>
                         </div>
                     </div>
 
@@ -685,8 +699,8 @@
                 dataFim: "",
                 trecho: "Novo Trecho",
                 transporte: "Trem / Ônibus",
-                embarque: "Origem / Estação",
-                desembarque: "Destino / Hotel",
+                embarque: dadosApp.locaisCadastrados[0] || "Origem",
+                desembarque: dadosApp.locaisCadastrados[1] || "Destino",
                 moeda: "CHF",
                 valor: "0",
                 status: "Aguardando",
@@ -766,35 +780,6 @@
                 salvarStorage();
                 renderizarTarefas();
             }
-        }
-
-        // Consultar Assistente IA
-        function consultarIA() {
-            let p = document.getElementById('ia-pergunta').value.trim().toLowerCase();
-            let respBox = document.getElementById('ia-resposta');
-            let respContainer = document.getElementById('ia-resposta-container');
-
-            if(!p) {
-                alert("Por favor, digite uma pergunta para a IA.");
-                return;
-            }
-
-            let resposta = "🤖 Com base no seu roteiro pela Europa (Zurique, Freiburg, Disney/França e Interlaken):\n\n";
-
-            if(p.includes('europa-park') || p.includes('papais') || p.includes('papai') || p.includes('freiburg')) {
-                resposta += "• **Freiburg ➔ Europa-Park (Rust):** Pode apanhar o **ônibus regional (Südbadenbus linha 7200)** direto da estação central de Freiburg (*Freiburg Hbf*) até Ringsheim, e de lá o autocarro shuttle direto para o parque, ou optar por um trem regional até Ringsheim e autocarro. A viagem dura cerca de 45 a 50 minutos.";
-            } else if(p.includes('disney') || p.includes('marne') || p.includes('outlet') || p.includes('val d\'europe')) {
-                resposta += "• **Marne-la-Vallée (Disneyland Paris) & Outlet:** Para ir da Disney ao **La Vallée Village**, apanhe o comboio **RER A** (direção Paris) e saia na estação seguinte: **Val d'Europe**. Fica a apenas 2 minutos de trem ou uma caminhada agradável pelo centro comercial.";
-            } else if(p.includes('interlaken') || p.includes('grindelwald') || p.includes('jungfraujoch')) {
-                resposta += "• **Interlaken & Alpes:** Na região de Interlaken, utilize a rede de trens alpinos **Berner Oberland-Bahn (BOB)** a partir de *Interlaken Ost* para subir até Grindelwald ou Lauterbrunnen. Para o topo da Europa (Jungfraujoch), reserve o bilhete com antecedência.";
-            } else if(p.includes('zurich') || p.includes('zurique')) {
-                resposta += "• **Zurique:** Para circular em Zurique, a rede de bondes (Trams) e barcos do lago operada pela **ZVV** é excelente. Para ir de Zurique a Freiburg (Alemanha), tem comboios diretos da **Deutsche Bahn (DB)** ou autocarros confortáveis da **FlixBus** partindo da *Zurich Bus Station (Sihlquai)*.";
-            } else {
-                resposta += `• Para o trajeto pesquisado ("${p}"), recomendamos verificar os horários atualizados nas aplicações oficiais **SBB Mobile** (na Suíça), **DB Navigator** (na Alemanha) ou **Île-de-France Mobilités** (na região de Paris). Lembre-se de verificar sempre a plataforma de embarque correta!`;
-            }
-
-            respContainer.classList.remove('hidden');
-            respBox.innerHTML = resposta.replace(/\n/g, '<br>');
         }
 
         // Mapa com Rota Dinâmica (Origem ➔ Destino)
