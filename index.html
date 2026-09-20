@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v17.0)</title>
+    <title>Roteiro Europa - Mariana (v19.0)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Leaflet CSS para Mapas -->
@@ -24,8 +24,8 @@
     <!-- BARRA SUPERIOR FIXA -->
     <header class="bg-slate-900 text-white px-3 py-2.5 shadow-md border-b border-slate-700 text-xs flex flex-wrap items-center justify-between gap-2 z-50">
         <div class="flex items-center gap-2">
-            <span class="bg-indigo-600 px-2 py-0.5 rounded font-mono font-bold text-[10px]">v17.0</span>
-            <span class="font-bold tracking-wide">🚄 Roteiro Europa (Filtros & Seletor)</span>
+            <span class="bg-indigo-600 px-2 py-0.5 rounded font-mono font-bold text-[10px]">v19.0</span>
+            <span class="font-bold tracking-wide">🚄 Roteiro Europa (Destinos Livres)</span>
         </div>
         <div class="flex items-center gap-1.5 flex-wrap">
             <button onclick="ativarMicrofone()" class="bg-purple-600 hover:bg-purple-700 text-white px-2 py-1 rounded-lg font-bold transition">
@@ -49,9 +49,9 @@
         <!-- CABEÇALHO -->
         <div class="bg-white border border-slate-300 p-5 rounded-3xl shadow-sm flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
             <div>
-                <span class="text-[10px] font-extrabold uppercase tracking-widest bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full">Itinerário com Filtros Superiores</span>
+                <span class="text-[10px] font-extrabold uppercase tracking-widest bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full">Itinerário com Caixas Livres</span>
                 <h1 class="text-xl sm:text-2xl font-black text-slate-900 mt-2">Zurique, Freiburg, França & Interlaken 🚄🏔️</h1>
-                <p class="text-xs text-slate-500 mt-1">Filtre por destino no topo e selecione ou adicione novos locais facilmente.</p>
+                <p class="text-xs text-slate-500 mt-1">Escreva livremente qualquer destino, datas e notas em blocos totalmente abertos.</p>
             </div>
             <div class="bg-slate-50 px-4 py-3 rounded-2xl border border-slate-300 text-right shadow-sm w-full sm:w-auto shrink-0">
                 <span class="text-[10px] text-slate-400 block uppercase font-bold">Gastos Totais</span>
@@ -167,7 +167,7 @@
     <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
-        const CHAVE_APP = "mariana_viagem_europa_v17";
+        const CHAVE_APP = "mariana_viagem_europa_v19";
         let destinoFiltro = 'todos';
         let campoFocoAtual = null;
         let mapInstance = null;
@@ -212,25 +212,25 @@
             if(body.classList.contains('dark')) {
                 body.classList.remove('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.add('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v17', 'light');
+                localStorage.setItem('tema_v19', 'light');
             } else {
                 body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.remove('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v17', 'dark');
+                localStorage.setItem('tema_v19', 'dark');
             }
         }
 
         let dadosApp = {
             itinerario: [
-                { id: 1, categoria: "Zurique", dataInicio: "2026-12-30", dataFim: "2027-01-02", trecho: "Zurique (Estadia Inicial)", transporte: "Transporte local / Caminhada", embarque: "Centro", desembarque: "Hotel", moeda: "CHF", valor: "0", status: "Comprado", notas: "", pdfData: "", pdfNome: "", bloqueado: true },
-                { id: 2, categoria: "Zurique", dataInicio: "2027-01-02", dataFim: "2027-01-02", trecho: "Zurique ➔ Freiburg", transporte: "Ônibus FlixBus", embarque: "Zurich Bus Station", desembarque: "Freiburg Station", moeda: "EUR", valor: "25", status: "Aguardando", notas: "", pdfData: "", pdfNome: "", bloqueado: false },
-                { id: 3, categoria: "Freiburg", dataInicio: "2027-01-03", dataFim: "2027-01-03", trecho: "Freiburg ➔ Europa-Park (Papai)", transporte: "Ônibus regional", embarque: "Freiburg Central", desembarque: "Europa-Park Rust", moeda: "EUR", valor: "65", status: "Aguardando", notas: "", pdfData: "", pdfNome: "", bloqueado: false },
-                { id: 4, categoria: "Freiburg", dataInicio: "2027-01-04", dataFim: "2027-01-04", trecho: "Freiburg (Dia livre)", transporte: "A pé", embarque: "Hotel", desembarque: "Hotel", moeda: "EUR", valor: "0", status: "Comprado", notas: "", pdfData: "", pdfNome: "", bloqueado: false },
-                { id: 5, categoria: "França", dataInicio: "2027-01-05", dataFim: "2027-01-06", trecho: "França / Disneyland Paris", transporte: "Trem TGV", embarque: "Estação Central", desembarque: "Marne-la-Vallée Chessy", moeda: "EUR", valor: "220", status: "Aguardando", notas: "", pdfData: "", pdfNome: "", bloqueado: false },
-                { id: 6, categoria: "França", dataInicio: "2027-01-07", dataFim: "2027-01-07", trecho: "La Vallée Village (Outlet de Compras)", transporte: "RER A", embarque: "Chessy", desembarque: "Val d'Europe", moeda: "EUR", valor: "150", status: "Aguardando", notas: "", pdfData: "", pdfNome: "", bloqueado: false },
-                { id: 7, categoria: "Interlaken", dataInicio: "2027-01-08", dataFim: "2027-01-08", trecho: "França ➔ Interlaken", transporte: "Trem TGV Lyria", embarque: "Estação França", desembarque: "Interlaken Ost", moeda: "CHF", valor: "110", status: "Aguardando", notas: "", pdfData: "", pdfNome: "", bloqueado: false },
-                { id: 8, categoria: "Interlaken", dataInicio: "2027-01-08", dataFim: "2027-01-12", trecho: "Interlaken (Estadia Alpina)", transporte: "Autocarros locais", embarque: "Interlaken Ost", desembarque: "Alpes", moeda: "CHF", valor: "0", status: "Comprado", notas: "", pdfData: "", pdfNome: "", bloqueado: true },
-                { id: 9, categoria: "Interlaken", dataInicio: "2027-01-12", dataFim: "2027-01-12", trecho: "Interlaken ➔ Zurique", transporte: "Trem SBB", embarque: "Interlaken Ost", desembarque: "Zurich HB", moeda: "CHF", valor: "76", status: "Aguardando", notas: "", pdfData: "", pdfNome: "", bloqueado: false }
+                { id: 1, categoria: "Zurique", dataInicio: "2026-12-30", dataFim: "2027-01-02", trecho: "Zurique (Estadia Inicial)", transporte: "Transporte local / Caminhada", embarque: "Centro", desembarque: "Hotel", moeda: "CHF", valor: "0", status: "Comprado", notas: "", textoLivre: "Primeiros dias em Zurique. Caminhada pelo centro histórico e preparação para os passeios.", pdfData: "", pdfNome: "", bloqueado: false },
+                { id: 2, categoria: "Zurique", dataInicio: "2027-01-02", dataFim: "2027-01-02", trecho: "Zurique ➔ Freiburg", transporte: "Ônibus FlixBus", embarque: "Zurich Bus Station", desembarque: "Freiburg Station", moeda: "EUR", valor: "25", status: "Aguardando", notas: "", textoLivre: "Partida no final da tarde. Verificar bilhetes na app da FlixBus.", pdfData: "", pdfNome: "", bloqueado: false },
+                { id: 3, categoria: "Freiburg", dataInicio: "2027-01-03", dataFim: "2027-01-03", trecho: "Freiburg ➔ Europa-Park (Papai)", transporte: "Ônibus regional", embarque: "Freiburg Central", desembarque: "Europa-Park Rust", moeda: "EUR", valor: "65", status: "Aguardando", notas: "", textoLivre: "Dia inteiro no parque Europa-Park. Levar roupas bem quentes.", pdfData: "", pdfNome: "", bloqueado: false },
+                { id: 4, categoria: "Freiburg", dataInicio: "2027-01-04", dataFim: "2027-01-04", trecho: "Freiburg (Dia livre)", transporte: "A pé", embarque: "Hotel", desembarque: "Hotel", moeda: "EUR", valor: "0", status: "Comprado", notas: "", textoLivre: "Passeio livre por Freiburg e descanso.", pdfData: "", pdfNome: "", bloqueado: false },
+                { id: 5, categoria: "França", dataInicio: "2027-01-05", dataFim: "2027-01-06", trecho: "França / Disneyland Paris", transporte: "Trem TGV", embarque: "Estação Central", desembarque: "Marne-la-Vallée Chessy", moeda: "EUR", valor: "220", status: "Aguardando", notas: "", textoLivre: "Dois dias completos na Disney. Aproveitar os parques e atrações.", pdfData: "", pdfNome: "", bloqueado: false },
+                { id: 6, categoria: "França", dataInicio: "2027-01-07", dataFim: "2027-01-07", trecho: "La Vallée Village (Outlet de Compras)", transporte: "RER A", embarque: "Chessy", desembarque: "Val d'Europe", moeda: "EUR", valor: "150", status: "Aguardando", notas: "", textoLivre: "Dia de compras no outlet La Vallée Village junto à Disney.", pdfData: "", pdfNome: "", bloqueado: false },
+                { id: 7, categoria: "Interlaken", dataInicio: "2027-01-08", dataFim: "2027-01-08", trecho: "França ➔ Interlaken", transporte: "Trem TGV Lyria", embarque: "Estação França", desembarque: "Interlaken Ost", moeda: "CHF", valor: "110", status: "Aguardando", notas: "", textoLivre: "Viagem rumo aos Alpes suíços.", pdfData: "", pdfNome: "", bloqueado: false },
+                { id: 8, categoria: "Interlaken", dataInicio: "2027-01-08", dataFim: "2027-01-12", trecho: "Interlaken (Estadia Alpina)", transporte: "Autocarros locais", embarque: "Interlaken Ost", desembarque: "Alpes", moeda: "CHF", valor: "0", status: "Comprado", notas: "", textoLivre: "Dias em Interlaken explorando Grindelwald, Jungfraujoch e paisagens alpinas.", pdfData: "", pdfNome: "", bloqueado: false },
+                { id: 9, categoria: "Interlaken", dataInicio: "2027-01-12", dataFim: "2027-01-12", trecho: "Interlaken ➔ Zurique", transporte: "Trem SBB", embarque: "Interlaken Ost", desembarque: "Zurich HB", moeda: "CHF", valor: "76", status: "Aguardando", notas: "", textoLivre: "Regresso a Zurique para preparar o retorno.", pdfData: "", pdfNome: "", bloqueado: false }
             ],
             tarefas: [
                 { id: 1, texto: "Comprar cartões Wise e Nomad", feito: true },
@@ -240,7 +240,7 @@
         };
 
         window.addEventListener('DOMContentLoaded', () => {
-            const temaSalvo = localStorage.getItem('tema_v17');
+            const temaSalvo = localStorage.getItem('tema_v19');
             if (temaSalvo === 'dark') {
                 document.body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 document.body.classList.remove('bg-slate-100', 'text-slate-800');
@@ -317,21 +317,6 @@
             renderizarBlocos();
         }
 
-        function lidarSelecaoCategoria(id, valor) {
-            if (valor === 'outro') {
-                let novoDestino = prompt("Digite o nome do novo destino:");
-                if (novoDestino && novoDestino.trim() !== '') {
-                    atualizarCampo(id, 'categoria', novoDestino.trim());
-                    renderizarBlocos();
-                } else {
-                    renderizarBlocos(); // Reverte para o anterior se cancelar
-                }
-            } else {
-                atualizarCampo(id, 'categoria', valor);
-                renderizarBlocos();
-            }
-        }
-
         function renderizarBlocos() {
             const container = document.getElementById('lista-blocos');
             container.innerHTML = '';
@@ -359,23 +344,13 @@
                 let totalDias = calcularDias(item.dataInicio, item.dataFim);
                 let textoDias = totalDias === 1 ? '1 dia' : `${totalDias} dias`;
 
-                let catLower = (item.categoria || "").toLowerCase();
-                let isStandardCat = catLower.includes('zurique') || catLower.includes('freiburg') || catLower.includes('frança') || catLower.includes('interlaken');
-                let selectVal = isStandardCat ? item.categoria : 'outro';
-
                 let card = document.createElement('div');
                 card.className = `p-4 sm:p-5 rounded-3xl border ${corTema} space-y-3 transition shadow-sm`;
                 card.innerHTML = `
                     <div class="flex justify-between items-center gap-2 border-b border-black/10 pb-2">
                         <div class="flex items-center gap-2 flex-wrap">
                             <span class="bg-indigo-600 text-white font-black px-2.5 py-0.5 rounded-full text-[10px]">📅 ${textoDias}</span>
-                            <select onchange="lidarSelecaoCategoria(${item.id}, this.value)" ${dis} class="bg-white/90 text-indigo-900 font-black px-2.5 py-1 rounded-xl text-xs border border-black/10 outline-none">
-                                <option value="Zurique" ${item.categoria === 'Zurique' ? 'selected' : ''}>Zurique</option>
-                                <option value="Freiburg" ${item.categoria === 'Freiburg' ? 'selected' : ''}>Freiburg</option>
-                                <option value="França" ${item.categoria === 'França' ? 'selected' : ''}>França / Disney</option>
-                                <option value="Interlaken" ${item.categoria === 'Interlaken' ? 'selected' : ''}>Interlaken</option>
-                                <option value="outro" ${!isStandardCat ? 'selected' : ''}>Outro (${item.categoria || 'Personalizado'})...</option>
-                            </select>
+                            <input type="text" value="${item.categoria}" ${dis} onfocus="registarFoco(this)" oninput="atualizarCampo(${item.id}, 'categoria', this.value); renderizarBlocos();" class="bg-white/90 text-indigo-900 font-black px-2.5 py-1 rounded-xl text-xs border border-black/10 outline-none w-36" placeholder="Digite o destino livremente">
                         </div>
                         <select onchange="atualizarCampo(${item.id}, 'status', this.value)" ${dis} class="border border-black/10 rounded-xl px-2.5 py-1 text-xs font-bold outline-none ${item.status === 'Comprado' ? 'bg-emerald-100 text-emerald-800' : item.status === 'Reservado' ? 'bg-blue-100 text-blue-800' : 'bg-amber-100 text-amber-800'}">
                             <option value="Comprado" ${item.status === 'Comprado' ? 'selected' : ''}>Comprado</option>
@@ -413,6 +388,12 @@
                             <label class="block font-semibold text-slate-600 mb-0.5">Local de Desembarque</label>
                             <input type="text" value="${item.desembarque}" ${dis} onfocus="registarFoco(this)" oninput="atualizarCampo(${item.id}, 'desembarque', this.value)" class="w-full p-2.5 bg-white border border-black/10 rounded-xl outline-none" placeholder="Onde desembarca?">
                         </div>
+                    </div>
+
+                    <!-- BLOCO DE TEXTO LIVRE AMPLIADO -->
+                    <div>
+                        <label class="block font-semibold text-slate-600 mb-1">📝 Descrição / Notas Livres do Dia (Amplo)</label>
+                        <textarea ${dis} onfocus="registarFoco(this)" oninput="atualizarCampo(${item.id}, 'textoLivre', this.value)" rows="3" class="w-full p-3 bg-white border border-black/10 rounded-2xl outline-none text-xs text-slate-800" placeholder="Escreva aqui tudo o que quiser com bastante espaço (atrações, hotéis, dicas)...">${item.textoLivre || ''}</textarea>
                     </div>
 
                     <div class="flex flex-wrap justify-between items-center gap-2 pt-2 border-t border-black/10">
@@ -490,6 +471,7 @@
                 valor: "0",
                 status: "Aguardando",
                 notas: "",
+                textoLivre: "",
                 pdfData: "",
                 pdfNome: "",
                 bloqueado: false
