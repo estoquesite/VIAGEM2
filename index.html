@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v79.0)</title>
+    <title>Roteiro Europa - Mariana (v80.0)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Manifest Dinâmico via JavaScript -->
@@ -35,7 +35,7 @@
     <!-- CABEÇALHO COMPACTO NO TOPO -->
     <header class="bg-slate-900 text-white px-3 py-2 shadow-md border-b border-slate-800 text-xs flex justify-between items-center z-50 relative">
         <span class="font-bold tracking-wide">🚄 Roteiro Europa - Mariana</span>
-        <span class="bg-indigo-600 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v79.0</span>
+        <span class="bg-indigo-600 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v80.0</span>
     </header>
 
     <!-- CONTEÚDO PRINCIPAL COMPACTO -->
@@ -49,14 +49,14 @@
             <button onclick="mudarTab('comprados')" id="tab-btn-comprados" class="py-2 rounded-lg text-slate-600 hover:bg-white/50 transition">🎟️ Vouchers</button>
         </div>
 
-        <!-- TAB 1: ROTEIRO EM QUADRADINHOS DIA A DIA -->
+        <!-- TAB 1: ROTEIRO EM QUADRADINHOS APROVADOS (REFLEXO DO EDITAR) -->
         <div id="tab-leitura" class="space-y-3">
             <div class="bg-gradient-to-r from-indigo-900 to-slate-900 text-white p-3 rounded-2xl shadow-md flex justify-between items-center">
                 <div>
-                    <h2 class="text-xs font-black uppercase tracking-wider text-indigo-200">✈️ Roteiro em Quadradinhos (Dia a Dia)</h2>
-                    <p class="text-[10px] text-slate-300">Visão compacta e organizada dos dias e rotas.</p>
+                    <h2 class="text-xs font-black uppercase tracking-wider text-indigo-200">✈️ Roteiro Oficial (Aprovados em Editar)</h2>
+                    <p class="text-[10px] text-slate-300">Apenas blocos com OK/Cadeado fechado aparecem aqui.</p>
                 </div>
-                <div id="progresso-viagem" class="bg-indigo-600 px-3 py-1.5 rounded-xl text-xs font-black shadow-inner">0 / 0 Dias</div>
+                <div id="progresso-viagem" class="bg-indigo-600 px-3 py-1.5 rounded-xl text-xs font-black shadow-inner">0 / 0 Aprovados</div>
             </div>
 
             <!-- Filtros por Destino -->
@@ -64,7 +64,7 @@
                 <!-- Renderizado via JS -->
             </div>
 
-            <!-- GRELHA DE QUADRADINHOS COMPACTOS -->
+            <!-- GRELHA DE QUADRADINHOS OFICIAIS -->
             <div id="lista-leitura-html" class="grid grid-cols-1 sm:grid-cols-2 gap-2"></div>
         </div>
 
@@ -75,7 +75,7 @@
             </div>
 
             <div class="flex justify-between items-center px-1 pt-0.5">
-                <h2 class="text-[11px] font-extrabold uppercase text-slate-600 tracking-wider">📦 Blocos de Destino & Hotéis</h2>
+                <h2 class="text-[11px] font-extrabold uppercase text-slate-600 tracking-wider">📦 Blocos de Destino & Hotéis (Clique no 🔒 para enviar ao Roteiro)</h2>
                 <button onclick="adicionarBloco()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-2.5 py-1.5 rounded-lg font-bold text-[11px] transition shadow-sm">
                     ➕ Novo Bloco
                 </button>
@@ -100,13 +100,13 @@
             <div id="lista-tarefas-html" class="space-y-2 text-xs"></div>
         </div>
 
-        <!-- TAB 4: VOUCHERS & PDFS (COMPACTOS EM QUADRADINHOS) -->
+        <!-- TAB 4: VOUCHERS & PDFS -->
         <div id="tab-comprados" class="space-y-3 hidden">
             <div class="bg-white p-3 rounded-2xl shadow-sm border border-slate-300 space-y-3">
                 <div class="flex justify-between items-center border-b pb-2 flex-wrap gap-2">
                     <div>
                         <h2 class="text-[11px] font-extrabold uppercase text-slate-800 tracking-wider">🎟️ Gestão de Vouchers & PDFs</h2>
-                        <p class="text-[10px] text-slate-500 font-semibold">Hotéis e vouchers pré-definidos com gestão de PDF</p>
+                        <p class="text-[10px] text-slate-500 font-semibold">Hotéis e vouchers organizados com PDF integrado</p>
                     </div>
                     <button onclick="adicionarVoucher()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-2.5 py-1.5 rounded-lg font-bold text-[11px] transition shadow-sm">➕ Novo Voucher</button>
                 </div>
@@ -118,7 +118,7 @@
 
     <!-- BARRA DE FERRAMENTAS FIXA -->
     <nav class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-md text-white px-2 py-2 shadow-2xl border-t border-slate-800 text-xs flex items-center gap-1 overflow-x-auto no-scrollbar">
-        <span class="bg-indigo-600 px-1 py-0.5 rounded font-mono font-bold text-[8px] shrink-0">v79.0</span>
+        <span class="bg-indigo-600 px-1 py-0.5 rounded font-mono font-bold text-[8px] shrink-0">v80.0</span>
         <button onclick="abrirGeminiModal()" class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-2 py-1 rounded-lg font-bold transition shrink-0 flex items-center gap-1 text-[10px]">
             <span>✨</span> Gemini
         </button>
@@ -214,7 +214,7 @@
     </div>
 
     <script>
-        const CHAVE_APP = "mariana_viagem_europa_v79";
+        const CHAVE_APP = "mariana_viagem_europa_v80";
         let destinoFiltro = 'todos';
         let tarefaFiltro = 'todas';
         let campoFocoAtual = null;
@@ -246,10 +246,10 @@
             ordemSecoesPadrao: ['origemDestino', 'transporte', 'notas', 'extras'],
             statusPersonalizados: { "Concluído": "#22c55e", "Aguardando": "#f59e0b" },
             itinerario: [
-                { id: 1, categoria: "Zurique", dataInicio: "2026-12-30", dataFim: "2027-01-02", trecho: "Estadia no ibis budget Zurich City West", transporte: "Caminhada", numeroTransporte: "", embarque: "Zurich HB", desembarque: "ibis budget Zurich City West", moeda: "CHF", valor: "0", status: "Comprado", notas: "", textoLivre: "Check-in às 15h00.", pdfData: "", pdfNome: "", bloqueado: false, cor: "#3b82f6", ordemSecoes: ['origemDestino', 'transporte', 'notas', 'extras'], subBlocos: [], concluido: false },
-                { id: 2, categoria: "Freiburg", dataInicio: "2027-01-02", dataFim: "2027-01-05", trecho: "Zurique ➔ Freiburg", transporte: "Ônibus", numeroTransporte: "Linha 72", embarque: "Zurich Bus Station", desembarque: "Premier Inn", moeda: "EUR", valor: "25", status: "Aguardando", notas: "", textoLivre: "Viagem confortável.", pdfData: "", pdfNome: "", bloqueado: false, cor: "#f59e0b", ordemSecoes: ['origemDestino', 'transporte', 'notas', 'extras'], subBlocos: [], concluido: false },
-                { id: 3, categoria: "França", dataInicio: "2027-01-05", dataFim: "2027-01-07", trecho: "Freiburg ➔ Disney", transporte: "Trem", numeroTransporte: "TGV 9572", embarque: "Freiburg Hbf", desembarque: "Disney Hotel", moeda: "EUR", valor: "220", status: "Aguardando", notas: "", textoLivre: "Parque Disney.", pdfData: "", pdfNome: "", bloqueado: false, cor: "#ec4899", ordemSecoes: ['origemDestino', 'transporte', 'notas', 'extras'], subBlocos: [], concluido: false },
-                { id: 4, categoria: "Interlaken", dataInicio: "2027-01-08", dataFim: "2027-01-12", trecho: "Paris ➔ Interlaken", transporte: "Trem", numeroTransporte: "Lyria", embarque: "Gare de Lyon", desembarque: "Hotel Weisses", moeda: "CHF", valor: "110", status: "Aguardando", notas: "", textoLivre: "Alpes suíços.", pdfData: "", pdfNome: "", bloqueado: false, cor: "#10b981", ordemSecoes: ['origemDestino', 'transporte', 'notas', 'extras'], subBlocos: [], concluido: false }
+                { id: 1, categoria: "Zurique", dataInicio: "2026-12-30", dataFim: "2027-01-02", trecho: "Estadia no ibis budget Zurich City West", transporte: "Caminhada", numeroTransporte: "", embarque: "Zurich HB", desembarque: "ibis budget Zurich City West", moeda: "CHF", valor: "0", status: "Comprado", notas: "", textoLivre: "Check-in às 15h00.", pdfData: "", pdfNome: "", bloqueado: true, cor: "#3b82f6", ordemSecoes: ['origemDestino', 'transporte', 'notas', 'extras'], subBlocos: [], concluido: false },
+                { id: 2, categoria: "Freiburg", dataInicio: "2027-01-02", dataFim: "2027-01-05", trecho: "Zurique ➔ Freiburg", transporte: "Ônibus", numeroTransporte: "Linha 72", embarque: "Zurich Bus Station", desembarque: "Premier Inn", moeda: "EUR", valor: "25", status: "Aguardando", notas: "", textoLivre: "Viagem confortável.", pdfData: "", pdfNome: "", bloqueado: true, cor: "#f59e0b", ordemSecoes: ['origemDestino', 'transporte', 'notas', 'extras'], subBlocos: [], concluido: false },
+                { id: 3, categoria: "França", dataInicio: "2027-01-05", dataFim: "2027-01-07", trecho: "Freiburg ➔ Disney", transporte: "Trem", numeroTransporte: "TGV 9572", embarque: "Freiburg Hbf", desembarque: "Disney Hotel", moeda: "EUR", valor: "220", status: "Aguardando", notas: "", textoLivre: "Parque Disney.", pdfData: "", pdfNome: "", bloqueado: true, cor: "#ec4899", ordemSecoes: ['origemDestino', 'transporte', 'notas', 'extras'], subBlocos: [], concluido: false },
+                { id: 4, categoria: "Interlaken", dataInicio: "2027-01-08", dataFim: "2027-01-12", trecho: "Paris ➔ Interlaken", transporte: "Trem", numeroTransporte: "Lyria", embarque: "Gare de Lyon", desembarque: "Hotel Weisses", moeda: "CHF", valor: "110", status: "Aguardando", notas: "", textoLivre: "Alpes suíços.", pdfData: "", pdfNome: "", bloqueado: true, cor: "#10b981", ordemSecoes: ['origemDestino', 'transporte', 'notas', 'extras'], subBlocos: [], concluido: false }
             ],
             tarefas: [
                 { id: 1, texto: "Comprar cartões Wise e Nomad", status: "Concluído", bloqueado: false },
@@ -276,7 +276,7 @@
             const manifestBlob = new Blob([JSON.stringify(manifestObj)], {type: 'application/manifest+json'});
             document.getElementById('pwa-manifest').href = URL.createObjectURL(manifestBlob);
 
-            const temaSalvo = localStorage.getItem('tema_v79');
+            const temaSalvo = localStorage.getItem('tema_v80');
             if (temaSalvo === 'dark') {
                 document.body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 document.body.classList.remove('bg-slate-100', 'text-slate-800');
@@ -319,10 +319,10 @@
         }
 
         function desbloquearComPin() {
-            let pinSalvo = localStorage.getItem('app_pin_v79') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v80') || '1510';
             let digitado = document.getElementById('input-pin').value;
             if(digitado === pinSalvo) {
-                sessionStorage.setItem('sessao_ativa_v79', 'true');
+                sessionStorage.setItem('sessao_ativa_v80', 'true');
                 document.getElementById('tela-bloqueio').classList.add('hidden');
                 document.getElementById('erro-pin').classList.add('hidden');
             } else {
@@ -331,17 +331,17 @@
         }
 
         async function desbloquearComBiometria() {
-            sessionStorage.setItem('sessao_ativa_v79', 'true');
+            sessionStorage.setItem('sessao_ativa_v80', 'true');
             document.getElementById('tela-bloqueio').classList.add('hidden');
         }
 
         function alterarSenhaPin() {
             let atual = prompt("Digite a senha atual (Padrão: 1510):");
-            let pinSalvo = localStorage.getItem('app_pin_v79') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v80') || '1510';
             if(atual === pinSalvo) {
                 let nova = prompt("Digite a nova senha PIN:");
                 if(nova && nova.trim() !== '') {
-                    localStorage.setItem('app_pin_v79', nova.trim());
+                    localStorage.setItem('app_pin_v80', nova.trim());
                     alert("🔑 Senha alterada com sucesso!");
                 }
             } else {
@@ -354,11 +354,11 @@
             if(body.classList.contains('dark')) {
                 body.classList.remove('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.add('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v79', 'light');
+                localStorage.setItem('tema_v80', 'light');
             } else {
                 body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.remove('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v79', 'dark');
+                localStorage.setItem('tema_v80', 'dark');
             }
         }
 
@@ -493,6 +493,15 @@
             if(item && item.subBlocos) {
                 let sub = item.subBlocos.find(s => s.id === subId);
                 if(sub) { sub.conteudo = val; salvarStorage(); }
+            }
+        }
+
+        function alternarBloqueio(id) {
+            const item = dadosApp.itinerario.find(i => i.id === id);
+            if(item) { 
+                item.bloqueado = !item.bloqueado; 
+                salvarStorage(); 
+                atualizarTudo(); 
             }
         }
 
@@ -670,7 +679,7 @@
             }
         }
 
-        // GERADOR DOS QUADRADINHOS DIA A DIA
+        // GERADOR DOS QUADRADINHOS DIA A DIA (APENAS BLOCOS APROVADOS COM 🔒)
         function renderizarModoLeitura() {
             const container = document.getElementById('lista-leitura-html');
             const progressoEl = document.getElementById('progresso-viagem');
@@ -679,7 +688,10 @@
 
             let diasExpandidos = [];
             
-            dadosApp.itinerario.forEach(item => {
+            // Filtra apenas os blocos que estão trancados/bloqueados (com OK/🔒)
+            let blocosAprovados = dadosApp.itinerario.filter(item => item.bloqueado === true);
+
+            blocosAprovados.forEach(item => {
                 let cat = item.categoria || "Geral";
                 if(destinoFiltro !== 'todos' && !cat.toLowerCase().includes(destinoFiltro.toLowerCase())) {
                     return;
@@ -698,6 +710,8 @@
                             parentId: item.id,
                             categoria: cat,
                             data: dateStr,
+                            dataInicioFormatada: item.dataInicio.split('-').reverse().join('/'),
+                            dataFimFormatada: item.dataFim.split('-').reverse().join('/'),
                             diaLabel: `Dia ${diaCount} (${dateStr.split('-').reverse().join('/')})`,
                             embarque: item.embarque || 'Origem',
                             desembarque: item.desembarque || 'Destino',
@@ -717,6 +731,8 @@
                         parentId: item.id,
                         categoria: cat,
                         data: item.dataInicio || 'Data a definir',
+                        dataInicioFormatada: item.dataInicio ? item.dataInicio.split('-').reverse().join('/') : '?',
+                        dataFimFormatada: item.dataFim ? item.dataFim.split('-').reverse().join('/') : '?',
                         diaLabel: item.dataInicio || 'Data a definir',
                         embarque: item.embarque || 'Origem',
                         desembarque: item.desembarque || 'Destino',
@@ -735,7 +751,7 @@
             if(progressoEl) progressoEl.innerText = `${concluidos} / ${total} Dias`;
 
             if(total === 0) {
-                container.innerHTML = '<div class="col-span-full bg-white p-3 rounded-xl text-center text-xs text-slate-400 border">Nenhum dia encontrado para este filtro.</div>';
+                container.innerHTML = '<div class="col-span-full bg-white p-4 rounded-xl text-center text-xs text-slate-500 border">Nenhum bloco aprovado. Vá à aba <b>📅 Editar</b> e clique no cadeado <b>(🔒)</b> do bloco para enviá-lo para cá!</div>';
                 return;
             }
 
@@ -749,122 +765,34 @@
 
                 card.innerHTML = `
                     <div class="space-y-1">
-                        <div class="flex justify-between items-center gap-1">
-                            <span class="bg-indigo-100 text-indigo-800 font-black px-1.5 py-0.2 rounded text-[9px]">${dia.categoria}</span>
-                            <span class="text-slate-500 font-bold text-[9px]">📅 ${dia.diaLabel}</span>
+                        <!-- TOPO: Categoria, Datas, Checkbox Feito e Botão de Mapa na mesma linha -->
+                        <div class="flex justify-between items-center gap-1 flex-wrap border-b pb-1">
+                            <div class="flex items-center gap-1">
+                                <span class="bg-indigo-100 text-indigo-800 font-black px-1.5 py-0.5 rounded text-[9px]">${dia.categoria}</span>
+                                <span class="text-slate-600 font-bold text-[9px]">📅 ${dia.dataInicioFormatada} ➔ ${dia.dataFimFormatada}</span>
+                            </div>
+                            <div class="flex items-center gap-1">
+                                <label class="flex items-center gap-0.5 cursor-pointer font-bold bg-slate-100 hover:bg-slate-200 px-1.5 py-0.5 rounded transition text-[9px]">
+                                    <input type="checkbox" ${dia.concluido ? 'checked' : ''} onchange="alternarConcluidoLeitura(${dia.parentId})" class="w-3 h-3 accent-emerald-600 rounded cursor-pointer">
+                                    <span>Feito</span>
+                                </label>
+                                <button onclick="abrirMapaRuta('${dia.embarque}', '${dia.desembarque}')" class="bg-sky-100 text-sky-800 hover:bg-sky-200 px-1.5 py-0.5 rounded font-bold text-[9px]">🗺️ Mapa</button>
+                            </div>
                         </div>
 
-                        <div class="text-[10px] font-bold ${textDecor} truncate">
+                        <div class="text-[10px] font-bold ${textDecor} truncate pt-0.5">
                             📍 ${dia.embarque} ➔ 🏁 ${dia.desembarque}
                         </div>
 
                         <div class="text-[9px] text-slate-600">
-                            <b>🚄:</b> ${dia.trecho} ${dia.transporte ? '(' + dia.transporte + (dia.numeroTransporte ? ' ' + dia.numeroTransporte : '') + ')' : ''}
+                            <b>🚄 Rota:</b> ${dia.trecho} ${dia.transporte ? '(' + dia.transporte + (dia.numeroTransporte ? ' ' + dia.numeroTransporte : '') + ')' : ''}
                         </div>
 
                         ${dia.textoLivre ? `<div class="bg-slate-50 p-1 rounded-lg text-[9px] text-slate-700">📝 ${dia.textoLivre}</div>` : ''}
                     </div>
-
-                    <div class="flex justify-between items-center pt-1.5 border-t mt-1 text-[9px]">
-                        <label class="flex items-center gap-1 cursor-pointer font-bold bg-slate-100 hover:bg-slate-200 px-1.5 py-0.5 rounded transition">
-                            <input type="checkbox" ${dia.concluido ? 'checked' : ''} onchange="alternarConcluidoLeitura(${dia.parentId})" class="w-3 h-3 accent-emerald-600 rounded cursor-pointer">
-                            <span>Feito</span>
-                        </label>
-                        <button onclick="abrirMapaRuta('${dia.embarque}', '${dia.desembarque}')" class="bg-sky-100 text-sky-800 hover:bg-sky-200 px-1.5 py-0.5 rounded font-bold">🗺️ Mapa</button>
-                    </div>
                 `;
                 container.appendChild(card);
             });
-        }
-
-        // RENDERIZAR VOUCHERS EM QUADRADINHOS COMPACTOS COM GESTÃO DE PDF
-        function renderizarVouchersTab() {
-            const container = document.getElementById('lista-comprados-html');
-            if(!container) return;
-            container.innerHTML = '';
-            
-            if(!dadosApp.vouchers || dadosApp.vouchers.length === 0) { 
-                container.innerHTML = '<p class="col-span-full text-xs text-slate-400 italic text-center py-4">Nenhum voucher.</p>'; 
-                return; 
-            }
-
-            dadosApp.vouchers.forEach(v => {
-                let opcoesDestinoV = '';
-                if(!dadosApp.destinosCadastrados.includes(v.categoria)) dadosApp.destinosCadastrados.push(v.categoria);
-                dadosApp.destinosCadastrados.forEach(d => {
-                    opcoesDestinoV += `<option value="${d}" ${v.categoria === d ? 'selected' : ''}>${d}</option>`;
-                });
-                opcoesDestinoV += `<option value="novo_destino">➕ Outro...</option>`;
-
-                let pdfAction = v.pdfData ? 
-                    `<div class="flex items-center gap-1">
-                        <a href="${v.pdfData}" download="${v.pdfNome || 'v.pdf'}" class="bg-blue-600 hover:bg-blue-700 text-white px-2 py-1 rounded text-[9px] font-bold">📄 Ver/Baixar</a>
-                        <button onclick="removerPdfVoucher(${v.id})" class="bg-amber-100 hover:bg-amber-200 text-amber-800 px-1.5 py-1 rounded text-[9px] font-bold" title="Excluir PDF atual">🗑️ Trocar</button>
-                     </div>` : 
-                    `<label class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-2 py-1 rounded text-[9px] font-bold cursor-pointer border">📎 Anexar PDF<input type="file" accept="application/pdf" onchange="anexarPdfVoucher(${v.id}, event)" class="hidden"></label>`;
-
-                let div = document.createElement('div');
-                div.className = "p-2.5 rounded-xl border bg-white space-y-2 shadow-sm flex flex-col justify-between";
-                div.innerHTML = `
-                    <div class="space-y-1.5">
-                        <input type="text" value="${v.titulo}" oninput="atualizarVoucherCampo(${v.id}, 'titulo', this.value)" class="w-full p-1 bg-slate-50 border border-slate-200 rounded-lg outline-none font-bold text-xs text-slate-900" placeholder="Nome do Hotel / Voucher...">
-                        <div class="flex items-center justify-between gap-1">
-                            <select onchange="lidarSelecaoDestinoVoucher(${v.id}, this.value)" class="bg-indigo-50 font-bold px-2 py-1 rounded-lg text-[10px] border border-indigo-200 text-indigo-900">
-                                ${opcoesDestinoV}
-                            </select>
-                            ${pdfAction}
-                        </div>
-                    </div>
-                    <div class="flex justify-end pt-1.5 border-t mt-1">
-                        <button onclick="apagarVoucher(${v.id})" class="text-red-500 font-bold text-[10px] bg-red-50 hover:bg-red-100 px-2 py-0.5 rounded-lg transition">Excluir Card ✕</button>
-                    </div>
-                `;
-                container.appendChild(div);
-            });
-        }
-
-        function anexarPdfVoucher(id, event) {
-            const file = event.target.files[0];
-            if(file) {
-                const reader = new FileReader();
-                reader.onload = function(evt) {
-                    const v = dadosApp.vouchers.find(item => item.id === id);
-                    if(v) { 
-                        v.pdfData = evt.target.result; 
-                        v.pdfNome = file.name; 
-                        salvarStorage(); 
-                        renderizarVouchersTab(); 
-                    }
-                };
-                reader.readAsDataURL(file);
-            }
-        }
-
-        function removerPdfVoucher(id) {
-            let v = dadosApp.vouchers.find(item => item.id === id);
-            if(v) {
-                v.pdfData = "";
-                v.pdfNome = "";
-                salvarStorage();
-                renderizarVouchersTab();
-            }
-        }
-
-        function atualizarVoucherCampo(id, campo, val) { 
-            const v = dadosApp.vouchers.find(i => i.id === id); 
-            if(v) { v[campo] = val; salvarStorage(); } 
-        }
-
-        function adicionarVoucher() { 
-            dadosApp.vouchers.unshift({ id: Date.now(), titulo: "Novo Hotel / Voucher", categoria: "Zurique", pdfData: "", pdfNome: "", bloqueado: false }); 
-            salvarStorage(); 
-            renderizarVouchersTab(); 
-        }
-
-        function apagarVoucher(id) { 
-            dadosApp.vouchers = dadosApp.vouchers.filter(v => v.id !== id); 
-            salvarStorage(); 
-            renderizarVouchersTab(); 
         }
 
         function renderizarBlocos() {
@@ -887,7 +815,7 @@
                 let dis = item.bloqueado ? 'disabled' : '';
                 let corHex = obterCorBlocoHex(item);
                 let pdfBadge = item.pdfData ? `<a href="${item.pdfData}" download="${item.pdfNome || 'v.pdf'}" class="bg-blue-100 text-blue-800 px-2 py-0.5 rounded text-[9px] font-bold">📄 PDF</a>` : '';
-                let btnOkText = item.bloqueado ? '🔒' : '✅';
+                let btnOkText = item.bloqueado ? '🔒 OK / Roteiro' : '✅ Editar Livre';
                 let btnOkClass = item.bloqueado ? 'bg-emerald-600 text-white' : 'bg-slate-200 text-slate-700';
                 let totalDias = calcularDias(item.dataInicio, item.dataFim);
 
@@ -1054,7 +982,7 @@
                             </div>
                             <button onclick="abrirMapaRuta('${item.embarque}', '${item.desembarque}')" class="bg-sky-100 text-sky-800 px-1.5 py-0.5 rounded text-[10px] font-bold">🗺️</button>
                             <button onclick="abrirModalDetalhes(${item.id})" class="bg-white border px-1.5 py-0.5 rounded text-[10px]">✏️</button>
-                            <button onclick="alternarBloqueio(${item.id})" class="${btnOkClass} px-2 py-0.5 rounded text-[10px] font-bold border">${btnOkText}</button>
+                            <button onclick="alternarBloqueio(${item.id})" class="${btnOkClass} px-2.5 py-0.5 rounded text-[10px] font-bold border transition shadow-sm">${btnOkText}</button>
                             <button onclick="apagarBloco(${item.id})" class="bg-red-50 text-red-500 px-1.5 py-0.5 rounded text-[10px] font-bold">✕</button>
                         </div>
                     </div>
@@ -1133,10 +1061,6 @@
             const item = dadosApp.itinerario.find(i => i.id === id);
             if(item) { item[campo] = valor; localStorage.setItem(CHAVE_APP, JSON.stringify(dadosApp)); }
         }
-        function alternarBloqueio(id) {
-            const item = dadosApp.itinerario.find(i => i.id === id);
-            if(item) { item.bloqueado = !item.bloqueado; salvarStorage(); atualizarTudo(); }
-        }
         function adicionarBloco() {
             let novoItem = {
                 id: Date.now(), categoria: "Zurique", dataInicio: "", dataFim: "", trecho: "Novo Trecho", transporte: "Trem", numeroTransporte: "", embarque: "Zurich HB", desembarque: "Hotel", moeda: "CHF", valor: "0", status: "Aguardando", notas: "", textoLivre: "", pdfData: "", pdfNome: "", bloqueado: false, cor: "#3b82f6", ordemSecoes: ['origemDestino', 'transporte', 'notas', 'extras'], subBlocos: [], concluido: false
@@ -1198,6 +1122,96 @@
                     reader.readAsDataURL(fileInput.files[0]);
                 } else { salvarStorage(); fecharModalDetalhes(); atualizarTudo(); }
             }
+        }
+
+        // RENDERIZAR VOUCHERS EM QUADRADINHOS COMPACTOS COM GESTÃO DE PDF
+        function renderizarVouchersTab() {
+            const container = document.getElementById('lista-comprados-html');
+            if(!container) return;
+            container.innerHTML = '';
+            
+            if(!dadosApp.vouchers || dadosApp.vouchers.length === 0) { 
+                container.innerHTML = '<p class="col-span-full text-xs text-slate-400 italic text-center py-4">Nenhum voucher.</p>'; 
+                return; 
+            }
+
+            dadosApp.vouchers.forEach(v => {
+                let opcoesDestinoV = '';
+                if(!dadosApp.destinosCadastrados.includes(v.categoria)) dadosApp.destinosCadastrados.push(v.categoria);
+                dadosApp.destinosCadastrados.forEach(d => {
+                    opcoesDestinoV += `<option value="${d}" ${v.categoria === d ? 'selected' : ''}>${d}</option>`;
+                });
+                opcoesDestinoV += `<option value="novo_destino">➕ Outro...</option>`;
+
+                let pdfAction = v.pdfData ? 
+                    `<div class="flex items-center gap-1">
+                        <a href="${v.pdfData}" download="${v.pdfNome || 'v.pdf'}" class="bg-blue-600 hover:bg-blue-700 text-white px-2 py-1 rounded text-[9px] font-bold">📄 Ver PDF</a>
+                        <button onclick="removerPdfVoucher(${v.id})" class="bg-amber-100 hover:bg-amber-200 text-amber-800 px-1.5 py-1 rounded text-[9px] font-bold" title="Trocar PDF">🗑️ Trocar</button>
+                     </div>` : 
+                    `<label class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-2 py-1 rounded text-[9px] font-bold cursor-pointer border">📎 Anexar PDF<input type="file" accept="application/pdf" onchange="anexarPdfVoucher(${v.id}, event)" class="hidden"></label>`;
+
+                let div = document.createElement('div');
+                div.className = "p-2.5 rounded-xl border bg-white space-y-2 shadow-sm flex flex-col justify-between";
+                div.innerHTML = `
+                    <div class="space-y-1.5">
+                        <input type="text" value="${v.titulo}" oninput="atualizarVoucherCampo(${v.id}, 'titulo', this.value)" class="w-full p-1 bg-slate-50 border border-slate-200 rounded-lg outline-none font-bold text-xs text-slate-900" placeholder="Nome do Hotel / Voucher...">
+                        <div class="flex items-center justify-between gap-1">
+                            <select onchange="lidarSelecaoDestinoVoucher(${v.id}, this.value)" class="bg-indigo-50 font-bold px-2 py-1 rounded-lg text-[10px] border border-indigo-200 text-indigo-900">
+                                ${opcoesDestinoV}
+                            </select>
+                            ${pdfAction}
+                        </div>
+                    </div>
+                    <div class="flex justify-end pt-1.5 border-t mt-1">
+                        <button onclick="apagarVoucher(${v.id})" class="text-red-500 font-bold text-[10px] bg-red-50 hover:bg-red-100 px-2 py-0.5 rounded-lg transition">Excluir Card ✕</button>
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function anexarPdfVoucher(id, event) {
+            const file = event.target.files[0];
+            if(file) {
+                const reader = new FileReader();
+                reader.onload = function(evt) {
+                    const v = dadosApp.vouchers.find(item => item.id === id);
+                    if(v) { 
+                        v.pdfData = evt.target.result; 
+                        v.pdfNome = file.name; 
+                        salvarStorage(); 
+                        renderizarVouchersTab(); 
+                    }
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function removerPdfVoucher(id) {
+            let v = dadosApp.vouchers.find(item => item.id === id);
+            if(v) {
+                v.pdfData = "";
+                v.pdfNome = "";
+                salvarStorage();
+                renderizarVouchersTab();
+            }
+        }
+
+        function atualizarVoucherCampo(id, campo, val) { 
+            const v = dadosApp.vouchers.find(i => i.id === id); 
+            if(v) { v[campo] = val; salvarStorage(); } 
+        }
+
+        function adicionarVoucher() { 
+            dadosApp.vouchers.unshift({ id: Date.now(), titulo: "Novo Hotel / Voucher", categoria: "Zurique", pdfData: "", pdfNome: "", bloqueado: false }); 
+            salvarStorage(); 
+            renderizarVouchersTab(); 
+        }
+
+        function apagarVoucher(id) { 
+            dadosApp.vouchers = dadosApp.vouchers.filter(v => v.id !== id); 
+            salvarStorage(); 
+            renderizarVouchersTab(); 
         }
 
         function ativarMicrofone() {
