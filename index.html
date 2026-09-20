@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v80.0)</title>
+    <title>Roteiro Europa - Mariana (v81.0)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Manifest Dinâmico via JavaScript -->
@@ -35,7 +35,7 @@
     <!-- CABEÇALHO COMPACTO NO TOPO -->
     <header class="bg-slate-900 text-white px-3 py-2 shadow-md border-b border-slate-800 text-xs flex justify-between items-center z-50 relative">
         <span class="font-bold tracking-wide">🚄 Roteiro Europa - Mariana</span>
-        <span class="bg-indigo-600 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v80.0</span>
+        <span class="bg-indigo-600 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v81.0</span>
     </header>
 
     <!-- CONTEÚDO PRINCIPAL COMPACTO -->
@@ -129,7 +129,7 @@
 
     <!-- BARRA DE FERRAMENTAS FIXA NO FINAL DA TELA COM GEMINI IA -->
     <nav class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-md text-white px-2 py-2 shadow-2xl border-t border-slate-800 text-xs flex items-center gap-1 overflow-x-auto no-scrollbar">
-        <span class="bg-indigo-600 px-1 py-0.5 rounded font-mono font-bold text-[8px] shrink-0">v80.0</span>
+        <span class="bg-indigo-600 px-1 py-0.5 rounded font-mono font-bold text-[8px] shrink-0">v81.0</span>
         <button onclick="abrirGeminiModal()" class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-2 py-1 rounded-lg font-bold transition shrink-0 flex items-center gap-1 text-[10px]">
             <span>✨</span> Gemini
         </button>
@@ -226,7 +226,7 @@
     </div>
 
     <script>
-        const CHAVE_APP = "mariana_viagem_europa_v80";
+        const CHAVE_APP = "mariana_viagem_europa_v81";
         let destinoFiltro = 'todos';
         let tarefaFiltro = 'todas';
         let campoFocoAtual = null;
@@ -292,13 +292,12 @@
             const manifestBlob = new Blob([JSON.stringify(manifestObj)], {type: 'application/manifest+json'});
             document.getElementById('pwa-manifest').href = URL.createObjectURL(manifestBlob);
 
-            const temaSalvo = localStorage.getItem('tema_v80');
+            const temaSalvo = localStorage.getItem('tema_v81');
             if (temaSalvo === 'dark') {
                 document.body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 document.body.classList.remove('bg-slate-100', 'text-slate-800');
             }
 
-            // VARREDURA ROBUSTA DE TODAS AS VERSÕES ANTERIORES NO LOCALSTORAGE
             try {
                 let dadosEncontrados = null;
                 for (let i = 0; i < localStorage.length; i++) {
@@ -347,10 +346,10 @@
         }
 
         function desbloquearComPin() {
-            let pinSalvo = localStorage.getItem('app_pin_v80') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v81') || '1510';
             let digitado = document.getElementById('input-pin').value;
             if(digitado === pinSalvo) {
-                sessionStorage.setItem('sessao_ativa_v80', 'true');
+                sessionStorage.setItem('sessao_ativa_v81', 'true');
                 document.getElementById('tela-bloqueio').classList.add('hidden');
                 document.getElementById('erro-pin').classList.add('hidden');
             } else {
@@ -359,17 +358,17 @@
         }
 
         async function desbloquearComBiometria() {
-            sessionStorage.setItem('sessao_ativa_v80', 'true');
+            sessionStorage.setItem('sessao_ativa_v81', 'true');
             document.getElementById('tela-bloqueio').classList.add('hidden');
         }
 
         function alterarSenhaPin() {
             let atual = prompt("Digite a senha atual (Padrão: 1510):");
-            let pinSalvo = localStorage.getItem('app_pin_v80') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v81') || '1510';
             if(atual === pinSalvo) {
                 let nova = prompt("Digite a nova senha PIN:");
                 if(nova && nova.trim() !== '') {
-                    localStorage.setItem('app_pin_v80', nova.trim());
+                    localStorage.setItem('app_pin_v81', nova.trim());
                     alert("🔑 Senha alterada com sucesso!");
                 }
             } else {
@@ -382,11 +381,11 @@
             if(body.classList.contains('dark')) {
                 body.classList.remove('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.add('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v80', 'light');
+                localStorage.setItem('tema_v81', 'light');
             } else {
                 body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.remove('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v80', 'dark');
+                localStorage.setItem('tema_v81', 'dark');
             }
         }
 
@@ -845,13 +844,13 @@
                                 <div class="grid grid-cols-2 gap-1.5 text-[11px]">
                                     <div>
                                         <label onclick="editarLabel('origem', '${lb.origem}')" class="block font-black mb-0.5 text-slate-900 text-[10px] cursor-pointer hover:text-indigo-600 truncate">📍 ${lb.origem} ✏️</label>
-                                        <select onchange="atualizarCampo(${item.id}, 'embarque', this.value)" ${dis} class="w-full p-1 bg-white border rounded-lg text-[10px] font-bold text-slate-900">
+                                        <select onchange="lidarSelecaoLocal(${item.id}, 'embarque', this.value)" ${dis} class="w-full p-1 bg-white border rounded-lg text-[10px] font-bold text-slate-900">
                                             ${opcoesLocaisEmb}
                                         </select>
                                     </div>
                                     <div>
                                         <label onclick="editarLabel('destino', '${lb.destino}')" class="block font-black mb-0.5 text-slate-900 text-[10px] cursor-pointer hover:text-indigo-600 truncate">🏁 ${lb.destino} ✏️</label>
-                                        <select onchange="atualizarCampo(${item.id}, 'desembarque', this.value)" ${dis} class="w-full p-1 bg-white border rounded-lg text-[10px] font-bold text-slate-900">
+                                        <select onchange="lidarSelecaoLocal(${item.id}, 'desembarque', this.value)" ${dis} class="w-full p-1 bg-white border rounded-lg text-[10px] font-bold text-slate-900">
                                             ${opcoesLocaisDes}
                                         </select>
                                     </div>
