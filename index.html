@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v43.0)</title>
+    <title>Roteiro Europa - Mariana (v44.0)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Leaflet CSS para Mapas -->
@@ -16,7 +16,7 @@
     <!-- CABEÇALHO NORMAL NO TOPO -->
     <header class="bg-slate-900 text-white px-4 py-3 shadow-md border-b border-slate-700 text-xs flex justify-between items-center z-50 relative">
         <span class="font-bold tracking-wide">🚄 Roteiro Europa - Mariana</span>
-        <span class="bg-indigo-600 px-2 py-0.5 rounded font-mono font-bold text-[10px]">v43.0</span>
+        <span class="bg-indigo-600 px-2 py-0.5 rounded font-mono font-bold text-[10px]">v44.0</span>
     </header>
 
     <!-- CONTEÚDO PRINCIPAL -->
@@ -45,15 +45,23 @@
             <div id="lista-blocos" class="space-y-4"></div>
         </div>
 
-        <!-- TAB 2: TAREFAS -->
+        <!-- TAB 2: TAREFAS (COM FILTROS DE STATUS E COMPACTAS) -->
         <div id="tab-tarefas" class="space-y-4 hidden">
-            <!-- CARD DE RESUMO NO TOPO -->
-            <div class="bg-indigo-900 text-white p-4 rounded-3xl shadow-md flex justify-between items-center">
-                <div>
-                    <h2 class="text-xs font-black uppercase tracking-wider text-indigo-200">📊 Progresso das Tarefas</h2>
-                    <p id="stat-tarefas" class="text-sm font-black mt-0.5">0 / 0 Concluídas</p>
+            <!-- CARD DE RESUMO E FILTROS DE TAREFAS NO TOPO -->
+            <div class="bg-indigo-900 text-white p-4 rounded-3xl shadow-md space-y-3">
+                <div class="flex justify-between items-center flex-wrap gap-2">
+                    <div>
+                        <h2 class="text-xs font-black uppercase tracking-wider text-indigo-200">📊 Progresso das Tarefas</h2>
+                        <p id="stat-tarefas" class="text-sm font-black mt-0.5">0 / 0 Concluídas</p>
+                    </div>
+                    <button onclick="adicionarTarefa()" class="bg-indigo-600 hover:bg-indigo-500 text-white px-3.5 py-2 rounded-2xl text-xs font-bold transition shadow-sm">➕ Nova Tarefa</button>
                 </div>
-                <button onclick="adicionarTarefa()" class="bg-indigo-600 hover:bg-indigo-500 text-white px-3.5 py-2 rounded-2xl text-xs font-bold transition shadow-sm">➕ Nova Tarefa</button>
+                <!-- Mini cards de filtro de tarefas -->
+                <div class="flex gap-1.5 pt-1 overflow-x-auto">
+                    <button onclick="filtrarTarefas('todas')" id="btn-t-todas" class="px-3 py-1 rounded-xl text-xs font-bold bg-white text-indigo-950 transition shadow-sm">Todas</button>
+                    <button onclick="filtrarTarefas('Concluído')" id="btn-t-concluido" class="px-3 py-1 rounded-xl text-xs font-bold bg-indigo-800 text-white transition shadow-sm">✅ Concluídas</button>
+                    <button onclick="filtrarTarefas('Aguardando')" id="btn-t-aguardando" class="px-3 py-1 rounded-xl text-xs font-bold bg-indigo-800 text-white transition shadow-sm">⏳ Aguardando</button>
+                </div>
             </div>
             <div id="lista-tarefas-html" class="space-y-3 text-xs"></div>
         </div>
@@ -77,7 +85,7 @@
     <!-- BARRA DE FERRAMENTAS FIXA NO FINAL DA TELA -->
     <nav class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900 text-white px-4 py-2.5 shadow-2xl border-t border-slate-700 text-xs flex flex-wrap items-center justify-between gap-2">
         <div class="flex items-center gap-2">
-            <span class="bg-indigo-600 px-2 py-0.5 rounded font-mono font-bold text-[10px]">v43.0</span>
+            <span class="bg-indigo-600 px-2 py-0.5 rounded font-mono font-bold text-[10px]">v44.0</span>
             <span class="font-bold">Barra de Ações</span>
         </div>
         <div class="flex items-center gap-1.5 flex-wrap">
@@ -173,12 +181,12 @@
     <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
-        const CHAVE_APP = "mariana_viagem_europa_v43";
+        const CHAVE_APP = "mariana_viagem_europa_v44";
         let destinoFiltro = 'todos';
+        let tarefaFiltro = 'todas';
         let campoFocoAtual = null;
         let mapInstance = null;
         let backupEstado = {};
-        let backupTarefaEstado = {};
         let backupVoucherEstado = {};
         let deferredPrompt = null;
 
@@ -208,7 +216,7 @@
             const manifestBlob = new Blob([JSON.stringify(manifestObj)], {type: 'application/manifest+json'});
             document.getElementById('pwa-manifest').href = URL.createObjectURL(manifestBlob);
 
-            const temaSalvo = localStorage.getItem('tema_v43');
+            const temaSalvo = localStorage.getItem('tema_v44');
             if (temaSalvo === 'dark') {
                 document.body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 document.body.classList.remove('bg-slate-100', 'text-slate-800');
@@ -268,11 +276,11 @@
             if(body.classList.contains('dark')) {
                 body.classList.remove('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.add('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v43', 'light');
+                localStorage.setItem('tema_v44', 'light');
             } else {
                 body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.remove('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v43', 'dark');
+                localStorage.setItem('tema_v44', 'dark');
             }
         }
 
@@ -414,6 +422,21 @@
             renderizarBlocos();
         }
 
+        function filtrarTarefas(f) {
+            tarefaFiltro = f;
+            ['todas', 'Concluído', 'Aguardando'].forEach(st => {
+                let btn = document.getElementById('btn-t-' + (st === 'todas' ? 'todas' : (st === 'Concluído' ? 'concluido' : 'aguardando')));
+                if(btn) {
+                    if(st === f) {
+                        btn.className = "px-3 py-1 rounded-xl text-xs font-bold bg-white text-indigo-950 transition shadow-sm";
+                    } else {
+                        btn.className = "px-3 py-1 rounded-xl text-xs font-bold bg-indigo-800 text-white transition shadow-sm";
+                    }
+                }
+            });
+            renderizarTarefas();
+        }
+
         function lidarSelecaoDestino(id, valor) {
             if(valor === 'novo_destino') {
                 let novo = prompt("Digite o nome do novo destino:");
@@ -472,7 +495,7 @@
                 let corTema = item.bloqueado ? 'bg-slate-100 border-slate-300 opacity-90' : obterCorBloco(item.categoria);
                 let corOrigemDestino = obterCorOrigemDestino(item.categoria);
                 let pdfBadge = item.pdfData ? `<a href="${item.pdfData}" download="${item.pdfNome || 'voucher.pdf'}" class="bg-blue-100 text-blue-800 px-2.5 py-1 rounded-lg text-[10px] font-bold">📄 PDF Anexado</a>` : '';
-                let btnOkText = item.bloqueado ? '🔒 OK (Bloqueado)' : '✅ OK';
+                let btnOkText = item.bloqueado ? '🔒 OK' : '✅ OK';
                 let btnOkClass = item.bloqueado ? 'bg-emerald-600 text-white' : 'bg-slate-200 text-slate-700 hover:bg-emerald-500 hover:text-white';
                 
                 let totalDias = calcularDias(item.dataInicio, item.dataFim);
@@ -588,20 +611,26 @@
             });
         }
 
+        // TAREFAS COMPACTAS (LÁPIS PEQUENO AO LADO, STATUS MAIS À FRENTE)
         function renderizarTarefas() {
             const container = document.getElementById('lista-tarefas-html');
             container.innerHTML = '';
+
+            let filtradas = dadosApp.tarefas;
+            if (tarefaFiltro !== 'todas') {
+                filtradas = dadosApp.tarefas.filter(t => t.status === tarefaFiltro);
+            }
 
             let total = dadosApp.tarefas.length;
             let concluidas = dadosApp.tarefas.filter(t => t.status === 'Concluído').length;
             document.getElementById('stat-tarefas').innerText = `${concluidas} / ${total} Concluídas`;
 
-            if(total === 0) {
-                container.innerHTML = '<p class="text-xs text-slate-400 italic text-center py-4">Nenhuma tarefa registada.</p>';
+            if(filtradas.length === 0) {
+                container.innerHTML = '<p class="text-xs text-slate-400 italic text-center py-4">Nenhuma tarefa encontrada para este filtro.</p>';
                 return;
             }
 
-            dadosApp.tarefas.forEach(t => {
+            filtradas.forEach(t => {
                 let dis = t.bloqueado ? 'disabled' : '';
                 let cardBg = t.bloqueado ? 'bg-slate-50 border-slate-300' : 'bg-white border-indigo-200 shadow-sm';
                 let btnOkText = t.bloqueado ? '🔒 OK' : '✅ OK';
@@ -613,23 +642,22 @@
                 let statusText = t.status === 'Concluído' ? '✅ Concluído' : '⏳ Aguardando';
 
                 let div = document.createElement('div');
-                div.className = `p-4 rounded-2xl border ${cardBg} space-y-3 transition`;
+                div.className = `p-3 rounded-2xl border ${cardBg} space-y-2 transition`;
                 div.innerHTML = `
                     <div class="flex items-center justify-between gap-2 flex-wrap">
-                        <div class="flex items-center gap-2 flex-1 min-w-[200px]">
-                            <button onclick="abrirModalTarefa(${t.id})" class="bg-slate-100 hover:bg-slate-200 p-2 rounded-xl text-slate-700 font-bold shrink-0" title="Editar Tarefa (Lápis)">✏️</button>
-                            <input type="text" value="${t.texto}" ${dis} oninput="atualizarTarefaTexto(${t.id}, this.value)" class="w-full p-2 bg-transparent border-b border-slate-300 outline-none font-bold text-slate-800 text-xs" placeholder="Descrição da tarefa...">
+                        <div class="flex items-center gap-1.5 flex-1 min-w-[220px]">
+                            <button onclick="abrirModalTarefa(${t.id})" class="bg-slate-100 hover:bg-slate-200 px-2 py-1.5 rounded-lg text-slate-700 font-bold text-[11px] shrink-0" title="Editar Tarefa">✏️</button>
+                            <input type="text" value="${t.texto}" ${dis} oninput="atualizarTarefaTexto(${t.id}, this.value)" class="w-full p-1.5 bg-transparent border-b border-slate-200 outline-none font-bold text-slate-800 text-xs" placeholder="Descrição da tarefa...">
                         </div>
                         <div class="flex items-center gap-2">
-                            <button onclick="${t.bloqueado ? '' : `alternarStatusTarefa(${t.id})`}" ${dis} class="px-3 py-1.5 rounded-xl text-xs font-bold border ${statusBtnClass} transition shadow-sm whitespace-nowrap">
+                            <button onclick="${t.bloqueado ? '' : `alternarStatusTarefa(${t.id})`}" ${dis} class="px-3 py-1 rounded-lg text-[11px] font-bold border ${statusBtnClass} transition shadow-sm whitespace-nowrap">
                                 ${statusText}
                             </button>
                         </div>
                     </div>
-                    <div class="flex justify-end items-center gap-1.5 pt-1 border-t border-slate-100">
-                        <button onclick="desfazerTarefa(${t.id})" class="bg-amber-100 text-amber-800 hover:bg-amber-200 px-2.5 py-1.5 rounded-xl font-bold text-xs">↩️ Desfazer</button>
-                        <button onclick="alternarBloqueioTarefa(${t.id})" class="${btnOkClass} px-3 py-1.5 rounded-xl font-bold text-xs transition">${btnOkText}</button>
-                        <button onclick="apagarTarefa(${t.id})" class="text-red-500 hover:text-red-700 font-bold px-2.5 py-1.5 bg-red-50 rounded-xl text-xs">✕</button>
+                    <div class="flex justify-end items-center gap-1 pt-1 border-t border-slate-100">
+                        <button onclick="alternarBloqueioTarefa(${t.id})" class="${btnOkClass} px-2.5 py-1 rounded-lg font-bold text-[11px] transition">${btnOkText}</button>
+                        <button onclick="apagarTarefa(${t.id})" class="text-red-500 hover:text-red-700 font-bold px-2 py-1 bg-red-50 rounded-lg text-[11px]">✕</button>
                     </div>
                 `;
                 container.appendChild(div);
@@ -654,7 +682,7 @@
             const texto = document.getElementById('tarefa-edit-texto').value;
             const t = dadosApp.tarefas.find(item => item.id === id);
             if(t) {
-                if(!backupTarefaEstado[id]) backupTarefaEstado[id] = JSON.parse(JSON.stringify(t));
+                if(!backupVoucherEstado[id]) {}
                 t.texto = texto;
                 salvarStorage();
                 fecharModalTarefa();
@@ -737,7 +765,6 @@
         function atualizarTarefaTexto(id, valor) {
             const t = dadosApp.tarefas.find(item => item.id === id);
             if(t) {
-                if(!backupTarefaEstado[id]) backupTarefaEstado[id] = JSON.parse(JSON.stringify(t));
                 t.texto = valor;
                 salvarStorage();
             }
@@ -746,7 +773,6 @@
         function alternarStatusTarefa(id) {
             const t = dadosApp.tarefas.find(item => item.id === id);
             if(t && !t.bloqueado) {
-                if(!backupTarefaEstado[id]) backupTarefaEstado[id] = JSON.parse(JSON.stringify(t));
                 t.status = t.status === 'Concluído' ? 'Aguardando' : 'Concluído';
                 salvarStorage();
                 renderizarTarefas();
@@ -756,24 +782,9 @@
         function alternarBloqueioTarefa(id) {
             const t = dadosApp.tarefas.find(item => item.id === id);
             if(t) {
-                if(!t.bloqueado) backupTarefaEstado[id] = JSON.parse(JSON.stringify(t));
                 t.bloqueado = !t.bloqueado;
                 salvarStorage();
                 renderizarTarefas();
-            }
-        }
-
-        function desfazerTarefa(id) {
-            if(backupTarefaEstado[id]) {
-                const index = dadosApp.tarefas.findIndex(item => item.id === id);
-                if(index !== -1) {
-                    dadosApp.tarefas[index] = JSON.parse(JSON.stringify(backupTarefaEstado[id]));
-                    salvarStorage();
-                    renderizarTarefas();
-                    alert("↩️ Tarefa restaurada com sucesso!");
-                }
-            } else {
-                alert("Nenhum histórico de desfazer para esta tarefa.");
             }
         }
 
@@ -931,7 +942,6 @@
                         </div>
                     </div>
                     <div class="flex flex-wrap justify-end items-center gap-1.5 pt-1 border-t border-slate-100">
-                        <button onclick="desfazerVoucher(${v.id})" class="bg-amber-100 text-amber-800 hover:bg-amber-200 px-2.5 py-1.5 rounded-xl font-bold text-xs">↩️ Desfazer</button>
                         <button onclick="alternarBloqueioVoucher(${v.id})" class="${btnOkClass} px-3 py-1.5 rounded-xl font-bold text-xs transition">${btnOkText}</button>
                         <button onclick="apagarVoucher(${v.id})" class="text-red-500 hover:text-red-700 font-bold px-2.5 py-1.5 bg-red-50 rounded-xl">✕</button>
                     </div>
@@ -947,7 +957,6 @@
                 reader.onload = function(evt) {
                     const v = dadosApp.vouchers.find(item => item.id === id);
                     if(v) {
-                        if(!backupVoucherEstado[id]) backupVoucherEstado[id] = JSON.parse(JSON.stringify(v));
                         v.pdfData = evt.target.result;
                         v.pdfNome = file.name;
                         salvarStorage();
@@ -961,7 +970,6 @@
         function atualizarVoucherCampo(id, campo, valor) {
             const v = dadosApp.vouchers.find(item => item.id === id);
             if(v) {
-                if(!backupVoucherEstado[id]) backupVoucherEstado[id] = JSON.parse(JSON.stringify(v));
                 v[campo] = valor;
                 salvarStorage();
             }
@@ -970,24 +978,9 @@
         function alternarBloqueioVoucher(id) {
             const v = dadosApp.vouchers.find(item => item.id === id);
             if(v) {
-                if(!v.bloqueado) backupVoucherEstado[id] = JSON.parse(JSON.stringify(v));
                 v.bloqueado = !v.bloqueado;
                 salvarStorage();
                 renderizarVouchersTab();
-            }
-        }
-
-        function desfazerVoucher(id) {
-            if(backupVoucherEstado[id]) {
-                const index = dadosApp.vouchers.findIndex(item => item.id === id);
-                if(index !== -1) {
-                    dadosApp.vouchers[index] = JSON.parse(JSON.stringify(backupVoucherEstado[id]));
-                    salvarStorage();
-                    renderizarVouchersTab();
-                    alert("↩️ Voucher restaurado com sucesso!");
-                }
-            } else {
-                alert("Nenhum histórico para desfazer neste voucher.");
             }
         }
 
@@ -1019,7 +1012,7 @@
                     campoFocoAtual.value = textoDitado;
                     campoFocoAtual.dispatchEvent(new Event('input'));
                 } else {
-                    alert("Ouvindo... Por favor, clique primeiro dentro de uma caixa de texto.");
+                    alert("Por favor, clique primeiro dentro de uma caixa de texto.");
                 }
             };
             recognition.start();
