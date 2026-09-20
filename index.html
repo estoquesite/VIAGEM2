@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v75.0)</title>
+    <title>Roteiro Europa - Mariana (v76.0)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Manifest Dinâmico via JavaScript -->
@@ -35,7 +35,7 @@
     <!-- CABEÇALHO COMPACTO NO TOPO -->
     <header class="bg-slate-900 text-white px-3 py-2 shadow-md border-b border-slate-800 text-xs flex justify-between items-center z-50 relative">
         <span class="font-bold tracking-wide">🚄 Roteiro Europa - Mariana</span>
-        <span class="bg-indigo-600 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v75.0</span>
+        <span class="bg-indigo-600 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v76.0</span>
     </header>
 
     <!-- CONTEÚDO PRINCIPAL COMPACTO -->
@@ -117,7 +117,7 @@
 
     <!-- BARRA DE FERRAMENTAS FIXA NO FINAL DA TELA COM GEMINI IA -->
     <nav class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-md text-white px-2 py-2 shadow-2xl border-t border-slate-800 text-xs flex items-center gap-1 overflow-x-auto no-scrollbar">
-        <span class="bg-indigo-600 px-1 py-0.5 rounded font-mono font-bold text-[8px] shrink-0">v75.0</span>
+        <span class="bg-indigo-600 px-1 py-0.5 rounded font-mono font-bold text-[8px] shrink-0">v76.0</span>
         <button onclick="abrirGeminiModal()" class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-2 py-1 rounded-lg font-bold transition shrink-0 flex items-center gap-1 text-[10px]">
             <span>✨</span> Gemini
         </button>
@@ -169,20 +169,6 @@
         </div>
     </div>
 
-    <!-- MODAL DO MAPA GOOGLE INDIVIDUAL -->
-    <div id="modal-mapa" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
-        <div class="bg-white p-4 rounded-2xl shadow-2xl max-w-md w-full space-y-2.5 text-xs">
-            <div class="flex justify-between items-center border-b pb-2">
-                <h3 id="mapa-titulo" class="font-bold text-xs text-slate-900">🗺️ Rota no Google Maps</h3>
-                <button onclick="fecharModalMapa()" class="text-slate-400 font-bold text-base">✕</button>
-            </div>
-            <div class="w-full h-72 rounded-xl overflow-hidden border border-slate-300">
-                <iframe id="google-rota-iframe" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" src=""></iframe>
-            </div>
-            <div class="text-stone-500 text-center text-[11px] italic">Podes usar o Street View e satélite diretamente no mapa acima!</div>
-        </div>
-    </div>
-
     <!-- MODAL DE DETALHES / PDF (LÁPIS DO ITINERÁRIO) -->
     <div id="modal-detalhes" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
         <div class="bg-white p-4 rounded-2xl shadow-2xl max-w-sm w-full space-y-3 text-xs border border-slate-300">
@@ -228,163 +214,13 @@
     </div>
 
     <script>
-        const CHAVE_APP = "mariana_viagem_europa_v75";
+        const CHAVE_APP = "mariana_viagem_europa_v76";
         let destinoFiltro = 'todos';
         let tarefaFiltro = 'todas';
         let campoFocoAtual = null;
         let deferredPrompt = null;
         let draggedSubId = null;
         let draggedParentId = null;
-
-        window.addEventListener('DOMContentLoaded', () => {
-            const manifestObj = {
-                "name": "Roteiro Europa - Mariana",
-                "short_name": "Viagem Europa",
-                "start_url": ".",
-                "display": "standalone",
-                "background_color": "#f8fafc",
-                "theme_color": "#4f46e5"
-            };
-            const manifestBlob = new Blob([JSON.stringify(manifestObj)], {type: 'application/manifest+json'});
-            document.getElementById('pwa-manifest').href = URL.createObjectURL(manifestBlob);
-
-            const temaSalvo = localStorage.getItem('tema_v75');
-            if (temaSalvo === 'dark') {
-                document.body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
-                document.body.classList.remove('bg-slate-100', 'text-slate-800');
-            }
-
-            const salvo = localStorage.getItem(CHAVE_APP);
-            if (salvo) {
-                try { dadosApp = JSON.parse(salvo); } catch(e){}
-            }
-            if(!dadosApp.destinosCadastrados) {
-                dadosApp.destinosCadastrados = ["Zurique", "Freiburg", "França", "Interlaken"];
-            }
-            if(!dadosApp.locaisCadastrados) {
-                dadosApp.locaisCadastrados = [
-                    "Zurich HB", "Zurich Bus Station (Sihlquai)", "ibis budget Zurich City West",
-                    "Freiburg Hbf (Estação Central)", "Premier Inn Freiburg City Süd", "Europa-Park Rust",
-                    "Disney Hotel Santa Fe", "Marne-la-Vallée Chessy (Disney)", "Val d'Europe (Outlet)",
-                    "CAMPOSANILE PARIS 12 - Bercy Village", "Gare de Lyon (Paris)", "Interlaken Ost",
-                    "Hotel Weisses Kreuz", "Grindelwald", "Jungfraujoch"
-                ];
-            }
-            if(!dadosApp.labelsPersonalizadas) {
-                dadosApp.labelsPersonalizadas = {
-                    origem: "Local de Origem",
-                    destino: "Local de Destino",
-                    trecho: "Trecho / Rota",
-                    transporte: "Transporte",
-                    numTransporte: "Nº Transporte",
-                    notas: "Notas do Dia"
-                };
-            }
-            if(!dadosApp.titulosSecoes) {
-                dadosApp.titulosSecoes = {
-                    origemDestino: "ORIGEMDESTINO",
-                    transporte: "TRANSPORTE",
-                    notas: "NOTAS",
-                    extras: "EXTRAS"
-                };
-            }
-            if(!dadosApp.coresBlocos) { dadosApp.coresBlocos = {}; }
-            if(!dadosApp.pontosExtrasMapa) { dadosApp.pontosExtrasMapa = []; }
-            if(!dadosApp.statusPersonalizados) {
-                dadosApp.statusPersonalizados = { "Concluído": "#22c55e", "Aguardando": "#f59e0b" };
-            }
-            if(!dadosApp.vouchers) {
-                dadosApp.vouchers = [
-                    { id: 1, titulo: "ibis budget Zurich City West", categoria: "Zurique", pdfData: "", pdfNome: "", bloqueado: false },
-                    { id: 2, titulo: "Premier Inn Freiburg City Süd", categoria: "Freiburg", pdfData: "", pdfNome: "", bloqueado: false },
-                    { id: 3, titulo: "Disney Hotel Santa Fe", categoria: "França", pdfData: "", pdfNome: "", bloqueado: false },
-                    { id: 4, titulo: "Hotel Weisses Kreuz", categoria: "Interlaken", pdfData: "", pdfNome: "", bloqueado: false }
-                ];
-            }
-            
-            atualizarTudo();
-        });
-
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-        });
-
-        function tentarInstalarApp() {
-            if (deferredPrompt) {
-                deferredPrompt.prompt();
-                deferredPrompt.userChoice.then((choiceResult) => { deferredPrompt = null; });
-            } else {
-                document.getElementById('modal-instalacao').classList.remove('hidden');
-            }
-        }
-
-        function fecharModalInstalacao() {
-            document.getElementById('modal-instalacao').classList.add('hidden');
-        }
-
-        function desbloquearComPin() {
-            let pinSalvo = localStorage.getItem('app_pin_v75') || '1510';
-            let digitado = document.getElementById('input-pin').value;
-            if(digitado === pinSalvo) {
-                sessionStorage.setItem('sessao_ativa_v75', 'true');
-                document.getElementById('tela-bloqueio').classList.add('hidden');
-                document.getElementById('erro-pin').classList.add('hidden');
-            } else {
-                document.getElementById('erro-pin').classList.remove('hidden');
-            }
-        }
-
-        async function desbloquearComBiometria() {
-            sessionStorage.setItem('sessao_ativa_v75', 'true');
-            document.getElementById('tela-bloqueio').classList.add('hidden');
-        }
-
-        function alterarSenhaPin() {
-            let atual = prompt("Digite a senha atual (Padrão: 1510):");
-            let pinSalvo = localStorage.getItem('app_pin_v75') || '1510';
-            if(atual === pinSalvo) {
-                let nova = prompt("Digite a nova senha PIN:");
-                if(nova && nova.trim() !== '') {
-                    localStorage.setItem('app_pin_v75', nova.trim());
-                    alert("🔑 Senha alterada com sucesso!");
-                }
-            } else {
-                alert("Senha atual incorreta.");
-            }
-        }
-
-        function alternarTema() {
-            const body = document.body;
-            if(body.classList.contains('dark')) {
-                body.classList.remove('dark', 'bg-slate-900', 'text-slate-100');
-                body.classList.add('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v75', 'light');
-            } else {
-                body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
-                body.classList.remove('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v75', 'dark');
-            }
-        }
-
-        function abrirGeminiModal() { document.getElementById('modal-gemini').classList.remove('hidden'); }
-        function fecharGeminiModal() { document.getElementById('modal-gemini').classList.add('hidden'); }
-
-        function enviarMensagemGemini() {
-            let input = document.getElementById('gemini-input');
-            let log = document.getElementById('gemini-chat-log');
-            let texto = input.value.trim();
-            if(!texto) return;
-            log.innerHTML += `<div class="bg-slate-200 text-slate-800 p-2 rounded-lg text-right ml-6 font-medium"><b>Tu:</b> ${texto}</div>`;
-            input.value = '';
-            log.scrollTop = log.scrollHeight;
-
-            setTimeout(() => {
-                let resposta = "Estou aqui a ajudar-te com o teu roteiro compacto para a Europa, Mariana! Podes gerir os teus blocos com total segurança (senha 1510).";
-                log.innerHTML += `<div class="bg-indigo-50 text-indigo-900 p-2 rounded-lg mr-6 font-medium"><b>Gemini:</b> ${resposta}</div>`;
-                log.scrollTop = log.scrollHeight;
-            }, 400);
-        }
 
         let dadosApp = {
             destinosCadastrados: ["Zurique", "Freiburg", "França", "Interlaken"],
@@ -431,6 +267,126 @@
                 { id: 4, titulo: "Hotel Weisses Kreuz", categoria: "Interlaken", pdfData: "", pdfNome: "", bloqueado: false }
             ]
         };
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const manifestObj = {
+                "name": "Roteiro Europa - Mariana",
+                "short_name": "Viagem Europa",
+                "start_url": ".",
+                "display": "standalone",
+                "background_color": "#f8fafc",
+                "theme_color": "#4f46e5"
+            };
+            const manifestBlob = new Blob([JSON.stringify(manifestObj)], {type: 'application/manifest+json'});
+            document.getElementById('pwa-manifest').href = URL.createObjectURL(manifestBlob);
+
+            const temaSalvo = localStorage.getItem('tema_v76');
+            if (temaSalvo === 'dark') {
+                document.body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
+                document.body.classList.remove('bg-slate-100', 'text-slate-800');
+            }
+
+            // Sistema de Auto-Migração de Versões Anteriores (Recupera dados antigos se existirem)
+            let dadosEncontrados = null;
+            ['mariana_viagem_europa_v75', 'mariana_viagem_europa_v74', 'mariana_viagem_europa_v73', 'mariana_viagem_europa_v72', CHAVE_APP].forEach(k => {
+                let d = localStorage.getItem(k);
+                if(d) {
+                    try {
+                        let parsed = JSON.parse(d);
+                        if(parsed && parsed.itinerario && parsed.itinerario.length > 0) {
+                            dadosEncontrados = parsed;
+                        }
+                    } catch(e){}
+                }
+            });
+
+            if(dadosEncontrados) {
+                dadosApp = dadosEncontrados;
+            }
+
+            atualizarTudo();
+        });
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+        });
+
+        function tentarInstalarApp() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => { deferredPrompt = null; });
+            } else {
+                document.getElementById('modal-instalacao').classList.remove('hidden');
+            }
+        }
+
+        function fecharModalInstalacao() {
+            document.getElementById('modal-instalacao').classList.add('hidden');
+        }
+
+        function desbloquearComPin() {
+            let pinSalvo = localStorage.getItem('app_pin_v76') || '1510';
+            let digitado = document.getElementById('input-pin').value;
+            if(digitado === pinSalvo) {
+                sessionStorage.setItem('sessao_ativa_v76', 'true');
+                document.getElementById('tela-bloqueio').classList.add('hidden');
+                document.getElementById('erro-pin').classList.add('hidden');
+            } else {
+                document.getElementById('erro-pin').classList.remove('hidden');
+            }
+        }
+
+        async function desbloquearComBiometria() {
+            sessionStorage.setItem('sessao_ativa_v76', 'true');
+            document.getElementById('tela-bloqueio').classList.add('hidden');
+        }
+
+        function alterarSenhaPin() {
+            let atual = prompt("Digite a senha atual (Padrão: 1510):");
+            let pinSalvo = localStorage.getItem('app_pin_v76') || '1510';
+            if(atual === pinSalvo) {
+                let nova = prompt("Digite a nova senha PIN:");
+                if(nova && nova.trim() !== '') {
+                    localStorage.setItem('app_pin_v76', nova.trim());
+                    alert("🔑 Senha alterada com sucesso!");
+                }
+            } else {
+                alert("Senha atual incorreta.");
+            }
+        }
+
+        function alternarTema() {
+            const body = document.body;
+            if(body.classList.contains('dark')) {
+                body.classList.remove('dark', 'bg-slate-900', 'text-slate-100');
+                body.classList.add('bg-slate-100', 'text-slate-800');
+                localStorage.setItem('tema_v76', 'light');
+            } else {
+                body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
+                body.classList.remove('bg-slate-100', 'text-slate-800');
+                localStorage.setItem('tema_v76', 'dark');
+            }
+        }
+
+        function abrirGeminiModal() { document.getElementById('modal-gemini').classList.remove('hidden'); }
+        function fecharGeminiModal() { document.getElementById('modal-gemini').classList.add('hidden'); }
+
+        function enviarMensagemGemini() {
+            let input = document.getElementById('gemini-input');
+            let log = document.getElementById('gemini-chat-log');
+            let texto = input.value.trim();
+            if(!texto) return;
+            log.innerHTML += `<div class="bg-slate-200 text-slate-800 p-2 rounded-lg text-right ml-6 font-medium"><b>Tu:</b> ${texto}</div>`;
+            input.value = '';
+            log.scrollTop = log.scrollHeight;
+
+            setTimeout(() => {
+                let resposta = "Estou aqui a ajudar-te com o teu roteiro compacto para a Europa, Mariana! Podes gerir os teus blocos com total segurança (senha 1510).";
+                log.innerHTML += `<div class="bg-indigo-50 text-indigo-900 p-2 rounded-lg mr-6 font-medium"><b>Gemini:</b> ${resposta}</div>`;
+                log.scrollTop = log.scrollHeight;
+            }, 400);
+        }
 
         function salvarStorage() {
             localStorage.setItem(CHAVE_APP, JSON.stringify(dadosApp));
@@ -974,6 +930,10 @@
                 `;
                 container.appendChild(div);
             });
+        }
+
+        function abrirGoogleMapsGeral() {
+            window.open("https://www.google.com/maps/search/Zurich+Freiburg+Paris+Interlaken", "_blank");
         }
 
         function abrirModalTarefa(id) {
