@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v116.0)</title>
+    <title>Roteiro Europa - Mariana (v117.0)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Manifest Dinâmico via JavaScript -->
@@ -37,14 +37,14 @@
         <span class="font-bold tracking-wide">🚄 Roteiro Europa - Mariana</span>
         <div class="flex items-center gap-2">
             <button onclick="exportarPdfPrint()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2 py-0.5 rounded font-bold text-[9px] transition">🖨️ PDF / Imprimir</button>
-            <span class="bg-indigo-600 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v116.0</span>
+            <span class="bg-indigo-600 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v117.0</span>
         </div>
     </header>
 
     <!-- CONTEÚDO PRINCIPAL COMPACTO -->
     <div class="max-w-4xl mx-auto p-2 sm:p-4 space-y-3 pt-3">
 
-        <!-- SEPARADORES (TABS) - MENU SUPERIOR OTIMIZADO -->
+        <!-- SEPARADORES (TABS) - MENU HORIZONTAL DESLIZANTE -->
         <div class="flex gap-1 bg-slate-200 p-1 rounded-xl text-[10px] font-bold shadow-sm overflow-x-auto no-scrollbar">
             <button onclick="mudarTab('leitura')" id="tab-btn-leitura" class="px-3 py-2 rounded-lg bg-indigo-600 text-white shadow-sm transition shrink-0">✈️ Roteiro</button>
             <button onclick="mudarTab('itinerario')" id="tab-btn-itinerario" class="px-3 py-2 rounded-lg text-slate-600 hover:bg-white/50 transition shrink-0">📅 Editar</button>
@@ -53,7 +53,7 @@
             <button onclick="mudarTab('orcamento')" id="tab-btn-orcamento" class="px-3 py-2 rounded-lg text-slate-600 hover:bg-white/50 transition shrink-0">💰 Orçamento & R$</button>
         </div>
 
-        <!-- TAB 1: ROTEIRO EM QUADRADINHOS COMPACTOS COM BOTÃO CLIMA -->
+        <!-- TAB 1: ROTEIRO COM MAPAS POR TRECHO -->
         <div id="tab-leitura" class="space-y-2">
             <div class="bg-gradient-to-r from-indigo-900 to-slate-900 text-white p-2.5 rounded-2xl shadow-md flex justify-between items-center">
                 <div>
@@ -79,7 +79,7 @@
             </div>
 
             <div class="flex justify-between items-center px-1 pt-0.5 bg-white p-2 rounded-xl border shadow-sm">
-                <h2 class="text-[10px] font-extrabold uppercase text-slate-700 tracking-wider">📦 Blocos de Destino</h2>
+                <h2 class="text-[10px] font-extrabold uppercase text-slate-700 tracking-wider">📦 Blocos de Destino & Trechos Enxutos</h2>
                 <div class="flex gap-1">
                     <button onclick="desfazerUltimaAcao()" class="bg-amber-600 hover:bg-amber-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm">↩️ Voltar</button>
                     <button onclick="adicionarBloco()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm">➕ Novo Bloco</button>
@@ -103,9 +103,8 @@
             </div>
         </div>
 
-        <!-- TAB 4: UTILIDADES (HUB UNIFICADO: VOOS, CONTATOS, TAREFAS E CHECKLIST) -->
+        <!-- TAB 4: UTILIDADES -->
         <div id="tab-utilidades" class="space-y-3 hidden">
-            <!-- Barra de Resumo das Tarefas -->
             <div class="bg-indigo-900 text-white p-2.5 rounded-2xl shadow-md flex justify-between items-center flex-wrap gap-2">
                 <div>
                     <h2 class="text-[11px] font-black uppercase tracking-wider text-indigo-200">📋 Hub de Listas & Utilidades</h2>
@@ -114,9 +113,7 @@
                 <button onclick="desfazerUltimaAcao()" class="bg-amber-600 hover:bg-amber-700 text-white px-2 py-1 rounded-xl text-[10px] font-bold transition shadow-sm">↩️ Voltar</button>
             </div>
 
-            <!-- GRELHA DE 4 CARTÕES UNIFICADOS -->
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                <!-- 1. Voos -->
                 <div class="bg-white p-2.5 rounded-2xl border shadow-sm space-y-2">
                     <div class="flex justify-between items-center border-b pb-1">
                         <h3 class="font-bold text-[10px] uppercase text-slate-800">✈️ Voos & Passagens</h3>
@@ -125,7 +122,6 @@
                     <div id="lista-voos-html" class="space-y-1.5 text-[11px]"></div>
                 </div>
 
-                <!-- 2. Contatos Úteis -->
                 <div class="bg-white p-2.5 rounded-2xl border shadow-sm space-y-2">
                     <div class="flex justify-between items-center border-b pb-1">
                         <h3 class="font-bold text-[10px] uppercase text-slate-800">📞 Contatos Úteis</h3>
@@ -134,7 +130,6 @@
                     <div id="lista-contatos-html" class="space-y-1.5 text-[11px]"></div>
                 </div>
 
-                <!-- 3. Tarefas -->
                 <div class="bg-white p-2.5 rounded-2xl border shadow-sm space-y-2">
                     <div class="flex justify-between items-center border-b pb-1">
                         <h3 class="font-bold text-[10px] uppercase text-slate-800">📋 Tarefas</h3>
@@ -143,7 +138,6 @@
                     <div id="lista-tarefas-html" class="space-y-1.5 text-[11px]"></div>
                 </div>
 
-                <!-- 4. Checklist -->
                 <div class="bg-white p-2.5 rounded-2xl border shadow-sm space-y-2">
                     <div class="flex justify-between items-center border-b pb-1">
                         <h3 class="font-bold text-[10px] uppercase text-slate-800">🎒 Checklist</h3>
@@ -177,9 +171,8 @@
                     </div>
                 </div>
 
-                <!-- BLOCOS LADO A LADO PARA EUROS E FRANCOS (COMPACTOS) -->
+                <!-- BLOCOS LADO A LADO PARA EUROS E FRANCOS -->
                 <div class="grid grid-cols-2 gap-2">
-                    <!-- BLOCO EUR -->
                     <div class="bg-amber-50/60 p-2 rounded-xl border border-amber-200 space-y-1.5 flex flex-col justify-between">
                         <div class="space-y-1.5">
                             <h3 class="font-black text-amber-900 text-[10px] uppercase border-b border-amber-200 pb-0.5">🇪🇺 Euros (€)</h3>
@@ -203,7 +196,6 @@
                         <button onclick="adicionarDespesa('EUR')" class="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold py-1 rounded-lg text-[10px] transition shadow-sm mt-2">➕ Despesa EUR</button>
                     </div>
 
-                    <!-- BLOCO CHF -->
                     <div class="bg-blue-50/60 p-2 rounded-xl border border-blue-200 space-y-1.5 flex flex-col justify-between">
                         <div class="space-y-1.5">
                             <h3 class="font-black text-blue-900 text-[10px] uppercase border-b border-blue-200 pb-0.5">🇨🇭 Francos (CHF)</h3>
@@ -269,7 +261,7 @@
 
     <!-- BARRA DE FERRAMENTAS FIXA -->
     <nav class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-md text-white px-2 py-2 shadow-2xl border-t border-slate-800 text-xs flex items-center gap-1 overflow-x-auto no-scrollbar">
-        <span class="bg-indigo-600 px-1 py-0.5 rounded font-mono font-bold text-[8px] shrink-0">v116.0</span>
+        <span class="bg-indigo-600 px-1 py-0.5 rounded font-mono font-bold text-[8px] shrink-0">v117.0</span>
         <button onclick="abrirGeminiModal()" class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-2 py-1 rounded-lg font-bold transition shrink-0 flex items-center gap-1 text-[10px]">
             <span>✨</span> Gemini
         </button>
@@ -322,7 +314,7 @@
     </div>
 
     <script>
-        const CHAVE_APP = "mariana_viagem_europa_v116";
+        const CHAVE_APP = "mariana_viagem_europa_v117";
         let destinoFiltro = 'todos';
         let tarefaFiltro = 'todas';
         let campoFocoAtual = null;
@@ -391,7 +383,7 @@
             const manifestBlob = new Blob([JSON.stringify(manifestObj)], {type: 'application/manifest+json'});
             document.getElementById('pwa-manifest').href = URL.createObjectURL(manifestBlob);
 
-            const temaSalvo = localStorage.getItem('tema_v116');
+            const temaSalvo = localStorage.getItem('tema_v117');
             if (temaSalvo === 'dark') {
                 document.body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 document.body.classList.remove('bg-slate-100', 'text-slate-800');
@@ -443,10 +435,10 @@
         }
 
         function desbloquearComPin() {
-            let pinSalvo = localStorage.getItem('app_pin_v116') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v117') || '1510';
             let digitado = document.getElementById('input-pin').value;
             if(digitado === pinSalvo) {
-                sessionStorage.setItem('sessao_ativa_v116', 'true');
+                sessionStorage.setItem('sessao_ativa_v117', 'true');
                 document.getElementById('tela-bloqueio').classList.add('hidden');
                 document.getElementById('erro-pin').classList.add('hidden');
             } else {
@@ -455,17 +447,17 @@
         }
 
         async function desbloquearComBiometria() {
-            sessionStorage.setItem('sessao_ativa_v116', 'true');
+            sessionStorage.setItem('sessao_ativa_v117', 'true');
             document.getElementById('tela-bloqueio').classList.add('hidden');
         }
 
         function alterarSenhaPin() {
             let atual = prompt("Digite a senha atual (Padrão: 1510):");
-            let pinSalvo = localStorage.getItem('app_pin_v116') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v117') || '1510';
             if(atual === pinSalvo) {
                 let nova = prompt("Digite a nova senha PIN:");
                 if(nova && nova.trim() !== '') {
-                    localStorage.setItem('app_pin_v116', nova.trim());
+                    localStorage.setItem('app_pin_v117', nova.trim());
                     alert("🔑 Senha alterada com sucesso!");
                 }
             } else {
@@ -478,11 +470,11 @@
             if(body.classList.contains('dark')) {
                 body.classList.remove('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.add('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v116', 'light');
+                localStorage.setItem('tema_v117', 'light');
             } else {
                 body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.remove('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v116', 'dark');
+                localStorage.setItem('tema_v117', 'dark');
             }
         }
 
@@ -511,6 +503,53 @@
 
         function exportarPdfPrint() {
             window.print();
+        }
+
+        function renderizarContatosTab() {
+            const container = document.getElementById('lista-contatos-html');
+            if(!container) return;
+            container.innerHTML = '';
+
+            if(!dadosApp.contatos || dadosApp.contatos.length === 0) {
+                container.innerHTML = '<p class="text-[10px] text-slate-400 italic text-center py-2">Nenhum contato.</p>';
+                return;
+            }
+
+            dadosApp.contatos.forEach(ct => {
+                let div = document.createElement('div');
+                div.className = "p-1.5 rounded-lg border bg-white flex items-center justify-between gap-1 shadow-sm text-[11px]";
+                div.innerHTML = `
+                    <input type="text" value="${ct.nome}" oninput="atualizarContatoNome(${ct.id}, this.value)" class="flex-1 bg-transparent outline-none font-bold text-slate-800 truncate text-[10px]" placeholder="Nome...">
+                    <input type="text" value="${ct.numero}" oninput="atualizarContatoNumero(${ct.id}, this.value)" class="w-20 p-0.5 bg-slate-50 border rounded font-black text-[10px]" placeholder="Número...">
+                    <button onclick="apagarContato(${ct.id})" class="text-red-500 font-bold bg-red-50 hover:bg-red-100 px-1.5 py-0.5 rounded transition shrink-0 text-[9px]">✕</button>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function adicionarContato() {
+            registarEstadoAnterior();
+            if(!dadosApp.contatos) dadosApp.contatos = [];
+            dadosApp.contatos.unshift({ id: Date.now(), nome: "Contato", numero: "0000" });
+            salvarStorage();
+            atualizarTudo();
+        }
+
+        function apagarContato(id) {
+            registarEstadoAnterior();
+            dadosApp.contatos = dadosApp.contatos.filter(c => c.id !== id);
+            salvarStorage();
+            atualizarTudo();
+        }
+
+        function atualizarContatoNome(id, val) {
+            let c = dadosApp.contatos.find(item => item.id === id);
+            if(c) { c.nome = val; localStorage.setItem(CHAVE_APP, JSON.stringify(dadosApp)); }
+        }
+
+        function atualizarContatoNumero(id, val) {
+            let c = dadosApp.contatos.find(item => item.id === id);
+            if(c) { c.numero = val; localStorage.setItem(CHAVE_APP, JSON.stringify(dadosApp)); }
         }
 
         function removerDoRoteiro(id) {
@@ -675,7 +714,7 @@
         }
         function filtrarTarefas(f) { tarefaFiltro = f; renderizarFiltrosTarefas(); renderizarTarefasTab(); }
 
-        // ROTEIRO
+        // ROTEIRO COM MAPAS POR TRECHO
         function renderizarModoLeitura() {
             const container = document.getElementById('lista-leitura-html');
             const progressoEl = document.getElementById('progresso-viagem');
@@ -706,7 +745,14 @@
                 let trechosTexto = '';
                 if(item.trechos && item.trechos.length > 0) {
                     item.trechos.forEach(tr => {
-                        trechosTexto += `<div class="text-[9px] text-slate-600">🚄 ${tr.origem || '?'} ➔ ${tr.destino || '?'} (${tr.transporte || 'Trem'}) ${tr.valor ? '• ' + tr.valor + ' ' + (tr.moeda || 'EUR') : ''}</div>`;
+                        trechosTexto += `
+                            <div class="text-[10px] text-slate-700 bg-slate-50 p-1.5 rounded-lg border flex justify-between items-center my-1">
+                                <div>
+                                    🚄 <b>${tr.origem || '?'}</b> ➔ <b>${tr.destino || '?'}</b> (${tr.transporte || 'Trem'}) ${tr.valor ? '• <b>' + tr.valor + ' ' + (tr.moeda || 'EUR') + '</b>' : ''}
+                                    ${tr.notas ? '<div class="text-[9px] text-slate-500 italic">📝 ' + tr.notas + '</div>' : ''}
+                                </div>
+                                <button onclick="abrirMapaRuta('${tr.origem}', '${tr.destino}')" class="bg-sky-100 text-sky-800 hover:bg-sky-200 px-1.5 py-0.5 rounded font-bold text-[9px] shrink-0">🗺️ Mapa</button>
+                            </div>`;
                     });
                 }
 
@@ -731,7 +777,7 @@
                             </div>
                         </div>
 
-                        <div class="space-y-0.5 pt-0.5">
+                        <div class="space-y-1 pt-0.5">
                             ${trechosTexto || '<span class="text-[9px] text-slate-400 italic">Nenhum trecho adicionado.</span>'}
                         </div>
 
@@ -742,7 +788,7 @@
             });
         }
 
-        // RENDERIZAR EDITAR
+        // RENDERIZAR EDITAR (TRECHOS ENXUTOS COM NOTAS APÓS O 'X')
         function renderizarBlocos() {
             const container = document.getElementById('lista-blocos');
             if(!container) return;
@@ -776,10 +822,10 @@
                 if(item.trechos && item.trechos.length > 0) {
                     item.trechos.forEach(tr => {
                         trechosHtml += `
-                            <div class="bg-white p-1.5 rounded-lg border border-black/10 flex items-center gap-1 text-[10px]">
-                                <input type="text" value="${tr.origem || ''}" oninput="atualizarTrecho(${item.id}, ${tr.id}, 'origem', this.value)" class="w-16 p-1 bg-slate-50 border rounded font-bold text-[10px]" placeholder="Origem">
+                            <div class="bg-white p-1 rounded-lg border border-black/10 flex items-center gap-1 text-[10px]">
+                                <input type="text" value="${tr.origem || ''}" oninput="atualizarTrecho(${item.id}, ${tr.id}, 'origem', this.value)" class="w-14 p-1 bg-slate-50 border rounded font-bold text-[10px]" placeholder="Origem">
                                 <span>➔</span>
-                                <input type="text" value="${tr.destino || ''}" oninput="atualizarTrecho(${item.id}, ${tr.id}, 'destino', this.value)" class="w-16 p-1 bg-slate-50 border rounded font-bold text-[10px]" placeholder="Destino">
+                                <input type="text" value="${tr.destino || ''}" oninput="atualizarTrecho(${item.id}, ${tr.id}, 'destino', this.value)" class="w-14 p-1 bg-slate-50 border rounded font-bold text-[10px]" placeholder="Destino">
                                 <select onchange="atualizarTrecho(${item.id}, ${tr.id}, 'transporte', this.value)" class="p-1 bg-slate-50 border rounded font-bold text-[9px]">
                                     <option value="Trem" ${tr.transporte==='Trem'?'selected':''}>Trem</option>
                                     <option value="Ônibus" ${tr.transporte==='Ônibus'?'selected':''}>Ônibus</option>
@@ -788,12 +834,13 @@
                                     <option value="Carro" ${tr.transporte==='Carro'?'selected':''}>Carro</option>
                                     <option value="Outro" ${tr.transporte==='Outro'?'selected':''}>Outro</option>
                                 </select>
-                                <input type="number" value="${tr.valor || 0}" oninput="atualizarTrecho(${item.id}, ${tr.id}, 'valor', this.value); atualizarTudo();" class="w-12 p-1 bg-slate-50 border rounded font-bold text-[10px]" placeholder="0">
+                                <input type="number" value="${tr.valor || 0}" oninput="atualizarTrecho(${item.id}, ${tr.id}, 'valor', this.value); atualizarTudo();" class="w-10 p-1 bg-slate-50 border rounded font-bold text-[10px]" placeholder="0">
                                 <select onchange="atualizarTrecho(${item.id}, ${tr.id}, 'moeda', this.value); atualizarTudo();" class="p-1 bg-slate-50 border rounded font-bold text-[9px]">
                                     <option value="EUR" ${tr.moeda==='EUR'?'selected':''}>EUR</option>
                                     <option value="CHF" ${tr.moeda==='CHF'?'selected':''}>CHF</option>
                                 </select>
                                 <button onclick="removerTrecho(${item.id}, ${tr.id})" class="text-red-500 font-bold px-1.5 py-0.5 rounded bg-red-50 text-[10px]">✕</button>
+                                <input type="text" value="${tr.notas || ''}" oninput="atualizarTrecho(${item.id}, ${tr.id}, 'notas', this.value)" class="flex-1 p-1 bg-slate-50 border rounded font-medium text-[9px]" placeholder="Informações adicionais...">
                             </div>
                         `;
                     });
@@ -844,7 +891,7 @@
                         </div>
 
                         <div>
-                            <label class="block font-semibold text-slate-700">📝 Informações Adicionais / Notas</label>
+                            <label class="block font-semibold text-slate-700">📝 Notas Gerais do Bloco</label>
                             <textarea rows="1" oninput="atualizarCampoDireto(${item.id}, 'notasExtras', this.value)" class="w-full p-1 bg-white border rounded text-[10px] text-slate-800" placeholder="Ex: Check-in às 15h...">${item.notasExtras || ''}</textarea>
                         </div>
 
@@ -881,7 +928,7 @@
             let item = dadosApp.itinerario.find(i => i.id === itemId);
             if(item) {
                 if(!item.trechos) item.trechos = [];
-                item.trechos.push({ id: Date.now(), origem: "", destino: "", transporte: "Trem", valor: 0, moeda: "EUR" });
+                item.trechos.push({ id: Date.now(), origem: "", destino: "", transporte: "Trem", valor: 0, moeda: "EUR", notas: "" });
                 salvarStorage();
                 atualizarTudo();
             }
@@ -985,8 +1032,11 @@
         // VOOS & PASSAGENS
         function renderizarVoosTab() {
             const containerV = document.getElementById('lista-voos-html');
-            if(!containerV) return;
+            const containerC = document.getElementById('lista-contatos-html');
+            if(!containerV || !containerC) return;
+
             containerV.innerHTML = '';
+            containerC.innerHTML = '';
 
             if(!dadosApp.voos || dadosApp.voos.length === 0) {
                 containerV.innerHTML = '<p class="text-[10px] text-slate-400 italic text-center py-2">Nenhum voo.</p>';
@@ -1012,6 +1062,21 @@
                         </div>
                     `;
                     containerV.appendChild(div);
+                });
+            }
+
+            if(!dadosApp.contatos || dadosApp.contatos.length === 0) {
+                containerC.innerHTML = '<p class="text-[10px] text-slate-400 italic text-center py-2">Nenhum contato.</p>';
+            } else {
+                dadosApp.contatos.forEach(ct => {
+                    let div = document.createElement('div');
+                    div.className = "p-1.5 rounded-lg border bg-white flex items-center justify-between gap-1 shadow-sm text-[11px]";
+                    div.innerHTML = `
+                        <input type="text" value="${ct.nome}" oninput="atualizarContatoNome(${ct.id}, this.value)" class="flex-1 bg-transparent outline-none font-bold text-slate-800 truncate text-[10px]" placeholder="Nome...">
+                        <input type="text" value="${ct.numero}" oninput="atualizarContatoNumero(${ct.id}, this.value)" class="w-20 p-0.5 bg-slate-50 border rounded font-black text-[10px]" placeholder="Número...">
+                        <button onclick="apagarContato(${ct.id})" class="text-red-500 font-bold bg-red-50 hover:bg-red-100 px-1.5 py-0.5 rounded transition shrink-0 text-[9px]">✕</button>
+                    `;
+                    containerC.appendChild(div);
                 });
             }
         }
@@ -1498,6 +1563,21 @@
         function atualizarOrcamentoValor(id, val) {
             let d = dadosApp.orcamento.find(item => item.id === id);
             if(d) { d.valor = val; salvarStorage(); renderizarOrcamentoTab(); }
+        }
+
+        async function abrirMapaRuta(origem, destinoLocal) {
+            window.open(`https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(origem)}&destination=${encodeURIComponent(destinoLocal)}&travelmode=transit`, '_blank');
+        }
+
+        function ativarMicrofone() {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (!SpeechRecognition) { alert("Sem suporte a voz."); return; }
+            const recognition = new SpeechRecognition();
+            recognition.lang = 'pt-BR';
+            recognition.onresult = function(event) {
+                if (campoFocoAtual) { campoFocoAtual.value = event.results[0][0].transcript; campoFocoAtual.dispatchEvent(new Event('input')); }
+            };
+            recognition.start();
         }
     </script>
 </body>
