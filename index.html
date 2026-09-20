@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v114.0)</title>
+    <title>Roteiro Europa - Mariana (v115.0)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Manifest Dinâmico via JavaScript -->
@@ -37,7 +37,7 @@
         <span class="font-bold tracking-wide">🚄 Roteiro Europa - Mariana</span>
         <div class="flex items-center gap-2">
             <button onclick="exportarPdfPrint()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2 py-0.5 rounded font-bold text-[9px] transition">🖨️ PDF / Imprimir</button>
-            <span class="bg-indigo-600 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v114.0</span>
+            <span class="bg-indigo-600 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v115.0</span>
         </div>
     </header>
 
@@ -73,14 +73,14 @@
             <div id="lista-leitura-html" class="grid grid-cols-1 sm:grid-cols-2 gap-2"></div>
         </div>
 
-        <!-- TAB 2: ITINERÁRIO EDITÁVEL -->
+        <!-- TAB 2: ITINERÁRIO EDITÁVEL (COM MÚLTIPLOS TRECHOS E CAMPOS ENXUTOS) -->
         <div id="tab-itinerario" class="space-y-3 hidden">
             <div id="filtros-container" class="bg-slate-200 p-1.5 rounded-xl overflow-x-auto flex gap-1 text-[11px] items-center no-scrollbar shadow-inner">
                 <!-- Renderizado via JS -->
             </div>
 
             <div class="flex justify-between items-center px-1 pt-0.5 bg-white p-2 rounded-xl border shadow-sm">
-                <h2 class="text-[10px] font-extrabold uppercase text-slate-700 tracking-wider">📦 Blocos de Destino</h2>
+                <h2 class="text-[10px] font-extrabold uppercase text-slate-700 tracking-wider">📦 Blocos de Destino & Múltiplos Trechos</h2>
                 <div class="flex gap-1">
                     <button onclick="desfazerUltimaAcao()" class="bg-amber-600 hover:bg-amber-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm">↩️ Voltar</button>
                     <button onclick="adicionarBloco()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm">➕ Novo Bloco</button>
@@ -90,7 +90,7 @@
             <div id="lista-blocos" class="space-y-2"></div>
         </div>
 
-        <!-- TAB 3: VOOS & PASSAGENS E CONTATOS -->
+        <!-- TAB 3: VOOS & PASSAGENS (COM PDF) -->
         <div id="tab-voos" class="space-y-3 hidden">
             <div class="grid grid-cols-2 gap-2">
                 <div class="bg-white p-2.5 rounded-2xl border shadow-sm space-y-2">
@@ -271,7 +271,7 @@
 
     <!-- BARRA DE FERRAMENTAS FIXA -->
     <nav class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-md text-white px-2 py-2 shadow-2xl border-t border-slate-800 text-xs flex items-center gap-1 overflow-x-auto no-scrollbar">
-        <span class="bg-indigo-600 px-1 py-0.5 rounded font-mono font-bold text-[8px] shrink-0">v114.0</span>
+        <span class="bg-indigo-600 px-1 py-0.5 rounded font-mono font-bold text-[8px] shrink-0">v115.0</span>
         <button onclick="abrirGeminiModal()" class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-2 py-1 rounded-lg font-bold transition shrink-0 flex items-center gap-1 text-[10px]">
             <span>✨</span> Gemini
         </button>
@@ -324,7 +324,7 @@
     </div>
 
     <script>
-        const CHAVE_APP = "mariana_viagem_europa_v114";
+        const CHAVE_APP = "mariana_viagem_europa_v115";
         let destinoFiltro = 'todos';
         let tarefaFiltro = 'todas';
         let campoFocoAtual = null;
@@ -393,7 +393,7 @@
             const manifestBlob = new Blob([JSON.stringify(manifestObj)], {type: 'application/manifest+json'});
             document.getElementById('pwa-manifest').href = URL.createObjectURL(manifestBlob);
 
-            const temaSalvo = localStorage.getItem('tema_v114');
+            const temaSalvo = localStorage.getItem('tema_v115');
             if (temaSalvo === 'dark') {
                 document.body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 document.body.classList.remove('bg-slate-100', 'text-slate-800');
@@ -445,10 +445,10 @@
         }
 
         function desbloquearComPin() {
-            let pinSalvo = localStorage.getItem('app_pin_v114') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v115') || '1510';
             let digitado = document.getElementById('input-pin').value;
             if(digitado === pinSalvo) {
-                sessionStorage.setItem('sessao_ativa_v114', 'true');
+                sessionStorage.setItem('sessao_ativa_v115', 'true');
                 document.getElementById('tela-bloqueio').classList.add('hidden');
                 document.getElementById('erro-pin').classList.add('hidden');
             } else {
@@ -457,17 +457,17 @@
         }
 
         async function desbloquearComBiometria() {
-            sessionStorage.setItem('sessao_ativa_v114', 'true');
+            sessionStorage.setItem('sessao_ativa_v115', 'true');
             document.getElementById('tela-bloqueio').classList.add('hidden');
         }
 
         function alterarSenhaPin() {
             let atual = prompt("Digite a senha atual (Padrão: 1510):");
-            let pinSalvo = localStorage.getItem('app_pin_v114') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v115') || '1510';
             if(atual === pinSalvo) {
                 let nova = prompt("Digite a nova senha PIN:");
                 if(nova && nova.trim() !== '') {
-                    localStorage.setItem('app_pin_v114', nova.trim());
+                    localStorage.setItem('app_pin_v115', nova.trim());
                     alert("🔑 Senha alterada com sucesso!");
                 }
             } else {
@@ -480,11 +480,11 @@
             if(body.classList.contains('dark')) {
                 body.classList.remove('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.add('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v114', 'light');
+                localStorage.setItem('tema_v115', 'light');
             } else {
                 body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.remove('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v114', 'dark');
+                localStorage.setItem('tema_v115', 'dark');
             }
         }
 
@@ -706,6 +706,13 @@
                 let dIni = item.dataInicio ? item.dataInicio.split('-').reverse().join('/') : '?';
                 let dFim = item.dataFim ? item.dataFim.split('-').reverse().join('/') : '?';
 
+                let trechosTexto = '';
+                if(item.trechos && item.trechos.length > 0) {
+                    item.trechos.forEach(tr => {
+                        trechosTexto += `<div class="text-[9px] text-slate-600">🚄 ${tr.origem || '?'} ➔ ${tr.destino || '?'} (${tr.transporte || 'Trem'}) ${tr.valor ? '• ' + tr.valor + ' ' + (tr.moeda || 'EUR') : ''}</div>`;
+                    });
+                }
+
                 let card = document.createElement('div');
                 card.className = `p-2.5 rounded-xl border shadow-sm space-y-1.5 transition flex flex-col justify-between ${bgStyle}`;
                 card.style.borderLeft = `5px solid ${corMaster}`;
@@ -723,18 +730,14 @@
                                     <span>Feito</span>
                                 </label>
                                 <button onclick="mostrarClimaModal('${item.categoria}')" class="bg-amber-100 text-amber-800 hover:bg-amber-200 px-1.5 py-0.5 rounded font-bold text-[9px]">🌤️ Clima</button>
-                                <button onclick="abrirMapaRuta('${item.embarque}', '${item.desembarque}')" class="bg-sky-100 text-sky-800 hover:bg-sky-200 px-1.5 py-0.5 rounded font-bold text-[9px]">🗺️ Mapa</button>
                                 <button onclick="removerDoRoteiro(${item.id})" class="bg-amber-50 hover:bg-amber-100 text-amber-700 px-1.5 py-0.5 rounded font-bold text-[9px]" title="Retirar do Roteiro">✕</button>
                             </div>
                         </div>
 
-                        <div class="text-[10px] ${textDecor} truncate pt-0.5">
-                            📍 ${item.embarque || 'Origem'} ➔ 🏁 ${item.desembarque || 'Destino'}
+                        <div class="space-y-0.5 pt-0.5">
+                            ${trechosTexto || '<span class="text-[9px] text-slate-400 italic">Nenhum trecho adicionado.</span>'}
                         </div>
 
-                        <div class="text-[9px] text-slate-600">
-                            <b>🚄 Rota:</b> ${item.trecho || ''} ${item.transporte ? '(' + item.transporte + (item.numeroTransporte ? ' ' + item.numeroTransporte : '') + ')' : ''} ${item.valor ? '• <b>Custo:</b> ' + item.valor + ' ' + (item.moeda || 'EUR') : ''}
-                        </div>
                         ${item.notasExtras ? `<div class="bg-slate-50 p-1 rounded text-[9px] text-slate-700">📝 ${item.notasExtras}</div>` : ''}
                     </div>
                 `;
@@ -742,7 +745,7 @@
             });
         }
 
-        // RENDERIZAR EDITAR
+        // RENDERIZAR EDITAR (COM MÚLTIPLOS TRECHOS E CAMPOS ENXUTOS)
         function renderizarBlocos() {
             const container = document.getElementById('lista-blocos');
             if(!container) return;
@@ -772,19 +775,32 @@
                 });
                 opcoesDestino += `<option value="novo_destino">➕ Outro...</option>`;
 
-                let opcoesLocaisEmb = '';
-                if(!dadosApp.locaisCadastrados.includes(item.embarque)) dadosApp.locaisCadastrados.push(item.embarque);
-                dadosApp.locaisCadastrados.forEach(l => {
-                    opcoesLocaisEmb += `<option value="${l}" ${item.embarque === l ? 'selected' : ''}>${l}</option>`;
-                });
-                opcoesLocaisEmb += `<option value="outro_local">➕ Outro...</option>`;
-
-                let opcoesLocaisDes = '';
-                if(!dadosApp.locaisCadastrados.includes(item.desembarque)) dadosApp.locaisCadastrados.push(item.desembarque);
-                dadosApp.locaisCadastrados.forEach(l => {
-                    opcoesLocaisDes += `<option value="${l}" ${item.desembarque === l ? 'selected' : ''}>${l}</option>`;
-                });
-                opcoesLocaisDes += `<option value="outro_local">➕ Outro...</option>`;
+                let trechosHtml = '';
+                if(item.trechos && item.trechos.length > 0) {
+                    item.trechos.forEach(tr => {
+                        trechosHtml += `
+                            <div class="bg-white p-1.5 rounded-lg border border-black/10 flex items-center gap-1 text-[10px]">
+                                <input type="text" value="${tr.origem || ''}" oninput="atualizarTrecho(${item.id}, ${tr.id}, 'origem', this.value)" class="w-16 p-1 bg-slate-50 border rounded font-bold text-[10px]" placeholder="Origem">
+                                <span>➔</span>
+                                <input type="text" value="${tr.destino || ''}" oninput="atualizarTrecho(${item.id}, ${tr.id}, 'destino', this.value)" class="w-16 p-1 bg-slate-50 border rounded font-bold text-[10px]" placeholder="Destino">
+                                <select onchange="atualizarTrecho(${item.id}, ${tr.id}, 'transporte', this.value)" class="p-1 bg-slate-50 border rounded font-bold text-[9px]">
+                                    <option value="Trem" ${tr.transporte==='Trem'?'selected':''}>Trem</option>
+                                    <option value="Ônibus" ${tr.transporte==='Ônibus'?'selected':''}>Ônibus</option>
+                                    <option value="Avião" ${tr.transporte==='Avião'?'selected':''}>Avião</option>
+                                    <option value="Metrô" ${tr.transporte==='Metrô'?'selected':''}>Metrô</option>
+                                    <option value="Carro" ${tr.transporte==='Carro'?'selected':''}>Carro</option>
+                                    <option value="Outro" ${tr.transporte==='Outro'?'selected':''}>Outro</option>
+                                </select>
+                                <input type="number" value="${tr.valor || 0}" oninput="atualizarTrecho(${item.id}, ${tr.id}, 'valor', this.value); atualizarTudo();" class="w-12 p-1 bg-slate-50 border rounded font-bold text-[10px]" placeholder="0">
+                                <select onchange="atualizarTrecho(${item.id}, ${tr.id}, 'moeda', this.value); atualizarTudo();" class="p-1 bg-slate-50 border rounded font-bold text-[9px]">
+                                    <option value="EUR" ${tr.moeda==='EUR'?'selected':''}>EUR</option>
+                                    <option value="CHF" ${tr.moeda==='CHF'?'selected':''}>CHF</option>
+                                </select>
+                                <button onclick="removerTrecho(${item.id}, ${tr.id})" class="text-red-500 font-bold px-1.5 py-0.5 rounded bg-red-50 text-[10px]">✕</button>
+                            </div>
+                        `;
+                    });
+                }
 
                 let subBlocosHtml = '';
                 if(item.subBlocos && item.subBlocos.length > 0) {
@@ -821,45 +837,13 @@
                     </div>
 
                     <div class="bg-white/95 p-2 rounded-xl border border-black/10 space-y-1.5 text-[10px]">
-                        <div class="grid grid-cols-2 gap-1.5">
-                            <div>
-                                <label class="block font-black mb-0.5 text-slate-900">📍 Origem</label>
-                                <select onchange="lidarSelecaoLocal(${item.id}, 'embarque', this.value)" class="w-full p-1 bg-white border rounded font-bold text-slate-900 text-[10px]">
-                                    ${opcoesLocaisEmb}
-                                </select>
+                        <!-- TRECHOS / ROTAS MÚLTIPLAS -->
+                        <div class="space-y-1">
+                            <div class="flex justify-between items-center">
+                                <span class="font-bold text-slate-700 uppercase text-[9px]">🚄 Rotas / Trechos / Deslocamentos</span>
+                                <button onclick="adicionarTrecho(${item.id})" class="bg-emerald-600 text-white px-2 py-0.5 rounded text-[9px] font-bold">➕ Rota / Trecho</button>
                             </div>
-                            <div>
-                                <label class="block font-black mb-0.5 text-slate-900">🏁 Destino</label>
-                                <select onchange="lidarSelecaoLocal(${item.id}, 'desembarque', this.value)" class="w-full p-1 bg-white border rounded font-bold text-slate-900 text-[10px]">
-                                    ${opcoesLocaisDes}
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="grid grid-cols-3 gap-1.5">
-                            <div>
-                                <label class="block font-semibold text-slate-700">🚄 Transporte</label>
-                                <input type="text" value="${item.transporte || ''}" oninput="atualizarCampoDireto(${item.id}, 'transporte', this.value)" class="w-full p-1 bg-white border rounded text-[10px] font-bold" placeholder="Trem, Ônibus">
-                            </div>
-                            <div>
-                                <label class="block font-semibold text-slate-700"># Nº / Linha</label>
-                                <input type="text" value="${item.numeroTransporte || ''}" oninput="atualizarCampoDireto(${item.id}, 'numeroTransporte', this.value)" class="w-full p-1 bg-white border rounded text-[10px] font-bold" placeholder="Linha 72">
-                            </div>
-                            <div>
-                                <label class="block font-semibold text-slate-700">💵 Custo / Valor</label>
-                                <div class="flex gap-1">
-                                    <input type="number" value="${item.valor || 0}" oninput="atualizarCampoDireto(${item.id}, 'valor', this.value); atualizarTudo();" class="w-full p-1 bg-white border rounded font-bold text-[10px]" placeholder="0">
-                                    <select onchange="atualizarCampoDireto(${item.id}, 'moeda', this.value); atualizarTudo();" class="p-1 bg-white border rounded font-bold text-[9px]">
-                                        <option value="EUR" ${(item.moeda || 'EUR') === 'EUR' ? 'selected' : ''}>EUR</option>
-                                        <option value="CHF" ${(item.moeda || 'EUR') === 'CHF' ? 'selected' : ''}>CHF</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div>
-                            <label class="block font-semibold text-slate-700">🚄 Rota / Trecho</label>
-                            <input type="text" value="${item.trecho || ''}" oninput="atualizarCampoDireto(${item.id}, 'trecho', this.value)" class="w-full p-1 bg-white border rounded text-[10px] font-bold" placeholder="Ex: Zurique ➔ Freiburg">
+                            <div class="space-y-1">${trechosHtml || '<p class="text-[9px] text-slate-400 italic">Nenhum trecho adicionado.</p>'}</div>
                         </div>
 
                         <div>
@@ -893,6 +877,38 @@
                 `;
                 container.appendChild(card);
             });
+        }
+
+        function adicionarTrecho(itemId) {
+            registarEstadoAnterior();
+            let item = dadosApp.itinerario.find(i => i.id === itemId);
+            if(item) {
+                if(!item.trechos) item.trechos = [];
+                item.trechos.push({ id: Date.now(), origem: "", destino: "", transporte: "Trem", valor: 0, moeda: "EUR" });
+                salvarStorage();
+                atualizarTudo();
+            }
+        }
+
+        function removerTrecho(itemId, trechoId) {
+            registarEstadoAnterior();
+            let item = dadosApp.itinerario.find(i => i.id === itemId);
+            if(item && item.trechos) {
+                item.trechos = item.trechos.filter(t => t.id !== trechoId);
+                salvarStorage();
+                atualizarTudo();
+            }
+        }
+
+        function atualizarTrecho(itemId, trechoId, campo, val) {
+            let item = dadosApp.itinerario.find(i => i.id === itemId);
+            if(item && item.trechos) {
+                let tr = item.trechos.find(t => t.id === trechoId);
+                if(tr) {
+                    tr[campo] = val;
+                    localStorage.setItem(CHAVE_APP, JSON.stringify(dadosApp));
+                }
+            }
         }
 
         function adicionarSubBloco(itemId) {
@@ -935,7 +951,7 @@
         function adicionarBloco() {
             registarEstadoAnterior();
             let novoItem = {
-                id: Date.now(), categoria: "Zurique", dataInicio: "", dataFim: "", trecho: "Nova Rota", transporte: "Trem", numeroTransporte: "", valor: 0, moeda: "EUR", embarque: "Zurich HB", desembarque: "Hotel", notasExtras: "", cor: obterCorPorCategoria("Zurique"), bloqueado: false, concluido: false, subBlocos: []
+                id: Date.now(), categoria: "Zurique", dataInicio: "", dataFim: "", notasExtras: "", cor: obterCorPorCategoria("Zurique"), bloqueado: false, concluido: false, trechos: [], subBlocos: []
             };
             if(!dadosApp.itinerario) dadosApp.itinerario = [];
             dadosApp.itinerario.unshift(novoItem);
@@ -969,7 +985,7 @@
             }
         }
 
-        // VOOS & PASSAGENS (COM PDF) E CONTATOS LADO A LADO
+        // VOOS & PASSAGENS (COM PDF)
         function renderizarVoosTab() {
             const containerV = document.getElementById('lista-voos-html');
             const containerC = document.getElementById('lista-contatos-html');
@@ -1374,7 +1390,7 @@
             if(c) { c.item = val; localStorage.setItem(CHAVE_APP, JSON.stringify(dadosApp)); }
         }
 
-        // ORÇAMENTO (COM DESPESAS ISOLADAS DENTRO DE CADA BLOCO, BEM MENOR E MAIS COMPACTO)
+        // ORÇAMENTO
         function renderizarOrcamentoTab() {
             const containerEur = document.getElementById('lista-despesas-eur-html');
             const containerChf = document.getElementById('lista-despesas-chf-html');
@@ -1400,25 +1416,30 @@
             let gastoEur = 0;
             let gastoChf = 0;
 
-            // Custos do Itinerário
-            let custosRoteiro = dadosApp.itinerario.filter(i => parseFloat(i.valor) > 0);
-            custosRoteiro.forEach(item => {
-                let val = parseFloat(item.valor) || 0;
-                let moeda = item.moeda || 'EUR';
-                if(moeda === 'EUR') {
-                    gastoEur += val;
-                    containerEur.innerHTML += `
-                        <div class="p-1 rounded bg-white border flex justify-between items-center text-[10px]">
-                            <span class="font-bold truncate">📍 ${item.categoria || 'Bloco'}</span>
-                            <span class="font-black text-amber-900">${val.toFixed(2)}€</span>
-                        </div>`;
-                } else if(moeda === 'CHF') {
-                    gastoChf += val;
-                    containerChf.innerHTML += `
-                        <div class="p-1 rounded bg-white border flex justify-between items-center text-[10px]">
-                            <span class="font-bold truncate">📍 ${item.categoria || 'Bloco'}</span>
-                            <span class="font-black text-blue-900">${val.toFixed(2)} CHF</span>
-                        </div>`;
+            // Custos dos Trechos do Itinerário
+            dadosApp.itinerario.forEach(item => {
+                if(item.trechos && item.trechos.length > 0) {
+                    item.trechos.forEach(tr => {
+                        let val = parseFloat(tr.valor) || 0;
+                        let moeda = tr.moeda || 'EUR';
+                        if(val > 0) {
+                            if(moeda === 'EUR') {
+                                gastoEur += val;
+                                containerEur.innerHTML += `
+                                    <div class="p-1 rounded bg-white border flex justify-between items-center text-[10px]">
+                                        <span class="font-bold truncate">🚄 ${tr.origem||'?'}➔${tr.destino||'?'}</span>
+                                        <span class="font-black text-amber-900">${val.toFixed(2)}€</span>
+                                    </div>`;
+                            } else if(moeda === 'CHF') {
+                                gastoChf += val;
+                                containerChf.innerHTML += `
+                                    <div class="p-1 rounded bg-white border flex justify-between items-center text-[10px]">
+                                        <span class="font-bold truncate">🚄 ${tr.origem||'?'}➔${tr.destino||'?'}</span>
+                                        <span class="font-black text-blue-900">${val.toFixed(2)} CHF</span>
+                                    </div>`;
+                            }
+                        }
+                    });
                 }
             });
 
