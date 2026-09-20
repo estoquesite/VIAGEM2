@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v49.0)</title>
+    <title>Roteiro Europa - Mariana (v50.0)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Leaflet CSS para Mapas -->
@@ -14,7 +14,7 @@
 <body class="bg-slate-100 text-slate-800 min-h-screen pb-36 select-none transition-colors duration-200">
 
     <!-- TELA DE BLOQUEIO / SEGURANÇA (SENHA 1510 & DIGITAL) -->
-    <div id="tela-bloqueio" class="fixed inset-0 z-[100] bg-slate-900 flex items-center justify-center p-4 backdrop-blur-md">
+    <div id="tela-bloqueio" class="fixed inset-0 z-[100] bg-slate-900 flex items-center justify-center p-4 backdrop-blur-md hidden">
         <div class="bg-white p-6 sm:p-8 rounded-3xl shadow-2xl max-w-sm w-full space-y-5 text-center text-xs">
             <div class="w-16 h-16 bg-indigo-100 text-indigo-600 rounded-3xl mx-auto flex items-center justify-center text-3xl font-black shadow-inner">🔒</div>
             <div>
@@ -37,7 +37,7 @@
     <!-- CABEÇALHO NORMAL NO TOPO -->
     <header class="bg-slate-900 text-white px-4 py-3 shadow-md border-b border-slate-700 text-xs flex justify-between items-center z-50 relative">
         <span class="font-bold tracking-wide">🚄 Roteiro Europa - Mariana</span>
-        <span class="bg-indigo-600 px-2 py-0.5 rounded font-mono font-bold text-[10px]">v49.0</span>
+        <span class="bg-indigo-600 px-2 py-0.5 rounded font-mono font-bold text-[10px]">v50.0</span>
     </header>
 
     <!-- CONTEÚDO PRINCIPAL -->
@@ -84,7 +84,7 @@
             <div id="lista-tarefas-html" class="space-y-3 text-xs"></div>
         </div>
 
-        <!-- TAB 3: VOUCHERS & PDFS (COM CAIXINHA DE DESTINO E PDF AO LADO) -->
+        <!-- TAB 3: VOUCHERS & PDFS -->
         <div id="tab-comprados" class="space-y-4 hidden">
             <div class="bg-white p-5 rounded-3xl shadow-sm border border-slate-300 space-y-4">
                 <div class="flex justify-between items-center border-b pb-3 flex-wrap gap-2">
@@ -103,7 +103,7 @@
     <!-- BARRA DE FERRAMENTAS FIXA NO FINAL DA TELA -->
     <nav class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900 text-white px-4 py-2.5 shadow-2xl border-t border-slate-700 text-xs flex flex-wrap items-center justify-between gap-2">
         <div class="flex items-center gap-2">
-            <span class="bg-indigo-600 px-2 py-0.5 rounded font-mono font-bold text-[10px]">v49.0</span>
+            <span class="bg-indigo-600 px-2 py-0.5 rounded font-mono font-bold text-[10px]">v50.0</span>
             <span class="font-bold">Barra de Ações</span>
         </div>
         <div class="flex items-center gap-1.5 flex-wrap">
@@ -202,7 +202,7 @@
     <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
-        const CHAVE_APP = "mariana_viagem_europa_v49";
+        const CHAVE_APP = "mariana_viagem_europa_v50";
         let destinoFiltro = 'todos';
         let tarefaFiltro = 'todas';
         let campoFocoAtual = null;
@@ -236,7 +236,7 @@
             const manifestBlob = new Blob([JSON.stringify(manifestObj)], {type: 'application/manifest+json'});
             document.getElementById('pwa-manifest').href = URL.createObjectURL(manifestBlob);
 
-            const temaSalvo = localStorage.getItem('tema_v49');
+            const temaSalvo = localStorage.getItem('tema_v50');
             if (temaSalvo === 'dark') {
                 document.body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 document.body.classList.remove('bg-slate-100', 'text-slate-800');
@@ -281,6 +281,14 @@
                     { id: 5, titulo: "Hotel Weisses Kreuz", categoria: "Interlaken", pdfData: "", pdfNome: "", bloqueado: false }
                 ];
             }
+            
+            // Lógica de Sessão Inteligente ( sessionStorage para manter logado ao atualizar F5, mas pedir senha ao fechar a aba )
+            if (!sessionStorage.getItem('sessao_ativa_v50')) {
+                document.getElementById('tela-bloqueio').classList.remove('hidden');
+            } else {
+                document.getElementById('tela-bloqueio').classList.add('hidden');
+            }
+
             ordenarItinerario();
             atualizarTudo();
         });
@@ -297,7 +305,7 @@
                     deferredPrompt = null;
                 });
             } else {
-                document.getElementById('modal-instalacao').classList.add('hidden');
+                document.getElementById('modal-instalacao').classList.remove('hidden');
             }
         }
 
@@ -305,11 +313,12 @@
             document.getElementById('modal-instalacao').classList.add('hidden');
         }
 
-        // Funções de Segurança com a Senha 1510
+        // Funções de Segurança com a Senha 1510 e Sessão Ativa
         function desbloquearComPin() {
-            let pinSalvo = localStorage.getItem('app_pin_v49') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v50') || '1510';
             let digitado = document.getElementById('input-pin').value;
             if(digitado === pinSalvo) {
+                sessionStorage.setItem('sessao_ativa_v50', 'true');
                 document.getElementById('tela-bloqueio').classList.add('hidden');
                 document.getElementById('erro-pin').classList.add('hidden');
             } else {
@@ -327,25 +336,26 @@
                     };
                     let credential = await navigator.credentials.get({ publicKey });
                     if(credential) {
+                        sessionStorage.setItem('sessao_ativa_v50', 'true');
                         document.getElementById('tela-bloqueio').classList.add('hidden');
                         return;
                     }
                 }
-                alert("Biometria autenticada com sucesso! Bem-vinda, Mariana.");
+                sessionStorage.setItem('sessao_ativa_v50', 'true');
                 document.getElementById('tela-bloqueio').classList.add('hidden');
             } catch(e) {
-                alert("Autenticação biométrica concluída com sucesso!");
+                sessionStorage.setItem('sessao_ativa_v50', 'true');
                 document.getElementById('tela-bloqueio').classList.add('hidden');
             }
         }
 
         function alterarSenhaPin() {
             let atual = prompt("Digite a senha atual (Padrão: 1510):");
-            let pinSalvo = localStorage.getItem('app_pin_v49') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v50') || '1510';
             if(atual === pinSalvo) {
                 let nova = prompt("Digite a nova senha PIN:");
                 if(nova && nova.trim() !== '') {
-                    localStorage.setItem('app_pin_v49', nova.trim());
+                    localStorage.setItem('app_pin_v50', nova.trim());
                     alert("🔑 Senha alterada com sucesso!");
                 }
             } else {
@@ -358,11 +368,11 @@
             if(body.classList.contains('dark')) {
                 body.classList.remove('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.add('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v49', 'light');
+                localStorage.setItem('tema_v50', 'light');
             } else {
                 body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.remove('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v49', 'dark');
+                localStorage.setItem('tema_v50', 'dark');
             }
         }
 
@@ -636,7 +646,6 @@
             filtrados.forEach((item) => {
                 let dis = item.bloqueado ? 'disabled' : '';
                 let corHex = obterCorDestinoHex(item.categoria);
-                let corigoDes = obterCorDestinoHex(item.categoria);
                 let pdfBadge = item.pdfData ? `<a href="${item.pdfData}" download="${item.pdfNome || 'voucher.pdf'}" class="bg-blue-100 text-blue-800 px-2.5 py-1 rounded-lg text-[10px] font-bold">📄 PDF Anexado</a>` : '';
                 let btnOkText = item.bloqueado ? '🔒 OK' : '✅ OK';
                 let btnOkClass = item.bloqueado ? 'bg-emerald-600 text-white' : 'bg-slate-200 text-slate-700 hover:bg-emerald-500 hover:text-white';
@@ -760,7 +769,6 @@
             });
         }
 
-        // TAREFAS COMPACTAS (LÁPIS PEQUENO AO LADO, STATUS MAIS À FRENTE)
         function renderizarTarefas() {
             const container = document.getElementById('lista-tarefas-html');
             container.innerHTML = '';
@@ -951,7 +959,111 @@
             }
         }
 
-        // VOUCHERS & PDFS (COM CAIXINHA DE DESTINO, PDF AO LADO E AÇÕES)
+        // Mapa com Rota Dinâmica (Origem ➔ Destino)
+        async function abrirMapaRuta(origem, destinoLocal, destinoCategoria) {
+            document.getElementById('mapa-titulo').innerText = `🗺️ Rota: ${origem} ➔ ${destinoLocal} (${destinoCategoria})`;
+            document.getElementById('mapa-status').innerText = "A traçar rota no mapa...";
+            document.getElementById('modal-mapa').classList.remove('hidden');
+            
+            setTimeout(async () => {
+                if(!mapInstance) {
+                    mapInstance = L.map('map').setView([47.3769, 8.5417], 7);
+                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                        maxZoom: 19,
+                        attribution: '© OpenStreetMap'
+                    }).addTo(mapInstance);
+                } else {
+                    mapInstance.invalidateSize();
+                }
+
+                mapInstance.eachLayer(layer => {
+                    if (layer instanceof L.Marker || layer instanceof L.Polyline) {
+                        mapInstance.removeLayer(layer);
+                    }
+                });
+
+                async function buscarCoords(query) {
+                    try {
+                        let res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}`);
+                        let data = await res.json();
+                        if(data && data.length > 0) {
+                            return [parseFloat(data[0].lat), parseFloat(data[0].lon)];
+                        }
+                    } catch(e) {}
+                    return null;
+                }
+
+                let coordsOrigem = await buscarCoords(origem) || [47.3769, 8.5417];
+                let coordsDestino = await buscarCoords(destinoLocal) || [46.9480, 7.4474];
+
+                L.marker(coordsOrigem).addTo(mapInstance).bindPopup(`<b>Origem (Embarque):</b> ${origem}`).openPopup();
+                L.marker(coordsDestino).addTo(mapInstance).bindPopup(`<b>Destino (Desembarque):</b> ${destinoLocal}`);
+
+                try {
+                    let rotaRes = await fetch(`https://router.project-osrm.org/route/v1/driving/${coordsOrigem[1]},${coordsOrigem[0]};${coordsDestino[1]},${coordsDestino[0]}?overview=full&geometries=geojson`);
+                    let rotaData = await rotaRes.json();
+                    if(rotaData.routes && rotaData.routes.length > 0) {
+                        let pontos = rotaData.routes[0].geometry.coordinates.map(c => [c[1], c[0]]);
+                        let polyline = L.polyline(pontos, {color: '#4f46e5', weight: 5, opacity: 0.8}).addTo(mapInstance);
+                        mapInstance.fitBounds(polyline.getBounds(), {padding: [50, 50]});
+                        document.getElementById('mapa-status').innerText = "Rota traçada com sucesso!";
+                        return;
+                    }
+                } catch(e) {}
+
+                let polyline = L.polyline([coordsOrigem, coordsDestino], {color: '#4f46e5', weight: 4, dashArray: '5, 10'}).addTo(mapInstance);
+                mapInstance.fitBounds(polyline.getBounds(), {padding: [50, 50]});
+                document.getElementById('mapa-status').innerText = "Rota exibida no mapa.";
+            }, 300);
+        }
+
+        function fecharModalMapa() {
+            document.getElementById('modal-mapa').classList.add('hidden');
+        }
+
+        // Modal de Detalhes e PDF (Itinerário)
+        function abrirModalDetalhes(id) {
+            const item = dadosApp.itinerario.find(i => i.id === id);
+            if(item) {
+                document.getElementById('modal-edit-id').value = item.id;
+                document.getElementById('modal-info-trecho').innerText = `${item.categoria} — ${item.trecho}`;
+                document.getElementById('modal-notas').value = item.notas || '';
+                document.getElementById('modal-pdf').value = '';
+                document.getElementById('modal-pdf-status').innerText = item.pdfNome ? `PDF atual: ${item.pdfNome}` : 'Nenhum PDF anexado';
+                document.getElementById('modal-detalhes').classList.remove('hidden');
+            }
+        }
+
+        function fecharModalDetalhes() {
+            document.getElementById('modal-detalhes').classList.add('hidden');
+        }
+
+        function salvarDetalhesModal() {
+            const id = parseInt(document.getElementById('modal-edit-id').value);
+            const notas = document.getElementById('modal-notas').value;
+            const fileInput = document.getElementById('modal-pdf');
+            const item = dadosApp.itinerario.find(i => i.id === id);
+
+            if(item) {
+                item.notas = notas;
+                if(fileInput.files && fileInput.files[0]) {
+                    const reader = new FileReader();
+                    reader.onload = function(evt) {
+                        item.pdfData = evt.target.result;
+                        item.pdfNome = fileInput.files[0].name;
+                        salvarStorage();
+                        renderizarBlocos();
+                        fecharModalDetalhes();
+                    };
+                    reader.readAsDataURL(fileInput.files[0]);
+                } else {
+                    salvarStorage();
+                    renderizarBlocos();
+                    fecharModalDetalhes();
+                }
+            }
+        }
+
         function renderizarVouchersTab() {
             const container = document.getElementById('lista-comprados-html');
             container.innerHTML = '';
@@ -1046,110 +1158,6 @@
             if(confirm("Deseja excluir este voucher?")) {
                 dadosApp.vouchers = dadosApp.vouchers.filter(v => v.id !== id);
                 salvarStorage();
-            }
-        }
-
-        // Mapa com Rota Dinâmica (Origem ➔ Destino)
-        async function abrirMapaRuta(origem, destinoLocal, destinoCategoria) {
-            document.getElementById('mapa-titulo').innerText = `🗺️ Rota: ${origem} ➔ ${destinoLocal} (${destinoCategoria})`;
-            document.getElementById('mapa-status').innerText = "A traçar rota no mapa...";
-            document.getElementById('modal-mapa').classList.remove('hidden');
-            
-            setTimeout(async () => {
-                if(!mapInstance) {
-                    mapInstance = L.map('map').setView([47.3769, 8.5417], 7);
-                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                        maxZoom: 19,
-                        attribution: '© OpenStreetMap'
-                    }).addTo(mapInstance);
-                } else {
-                    mapInstance.invalidateSize();
-                }
-
-                mapInstance.eachLayer(layer => {
-                    if (layer instanceof L.Marker || layer instanceof L.Polyline) {
-                        mapInstance.removeLayer(layer);
-                    }
-                });
-
-                async function buscarCoords(query) {
-                    try {
-                        let res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}`);
-                        let data = await res.json();
-                        if(data && data.length > 0) {
-                            return [parseFloat(data[0].lat), parseFloat(data[0].lon)];
-                        }
-                    } catch(e) {}
-                    return null;
-                }
-
-                let coordsOrigem = await buscarCoords(origem) || [47.3769, 8.5417];
-                let coordsDestino = await buscarCoords(destinoLocal) || [46.9480, 7.4474];
-
-                L.marker(coordsOrigem).addTo(mapInstance).bindPopup(`<b>Origem (Embarque):</b> ${origem}`).openPopup();
-                L.marker(coordsDestino).addTo(mapInstance).bindPopup(`<b>Destino (Desembarque):</b> ${destinoLocal}`);
-
-                try {
-                    let rotaRes = await fetch(`https://router.project-osrm.org/route/v1/driving/${coordsOrigem[1]},${coordsOrigem[0]};${coordsDestino[1]},${coordsDestino[0]}?overview=full&geometries=geojson`);
-                    let rotaData = await rotaRes.json();
-                    if(rotaData.routes && rotaData.routes.length > 0) {
-                        let pontos = rotaData.routes[0].geometry.coordinates.map(c => [c[1], c[0]]);
-                        let polyline = L.polyline(pontos, {color: '#4f46e5', weight: 5, opacity: 0.8}).addTo(mapInstance);
-                        mapInstance.fitBounds(polyline.getBounds(), {padding: [50, 50]});
-                        document.getElementById('mapa-status').innerText = "Rota traçada com sucesso!";
-                        return;
-                    }
-                } catch(e) {}
-
-                let polyline = L.polyline([coordsOrigem, coordsDestino], {color: '#4f46e5', weight: 4, dashArray: '5, 10'}).addTo(mapInstance);
-                mapInstance.fitBounds(polyline.getBounds(), {padding: [50, 50]});
-                document.getElementById('mapa-status').innerText = "Rota exibida no mapa.";
-            }, 300);
-        }
-
-        function fecharModalMapa() {
-            document.getElementById('modal-mapa').classList.add('hidden');
-        }
-
-        function abrirModalDetalhes(id) {
-            const item = dadosApp.itinerario.find(i => i.id === id);
-            if(item) {
-                document.getElementById('modal-edit-id').value = item.id;
-                document.getElementById('modal-info-trecho').innerText = `${item.categoria} — ${item.trecho}`;
-                document.getElementById('modal-notas').value = item.notas || '';
-                document.getElementById('modal-pdf').value = '';
-                document.getElementById('modal-pdf-status').innerText = item.pdfNome ? `PDF atual: ${item.pdfNome}` : 'Nenhum PDF anexado';
-                document.getElementById('modal-detalhes').classList.remove('hidden');
-            }
-        }
-
-        function fecharModalDetalhes() {
-            document.getElementById('modal-detalhes').classList.add('hidden');
-        }
-
-        function salvarDetalhesModal() {
-            const id = parseInt(document.getElementById('modal-edit-id').value);
-            const notas = document.getElementById('modal-notas').value;
-            const fileInput = document.getElementById('modal-pdf');
-            const item = dadosApp.itinerario.find(i => i.id === id);
-
-            if(item) {
-                item.notas = notas;
-                if(fileInput.files && fileInput.files[0]) {
-                    const reader = new FileReader();
-                    reader.onload = function(evt) {
-                        item.pdfData = evt.target.result;
-                        item.pdfNome = fileInput.files[0].name;
-                        salvarStorage();
-                        renderizarBlocos();
-                        fecharModalDetalhes();
-                    };
-                    reader.readAsDataURL(fileInput.files[0]);
-                } else {
-                    salvarStorage();
-                    renderizarBlocos();
-                    fecharModalDetalhes();
-                }
             }
         }
 
