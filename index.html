@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v62.5)</title>
+    <title>Roteiro Europa - Mariana (v66.0)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Leaflet CSS para Mapas -->
@@ -37,7 +37,7 @@
     <!-- CABEÇALHO COMPACTO NO TOPO -->
     <header class="bg-slate-900 text-white px-3 py-2 shadow-md border-b border-slate-800 text-xs flex justify-between items-center z-50 relative">
         <span class="font-bold tracking-wide">🚄 Roteiro Europa - Mariana</span>
-        <span class="bg-indigo-600 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v62.5</span>
+        <span class="bg-indigo-600 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v66.0</span>
     </header>
 
     <!-- CONTEÚDO PRINCIPAL COMPACTO -->
@@ -117,7 +117,7 @@
 
     <!-- BARRA DE FERRAMENTAS FIXA NO FINAL DA TELA COM GEMINI IA -->
     <nav class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-md text-white px-2 py-2 shadow-2xl border-t border-slate-800 text-xs flex items-center gap-1 overflow-x-auto no-scrollbar">
-        <span class="bg-indigo-600 px-1 py-0.5 rounded font-mono font-bold text-[8px] shrink-0">v62.5</span>
+        <span class="bg-indigo-600 px-1 py-0.5 rounded font-mono font-bold text-[8px] shrink-0">v66.0</span>
         <button onclick="abrirGeminiModal()" class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-2 py-1 rounded-lg font-bold transition shrink-0 flex items-center gap-1 text-[10px]">
             <span>✨</span> Gemini
         </button>
@@ -228,7 +228,7 @@
     <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
-        const CHAVE_APP = "mariana_viagem_europa_v62_5";
+        const CHAVE_APP = "mariana_viagem_europa_v66";
         let destinoFiltro = 'todos';
         let tarefaFiltro = 'todas';
         let campoFocoAtual = null;
@@ -252,7 +252,7 @@
             const manifestBlob = new Blob([JSON.stringify(manifestObj)], {type: 'application/manifest+json'});
             document.getElementById('pwa-manifest').href = URL.createObjectURL(manifestBlob);
 
-            const temaSalvo = localStorage.getItem('tema_v62_5');
+            const temaSalvo = localStorage.getItem('tema_v66');
             if (temaSalvo === 'dark') {
                 document.body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 document.body.classList.remove('bg-slate-100', 'text-slate-800');
@@ -294,17 +294,10 @@
                     { id: 1, titulo: "ibis budget Zurich City West", categoria: "Zurique", pdfData: "", pdfNome: "", bloqueado: false },
                     { id: 2, titulo: "Premier Inn Freiburg City Süd", categoria: "Freiburg", pdfData: "", pdfNome: "", bloqueado: false },
                     { id: 3, titulo: "Disney Hotel Santa Fe", categoria: "França", pdfData: "", pdfNome: "", bloqueado: false },
-                    { id: 4, titulo: "Campanile Paris 12 - Bercy Village", categoria: "França", pdfData: "", pdfNome: "", bloqueado: false },
-                    { id: 5, titulo: "Hotel Weisses Kreuz", categoria: "Interlaken", pdfData: "", pdfNome: "", bloqueado: false }
+                    { id: 4, titulo: "Hotel Weisses Kreuz", categoria: "Interlaken", pdfData: "", pdfNome: "", bloqueado: false }
                 ];
             }
             
-            if (!sessionStorage.getItem('sessao_ativa_v62_5')) {
-                document.getElementById('tela-bloqueio').classList.add('hidden'); // Exibido apenas se necessário
-            } else {
-                document.getElementById('tela-bloqueio').classList.add('hidden');
-            }
-
             atualizarTudo();
         });
 
@@ -327,10 +320,10 @@
         }
 
         function desbloquearComPin() {
-            let pinSalvo = localStorage.getItem('app_pin_v62_5') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v66') || '1510';
             let digitado = document.getElementById('input-pin').value;
             if(digitado === pinSalvo) {
-                sessionStorage.setItem('sessao_ativa_v62_5', 'true');
+                sessionStorage.setItem('sessao_ativa_v66', 'true');
                 document.getElementById('tela-bloqueio').classList.add('hidden');
                 document.getElementById('erro-pin').classList.add('hidden');
             } else {
@@ -339,17 +332,17 @@
         }
 
         async function desbloquearComBiometria() {
-            sessionStorage.setItem('sessao_ativa_v62_5', 'true');
+            sessionStorage.setItem('sessao_ativa_v66', 'true');
             document.getElementById('tela-bloqueio').classList.add('hidden');
         }
 
         function alterarSenhaPin() {
             let atual = prompt("Digite a senha atual (Padrão: 1510):");
-            let pinSalvo = localStorage.getItem('app_pin_v62_5') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v66') || '1510';
             if(atual === pinSalvo) {
                 let nova = prompt("Digite a nova senha PIN:");
                 if(nova && nova.trim() !== '') {
-                    localStorage.setItem('app_pin_v62_5', nova.trim());
+                    localStorage.setItem('app_pin_v66', nova.trim());
                     alert("🔑 Senha alterada com sucesso!");
                 }
             } else {
@@ -362,11 +355,11 @@
             if(body.classList.contains('dark')) {
                 body.classList.remove('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.add('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v62_5', 'light');
+                localStorage.setItem('tema_v66', 'light');
             } else {
                 body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.remove('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v62_5', 'dark');
+                localStorage.setItem('tema_v66', 'dark');
             }
         }
 
@@ -383,7 +376,7 @@
             log.scrollTop = log.scrollHeight;
 
             setTimeout(() => {
-                let resposta = "Estou aqui a ajudar-te com o teu roteiro para a Europa, Mariana! Podes gerir os teus blocos compactos com total segurança (senha 1510).";
+                let resposta = "Estou aqui a ajudar-te com o teu roteiro compacto para a Europa, Mariana! Podes gerir os teus blocos com total segurança (senha 1510).";
                 log.innerHTML += `<div class="bg-indigo-50 text-indigo-900 p-2 rounded-lg mr-6 font-medium"><b>Gemini:</b> ${resposta}</div>`;
                 log.scrollTop = log.scrollHeight;
             }, 400);
@@ -406,14 +399,15 @@
                 numTransporte: "Nº Transporte",
                 notas: "Notas do Dia"
             },
+            ordemSecoesPadrao: ['origemDestino', 'transporte', 'notas', 'extras'],
             coresBlocos: {},
             pontosExtrasMapa: [],
             statusPersonalizados: { "Concluído": "#22c55e", "Aguardando": "#f59e0b" },
             itinerario: [
-                { id: 1, categoria: "Zurique", dataInicio: "2026-12-30", dataFim: "2027-01-02", trecho: "Estadia no ibis budget Zurich City West", transporte: "Caminhada", numeroTransporte: "", embarque: "Zurich HB", desembarque: "ibis budget Zurich City West", moeda: "CHF", valor: "0", status: "Comprado", notas: "", textoLivre: "Check-in às 15h00.", pdfData: "", pdfNome: "", bloqueado: false, cor: "#e0f2fe", subBlocos: [] },
-                { id: 2, categoria: "Freiburg", dataInicio: "2027-01-02", dataFim: "2027-01-05", trecho: "Zurique ➔ Freiburg", transporte: "Ônibus", numeroTransporte: "Linha 72", embarque: "Zurich Bus Station", desembarque: "Premier Inn", moeda: "EUR", valor: "25", status: "Aguardando", notas: "", textoLivre: "Viagem confortável.", pdfData: "", pdfNome: "", bloqueado: false, cor: "#fef3c7", subBlocos: [] },
-                { id: 3, categoria: "França", dataInicio: "2027-01-05", dataFim: "2027-01-07", trecho: "Freiburg ➔ Disney", transporte: "Trem", numeroTransporte: "TGV 9572", embarque: "Freiburg Hbf", desembarque: "Disney Hotel", moeda: "EUR", valor: "220", status: "Aguardando", notas: "", textoLivre: "Parque Disney.", pdfData: "", pdfNome: "", bloqueado: false, cor: "#f3e8ff", subBlocos: [] },
-                { id: 4, categoria: "Interlaken", dataInicio: "2027-01-08", dataFim: "2027-01-12", trecho: "Paris ➔ Interlaken", transporte: "Trem", numeroTransporte: "Lyria", embarque: "Gare de Lyon", desembarque: "Hotel Weisses", moeda: "CHF", valor: "110", status: "Aguardando", notas: "", textoLivre: "Alpes suíços.", pdfData: "", pdfNome: "", bloqueado: false, cor: "#d1fae5", subBlocos: [] }
+                { id: 1, categoria: "Zurique", dataInicio: "2026-12-30", dataFim: "2027-01-02", trecho: "Estadia no ibis budget Zurich City West", transporte: "Caminhada", numeroTransporte: "", embarque: "Zurich HB", desembarque: "ibis budget Zurich City West", moeda: "CHF", valor: "0", status: "Comprado", notas: "", textoLivre: "Check-in às 15h00.", pdfData: "", pdfNome: "", bloqueado: false, cor: "#e0f2fe", ordemSecoes: ['origemDestino', 'transporte', 'notas', 'extras'], subBlocos: [] },
+                { id: 2, categoria: "Freiburg", dataInicio: "2027-01-02", dataFim: "2027-01-05", trecho: "Zurique ➔ Freiburg", transporte: "Ônibus", numeroTransporte: "Linha 72", embarque: "Zurich Bus Station", desembarque: "Premier Inn", moeda: "EUR", valor: "25", status: "Aguardando", notas: "", textoLivre: "Viagem confortável.", pdfData: "", pdfNome: "", bloqueado: false, cor: "#fef3c7", ordemSecoes: ['origemDestino', 'transporte', 'notas', 'extras'], subBlocos: [] },
+                { id: 3, categoria: "França", dataInicio: "2027-01-05", dataFim: "2027-01-07", trecho: "Freiburg ➔ Disney", transporte: "Trem", numeroTransporte: "TGV 9572", embarque: "Freiburg Hbf", desembarque: "Disney Hotel", moeda: "EUR", valor: "220", status: "Aguardando", notas: "", textoLivre: "Parque Disney.", pdfData: "", pdfNome: "", bloqueado: false, cor: "#f3e8ff", ordemSecoes: ['origemDestino', 'transporte', 'notas', 'extras'], subBlocos: [] },
+                { id: 4, categoria: "Interlaken", dataInicio: "2027-01-08", dataFim: "2027-01-12", trecho: "Paris ➔ Interlaken", transporte: "Trem", numeroTransporte: "Lyria", embarque: "Gare de Lyon", desembarque: "Hotel Weisses", moeda: "CHF", valor: "110", status: "Aguardando", notas: "", textoLivre: "Alpes suíços.", pdfData: "", pdfNome: "", bloqueado: false, cor: "#d1fae5", ordemSecoes: ['origemDestino', 'transporte', 'notas', 'extras'], subBlocos: [] }
             ],
             tarefas: [
                 { id: 1, texto: "Comprar cartões Wise e Nomad", status: "Concluído", bloqueado: false },
@@ -442,6 +436,23 @@
                     dadosApp.itinerario[index] = dadosApp.itinerario[novoIndex];
                     dadosApp.itinerario[novoIndex] = temp;
                     salvarStorage();
+                }
+            }
+        }
+
+        function moverSecaoBloco(itemId, chaveSecao, direcao) {
+            let item = dadosApp.itinerario.find(i => i.id === itemId);
+            if(item) {
+                if(!item.ordemSecoes) item.ordemSecoes = [...dadosApp.ordemSecoesPadrao];
+                let idx = item.ordemSecoes.indexOf(chaveSecao);
+                if(idx !== -1) {
+                    let novoIdx = idx + direcao;
+                    if(novoIdx >= 0 && novoIdx < item.ordemSecoes.length) {
+                        let temp = item.ordemSecoes[idx];
+                        item.ordemSecoes[idx] = item.ordemSecoes[novoIdx];
+                        item.ordemSecoes[novoIdx] = temp;
+                        salvarStorage();
+                    }
                 }
             }
         }
@@ -719,32 +730,107 @@
                 });
                 opcoesLocaisDes += `<option value="outro_local">➕ Outro...</option>`;
 
-                let subBlocosHtml = '';
-                if(item.subBlocos && item.subBlocos.length > 0) {
-                    item.subBlocos.forEach(sb => {
-                        subBlocosHtml += `
-                            <div draggable="true" ondragstart="dragSub(event, ${item.id}, ${sb.id})" ondragover="allowDropSub(event)" ondrop="dropSub(event, ${item.id}, ${sb.id})" class="bg-white/95 p-2 rounded-xl border border-black/10 space-y-1 shadow-sm cursor-move">
-                                <div class="flex items-center justify-between gap-1">
-                                    <div class="flex items-center gap-1 flex-1">
-                                        <span class="text-slate-400 font-bold text-xs select-none">⠿</span>
-                                        <input type="text" value="${sb.titulo}" oninput="atualizarSubBlocoTitulo(${item.id}, ${sb.id}, this.value)" class="bg-transparent font-black text-indigo-900 text-[11px] outline-none w-full border-b border-indigo-100 pb-0.5" placeholder="Título...">
+                // Ordem das secções internas do bloco (agora móveis com botões de subir/descer)
+                if(!item.ordemSecoes) item.ordemSecoes = [...dadosApp.ordemSecoesPadrao];
+                
+                let htmlSecoes = '';
+                item.ordemSecoes.forEach((secKey, secIdx) => {
+                    let controleSecao = `
+                        <div class="flex items-center gap-1 shrink-0">
+                            <span class="text-[9px] font-bold text-slate-600 uppercase tracking-wider">${secKey}</span>
+                            <button onclick="moverSecaoBloco(${item.id}, '${secKey}', -1)" class="bg-slate-200 hover:bg-slate-300 px-1.5 py-0.5 rounded text-[10px] font-bold" title="Subir esta secção">⬆️</button>
+                            <button onclick="moverSecaoBloco(${item.id}, '${secKey}', 1)" class="bg-slate-200 hover:bg-slate-300 px-1.5 py-0.5 rounded text-[10px] font-bold" title="Descer esta secção">⬇️</button>
+                        </div>
+                    `;
+
+                    if(secKey === 'origemDestino') {
+                        htmlSecoes += `
+                            <div class="bg-white/95 p-2 rounded-xl border border-black/10 space-y-1">
+                                <div class="flex justify-between items-center border-b pb-0.5 mb-1">${controleSecao}</div>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-1.5 text-[11px]">
+                                    <div>
+                                        <label onclick="editarLabel('origem', '${lb.origem}')" class="block font-black mb-0.5 text-slate-900 text-[10px] cursor-pointer hover:text-indigo-600">📍 ${lb.origem} ✏️</label>
+                                        <select onchange="lidarSelecaoLocal(${item.id}, 'embarque', this.value)" ${dis} class="w-full p-1.5 bg-white border rounded-lg text-[11px] font-bold text-slate-900">
+                                            ${opcoesLocaisEmb}
+                                        </select>
                                     </div>
-                                    <button onclick="removerSubBloco(${item.id}, ${sb.id})" class="text-red-500 font-bold px-1 rounded bg-red-50 text-[10px]">✕</button>
+                                    <div>
+                                        <label onclick="editarLabel('destino', '${lb.destino}')" class="block font-black mb-0.5 text-slate-900 text-[10px] cursor-pointer hover:text-indigo-600">🏁 ${lb.destino} ✏️</label>
+                                        <select onchange="lidarSelecaoLocal(${item.id}, 'desembarque', this.value)" ${dis} class="w-full p-1.5 bg-white border rounded-lg text-[11px] font-bold text-slate-900">
+                                            ${opcoesLocaisDes}
+                                        </select>
+                                    </div>
                                 </div>
-                                <textarea rows="1" oninput="atualizarSubBlocoConteudo(${item.id}, ${sb.id}, this.value)" class="w-full p-1 bg-white border border-slate-200 rounded-lg outline-none text-[11px] text-slate-800" placeholder="Conteúdo...">${sb.conteudo || ''}</textarea>
                             </div>
                         `;
-                    });
-                }
+                    } else if(secKey === 'transporte') {
+                        htmlSecoes += `
+                            <div class="bg-white/95 p-2 rounded-xl border border-black/10 space-y-1">
+                                <div class="flex justify-between items-center border-b pb-0.5 mb-1">${controleSecao}</div>
+                                <div class="grid grid-cols-3 gap-1.5 text-[11px]">
+                                    <div>
+                                        <label onclick="editarLabel('trecho', '${lb.trecho}')" class="block font-semibold text-slate-700 text-[10px] cursor-pointer hover:text-indigo-600">${lb.trecho} ✏️</label>
+                                        <input type="text" value="${item.trecho}" ${dis} oninput="atualizarCampo(${item.id}, 'trecho', this.value)" class="w-full p-1.5 bg-white border rounded-lg text-[11px] font-bold text-slate-900" placeholder="Rota">
+                                    </div>
+                                    <div>
+                                        <label onclick="editarLabel('transporte', '${lb.transporte}')" class="block font-semibold text-slate-700 text-[10px] cursor-pointer hover:text-indigo-600">${lb.transporte} ✏️</label>
+                                        <input type="text" value="${item.transporte}" ${dis} oninput="atualizarCampo(${item.id}, 'transporte', this.value)" class="w-full p-1.5 bg-white border rounded-lg text-[11px]" placeholder="Trem">
+                                    </div>
+                                    <div>
+                                        <label onclick="editarLabel('numTransporte', '${lb.numTransporte}')" class="block font-semibold text-slate-700 text-[10px] cursor-pointer hover:text-indigo-600">${lb.numTransporte} ✏️</label>
+                                        <input type="text" value="${item.numeroTransporte || ''}" ${dis} oninput="atualizarCampo(${item.id}, 'numeroTransporte', this.value)" class="w-full p-1.5 bg-white border rounded-lg text-[11px] font-bold text-indigo-900" placeholder="Nº">
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    } else if(secKey === 'notas') {
+                        htmlSecoes += `
+                            <div class="bg-white/95 p-2 rounded-xl border border-black/10 space-y-1">
+                                <div class="flex justify-between items-center border-b pb-0.5 mb-1">${controleSecao}</div>
+                                <div>
+                                    <label onclick="editarLabel('notas', '${lb.notas}')" class="block font-semibold text-slate-700 text-[10px] cursor-pointer hover:text-indigo-600">📝 ${lb.notas} ✏️</label>
+                                    <textarea ${dis} oninput="atualizarCampo(${item.id}, 'textoLivre', this.value)" rows="1" class="w-full p-1.5 bg-white border rounded-lg text-[11px] text-slate-800" placeholder="Notas...">${item.textoLivre || ''}</textarea>
+                                </div>
+                            </div>
+                        `;
+                    } else if(secKey === 'extras') {
+                        let subBlocosHtml = '';
+                        if(item.subBlocos && item.subBlocos.length > 0) {
+                            item.subBlocos.forEach(sb => {
+                                subBlocosHtml += `
+                                    <div draggable="true" ondragstart="dragSub(event, ${item.id}, ${sb.id})" ondragover="allowDropSub(event)" ondrop="dropSub(event, ${item.id}, ${sb.id})" class="bg-white p-2 rounded-xl border border-black/10 space-y-1 shadow-sm cursor-move mt-1">
+                                        <div class="flex items-center justify-between gap-1">
+                                            <div class="flex items-center gap-1 flex-1">
+                                                <span class="text-slate-400 font-bold text-xs select-none" title="Arraste">⠿</span>
+                                                <input type="text" value="${sb.titulo}" oninput="atualizarSubBlocoTitulo(${item.id}, ${sb.id}, this.value)" class="bg-transparent font-black text-indigo-900 text-[11px] outline-none w-full border-b border-indigo-100 pb-0.5" placeholder="Título...">
+                                            </div>
+                                            <button onclick="removerSubBloco(${item.id}, ${sb.id})" class="text-red-500 font-bold px-1 rounded bg-red-50 text-[10px]">✕</button>
+                                        </div>
+                                        <textarea rows="1" oninput="atualizarSubBlocoConteudo(${item.id}, ${sb.id}, this.value)" class="w-full p-1 bg-white border border-slate-200 rounded-lg outline-none text-[11px] text-slate-800" placeholder="Conteúdo...">${sb.conteudo || ''}</textarea>
+                                    </div>
+                                `;
+                            });
+                        }
+                        htmlSecoes += `
+                            <div class="bg-white/95 p-2 rounded-xl border border-black/10 space-y-1">
+                                <div class="flex justify-between items-center border-b pb-0.5 mb-1">
+                                    ${controleSecao}
+                                    <button onclick="adicionarSubBloco(${item.id})" class="bg-indigo-600 text-white px-2 py-0.5 rounded text-[9px] font-bold">➕ Nova Caixinha</button>
+                                </div>
+                                <div class="space-y-1">${subBlocosHtml || '<p class="text-[10px] text-slate-400 italic">Nenhuma caixinha extra.</p>'}</div>
+                            </div>
+                        `;
+                    }
+                });
 
                 let card = document.createElement('div');
-                card.className = `p-3 rounded-2xl border border-black/15 space-y-2 transition shadow-sm`;
+                card.className = `p-2.5 rounded-2xl border border-black/15 space-y-2 transition shadow-sm`;
                 card.style.backgroundColor = corHex;
 
                 card.innerHTML = `
                     <div class="flex justify-between items-center gap-1 border-b border-black/10 pb-1.5 flex-wrap">
-                        <div class="flex items-center gap-1.5">
-                            <select onchange="lidarSelecaoDestino(${item.id}, this.value)" ${dis} class="bg-white text-indigo-900 font-black px-2 py-1 rounded-lg text-[11px] border border-black/15 outline-none shadow-sm">
+                        <div class="flex items-center gap-1 flex-wrap">
+                            <select onchange="lidarSelecaoDestino(${item.id}, this.value)" ${dis} class="bg-white text-indigo-900 font-black px-2 py-0.5 rounded-lg text-[11px] border border-black/15 outline-none shadow-sm">
                                 ${opcoesDestino}
                             </select>
                             <span class="bg-indigo-600 text-white font-bold px-1.5 py-0.5 rounded-lg text-[9px]">📅 ${totalDias}d</span>
@@ -755,56 +841,15 @@
                                 <span>➔</span>
                                 <input type="date" value="${item.dataFim || ''}" ${dis} onchange="atualizarCampo(${item.id}, 'dataFim', this.value)" class="bg-transparent outline-none text-slate-800 text-[10px]">
                             </div>
-                            <select onchange="atualizarCampo(${item.id}, 'status', this.value)" ${dis} class="border rounded-lg px-1.5 py-1 text-[10px] font-bold outline-none ${item.status === 'Comprado' ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'}">
+                            <select onchange="atualizarCampo(${item.id}, 'status', this.value)" ${dis} class="border rounded-lg px-1.5 py-0.5 text-[10px] font-bold outline-none ${item.status === 'Comprado' ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'}">
                                 <option value="Comprado" ${item.status === 'Comprado' ? 'selected' : ''}>Comprado</option>
                                 <option value="Aguardando" ${item.status === 'Aguardando' ? 'selected' : ''}>Aguardando</option>
                             </select>
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-1.5 text-[11px] bg-white/90 p-2 rounded-xl border border-black/10 shadow-inner">
-                        <div>
-                            <label onclick="editarLabel('origem', '${lb.origem}')" class="block font-black mb-0.5 text-slate-900 text-[10px] cursor-pointer hover:text-indigo-600">📍 ${lb.origem} ✏️</label>
-                            <select onchange="lidarSelecaoLocal(${item.id}, 'embarque', this.value)" ${dis} class="w-full p-1.5 bg-white border rounded-lg text-[11px] font-bold text-slate-900">
-                                ${opcoesLocaisEmb}
-                            </select>
-                        </div>
-                        <div>
-                            <label onclick="editarLabel('destino', '${lb.destino}')" class="block font-black mb-0.5 text-slate-900 text-[10px] cursor-pointer hover:text-indigo-600">🏁 ${lb.destino} ✏️</label>
-                            <select onchange="lidarSelecaoLocal(${item.id}, 'desembarque', this.value)" ${dis} class="w-full p-1.5 bg-white border rounded-lg text-[11px] font-bold text-slate-900">
-                                ${opcoesLocaisDes}
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="grid grid-cols-3 gap-1.5 text-[11px]">
-                        <div>
-                            <label onclick="editarLabel('trecho', '${lb.trecho}')" class="block font-semibold text-slate-700 text-[10px] cursor-pointer hover:text-indigo-600">${lb.trecho} ✏️</label>
-                            <input type="text" value="${item.trecho}" ${dis} oninput="atualizarCampo(${item.id}, 'trecho', this.value)" class="w-full p-1.5 bg-white border rounded-lg text-[11px] font-bold text-slate-900" placeholder="Ex: Rota">
-                        </div>
-                        <div>
-                            <label onclick="editarLabel('transporte', '${lb.transporte}')" class="block font-semibold text-slate-700 text-[10px] cursor-pointer hover:text-indigo-600">${lb.transporte} ✏️</label>
-                            <input type="text" value="${item.transporte}" ${dis} oninput="atualizarCampo(${item.id}, 'transporte', this.value)" class="w-full p-1.5 bg-white border rounded-lg text-[11px]" placeholder="Ex: Trem">
-                        </div>
-                        <div>
-                            <label onclick="editarLabel('numTransporte', '${lb.numTransporte}')" class="block font-semibold text-slate-700 text-[10px] cursor-pointer hover:text-indigo-600">${lb.numTransporte} ✏️</label>
-                            <input type="text" value="${item.numeroTransporte || ''}" ${dis} oninput="atualizarCampo(${item.id}, 'numeroTransporte', this.value)" class="w-full p-1.5 bg-white border rounded-lg text-[11px] font-bold text-indigo-900" placeholder="Ex: Linha">
-                        </div>
-                    </div>
-
-                    <div>
-                        <label onclick="editarLabel('notas', '${lb.notas}')" class="block font-semibold text-slate-700 text-[10px] cursor-pointer hover:text-indigo-600">📝 ${lb.notas} ✏️</label>
-                        <textarea ${dis} oninput="atualizarCampo(${item.id}, 'textoLivre', this.value)" rows="1" class="w-full p-1.5 bg-white border rounded-lg text-[11px] text-slate-800" placeholder="Notas...">${item.textoLivre || ''}</textarea>
-                    </div>
-
-                    <!-- CAIXINHAS INTERNAS -->
-                    <div class="space-y-1.5 pt-0.5">
-                        <div class="flex justify-between items-center">
-                            <span class="font-bold text-[10px] text-slate-700 uppercase">📂 Caixinhas Extras</span>
-                            <button onclick="adicionarSubBloco(${item.id})" class="bg-indigo-600 text-white px-2 py-0.5 rounded-lg text-[9px] font-bold">➕ Nova Caixinha</button>
-                        </div>
-                        <div class="space-y-1.5">${subBlocosHtml}</div>
-                    </div>
+                    <!-- Secções móveis de dentro do quadrado -->
+                    <div class="space-y-1.5">${htmlSecoes}</div>
 
                     <!-- BARRA INFERIOR DO BLOCO -->
                     <div class="flex flex-wrap justify-between items-center gap-1 pt-1.5 border-t border-black/10">
@@ -824,7 +869,7 @@
                                 <input type="color" id="input-cor-${item.id}" value="${corHex}" class="w-4 h-4 rounded cursor-pointer border-0 bg-transparent">
                                 <button onclick="atualizarCorBlocoLocal(${item.id})" class="bg-indigo-600 text-white px-1 py-0.5 rounded text-[9px]">OK</button>
                             </div>
-                            <button onclick="abrirMapaRuta('${item.embarque}', '${item.desembarque}', '${item.categoria}', '${item.transporte || ''}', '${item.numeroTransporte || ''}')" class="bg-sky-100 text-sky-800 px-2 py-0.5 rounded text-[10px] font-bold">🗺️</button>
+                            <button onclick="abrirMapaRuta('${item.embarque}', '${item.desembarque}', '${item.categoria}', '${item.transporte || ''}', '${item.numeroTransporte || ''}')" class="bg-sky-100 text-sky-800 px-1.5 py-0.5 rounded text-[10px] font-bold">🗺️</button>
                             <button onclick="abrirModalDetalhes(${item.id})" class="bg-white border px-1.5 py-0.5 rounded text-[10px]">✏️</button>
                             <button onclick="alternarBloqueio(${item.id})" class="${btnOkClass} px-2 py-0.5 rounded text-[10px] font-bold border">${btnOkText}</button>
                             <button onclick="apagarBloco(${item.id})" class="bg-red-50 text-red-500 px-1.5 py-0.5 rounded text-[10px] font-bold">✕</button>
@@ -845,7 +890,7 @@
             document.getElementById('stat-tarefas').innerText = `${concluidas} / ${total} Concluídas`;
 
             if(filtradas.length === 0) {
-                container.innerHTML = '<p class="text-xs text-slate-400 italic text-center py-4">Nenhuma tarefa encontrada.</p>';
+                container.innerHTML = '<p class="text-xs text-slate-400 italic text-center py-4">Nenhuma tarefa.</p>';
                 return;
             }
 
@@ -910,11 +955,11 @@
                 for(let item of dadosApp.itinerario) {
                     if(item.embarque) {
                         let cEmb = await buscarCoords(item.embarque);
-                        if(cEmb) { L.marker(cEmb).addTo(mapaGeralInstance).bindPopup(`<b>Embarque:</b> ${item.embarque}`); bounds.push(cEmb); }
+                        if(cEmb) { L.marker(cEmb).addTo(mapaGeralInstance).bindPopup(`Embarque: ${item.embarque}`); bounds.push(cEmb); }
                     }
                     if(item.desembarque) {
                         let cDes = await buscarCoords(item.desembarque);
-                        if(cDes) { L.marker(cDes).addTo(mapaGeralInstance).bindPopup(`<b>Desembarque:</b> ${item.desembarque}`); bounds.push(cDes); }
+                        if(cDes) { L.marker(cDes).addTo(mapaGeralInstance).bindPopup(`Desembarque: ${item.desembarque}`); bounds.push(cDes); }
                     }
                     if(item.embarque && item.desembarque) {
                         let c1 = await buscarCoords(item.embarque);
@@ -948,7 +993,7 @@
         }
         function adicionarBloco() {
             let novoItem = {
-                id: Date.now(), categoria: "Zurique", dataInicio: "", dataFim: "", trecho: "Novo Trecho", transporte: "Trem", numeroTransporte: "", embarque: "Zurich HB", desembarque: "Hotel", moeda: "CHF", valor: "0", status: "Aguardando", notas: "", textoLivre: "", pdfData: "", pdfNome: "", bloqueado: false, cor: "#e0f2fe", subBlocos: []
+                id: Date.now(), categoria: "Zurique", dataInicio: "", dataFim: "", trecho: "Novo Trecho", transporte: "Trem", numeroTransporte: "", embarque: "Zurich HB", desembarque: "Hotel", moeda: "CHF", valor: "0", status: "Aguardando", notas: "", textoLivre: "", pdfData: "", pdfNome: "", bloqueado: false, cor: "#e0f2fe", ordemSecoes: ['origemDestino', 'transporte', 'notas', 'extras'], subBlocos: []
             };
             dadosApp.itinerario.unshift(novoItem);
             salvarStorage();
