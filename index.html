@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v61.0)</title>
+    <title>Roteiro Europa - Mariana (v62.0)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Leaflet CSS para Mapas -->
@@ -11,7 +11,7 @@
     <!-- Manifest Dinâmico via JavaScript -->
     <link id="pwa-manifest" rel="manifest" href="">
 </head>
-<body class="bg-slate-100 text-slate-800 min-h-screen pb-44 select-none transition-colors duration-200">
+<body class="bg-slate-100 text-slate-800 min-h-screen pb-32 select-none transition-colors duration-200">
 
     <!-- TELA DE BLOQUEIO / SEGURANÇA (SENHA 1510 & DIGITAL) -->
     <div id="tela-bloqueio" class="fixed inset-0 z-[100] bg-slate-900 flex items-center justify-center p-4 backdrop-blur-md hidden">
@@ -37,7 +37,7 @@
     <!-- CABEÇALHO NORMAL NO TOPO -->
     <header class="bg-slate-900 text-white px-4 py-3 shadow-md border-b border-slate-700 text-xs flex justify-between items-center z-50 relative">
         <span class="font-bold tracking-wide">🚄 Roteiro Europa - Mariana</span>
-        <span class="bg-indigo-600 px-2 py-0.5 rounded font-mono font-bold text-[10px]">v61.0</span>
+        <span class="bg-indigo-600 px-2 py-0.5 rounded font-mono font-bold text-[10px]">v62.0</span>
     </header>
 
     <!-- CONTEÚDO PRINCIPAL -->
@@ -116,32 +116,27 @@
 
     </div>
 
-    <!-- BARRA DE FERRAMENTAS FIXA NO FINAL DA TELA COM GEMINI IA -->
-    <nav class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900 text-white px-3 py-2.5 shadow-2xl border-t border-slate-700 text-xs flex flex-wrap items-center justify-between gap-1.5">
-        <div class="flex items-center gap-1.5">
-            <span class="bg-indigo-600 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v61.0</span>
-            <span class="font-bold">Ações</span>
-        </div>
-        <div class="flex items-center gap-1 flex-wrap">
-            <button onclick="abrirGeminiModal()" class="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white px-2 py-1.5 rounded-xl font-bold transition shadow-sm flex items-center gap-1 text-[11px]">
-                <span>✨</span> Gemini
-            </button>
-            <button onclick="ativarMicrofone()" class="bg-purple-600 hover:bg-purple-700 text-white px-2 py-1.5 rounded-xl font-bold transition shadow-sm flex items-center gap-1 text-[11px]">
-                <span>🎤</span> Ditar
-            </button>
-            <button onclick="alternarTema()" class="bg-slate-800 hover:bg-slate-700 text-white px-2 py-1.5 rounded-xl font-bold transition border border-slate-700 flex items-center gap-1 text-[11px]">
-                <span>🌓</span> Tema
-            </button>
-            <button onclick="alterarSenhaPin()" class="bg-amber-600 hover:bg-amber-700 text-white px-2 py-1.5 rounded-xl font-bold transition shadow-sm flex items-center gap-1 text-[11px]">
-                <span>🔑</span> Senha
-            </button>
-            <button onclick="exportarWord()" class="bg-indigo-700 hover:bg-indigo-800 text-white px-2 py-1.5 rounded-xl font-bold transition shadow-sm flex items-center gap-1 text-[11px]">
-                <span>📥</span> Word
-            </button>
-            <button onclick="tentarInstalarApp()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2 py-1.5 rounded-xl font-bold transition shadow-sm flex items-center gap-1 text-[11px]">
-                <span>📱</span> App
-            </button>
-        </div>
+    <!-- BARRA DE FERRAMENTAS FIXA NO FINAL DA TELA COM GEMINI IA (EM LINHA ÚNICA SCROLLÁVEL) -->
+    <nav class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-md text-white px-3 py-2 shadow-2xl border-t border-slate-800 text-xs flex items-center gap-1.5 overflow-x-auto no-scrollbar">
+        <span class="bg-indigo-600 px-1.5 py-0.5 rounded font-mono font-bold text-[9px] shrink-0">v62.0</span>
+        <button onclick="abrirGeminiModal()" class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-2.5 py-1.5 rounded-xl font-bold transition shrink-0 flex items-center gap-1 text-[11px]">
+            <span>✨</span> Gemini
+        </button>
+        <button onclick="ativarMicrofone()" class="bg-purple-600 text-white px-2.5 py-1.5 rounded-xl font-bold transition shrink-0 flex items-center gap-1 text-[11px]">
+            <span>🎤</span> Ditar
+        </button>
+        <button onclick="alternarTema()" class="bg-slate-800 text-white px-2.5 py-1.5 rounded-xl font-bold transition border border-slate-700 shrink-0 flex items-center gap-1 text-[11px]">
+            <span>🌓</span> Tema
+        </button>
+        <button onclick="alterarSenhaPin()" class="bg-amber-600 text-white px-2.5 py-1.5 rounded-xl font-bold transition shrink-0 flex items-center gap-1 text-[11px]">
+            <span>🔑</span> Senha
+        </button>
+        <button onclick="exportarWord()" class="bg-indigo-700 text-white px-2.5 py-1.5 rounded-xl font-bold transition shrink-0 flex items-center gap-1 text-[11px]">
+            <span>📥</span> Word
+        </button>
+        <button onclick="tentarInstalarApp()" class="bg-emerald-600 text-white px-2.5 py-1.5 rounded-xl font-bold transition shrink-0 flex items-center gap-1 text-[11px]">
+            <span>📱</span> App
+        </button>
     </nav>
 
     <!-- MODAL DA GEMINI IA -->
@@ -238,7 +233,7 @@
     <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
-        const CHAVE_APP = "mariana_viagem_europa_v61";
+        const CHAVE_APP = "mariana_viagem_europa_v62";
         let destinoFiltro = 'todos';
         let tarefaFiltro = 'todas';
         let campoFocoAtual = null;
@@ -274,7 +269,7 @@
             const manifestBlob = new Blob([JSON.stringify(manifestObj)], {type: 'application/manifest+json'});
             document.getElementById('pwa-manifest').href = URL.createObjectURL(manifestBlob);
 
-            const temaSalvo = localStorage.getItem('tema_v61');
+            const temaSalvo = localStorage.getItem('tema_v62');
             if (temaSalvo === 'dark') {
                 document.body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 document.body.classList.remove('bg-slate-100', 'text-slate-800');
@@ -295,6 +290,16 @@
                     "CAMPOSANILE PARIS 12 - Bercy Village", "Gare de Lyon (Paris)", "Interlaken Ost",
                     "Hotel Weisses Kreuz", "Grindelwald", "Jungfraujoch"
                 ];
+            }
+            if(!dadosApp.labelsPersonalizadas) {
+                dadosApp.labelsPersonalizadas = {
+                    origem: "Local de Origem (Embarque)",
+                    destino: "Local de Destino (Desembarque)",
+                    trecho: "Trecho / Rota",
+                    transporte: "Transporte",
+                    numTransporte: "Nº Ônibus/Trem/Voo",
+                    notas: "Descrição / Notas Livres do Dia"
+                };
             }
             if(!dadosApp.coresBlocos) {
                 dadosApp.coresBlocos = {};
@@ -319,7 +324,7 @@
             }
             
             // Sessão Inteligente
-            if (!sessionStorage.getItem('sessao_ativa_v61')) {
+            if (!sessionStorage.getItem('sessao_ativa_v62')) {
                 document.getElementById('tela-bloqueio').classList.remove('hidden');
             } else {
                 document.getElementById('tela-bloqueio').classList.add('hidden');
@@ -350,10 +355,10 @@
 
         // Funções de Segurança com a Senha 1510
         function desbloquearComPin() {
-            let pinSalvo = localStorage.getItem('app_pin_v61') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v62') || '1510';
             let digitado = document.getElementById('input-pin').value;
             if(digitado === pinSalvo) {
-                sessionStorage.setItem('sessao_ativa_v61', 'true');
+                sessionStorage.setItem('sessao_ativa_v62', 'true');
                 document.getElementById('tela-bloqueio').classList.add('hidden');
                 document.getElementById('erro-pin').classList.add('hidden');
             } else {
@@ -371,26 +376,26 @@
                     };
                     let credential = await navigator.credentials.get({ publicKey });
                     if(credential) {
-                        sessionStorage.setItem('sessao_ativa_v61', 'true');
+                        sessionStorage.setItem('sessao_ativa_v62', 'true');
                         document.getElementById('tela-bloqueio').classList.add('hidden');
                         return;
                     }
                 }
-                sessionStorage.setItem('sessao_ativa_v61', 'true');
+                sessionStorage.setItem('sessao_ativa_v62', 'true');
                 document.getElementById('tela-bloqueio').classList.add('hidden');
             } catch(e) {
-                sessionStorage.setItem('sessao_ativa_v61', 'true');
+                sessionStorage.setItem('sessao_ativa_v62', 'true');
                 document.getElementById('tela-bloqueio').classList.add('hidden');
             }
         }
 
         function alterarSenhaPin() {
             let atual = prompt("Digite a senha atual (Padrão: 1510):");
-            let pinSalvo = localStorage.getItem('app_pin_v61') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v62') || '1510';
             if(atual === pinSalvo) {
                 let nova = prompt("Digite a nova senha PIN:");
                 if(nova && nova.trim() !== '') {
-                    localStorage.setItem('app_pin_v61', nova.trim());
+                    localStorage.setItem('app_pin_v62', nova.trim());
                     alert("🔑 Senha alterada com sucesso!");
                 }
             } else {
@@ -403,11 +408,11 @@
             if(body.classList.contains('dark')) {
                 body.classList.remove('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.add('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v61', 'light');
+                localStorage.setItem('tema_v62', 'light');
             } else {
                 body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.remove('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v61', 'dark');
+                localStorage.setItem('tema_v62', 'dark');
             }
         }
 
@@ -460,6 +465,14 @@
                 "CAMPOSANILE PARIS 12 - Bercy Village", "Gare de Lyon (Paris)", "Interlaken Ost",
                 "Hotel Weisses Kreuz", "Grindelwald", "Jungfraujoch"
             ],
+            labelsPersonalizadas: {
+                origem: "Local de Origem (Embarque)",
+                destino: "Local de Destino (Desembarque)",
+                trecho: "Trecho / Rota",
+                transporte: "Transporte",
+                numTransporte: "Nº Ônibus/Trem/Voo",
+                notas: "Descrição / Notas Livres do Dia"
+            },
             coresBlocos: {},
             pontosExtrasMapa: [],
             statusPersonalizados: {
@@ -504,6 +517,14 @@
                     dadosApp.itinerario[novoIndex] = temp;
                     salvarStorage();
                 }
+            }
+        }
+
+        function editarLabel(chave, tituloAtual) {
+            let novoNome = prompt(`Renomear "${tituloAtual}" para:`, dadosApp.labelsPersonalizadas[chave] || tituloAtual);
+            if(novoNome && novoNome.trim() !== '') {
+                dadosApp.labelsPersonalizadas[chave] = novoNome.trim();
+                salvarStorage();
             }
         }
 
@@ -816,6 +837,15 @@
                 return;
             }
 
+            let lb = dadosApp.labelsPersonalizadas || {
+                origem: "Local de Origem (Embarque)",
+                destino: "Local de Destino (Desembarque)",
+                trecho: "Trecho / Rota",
+                transporte: "Transporte",
+                numTransporte: "Nº Ônibus/Trem/Voo",
+                notas: "Descrição / Notas Livres do Dia"
+            };
+
             filtrados.forEach((item) => {
                 let dis = item.bloqueado ? 'disabled' : '';
                 let corHex = obterCorBlocoHex(item);
@@ -908,13 +938,13 @@
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs bg-white/90 p-2.5 rounded-2xl border border-black/15 shadow-inner">
                         <div>
-                            <label class="block font-black mb-0.5 text-slate-900 text-[11px]">📍 Local de Origem (Embarque)</label>
+                            <label onclick="editarLabel('origem', '${lb.origem}')" class="block font-black mb-0.5 text-slate-900 text-[11px] cursor-pointer hover:text-indigo-600 transition" title="Clique para renomear este título">📍 ${lb.origem} ✏️</label>
                             <select onchange="lidarSelecaoLocal(${item.id}, 'embarque', this.value)" ${dis} class="w-full p-2 bg-white border border-black/15 rounded-xl outline-none font-bold text-slate-900 text-xs shadow-sm">
                                 ${opcoesLocaisEmbarque}
                             </select>
                         </div>
                         <div>
-                            <label class="block font-black mb-0.5 text-slate-900 text-[11px]">🏁 Local de Destino (Desembarque)</label>
+                            <label onclick="editarLabel('destino', '${lb.destino}')" class="block font-black mb-0.5 text-slate-900 text-[11px] cursor-pointer hover:text-indigo-600 transition" title="Clique para renomear este título">🏁 ${lb.destino} ✏️</label>
                             <select onchange="lidarSelecaoLocal(${item.id}, 'desembarque', this.value)" ${dis} class="w-full p-2 bg-white border border-black/15 rounded-xl outline-none font-bold text-slate-900 text-xs shadow-sm">
                                 ${opcoesLocaisDesembarque}
                             </select>
@@ -923,21 +953,21 @@
 
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs">
                         <div class="sm:col-span-1">
-                            <label class="block font-semibold text-slate-700 mb-0.5 text-[11px]">Trecho / Rota</label>
+                            <label onclick="editarLabel('trecho', '${lb.trecho}')" class="block font-semibold text-slate-700 mb-0.5 text-[11px] cursor-pointer hover:text-indigo-600 transition" title="Clique para renomear">${lb.trecho} ✏️</label>
                             <input type="text" value="${item.trecho}" ${dis} onfocus="registarFoco(this)" oninput="atualizarCampo(${item.id}, 'trecho', this.value)" class="w-full p-2 bg-white border border-black/15 rounded-xl outline-none font-bold text-slate-900 text-xs" placeholder="Ex: Zurique ➔ Freiburg">
                         </div>
                         <div>
-                            <label class="block font-semibold text-slate-700 mb-0.5 text-[11px]">Transporte</label>
+                            <label onclick="editarLabel('transporte', '${lb.transporte}')" class="block font-semibold text-slate-700 mb-0.5 text-[11px] cursor-pointer hover:text-indigo-600 transition" title="Clique para renomear">${lb.transporte} ✏️</label>
                             <input type="text" value="${item.transporte}" ${dis} onfocus="registarFoco(this)" oninput="atualizarCampo(${item.id}, 'transporte', this.value)" class="w-full p-2 bg-white border border-black/15 rounded-xl outline-none text-xs" placeholder="Ex: Trem / Ônibus">
                         </div>
                         <div>
-                            <label class="block font-semibold text-slate-700 mb-0.5 text-[11px]">Nº Ônibus/Trem/Voo</label>
+                            <label onclick="editarLabel('numTransporte', '${lb.numTransporte}')" class="block font-semibold text-slate-700 mb-0.5 text-[11px] cursor-pointer hover:text-indigo-600 transition" title="Clique para renomear">${lb.numTransporte} ✏️</label>
                             <input type="text" value="${item.numeroTransporte || ''}" ${dis} onfocus="registarFoco(this)" oninput="atualizarCampo(${item.id}, 'numeroTransporte', this.value)" class="w-full p-2 bg-white border border-black/15 rounded-xl outline-none font-bold text-indigo-900 text-xs" placeholder="Ex: TGV 9235">
                         </div>
                     </div>
 
                     <div>
-                        <label class="block font-semibold text-slate-700 mb-0.5 text-[11px]">📝 Descrição / Notas Livres do Dia</label>
+                        <label onclick="editarLabel('notas', '${lb.notas}')" class="block font-semibold text-slate-700 mb-0.5 text-[11px] cursor-pointer hover:text-indigo-600 transition" title="Clique para renomear">📝 ${lb.notas} ✏️</label>
                         <textarea ${dis} onfocus="registarFoco(this)" oninput="atualizarCampo(${item.id}, 'textoLivre', this.value)" rows="2" class="w-full p-2.5 bg-white border border-black/15 rounded-xl outline-none text-xs text-slate-800" placeholder="Escreva aqui dicas, hotéis, atrações...">${item.textoLivre || ''}</textarea>
                     </div>
 
