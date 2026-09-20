@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v47.0)</title>
+    <title>Roteiro Europa - Mariana (v48.0)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Leaflet CSS para Mapas -->
@@ -37,7 +37,7 @@
     <!-- CABEÇALHO NORMAL NO TOPO -->
     <header class="bg-slate-900 text-white px-4 py-3 shadow-md border-b border-slate-700 text-xs flex justify-between items-center z-50 relative">
         <span class="font-bold tracking-wide">🚄 Roteiro Europa - Mariana</span>
-        <span class="bg-indigo-600 px-2 py-0.5 rounded font-mono font-bold text-[10px]">v47.0</span>
+        <span class="bg-indigo-600 px-2 py-0.5 rounded font-mono font-bold text-[10px]">v48.0</span>
     </header>
 
     <!-- CONTEÚDO PRINCIPAL -->
@@ -77,10 +77,8 @@
                     </div>
                     <button onclick="adicionarTarefa()" class="bg-indigo-600 hover:bg-indigo-500 text-white px-3.5 py-2 rounded-2xl text-xs font-bold transition shadow-sm">➕ Nova Tarefa</button>
                 </div>
-                <div class="flex gap-1.5 pt-1 overflow-x-auto">
-                    <button onclick="filtrarTarefas('todas')" id="btn-t-todas" class="px-3 py-1 rounded-xl text-xs font-bold bg-white text-indigo-950 transition shadow-sm">Todas</button>
-                    <button onclick="filtrarTarefas('Concluído')" id="btn-t-concluido" class="px-3 py-1 rounded-xl text-xs font-bold bg-indigo-800 text-white transition shadow-sm">✅ Concluídas</button>
-                    <button onclick="filtrarTarefas('Aguardando')" id="btn-t-aguardando" class="px-3 py-1 rounded-xl text-xs font-bold bg-indigo-800 text-white transition shadow-sm">⏳ Aguardando</button>
+                <div id="filtros-tarefas-container" class="flex gap-1.5 pt-1 overflow-x-auto">
+                    <!-- Dinâmico via JS -->
                 </div>
             </div>
             <div id="lista-tarefas-html" class="space-y-3 text-xs"></div>
@@ -105,7 +103,7 @@
     <!-- BARRA DE FERRAMENTAS FIXA NO FINAL DA TELA -->
     <nav class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900 text-white px-4 py-2.5 shadow-2xl border-t border-slate-700 text-xs flex flex-wrap items-center justify-between gap-2">
         <div class="flex items-center gap-2">
-            <span class="bg-indigo-600 px-2 py-0.5 rounded font-mono font-bold text-[10px]">v47.0</span>
+            <span class="bg-indigo-600 px-2 py-0.5 rounded font-mono font-bold text-[10px]">v48.0</span>
             <span class="font-bold">Barra de Ações</span>
         </div>
         <div class="flex items-center gap-1.5 flex-wrap">
@@ -204,7 +202,7 @@
     <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
-        const CHAVE_APP = "mariana_viagem_europa_v47";
+        const CHAVE_APP = "mariana_viagem_europa_v48";
         let destinoFiltro = 'todos';
         let tarefaFiltro = 'todas';
         let campoFocoAtual = null;
@@ -238,7 +236,7 @@
             const manifestBlob = new Blob([JSON.stringify(manifestObj)], {type: 'application/manifest+json'});
             document.getElementById('pwa-manifest').href = URL.createObjectURL(manifestBlob);
 
-            const temaSalvo = localStorage.getItem('tema_v47');
+            const temaSalvo = localStorage.getItem('tema_v48');
             if (temaSalvo === 'dark') {
                 document.body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 document.body.classList.remove('bg-slate-100', 'text-slate-800');
@@ -260,12 +258,10 @@
                     "Hotel Weisses Kreuz", "Grindelwald", "Jungfraujoch"
                 ];
             }
-            if(!dadosApp.coresDestinos) {
-                dadosApp.coresDestinos = {
-                    "Zurique": "#e0f2fe",
-                    "Freiburg": "#fef3c7",
-                    "França": "#f3e8ff",
-                    "Interlaken": "#d1fae5"
+            if(!dadosApp.statusPersonalizados) {
+                dadosApp.statusPersonalizados = {
+                    "Concluído": "#22c55e",
+                    "Aguardando": "#f59e0b"
                 };
             }
             if(!dadosApp.vouchers) {
@@ -303,7 +299,7 @@
 
         // Funções de Segurança com a Senha 1510
         function desbloquearComPin() {
-            let pinSalvo = localStorage.getItem('app_pin_v47') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v48') || '1510';
             let digitado = document.getElementById('input-pin').value;
             if(digitado === pinSalvo) {
                 document.getElementById('tela-bloqueio').classList.add('hidden');
@@ -337,11 +333,11 @@
 
         function alterarSenhaPin() {
             let atual = prompt("Digite a senha atual (Padrão: 1510):");
-            let pinSalvo = localStorage.getItem('app_pin_v47') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v48') || '1510';
             if(atual === pinSalvo) {
                 let nova = prompt("Digite a nova senha PIN:");
                 if(nova && nova.trim() !== '') {
-                    localStorage.setItem('app_pin_v47', nova.trim());
+                    localStorage.setItem('app_pin_v48', nova.trim());
                     alert("🔑 Senha alterada com sucesso!");
                 }
             } else {
@@ -354,11 +350,11 @@
             if(body.classList.contains('dark')) {
                 body.classList.remove('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.add('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v47', 'light');
+                localStorage.setItem('tema_v48', 'light');
             } else {
                 body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.remove('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v47', 'dark');
+                localStorage.setItem('tema_v48', 'dark');
             }
         }
 
@@ -376,6 +372,10 @@
                 "Freiburg": "#fef3c7",
                 "França": "#f3e8ff",
                 "Interlaken": "#d1fae5"
+            },
+            statusPersonalizados: {
+                "Concluído": "#22c55e",
+                "Aguardando": "#f59e0b"
             },
             itinerario: [
                 { id: 1, categoria: "Zurique", dataInicio: "2026-12-30", dataFim: "2027-01-02", trecho: "Estadia no ibis budget Zurich City West", transporte: "Caminhada / Transporte local", embarque: "Zurich HB", desembarque: "ibis budget Zurich City West", moeda: "CHF", valor: "0", status: "Comprado", notas: "", textoLivre: "Check-in a partir das 15h00. Primeiros dias em Zurique.", pdfData: "", pdfNome: "", bloqueado: false },
@@ -416,6 +416,7 @@
 
         function atualizarTudo() {
             renderizarFiltros();
+            renderizarFiltrosTarefas();
             renderizarBlocos();
             renderizarTarefas();
             renderizarVouchersTab();
@@ -446,7 +447,7 @@
         function obterCorDestinoHex(cat) {
             if(!dadosApp.coresDestinos) dadosApp.coresDestinos = {};
             if(!dadosApp.coresDestinos[cat]) {
-                dadosApp.coresDestinos[cat] = "#f1f5f9"; // padrão slate-100
+                dadosApp.coresDestinos[cat] = "#f1f5f9";
             }
             return dadosApp.coresDestinos[cat];
         }
@@ -484,13 +485,29 @@
             container.innerHTML = html;
         }
 
+        function renderizarFiltrosTarefas() {
+            const container = document.getElementById('filtros-tarefas-container');
+            if(!container) return;
+
+            let html = `<button onclick="filtrarTarefas('todas')" id="btn-t-todas" class="px-3 py-1 rounded-xl text-xs font-bold ${tarefaFiltro === 'todas' ? 'bg-white text-indigo-950' : 'bg-indigo-800 text-white'} transition shadow-sm">Todas</button>`;
+
+            if(!dadosApp.statusPersonalizados) dadosApp.statusPersonalizados = {"Concluído": "#22c55e", "Aguardando": "#f59e0b"};
+
+            Object.keys(dadosApp.statusPersonalizados).forEach(st => {
+                let ativo = tarefaFiltro === st;
+                html += `<button onclick="filtrarTarefas('${st}')" id="btn-t-${st}" class="px-3 py-1 rounded-xl text-xs font-bold ${ativo ? 'bg-white text-indigo-950' : 'bg-indigo-800 text-white'} transition shadow-sm">${st}</button>`;
+            });
+
+            container.innerHTML = html;
+        }
+
         function adicionarNovoDestinoFiltro() {
             let novo = prompt("Digite o nome do novo destino para os filtros e blocos:");
             if(novo && novo.trim() !== '') {
                 let limpo = novo.trim();
                 if(!dadosApp.destinosCadastrados.includes(limpo)) {
                     dadosApp.destinosCadastrados.push(limpo);
-                    dadosApp.coresDestinos[limpo] = "#fef08a"; // Amarelo padrão inicial
+                    dadosApp.coresDestinos[limpo] = "#fef08a";
                     salvarStorage();
                 }
                 filtrarDestino(limpo);
@@ -505,16 +522,7 @@
 
         function filtrarTarefas(f) {
             tarefaFiltro = f;
-            ['todas', 'Concluído', 'Aguardando'].forEach(st => {
-                let btn = document.getElementById('btn-t-' + (st === 'todas' ? 'todas' : (st === 'Concluído' ? 'concluido' : 'aguardando')));
-                if(btn) {
-                    if(st === f) {
-                        btn.className = "px-3 py-1 rounded-xl text-xs font-bold bg-white text-indigo-950 transition shadow-sm";
-                    } else {
-                        btn.className = "px-3 py-1 rounded-xl text-xs font-bold bg-indigo-800 text-white transition shadow-sm";
-                    }
-                }
-            });
+            renderizarFiltrosTarefas();
             renderizarTarefas();
         }
 
@@ -555,6 +563,32 @@
             }
         }
 
+        function lidarSelecaoStatusTarefa(id, valor) {
+            if(valor === 'novo_status') {
+                let nomeNovo = prompt("Digite o nome do novo status (ex: Finalizado, Em Progresso):");
+                if(nomeNovo && nomeNovo.trim() !== '') {
+                    let nomeLimpo = nomeNovo.trim();
+                    let corNova = prompt("Digite a cor em HEX (ex: #3b82f6 para azul, #ec4899 para rosa):", "#3b82f6");
+                    if(!dadosApp.statusPersonalizados) dadosApp.statusPersonalizados = {};
+                    dadosApp.statusPersonalizados[nomeLimpo] = corNova || "#3b82f6";
+                    
+                    const t = dadosApp.tarefas.find(item => item.id === id);
+                    if(t) {
+                        t.status = nomeLimpo;
+                        salvarStorage();
+                    }
+                } else {
+                    renderizarTarefas();
+                }
+            } else {
+                const t = dadosApp.tarefas.find(item => item.id === id);
+                if(t) {
+                    t.status = valor;
+                    salvarStorage();
+                }
+            }
+        }
+
         function renderizarBlocos() {
             const container = document.getElementById('lista-blocos');
             container.innerHTML = '';
@@ -575,6 +609,7 @@
             filtrados.forEach((item) => {
                 let dis = item.bloqueado ? 'disabled' : '';
                 let corHex = obterCorDestinoHex(item.categoria);
+                let corOrigemDestino = obterCorOrigemDestino(item.categoria);
                 let pdfBadge = item.pdfData ? `<a href="${item.pdfData}" download="${item.pdfNome || 'voucher.pdf'}" class="bg-blue-100 text-blue-800 px-2.5 py-1 rounded-lg text-[10px] font-bold">📄 PDF Anexado</a>` : '';
                 let btnOkText = item.bloqueado ? '🔒 OK' : '✅ OK';
                 let btnOkClass = item.bloqueado ? 'bg-emerald-600 text-white' : 'bg-slate-200 text-slate-700 hover:bg-emerald-500 hover:text-white';
@@ -623,7 +658,6 @@
                             <select onchange="lidarSelecaoDestino(${item.id}, this.value)" ${dis} class="bg-white text-indigo-900 font-black px-3 py-1.5 rounded-xl text-xs border border-black/15 outline-none shadow-sm">
                                 ${opcoesDestino}
                             </select>
-                            <!-- SELETOR DE COR INTEGRADO PARA TOTAL LIBERDADE -->
                             <div class="flex items-center gap-1 bg-white/80 px-2 py-1 rounded-xl border border-black/15 text-[11px] font-bold">
                                 <span class="text-[10px]">🎨 Cor:</span>
                                 <input type="color" value="${corHex}" onchange="alterarCorDestino('${item.categoria}', this.value)" title="Escolher cor personalizada para este destino" class="w-6 h-6 rounded cursor-pointer border-0 bg-transparent">
@@ -644,15 +678,15 @@
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs bg-white/80 p-3 rounded-2xl border border-black/15 shadow-inner">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs ${corOrigemDestino} p-3 rounded-2xl border">
                         <div>
-                            <label class="block font-black mb-1 text-slate-900">📍 Local de Origem (Embarque)</label>
+                            <label class="block font-black mb-1">📍 Local de Origem (Embarque)</label>
                             <select onchange="lidarSelecaoLocal(${item.id}, 'embarque', this.value)" ${dis} class="w-full p-2.5 bg-white border border-black/15 rounded-xl outline-none font-bold text-slate-900 shadow-sm">
                                 ${opcoesLocaisEmbarque}
                             </select>
                         </div>
                         <div>
-                            <label class="block font-black mb-1 text-slate-900">🏁 Local de Destino (Desembarque)</label>
+                            <label class="block font-black mb-1">🏁 Local de Destino (Desembarque)</label>
                             <select onchange="lidarSelecaoLocal(${item.id}, 'desembarque', this.value)" ${dis} class="w-full p-2.5 bg-white border border-black/15 rounded-xl outline-none font-bold text-slate-900 shadow-sm">
                                 ${opcoesLocaisDesembarque}
                             </select>
@@ -699,6 +733,7 @@
             });
         }
 
+        // TAREFAS OTIMIZADAS (LÁPIS PEQUENO AO LADO DO TEXTO, STATUS MAIS À FRENTE)
         function renderizarTarefas() {
             const container = document.getElementById('lista-tarefas-html');
             container.innerHTML = '';
@@ -717,29 +752,38 @@
                 return;
             }
 
+            if(!dadosApp.statusPersonalizados) dadosApp.statusPersonalizados = {"Concluído": "#22c55e", "Aguardando": "#f59e0b"};
+
             filtradas.forEach(t => {
                 let dis = t.bloqueado ? 'disabled' : '';
                 let cardBg = t.bloqueado ? 'bg-slate-50 border-slate-300' : 'bg-white border-indigo-200 shadow-sm';
                 let btnOkText = t.bloqueado ? '🔒 OK' : '✅ OK';
                 let btnOkClass = t.bloqueado ? 'bg-emerald-600 text-white' : 'bg-slate-200 text-slate-700 hover:bg-emerald-500 hover:text-white';
 
-                let statusBtnClass = t.status === 'Concluído' 
-                    ? 'bg-emerald-100 text-emerald-800 border-emerald-300' 
-                    : 'bg-amber-100 text-amber-800 border-amber-300';
-                let statusText = t.status === 'Concluído' ? '✅ Concluído' : '⏳ Aguardando';
+                let statusAtual = t.status || "Aguardando";
+                let corStatus = dadosApp.statusPersonalizados[statusAtual] || "#f59e0b";
+
+                let opcoesStatus = '';
+                Object.keys(dadosApp.statusPersonalizados).forEach(st => {
+                    let sel = statusAtual === st ? 'selected' : '';
+                    opcoesStatus += `<option value="${st}" ${sel}>${st}</option>`;
+                });
+                opcoesStatus += `<option value="novo_status">➕ Novo Status...</option>`;
 
                 let div = document.createElement('div');
-                div.className = `p-3 rounded-2xl border ${cardBg} space-y-2 transition`;
+                div.className = `p-3.5 rounded-2xl border ${cardBg} space-y-2 transition`;
+                div.style.borderLeft = `6px solid ${corStatus}`;
+
                 div.innerHTML = `
                     <div class="flex items-center justify-between gap-2 flex-wrap">
-                        <div class="flex items-center gap-1.5 flex-1 min-w-[220px]">
-                            <button onclick="abrirModalTarefa(${t.id})" class="bg-slate-100 hover:bg-slate-200 px-2 py-1.5 rounded-lg text-slate-700 font-bold text-[11px] shrink-0" title="Editar Tarefa">✏️</button>
+                        <div class="flex items-center gap-1.5 flex-1 min-w-[200px]">
+                            <button onclick="abrirModalTarefa(${t.id})" class="bg-slate-100 hover:bg-slate-200 p-1.5 rounded-lg text-slate-700 font-bold text-[11px] shrink-0" title="Editar Tarefa">✏️</button>
                             <input type="text" value="${t.texto}" ${dis} oninput="atualizarTarefaTexto(${t.id}, this.value)" class="w-full p-1.5 bg-transparent border-b border-slate-200 outline-none font-bold text-slate-800 text-xs" placeholder="Descrição da tarefa...">
                         </div>
-                        <div class="flex items-center gap-2">
-                            <button onclick="${t.bloqueado ? '' : `alternarStatusTarefa(${t.id})`}" ${dis} class="px-3 py-1 rounded-lg text-[11px] font-bold border ${statusBtnClass} transition shadow-sm whitespace-nowrap">
-                                ${statusText}
-                            </button>
+                        <div class="flex items-center gap-1.5">
+                            <select onchange="lidarSelecaoStatusTarefa(${t.id}, this.value)" ${dis} class="border rounded-xl px-2.5 py-1 text-xs font-bold outline-none shadow-sm text-white" style="background-color: ${corStatus};">
+                                ${opcoesStatus}
+                            </select>
                         </div>
                     </div>
                     <div class="flex justify-end items-center gap-1 pt-1 border-t border-slate-100">
@@ -853,15 +897,6 @@
             if(t) {
                 t.texto = valor;
                 salvarStorage();
-            }
-        }
-
-        function alternarStatusTarefa(id) {
-            const t = dadosApp.tarefas.find(item => item.id === id);
-            if(t && !t.bloqueado) {
-                t.status = t.status === 'Concluído' ? 'Aguardando' : 'Concluído';
-                salvarStorage();
-                renderizarTarefas();
             }
         }
 
