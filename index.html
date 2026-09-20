@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v26.0)</title>
+    <title>Roteiro Europa - Mariana (v29.0)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Leaflet CSS para Mapas -->
@@ -16,7 +16,7 @@
     <!-- CABEÇALHO NORMAL NO TOPO -->
     <header class="bg-slate-900 text-white px-4 py-3 shadow-md border-b border-slate-700 text-xs flex justify-between items-center">
         <span class="font-bold tracking-wide">🚄 Roteiro Europa - Mariana</span>
-        <span class="bg-indigo-600 px-2 py-0.5 rounded font-mono font-bold text-[10px]">v26.0</span>
+        <span class="bg-indigo-600 px-2 py-0.5 rounded font-mono font-bold text-[10px]">v29.0</span>
     </header>
 
     <!-- CONTEÚDO PRINCIPAL -->
@@ -25,9 +25,9 @@
         <!-- CABEÇALHO DESCRITIVO -->
         <div class="bg-white border border-slate-300 p-5 rounded-3xl shadow-sm flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
             <div>
-                <span class="text-[10px] font-extrabold uppercase tracking-widest bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full">Gestão Completa de Vouchers & PDFs</span>
+                <span class="text-[10px] font-extrabold uppercase tracking-widest bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full">Layout Otimizado v29.0</span>
                 <h1 class="text-xl sm:text-2xl font-black text-slate-900 mt-2">Zurique, Freiburg, França & Interlaken 🚄🏔️</h1>
-                <p class="text-xs text-slate-500 mt-1">Adicione, edite e organize todos os seus bilhetes e documentos com total liberdade.</p>
+                <p class="text-xs text-slate-500 mt-1">Datas no cabeçalho e campos de origem/destino em destaque no topo do bloco.</p>
             </div>
             <div class="bg-slate-50 px-4 py-3 rounded-2xl border border-slate-300 text-right shadow-sm w-full sm:w-auto shrink-0">
                 <span class="text-[10px] text-slate-400 block uppercase font-bold">Gastos Totais</span>
@@ -40,7 +40,7 @@
             <button onclick="mudarTab('itinerario')" id="tab-btn-itinerario" class="py-2.5 rounded-xl bg-indigo-600 text-white shadow-sm transition">📅 Itinerário</button>
             <button onclick="mudarTab('ia')" id="tab-btn-ia" class="py-2.5 rounded-xl text-slate-600 hover:bg-white/50 transition">🤖 Assistente IA</button>
             <button onclick="mudarTab('tarefas')" id="tab-btn-tarefas" class="py-2.5 rounded-xl text-slate-600 hover:bg-white/50 transition">✅ Tarefas</button>
-            <button onclick="mudarTab('comprados')" id="tab-btn-comprados" class="py-2.5 rounded-xl text-slate-600 hover:bg-white/50 transition">🎟️ Vouchers & PDFs</button>
+            <button onclick="mudarTab('comprados')" id="tab-btn-comprados" class="py-2.5 rounded-xl text-slate-600 hover:bg-white/50 transition">🎟️ Vouchers</button>
         </div>
 
         <!-- TAB 1: ITINERÁRIO EM BLOCOS -->
@@ -103,13 +103,13 @@
             </div>
         </div>
 
-        <!-- TAB 4: VOUCHERS & PDFS EDITÁVEIS -->
+        <!-- TAB 4: VOUCHERS & PDFS -->
         <div id="tab-comprados" class="space-y-4 hidden">
             <div class="bg-white p-5 rounded-3xl shadow-sm border border-slate-300 space-y-4">
                 <div class="flex justify-between items-center border-b pb-3 flex-wrap gap-2">
                     <div>
                         <h2 class="text-xs font-extrabold uppercase text-slate-800 tracking-wider">🎟️ Gestão de Vouchers & PDFs</h2>
-                        <p class="text-[11px] text-slate-500 font-semibold mt-0.5">Adicione e edite os bilhetes e comprovativos livremente</p>
+                        <p class="text-[11px] text-slate-500 font-semibold mt-0.5">Adicione, edite e anexe PDFs livremente</p>
                     </div>
                     <button onclick="adicionarVoucher()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-2 rounded-xl text-xs font-bold transition shadow-sm">➕ Adicionar Novo Voucher / PDF</button>
                 </div>
@@ -122,7 +122,7 @@
     <!-- BARRA DE FERRAMENTAS FIXA NO FINAL DA TELA -->
     <nav class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900 text-white px-4 py-3 shadow-2xl border-t border-slate-700 text-xs flex flex-wrap items-center justify-between gap-2">
         <div class="flex items-center gap-2">
-            <span class="bg-indigo-600 px-2 py-0.5 rounded font-mono font-bold text-[10px]">v26.0</span>
+            <span class="bg-indigo-600 px-2 py-0.5 rounded font-mono font-bold text-[10px]">v29.0</span>
             <span class="font-bold">Barra de Ações</span>
         </div>
         <div class="flex items-center gap-1.5 flex-wrap">
@@ -171,7 +171,7 @@
         </div>
     </div>
 
-    <!-- MODAL DE DETALHES / PDF (LÁPIS DO ITINERÁRIO) -->
+    <!-- MODAL DE DETALHES / PDF (LÁPIS) -->
     <div id="modal-detalhes" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
         <div class="bg-white p-6 rounded-3xl shadow-2xl max-w-md w-full space-y-4 border border-slate-300 text-xs">
             <div class="flex justify-between items-center border-b pb-3">
@@ -196,7 +196,7 @@
         </div>
     </div>
 
-    <!-- MODAL DE EDITAR VOUCHER / PDF -->
+    <!-- MODAL DE EDITAR VOUCHER -->
     <div id="modal-voucher" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
         <div class="bg-white p-6 rounded-3xl shadow-2xl max-w-md w-full space-y-4 border border-slate-300 text-xs">
             <div class="flex justify-between items-center border-b pb-3">
@@ -227,7 +227,7 @@
     <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
-        const CHAVE_APP = "mariana_viagem_europa_v26";
+        const CHAVE_APP = "mariana_viagem_europa_v29";
         let destinoFiltro = 'todos';
         let campoFocoAtual = null;
         let mapInstance = null;
@@ -253,7 +253,7 @@
             const manifestBlob = new Blob([JSON.stringify(manifestObj)], {type: 'application/manifest+json'});
             document.getElementById('pwa-manifest').href = URL.createObjectURL(manifestBlob);
 
-            const temaSalvo = localStorage.getItem('tema_v26');
+            const temaSalvo = localStorage.getItem('tema_v29');
             if (temaSalvo === 'dark') {
                 document.body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 document.body.classList.remove('bg-slate-100', 'text-slate-800');
@@ -301,11 +301,11 @@
             if(body.classList.contains('dark')) {
                 body.classList.remove('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.add('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v26', 'light');
+                localStorage.setItem('tema_v29', 'light');
             } else {
                 body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.remove('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v26', 'dark');
+                localStorage.setItem('tema_v29', 'dark');
             }
         }
 
@@ -323,7 +323,7 @@
                 { id: 9, categoria: "Interlaken", dataInicio: "2027-01-12", dataFim: "2027-01-12", trecho: "Interlaken ➔ Zurique", transporte: "Trem SBB", embarque: "Interlaken Ost", desembarque: "Zurich HB", moeda: "CHF", valor: "76", status: "Aguardando", notas: "", textoLivre: "Regresso a Zurique para preparar o retorno.", pdfData: "", pdfNome: "", bloqueado: false }
             ],
             tarefas: [
-                { id: 1, texto: "Comprar cartões Wise e Nomad", status: "Concluído", bloqueado: true },
+                { id: 1, texto: "Comprar cartões Wise e Nomad", status: "Concluído", bloqueado: false },
                 { id: 2, texto: "Reservar bilhetes Europa-Park", status: "Aguardando", bloqueado: false },
                 { id: 3, texto: "Reservar passes Disney", status: "Aguardando", bloqueado: false }
             ],
@@ -350,7 +350,7 @@
         function atualizarTudo() {
             renderizarBlocos();
             renderizarTarefas();
-            renderizarComprados();
+            renderizarVouchersTab();
             calcularGastos();
         }
 
@@ -465,29 +465,37 @@
                 let card = document.createElement('div');
                 card.className = `p-4 sm:p-5 rounded-3xl border ${corTema} space-y-3 transition shadow-sm`;
                 card.innerHTML = `
-                    <div class="flex justify-between items-center gap-2 border-b border-black/10 pb-2">
+                    <!-- CABEÇALHO DO BLOCO COM DESTINO E DATAS JUNTAS -->
+                    <div class="flex justify-between items-center gap-2 border-b border-black/10 pb-2 flex-wrap">
                         <div class="flex items-center gap-2 flex-wrap">
-                            <span class="bg-indigo-600 text-white font-black px-2.5 py-0.5 rounded-full text-[10px]">📅 ${textoDias}</span>
-                            <select onchange="lidarSelecaoDestino(${item.id}, this.value)" ${dis} class="bg-white/90 text-indigo-900 font-black px-2.5 py-1 rounded-xl text-xs border border-black/10 outline-none">
+                            <select onchange="lidarSelecaoDestino(${item.id}, this.value)" ${dis} class="bg-white/90 text-indigo-900 font-black px-3 py-1.5 rounded-xl text-xs border border-black/10 outline-none shadow-sm">
                                 ${opcoesDestino}
                             </select>
+                            <span class="bg-indigo-600 text-white font-black px-2.5 py-1 rounded-xl text-[10px]">📅 ${textoDias}</span>
                         </div>
-                        <select onchange="atualizarCampo(${item.id}, 'status', this.value)" ${dis} class="border border-black/10 rounded-xl px-2.5 py-1 text-xs font-bold outline-none ${item.status === 'Comprado' ? 'bg-emerald-100 text-emerald-800' : item.status === 'Reservado' ? 'bg-blue-100 text-blue-800' : 'bg-amber-100 text-amber-800'}">
-                            <option value="Comprado" ${item.status === 'Comprado' ? 'selected' : ''}>Comprado</option>
-                            <option value="Aguardando" ${item.status === 'Aguardando' ? 'selected' : ''}>Aguardando</option>
-                            <option value="Reservado" ${item.status === 'Reservado' ? 'selected' : ''}>Reservado</option>
-                        </select>
+                        <div class="flex items-center gap-1.5 flex-wrap">
+                            <div class="flex items-center gap-1 bg-white/80 p-1 rounded-xl border border-black/10 text-[11px] font-bold">
+                                <input type="date" value="${item.dataInicio || ''}" ${dis} onchange="atualizarCampo(${item.id}, 'dataInicio', this.value)" class="bg-transparent outline-none text-slate-800" title="Início">
+                                <span class="text-slate-400">➔</span>
+                                <input type="date" value="${item.dataFim || ''}" ${dis} onchange="atualizarCampo(${item.id}, 'dataFim', this.value)" class="bg-transparent outline-none text-slate-800" title="Fim">
+                            </div>
+                            <select onchange="atualizarCampo(${item.id}, 'status', this.value)" ${dis} class="border border-black/10 rounded-xl px-2.5 py-1.5 text-xs font-bold outline-none ${item.status === 'Comprado' ? 'bg-emerald-100 text-emerald-800' : item.status === 'Reservado' ? 'bg-blue-100 text-blue-800' : 'bg-amber-100 text-amber-800'}">
+                                <option value="Comprado" ${item.status === 'Comprado' ? 'selected' : ''}>Comprado</option>
+                                <option value="Aguardando" ${item.status === 'Aguardando' ? 'selected' : ''}>Aguardando</option>
+                                <option value="Reservado" ${item.status === 'Reservado' ? 'selected' : ''}>Reservado</option>
+                            </select>
+                        </div>
                     </div>
 
-                    <!-- SELEÇÃO DE DATAS INÍCIO E FIM -->
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs bg-white/60 p-2.5 rounded-2xl border border-black/5">
+                    <!-- ORIGEM E DESTINO LOGO NO TOPO DO CORPO -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs bg-indigo-50/70 p-3 rounded-2xl border border-indigo-200">
                         <div>
-                            <label class="block font-semibold text-slate-600 mb-0.5">Data de Início</label>
-                            <input type="date" value="${item.dataInicio || ''}" ${dis} onchange="atualizarCampo(${item.id}, 'dataInicio', this.value)" class="w-full p-2 bg-white border border-black/10 rounded-xl outline-none font-bold text-slate-900">
+                            <label class="block font-black text-indigo-900 mb-1">📍 Local de Origem (Embarque)</label>
+                            <input type="text" value="${item.embarque}" ${dis} onfocus="registarFoco(this)" oninput="atualizarCampo(${item.id}, 'embarque', this.value)" class="w-full p-2.5 bg-white border border-indigo-300 rounded-xl outline-none font-bold text-slate-900 shadow-sm" placeholder="Ex: Zurich HB, Plataforma 4...">
                         </div>
                         <div>
-                            <label class="block font-semibold text-slate-600 mb-0.5">Data de Fim</label>
-                            <input type="date" value="${item.dataFim || ''}" ${dis} onchange="atualizarCampo(${item.id}, 'dataFim', this.value)" class="w-full p-2 bg-white border border-black/10 rounded-xl outline-none font-bold text-slate-900">
+                            <label class="block font-black text-indigo-900 mb-1">🏁 Local de Destino (Desembarque)</label>
+                            <input type="text" value="${item.desembarque}" ${dis} onfocus="registarFoco(this)" oninput="atualizarCampo(${item.id}, 'desembarque', this.value)" class="w-full p-2.5 bg-white border border-indigo-300 rounded-xl outline-none font-bold text-slate-900 shadow-sm" placeholder="Ex: Hotel ou Estação...">
                         </div>
                     </div>
 
@@ -499,18 +507,6 @@
                         <div>
                             <label class="block font-semibold text-slate-600 mb-0.5">Transporte & Detalhes</label>
                             <input type="text" value="${item.transporte}" ${dis} onfocus="registarFoco(this)" oninput="atualizarCampo(${item.id}, 'transporte', this.value)" class="w-full p-2.5 bg-white border border-black/10 rounded-xl outline-none" placeholder="Ex: Trem SBB / Ônibus FlixBus">
-                        </div>
-                    </div>
-
-                    <!-- CAMPOS AMPLIADOS DE ORIGEM E DESTINO PARA RECONHECIMENTO DE MAPA -->
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs bg-indigo-50/50 p-3 rounded-2xl border border-indigo-200">
-                        <div>
-                            <label class="block font-black text-indigo-900 mb-1">📍 Local de Origem (Embarque exato)</label>
-                            <input type="text" value="${item.embarque}" ${dis} onfocus="registarFoco(this)" oninput="atualizarCampo(${item.id}, 'embarque', this.value)" class="w-full p-2.5 bg-white border border-indigo-300 rounded-xl outline-none font-bold text-slate-900 shadow-sm" placeholder="Ex: Zurich HB, Plataforma 4 / Estação Central">
-                        </div>
-                        <div>
-                            <label class="block font-black text-indigo-900 mb-1">🏁 Local de Destino (Desembarque exato)</label>
-                            <input type="text" value="${item.desembarque}" ${dis} onfocus="registarFoco(this)" oninput="atualizarCampo(${item.id}, 'desembarque', this.value)" class="w-full p-2.5 bg-white border border-indigo-300 rounded-xl outline-none font-bold text-slate-900 shadow-sm" placeholder="Ex: Hotel ou Estação de Freiburg">
                         </div>
                     </div>
 
@@ -544,134 +540,49 @@
             });
         }
 
-        // Renderizar Aba Vouchers & PDFs com Gestão Completa
-        function renderizarComprados() {
-            const container = document.getElementById('lista-comprados-html');
+        function renderizarTarefas() {
+            const container = document.getElementById('lista-tarefas-html');
             container.innerHTML = '';
 
-            if(!dadosApp.vouchers || dadosApp.vouchers.length === 0) {
-                container.innerHTML = '<p class="text-xs text-slate-400 italic text-center py-4">Nenhum voucher ou PDF registado ainda.</p>';
+            let total = dadosApp.tarefas.length;
+            let concluidas = dadosApp.tarefas.filter(t => t.status === 'Concluído').length;
+            document.getElementById('stat-tarefas').innerText = `${concluidas} / ${total} Concluídas`;
+
+            if(total === 0) {
+                container.innerHTML = '<p class="text-xs text-slate-400 italic text-center py-4">Nenhuma tarefa registada.</p>';
                 return;
             }
 
-            dadosApp.vouchers.forEach(v => {
-                let dis = v.bloqueado ? 'disabled' : '';
-                let cardBg = v.bloqueado ? 'bg-slate-50 border-slate-300' : 'bg-white border-indigo-200 shadow-sm';
-                let btnOkText = v.bloqueado ? '🔒 OK (Bloqueado)' : '✅ OK';
-                let btnOkClass = v.bloqueado ? 'bg-emerald-600 text-white' : 'bg-slate-200 text-slate-700 hover:bg-emerald-500 hover:text-white';
-                
-                let pdfArea = v.pdfData ? 
-                    `<a href="${v.pdfData}" download="${v.pdfNome || 'voucher.pdf'}" class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-xl font-bold">📄 Ver / Baixar PDF</a>` : 
-                    `<span class="text-slate-400 italic text-[11px]">Nenhum PDF anexado</span>`;
+            dadosApp.tarefas.forEach(t => {
+                let dis = t.bloqueado ? 'disabled' : '';
+                let cardBg = t.bloqueado ? 'bg-slate-50 border-slate-300' : 'bg-white border-indigo-200 shadow-sm';
+                let btnOkText = t.bloqueado ? '🔒 OK' : '✅ OK';
+                let btnOkClass = t.bloqueado ? 'bg-emerald-600 text-white' : 'bg-slate-200 text-slate-700 hover:bg-emerald-500 hover:text-white';
+
+                let statusBtnClass = t.status === 'Concluído' 
+                    ? 'bg-emerald-100 text-emerald-800 border-emerald-300' 
+                    : 'bg-amber-100 text-amber-800 border-amber-300';
+                let statusText = t.status === 'Concluído' ? '✅ Concluído' : '⏳ Aguardando';
 
                 let div = document.createElement('div');
                 div.className = `p-4 rounded-2xl border ${cardBg} space-y-3 transition`;
                 div.innerHTML = `
-                    <div class="flex justify-between items-center gap-2">
-                        <input type="text" value="${v.titulo}" ${dis} oninput="atualizarVoucherCampo(${v.id}, 'titulo', this.value)" class="w-full p-2 bg-transparent border-b border-slate-300 outline-none font-black text-slate-900" placeholder="Título do Voucher...">
-                        <input type="text" value="${v.categoria}" ${dis} oninput="atualizarVoucherCampo(${v.id}, 'categoria', this.value)" class="w-32 p-2 bg-slate-50 border rounded-xl outline-none text-xs font-bold text-indigo-700" placeholder="Categoria/Destino">
+                    <div class="flex items-center gap-2">
+                        <input type="text" value="${t.texto}" ${dis} oninput="atualizarTarefaTexto(${t.id}, this.value)" class="w-full p-2.5 bg-transparent border-b border-slate-300 outline-none font-bold text-slate-800" placeholder="Descrição da tarefa...">
                     </div>
-                    <div class="flex flex-wrap justify-between items-center gap-2 pt-2 border-t border-slate-100">
-                        <div>${pdfArea}</div>
+                    <div class="flex flex-wrap justify-between items-center gap-2 pt-1">
+                        <button onclick="${t.bloqueado ? '' : `alternarStatusTarefa(${t.id})`}" ${dis} class="px-3 py-1.5 rounded-xl text-xs font-bold border ${statusBtnClass} transition shadow-sm">
+                            ${statusText}
+                        </button>
                         <div class="flex items-center gap-1.5">
-                            <button onclick="abrirModalVoucher(${v.id})" class="bg-white hover:bg-slate-100 border border-slate-300 px-2.5 py-1.5 rounded-xl font-bold text-xs" title="Editar Voucher e PDF">✏️ Lápis</button>
-                            <button onclick="desfazerVoucher(${v.id})" class="bg-amber-100 text-amber-800 hover:bg-amber-200 px-2.5 py-1.5 rounded-xl font-bold text-xs">↩️ Desfazer</button>
-                            <button onclick="alternarBloqueioVoucher(${v.id})" class="${btnOkClass} px-3 py-1.5 rounded-xl font-bold text-xs transition">${btnOkText}</button>
-                            <button onclick="apagarVoucher(${v.id})" class="text-red-500 hover:text-red-700 font-bold px-2.5 py-1.5 bg-red-50 rounded-xl">✕</button>
+                            <button onclick="desfazerTarefa(${t.id})" class="bg-amber-100 text-amber-800 hover:bg-amber-200 px-2.5 py-1.5 rounded-xl font-bold text-xs">↩️ Desfazer</button>
+                            <button onclick="alternarBloqueioTarefa(${t.id})" class="${btnOkClass} px-3 py-1.5 rounded-xl font-bold text-xs transition">${btnOkText}</button>
+                            <button onclick="apagarTarefa(${t.id})" class="text-red-500 hover:text-red-700 font-bold px-2.5 py-1.5 bg-red-50 rounded-xl text-xs">✕</button>
                         </div>
                     </div>
                 `;
                 container.appendChild(div);
             });
-        }
-
-        function atualizarVoucherCampo(id, campo, valor) {
-            const v = dadosApp.vouchers.find(item => item.id === id);
-            if(v) {
-                if(!backupVoucherEstado[id]) backupVoucherEstado[id] = JSON.parse(JSON.stringify(v));
-                v[campo] = valor;
-                salvarStorage();
-            }
-        }
-
-        function alternarBloqueioVoucher(id) {
-            const v = dadosApp.vouchers.find(item => item.id === id);
-            if(v) {
-                if(!v.bloqueado) backupVoucherEstado[id] = JSON.parse(JSON.stringify(v));
-                v.bloqueado = !v.bloqueado;
-                salvarStorage();
-            }
-        }
-
-        function desfazerVoucher(id) {
-            if(backupVoucherEstado[id]) {
-                const index = dadosApp.vouchers.findIndex(item => item.id === id);
-                if(index !== -1) {
-                    dadosApp.vouchers[index] = JSON.parse(JSON.stringify(backupVoucherEstado[id]));
-                    salvarStorage();
-                    alert("↩️ Voucher restaurado com sucesso!");
-                }
-            } else {
-                alert("Nenhum histórico para desfazer neste voucher.");
-            }
-        }
-
-        function adicionarVoucher() {
-            const novoId = dadosApp.vouchers.length > 0 ? Math.max(...dadosApp.vouchers.map(v => v.id)) + 1 : 1;
-            dadosApp.vouchers.unshift({ id: novoId, titulo: "Novo Voucher / PDF", categoria: "Geral", pdfData: "", pdfNome: "", bloqueado: false });
-            salvarStorage();
-        }
-
-        function apagarVoucher(id) {
-            if(confirm("Deseja excluir este voucher?")) {
-                dadosApp.vouchers = dadosApp.vouchers.filter(v => v.id !== id);
-                salvarStorage();
-            }
-        }
-
-        // Modal de Edição de Voucher (Lápis)
-        function abrirModalVoucher(id) {
-            const v = dadosApp.vouchers.find(item => item.id === id);
-            if(v) {
-                document.getElementById('voucher-edit-id').value = v.id;
-                document.getElementById('voucher-titulo').value = v.titulo || '';
-                document.getElementById('voucher-categoria').value = v.categoria || '';
-                document.getElementById('voucher-file').value = '';
-                document.getElementById('voucher-pdf-status').innerText = v.pdfNome ? `PDF atual: ${v.pdfNome}` : 'Nenhum PDF anexado';
-                document.getElementById('modal-voucher').classList.remove('hidden');
-            }
-        }
-
-        function fecharModalVoucher() {
-            document.getElementById('modal-voucher').classList.add('hidden');
-        }
-
-        function salvarVoucherModal() {
-            const id = parseInt(document.getElementById('voucher-edit-id').value);
-            const titulo = document.getElementById('voucher-titulo').value;
-            const categoria = document.getElementById('voucher-categoria').value;
-            const fileInput = document.getElementById('voucher-file');
-            const v = dadosApp.vouchers.find(item => item.id === id);
-
-            if(v) {
-                if(!backupVoucherEstado[id]) backupVoucherEstado[id] = JSON.parse(JSON.stringify(v));
-                v.titulo = titulo;
-                v.categoria = categoria;
-
-                if(fileInput.files && fileInput.files[0]) {
-                    const reader = new FileReader();
-                    reader.onload = function(evt) {
-                        v.pdfData = evt.target.result;
-                        v.pdfNome = fileInput.files[0].name;
-                        salvarStorage();
-                        fecharModalVoucher();
-                    };
-                    reader.readAsDataURL(fileInput.files[0]);
-                } else {
-                    salvarStorage();
-                    fecharModalVoucher();
-                }
-            }
         }
 
         function registarFoco(el) { campoFocoAtual = el; }
@@ -757,12 +668,13 @@
             }
         }
 
-        function atualizarTarefaStatus(id, valor) {
+        function alternarStatusTarefa(id) {
             const t = dadosApp.tarefas.find(item => item.id === id);
-            if(t) {
+            if(t && !t.bloqueado) {
                 if(!backupTarefaEstado[id]) backupTarefaEstado[id] = JSON.parse(JSON.stringify(t));
-                t.status = valor;
+                t.status = t.status === 'Concluído' ? 'Aguardando' : 'Concluído';
                 salvarStorage();
+                renderizarTarefas();
             }
         }
 
@@ -772,6 +684,7 @@
                 if(!t.bloqueado) backupTarefaEstado[id] = JSON.parse(JSON.stringify(t));
                 t.bloqueado = !t.bloqueado;
                 salvarStorage();
+                renderizarTarefas();
             }
         }
 
@@ -781,6 +694,7 @@
                 if(index !== -1) {
                     dadosApp.tarefas[index] = JSON.parse(JSON.stringify(backupTarefaEstado[id]));
                     salvarStorage();
+                    renderizarTarefas();
                     alert("↩️ Tarefa restaurada com sucesso!");
                 }
             } else {
@@ -792,12 +706,14 @@
             const novoId = dadosApp.tarefas.length > 0 ? Math.max(...dadosApp.tarefas.map(t => t.id)) + 1 : 1;
             dadosApp.tarefas.unshift({ id: novoId, texto: "Nova tarefa...", status: "Aguardando", bloqueado: false });
             salvarStorage();
+            renderizarTarefas();
         }
 
         function apagarTarefa(id) {
             if(confirm("Deseja excluir esta tarefa?")) {
                 dadosApp.tarefas = dadosApp.tarefas.filter(t => t.id !== id);
                 salvarStorage();
+                renderizarTarefas();
             }
         }
 
@@ -935,11 +851,7 @@
             }
         }
 
-        function renderizarComprados() {
-            // Chamado no atualizarTudo
-            renderizarVouchersTab();
-        }
-
+        // Gestão de Vouchers
         function renderizarVouchersTab() {
             const container = document.getElementById('lista-comprados-html');
             container.innerHTML = '';
@@ -978,6 +890,96 @@
                 `;
                 container.appendChild(div);
             });
+        }
+
+        function atualizarVoucherCampo(id, campo, valor) {
+            const v = dadosApp.vouchers.find(item => item.id === id);
+            if(v) {
+                if(!backupVoucherEstado[id]) backupVoucherEstado[id] = JSON.parse(JSON.stringify(v));
+                v[campo] = valor;
+                salvarStorage();
+            }
+        }
+
+        function alternarBloqueioVoucher(id) {
+            const v = dadosApp.vouchers.find(item => item.id === id);
+            if(v) {
+                if(!v.bloqueado) backupVoucherEstado[id] = JSON.parse(JSON.stringify(v));
+                v.bloqueado = !v.bloqueado;
+                salvarStorage();
+                renderizarVouchersTab();
+            }
+        }
+
+        function desfazerVoucher(id) {
+            if(backupVoucherEstado[id]) {
+                const index = dadosApp.vouchers.findIndex(item => item.id === id);
+                if(index !== -1) {
+                    dadosApp.vouchers[index] = JSON.parse(JSON.stringify(backupVoucherEstado[id]));
+                    salvarStorage();
+                    renderizarVouchersTab();
+                    alert("↩️ Voucher restaurado com sucesso!");
+                }
+            } else {
+                alert("Nenhum histórico para desfazer neste voucher.");
+            }
+        }
+
+        function adicionarVoucher() {
+            const novoId = dadosApp.vouchers.length > 0 ? Math.max(...dadosApp.vouchers.map(v => v.id)) + 1 : 1;
+            dadosApp.vouchers.unshift({ id: novoId, titulo: "Novo Voucher / PDF", categoria: "Geral", pdfData: "", pdfNome: "", bloqueado: false });
+            salvarStorage();
+        }
+
+        function apagarVoucher(id) {
+            if(confirm("Deseja excluir este voucher?")) {
+                dadosApp.vouchers = dadosApp.vouchers.filter(v => v.id !== id);
+                salvarStorage();
+            }
+        }
+
+        function abrirModalVoucher(id) {
+            const v = dadosApp.vouchers.find(item => item.id === id);
+            if(v) {
+                document.getElementById('voucher-edit-id').value = v.id;
+                document.getElementById('voucher-titulo').value = v.titulo || '';
+                document.getElementById('voucher-categoria').value = v.categoria || '';
+                document.getElementById('voucher-file').value = '';
+                document.getElementById('voucher-pdf-status').innerText = v.pdfNome ? `PDF atual: ${v.pdfNome}` : 'Nenhum PDF anexado';
+                document.getElementById('modal-voucher').classList.remove('hidden');
+            }
+        }
+
+        function fecharModalVoucher() {
+            document.getElementById('modal-voucher').classList.add('hidden');
+        }
+
+        function salvarVoucherModal() {
+            const id = parseInt(document.getElementById('voucher-edit-id').value);
+            const titulo = document.getElementById('voucher-titulo').value;
+            const categoria = document.getElementById('voucher-categoria').value;
+            const fileInput = document.getElementById('voucher-file');
+            const v = dadosApp.vouchers.find(item => item.id === id);
+
+            if(v) {
+                if(!backupVoucherEstado[id]) backupVoucherEstado[id] = JSON.parse(JSON.stringify(v));
+                v.titulo = titulo;
+                v.categoria = categoria;
+
+                if(fileInput.files && fileInput.files[0]) {
+                    const reader = new FileReader();
+                    reader.onload = function(evt) {
+                        v.pdfData = evt.target.result;
+                        v.pdfNome = fileInput.files[0].name;
+                        salvarStorage();
+                        fecharModalVoucher();
+                    };
+                    reader.readAsDataURL(fileInput.files[0]);
+                } else {
+                    salvarStorage();
+                    fecharModalVoucher();
+                }
+            }
         }
 
         function ativarMicrofone() {
