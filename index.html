@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v42.0)</title>
+    <title>Roteiro Europa - Mariana (v43.0)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Leaflet CSS para Mapas -->
@@ -11,12 +11,12 @@
     <!-- Manifest Dinâmico via JavaScript -->
     <link id="pwa-manifest" rel="manifest" href="">
 </head>
-<body class="bg-slate-100 text-slate-800 min-h-screen pb-48 select-none transition-colors duration-200">
+<body class="bg-slate-100 text-slate-800 min-h-screen pb-36 select-none transition-colors duration-200">
 
     <!-- CABEÇALHO NORMAL NO TOPO -->
     <header class="bg-slate-900 text-white px-4 py-3 shadow-md border-b border-slate-700 text-xs flex justify-between items-center z-50 relative">
         <span class="font-bold tracking-wide">🚄 Roteiro Europa - Mariana</span>
-        <span class="bg-indigo-600 px-2 py-0.5 rounded font-mono font-bold text-[10px]">v42.0</span>
+        <span class="bg-indigo-600 px-2 py-0.5 rounded font-mono font-bold text-[10px]">v43.0</span>
     </header>
 
     <!-- CONTEÚDO PRINCIPAL -->
@@ -31,6 +31,11 @@
 
         <!-- TAB 1: ITINERÁRIO EM BLOCOS -->
         <div id="tab-itinerario" class="space-y-4">
+            <!-- FILTROS DE DESTINO NO TOPO (ABAIXO DAS ABAS, ACIMA DOS BLOCOS) -->
+            <div id="filtros-container" class="bg-slate-200 p-2 rounded-2xl overflow-x-auto flex gap-1.5 text-xs items-center no-scrollbar shadow-inner">
+                <!-- Renderizado via JS -->
+            </div>
+
             <div class="flex justify-between items-center px-1 pt-1">
                 <h2 class="text-xs font-extrabold uppercase text-slate-600 tracking-wider">📦 Blocos de Destino & Hotéis</h2>
                 <button onclick="adicionarBloco()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-2 rounded-xl font-bold text-xs transition shadow-sm">
@@ -69,15 +74,10 @@
 
     </div>
 
-    <!-- BARRA DE FILTROS FLUTUANTE NO RODAPÉ (ACIMA DA NAV) -->
-    <div id="filtros-container" class="fixed bottom-14 left-0 right-0 z-40 bg-slate-800/95 backdrop-blur-md px-3 py-2 border-t border-slate-700 overflow-x-auto flex gap-1.5 text-xs no-scrollbar items-center justify-start sm:justify-center shadow-lg">
-        <!-- Renderizado via JS -->
-    </div>
-
     <!-- BARRA DE FERRAMENTAS FIXA NO FINAL DA TELA -->
     <nav class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900 text-white px-4 py-2.5 shadow-2xl border-t border-slate-700 text-xs flex flex-wrap items-center justify-between gap-2">
         <div class="flex items-center gap-2">
-            <span class="bg-indigo-600 px-2 py-0.5 rounded font-mono font-bold text-[10px]">v42.0</span>
+            <span class="bg-indigo-600 px-2 py-0.5 rounded font-mono font-bold text-[10px]">v43.0</span>
             <span class="font-bold">Barra de Ações</span>
         </div>
         <div class="flex items-center gap-1.5 flex-wrap">
@@ -173,7 +173,7 @@
     <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
-        const CHAVE_APP = "mariana_viagem_europa_v42";
+        const CHAVE_APP = "mariana_viagem_europa_v43";
         let destinoFiltro = 'todos';
         let campoFocoAtual = null;
         let mapInstance = null;
@@ -208,7 +208,7 @@
             const manifestBlob = new Blob([JSON.stringify(manifestObj)], {type: 'application/manifest+json'});
             document.getElementById('pwa-manifest').href = URL.createObjectURL(manifestBlob);
 
-            const temaSalvo = localStorage.getItem('tema_v42');
+            const temaSalvo = localStorage.getItem('tema_v43');
             if (temaSalvo === 'dark') {
                 document.body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 document.body.classList.remove('bg-slate-100', 'text-slate-800');
@@ -268,11 +268,11 @@
             if(body.classList.contains('dark')) {
                 body.classList.remove('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.add('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v42', 'light');
+                localStorage.setItem('tema_v43', 'light');
             } else {
                 body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.remove('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v42', 'dark');
+                localStorage.setItem('tema_v43', 'dark');
             }
         }
 
@@ -358,6 +358,15 @@
             if(c.includes('frança') || c.includes('france') || c.includes('disney') || c.includes('outlet') || c.includes('paris')) return 'bg-purple-50 border-purple-300';
             if(c.includes('interlaken')) return 'bg-emerald-50 border-emerald-300';
             return 'bg-slate-50 border-slate-300';
+        }
+
+        function obterCorOrigemDestino(cat) {
+            let c = (cat || "").toLowerCase();
+            if(c.includes('zurique') || c.includes('zurich')) return 'bg-sky-100/70 border-sky-300 text-sky-950';
+            if(c.includes('freiburg')) return 'bg-amber-100/70 border-amber-300 text-amber-950';
+            if(c.includes('frança') || c.includes('france') || c.includes('disney') || c.includes('outlet') || c.includes('paris')) return 'bg-purple-100/70 border-purple-300 text-purple-950';
+            if(c.includes('interlaken')) return 'bg-emerald-100/70 border-emerald-300 text-emerald-950';
+            return 'bg-slate-200/70 border-slate-300 text-slate-950';
         }
 
         function calcularDias(inicio, fim) {
@@ -461,6 +470,7 @@
             filtrados.forEach((item) => {
                 let dis = item.bloqueado ? 'disabled' : '';
                 let corTema = item.bloqueado ? 'bg-slate-100 border-slate-300 opacity-90' : obterCorBloco(item.categoria);
+                let corOrigemDestino = obterCorOrigemDestino(item.categoria);
                 let pdfBadge = item.pdfData ? `<a href="${item.pdfData}" download="${item.pdfNome || 'voucher.pdf'}" class="bg-blue-100 text-blue-800 px-2.5 py-1 rounded-lg text-[10px] font-bold">📄 PDF Anexado</a>` : '';
                 let btnOkText = item.bloqueado ? '🔒 OK (Bloqueado)' : '✅ OK';
                 let btnOkClass = item.bloqueado ? 'bg-emerald-600 text-white' : 'bg-slate-200 text-slate-700 hover:bg-emerald-500 hover:text-white';
@@ -523,16 +533,16 @@
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs bg-indigo-50/70 p-3 rounded-2xl border border-indigo-200">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs ${corOrigemDestino} p-3 rounded-2xl border">
                         <div>
-                            <label class="block font-black text-indigo-900 mb-1">📍 Local de Origem (Embarque)</label>
-                            <select onchange="lidarSelecaoLocal(${item.id}, 'embarque', this.value)" ${dis} class="w-full p-2.5 bg-white border border-indigo-300 rounded-xl outline-none font-bold text-slate-900 shadow-sm">
+                            <label class="block font-black mb-1">📍 Local de Origem (Embarque)</label>
+                            <select onchange="lidarSelecaoLocal(${item.id}, 'embarque', this.value)" ${dis} class="w-full p-2.5 bg-white border border-black/15 rounded-xl outline-none font-bold text-slate-900 shadow-sm">
                                 ${opcoesLocaisEmbarque}
                             </select>
                         </div>
                         <div>
-                            <label class="block font-black text-indigo-900 mb-1">🏁 Local de Destino (Desembarque)</label>
-                            <select onchange="lidarSelecaoLocal(${item.id}, 'desembarque', this.value)" ${dis} class="w-full p-2.5 bg-white border border-indigo-300 rounded-xl outline-none font-bold text-slate-900 shadow-sm">
+                            <label class="block font-black mb-1">🏁 Local de Destino (Desembarque)</label>
+                            <select onchange="lidarSelecaoLocal(${item.id}, 'desembarque', this.value)" ${dis} class="w-full p-2.5 bg-white border border-black/15 rounded-xl outline-none font-bold text-slate-900 shadow-sm">
                                 ${opcoesLocaisDesembarque}
                             </select>
                         </div>
@@ -1009,7 +1019,7 @@
                     campoFocoAtual.value = textoDitado;
                     campoFocoAtual.dispatchEvent(new Event('input'));
                 } else {
-                    alert("Por favor, clique primeiro dentro de uma caixa de texto antes de falar.");
+                    alert("Ouvindo... Por favor, clique primeiro dentro de uma caixa de texto.");
                 }
             };
             recognition.start();
