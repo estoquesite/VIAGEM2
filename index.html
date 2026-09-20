@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v32.0)</title>
+    <title>Roteiro Europa - Mariana (v34.0)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Leaflet CSS para Mapas -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <!-- Manifest Dinâmico via JavaScript -->
+    <!-- Manifest Dinâmico via JavaScript (Ícone Limpo sem Selo do Navegador) -->
     <link id="pwa-manifest" rel="manifest" href="">
 </head>
 <body class="bg-slate-100 text-slate-800 min-h-screen pb-44 select-none transition-colors duration-200">
@@ -16,7 +16,7 @@
     <!-- CABEÇALHO NORMAL NO TOPO -->
     <header class="bg-slate-900 text-white px-4 py-3 shadow-md border-b border-slate-700 text-xs flex justify-between items-center z-50 relative">
         <span class="font-bold tracking-wide">🚄 Roteiro Europa - Mariana</span>
-        <span class="bg-indigo-600 px-2 py-0.5 rounded font-mono font-bold text-[10px]">v32.0</span>
+        <span class="bg-indigo-600 px-2 py-0.5 rounded font-mono font-bold text-[10px]">v34.0</span>
     </header>
 
     <!-- CONTEÚDO PRINCIPAL -->
@@ -25,9 +25,9 @@
         <!-- CABEÇALHO DESCRITIVO -->
         <div class="bg-white border border-slate-300 p-5 rounded-3xl shadow-sm flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
             <div>
-                <span class="text-[10px] font-extrabold uppercase tracking-widest bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full">Hotéis Oficiais Hoteis.com v32.0</span>
+                <span class="text-[10px] font-extrabold uppercase tracking-widest bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full">Ícone Nativo Limpo v34.0</span>
                 <h1 class="text-xl sm:text-2xl font-black text-slate-900 mt-2">Zurique, Freiburg, Paris & Interlaken 🚄🏔️</h1>
-                <p class="text-xs text-slate-500 mt-1">Roteiro atualizado com as tuas reservas exatas de hotéis, estações e rotas otimizadas.</p>
+                <p class="text-xs text-slate-500 mt-1">Aplicação otimizada para instalação limpa no ecrã inicial sem o selo do Chrome.</p>
             </div>
             <div class="bg-slate-50 px-4 py-3 rounded-2xl border border-slate-300 text-right shadow-sm w-full sm:w-auto shrink-0">
                 <span class="text-[10px] text-slate-400 block uppercase font-bold">Gastos Totais</span>
@@ -42,6 +42,25 @@
             <button onclick="mudarTab('tarefas')" id="tab-btn-tarefas" class="py-2.5 rounded-xl text-slate-600 hover:bg-white/50 transition">✅ Tarefas</button>
             <button onclick="mudarTab('comprados')" id="tab-btn-comprados" class="py-2.5 rounded-xl text-slate-600 hover:bg-white/50 transition">🎟️ Vouchers</button>
         </div>
+
+        <!-- DATALIST GLOBAL PARA SUGESTÕES DE ESTAÇÕES E HOTÉIS -->
+        <datalist id="sugestoes-locais">
+            <option value="Zurich HB">
+            <option value="Zurich Bus Station (Sihlquai)">
+            <option value="ibis budget Zurich City West">
+            <option value="Freiburg Hbf (Estação Central)">
+            <option value="Premier Inn Freiburg City Süd">
+            <option value="Europa-Park Rust">
+            <option value="Disney Hotel Santa Fe">
+            <option value="Marne-la-Vallée Chessy (Disney)">
+            <option value="Val d'Europe (Outlet)">
+            <option value="CAMPOSANILE PARIS 12 - Bercy Village">
+            <option value="Gare de Lyon (Paris)">
+            <option value="Interlaken Ost">
+            <option value="Hotel Weisses Kreuz">
+            <option value="Grindelwald">
+            <option value="Jungfraujoch">
+        </datalist>
 
         <!-- TAB 1: ITINERÁRIO EM BLOCOS -->
         <div id="tab-itinerario" class="space-y-4">
@@ -118,7 +137,7 @@
     <!-- BARRA DE FERRAMENTAS FIXA NO FINAL DA TELA -->
     <nav class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900 text-white px-4 py-2.5 shadow-2xl border-t border-slate-700 text-xs flex flex-wrap items-center justify-between gap-2">
         <div class="flex items-center gap-2">
-            <span class="bg-indigo-600 px-2 py-0.5 rounded font-mono font-bold text-[10px]">v32.0</span>
+            <span class="bg-indigo-600 px-2 py-0.5 rounded font-mono font-bold text-[10px]">v34.0</span>
             <span class="font-bold">Barra de Ações</span>
         </div>
         <div class="flex items-center gap-1.5 flex-wrap">
@@ -142,7 +161,7 @@
         <div class="bg-white p-6 rounded-3xl shadow-2xl max-w-sm w-full space-y-4 text-center text-xs">
             <div class="w-12 h-12 bg-indigo-100 text-indigo-600 rounded-2xl mx-auto flex items-center justify-center text-2xl font-black">🚄</div>
             <h3 class="font-black text-slate-900 text-base">Instalar Roteiro Europa</h3>
-            <p class="text-slate-600 leading-relaxed">Para adicionar este Super App ao seu ecrã inicial com o ícone de trem:</p>
+            <p class="text-slate-600 leading-relaxed">Para adicionar este Super App ao seu ecrã inicial com o ícone limpo:</p>
             <div class="bg-slate-50 p-3 rounded-2xl text-left space-y-2 text-[11px] text-slate-700 border">
                 <p><b>📱 No Android (Chrome):</b> Toque no menu do navegador (três pontinhos no canto superior direito) e selecione <b>"Adicionar à tela inicial"</b> ou <b>"Instalar aplicativo"</b>.</p>
                 <p><b>🍏 No iPhone (Safari):</b> Toque no botão de partilha (quadrado com seta para cima na barra inferior) e escolha <b>"Adicionar à Tela de Início"</b>.</p>
@@ -223,7 +242,7 @@
     <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
-        const CHAVE_APP = "mariana_viagem_europa_v32";
+        const CHAVE_APP = "mariana_viagem_europa_v34";
         let destinoFiltro = 'todos';
         let campoFocoAtual = null;
         let mapInstance = null;
@@ -240,16 +259,25 @@
                 "display": "standalone",
                 "background_color": "#f8fafc",
                 "theme_color": "#4f46e5",
-                "icons": [{
-                    "src": "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%234f46e5'><path d='M12 2c-4 0-8 .5-8 4v9.5C4 17.43 5.57 19 7.5 19L6 20.5v.5h12v-.5L16.5 19c1.93 0 3.5-1.57 3.5-3.5V6c0-3.5-4-4-8-4zM7.5 17c-.83 0-1.5-.67-1.5-1.5S6.67 14 7.5 14s1.5.67 1.5 1.5S8.33 17 7.5 17zm3.5-7H6V7h5v3zm2 0V7h5v3h-5zm3.5 7c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z'/></svg>",
-                    "sizes": "512x512",
-                    "type": "image/svg+xml"
-                }]
+                "icons": [
+                    {
+                        "src": "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%234f46e5'><path d='M12 2c-4 0-8 .5-8 4v9.5C4 17.43 5.57 19 7.5 19L6 20.5v.5h12v-.5L16.5 19c1.93 0 3.5-1.57 3.5-3.5V6c0-3.5-4-4-8-4zM7.5 17c-.83 0-1.5-.67-1.5-1.5S6.67 14 7.5 14s1.5.67 1.5 1.5S8.33 17 7.5 17zm3.5-7H6V7h5v3zm2 0V7h5v3h-5zm3.5 7c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z'/></svg>",
+                        "sizes": "192x192",
+                        "type": "image/svg+xml",
+                        "purpose": "any maskable"
+                    },
+                    {
+                        "src": "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%234f46e5'><path d='M12 2c-4 0-8 .5-8 4v9.5C4 17.43 5.57 19 7.5 19L6 20.5v.5h12v-.5L16.5 19c1.93 0 3.5-1.57 3.5-3.5V6c0-3.5-4-4-8-4zM7.5 17c-.83 0-1.5-.67-1.5-1.5S6.67 14 7.5 14s1.5.67 1.5 1.5S8.33 17 7.5 17zm3.5-7H6V7h5v3zm2 0V7h5v3h-5zm3.5 7c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z'/></svg>",
+                        "sizes": "512x512",
+                        "type": "image/svg+xml",
+                        "purpose": "any maskable"
+                    }
+                ]
             };
             const manifestBlob = new Blob([JSON.stringify(manifestObj)], {type: 'application/manifest+json'});
             document.getElementById('pwa-manifest').href = URL.createObjectURL(manifestBlob);
 
-            const temaSalvo = localStorage.getItem('tema_v32');
+            const temaSalvo = localStorage.getItem('tema_v34');
             if (temaSalvo === 'dark') {
                 document.body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 document.body.classList.remove('bg-slate-100', 'text-slate-800');
@@ -300,11 +328,11 @@
             if(body.classList.contains('dark')) {
                 body.classList.remove('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.add('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v32', 'light');
+                localStorage.setItem('tema_v34', 'light');
             } else {
                 body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.remove('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v32', 'dark');
+                localStorage.setItem('tema_v34', 'dark');
             }
         }
 
@@ -510,15 +538,15 @@
                         </div>
                     </div>
 
-                    <!-- ORIGEM E DESTINO LOGO NO TOPO DO CORPO -->
+                    <!-- ORIGEM E DESTINO COM DATALIST DE MEMÓRIA INTELIGENTE -->
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs bg-indigo-50/70 p-3 rounded-2xl border border-indigo-200">
                         <div>
                             <label class="block font-black text-indigo-900 mb-1">📍 Local de Origem (Embarque exato)</label>
-                            <input type="text" value="${item.embarque}" ${dis} onfocus="registarFoco(this)" oninput="atualizarCampo(${item.id}, 'embarque', this.value)" class="w-full p-2.5 bg-white border border-indigo-300 rounded-xl outline-none font-bold text-slate-900 shadow-sm" placeholder="Ex: Zurich HB, Plataforma 4...">
+                            <input type="text" list="sugestoes-locais" value="${item.embarque}" ${dis} onfocus="registarFoco(this)" oninput="atualizarCampo(${item.id}, 'embarque', this.value)" class="w-full p-2.5 bg-white border border-indigo-300 rounded-xl outline-none font-bold text-slate-900 shadow-sm" placeholder="Ex: Zurich HB, Plataforma 4...">
                         </div>
                         <div>
                             <label class="block font-black text-indigo-900 mb-1">🏁 Local de Destino (Desembarque exato)</label>
-                            <input type="text" value="${item.desembarque}" ${dis} onfocus="registarFoco(this)" oninput="atualizarCampo(${item.id}, 'desembarque', this.value)" class="w-full p-2.5 bg-white border border-indigo-300 rounded-xl outline-none font-bold text-slate-900 shadow-sm" placeholder="Ex: Hotel ou Estação...">
+                            <input type="text" list="sugestoes-locais" value="${item.desembarque}" ${dis} onfocus="registarFoco(this)" oninput="atualizarCampo(${item.id}, 'desembarque', this.value)" class="w-full p-2.5 bg-white border border-indigo-300 rounded-xl outline-none font-bold text-slate-900 shadow-sm" placeholder="Ex: Hotel ou Estação...">
                         </div>
                     </div>
 
