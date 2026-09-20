@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v148.0)</title>
+    <title>Roteiro Europa - Mariana (v152.0)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Manifest Dinâmico via JavaScript -->
@@ -37,19 +37,19 @@
         <span class="font-bold tracking-wide">🚄 Roteiro Europa - Mariana</span>
         <div class="flex items-center gap-2">
             <button onclick="exportarPdfPrint()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2.5 py-1 rounded-lg font-bold text-[10px] transition shadow-sm">🖨️ Imprimir Tudo</button>
-            <span class="bg-indigo-600 px-2 py-1 rounded-lg font-mono font-bold text-[10px]">v148.0</span>
+            <span class="bg-indigo-600 px-2 py-1 rounded-lg font-mono font-bold text-[10px]">v152.0</span>
         </div>
     </header>
 
     <!-- CONTEÚDO PRINCIPAL -->
     <div class="max-w-4xl mx-auto p-3 sm:p-6 space-y-4 pt-4">
 
-        <!-- SEPARADORES (TABS) - MENU SUPERIOR OTIMIZADO -->
-        <div class="flex gap-1.5 bg-slate-200 p-1.5 rounded-2xl text-xs font-bold shadow-inner overflow-x-auto no-scrollbar">
-            <button onclick="mudarTab('leitura')" id="tab-btn-leitura" class="px-4 py-2.5 rounded-xl bg-indigo-600 text-white shadow-sm transition shrink-0">✈️ Roteiro</button>
-            <button onclick="mudarTab('itinerario')" id="tab-btn-itinerario" class="px-4 py-2.5 rounded-xl text-slate-600 hover:bg-white/50 transition shrink-0">📅 Editar</button>
-            <button onclick="mudarTab('utilidades')" id="tab-btn-utilidades" class="px-4 py-2.5 rounded-xl text-slate-600 hover:bg-white/50 transition shrink-0">📋 Utilidades</button>
-            <button onclick="mudarTab('orcamento')" id="tab-btn-orcamento" class="px-4 py-2.5 rounded-xl text-slate-600 hover:bg-white/50 transition shrink-0">💰 Orçamento & R$</button>
+        <!-- SEPARADORES (TABS) - APENAS SÍMBOLOS PARA NÃO CORTAR -->
+        <div class="flex gap-2 bg-slate-200 p-1.5 rounded-2xl shadow-inner overflow-x-auto no-scrollbar justify-around">
+            <button onclick="mudarTab('leitura')" id="tab-btn-leitura" class="flex-1 py-2.5 rounded-xl bg-indigo-600 text-white shadow-sm transition text-center text-base" title="Roteiro">✈️</button>
+            <button onclick="mudarTab('itinerario')" id="tab-btn-itinerario" class="flex-1 py-2.5 rounded-xl text-slate-600 hover:bg-white/50 transition text-center text-base" title="Editar Itinerário">📅</button>
+            <button onclick="mudarTab('utilidades')" id="tab-btn-utilidades" class="flex-1 py-2.5 rounded-xl text-slate-600 hover:bg-white/50 transition text-center text-base" title="Utilidades e Vouchers">📋</button>
+            <button onclick="mudarTab('orcamento')" id="tab-btn-orcamento" class="flex-1 py-2.5 rounded-xl text-slate-600 hover:bg-white/50 transition text-center text-base" title="Orçamento e Câmbio">💰</button>
         </div>
 
         <!-- TAB 1: ROTEIRO -->
@@ -242,7 +242,7 @@
 
     <!-- BARRA DE FERRAMENTAS FIXA -->
     <nav class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-md text-white px-3 py-2.5 shadow-2xl border-t border-slate-800 text-xs flex items-center justify-around gap-1 overflow-x-auto no-scrollbar max-w-4xl mx-auto rounded-t-2xl">
-        <span class="bg-indigo-600 px-2 py-1 rounded font-mono font-bold text-[9px] shrink-0">v148.0</span>
+        <span class="bg-indigo-600 px-2 py-1 rounded font-mono font-bold text-[9px] shrink-0">v152.0</span>
         <button onclick="abrirGeminiModal()" class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-3 py-1.5 rounded-xl font-bold transition shrink-0 flex items-center gap-1 text-xs shadow-sm">
             <span>✨</span> Gemini
         </button>
@@ -281,7 +281,7 @@
     </div>
 
     <script>
-        const CHAVE_APP = "mariana_viagem_europa_v148";
+        const CHAVE_APP = "mariana_viagem_europa_v152";
         let destinoFiltro = 'todos';
         let tarefaFiltro = 'todas';
         let utilidadeFiltro = 'todos';
@@ -374,11 +374,11 @@
                 navigator.serviceWorker.register(URL.createObjectURL(swBlob)).catch(err => {});
             }
 
-            if (!sessionStorage.getItem('sessao_ativa_v148')) {
+            if (!sessionStorage.getItem('sessao_ativa_v152')) {
                 document.getElementById('tela-bloqueio').classList.remove('hidden');
             }
 
-            const temaSalvo = localStorage.getItem('tema_v148');
+            const temaSalvo = localStorage.getItem('tema_v152');
             if (temaSalvo === 'dark') {
                 document.body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 document.body.classList.remove('bg-slate-100', 'text-slate-800');
@@ -432,29 +432,30 @@
         }
 
         function desbloquearComPin() {
-            let pinSalvo = localStorage.getItem('app_pin_v148') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v152') || '1510';
             let digitado = document.getElementById('input-pin').value;
             if(digitado === pinSalvo) {
-                sessionStorage.setItem('sessao_ativa_v148', 'true');
+                sessionStorage.setItem('sessao_ativa_v152', 'true');
                 document.getElementById('tela-bloqueio').classList.add('hidden');
                 document.getElementById('erro-pin').classList.add('hidden');
             } else {
+                document.getElementById('erro-pin').classList.add('hidden'); // fallback
                 document.getElementById('erro-pin').classList.remove('hidden');
             }
         }
 
         async function desbloquearComBiometria() {
-            sessionStorage.setItem('sessao_ativa_v148', 'true');
+            sessionStorage.setItem('sessao_ativa_v152', 'true');
             document.getElementById('tela-bloqueio').classList.add('hidden');
         }
 
         function alterarSenhaPin() {
             let atual = prompt("Digite a senha atual (Padrão: 1510):");
-            let pinSalvo = localStorage.getItem('app_pin_v148') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v152') || '1510';
             if(atual === pinSalvo) {
                 let nova = prompt("Digite a nova senha PIN:");
                 if(nova && nova.trim() !== '') {
-                    localStorage.setItem('app_pin_v148', nova.trim());
+                    localStorage.setItem('app_pin_v152', nova.trim());
                     alert("🔑 Senha alterada com sucesso!");
                 }
             } else {
@@ -467,11 +468,11 @@
             if(body.classList.contains('dark')) {
                 body.classList.remove('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.add('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v148', 'light');
+                localStorage.setItem('tema_v152', 'light');
             } else {
                 body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.remove('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v148', 'dark');
+                localStorage.setItem('tema_v152', 'dark');
             }
         }
 
@@ -513,7 +514,7 @@
 
         // FUNÇÃO DE IMPRESSÃO INDIVIDUAL DE CADA CARD
         function imprimirBlocoUnico(id) {
-            let item = dadosApp.itinerario.find(i => i.id === id);
+            let item = dadosApp.itinerario.find(i => String(i.id) === String(id));
             if(!item) return;
             let win = window.open('', '_blank');
             let dIni = item.dataInicio ? item.dataInicio.split('-').reverse().join('/') : '?';
@@ -552,7 +553,7 @@
 
         function removerDoRoteiro(id) {
             registarEstadoAnterior();
-            const item = dadosApp.itinerario.find(i => i.id === id);
+            const item = dadosApp.itinerario.find(i => String(i.id) === String(id));
             if(item) { 
                 item.bloqueado = false; 
                 salvarStorage(); 
@@ -562,7 +563,7 @@
 
         function alternarBloqueio(id) {
             registarEstadoAnterior();
-            const item = dadosApp.itinerario.find(i => i.id === id);
+            const item = dadosApp.itinerario.find(i => String(i.id) === String(id));
             if(item) { 
                 item.bloqueado = !item.bloqueado; 
                 salvarStorage(); 
@@ -572,7 +573,7 @@
 
         function alternarConcluidoBloco(id) {
             registarEstadoAnterior();
-            const item = dadosApp.itinerario.find(i => i.id === id);
+            const item = dadosApp.itinerario.find(i => String(i.id) === String(id));
             if(item) {
                 item.concluido = !item.concluido;
                 salvarStorage();
@@ -582,7 +583,7 @@
 
         function atualizarCorBlocoLocal(id, cor) {
             registarEstadoAnterior();
-            let item = dadosApp.itinerario.find(i => i.id === id);
+            let item = dadosApp.itinerario.find(i => String(i.id) === String(id));
             if(item) {
                 item.cor = cor;
                 if(item.categoria) {
@@ -592,6 +593,38 @@
                 salvarStorage();
                 atualizarTudo();
             }
+        }
+
+        function atualizarCampo(id, campo, val) {
+            registarEstadoAnterior();
+            let item = dadosApp.itinerario.find(i => String(i.id) === String(id));
+            if(item) {
+                item[campo] = val;
+                salvarStorage();
+                atualizarTudo();
+            }
+        }
+
+        function apagarBloco(id) {
+            if(confirm("Deseja realmente excluir este bloco?")) {
+                registarEstadoAnterior();
+                dadosApp.itinerario = dadosApp.itinerario.filter(i => String(i.id) !== String(id));
+                salvarStorage();
+                atualizarTudo();
+            }
+        }
+
+        function moverBloco(id, direcao) {
+            registarEstadoAnterior();
+            let idx = dadosApp.itinerario.findIndex(i => String(i.id) === String(id));
+            if(idx < 0) return;
+            let targetIdx = idx + direcao;
+            if(targetIdx < 0 || targetIdx >= dadosApp.itinerario.length) return;
+            let temp = dadosApp.itinerario[idx];
+            dadosApp.itinerario[idx] = dadosApp.itinerario[targetIdx];
+            dadosApp.itinerario[targetIdx] = temp;
+            salvarStorage();
+            atualizarTudo();
         }
 
         function atualizarTudo() {
@@ -615,12 +648,12 @@
                 let el = document.getElementById('tab-' + t);
                 if(el) el.classList.add('hidden');
                 let btn = document.getElementById('tab-btn-' + t);
-                if(btn) btn.className = "px-4 py-2.5 rounded-xl text-slate-600 hover:bg-white/50 transition shrink-0";
+                if(btn) btn.className = "flex-1 py-2.5 rounded-xl text-slate-600 hover:bg-white/50 transition text-center text-base";
             });
             let target = document.getElementById('tab-' + tab);
             if(target) target.classList.remove('hidden');
             let activeBtn = document.getElementById('tab-btn-' + tab);
-            if(activeBtn) activeBtn.className = "px-4 py-2.5 rounded-xl bg-indigo-600 text-white shadow-sm transition shrink-0";
+            if(activeBtn) activeBtn.className = "flex-1 py-2.5 rounded-xl bg-indigo-600 text-white shadow-sm transition text-center text-base";
             if(tab === 'leitura') { renderizarModoLeitura(); }
             if(tab === 'utilidades') { renderizarHubUtilidades(); }
             if(tab === 'orcamento') { renderizarOrcamentoTab(); }
@@ -710,7 +743,6 @@
                 if(!dadosApp.coresDestinos) dadosApp.coresDestinos = {};
                 dadosApp.coresDestinos[limpo] = corNova || "#3b82f6";
                 
-                // Criação automática de um bloco para este novo destino
                 registarEstadoAnterior();
                 let novoBloco = {
                     id: Date.now(),
@@ -814,12 +846,12 @@
                 card.className = 'p-3.5 rounded-2xl border shadow-sm space-y-2.5 transition flex flex-col justify-between ' + bgStyle;
                 card.style.borderLeft = '6px solid ' + corMaster;
 
-                card.innerHTML = '<div class="space-y-1.5"><div class="flex justify-between items-center gap-2 flex-wrap border-b border-slate-100 pb-2"><div class="flex items-center gap-1.5"><span class="font-black px-2 py-0.5 rounded-lg text-[10px] text-white shadow-sm" style="background-color: ' + corMaster + ';">' + (item.categoria || 'Geral') + '</span><span class="text-slate-600 font-bold text-xs">📅 ' + dIni + ' ➔ ' + dFim + '</span></div><div class="flex items-center gap-1.5"><label class="flex items-center gap-1 cursor-pointer font-bold bg-slate-100 hover:bg-slate-200 px-2 py-1 rounded-xl transition text-xs"><input type="checkbox" ' + (item.concluido ? 'checked' : '') + ' onchange="alternarConcluidoBloco(' + item.id + ')" class="w-3.5 h-3.5 accent-emerald-600 rounded cursor-pointer"><span>Feito</span></label><button onclick="removerDoRoteiro(' + item.id + ')" class="bg-amber-50 hover:bg-amber-100 text-amber-700 px-2 py-1 rounded-xl font-bold text-xs" title="Retirar do Roteiro">✕</button></div></div><div class="space-y-1.5 pt-0.5">' + (trechosTexto || '<span class="text-xs text-slate-400 italic">Nenhum trecho adicionado.</span>') + (itensTexto ? '<div class="mt-2 pt-2 border-t border-slate-200 space-y-1"><span class="text-[11px] font-extrabold uppercase text-slate-600">📌 Notas / Textos:</span>' + itensTexto + '</div>' : '') + '</div></div>';
+                card.innerHTML = '<div class="space-y-1.5"><div class="flex justify-between items-center gap-2 flex-wrap border-b border-slate-100 pb-2"><div class="flex items-center gap-1.5"><span class="font-black px-2 py-0.5 rounded-lg text-[10px] text-white shadow-sm" style="background-color: ' + corMaster + ';">' + (item.categoria || 'Geral') + '</span><span class="text-slate-600 font-bold text-xs">📅 ' + dIni + ' ➔ ' + dFim + '</span></div><div class="flex items-center gap-1.5"><label class="flex items-center gap-1 cursor-pointer font-bold bg-slate-100 hover:bg-slate-200 px-2 py-1 rounded-xl transition text-xs"><input type="checkbox" ' + (item.concluido ? 'checked' : '') + ' onchange="alternarConcluidoBloco(\'' + item.id + '\')" class="w-3.5 h-3.5 accent-emerald-600 rounded cursor-pointer"><span>Feito</span></label><button onclick="removerDoRoteiro(\'' + item.id + '\')" class="bg-amber-50 hover:bg-amber-100 text-amber-700 px-2 py-1 rounded-xl font-bold text-xs" title="Retirar do Roteiro">✕</button></div></div><div class="space-y-1.5 pt-0.5">' + (trechosTexto || '<span class="text-xs text-slate-400 italic">Nenhum trecho adicionado.</span>') + (itensTexto ? '<div class="mt-2 pt-2 border-t border-slate-200 space-y-1"><span class="text-[11px] font-extrabold uppercase text-slate-600">📌 Notas / Textos:</span>' + itensTexto + '</div>' : '') + '</div></div>';
                 container.appendChild(card);
             });
         }
 
-        // RENDERIZAR EDITAR (COM CABEÇALHOS CURTOS E BOTÃO DE IMPRESSÃO POR CARD)
+        // RENDERIZAR EDITAR
         function renderizarBlocos() {
             const container = document.getElementById('lista-blocos');
             if(!container) return;
@@ -866,13 +898,13 @@
 
                         trechosHtml += '<div class="bg-white p-2.5 rounded-xl border border-slate-200 flex flex-col gap-2 text-xs mb-2 shadow-sm min-w-0">' +
                             '<div class="flex items-center gap-1.5 min-w-0">' +
-                                '<select onchange="lidarSelecaoLocalTrecho(' + item.id + ', ' + tr.id + ', \'origem\', this.value)" class="flex-1 min-w-0 p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs truncate"><option value="">Origem...</option>' + opcoesOrigem + '</select>' +
+                                '<select onchange="lidarSelecaoLocalTrecho(\'' + item.id + '\', \'' + tr.id + '\', \'origem\', this.value)" class="flex-1 min-w-0 p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs truncate"><option value="">Origem...</option>' + opcoesOrigem + '</select>' +
                                 '<span class="shrink-0 font-bold text-slate-400">➔</span>' +
-                                '<select onchange="lidarSelecaoLocalTrecho(' + item.id + ', ' + tr.id + ', \'destino\', this.value)" class="flex-1 min-w-0 p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs truncate"><option value="">Destino...</option>' + opcoesDest + '</select>' +
-                                '<button onclick="removerTrecho(' + item.id + ', ' + tr.id + ')" class="text-red-500 font-bold px-2.5 py-1.5 rounded-xl bg-red-50 text-xs shrink-0 hover:bg-red-100 transition">✕</button>' +
+                                '<select onchange="lidarSelecaoLocalTrecho(\'' + item.id + '\', \'' + tr.id + '\', \'destino\', this.value)" class="flex-1 min-w-0 p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs truncate"><option value="">Destino...</option>' + opcoesDest + '</select>' +
+                                '<button onclick="removerTrecho(\'' + item.id + '\', \'' + tr.id + '\')" class="text-red-500 font-bold px-2.5 py-1.5 rounded-xl bg-red-50 text-xs shrink-0 hover:bg-red-100 transition">✕</button>' +
                             '</div>' +
                             '<div class="flex items-center gap-1.5 min-w-0">' +
-                                '<select onchange="atualizarTrecho(' + item.id + ', ' + tr.id + ', \'transporte\', this.value)" class="flex-1 min-w-0 p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs">' +
+                                '<select onchange="atualizarTrecho(\'' + item.id + '\', \'' + tr.id + '\', \'transporte\', this.value)" class="flex-1 min-w-0 p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs">' +
                                     '<option value="Trem" ' + (tr.transporte==='Trem'?'selected':'') + '>Trem</option>' +
                                     '<option value="Ônibus" ' + (tr.transporte==='Ônibus'?'selected':'') + '>Ônibus</option>' +
                                     '<option value="Avião" ' + (tr.transporte==='Avião'?'selected':'') + '>Avião</option>' +
@@ -880,13 +912,13 @@
                                     '<option value="Carro" ' + (tr.transporte==='Carro'?'selected':'') + '>Carro</option>' +
                                     '<option value="Outro" ' + (tr.transporte==='Outro'?'selected':'') + '>Outro</option>' +
                                 '</select>' +
-                                '<input type="number" value="' + (tr.valor || 0) + '" oninput="atualizarTrecho(' + item.id + ', ' + tr.id + ', \'valor\', this.value); atualizarTudo();" class="w-20 shrink-0 p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs" placeholder="0">' +
-                                '<select onchange="atualizarTrecho(' + item.id + ', ' + tr.id + ', \'moeda\', this.value); atualizarTudo();" class="w-20 shrink-0 p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs">' +
+                                '<input type="number" value="' + (tr.valor || 0) + '" oninput="atualizarTrecho(\'' + item.id + '\', \'' + tr.id + '\', \'valor\', this.value); atualizarTudo();" class="w-20 shrink-0 p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs" placeholder="0">' +
+                                '<select onchange="atualizarTrecho(\'' + item.id + '\', \'' + tr.id + '\', \'moeda\', this.value); atualizarTudo();" class="w-20 shrink-0 p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs">' +
                                     '<option value="EUR" ' + (tr.moeda==='EUR'?'selected':'') + '>EUR</option>' +
                                     '<option value="CHF" ' + (tr.moeda==='CHF'?'selected':'') + '>CHF</option>' +
                                 '</select>' +
                             '</div>' +
-                            '<input type="text" value="' + (tr.notas || '') + '" oninput="atualizarTrecho(' + item.id + ', ' + tr.id + ', \'notas\', this.value)" class="w-full p-2 bg-slate-50 border border-slate-300 rounded-xl font-medium text-xs" placeholder="Informações adicionais para este trecho...">' +
+                            '<input type="text" value="' + (tr.notas || '') + '" oninput="atualizarTrecho(\'' + item.id + '\', \'' + tr.id + '\', \'notas\', this.value)" class="w-full p-2 bg-slate-50 border border-slate-300 rounded-xl font-medium text-xs" placeholder="Informações adicionais para este trecho...">' +
                         '</div>';
                     });
                 }
@@ -895,8 +927,8 @@
                 if(item.itens && item.itens.length > 0) {
                     item.itens.forEach(it => {
                         itensHtml += '<div class="flex items-center gap-1.5 bg-white p-2 rounded-xl border border-slate-200 text-xs min-w-0 mb-1.5 shadow-sm">' +
-                            '<input type="text" value="' + (it.texto || '') + '" oninput="atualizarTextoItemBloco(' + item.id + ', ' + it.id + ', this.value)" class="flex-1 min-w-0 bg-transparent outline-none font-bold text-slate-800 text-xs" placeholder="Escreva um texto livre...">' +
-                            '<button onclick="removerItemBloco(' + item.id + ', ' + it.id + ')" class="text-red-500 font-bold px-2.5 py-1.5 rounded-xl bg-red-50 text-xs shrink-0 hover:bg-red-100 transition">✕</button>' +
+                            '<input type="text" value="' + (it.texto || '') + '" oninput="atualizarTextoItemBloco(\'' + item.id + '\', \'' + it.id + '\', this.value)" class="flex-1 min-w-0 bg-transparent outline-none font-bold text-slate-800 text-xs" placeholder="Escreva um texto livre...">' +
+                            '<button onclick="removerItemBloco(\'' + item.id + '\', \'' + it.id + '\')" class="text-red-500 font-bold px-2.5 py-1.5 rounded-xl bg-red-50 text-xs shrink-0 hover:bg-red-100 transition">✕</button>' +
                         '</div>';
                     });
                 }
@@ -905,14 +937,27 @@
                 card.className = 'p-4 rounded-2xl border border-slate-300 space-y-3 transition shadow-sm min-w-0';
                 card.style.backgroundColor = corHex;
 
-                card.innerHTML = '<div class="flex justify-between items-center gap-2 border-b border-black/10 pb-2.5 flex-wrap"><div class="flex items-center gap-2 flex-wrap"><select onchange="lidarSelecaoDestino(' + item.id + ', this.value)" class="bg-white text-indigo-950 font-black px-3 py-1.5 rounded-xl text-xs border border-slate-300 outline-none shadow-sm">' + opcoesDestino + '</select><span class="bg-indigo-600 text-white font-bold px-2.5 py-1 rounded-xl text-xs shadow-sm">📅 ' + totalDias + 'd</span></div><div class="flex items-center gap-1.5"><button onclick="imprimirBlocoUnico(' + item.id + ')" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2.5 py-1.5 rounded-xl font-bold text-xs transition shadow-sm">🖨️ Imprimir</button><div class="flex items-center gap-1.5 bg-white p-1 rounded-xl border border-slate-300 text-xs font-bold shadow-sm"><input type="date" value="' + (item.dataInicio || '') + '" onchange="atualizarDataInicio(' + item.id + ', this.value)" class="bg-transparent outline-none text-xs" title="Início"><span>➔</span><input type="date" value="' + (item.dataFim || '') + '" onchange="atualizarCampo(' + item.id + ', \'dataFim\', this.value)" class="bg-transparent outline-none text-xs" title="Fim"></div></div></div>' +
+                card.innerHTML = '<div class="flex flex-col gap-2 border-b border-black/10 pb-2.5">' +
+                    '<div class="flex justify-between items-center gap-2 flex-wrap">' +
+                        '<div class="flex items-center gap-2 flex-wrap">' +
+                            '<select onchange="lidarSelecaoDestino(\'' + item.id + '\', this.value)" class="bg-white text-indigo-950 font-black px-3 py-1.5 rounded-xl text-xs border border-slate-300 outline-none shadow-sm">' + opcoesDestino + '</select>' +
+                            '<span class="bg-indigo-600 text-white font-bold px-2.5 py-1 rounded-xl text-xs shadow-sm">📅 ' + totalDias + 'd</span>' +
+                        '</div>' +
+                        '<button onclick="imprimirBlocoUnico(\'' + item.id + '\')" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2.5 py-1.5 rounded-xl font-bold text-xs transition shadow-sm">🖨️ Imprimir Bloco</button>' +
+                    '</div>' +
+                    '<div class="flex items-center gap-1.5 bg-white p-1 rounded-xl border border-slate-300 text-xs font-bold shadow-sm self-start">' +
+                        '<input type="date" value="' + (item.dataInicio || '') + '" onchange="atualizarDataInicio(\'' + item.id + '\', this.value)" class="bg-transparent outline-none text-xs" title="Início">' +
+                        '<span>➔</span>' +
+                        '<input type="date" value="' + (item.dataFim || '') + '" onchange="atualizarCampo(\'' + item.id + '\', \'dataFim\', this.value)" class="bg-transparent outline-none text-xs" title="Fim">' +
+                    '</div>' +
+                '</div>' +
                     '<div class="bg-white/95 p-3 rounded-2xl border border-slate-200 space-y-3 text-xs min-w-0 shadow-inner">' +
                         '<div class="space-y-1.5">' +
-                            '<div class="flex justify-between items-center"><span class="font-bold text-slate-700 uppercase text-[10px]">🚄 Trechos</span><button onclick="adicionarTrecho(' + item.id + ')" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2.5 py-1 rounded-xl text-[11px] font-bold transition shadow-sm">➕ Trecho</button></div>' +
+                            '<div class="flex justify-between items-center"><span class="font-bold text-slate-700 uppercase text-[10px]">🚄 Trechos</span><button onclick="adicionarTrecho(\'' + item.id + '\')" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2.5 py-1 rounded-xl text-[11px] font-bold transition shadow-sm">➕ Trecho</button></div>' +
                             '<div class="space-y-1.5 min-w-0">' + (trechosHtml || '<p class="text-xs text-slate-400 italic">Nenhum trecho adicionado.</p>') + '</div>' +
                         '</div>' +
                         '<div class="space-y-1.5 pt-2.5 border-t border-slate-200">' +
-                            '<div class="flex justify-between items-center"><span class="font-bold text-slate-700 uppercase text-[10px]">📌 Notas</span><button onclick="adicionarItemBloco(' + item.id + ')" class="bg-indigo-600 hover:bg-indigo-700 text-white px-2.5 py-1 rounded-xl text-[11px] font-bold transition shadow-sm">➕ Texto</button></div>' +
+                            '<div class="flex justify-between items-center"><span class="font-bold text-slate-700 uppercase text-[10px]">📌 Notas</span><button onclick="adicionarItemBloco(\'' + item.id + '\')" class="bg-indigo-600 hover:bg-indigo-700 text-white px-2.5 py-1 rounded-xl text-[11px] font-bold transition shadow-sm">➕ Texto</button></div>' +
                             '<div class="space-y-1.5 min-w-0">' + (itensHtml || '<p class="text-xs text-slate-400 italic">Nenhum texto adicionado.</p>') + '</div>' +
                         '</div>' +
                     '</div>' +
@@ -920,13 +965,13 @@
                         '<div class="flex items-center gap-1.5 bg-white px-2.5 py-1.5 rounded-xl border border-slate-300 text-xs font-bold shadow-sm">' +
                             '<input type="color" id="input-cor-' + item.id + '" value="' + corHex + '" class="w-5 h-5 rounded-lg cursor-pointer border-0 bg-transparent">' +
                             '<span>Cor Master</span>' +
-                            '<button onclick="atualizarCorBlocoLocal(' + item.id + ', document.getElementById(\'input-cor-' + item.id + '\').value)" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2 py-1 rounded-lg text-[10px] font-bold transition">OK</button>' +
+                            '<button onclick="atualizarCorBlocoLocal(\'' + item.id + '\', document.getElementById(\'input-cor-' + item.id + '\').value)" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2 py-1 rounded-lg text-[10px] font-bold transition">OK</button>' +
                         '</div>' +
                         '<div class="flex items-center gap-1.5">' +
-                            '<button onclick="alternarBloqueio(' + item.id + ')" class="' + lockBg + ' px-3 py-1.5 rounded-xl font-bold text-xs shadow-sm transition">' + lockIcon + '</button>' +
-                            '<button onclick="moverBloco(' + item.id + ', -1)" class="bg-slate-200 hover:bg-slate-300 px-2 py-1.5 rounded-xl text-xs font-bold transition">⬆️</button>' +
-                            '<button onclick="moverBloco(' + item.id + ', 1)" class="bg-slate-200 hover:bg-slate-300 px-2 py-1.5 rounded-xl text-xs font-bold transition">⬇️</button>' +
-                            '<button onclick="apagarBloco(' + item.id + ')" class="bg-red-50 hover:bg-red-100 text-red-600 px-3 py-1.5 rounded-xl text-xs font-bold transition">Excluir ✕</button>' +
+                            '<button onclick="alternarBloqueio(\'' + item.id + '\')" class="' + lockBg + ' px-3 py-1.5 rounded-xl font-bold text-xs shadow-sm transition">' + lockIcon + '</button>' +
+                            '<button onclick="moverBloco(\'' + item.id + '\', -1)" class="bg-slate-200 hover:bg-slate-300 px-2 py-1.5 rounded-xl text-xs font-bold transition">⬆️</button>' +
+                            '<button onclick="moverBloco(\'' + item.id + '\', 1)" class="bg-slate-200 hover:bg-slate-300 px-2 py-1.5 rounded-xl text-xs font-bold transition">⬇️</button>' +
+                            '<button onclick="apagarBloco(\'' + item.id + '\')" class="bg-red-50 hover:bg-red-100 text-red-600 px-3 py-1.5 rounded-xl text-xs font-bold transition">Excluir ✕</button>' +
                         '</div>' +
                     '</div>';
                 container.appendChild(card);
@@ -935,7 +980,7 @@
 
         function adicionarItemBloco(itemId) {
             registarEstadoAnterior();
-            let item = dadosApp.itinerario.find(i => i.id === itemId);
+            let item = dadosApp.itinerario.find(i => String(i.id) === String(itemId));
             if(item) {
                 if(!item.itens) item.itens = [];
                 item.itens.push({ id: Date.now(), texto: "" });
@@ -946,18 +991,18 @@
 
         function removerItemBloco(itemId, subId) {
             registarEstadoAnterior();
-            let item = dadosApp.itinerario.find(i => i.id === itemId);
+            let item = dadosApp.itinerario.find(i => String(i.id) === String(itemId));
             if(item && item.itens) {
-                item.itens = item.itens.filter(i => i.id !== subId);
+                item.itens = item.itens.filter(i => String(i.id) !== String(subId));
                 salvarStorage();
                 renderizarBlocos();
             }
         }
 
         function atualizarTextoItemBloco(itemId, subId, val) {
-            let item = dadosApp.itinerario.find(i => i.id === itemId);
+            let item = dadosApp.itinerario.find(i => String(i.id) === String(itemId));
             if(item && item.itens) {
-                let it = item.itens.find(i => i.id === subId);
+                let it = item.itens.find(i => String(i.id) === String(subId));
                 if(it) {
                     it.texto = val;
                     localStorage.setItem(CHAVE_APP, JSON.stringify(dadosApp));
@@ -967,7 +1012,7 @@
 
         function atualizarDataInicio(id, val) {
             registarEstadoAnterior();
-            let item = dadosApp.itinerario.find(i => i.id === id);
+            let item = dadosApp.itinerario.find(i => String(i.id) === String(id));
             if(item) {
                 item.dataInicio = val;
                 if(!item.dataFim || item.dataFim < val) {
@@ -994,7 +1039,7 @@
 
         function adicionarTrecho(itemId) {
             registarEstadoAnterior();
-            let item = dadosApp.itinerario.find(i => i.id === itemId);
+            let item = dadosApp.itinerario.find(i => String(i.id) === String(itemId));
             if(item) {
                 if(!item.trechos) item.trechos = [];
                 item.trechos.push({ id: Date.now(), origem: "", destino: "", transporte: "Trem", valor: 0, moeda: "EUR", notas: "" });
@@ -1005,18 +1050,18 @@
 
         function removerTrecho(itemId, trechoId) {
             registarEstadoAnterior();
-            let item = dadosApp.itinerario.find(i => i.id === itemId);
+            let item = dadosApp.itinerario.find(i => String(i.id) === String(itemId));
             if(item && item.trechos) {
-                item.trechos = item.trechos.filter(t => t.id !== trechoId);
+                item.trechos = item.trechos.filter(t => String(t.id) !== String(trechoId));
                 salvarStorage();
                 atualizarTudo();
             }
         }
 
         function atualizarTrecho(itemId, trechoId, campo, val) {
-            let item = dadosApp.itinerario.find(i => i.id === itemId);
+            let item = dadosApp.itinerario.find(i => String(i.id) === String(itemId));
             if(item && item.trechos) {
-                let tr = item.trechos.find(t => t.id === trechoId);
+                let tr = item.trechos.find(t => String(t.id) === String(trechoId));
                 if(tr) {
                     tr[campo] = val;
                     localStorage.setItem(CHAVE_APP, JSON.stringify(dadosApp));
@@ -1035,28 +1080,6 @@
             atualizarTudo();
         }
 
-        function apagarBloco(id) {
-            if(confirm("Deseja realmente excluir este bloco?")) {
-                registarEstadoAnterior();
-                dadosApp.itinerario = dadosApp.itinerario.filter(i => i.id !== id);
-                salvarStorage();
-                atualizarTudo();
-            }
-        }
-
-        function moverBloco(id, direcao) {
-            registarEstadoAnterior();
-            let idx = dadosApp.itinerario.findIndex(i => i.id === id);
-            if(idx < 0) return;
-            let targetIdx = idx + direcao;
-            if(targetIdx < 0 || targetIdx >= dadosApp.itinerario.length) return;
-            let temp = dadosApp.itinerario[idx];
-            dadosApp.itinerario[idx] = dadosApp.itinerario[targetIdx];
-            dadosApp.itinerario[targetIdx] = temp;
-            salvarStorage();
-            atualizarTudo();
-        }
-
         function lidarSelecaoDestino(id, valor) {
             registarEstadoAnterior();
             if(valor === 'novo_destino') {
@@ -1067,7 +1090,7 @@
                     if(!dadosApp.destinosCadastrados.includes(limpo)) dadosApp.destinosCadastrados.push(limpo);
                     if(!dadosApp.coresDestinos) dadosApp.coresDestinos = {};
                     dadosApp.coresDestinos[limpo] = corNova || "#3b82f6";
-                    let item = dadosApp.itinerario.find(i => i.id === id);
+                    let item = dadosApp.itinerario.find(i => String(i.id) === String(id));
                     if(item) {
                         item.categoria = limpo;
                         item.cor = dadosApp.coresDestinos[limpo];
@@ -1076,7 +1099,7 @@
                     atualizarTudo();
                 } else { renderizarBlocos(); }
             } else {
-                let item = dadosApp.itinerario.find(i => i.id === id);
+                let item = dadosApp.itinerario.find(i => String(i.id) === String(id));
                 if(item) {
                     item.categoria = valor;
                     item.cor = obterCorPorCategoria(valor);
@@ -1107,10 +1130,10 @@
                 } else {
                     dadosApp.voos.forEach(v => {
                         let pdfAction = v.pdfData ? '<button onclick="abrirLeitorPdf(\'' + v.id + '\', \'Passagem ' + (v.voo || 'Voo') + '\')" class="bg-indigo-600 text-white px-2.5 py-1 rounded-xl text-xs font-bold shadow-sm">📄 PDF</button>' : '<label class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-2.5 py-1 rounded-xl text-xs font-bold cursor-pointer border shadow-sm">📎 PDF<input type="file" accept="application/pdf" onchange="anexarPdfVoo(' + v.id + ', event)" class="hidden"></label>';
-                        voosHtml += '<div class="p-2.5 rounded-2xl border border-slate-200 bg-white space-y-2 shadow-sm text-xs"><div class="flex gap-2 items-center"><input type="text" value="' + v.cia + '" oninput="atualizarVoo(' + v.id + ', \'cia\', this.value)" class="w-16 p-1 bg-slate-50 border rounded-xl font-bold text-xs" placeholder="Cia"><input type="text" value="' + v.voo + '" oninput="atualizarVoo(' + v.id + ', \'voo\', this.value)" class="w-14 p-1 bg-slate-50 border rounded-xl font-bold text-xs" placeholder="Voo"><input type="text" value="' + v.pnr + '" oninput="atualizarVoo(' + v.id + ', \'pnr\', this.value)" class="flex-1 p-1 bg-amber-50 border border-amber-300 rounded-xl font-black text-amber-900 text-xs" placeholder="PNR">' + pdfAction + '<button onclick="apagarVoo(' + v.id + ')" class="text-red-500 font-bold bg-red-50 hover:bg-red-100 px-2 py-1 rounded-xl text-xs">✕</button></div><div class="flex gap-2"><input type="text" value="' + v.rota + '" oninput="atualizarVoo(' + v.id + ', \'rota\', this.value)" class="flex-1 p-1 bg-slate-50 border rounded-xl font-bold text-xs" placeholder="Rota"><input type="date" value="' + v.data + '" onchange="atualizarVoo(' + v.id + ', \'data\', this.value)" class="p-1 bg-slate-50 border rounded font-bold text-xs"></div></div>';
+                        voosHtml += '<div class="p-2.5 rounded-2xl border border-slate-200 bg-white space-y-2 shadow-sm text-xs min-w-0"><div class="flex gap-1.5 items-center min-w-0"><input type="text" value="' + v.cia + '" oninput="atualizarVoo(' + v.id + ', \'cia\', this.value)" class="w-16 shrink-0 p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs" placeholder="Cia"><input type="text" value="' + v.voo + '" oninput="atualizarVoo(' + v.id + ', \'voo\', this.value)" class="w-14 shrink-0 p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs" placeholder="Voo"><input type="text" value="' + v.pnr + '" oninput="atualizarVoo(' + v.id + ', \'pnr\', this.value)" class="flex-1 min-w-0 p-1.5 bg-amber-50 border border-amber-300 rounded-xl font-black text-amber-900 text-xs truncate" placeholder="PNR"></div><div class="flex gap-1.5 items-center min-w-0"><input type="text" value="' + v.rota + '" oninput="atualizarVoo(' + v.id + ', \'rota\', this.value)" class="flex-1 min-w-0 p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs truncate" placeholder="Rota"><input type="date" value="' + v.data + '" onchange="atualizarVoo(' + v.id + ', \'data\', this.value)" class="w-28 shrink-0 p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs"><div class="shrink-0 flex items-center gap-1">' + pdfAction + '<button onclick="apagarVoo(' + v.id + ')" class="text-red-500 font-bold px-2 py-1.5 rounded-xl bg-red-50 hover:bg-red-100 text-xs shrink-0">✕</button></div></div></div>';
                     });
                 }
-                container.innerHTML += '<div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-3" id="card-voos"><div class="flex justify-between items-center border-b pb-2"><h3 class="font-bold text-xs uppercase text-slate-800">✈️ Voos & Passagens</h3><div class="flex gap-1.5"><button onclick="imprimirSeccaoCustom(\'Voos & Passagens\', document.getElementById(\'card-voos\').innerHTML)" class="bg-emerald-600 text-white px-2.5 py-1 rounded-xl text-xs font-bold shadow-sm">🖨️ PDF</button><button onclick="adicionarVoo()" class="bg-indigo-600 text-white px-2.5 py-1 rounded-xl text-xs font-bold shadow-sm">➕ Voo</button></div></div><div class="space-y-2">' + voosHtml + '</div></div>';
+                container.innerHTML += '<div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-3 min-w-0" id="card-voos"><div class="flex justify-between items-center border-b pb-2"><h3 class="font-bold text-xs uppercase text-slate-800">✈️ Voos & Passagens</h3><div class="flex gap-1.5"><button onclick="imprimirSeccaoCustom(\'Voos & Passagens\', document.getElementById(\'card-voos\').innerHTML)" class="bg-emerald-600 text-white px-2.5 py-1 rounded-xl text-xs font-bold shadow-sm">🖨️ PDF</button><button onclick="adicionarVoo()" class="bg-indigo-600 text-white px-2.5 py-1 rounded-xl text-xs font-bold shadow-sm">➕ Voo</button></div></div><div class="space-y-2 min-w-0">' + voosHtml + '</div></div>';
             }
 
             if(mostrarContatos) {
@@ -1587,10 +1610,6 @@
 
         async function abrirMapaRuta(origem, destinoLocal) {
             window.open('https://www.google.com/maps/dir/?api=1&origin=' + encodeURIComponent(origem) + '&destination=' + encodeURIComponent(destinoLocal) + '&travelmode=transit', '_blank');
-        }
-
-        function instilarApp() {
-            // Placeholder para manter compatibilidade
         }
 
         function ativarMicrofone() {
