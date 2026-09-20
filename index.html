@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v102.0)</title>
+    <title>Roteiro Europa - Mariana (v103.0)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Manifest Dinâmico via JavaScript -->
@@ -35,7 +35,7 @@
     <!-- CABEÇALHO COMPACTO NO TOPO -->
     <header class="bg-slate-900 text-white px-3 py-2 shadow-md border-b border-slate-800 text-xs flex justify-between items-center z-50 relative">
         <span class="font-bold tracking-wide">🚄 Roteiro Europa - Mariana</span>
-        <span class="bg-indigo-600 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v102.0</span>
+        <span class="bg-indigo-600 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v103.0</span>
     </header>
 
     <!-- CONTEÚDO PRINCIPAL COMPACTO -->
@@ -49,16 +49,15 @@
             <button onclick="mudarTab('tarefas')" id="tab-btn-tarefas" class="px-3 py-2 rounded-lg text-slate-600 hover:bg-white/50 transition shrink-0">✅ Tarefas</button>
             <button onclick="mudarTab('orcamento')" id="tab-btn-orcamento" class="px-3 py-2 rounded-lg text-slate-600 hover:bg-white/50 transition shrink-0">💰 Orçamento</button>
             <button onclick="mudarTab('checklist')" id="tab-btn-checklist" class="px-3 py-2 rounded-lg text-slate-600 hover:bg-white/50 transition shrink-0">🎒 Checklist</button>
-            <button onclick="mudarTab('clima')" id="tab-btn-clima" class="px-3 py-2 rounded-lg text-slate-600 hover:bg-white/50 transition shrink-0">🌤️ Clima</button>
             <button onclick="mudarTab('contatos')" id="tab-btn-contatos" class="px-3 py-2 rounded-lg text-slate-600 hover:bg-white/50 transition shrink-0">📞 Úteis</button>
         </div>
 
-        <!-- TAB 1: ROTEIRO EM QUADRADINHOS COMPACTOS -->
+        <!-- TAB 1: ROTEIRO EM QUADRADINHOS COMPACTOS COM CLIMA EMBUTIDO -->
         <div id="tab-leitura" class="space-y-2">
             <div class="bg-gradient-to-r from-indigo-900 to-slate-900 text-white p-2.5 rounded-2xl shadow-md flex justify-between items-center">
                 <div>
                     <h2 class="text-xs font-black uppercase tracking-wider text-indigo-200">✈️ Roteiro Oficial (Aprovados)</h2>
-                    <p class="text-[9px] text-slate-300">Início limpo. Tranque blocos no Editar para aparecerem aqui.</p>
+                    <p class="text-[9px] text-slate-300">Inclui previsão de clima e dicas de vestuário por destino.</p>
                 </div>
                 <div id="progresso-viagem" class="bg-indigo-600 px-2.5 py-1 rounded-xl text-[11px] font-black shadow-inner">0 / 0 Aprovados</div>
             </div>
@@ -123,26 +122,41 @@
             <div id="lista-tarefas-html" class="space-y-2 text-xs"></div>
         </div>
 
-        <!-- TAB 5: ORÇAMENTO & CÂMBIO -->
+        <!-- TAB 5: ORÇAMENTO & CÂMBIO (ESTILO CALCULADORA) -->
         <div id="tab-orcamento" class="space-y-3 hidden">
             <div class="bg-white p-3 rounded-2xl shadow-sm border border-slate-300 space-y-3 text-xs">
                 <div class="flex justify-between items-center border-b pb-2 flex-wrap gap-2">
                     <div>
-                        <h2 class="text-[11px] font-extrabold uppercase text-slate-800 tracking-wider">💰 Controle de Gastos & Câmbio</h2>
-                        <p class="text-[10px] text-slate-500 font-semibold">Registe despesas em EUR e CHF</p>
+                        <h2 class="text-[11px] font-extrabold uppercase text-slate-800 tracking-wider">💰 Orçamento & Calculadora de Saldo</h2>
+                        <p class="text-[10px] text-slate-500 font-semibold">Defina o seu saldo inicial e acompanhe os gastos</p>
                     </div>
                     <button onclick="adicionarDespesa()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-2.5 py-1.5 rounded-lg font-bold text-[11px] transition shadow-sm">➕ Nova Despesa</button>
                 </div>
-                <div class="grid grid-cols-2 gap-2">
-                    <div class="bg-amber-50 border border-amber-200 p-2.5 rounded-xl text-center">
-                        <span class="text-[10px] font-bold text-amber-800 block">Total EUR (€)</span>
-                        <span id="total-eur" class="text-sm font-black text-amber-900">0.00</span>
+
+                <!-- CAIXAS DE SALDO INICIAL EDITÁVEL -->
+                <div class="grid grid-cols-2 gap-2 bg-slate-50 p-2.5 rounded-xl border">
+                    <div>
+                        <label class="block font-bold text-[10px] text-amber-800 mb-0.5">💵 Total Disponível EUR (€)</label>
+                        <input type="number" id="input-saldo-eur" oninput="atualizarSaldoInicial('EUR', this.value)" class="w-full p-1.5 bg-white border rounded font-black text-amber-900 text-sm" placeholder="0">
                     </div>
-                    <div class="bg-blue-50 border border-blue-200 p-2.5 rounded-xl text-center">
-                        <span class="text-[10px] font-bold text-blue-800 block">Total CHF (CHF)</span>
-                        <span id="total-chf" class="text-sm font-black text-blue-900">0.00</span>
+                    <div>
+                        <label class="block font-bold text-[10px] text-blue-800 mb-0.5">💵 Total Disponível CHF</label>
+                        <input type="number" id="input-saldo-chf" oninput="atualizarSaldoInicial('CHF', this.value)" class="w-full p-1.5 bg-white border rounded font-black text-blue-900 text-sm" placeholder="0">
                     </div>
                 </div>
+
+                <!-- RESUMO DE SOBRAS AUTOMÁTICO -->
+                <div class="grid grid-cols-2 gap-2">
+                    <div class="bg-amber-100 border border-amber-300 p-2 rounded-xl text-center">
+                        <span class="text-[9px] font-bold text-amber-900 block">Restante EUR (€)</span>
+                        <span id="restante-eur" class="text-xs font-black text-amber-950">0.00</span>
+                    </div>
+                    <div class="bg-blue-100 border border-blue-300 p-2 rounded-xl text-center">
+                        <span class="text-[9px] font-bold text-blue-900 block">Restante CHF</span>
+                        <span id="restante-chf" class="text-xs font-black text-blue-950">0.00</span>
+                    </div>
+                </div>
+
                 <div id="lista-despesas-html" class="space-y-2"></div>
             </div>
         </div>
@@ -161,54 +175,17 @@
             </div>
         </div>
 
-        <!-- TAB 7: PREVISÃO DO TEMPO -->
-        <div id="tab-clima" class="space-y-3 hidden">
-            <div class="bg-white p-3 rounded-2xl shadow-sm border border-slate-300 space-y-3 text-xs">
-                <div class="border-b pb-2">
-                    <h2 class="text-[11px] font-extrabold uppercase text-slate-800 tracking-wider">🌤️ Clima nos Destinos (Inverno Europeu)</h2>
-                    <p class="text-[10px] text-slate-500 font-semibold">Previsão e vestuário recomendado</p>
-                </div>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                    <div class="bg-blue-50 border border-blue-200 p-2.5 rounded-xl space-y-1">
-                        <h3 class="font-bold text-blue-900 text-xs">❄️ Zurique & Interlaken (Suíça)</h3>
-                        <p class="text-[11px] text-blue-800">Temperaturas frias (-2°C a 5°C). Alta probabilidade de neve nas montanhas (Jungfraujoch / Grindelwald).</p>
-                        <p class="text-[10px] text-slate-600"><b>Essencial:</b> Casaco corta-vento impermeável, térmicas, luvas e gorro.</p>
-                    </div>
-                    <div class="bg-amber-50 border border-amber-200 p-2.5 rounded-xl space-y-1">
-                        <h3 class="font-bold text-amber-900 text-xs">🍂 Freiburg & Europa-Park (Alemanha)</h3>
-                        <p class="text-[11px] text-amber-800">Frio moderado (0°C a 7°C). Dias secos mas gelados.</p>
-                        <p class="text-[10px] text-slate-600"><b>Essencial:</b> Cachecol, calçado confortável e térmicas leves.</p>
-                    </div>
-                    <div class="bg-pink-50 border border-pink-200 p-2.5 rounded-xl space-y-1 sm:col-span-2">
-                        <h3 class="font-bold text-pink-900 text-xs">🏰 Paris & Disneyland (França)</h3>
-                        <p class="text-[11px] text-pink-800">Frio urbano (3°C a 9°C), ventos e possibilidade de chuva leve.</p>
-                        <p class="text-[10px] text-slate-600"><b>Essencial:</b> Guarda-chuva compacto, casaco confortável e botas de caminhada.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- TAB 8: CONTATOS ÚTEIS -->
+        <!-- TAB 7: CONTATOS ÚTEIS (TOTALMENTE EDITÁVEIS) -->
         <div id="tab-contatos" class="space-y-3 hidden">
             <div class="bg-white p-3 rounded-2xl shadow-sm border border-slate-300 space-y-3 text-xs">
-                <div class="border-b pb-2">
-                    <h2 class="text-[11px] font-extrabold uppercase text-slate-800 tracking-wider">📞 Contatos Úteis & Emergência</h2>
-                    <p class="text-[10px] text-slate-500 font-semibold">Números essenciais na Europa</p>
+                <div class="flex justify-between items-center border-b pb-2 flex-wrap gap-2">
+                    <div>
+                        <h2 class="text-[11px] font-extrabold uppercase text-slate-800 tracking-wider">📞 Contatos Úteis & Emergência</h2>
+                        <p class="text-[10px] text-slate-500 font-semibold">Adicione e edite os seus contatos importantes</p>
+                    </div>
+                    <button onclick="adicionarContato()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-2.5 py-1.5 rounded-lg font-bold text-[11px] transition shadow-sm">➕ Novo Contato</button>
                 </div>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                    <div class="p-2.5 bg-slate-50 border rounded-xl">
-                        <span class="font-bold text-slate-900 block">🇪🇺 Emergência Geral (Europa)</span>
-                        <span class="text-indigo-600 font-black text-sm">112</span>
-                    </div>
-                    <div class="p-2.5 bg-slate-50 border rounded-xl">
-                        <span class="font-bold text-slate-900 block">💳 Suporte Cartão Wise / Nomad</span>
-                        <span class="text-slate-700 font-medium text-[11px]">Consultar app do banco (bloqueio imediato)</span>
-                    </div>
-                    <div class="p-2.5 bg-slate-50 border rounded-xl">
-                        <span class="font-bold text-slate-900 block">🏥 Seguro de Viagem</span>
-                        <span class="text-slate-700 font-medium text-[11px]">Ver apólice no e-mail / Voucher</span>
-                    </div>
-                </div>
+                <div id="lista-contatos-html" class="space-y-2"></div>
             </div>
         </div>
 
@@ -251,7 +228,7 @@
 
     <!-- BARRA DE FERRAMENTAS FIXA -->
     <nav class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-md text-white px-2 py-2 shadow-2xl border-t border-slate-800 text-xs flex items-center gap-1 overflow-x-auto no-scrollbar">
-        <span class="bg-indigo-600 px-1 py-0.5 rounded font-mono font-bold text-[8px] shrink-0">v102.0</span>
+        <span class="bg-indigo-600 px-1 py-0.5 rounded font-mono font-bold text-[8px] shrink-0">v103.0</span>
         <button onclick="abrirGeminiModal()" class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-2 py-1 rounded-lg font-bold transition shrink-0 flex items-center gap-1 text-[10px]">
             <span>✨</span> Gemini
         </button>
@@ -304,7 +281,7 @@
     </div>
 
     <script>
-        const CHAVE_APP = "mariana_viagem_europa_v102";
+        const CHAVE_APP = "mariana_viagem_europa_v103";
         let destinoFiltro = 'todos';
         let tarefaFiltro = 'todas';
         let campoFocoAtual = null;
@@ -322,6 +299,8 @@
             ],
             diasConcluidos: {},
             statusPersonalizados: { "Concluído": "#22c55e", "Aguardando": "#f59e0b" },
+            saldoEur: 1500,
+            saldoChf: 800,
             itinerario: [
                 { id: 1, categoria: "Zurique", dataInicio: "2026-12-30", dataFim: "2027-01-02", trecho: "Estadia no ibis budget Zurich City West", transporte: "Trem", numeroTransporte: "", embarque: "Zurich HB", desembarque: "ibis budget Zurich City West", notasExtras: "Check-in às 15h", cor: "#3b82f6", bloqueado: false, concluido: false },
                 { id: 2, categoria: "Freiburg", dataInicio: "2027-01-02", dataFim: "2027-01-05", trecho: "Zurique ➔ Freiburg", transporte: "Ônibus", numeroTransporte: "Linha 72", embarque: "Zurich Bus Station", desembarque: "Premier Inn", notasExtras: "", cor: "#f59e0b", bloqueado: false, concluido: false },
@@ -329,25 +308,19 @@
                 { id: 4, categoria: "Interlaken", dataInicio: "2027-01-08", dataFim: "2027-01-12", trecho: "Paris ➔ Interlaken", embarque: "Gare de Lyon", desembarque: "Hotel Weisses", notasExtras: "", cor: "#10b981", bloqueado: false, concluido: false }
             ],
             tarefas: [
-                { id: 1, texto: "Comprar cartões Wise e Nomad", status: "", categoria: "" },
-                { id: 2, texto: "Reservar bilhetes Europa-Park", status: "", categoria: "" },
-                { id: 3, texto: "Reservar passes Disney", status: "", categoria: "" }
+                { id: 1, texto: "Comprar cartões Wise e Nomad", status: "", categoria: "" }
             ],
             vouchers: [
-                { id: 1, titulo: "ibis budget Zurich City West", categoria: "Zurique", pdfData: "", pdfNome: "" },
-                { id: 2, titulo: "Premier Inn Freiburg City Süd", categoria: "Freiburg", pdfData: "", pdfNome: "" },
-                { id: 3, titulo: "Disney Hotel Santa Fe", categoria: "França", pdfData: "", pdfNome: "" },
-                { id: 4, titulo: "Hotel Weisses Kreuz", categoria: "Interlaken", pdfData: "", pdfNome: "" }
+                { id: 1, titulo: "ibis budget Zurich City West", categoria: "Zurique", pdfData: "", pdfNome: "" }
             ],
             orcamento: [
-                { id: 1, descricao: "Cartão Wise", valor: 500, moeda: "EUR" },
-                { id: 2, descricao: "Passe Ferroviário Suíço", valor: 350, moeda: "CHF" }
+                { id: 1, descricao: "Cartão Wise", valor: 200, moeda: "EUR" }
             ],
             checklist: [
-                { id: 1, item: "Passaporte válido", feito: true },
-                { id: 2, item: "Seguro Viagem impresso", feito: false },
-                { id: 3, item: "Cartão Wise / Nomad", feito: true },
-                { id: 4, item: "Roupas térmicas e casacos", feito: false }
+                { id: 1, item: "Passaporte válido", feito: false }
+            ],
+            contatos: [
+                { id: 1, nome: "Emergência Geral", numero: "112", categoria: "Geral" }
             ]
         };
 
@@ -389,7 +362,7 @@
             const manifestBlob = new Blob([JSON.stringify(manifestObj)], {type: 'application/manifest+json'});
             document.getElementById('pwa-manifest').href = URL.createObjectURL(manifestBlob);
 
-            const temaSalvo = localStorage.getItem('tema_v102');
+            const temaSalvo = localStorage.getItem('tema_v103');
             if (temaSalvo === 'dark') {
                 document.body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 document.body.classList.remove('bg-slate-100', 'text-slate-800');
@@ -405,6 +378,7 @@
                         if(!dadosApp.statusPersonalizados) dadosApp.statusPersonalizados = { "Concluído": "#22c55e", "Aguardando": "#f59e0b" };
                         if(!dadosApp.orcamento) dadosApp.orcamento = [];
                         if(!dadosApp.checklist) dadosApp.checklist = [];
+                        if(!dadosApp.contatos) dadosApp.contatos = [];
                     }
                 }
             } catch(e) {}
@@ -436,10 +410,10 @@
         }
 
         function desbloquearComPin() {
-            let pinSalvo = localStorage.getItem('app_pin_v102') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v103') || '1510';
             let digitado = document.getElementById('input-pin').value;
             if(digitado === pinSalvo) {
-                sessionStorage.setItem('sessao_ativa_v102', 'true');
+                sessionStorage.setItem('sessao_ativa_v103', 'true');
                 document.getElementById('tela-bloqueio').classList.add('hidden');
                 document.getElementById('erro-pin').classList.add('hidden');
             } else {
@@ -448,17 +422,17 @@
         }
 
         async function desbloquearComBiometria() {
-            sessionStorage.setItem('sessao_ativa_v102', 'true');
+            sessionStorage.setItem('sessao_ativa_v103', 'true');
             document.getElementById('tela-bloqueio').classList.add('hidden');
         }
 
         function alterarSenhaPin() {
             let atual = prompt("Digite a senha atual (Padrão: 1510):");
-            let pinSalvo = localStorage.getItem('app_pin_v102') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v103') || '1510';
             if(atual === pinSalvo) {
                 let nova = prompt("Digite a nova senha PIN:");
                 if(nova && nova.trim() !== '') {
-                    localStorage.setItem('app_pin_v102', nova.trim());
+                    localStorage.setItem('app_pin_v103', nova.trim());
                     alert("🔑 Senha alterada com sucesso!");
                 }
             } else {
@@ -471,11 +445,11 @@
             if(body.classList.contains('dark')) {
                 body.classList.remove('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.add('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v102', 'light');
+                localStorage.setItem('tema_v103', 'light');
             } else {
                 body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.remove('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v102', 'dark');
+                localStorage.setItem('tema_v103', 'dark');
             }
         }
 
@@ -541,6 +515,7 @@
                 renderizarVouchersTab();
                 renderizarOrcamentoTab();
                 renderizarChecklistTab();
+                renderizarContatosTab();
                 renderizarModoLeitura();
             } catch(e) {
                 console.error("Erro no render:", e);
@@ -548,7 +523,7 @@
         }
 
         function mudarTab(tab) {
-            ['itinerario', 'leitura', 'comprados', 'tarefas', 'orcamento', 'checklist', 'clima', 'contatos'].forEach(t => {
+            ['itinerario', 'leitura', 'comprados', 'tarefas', 'orcamento', 'checklist', 'contatos'].forEach(t => {
                 let el = document.getElementById('tab-' + t);
                 if(el) el.classList.add('hidden');
                 let btn = document.getElementById('tab-btn-' + t);
@@ -562,6 +537,7 @@
             if(tab === 'comprados') { renderizarVouchersTab(); }
             if(tab === 'orcamento') { renderizarOrcamentoTab(); }
             if(tab === 'checklist') { renderizarChecklistTab(); }
+            if(tab === 'contatos') { renderizarContatosTab(); }
         }
 
         function obterCorPorCategoria(cat) {
@@ -574,6 +550,20 @@
             if(c.includes('frança') || c.includes('france') || c.includes('paris')) return '#ec4899';
             if(c.includes('interlaken')) return '#10b981';
             return '#64748b';
+        }
+
+        function obterInfoClima(cat) {
+            let c = (cat || "").toLowerCase();
+            if(c.includes('zurique') || c.includes('zurich') || c.includes('interlaken')) {
+                return "❄️ Frio (-2°C a 5°C) • Casaco impermeável e térmicas";
+            }
+            if(c.includes('freiburg')) {
+                return "🍂 Frio moderado (0°C a 7°C) • Cachecol e térmicas leves";
+            }
+            if(c.includes('frança') || c.includes('france') || c.includes('paris')) {
+                return "🌧️ Frio urbano (3°C a 9°C) • Guarda-chuva e casaco";
+            }
+            return "🌤️ Frio europeu • Agasalhos recomendados";
         }
 
         function renderizarFiltros() {
@@ -642,7 +632,7 @@
         }
         function filtrarTarefas(f) { tarefaFiltro = f; renderizarFiltrosTarefas(); renderizarTarefas(); }
 
-        // ROTEIRO
+        // ROTEIRO COM CLIMA INTEGRADO
         function renderizarModoLeitura() {
             const container = document.getElementById('lista-leitura-html');
             const progressoEl = document.getElementById('progresso-viagem');
@@ -669,6 +659,7 @@
                 let textDecor = item.concluido ? 'line-through text-slate-400 font-semibold' : 'text-slate-800 font-semibold';
                 let dIni = item.dataInicio ? item.dataInicio.split('-').reverse().join('/') : '?';
                 let dFim = item.dataFim ? item.dataFim.split('-').reverse().join('/') : '?';
+                let climaDica = obterInfoClima(item.categoria);
 
                 let card = document.createElement('div');
                 card.className = `p-2.5 rounded-xl border shadow-sm space-y-1.5 transition flex flex-col justify-between ${bgStyle}`;
@@ -698,6 +689,11 @@
                         <div class="text-[9px] text-slate-600">
                             <b>🚄 Rota:</b> ${item.trecho || ''} ${item.transporte ? '(' + item.transporte + (item.numeroTransporte ? ' ' + item.numeroTransporte : '') + ')' : ''}
                         </div>
+
+                        <div class="bg-blue-50/70 border border-blue-100 p-1 rounded text-[8px] text-blue-900 font-medium">
+                            ${climaDica}
+                        </div>
+
                         ${item.notasExtras ? `<div class="bg-slate-50 p-1 rounded text-[9px] text-slate-700">📝 ${item.notasExtras}</div>` : ''}
                     </div>
                 `;
@@ -914,7 +910,7 @@
             }
         }
 
-        // VOUCHERS (COM TUDO NUMA SÓ LINHA)
+        // VOUCHERS
         function renderizarVouchersTab() {
             const container = document.getElementById('lista-comprados-html');
             if(!container) return;
@@ -1044,7 +1040,7 @@
             renderizarVouchersTab(); 
         }
 
-        // TAREFAS (TUDO NA MESMA LINHA COMPACTA)
+        // TAREFAS
         function renderizarTarefas() {
             const container = document.getElementById('lista-tarefas-html');
             container.innerHTML = '';
@@ -1170,42 +1166,54 @@
         // ORÇAMENTO
         function renderizarOrcamentoTab() {
             const container = document.getElementById('lista-despesas-html');
-            const totalEurEl = document.getElementById('total-eur');
-            const totalChfEl = document.getElementById('total-chf');
+            const inputEur = document.getElementById('input-saldo-eur');
+            const inputChf = document.getElementById('input-saldo-chf');
+            const restanteEurEl = document.getElementById('restante-eur');
+            const restanteChfEl = document.getElementById('restante-chf');
             if(!container) return;
             container.innerHTML = '';
 
-            let somaEur = 0;
-            let somaChf = 0;
+            if(inputEur) inputEur.value = dadosApp.saldoEur || 0;
+            if(inputChf) inputChf.value = dadosApp.saldoChf || 0;
 
-            if(!dadosApp.orcamento || dadosApp.orcamento.length === 0) {
+            let gastoEur = 0;
+            let gastoChf = 0;
+
+            if(dadosApp.orcamento && dadosApp.orcamento.length > 0) {
+                dadosApp.orcamento.forEach(d => {
+                    let val = parseFloat(d.valor) || 0;
+                    if(d.moeda === 'EUR') gastoEur += val;
+                    if(d.moeda === 'CHF') gastoChf += val;
+
+                    let div = document.createElement('div');
+                    div.className = "p-2 rounded-xl border bg-white flex items-center justify-between gap-2 shadow-sm text-xs";
+                    div.innerHTML = `
+                        <input type="text" value="${d.descricao}" oninput="atualizarOrcamentoDescricao(${d.id}, this.value)" class="flex-1 bg-transparent outline-none font-bold text-slate-800 truncate" placeholder="Descrição...">
+                        <input type="number" value="${d.valor}" oninput="atualizarOrcamentoValor(${d.id}, this.value)" class="w-16 p-1 bg-slate-50 border rounded font-black text-right text-xs" placeholder="0">
+                        <select onchange="atualizarOrcamentoMoeda(${d.id}, this.value)" class="p-1 bg-slate-50 border rounded font-bold text-xs">
+                            <option value="EUR" ${d.moeda === 'EUR' ? 'selected' : ''}>EUR</option>
+                            <option value="CHF" ${d.moeda === 'CHF' ? 'selected' : ''}>CHF</option>
+                        </select>
+                        <button onclick="apagarDespesa(${d.id})" class="text-red-500 font-bold bg-red-50 hover:bg-red-100 px-2 py-1 rounded transition">✕</button>
+                    `;
+                    container.appendChild(div);
+                });
+            } else {
                 container.innerHTML = '<p class="text-xs text-slate-400 italic text-center py-2">Nenhuma despesa registada.</p>';
-                totalEurEl.innerText = "0.00";
-                totalChfEl.innerText = "0.00";
-                return;
             }
 
-            dadosApp.orcamento.forEach(d => {
-                let val = parseFloat(d.valor) || 0;
-                if(d.moeda === 'EUR') somaEur += val;
-                if(d.moeda === 'CHF') somaChf += val;
+            let sobraEur = (parseFloat(dadosApp.saldoEur) || 0) - gastoEur;
+            let sobraChf = (parseFloat(dadosApp.saldoChf) || 0) - gastoChf;
 
-                let div = document.createElement('div');
-                div.className = "p-2 rounded-xl border bg-white flex items-center justify-between gap-2 shadow-sm text-xs";
-                div.innerHTML = `
-                    <input type="text" value="${d.descricao}" oninput="atualizarOrcamentoDescricao(${d.id}, this.value)" class="flex-1 bg-transparent outline-none font-bold text-slate-800 truncate" placeholder="Descrição...">
-                    <input type="number" value="${d.valor}" oninput="atualizarOrcamentoValor(${d.id}, this.value)" class="w-16 p-1 bg-slate-50 border rounded font-black text-right text-xs" placeholder="0">
-                    <select onchange="atualizarOrcamentoMoeda(${d.id}, this.value)" class="p-1 bg-slate-50 border rounded font-bold text-xs">
-                        <option value="EUR" ${d.moeda === 'EUR' ? 'selected' : ''}>EUR</option>
-                        <option value="CHF" ${d.moeda === 'CHF' ? 'selected' : ''}>CHF</option>
-                    </select>
-                    <button onclick="apagarDespesa(${d.id})" class="text-red-500 font-bold bg-red-50 hover:bg-red-100 px-2 py-1 rounded transition">✕</button>
-                `;
-                container.appendChild(div);
-            });
+            if(restanteEurEl) restanteEurEl.innerText = sobraEur.toFixed(2);
+            if(restanteChfEl) restanteChfEl.innerText = sobraChf.toFixed(2);
+        }
 
-            totalEurEl.innerText = somaEur.toFixed(2);
-            totalChfEl.innerText = somaChf.toFixed(2);
+        function atualizarSaldoInicial(moeda, val) {
+            if(moeda === 'EUR') dadosApp.saldoEur = parseFloat(val) || 0;
+            if(moeda === 'CHF') dadosApp.saldoChf = parseFloat(val) || 0;
+            salvarStorage();
+            renderizarOrcamentoTab();
         }
 
         function adicionarDespesa() {
@@ -1230,7 +1238,7 @@
 
         function atualizarOrcamentoValor(id, val) {
             let d = dadosApp.orcamento.find(item => item.id === id);
-            if(d) { d.valor = val; salvarStorage(); }
+            if(d) { d.valor = val; salvarStorage(); renderizarOrcamentoTab(); }
         }
 
         function atualizarOrcamentoMoeda(id, val) {
@@ -1288,6 +1296,54 @@
         function atualizarItemChecklistText(id, val) {
             let c = dadosApp.checklist.find(item => item.id === id);
             if(c) { c.item = val; localStorage.setItem(CHAVE_APP, JSON.stringify(dadosApp)); }
+        }
+
+        // CONTATOS ÚTEIS EDITÁVEIS
+        function renderizarContatosTab() {
+            const container = document.getElementById('lista-contatos-html');
+            if(!container) return;
+            container.innerHTML = '';
+
+            if(!dadosApp.contatos || dadosApp.contatos.length === 0) {
+                container.innerHTML = '<p class="text-xs text-slate-400 italic text-center py-2">Nenhum contato registado.</p>';
+                return;
+            }
+
+            dadosApp.contatos.forEach(ct => {
+                let div = document.createElement('div');
+                div.className = "p-2 rounded-xl border bg-white flex items-center justify-between gap-2 shadow-sm text-xs";
+                div.innerHTML = `
+                    <input type="text" value="${ct.nome}" oninput="atualizarContatoNome(${ct.id}, this.value)" class="flex-1 bg-transparent outline-none font-bold text-slate-800 truncate" placeholder="Nome...">
+                    <input type="text" value="${ct.numero}" oninput="atualizarContatoNumero(${ct.id}, this.value)" class="w-28 p-1 bg-slate-50 border rounded font-black text-xs" placeholder="Número...">
+                    <button onclick="apagarContato(${ct.id})" class="text-red-500 font-bold bg-red-50 hover:bg-red-100 px-2 py-1 rounded transition">✕</button>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function adicionarContato() {
+            registarEstadoAnterior();
+            if(!dadosApp.contatos) dadosApp.contatos = [];
+            dadosApp.contatos.unshift({ id: Date.now(), nome: "Novo contato", numero: "0000" });
+            salvarStorage();
+            renderizarContatosTab();
+        }
+
+        function apagarContato(id) {
+            registarEstadoAnterior();
+            dadosApp.contatos = dadosApp.contatos.filter(c => c.id !== id);
+            salvarStorage();
+            renderizarContatosTab();
+        }
+
+        function atualizarContatoNome(id, val) {
+            let c = dadosApp.contatos.find(item => item.id === id);
+            if(c) { c.nome = val; localStorage.setItem(CHAVE_APP, JSON.stringify(dadosApp)); }
+        }
+
+        function atualizarContatoNumero(id, val) {
+            let c = dadosApp.contatos.find(item => item.id === id);
+            if(c) { c.numero = val; localStorage.setItem(CHAVE_APP, JSON.stringify(dadosApp)); }
         }
 
         async function abrirMapaRuta(origem, destinoLocal) {
