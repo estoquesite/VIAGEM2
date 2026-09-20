@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v145.0)</title>
+    <title>Roteiro Europa - Mariana (v148.0)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Manifest Dinâmico via JavaScript -->
@@ -37,7 +37,7 @@
         <span class="font-bold tracking-wide">🚄 Roteiro Europa - Mariana</span>
         <div class="flex items-center gap-2">
             <button onclick="exportarPdfPrint()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2.5 py-1 rounded-lg font-bold text-[10px] transition shadow-sm">🖨️ Imprimir Tudo</button>
-            <span class="bg-indigo-600 px-2 py-1 rounded-lg font-mono font-bold text-[10px]">v145.0</span>
+            <span class="bg-indigo-600 px-2 py-1 rounded-lg font-mono font-bold text-[10px]">v148.0</span>
         </div>
     </header>
 
@@ -48,7 +48,7 @@
         <div class="flex gap-1.5 bg-slate-200 p-1.5 rounded-2xl text-xs font-bold shadow-inner overflow-x-auto no-scrollbar">
             <button onclick="mudarTab('leitura')" id="tab-btn-leitura" class="px-4 py-2.5 rounded-xl bg-indigo-600 text-white shadow-sm transition shrink-0">✈️ Roteiro</button>
             <button onclick="mudarTab('itinerario')" id="tab-btn-itinerario" class="px-4 py-2.5 rounded-xl text-slate-600 hover:bg-white/50 transition shrink-0">📅 Editar</button>
-            <button onclick="mudarTab('utilidades')" id="tab-btn-utilidades" class="px-4 py-2.5 rounded-xl text-slate-600 hover:bg-white/50 transition shrink-0">📋 Utilidades & Vouchers</button>
+            <button onclick="mudarTab('utilidades')" id="tab-btn-utilidades" class="px-4 py-2.5 rounded-xl text-slate-600 hover:bg-white/50 transition shrink-0">📋 Utilidades</button>
             <button onclick="mudarTab('orcamento')" id="tab-btn-orcamento" class="px-4 py-2.5 rounded-xl text-slate-600 hover:bg-white/50 transition shrink-0">💰 Orçamento & R$</button>
         </div>
 
@@ -122,7 +122,7 @@
                     <button onclick="imprimirSeccaoCustom('Orçamento & Câmbio', document.getElementById('tab-orcamento').innerHTML)" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-xl font-bold text-xs transition shadow-sm">🖨️ PDF Orçamento</button>
                 </div>
 
-                <div class="bg-slate-50 p-3 rounded-2xl border border-slate-200 space-y-2">
+                <div class="bg-slate-50 p-3 rounded-2xl border border-slate-200 space-y-1.5">
                     <span class="font-bold text-xs text-slate-700 block">💱 Cotação Atual em Reais (R$)</span>
                     <div class="grid grid-cols-2 gap-2">
                         <div class="flex items-center gap-1.5 bg-white p-2 border border-slate-200 rounded-xl shadow-sm">
@@ -242,7 +242,7 @@
 
     <!-- BARRA DE FERRAMENTAS FIXA -->
     <nav class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-md text-white px-3 py-2.5 shadow-2xl border-t border-slate-800 text-xs flex items-center justify-around gap-1 overflow-x-auto no-scrollbar max-w-4xl mx-auto rounded-t-2xl">
-        <span class="bg-indigo-600 px-2 py-1 rounded font-mono font-bold text-[9px] shrink-0">v145.0</span>
+        <span class="bg-indigo-600 px-2 py-1 rounded font-mono font-bold text-[9px] shrink-0">v148.0</span>
         <button onclick="abrirGeminiModal()" class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-3 py-1.5 rounded-xl font-bold transition shrink-0 flex items-center gap-1 text-xs shadow-sm">
             <span>✨</span> Gemini
         </button>
@@ -281,7 +281,7 @@
     </div>
 
     <script>
-        const CHAVE_APP = "mariana_viagem_europa_v145";
+        const CHAVE_APP = "mariana_viagem_europa_v148";
         let destinoFiltro = 'todos';
         let tarefaFiltro = 'todas';
         let utilidadeFiltro = 'todos';
@@ -374,11 +374,11 @@
                 navigator.serviceWorker.register(URL.createObjectURL(swBlob)).catch(err => {});
             }
 
-            if (!sessionStorage.getItem('sessao_ativa_v145')) {
+            if (!sessionStorage.getItem('sessao_ativa_v148')) {
                 document.getElementById('tela-bloqueio').classList.remove('hidden');
             }
 
-            const temaSalvo = localStorage.getItem('tema_v145');
+            const temaSalvo = localStorage.getItem('tema_v148');
             if (temaSalvo === 'dark') {
                 document.body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 document.body.classList.remove('bg-slate-100', 'text-slate-800');
@@ -432,10 +432,10 @@
         }
 
         function desbloquearComPin() {
-            let pinSalvo = localStorage.getItem('app_pin_v145') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v148') || '1510';
             let digitado = document.getElementById('input-pin').value;
             if(digitado === pinSalvo) {
-                sessionStorage.setItem('sessao_ativa_v145', 'true');
+                sessionStorage.setItem('sessao_ativa_v148', 'true');
                 document.getElementById('tela-bloqueio').classList.add('hidden');
                 document.getElementById('erro-pin').classList.add('hidden');
             } else {
@@ -444,17 +444,17 @@
         }
 
         async function desbloquearComBiometria() {
-            sessionStorage.setItem('sessao_ativa_v145', 'true');
+            sessionStorage.setItem('sessao_ativa_v148', 'true');
             document.getElementById('tela-bloqueio').classList.add('hidden');
         }
 
         function alterarSenhaPin() {
             let atual = prompt("Digite a senha atual (Padrão: 1510):");
-            let pinSalvo = localStorage.getItem('app_pin_v145') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v148') || '1510';
             if(atual === pinSalvo) {
                 let nova = prompt("Digite a nova senha PIN:");
                 if(nova && nova.trim() !== '') {
-                    localStorage.setItem('app_pin_v145', nova.trim());
+                    localStorage.setItem('app_pin_v148', nova.trim());
                     alert("🔑 Senha alterada com sucesso!");
                 }
             } else {
@@ -467,11 +467,11 @@
             if(body.classList.contains('dark')) {
                 body.classList.remove('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.add('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v145', 'light');
+                localStorage.setItem('tema_v148', 'light');
             } else {
                 body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.remove('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v145', 'dark');
+                localStorage.setItem('tema_v148', 'dark');
             }
         }
 
@@ -676,8 +676,9 @@
             dadosApp.destinosCadastrados.forEach(dest => {
                 let ativo = destinoFiltro === dest;
                 let corDest = obterCorPorCategoria(dest);
-                let estiloBtn = ativo ? 'bg-indigo-600 text-white font-bold shadow-sm' : 'background-color: ' + corDest + '; color: #ffffff; font-weight: 600; border: 1px solid rgba(0,0,0,0.15);';
-                html += '<button onclick="filtrarDestino(\'' + dest + '\')" style="' + estiloBtn + '" class="px-3 py-1.5 rounded-xl text-xs shrink-0 transition shadow-sm">' + dest + '</button>';
+                let classeBtn = ativo ? 'bg-indigo-600 text-white font-bold shadow-sm ring-2 ring-white' : 'text-white font-semibold border border-black/20 shadow-sm';
+                let estiloBtn = 'background-color: ' + corDest + ';';
+                html += '<button onclick="filtrarDestino(\'' + dest + '\')" style="' + estiloBtn + '" class="px-3 py-1.5 rounded-xl text-xs shrink-0 transition ' + classeBtn + '">' + dest + '</button>';
             });
             html += '<button onclick="adicionarNovoDestinoFiltro()" class="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-bold text-xs shrink-0 transition shadow-sm">➕ Destino</button>';
 
@@ -708,6 +709,23 @@
                 if(!dadosApp.destinosCadastrados.includes(limpo)) dadosApp.destinosCadastrados.push(limpo);
                 if(!dadosApp.coresDestinos) dadosApp.coresDestinos = {};
                 dadosApp.coresDestinos[limpo] = corNova || "#3b82f6";
+                
+                // Criação automática de um bloco para este novo destino
+                registarEstadoAnterior();
+                let novoBloco = {
+                    id: Date.now(),
+                    categoria: limpo,
+                    dataInicio: "",
+                    dataFim: "",
+                    cor: dadosApp.coresDestinos[limpo],
+                    bloqueado: false,
+                    concluido: false,
+                    trechos: [],
+                    itens: []
+                };
+                if(!dadosApp.itinerario) dadosApp.itinerario = [];
+                dadosApp.itinerario.unshift(novoBloco);
+
                 salvarStorage();
                 atualizarTudo();
                 filtrarDestino(limpo);
@@ -801,7 +819,7 @@
             });
         }
 
-        // RENDERIZAR EDITAR (COM TÍTULOS MENORZINHOS E BOTÃO DE IMPRESSÃO POR CARD)
+        // RENDERIZAR EDITAR (COM CABEÇALHOS CURTOS E BOTÃO DE IMPRESSÃO POR CARD)
         function renderizarBlocos() {
             const container = document.getElementById('lista-blocos');
             if(!container) return;
@@ -1569,6 +1587,10 @@
 
         async function abrirMapaRuta(origem, destinoLocal) {
             window.open('https://www.google.com/maps/dir/?api=1&origin=' + encodeURIComponent(origem) + '&destination=' + encodeURIComponent(destinoLocal) + '&travelmode=transit', '_blank');
+        }
+
+        function instilarApp() {
+            // Placeholder para manter compatibilidade
         }
 
         function ativarMicrofone() {
