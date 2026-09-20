@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v74.0)</title>
+    <title>Roteiro Europa - Mariana (v75.0)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Manifest Dinâmico via JavaScript -->
@@ -35,7 +35,7 @@
     <!-- CABEÇALHO COMPACTO NO TOPO -->
     <header class="bg-slate-900 text-white px-3 py-2 shadow-md border-b border-slate-800 text-xs flex justify-between items-center z-50 relative">
         <span class="font-bold tracking-wide">🚄 Roteiro Europa - Mariana</span>
-        <span class="bg-indigo-600 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v74.0</span>
+        <span class="bg-indigo-600 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v75.0</span>
     </header>
 
     <!-- CONTEÚDO PRINCIPAL COMPACTO -->
@@ -46,7 +46,7 @@
             <button onclick="mudarTab('itinerario')" id="tab-btn-itinerario" class="py-2 rounded-lg bg-indigo-600 text-white shadow-sm transition">📅 Itinerário</button>
             <button onclick="mudarTab('tarefas')" id="tab-btn-tarefas" class="py-2 rounded-lg text-slate-600 hover:bg-white/50 transition">✅ Tarefas</button>
             <button onclick="mudarTab('comprados')" id="tab-btn-comprados" class="py-2 rounded-lg text-slate-600 hover:bg-white/50 transition">🎟️ Vouchers</button>
-            <button onclick="mudarTab('mapa-geral')" id="tab-btn-mapa-geral" class="py-2 rounded-lg text-slate-600 hover:bg-white/50 transition">🗺️ Google Maps</button>
+            <button onclick="mudarTab('mapa-geral')" id="tab-btn-mapa-geral" class="py-2 rounded-lg text-slate-600 hover:bg-white/50 transition">🗺️ Mapa</button>
         </div>
 
         <!-- TAB 1: ITINERÁRIO EM BLOCOS COMPACTOS -->
@@ -96,7 +96,7 @@
             </div>
         </div>
 
-        <!-- TAB 4: GOOGLE MAPS INTERATIVO (COM STREET VIEW E 3D NATIVO) -->
+        <!-- TAB 4: GOOGLE MAPS INTERATIVO -->
         <div id="tab-mapa-geral" class="space-y-3 hidden">
             <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-300 space-y-3">
                 <div class="flex justify-between items-center border-b pb-2 flex-wrap gap-2">
@@ -117,7 +117,7 @@
 
     <!-- BARRA DE FERRAMENTAS FIXA NO FINAL DA TELA COM GEMINI IA -->
     <nav class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-md text-white px-2 py-2 shadow-2xl border-t border-slate-800 text-xs flex items-center gap-1 overflow-x-auto no-scrollbar">
-        <span class="bg-indigo-600 px-1 py-0.5 rounded font-mono font-bold text-[8px] shrink-0">v74.0</span>
+        <span class="bg-indigo-600 px-1 py-0.5 rounded font-mono font-bold text-[8px] shrink-0">v75.0</span>
         <button onclick="abrirGeminiModal()" class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-2 py-1 rounded-lg font-bold transition shrink-0 flex items-center gap-1 text-[10px]">
             <span>✨</span> Gemini
         </button>
@@ -171,7 +171,7 @@
 
     <!-- MODAL DO MAPA GOOGLE INDIVIDUAL -->
     <div id="modal-mapa" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
-        <div class="bg-white p-4 rounded-2xl shadow-2xl max-w-lg w-full space-y-2.5 text-xs">
+        <div class="bg-white p-4 rounded-2xl shadow-2xl max-w-md w-full space-y-2.5 text-xs">
             <div class="flex justify-between items-center border-b pb-2">
                 <h3 id="mapa-titulo" class="font-bold text-xs text-slate-900">🗺️ Rota no Google Maps</h3>
                 <button onclick="fecharModalMapa()" class="text-slate-400 font-bold text-base">✕</button>
@@ -228,7 +228,7 @@
     </div>
 
     <script>
-        const CHAVE_APP = "mariana_viagem_europa_v74";
+        const CHAVE_APP = "mariana_viagem_europa_v75";
         let destinoFiltro = 'todos';
         let tarefaFiltro = 'todas';
         let campoFocoAtual = null;
@@ -248,7 +248,7 @@
             const manifestBlob = new Blob([JSON.stringify(manifestObj)], {type: 'application/manifest+json'});
             document.getElementById('pwa-manifest').href = URL.createObjectURL(manifestBlob);
 
-            const temaSalvo = localStorage.getItem('tema_v74');
+            const temaSalvo = localStorage.getItem('tema_v75');
             if (temaSalvo === 'dark') {
                 document.body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 document.body.classList.remove('bg-slate-100', 'text-slate-800');
@@ -324,10 +324,10 @@
         }
 
         function desbloquearComPin() {
-            let pinSalvo = localStorage.getItem('app_pin_v74') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v75') || '1510';
             let digitado = document.getElementById('input-pin').value;
             if(digitado === pinSalvo) {
-                sessionStorage.setItem('sessao_ativa_v74', 'true');
+                sessionStorage.setItem('sessao_ativa_v75', 'true');
                 document.getElementById('tela-bloqueio').classList.add('hidden');
                 document.getElementById('erro-pin').classList.add('hidden');
             } else {
@@ -336,17 +336,17 @@
         }
 
         async function desbloquearComBiometria() {
-            sessionStorage.setItem('sessao_ativa_v74', 'true');
+            sessionStorage.setItem('sessao_ativa_v75', 'true');
             document.getElementById('tela-bloqueio').classList.add('hidden');
         }
 
         function alterarSenhaPin() {
             let atual = prompt("Digite a senha atual (Padrão: 1510):");
-            let pinSalvo = localStorage.getItem('app_pin_v74') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v75') || '1510';
             if(atual === pinSalvo) {
                 let nova = prompt("Digite a nova senha PIN:");
                 if(nova && nova.trim() !== '') {
-                    localStorage.setItem('app_pin_v74', nova.trim());
+                    localStorage.setItem('app_pin_v75', nova.trim());
                     alert("🔑 Senha alterada com sucesso!");
                 }
             } else {
@@ -359,11 +359,11 @@
             if(body.classList.contains('dark')) {
                 body.classList.remove('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.add('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v74', 'light');
+                localStorage.setItem('tema_v75', 'light');
             } else {
                 body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.remove('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v74', 'dark');
+                localStorage.setItem('tema_v75', 'dark');
             }
         }
 
@@ -785,7 +785,10 @@
                     if(secKey === 'origemDestino') {
                         htmlSecoes += `
                             <div class="bg-white/95 p-2 rounded-xl border border-black/10 space-y-1">
-                                <div class="flex justify-between items-center border-b pb-0.5 mb-1">${controleSecao}</div>
+                                <div class="flex justify-between items-center border-b pb-0.5 mb-1">
+                                    ${controleSecao}
+                                    <button onclick="abrirMapaRuta('${item.embarque}', '${item.desembarque}', '${item.categoria}', '${item.transporte || ''}', '${item.numeroTransporte || ''}')" class="bg-sky-100 hover:bg-sky-200 text-sky-800 px-1.5 py-0.5 rounded text-[10px] font-bold flex items-center gap-0.5" title="Ver Rota">🗺️ Rota</button>
+                                </div>
                                 <div class="grid grid-cols-2 gap-1.5 text-[11px]">
                                     <div>
                                         <label onclick="editarLabel('origem', '${lb.origem}')" class="block font-black mb-0.5 text-slate-900 text-[10px] cursor-pointer hover:text-indigo-600 truncate">📍 ${lb.origem} ✏️</label>
@@ -922,36 +925,6 @@
             });
         }
 
-        function renderizarCardsMapa() {
-            const container = document.getElementById('cards-pontos-mapa');
-            if(!container) return;
-            container.innerHTML = '';
-
-            dadosApp.itinerario.forEach((item, idx) => {
-                let div = document.createElement('div');
-                div.className = "bg-slate-50 p-2 rounded-xl border flex items-center justify-between gap-2 text-[11px]";
-                div.innerHTML = `
-                    <div class="flex items-center gap-2 flex-1">
-                        <span class="w-3 h-3 rounded-full shrink-0" style="background-color: ${obterCorBlocoHex(item)}"></span>
-                        <input type="text" value="${item.embarque || ''}" oninput="atualizarEmbarqueMapa(${item.id}, this.value)" class="w-1/2 p-1 bg-white border rounded text-[10px] font-bold" placeholder="Origem">
-                        <span>➔</span>
-                        <input type="text" value="${item.desembarque || ''}" oninput="atualizarDesembarqueMapa(${item.id}, this.value)" class="w-1/2 p-1 bg-white border rounded text-[10px] font-bold" placeholder="Destino">
-                    </div>
-                `;
-                container.appendChild(div);
-            });
-        }
-
-        function atualizarEmbarqueMapa(id, val) {
-            let item = dadosApp.itinerario.find(i => i.id === id);
-            if(item) { item.embarque = val; salvarStorage(); }
-        }
-
-        function atualizarDesembarqueMapa(id, val) {
-            let item = dadosApp.itinerario.find(i => i.id === id);
-            if(item) { item.desembarque = val; salvarStorage(); }
-        }
-
         function renderizarTarefas() {
             const container = document.getElementById('lista-tarefas-html');
             container.innerHTML = '';
@@ -1001,14 +974,6 @@
                 `;
                 container.appendChild(div);
             });
-        }
-
-        function abrirGoogleMapsGeral() {
-            window.open("https://www.google.com/maps/search/Zurich+Freiburg+Paris+Interlaken", "_blank");
-        }
-
-        async function renderizarMapaGeral() {
-            // Utiliza o Google Maps incorporado no iframe principal da aba Mapa
         }
 
         function abrirModalTarefa(id) {
@@ -1067,11 +1032,8 @@
         }
 
         async function abrirMapaRuta(origem, destinoLocal, destinoCategoria, transporte, numTrans) {
-            let urlGoogle = `https://www.google.com/maps/embed/v1/directions?key=&origin=${encodeURIComponent(origem)}&destination=${encodeURIComponent(destinoLocal)}`;
-            // Usamos link direto do Google Maps para máxima compatibilidade e Street View
             window.open(`https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(origem)}&destination=${encodeURIComponent(destinoLocal)}`, '_blank');
         }
-        function fecharModalMapa() { document.getElementById('modal-mapa').classList.add('hidden'); }
 
         function abrirModalDetalhes(id) {
             const item = dadosApp.itinerario.find(i => i.id === id);
