@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v72.0)</title>
+    <title>Roteiro Europa - Mariana (v73.0)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Leaflet CSS para Mapas -->
@@ -37,7 +37,7 @@
     <!-- CABEÇALHO COMPACTO NO TOPO -->
     <header class="bg-slate-900 text-white px-3 py-2 shadow-md border-b border-slate-800 text-xs flex justify-between items-center z-50 relative">
         <span class="font-bold tracking-wide">🚄 Roteiro Europa - Mariana</span>
-        <span class="bg-indigo-600 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v72.0</span>
+        <span class="bg-indigo-600 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v73.0</span>
     </header>
 
     <!-- CONTEÚDO PRINCIPAL COMPACTO -->
@@ -98,7 +98,7 @@
             </div>
         </div>
 
-        <!-- TAB 4: MAPA GERAL COM PONTOS COLORIDOS E CARDS DE CONTROLO -->
+        <!-- TAB 4: MAPA GERAL COM PONTOS COLORIDOS -->
         <div id="tab-mapa-geral" class="space-y-3 hidden">
             <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-300 space-y-3">
                 <div class="flex justify-between items-center border-b pb-2 flex-wrap gap-2">
@@ -123,7 +123,7 @@
 
     <!-- BARRA DE FERRAMENTAS FIXA NO FINAL DA TELA COM GEMINI IA -->
     <nav class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-md text-white px-2 py-2 shadow-2xl border-t border-slate-800 text-xs flex items-center gap-1 overflow-x-auto no-scrollbar">
-        <span class="bg-indigo-600 px-1 py-0.5 rounded font-mono font-bold text-[8px] shrink-0">v72.0</span>
+        <span class="bg-indigo-600 px-1 py-0.5 rounded font-mono font-bold text-[8px] shrink-0">v73.0</span>
         <button onclick="abrirGeminiModal()" class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-2 py-1 rounded-lg font-bold transition shrink-0 flex items-center gap-1 text-[10px]">
             <span>✨</span> Gemini
         </button>
@@ -234,7 +234,7 @@
     <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
-        const CHAVE_APP = "mariana_viagem_europa_v72";
+        const CHAVE_APP = "mariana_viagem_europa_v73";
         let destinoFiltro = 'todos';
         let tarefaFiltro = 'todas';
         let campoFocoAtual = null;
@@ -258,7 +258,7 @@
             const manifestBlob = new Blob([JSON.stringify(manifestObj)], {type: 'application/manifest+json'});
             document.getElementById('pwa-manifest').href = URL.createObjectURL(manifestBlob);
 
-            const temaSalvo = localStorage.getItem('tema_v72');
+            const temaSalvo = localStorage.getItem('tema_v73');
             if (temaSalvo === 'dark') {
                 document.body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 document.body.classList.remove('bg-slate-100', 'text-slate-800');
@@ -334,10 +334,10 @@
         }
 
         function desbloquearComPin() {
-            let pinSalvo = localStorage.getItem('app_pin_v72') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v73') || '1510';
             let digitado = document.getElementById('input-pin').value;
             if(digitado === pinSalvo) {
-                sessionStorage.setItem('sessao_ativa_v72', 'true');
+                sessionStorage.setItem('sessao_ativa_v73', 'true');
                 document.getElementById('tela-bloqueio').classList.add('hidden');
                 document.getElementById('erro-pin').classList.add('hidden');
             } else {
@@ -346,17 +346,17 @@
         }
 
         async function desbloquearComBiometria() {
-            sessionStorage.setItem('sessao_ativa_v72', 'true');
+            sessionStorage.setItem('sessao_ativa_v73', 'true');
             document.getElementById('tela-bloqueio').classList.add('hidden');
         }
 
         function alterarSenhaPin() {
             let atual = prompt("Digite a senha atual (Padrão: 1510):");
-            let pinSalvo = localStorage.getItem('app_pin_v72') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v73') || '1510';
             if(atual === pinSalvo) {
                 let nova = prompt("Digite a nova senha PIN:");
                 if(nova && nova.trim() !== '') {
-                    localStorage.setItem('app_pin_v72', nova.trim());
+                    localStorage.setItem('app_pin_v73', nova.trim());
                     alert("🔑 Senha alterada com sucesso!");
                 }
             } else {
@@ -369,11 +369,11 @@
             if(body.classList.contains('dark')) {
                 body.classList.remove('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.add('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v72', 'light');
+                localStorage.setItem('tema_v73', 'light');
             } else {
                 body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.remove('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v72', 'dark');
+                localStorage.setItem('tema_v73', 'dark');
             }
         }
 
@@ -444,7 +444,7 @@
 
         function salvarStorage() {
             localStorage.setItem(CHAVE_APP, JSON.stringify(dadosApp));
-            atualizarTudo();
+            // Apenas atualiza dados internos sem recriar os inputs onde o utilizador está a escrever (evita perder foco / bloquear apagamento)
         }
 
         function moverBloco(id, direcao) {
@@ -456,6 +456,7 @@
                     dadosApp.itinerario[index] = dadosApp.itinerario[novoIndex];
                     dadosApp.itinerario[novoIndex] = temp;
                     salvarStorage();
+                    atualizarTudo();
                 }
             }
         }
@@ -472,6 +473,7 @@
                         item.ordemSecoes[idx] = item.ordemSecoes[novoIdx];
                         item.ordemSecoes[novoIdx] = temp;
                         salvarStorage();
+                        atualizarTudo();
                     }
                 }
             }
@@ -482,6 +484,7 @@
             if(item && item.ordemSecoes) {
                 item.ordemSecoes = item.ordemSecoes.filter(s => s !== chaveSecao);
                 salvarStorage();
+                atualizarTudo();
             }
         }
 
@@ -495,6 +498,7 @@
                 if(escolha && disp.includes(escolha.trim())) {
                     item.ordemSecoes.push(escolha.trim());
                     salvarStorage();
+                    atualizarTudo();
                 } else if(escolha) {
                     alert("Secção inválida.");
                 }
@@ -506,6 +510,7 @@
             if(novoNome && novoNome.trim() !== '') {
                 dadosApp.labelsPersonalizadas[chave] = novoNome.trim();
                 salvarStorage();
+                atualizarTudo();
             }
         }
 
@@ -514,6 +519,7 @@
             if(novoNome && novoNome.trim() !== '') {
                 dadosApp.titulosSecoes[chaveSecao] = novoNome.trim().toUpperCase();
                 salvarStorage();
+                atualizarTudo();
             }
         }
 
@@ -523,6 +529,7 @@
                 if(!item.subBlocos) item.subBlocos = [];
                 item.subBlocos.push({ id: Date.now(), titulo: "Nota Extra", conteudo: "" });
                 salvarStorage();
+                atualizarTudo();
             }
         }
 
@@ -531,6 +538,7 @@
             if(item && item.subBlocos) {
                 item.subBlocos = item.subBlocos.filter(s => s.id !== subId);
                 salvarStorage();
+                atualizarTudo();
             }
         }
 
@@ -538,7 +546,7 @@
             let item = dadosApp.itinerario.find(i => i.id === itemId);
             if(item && item.subBlocos) {
                 let sub = item.subBlocos.find(s => s.id === subId);
-                if(sub) { sub.titulo = val; localStorage.setItem(CHAVE_APP, JSON.stringify(dadosApp)); }
+                if(sub) { sub.titulo = val; salvarStorage(); }
             }
         }
 
@@ -546,23 +554,7 @@
             let item = dadosApp.itinerario.find(i => i.id === itemId);
             if(item && item.subBlocos) {
                 let sub = item.subBlocos.find(s => s.id === subId);
-                if(sub) { sub.conteudo = val; localStorage.setItem(CHAVE_APP, JSON.stringify(dadosApp)); }
-            }
-        }
-
-        function dragSub(e, itemId, subId) { draggedParentId = itemId; draggedSubId = subId; }
-        function allowDropSub(e) { e.preventDefault(); }
-        function dropSub(e, itemId, targetSubId) {
-            e.preventDefault();
-            if (draggedParentId !== itemId) return;
-            let item = dadosApp.itinerario.find(i => i.id === itemId);
-            if (!item || !item.subBlocos) return;
-            let fromIdx = item.subBlocos.findIndex(s => s.id === draggedSubId);
-            let toIdx = item.subBlocos.findIndex(s => s.id === targetSubId);
-            if (fromIdx !== -1 && toIdx !== -1 && fromIdx !== toIdx) {
-                let moved = item.subBlocos.splice(fromIdx, 1)[0];
-                item.subBlocos.splice(toIdx, 0, moved);
-                salvarStorage();
+                if(sub) { sub.conteudo = val; salvarStorage(); }
             }
         }
 
@@ -615,7 +607,7 @@
             let input = document.getElementById('input-cor-' + id);
             if(input) {
                 const item = dadosApp.itinerario.find(i => i.id === id);
-                if(item) { item.cor = input.value; salvarStorage(); }
+                if(item) { item.cor = input.value; salvarStorage(); atualizarTudo(); }
             }
         }
 
@@ -663,7 +655,7 @@
             let novo = prompt("Novo destino:");
             if(novo && novo.trim() !== '') {
                 let limpo = novo.trim();
-                if(!dadosApp.destinosCadastrados.includes(limpo)) { dadosApp.destinosCadastrados.push(limpo); salvarStorage(); }
+                if(!dadosApp.destinosCadastrados.includes(limpo)) { dadosApp.destinosCadastrados.push(limpo); salvarStorage(); atualizarTudo(); }
                 filtrarDestino(limpo);
             }
         }
@@ -675,6 +667,7 @@
                 dadosApp.pontosExtrasMapa.push(nomePonto.trim());
                 salvarStorage();
                 renderizarMapaGeral();
+                renderizarCardsMapa();
                 alert("📍 Adicionado!");
             }
         }
@@ -686,6 +679,7 @@
                 if(!dadosApp.statusPersonalizados) dadosApp.statusPersonalizados = {};
                 dadosApp.statusPersonalizados[nomeNovo.trim()] = corNova || "#3b82f6";
                 salvarStorage();
+                atualizarTudo();
             }
         }
 
@@ -733,11 +727,11 @@
                     if(!dadosApp.statusPersonalizados) dadosApp.statusPersonalizados = {};
                     dadosApp.statusPersonalizados[nomeNovo.trim()] = corNova || "#3b82f6";
                     const t = dadosApp.tarefas.find(item => item.id === id);
-                    if(t) { t.status = nomeNovo.trim(); salvarStorage(); }
+                    if(t) { t.status = nomeNovo.trim(); salvarStorage(); renderizarTarefas(); }
                 } else { renderizarTarefas(); }
             } else {
                 const t = dadosApp.tarefas.find(item => item.id === id);
-                if(t) { t.status = valor; salvarStorage(); }
+                if(t) { t.status = valor; salvarStorage(); renderizarTarefas(); }
             }
         }
 
@@ -791,7 +785,7 @@
                     let nomeSecaoAtual = ts[secKey] || secKey.toUpperCase();
                     let controleSecao = `
                         <div class="flex items-center gap-1 shrink-0">
-                            <span class="text-slate-400 font-bold text-xs select-none" title="Secção móvel">⋮⋮</span>
+                            <span class="text-slate-400 font-bold text-xs select-none">⋮⋮</span>
                             <span onclick="editarTituloSecao('${secKey}', '${nomeSecaoAtual}')" class="text-[9px] font-bold text-slate-700 uppercase tracking-wider cursor-pointer hover:text-indigo-600" title="Clique para renomear">${nomeSecaoAtual} ✏️</span>
                             <button onclick="moverSecaoBloco(${item.id}, '${secKey}', -1)" class="bg-slate-200 hover:bg-slate-300 px-1.5 py-0.5 rounded text-[10px] font-bold" title="Subir">⬆️</button>
                             <button onclick="moverSecaoBloco(${item.id}, '${secKey}', 1)" class="bg-slate-200 hover:bg-slate-300 px-1.5 py-0.5 rounded text-[10px] font-bold" title="Descer">⬇️</button>
@@ -806,13 +800,13 @@
                                 <div class="grid grid-cols-2 gap-1.5 text-[11px]">
                                     <div>
                                         <label onclick="editarLabel('origem', '${lb.origem}')" class="block font-black mb-0.5 text-slate-900 text-[10px] cursor-pointer hover:text-indigo-600 truncate">📍 ${lb.origem} ✏️</label>
-                                        <select onchange="lidarSelecaoLocal(${item.id}, 'embarque', this.value)" ${dis} class="w-full p-1 bg-white border rounded-lg text-[10px] font-bold text-slate-900">
+                                        <select onchange="atualizarCampo(${item.id}, 'embarque', this.value)" class="w-full p-1 bg-white border rounded-lg text-[10px] font-bold text-slate-900">
                                             ${opcoesLocaisEmb}
                                         </select>
                                     </div>
                                     <div>
                                         <label onclick="editarLabel('destino', '${lb.destino}')" class="block font-black mb-0.5 text-slate-900 text-[10px] cursor-pointer hover:text-indigo-600 truncate">🏁 ${lb.destino} ✏️</label>
-                                        <select onchange="lidarSelecaoLocal(${item.id}, 'desembarque', this.value)" ${dis} class="w-full p-1 bg-white border rounded-lg text-[10px] font-bold text-slate-900">
+                                        <select onchange="atualizarCampo(${item.id}, 'desembarque', this.value)" class="w-full p-1 bg-white border rounded-lg text-[10px] font-bold text-slate-900">
                                             ${opcoesLocaisDes}
                                         </select>
                                     </div>
@@ -826,15 +820,15 @@
                                 <div class="grid grid-cols-3 gap-1 text-[11px]">
                                     <div>
                                         <label onclick="editarLabel('trecho', '${lb.trecho}')" class="block font-semibold text-slate-700 text-[9px] cursor-pointer hover:text-indigo-600 truncate">${lb.trecho} ✏️</label>
-                                        <input type="text" value="${item.trecho}" ${dis} oninput="atualizarCampo(${item.id}, 'trecho', this.value)" class="w-full p-1 bg-white border rounded-lg text-[10px] font-bold text-slate-900" placeholder="Rota">
+                                        <input type="text" value="${item.trecho}" oninput="atualizarCampoDireto(${item.id}, 'trecho', this.value)" class="w-full p-1 bg-white border rounded-lg text-[10px] font-bold text-slate-900" placeholder="Rota">
                                     </div>
                                     <div>
                                         <label onclick="editarLabel('transporte', '${lb.transporte}')" class="block font-semibold text-slate-700 text-[9px] cursor-pointer hover:text-indigo-600 truncate">${lb.transporte} ✏️</label>
-                                        <input type="text" value="${item.transporte}" ${dis} oninput="atualizarCampo(${item.id}, 'transporte', this.value)" class="w-full p-1 bg-white border rounded-lg text-[10px]" placeholder="Trem">
+                                        <input type="text" value="${item.transporte}" oninput="atualizarCampoDireto(${item.id}, 'transporte', this.value)" class="w-full p-1 bg-white border rounded-lg text-[10px]" placeholder="Trem">
                                     </div>
                                     <div>
                                         <label onclick="editarLabel('numTransporte', '${lb.numTransporte}')" class="block font-semibold text-slate-700 text-[9px] cursor-pointer hover:text-indigo-600 truncate">${lb.numTransporte} ✏️</label>
-                                        <input type="text" value="${item.numeroTransporte || ''}" ${dis} oninput="atualizarCampo(${item.id}, 'numeroTransporte', this.value)" class="w-full p-1 bg-white border rounded-lg text-[10px] font-bold text-indigo-900" placeholder="Nº">
+                                        <input type="text" value="${item.numeroTransporte || ''}" oninput="atualizarCampoDireto(${item.id}, 'numeroTransporte', this.value)" class="w-full p-1 bg-white border rounded-lg text-[10px] font-bold text-indigo-900" placeholder="Nº">
                                     </div>
                                 </div>
                             </div>
@@ -845,7 +839,7 @@
                                 <div class="flex justify-between items-center border-b pb-0.5 mb-1">${controleSecao}</div>
                                 <div>
                                     <label onclick="editarLabel('notas', '${lb.notas}')" class="block font-semibold text-slate-700 text-[10px] cursor-pointer hover:text-indigo-600">📝 ${lb.notas} ✏️</label>
-                                    <textarea ${dis} oninput="atualizarCampo(${item.id}, 'textoLivre', this.value)" rows="1" class="w-full p-1.5 bg-white border rounded-lg text-[11px] text-slate-800" placeholder="Notas...">${item.textoLivre || ''}</textarea>
+                                    <textarea oninput="atualizarCampoDireto(${item.id}, 'textoLivre', this.value)" rows="1" class="w-full p-1.5 bg-white border rounded-lg text-[11px] text-slate-800" placeholder="Notas...">${item.textoLivre || ''}</textarea>
                                 </div>
                             </div>
                         `;
@@ -917,7 +911,7 @@
                                 <option value="CHF" ${item.moeda === 'CHF' ? 'selected' : ''}>CHF</option>
                                 <option value="EUR" ${item.moeda === 'EUR' ? 'selected' : ''}>EUR</option>
                             </select>
-                            <input type="text" value="${item.valor}" ${dis} oninput="atualizarCampo(${item.id}, 'valor', this.value)" class="w-14 p-0.5 bg-white font-black border rounded text-[10px]" placeholder="Valor">
+                            <input type="text" value="${item.valor}" ${dis} oninput="atualizarCampoDireto(${item.id}, 'valor', this.value)" class="w-14 p-0.5 bg-white font-black border rounded text-[10px]" placeholder="Valor">
                             ${pdfBadge}
                         </div>
                         
@@ -950,9 +944,9 @@
                 div.innerHTML = `
                     <div class="flex items-center gap-2 flex-1">
                         <span class="w-3 h-3 rounded-full shrink-0" style="background-color: ${obterCorBlocoHex(item)}"></span>
-                        <input type="text" value="${item.embarque || ''}" oninput="atualizarEmbarqueMapa(${item.id}, this.value)" class="bg-white border px-1.5 py-0.5 rounded text-[10px] w-1/2 font-semibold" placeholder="Origem">
+                        <input type="text" value="${item.embarque || ''}" oninput="atualizarEmbarqueMapa(${item.id}, this.value)" class="w-1/2 p-1 bg-white border rounded text-[10px] font-bold" placeholder="Origem">
                         <span>➔</span>
-                        <input type="text" value="${item.desembarque || ''}" oninput="atualizarDesembarqueMapa(${item.id}, this.value)" class="bg-white border px-1.5 py-0.5 rounded text-[10px] w-1/2 font-semibold" placeholder="Destino">
+                        <input type="text" value="${item.desembarque || ''}" oninput="atualizarDesembarqueMapa(${item.id}, this.value)" class="w-1/2 p-1 bg-white border rounded text-[10px] font-bold" placeholder="Destino">
                     </div>
                 `;
                 container.appendChild(div);
@@ -961,12 +955,12 @@
 
         function atualizarEmbarqueMapa(id, val) {
             let item = dadosApp.itinerario.find(i => i.id === id);
-            if(item) { item.embarque = val; localStorage.setItem(CHAVE_APP, JSON.stringify(dadosApp)); }
+            if(item) { item.embarque = val; salvarStorage(); }
         }
 
         function atualizarDesembarqueMapa(id, val) {
             let item = dadosApp.itinerario.find(i => i.id === id);
-            if(item) { item.desembarque = val; localStorage.setItem(CHAVE_APP, JSON.stringify(dadosApp)); }
+            if(item) { item.desembarque = val; salvarStorage(); }
         }
 
         function renderizarTarefas() {
@@ -1080,7 +1074,7 @@
         function salvarTarefaModal() {
             const id = parseInt(document.getElementById('tarefa-edit-id').value);
             const t = dadosApp.tarefas.find(item => item.id === id);
-            if(t) { t.texto = document.getElementById('tarefa-edit-texto').value; salvarStorage(); fecharModalTarefa(); }
+            if(t) { t.texto = document.getElementById('tarefa-edit-texto').value; salvarStorage(); renderizarTarefas(); fecharModalTarefa(); }
         }
 
         function registarFoco(el) { campoFocoAtual = el; }
@@ -1088,9 +1082,13 @@
             const item = dadosApp.itinerario.find(i => i.id === id);
             if(item) { item[campo] = valor; salvarStorage(); }
         }
+        function atualizarCampoDireto(id, campo, valor) {
+            const item = dadosApp.itinerario.find(i => i.id === id);
+            if(item) { item[campo] = valor; localStorage.setItem(CHAVE_APP, JSON.stringify(dadosApp)); }
+        }
         function alternarBloqueio(id) {
             const item = dadosApp.itinerario.find(i => i.id === id);
-            if(item) { item.bloqueado = !item.bloqueado; salvarStorage(); }
+            if(item) { item.bloqueado = !item.bloqueado; salvarStorage(); atualizarTudo(); }
         }
         function adicionarBloco() {
             let novoItem = {
@@ -1098,26 +1096,29 @@
             };
             dadosApp.itinerario.unshift(novoItem);
             salvarStorage();
+            atualizarTudo();
         }
         function apagarBloco(id) {
-            if(confirm("Excluir bloco?")) { dadosApp.itinerario = dadosApp.itinerario.filter(i => i.id !== id); salvarStorage(); }
+            if(confirm("Excluir bloco?")) { dadosApp.itinerario = dadosApp.itinerario.filter(i => i.id !== id); salvarStorage(); atualizarTudo(); }
         }
         function atualizarTarefaTexto(id, valor) {
             const t = dadosApp.tarefas.find(item => item.id === id);
-            if(t) { t.texto = valor; salvarStorage(); }
+            if(t) { t.texto = valor; localStorage.setItem(CHAVE_APP, JSON.stringify(dadosApp)); }
         }
         function alternarBloqueioTarefa(id) {
             const t = dadosApp.tarefas.find(item => item.id === id);
-            if(t) { t.bloqueado = !t.bloqueado; salvarStorage(); }
+            if(t) { t.bloqueado = !t.bloqueado; salvarStorage(); renderizarTarefas(); }
         }
         function desfazerTarefa(id) { renderizarTarefas(); }
         function adicionarTarefa() {
             dadosApp.tarefas.unshift({ id: Date.now(), texto: "Nova tarefa...", status: "Aguardando", bloqueado: false });
             salvarStorage();
+            renderizarTarefas();
         }
         function apagarTarefa(id) {
             dadosApp.tarefas = dadosApp.tarefas.filter(t => t.id !== id);
             salvarStorage();
+            renderizarTarefas();
         }
 
         async function abrirMapaRuta(origem, destinoLocal, destinoCategoria, transporte, numTrans) {
@@ -1168,10 +1169,10 @@
                     reader.onload = function(evt) {
                         item.pdfData = evt.target.result;
                         item.pdfNome = fileInput.files[0].name;
-                        salvarStorage(); fecharModalDetalhes();
+                        salvarStorage(); fecharModalDetalhes(); atualizarTudo();
                     };
                     reader.readAsDataURL(fileInput.files[0]);
-                } else { salvarStorage(); fecharModalDetalhes(); }
+                } else { salvarStorage(); fecharModalDetalhes(); atualizarTudo(); }
             }
         }
 
@@ -1203,14 +1204,14 @@
                 const reader = new FileReader();
                 reader.onload = function(evt) {
                     const v = dadosApp.vouchers.find(item => item.id === id);
-                    if(v) { v.pdfData = evt.target.result; v.pdfNome = file.name; salvarStorage(); alert("PDF anexado!"); }
+                    if(v) { v.pdfData = evt.target.result; v.pdfNome = file.name; salvarStorage(); alert("PDF anexado!"); renderizarVouchersTab(); }
                 };
                 reader.readAsDataURL(file);
             }
         }
-        function atualizarVoucherCampo(id, campo, val) { const v = dadosApp.vouchers.find(i => i.id === id); if(v) { v[campo] = val; salvarStorage(); } }
-        function adicionarVoucher() { dadosApp.vouchers.unshift({ id: Date.now(), titulo: "Novo Voucher", categoria: "Geral", pdfData: "", pdfNome: "", bloqueado: false }); salvarStorage(); }
-        function apagarVoucher(id) { dadosApp.vouchers = dadosApp.vouchers.filter(v => v.id !== id); salvarStorage(); }
+        function atualizarVoucherCampo(id, campo, val) { const v = dadosApp.vouchers.find(i => i.id === id); if(v) { v[campo] = val; localStorage.setItem(CHAVE_APP, JSON.stringify(dadosApp)); } }
+        function adicionarVoucher() { dadosApp.vouchers.unshift({ id: Date.now(), titulo: "Novo Voucher", categoria: "Geral", pdfData: "", pdfNome: "", bloqueado: false }); salvarStorage(); renderizarVouchersTab(); }
+        function apagarVoucher(id) { dadosApp.vouchers = dadosApp.vouchers.filter(v => v.id !== id); salvarStorage(); renderizarVouchersTab(); }
 
         function ativarMicrofone() {
             const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
