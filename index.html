@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v98.0)</title>
+    <title>Roteiro Europa - Mariana (v100.0)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Manifest Dinâmico via JavaScript -->
@@ -35,7 +35,7 @@
     <!-- CABEÇALHO COMPACTO NO TOPO -->
     <header class="bg-slate-900 text-white px-3 py-2 shadow-md border-b border-slate-800 text-xs flex justify-between items-center z-50 relative">
         <span class="font-bold tracking-wide">🚄 Roteiro Europa - Mariana</span>
-        <span class="bg-indigo-600 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v98.0</span>
+        <span class="bg-indigo-600 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v100.0</span>
     </header>
 
     <!-- CONTEÚDO PRINCIPAL COMPACTO -->
@@ -54,7 +54,7 @@
             <div class="bg-gradient-to-r from-indigo-900 to-slate-900 text-white p-2.5 rounded-2xl shadow-md flex justify-between items-center">
                 <div>
                     <h2 class="text-xs font-black uppercase tracking-wider text-indigo-200">✈️ Roteiro Oficial (Aprovados)</h2>
-                    <p class="text-[9px] text-slate-300">Marque "Feito" ou clique em ✕ para devolver ao Editar (sem apagar).</p>
+                    <p class="text-[9px] text-slate-300">Início limpo. Tranque blocos no Editar para aparecerem aqui.</p>
                 </div>
                 <div id="progresso-viagem" class="bg-indigo-600 px-2.5 py-1 rounded-xl text-[11px] font-black shadow-inner">0 / 0 Aprovados</div>
             </div>
@@ -85,21 +85,21 @@
             <div id="lista-blocos" class="space-y-2"></div>
         </div>
 
-        <!-- TAB 3: VOUCHERS & PDFS -->
+        <!-- TAB 3: VOUCHERS & PDFS (SUPER COMPACTOS NUMA SÓ LINHA) -->
         <div id="tab-comprados" class="space-y-3 hidden">
             <div class="bg-white p-3 rounded-2xl shadow-sm border border-slate-300 space-y-3">
                 <div class="flex justify-between items-center border-b pb-2 flex-wrap gap-2">
                     <div>
                         <h2 class="text-[11px] font-extrabold uppercase text-slate-800 tracking-wider">🎟️ Gestão de Vouchers & PDFs</h2>
-                        <p class="text-[10px] text-slate-500 font-semibold">Selecione os locais e visualize instantaneamente</p>
+                        <p class="text-[10px] text-slate-500 font-semibold">Tudo organizado numa linha só</p>
                     </div>
                     <button onclick="adicionarVoucher()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-2.5 py-1.5 rounded-lg font-bold text-[11px] transition shadow-sm">➕ Novo Voucher</button>
                 </div>
-                <div id="lista-comprados-html" class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs"></div>
+                <div id="lista-comprados-html" class="space-y-2 text-xs"></div>
             </div>
         </div>
 
-        <!-- TAB 4: TAREFAS (COM LÁPIS E BOTÃO DE VOLTAR) -->
+        <!-- TAB 4: TAREFAS (TUDO NA MESMA LINHA E COMPACTO) -->
         <div id="tab-tarefas" class="space-y-3 hidden">
             <div class="bg-indigo-900 text-white p-3 rounded-2xl shadow-md space-y-2">
                 <div class="flex justify-between items-center flex-wrap gap-2">
@@ -158,7 +158,7 @@
 
     <!-- BARRA DE FERRAMENTAS FIXA -->
     <nav class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-md text-white px-2 py-2 shadow-2xl border-t border-slate-800 text-xs flex items-center gap-1 overflow-x-auto no-scrollbar">
-        <span class="bg-indigo-600 px-1 py-0.5 rounded font-mono font-bold text-[8px] shrink-0">v98.0</span>
+        <span class="bg-indigo-600 px-1 py-0.5 rounded font-mono font-bold text-[8px] shrink-0">v100.0</span>
         <button onclick="abrirGeminiModal()" class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-2 py-1 rounded-lg font-bold transition shrink-0 flex items-center gap-1 text-[10px]">
             <span>✨</span> Gemini
         </button>
@@ -211,7 +211,7 @@
     </div>
 
     <script>
-        const CHAVE_APP = "mariana_viagem_europa_v98";
+        const CHAVE_APP = "mariana_viagem_europa_v100";
         let destinoFiltro = 'todos';
         let tarefaFiltro = 'todas';
         let campoFocoAtual = null;
@@ -230,7 +230,7 @@
             diasConcluidos: {},
             statusPersonalizados: { "Concluído": "#22c55e", "Aguardando": "#f59e0b" },
             itinerario: [
-                { id: 1, categoria: "Zurique", dataInicio: "2026-12-30", dataFim: "2027-01-02", trecho: "Estadia no ibis budget Zurich City West", transporte: "Trem", numeroTransporte: "", embarque: "Zurich HB", desembarque: "ibis budget Zurich City West", notasExtras: "Check-in às 15h", cor: "#3b82f6", bloqueado: true, concluido: false },
+                { id: 1, categoria: "Zurique", dataInicio: "2026-12-30", dataFim: "2027-01-02", trecho: "Estadia no ibis budget Zurich City West", transporte: "Trem", numeroTransporte: "", embarque: "Zurich HB", desembarque: "ibis budget Zurich City West", notasExtras: "Check-in às 15h", cor: "#3b82f6", bloqueado: false, concluido: false },
                 { id: 2, categoria: "Freiburg", dataInicio: "2027-01-02", dataFim: "2027-01-05", trecho: "Zurique ➔ Freiburg", transporte: "Ônibus", numeroTransporte: "Linha 72", embarque: "Zurich Bus Station", desembarque: "Premier Inn", notasExtras: "", cor: "#f59e0b", bloqueado: false, concluido: false },
                 { id: 3, categoria: "França", dataInicio: "2027-01-05", dataFim: "2027-01-07", trecho: "Freiburg ➔ Disney", embarque: "Freiburg Hbf", desembarque: "Disney Hotel", notasExtras: "", cor: "#ec4899", bloqueado: false, concluido: false },
                 { id: 4, categoria: "Interlaken", dataInicio: "2027-01-08", dataFim: "2027-01-12", trecho: "Paris ➔ Interlaken", embarque: "Gare de Lyon", desembarque: "Hotel Weisses", notasExtras: "", cor: "#10b981", bloqueado: false, concluido: false }
@@ -286,7 +286,7 @@
             const manifestBlob = new Blob([JSON.stringify(manifestObj)], {type: 'application/manifest+json'});
             document.getElementById('pwa-manifest').href = URL.createObjectURL(manifestBlob);
 
-            const temaSalvo = localStorage.getItem('tema_v98');
+            const temaSalvo = localStorage.getItem('tema_v100');
             if (temaSalvo === 'dark') {
                 document.body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 document.body.classList.remove('bg-slate-100', 'text-slate-800');
@@ -331,10 +331,10 @@
         }
 
         function desbloquearComPin() {
-            let pinSalvo = localStorage.getItem('app_pin_v98') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v100') || '1510';
             let digitado = document.getElementById('input-pin').value;
             if(digitado === pinSalvo) {
-                sessionStorage.setItem('sessao_ativa_v98', 'true');
+                sessionStorage.setItem('sessao_ativa_v100', 'true');
                 document.getElementById('tela-bloqueio').classList.add('hidden');
                 document.getElementById('erro-pin').classList.add('hidden');
             } else {
@@ -343,17 +343,17 @@
         }
 
         async function desbloquearComBiometria() {
-            sessionStorage.setItem('sessao_ativa_v98', 'true');
+            sessionStorage.setItem('sessao_ativa_v100', 'true');
             document.getElementById('tela-bloqueio').classList.add('hidden');
         }
 
         function alterarSenhaPin() {
             let atual = prompt("Digite a senha atual (Padrão: 1510):");
-            let pinSalvo = localStorage.getItem('app_pin_v98') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v100') || '1510';
             if(atual === pinSalvo) {
                 let nova = prompt("Digite a nova senha PIN:");
                 if(nova && nova.trim() !== '') {
-                    localStorage.setItem('app_pin_v98', nova.trim());
+                    localStorage.setItem('app_pin_v100', nova.trim());
                     alert("🔑 Senha alterada com sucesso!");
                 }
             } else {
@@ -366,11 +366,11 @@
             if(body.classList.contains('dark')) {
                 body.classList.remove('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.add('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v98', 'light');
+                localStorage.setItem('tema_v100', 'light');
             } else {
                 body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.remove('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v98', 'dark');
+                localStorage.setItem('tema_v100', 'dark');
             }
         }
 
@@ -532,7 +532,7 @@
         }
         function filtrarTarefas(f) { tarefaFiltro = f; renderizarFiltrosTarefas(); renderizarTarefas(); }
 
-        // ROTEIRO (✕ apenas destranca e devolve ao Editar)
+        // ROTEIRO
         function renderizarModoLeitura() {
             const container = document.getElementById('lista-leitura-html');
             const progressoEl = document.getElementById('progresso-viagem');
@@ -804,7 +804,7 @@
             }
         }
 
-        // VOUCHERS
+        // VOUCHERS (COM TUDO NUMA SÓ LINHA)
         function renderizarVouchersTab() {
             const container = document.getElementById('lista-comprados-html');
             if(!container) return;
@@ -834,33 +834,33 @@
 
                 let pdfAction = v.pdfData ? 
                     `<div class="flex items-center gap-1">
-                        <button onclick="abrirLeitorPdf('${v.id}', '${v.titulo.replace(/'/g, "\\'")}')" class="bg-indigo-600 hover:bg-indigo-700 text-white px-2 py-0.5 rounded text-[8px] font-bold">📄 Ver PDF</button>
-                        <label class="bg-amber-100 hover:bg-amber-200 text-amber-800 px-1.5 py-0.5 rounded text-[8px] font-bold cursor-pointer">
-                            🔄 Substituir<input type="file" accept="application/pdf" onchange="anexarPdfVoucher(${v.id}, event)" class="hidden">
+                        <button onclick="abrirLeitorPdf('${v.id}', '${v.titulo.replace(/'/g, "\\'")}')" class="bg-indigo-600 hover:bg-indigo-700 text-white px-2.5 py-1 rounded text-[9px] font-bold">📄 PDF</button>
+                        <label class="bg-amber-100 hover:bg-amber-200 text-amber-800 px-2.5 py-1 rounded text-[9px] font-bold cursor-pointer">
+                            🔄<input type="file" accept="application/pdf" onchange="anexarPdfVoucher(${v.id}, event)" class="hidden">
                         </label>
                      </div>` : 
-                    `<label class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-1.5 py-0.5 rounded text-[8px] font-bold cursor-pointer border">
-                        📎 Anexar PDF<input type="file" accept="application/pdf" onchange="anexarPdfVoucher(${v.id}, event)" class="hidden">
+                    `<label class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1 rounded text-[9px] font-bold cursor-pointer border">
+                        📎 Anexar<input type="file" accept="application/pdf" onchange="anexarPdfVoucher(${v.id}, event)" class="hidden">
                     </label>`;
 
                 let div = document.createElement('div');
-                div.className = "p-2 rounded-xl border bg-white space-y-1 shadow-sm flex flex-col justify-between";
+                div.className = "p-2 rounded-xl border bg-white flex items-center justify-between gap-2 shadow-sm";
                 div.style.borderLeft = `4px solid ${corVoucher}`;
 
                 div.innerHTML = `
-                    <div class="space-y-1">
-                        <select onchange="lidarSelecaoLocalVoucher(${v.id}, this.value)" class="w-full p-1 bg-slate-50 border border-slate-200 rounded-lg outline-none font-bold text-[10px] text-slate-900">
+                    <div class="flex-1 min-w-0">
+                        <select onchange="lidarSelecaoLocalVoucher(${v.id}, this.value)" class="w-full p-1 bg-slate-50 border border-slate-200 rounded-lg outline-none font-bold text-[10px] text-slate-900 truncate">
                             ${opcoesLocaisV}
                         </select>
-                        <div class="flex items-center justify-between gap-1 pt-0.5">
-                            <select onchange="lidarSelecaoDestinoVoucher(${v.id}, this.value)" class="font-bold px-1.5 py-0.5 rounded-lg text-[9px] border text-white" style="background-color: ${corVoucher};">
-                                ${opcoesDestinoV}
-                            </select>
-                            ${pdfAction}
-                        </div>
                     </div>
-                    <div class="flex justify-end pt-1 border-t mt-1">
-                        <button onclick="apagarVoucher(${v.id})" class="text-red-500 font-bold text-[8px] bg-red-50 hover:bg-red-100 px-1.5 py-0.2 rounded transition">Excluir ✕</button>
+                    <div>
+                        <select onchange="lidarSelecaoDestinoVoucher(${v.id}, this.value)" class="font-bold px-2 py-1 rounded-lg text-[9px] border text-white truncate max-w-[90px]" style="background-color: ${corVoucher};">
+                            ${opcoesDestinoV}
+                        </select>
+                    </div>
+                    <div>${pdfAction}</div>
+                    <div>
+                        <button onclick="apagarVoucher(${v.id})" class="text-red-500 font-bold text-[10px] bg-red-50 hover:bg-red-100 px-2 py-1 rounded transition">✕</button>
                     </div>
                 `;
                 container.appendChild(div);
@@ -934,7 +934,7 @@
             renderizarVouchersTab(); 
         }
 
-        // TAREFAS COM CORES DE DESTINO E BOTÃO LÁPIS PARA ABRIR MODAL
+        // TAREFAS TUDO NUMA SÓ LINHA COMPACTA
         function renderizarTarefas() {
             const container = document.getElementById('lista-tarefas-html');
             container.innerHTML = '';
@@ -969,26 +969,18 @@
                 opcoesDestinoT += `<option value="novo_destino">➕ Outro...</option>`;
 
                 let div = document.createElement('div');
-                div.className = `p-2 rounded-xl border bg-white space-y-1 shadow-sm`;
+                div.className = "p-2 rounded-xl border bg-white flex items-center justify-between gap-1.5 shadow-sm";
                 div.style.borderLeft = `4px solid ${corDestino}`;
                 div.innerHTML = `
-                    <div class="flex items-center justify-between gap-1 flex-wrap">
-                        <div class="flex items-center gap-1 flex-1">
-                            <button onclick="abrirModalTarefa(${t.id})" class="bg-slate-100 hover:bg-slate-200 p-1 rounded text-[10px]" title="Editar Tarefa">✏️</button>
-                            <input type="text" value="${t.texto}" oninput="atualizarTarefaTexto(${t.id}, this.value)" class="w-full p-0.5 bg-transparent border-b border-slate-200 outline-none ${textStyle} text-[11px]" placeholder="Tarefa...">
-                        </div>
-                        <div class="flex items-center gap-1 w-full justify-between pt-0.5">
-                            <div class="flex items-center gap-1">
-                                <select onchange="lidarSelecaoDestinoTarefa(${t.id}, this.value)" class="border rounded px-1.5 py-0.2 text-[9px] font-bold text-white shadow-sm" style="background-color: ${corDestino};">
-                                    ${opcoesDestinoT}
-                                </select>
-                                <select onchange="lidarSelecaoStatusTarefa(${t.id}, this.value)" class="border rounded px-1.5 py-0.2 text-[9px] font-bold text-white shadow-sm" style="background-color: ${corStatus};">
-                                    ${opcoesStatus}
-                                </select>
-                            </div>
-                            <button onclick="apagarTarefa(${t.id})" class="text-red-500 bg-red-50 px-1.5 py-0.2 rounded text-[9px]">✕</button>
-                        </div>
-                    </div>
+                    <button onclick="abrirModalTarefa(${t.id})" class="bg-slate-100 hover:bg-slate-200 p-1 rounded text-[10px] shrink-0" title="Editar Tarefa">✏️</button>
+                    <input type="text" value="${t.texto}" oninput="atualizarTarefaTexto(${t.id}, this.value)" class="flex-1 min-w-0 p-1 bg-transparent outline-none ${textStyle} text-[10px] truncate" placeholder="Tarefa...">
+                    <select onchange="lidarSelecaoDestinoTarefa(${t.id}, this.value)" class="border rounded px-1.5 py-1 text-[9px] font-bold text-white shrink-0 max-w-[80px]" style="background-color: ${corDestino};">
+                        ${opcoesDestinoT}
+                    </select>
+                    <select onchange="lidarSelecaoStatusTarefa(${t.id}, this.value)" class="border rounded px-1.5 py-1 text-[9px] font-bold text-white shrink-0 max-w-[80px]" style="background-color: ${corStatus};">
+                        ${opcoesStatus}
+                    </select>
+                    <button onclick="apagarTarefa(${t.id})" class="text-red-500 font-bold text-[10px] bg-red-50 hover:bg-red-100 px-2 py-1 rounded transition shrink-0">✕</button>
                 `;
                 container.appendChild(div);
             });
@@ -1049,7 +1041,7 @@
         }
 
         function atualizarTarefaTexto(id, valor) {
-            const t = dadosApp.tarefas.find(item => item.id === id);
+            const t = dadosApp.tarefas.find(item => id === t.id);
             if(t) { t.texto = valor; localStorage.setItem(CHAVE_APP, JSON.stringify(dadosApp)); }
         }
         function adicionarTarefa() {
