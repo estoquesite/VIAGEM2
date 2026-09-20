@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v88.0)</title>
+    <title>Roteiro Europa - Mariana (v89.0)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Manifest Dinâmico via JavaScript -->
@@ -35,7 +35,7 @@
     <!-- CABEÇALHO COMPACTO NO TOPO -->
     <header class="bg-slate-900 text-white px-3 py-2 shadow-md border-b border-slate-800 text-xs flex justify-between items-center z-50 relative">
         <span class="font-bold tracking-wide">🚄 Roteiro Europa - Mariana</span>
-        <span class="bg-indigo-600 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v88.0</span>
+        <span class="bg-indigo-600 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v89.0</span>
     </header>
 
     <!-- CONTEÚDO PRINCIPAL COMPACTO -->
@@ -49,12 +49,12 @@
             <button onclick="mudarTab('tarefas')" id="tab-btn-tarefas" class="py-2 rounded-lg text-slate-600 hover:bg-white/50 transition">✅ Tarefas</button>
         </div>
 
-        <!-- TAB 1: ROTEIRO EM QUADRADINHOS (APENAS APROVADOS COM 🔒) -->
+        <!-- TAB 1: ROTEIRO EM QUADRADINHOS COMPACTOS -->
         <div id="tab-leitura" class="space-y-2">
             <div class="bg-gradient-to-r from-indigo-900 to-slate-900 text-white p-2.5 rounded-2xl shadow-md flex justify-between items-center">
                 <div>
-                    <h2 class="text-xs font-black uppercase tracking-wider text-indigo-200">✈️ Roteiro Oficial (Aprovados)</h2>
-                    <p class="text-[9px] text-slate-300">Apenas blocos trancados com o cadeado 🔒 no Editar aparecem aqui.</p>
+                    <h2 class="text-xs font-black uppercase tracking-wider text-indigo-200">✈️ Roteiro Geral (Dia a Dia)</h2>
+                    <p class="text-[9px] text-slate-300">Visão geral e compacta com as cores oficiais do Editor.</p>
                 </div>
                 <div id="progresso-viagem" class="bg-indigo-600 px-2.5 py-1 rounded-xl text-[11px] font-black shadow-inner">0 / 0 Dias</div>
             </div>
@@ -64,18 +64,18 @@
                 <!-- Renderizado via JS -->
             </div>
 
-            <!-- GRELHA DE QUADRADINHOS -->
+            <!-- GRELHA DE QUADRADINHOS COMPACTOS -->
             <div id="lista-leitura-html" class="grid grid-cols-1 sm:grid-cols-2 gap-2"></div>
         </div>
 
-        <!-- TAB 2: ITINERÁRIO EDITÁVEL (COM DETALHES, CAIXINHAS E CADEADO) -->
+        <!-- TAB 2: ITINERÁRIO EDITÁVEL -->
         <div id="tab-itinerario" class="space-y-3 hidden">
             <div id="filtros-container" class="bg-slate-200 p-1.5 rounded-xl overflow-x-auto flex gap-1 text-[11px] items-center no-scrollbar shadow-inner">
                 <!-- Renderizado via JS -->
             </div>
 
             <div class="flex justify-between items-center px-1 pt-0.5">
-                <h2 class="text-[11px] font-extrabold uppercase text-slate-600 tracking-wider">📦 Blocos & Destinos (Clique no 🔒 para enviar ao Roteiro)</h2>
+                <h2 class="text-[11px] font-extrabold uppercase text-slate-600 tracking-wider">📦 Blocos & Cores Principais</h2>
                 <button onclick="adicionarBloco()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-2.5 py-1.5 rounded-lg font-bold text-[11px] transition shadow-sm">
                     ➕ Novo Bloco
                 </button>
@@ -83,13 +83,13 @@
             <div id="lista-blocos" class="space-y-3"></div>
         </div>
 
-        <!-- TAB 3: VOUCHERS & PDFS -->
+        <!-- TAB 3: VUCHERS & PDFS (COM CORES SINCRONIZADAS) -->
         <div id="tab-comprados" class="space-y-3 hidden">
             <div class="bg-white p-3 rounded-2xl shadow-sm border border-slate-300 space-y-3">
                 <div class="flex justify-between items-center border-b pb-2 flex-wrap gap-2">
                     <div>
                         <h2 class="text-[11px] font-extrabold uppercase text-slate-800 tracking-wider">🎟️ Gestão de Vouchers & PDFs</h2>
-                        <p class="text-[10px] text-slate-500 font-semibold">Selecione os locais e visualize instantaneamente</p>
+                        <p class="text-[10px] text-slate-500 font-semibold">Os vouchers herdam automaticamente a cor definida no Editar</p>
                     </div>
                     <button onclick="adicionarVoucher()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-2.5 py-1.5 rounded-lg font-bold text-[11px] transition shadow-sm">➕ Novo Voucher</button>
                 </div>
@@ -134,7 +134,7 @@
 
     <!-- BARRA DE FERRAMENTAS FIXA -->
     <nav class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-md text-white px-2 py-2 shadow-2xl border-t border-slate-800 text-xs flex items-center gap-1 overflow-x-auto no-scrollbar">
-        <span class="bg-indigo-600 px-1 py-0.5 rounded font-mono font-bold text-[8px] shrink-0">v88.0</span>
+        <span class="bg-indigo-600 px-1 py-0.5 rounded font-mono font-bold text-[8px] shrink-0">v89.0</span>
         <button onclick="abrirGeminiModal()" class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-2 py-1 rounded-lg font-bold transition shrink-0 flex items-center gap-1 text-[10px]">
             <span>✨</span> Gemini
         </button>
@@ -206,7 +206,7 @@
     </div>
 
     <script>
-        const CHAVE_APP = "mariana_viagem_europa_v88";
+        const CHAVE_APP = "mariana_viagem_europa_v89";
         let destinoFiltro = 'todos';
         let tarefaFiltro = 'todas';
         let campoFocoAtual = null;
@@ -223,10 +223,10 @@
             ],
             diasConcluidos: {},
             itinerario: [
-                { id: 1, categoria: "Zurique", dataInicio: "2026-12-30", dataFim: "2027-01-02", trecho: "Estadia no ibis budget Zurich City West", embarque: "Zurich HB", desembarque: "ibis budget Zurich City West", bloqueado: false, cor: "#3b82f6", subBlocos: [] },
-                { id: 2, categoria: "Freiburg", dataInicio: "2027-01-02", dataFim: "2027-01-05", trecho: "Zurique ➔ Freiburg", embarque: "Zurich Bus Station", desembarque: "Premier Inn", bloqueado: false, cor: "#f59e0b", subBlocos: [] },
-                { id: 3, categoria: "França", dataInicio: "2027-01-05", dataFim: "2027-01-07", trecho: "Freiburg ➔ Disney", embarque: "Freiburg Hbf", desembarque: "Disney Hotel", bloqueado: false, cor: "#ec4899", subBlocos: [] },
-                { id: 4, categoria: "Interlaken", dataInicio: "2027-01-08", dataFim: "2027-01-12", trecho: "Paris ➔ Interlaken", embarque: "Gare de Lyon", desembarque: "Hotel Weisses", bloqueado: false, cor: "#10b981", subBlocos: [] }
+                { id: 1, categoria: "Zurique", dataInicio: "2026-12-30", dataFim: "2027-01-02", trecho: "Estadia no ibis budget Zurich City West", embarque: "Zurich HB", desembarque: "ibis budget Zurich City West", cor: "#3b82f6", subBlocos: [] },
+                { id: 2, categoria: "Freiburg", dataInicio: "2027-01-02", dataFim: "2027-01-05", trecho: "Zurique ➔ Freiburg", embarque: "Zurich Bus Station", desembarque: "Premier Inn", cor: "#f59e0b", subBlocos: [] },
+                { id: 3, categoria: "França", dataInicio: "2027-01-05", dataFim: "2027-01-07", trecho: "Freiburg ➔ Disney", embarque: "Freiburg Hbf", desembarque: "Disney Hotel", cor: "#ec4899", subBlocos: [] },
+                { id: 4, categoria: "Interlaken", dataInicio: "2027-01-08", dataFim: "2027-01-12", trecho: "Paris ➔ Interlaken", embarque: "Gare de Lyon", desembarque: "Hotel Weisses", cor: "#10b981", subBlocos: [] }
             ],
             tarefas: [
                 { id: 1, texto: "Comprar cartões Wise e Nomad", status: "Concluído", bloqueado: false },
@@ -262,7 +262,7 @@
             const manifestBlob = new Blob([JSON.stringify(manifestObj)], {type: 'application/manifest+json'});
             document.getElementById('pwa-manifest').href = URL.createObjectURL(manifestBlob);
 
-            const temaSalvo = localStorage.getItem('tema_v88');
+            const temaSalvo = localStorage.getItem('tema_v89');
             if (temaSalvo === 'dark') {
                 document.body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 document.body.classList.remove('bg-slate-100', 'text-slate-800');
@@ -306,29 +306,29 @@
         }
 
         function desbloquearComPin() {
-            let pinSalvo = localStorage.getItem('app_pin_v88') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v89') || '1510';
             let digitado = document.getElementById('input-pin').value;
             if(digitado === pinSalvo) {
-                sessionStorage.setItem('sessao_ativa_v88', 'true');
+                sessionStorage.setItem('sessao_ativa_v89', 'true');
                 document.getElementById('tela-bloqueio').classList.add('hidden');
                 document.getElementById('erro-pin').classList.add('hidden');
             } else {
-                document.getElementById('erro-pin').classList.remove('hidden');
+                document.getElementById('erro-pin').classList.add('hidden');
             }
         }
 
         async function desbloquearComBiometria() {
-            sessionStorage.setItem('sessao_ativa_v88', 'true');
+            sessionStorage.setItem('sessao_ativa_v89', 'true');
             document.getElementById('tela-bloqueio').classList.add('hidden');
         }
 
         function alterarSenhaPin() {
             let atual = prompt("Digite a senha atual (Padrão: 1510):");
-            let pinSalvo = localStorage.getItem('app_pin_v88') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v89') || '1510';
             if(atual === pinSalvo) {
                 let nova = prompt("Digite a nova senha PIN:");
                 if(nova && nova.trim() !== '') {
-                    localStorage.setItem('app_pin_v88', nova.trim());
+                    localStorage.setItem('app_pin_v89', nova.trim());
                     alert("🔑 Senha alterada com sucesso!");
                 }
             } else {
@@ -341,11 +341,11 @@
             if(body.classList.contains('dark')) {
                 body.classList.remove('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.add('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v88', 'light');
+                localStorage.setItem('tema_v89', 'light');
             } else {
                 body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.remove('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v88', 'dark');
+                localStorage.setItem('tema_v89', 'dark');
             }
         }
 
@@ -370,15 +370,6 @@
 
         function salvarStorage() {
             localStorage.setItem(CHAVE_APP, JSON.stringify(dadosApp));
-        }
-
-        function alternarBloqueio(id) {
-            const item = dadosApp.itinerario.find(i => i.id === id);
-            if(item) { 
-                item.bloqueado = !item.bloqueado; 
-                salvarStorage(); 
-                atualizarTudo(); 
-            }
         }
 
         function alternarConcluidoLeitura(diaId) {
@@ -416,9 +407,11 @@
             if(tab === 'comprados') { renderizarVouchersTab(); }
         }
 
-        function obterCorBlocoHex(item) {
-            if(item.cor) return item.cor;
-            let c = (item.categoria || "").toLowerCase();
+        // Função Master para buscar a cor definida no Editar (Itinerário) para o destino correspondente
+        function obterCorPorCategoria(cat) {
+            let item = dadosApp.itinerario.find(i => (i.categoria || "").toLowerCase() === (cat || "").toLowerCase());
+            if(item && item.cor) return item.cor;
+            let c = (cat || "").toLowerCase();
             if(c.includes('zurique') || c.includes('zurich')) return '#3b82f6';
             if(c.includes('freiburg')) return '#f59e0b';
             if(c.includes('frança') || c.includes('france') || c.includes('paris')) return '#ec4899';
@@ -436,8 +429,7 @@
             
             dadosApp.destinosCadastrados.forEach(dest => {
                 let ativo = destinoFiltro === dest;
-                let blocoExemplo = dadosApp.itinerario.find(i => i.categoria === dest);
-                let corDest = blocoExemplo ? obterCorBlocoHex(blocoExemplo) : '#3b82f6';
+                let corDest = obterCorPorCategoria(dest);
                 let estiloBtn = ativo ? 'bg-indigo-600 text-white font-bold' : `background-color: ${corDest}; color: #ffffff; font-weight: 600; border: 1px solid rgba(0,0,0,0.15);`;
                 html += `<button onclick="filtrarDestino('${dest}')" style="${estiloBtn}" class="px-2 py-0.5 rounded-lg text-[10px] shrink-0 transition shadow-sm">${dest}</button>`;
             });
@@ -478,7 +470,7 @@
         }
         function filtrarTarefas(f) { tarefaFiltro = f; renderizarFiltrosTarefas(); renderizarTarefas(); }
 
-        // GERADOR DOS QUADRADINHOS DIA A DIA (APENAS BLOCOS TRANCADOS 🔒)
+        // GERADOR DOS QUADRADINHOS DIA A DIA
         function renderizarModoLeitura() {
             const container = document.getElementById('lista-leitura-html');
             const progressoEl = document.getElementById('progresso-viagem');
@@ -486,14 +478,15 @@
             container.innerHTML = '';
 
             let diasExpandidos = [];
-            let blocosAprovados = dadosApp.itinerario.filter(item => item.bloqueado === true);
             if(!dadosApp.diasConcluidos) dadosApp.diasConcluidos = {};
 
-            blocosAprovados.forEach(item => {
+            dadosApp.itinerario.forEach(item => {
                 let cat = item.categoria || "Geral";
                 if(destinoFiltro !== 'todos' && !cat.toLowerCase().includes(destinoFiltro.toLowerCase())) {
                     return;
                 }
+
+                let corMaster = obterCorPorCategoria(cat);
 
                 if(item.dataInicio && item.dataFim) {
                     let dStart = new Date(item.dataInicio);
@@ -514,7 +507,7 @@
                             embarque: item.embarque || 'Origem',
                             desembarque: item.desembarque || 'Destino',
                             trecho: item.trecho || '',
-                            cor: obterCorBlocoHex(item),
+                            cor: corMaster,
                             concluido: dadosApp.diasConcluidos[uniqueDayId] || false
                         });
                         current.setDate(current.getDate() + 1);
@@ -525,10 +518,10 @@
 
             let total = diasExpandidos.length;
             let concluidos = diasExpandidos.filter(d => d.concluido).length;
-            if(progressoEl) progressoEl.innerText = `${concluidos} / ${total} Aprovados`;
+            if(progressoEl) progressoEl.innerText = `${concluidos} / ${total} Dias`;
 
             if(total === 0) {
-                container.innerHTML = '<div class="col-span-full bg-white p-4 rounded-xl text-center text-xs text-slate-500 border">Nenhum bloco aprovado. Vá à aba <b>📅 Editar</b> e clique no cadeado <b>(🔒)</b> do bloco para enviá-lo para cá!</div>';
+                container.innerHTML = '<div class="col-span-full bg-white p-3 rounded-xl text-center text-xs text-slate-500 border">Nenhum dia encontrado. Vá à aba <b>📅 Editar</b> para adicionar blocos!</div>';
                 return;
             }
 
@@ -537,30 +530,30 @@
                 let textDecor = dia.concluido ? 'line-through text-slate-400' : 'text-slate-800';
 
                 let card = document.createElement('div');
-                card.className = `p-2.5 rounded-xl border shadow-sm space-y-1.5 transition flex flex-col justify-between ${bgStyle}`;
-                card.style.borderLeft = `5px solid ${dia.cor}`;
+                card.className = `p-2 rounded-xl border shadow-sm space-y-1 transition flex flex-col justify-between ${bgStyle}`;
+                card.style.borderLeft = `4px solid ${dia.cor}`;
 
                 card.innerHTML = `
-                    <div class="space-y-1">
-                        <div class="flex justify-between items-center gap-1 flex-wrap border-b pb-1">
+                    <div class="space-y-0.5">
+                        <div class="flex justify-between items-center gap-1 flex-wrap border-b pb-0.5">
                             <div class="flex items-center gap-1">
-                                <span class="bg-indigo-100 text-indigo-800 font-black px-1.5 py-0.5 rounded text-[9px]">${dia.categoria}</span>
-                                <span class="text-slate-600 font-bold text-[9px]">📅 ${dia.dataInicioFormatada} ➔ ${dia.dataFimFormatada}</span>
+                                <span class="font-black px-1 py-0.2 rounded text-[8px] text-white" style="background-color: ${dia.cor};">${dia.categoria}</span>
+                                <span class="text-slate-600 font-bold text-[8px]">📅 ${dia.dataInicioFormatada} ➔ ${dia.dataFimFormatada}</span>
                             </div>
                             <div class="flex items-center gap-1">
-                                <label class="flex items-center gap-0.5 cursor-pointer font-bold bg-slate-100 hover:bg-slate-200 px-1.5 py-0.5 rounded transition text-[9px]">
+                                <label class="flex items-center gap-0.5 cursor-pointer font-bold bg-slate-100 hover:bg-slate-200 px-1 py-0.2 rounded transition text-[8px]">
                                     <input type="checkbox" ${dia.concluido ? 'checked' : ''} onchange="alternarConcluidoLeitura('${dia.id}')" class="w-3 h-3 accent-emerald-600 rounded cursor-pointer">
                                     <span>Feito</span>
                                 </label>
-                                <button onclick="abrirMapaRuta('${dia.embarque}', '${dia.desembarque}')" class="bg-sky-100 text-sky-800 hover:bg-sky-200 px-1.5 py-0.5 rounded font-bold text-[9px]">🗺️ Mapa</button>
+                                <button onclick="abrirMapaRuta('${dia.embarque}', '${dia.desembarque}')" class="bg-sky-100 text-sky-800 hover:bg-sky-200 px-1 py-0.2 rounded font-bold text-[8px]">🗺️ Mapa</button>
                             </div>
                         </div>
 
-                        <div class="text-[10px] font-bold ${textDecor} truncate pt-0.5">
+                        <div class="text-[9px] font-bold ${textDecor} truncate pt-0.5">
                             📍 ${dia.embarque} ➔ 🏁 ${dia.desembarque}
                         </div>
 
-                        <div class="text-[9px] text-slate-600">
+                        <div class="text-[8px] text-slate-600">
                             <b>🚄 Rota:</b> ${dia.trecho}
                         </div>
                     </div>
@@ -569,7 +562,7 @@
             });
         }
 
-        // RENDERIZAR BLOCOS EDITÁVEIS COMPLETOS COM "OUTRO..." E CADEADO
+        // RENDERIZAR BLOCOS EDITÁVEIS COMPLETOS COM "OUTRO..." E CAIXINHAS EXTRAS
         function renderizarBlocos() {
             const container = document.getElementById('lista-blocos');
             if(!container) return;
@@ -586,10 +579,9 @@
             }
 
             filtrados.forEach((item) => {
-                let corHex = obterCorBlocoHex(item);
+                let corHex = obterCorPorCategoria(item.categoria);
+                item.cor = corHex; // Sincroniza a cor master
                 let totalDias = calcularDias(item.dataInicio, item.dataFim);
-                let lockIcon = item.bloqueado ? '🔒 Roteiro OK' : '🔓 Editar';
-                let lockBg = item.bloqueado ? 'bg-emerald-600 text-white' : 'bg-slate-200 text-slate-700';
 
                 let opcoesDestino = '';
                 if(!dadosApp.destinosCadastrados.includes(item.categoria)) dadosApp.destinosCadastrados.push(item.categoria);
@@ -679,10 +671,9 @@
                     <div class="flex justify-between items-center pt-1.5 border-t border-black/10">
                         <div class="flex items-center gap-1 bg-white px-1.5 py-0.5 rounded border text-[9px] font-bold">
                             <input type="color" id="input-cor-${item.id}" value="${corHex}" class="w-4 h-4 rounded cursor-pointer border-0 bg-transparent" onchange="atualizarCorBlocoLocal(${item.id}, this.value)">
-                            <span>Cor</span>
+                            <span>Cor Master</span>
                         </div>
                         <div class="flex items-center gap-1">
-                            <button onclick="alternarBloqueio(${item.id})" class="${lockBg} px-2.5 py-1 rounded font-bold text-[10px] shadow-sm transition">${lockIcon}</button>
                             <button onclick="moverBloco(${item.id}, -1)" class="bg-slate-200 px-1.5 py-0.5 rounded text-[10px] font-bold">⬆️</button>
                             <button onclick="moverBloco(${item.id}, 1)" class="bg-slate-200 px-1.5 py-0.5 rounded text-[10px] font-bold">⬇️</button>
                             <button onclick="apagarBloco(${item.id})" class="bg-red-50 text-red-500 px-2 py-0.5 rounded text-[10px] font-bold">Excluir ✕</button>
@@ -738,7 +729,11 @@
 
         function atualizarCorBlocoLocal(id, corHex) {
             let item = dadosApp.itinerario.find(i => i.id === id);
-            if(item) { item.cor = corHex; salvarStorage(); atualizarTudo(); }
+            if(item) { 
+                item.cor = corHex; 
+                salvarStorage(); 
+                atualizarTudo(); 
+            }
         }
 
         function moverBloco(id, direcao) {
@@ -807,7 +802,7 @@
             }
         }
 
-        // VOUCHERS COM LEITOR DE PDF INTEGRADO
+        // VOUCHERS COM LEITOR DE PDF INTEGRADO E CORES SINCRONIZADAS
         function renderizarVouchersTab() {
             const container = document.getElementById('lista-comprados-html');
             if(!container) return;
@@ -819,6 +814,8 @@
             }
 
             dadosApp.vouchers.forEach(v => {
+                let corVoucher = obterCorPorCategoria(v.categoria);
+
                 let opcoesLocaisV = '';
                 if(!dadosApp.locaisCadastrados.includes(v.titulo)) dadosApp.locaisCadastrados.push(v.titulo);
                 dadosApp.locaisCadastrados.forEach(l => {
@@ -845,13 +842,15 @@
 
                 let div = document.createElement('div');
                 div.className = "p-2 rounded-xl border bg-white space-y-1 shadow-sm flex flex-col justify-between";
+                div.style.borderLeft = `4px solid ${corVoucher}`;
+
                 div.innerHTML = `
                     <div class="space-y-1">
                         <select onchange="atualizarVoucherCampo(${v.id}, 'titulo', this.value)" class="w-full p-1 bg-slate-50 border border-slate-200 rounded-lg outline-none font-bold text-[10px] text-slate-900">
                             ${opcoesLocaisV}
                         </select>
                         <div class="flex items-center justify-between gap-1 pt-0.5">
-                            <select onchange="lidarSelecaoDestinoVoucher(${v.id}, this.value)" class="bg-indigo-50 font-bold px-1.5 py-0.5 rounded-lg text-[9px] border border-indigo-200 text-indigo-900">
+                            <select onchange="lidarSelecaoDestinoVoucher(${v.id}, this.value)" class="font-bold px-1.5 py-0.5 rounded-lg text-[9px] border text-white" style="background-color: ${corVoucher};">
                                 ${opcoesDestinoV}
                             </select>
                             ${pdfAction}
