@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v89.0)</title>
+    <title>Roteiro Europa - Mariana (v91.0)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Manifest Dinâmico via JavaScript -->
@@ -35,7 +35,7 @@
     <!-- CABEÇALHO COMPACTO NO TOPO -->
     <header class="bg-slate-900 text-white px-3 py-2 shadow-md border-b border-slate-800 text-xs flex justify-between items-center z-50 relative">
         <span class="font-bold tracking-wide">🚄 Roteiro Europa - Mariana</span>
-        <span class="bg-indigo-600 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v89.0</span>
+        <span class="bg-indigo-600 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v91.0</span>
     </header>
 
     <!-- CONTEÚDO PRINCIPAL COMPACTO -->
@@ -44,7 +44,7 @@
         <!-- SEPARADORES (TABS) - 4 ABAS OTIMIZADAS -->
         <div class="grid grid-cols-4 gap-1 bg-slate-200 p-1 rounded-xl text-[10px] font-bold shadow-sm">
             <button onclick="mudarTab('leitura')" id="tab-btn-leitura" class="py-2 rounded-lg bg-indigo-600 text-white shadow-sm transition">✈️ Roteiro</button>
-            <button onclick="mudarTab('itinerario')" id="tab-btn-itinerario" class="py-2 rounded-lg text-slate-600 hover:bg-white/50 transition">📅 Editar</button>
+            <button onclick="mudarTab('itinerario')" id="tab-btn-itinerario" class="py-2 rounded-lg text-slate-600 hover:bg-white/50 transition">📅 Editar (Tabela)</button>
             <button onclick="mudarTab('comprados')" id="tab-btn-comprados" class="py-2 rounded-lg text-slate-600 hover:bg-white/50 transition">🎟️ Vouchers</button>
             <button onclick="mudarTab('tarefas')" id="tab-btn-tarefas" class="py-2 rounded-lg text-slate-600 hover:bg-white/50 transition">✅ Tarefas</button>
         </div>
@@ -53,10 +53,10 @@
         <div id="tab-leitura" class="space-y-2">
             <div class="bg-gradient-to-r from-indigo-900 to-slate-900 text-white p-2.5 rounded-2xl shadow-md flex justify-between items-center">
                 <div>
-                    <h2 class="text-xs font-black uppercase tracking-wider text-indigo-200">✈️ Roteiro Geral (Dia a Dia)</h2>
-                    <p class="text-[9px] text-slate-300">Visão geral e compacta com as cores oficiais do Editor.</p>
+                    <h2 class="text-xs font-black uppercase tracking-wider text-indigo-200">✈️ Roteiro Oficial (Aprovados)</h2>
+                    <p class="text-[9px] text-slate-300">Apenas blocos trancados com o cadeado 🔒 no Editar aparecem aqui.</p>
                 </div>
-                <div id="progresso-viagem" class="bg-indigo-600 px-2.5 py-1 rounded-xl text-[11px] font-black shadow-inner">0 / 0 Dias</div>
+                <div id="progresso-viagem" class="bg-indigo-600 px-2.5 py-1 rounded-xl text-[11px] font-black shadow-inner">0 / 0 Aprovados</div>
             </div>
 
             <!-- Filtros por Destino -->
@@ -64,32 +64,49 @@
                 <!-- Renderizado via JS -->
             </div>
 
-            <!-- GRELHA DE QUADRADINHOS COMPACTOS -->
+            <!-- GRELHA DE QUADRADINHOS -->
             <div id="lista-leitura-html" class="grid grid-cols-1 sm:grid-cols-2 gap-2"></div>
         </div>
 
-        <!-- TAB 2: ITINERÁRIO EDITÁVEL -->
+        <!-- TAB 2: ITINERÁRIO EDITÁVEL EM TABELA (ESTILO EXCEL COM TODAS AS OPÇÕES) -->
         <div id="tab-itinerario" class="space-y-3 hidden">
             <div id="filtros-container" class="bg-slate-200 p-1.5 rounded-xl overflow-x-auto flex gap-1 text-[11px] items-center no-scrollbar shadow-inner">
                 <!-- Renderizado via JS -->
             </div>
 
             <div class="flex justify-between items-center px-1 pt-0.5">
-                <h2 class="text-[11px] font-extrabold uppercase text-slate-600 tracking-wider">📦 Blocos & Cores Principais</h2>
+                <h2 class="text-[11px] font-extrabold uppercase text-slate-600 tracking-wider">📊 Tabela de Edição Rápida (Tranque no 🔒 para enviar ao Roteiro)</h2>
                 <button onclick="adicionarBloco()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-2.5 py-1.5 rounded-lg font-bold text-[11px] transition shadow-sm">
-                    ➕ Novo Bloco
+                    ➕ Nova Linha
                 </button>
             </div>
-            <div id="lista-blocos" class="space-y-3"></div>
+
+            <!-- TABELA ESTILO EXCEL -->
+            <div class="bg-white rounded-2xl border border-slate-300 shadow-sm overflow-x-auto">
+                <table class="w-full text-left border-collapse text-[11px]">
+                    <thead>
+                        <tr class="bg-slate-900 text-white uppercase text-[9px] tracking-wider font-bold">
+                            <th class="p-2">Destino / Cor</th>
+                            <th class="p-2">Datas (Início ➔ Fim)</th>
+                            <th class="p-2">Origem ➔ Destino</th>
+                            <th class="p-2">Rota / Detalhes</th>
+                            <th class="p-2 text-center">Ações (🔒 / Excluir)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="lista-tabela-editar" class="divide-y divide-slate-200">
+                        <!-- Preenchido via JS -->
+                    </tbody>
+                </table>
+            </div>
         </div>
 
-        <!-- TAB 3: VUCHERS & PDFS (COM CORES SINCRONIZADAS) -->
+        <!-- TAB 3: VOUCHERS & PDFS -->
         <div id="tab-comprados" class="space-y-3 hidden">
             <div class="bg-white p-3 rounded-2xl shadow-sm border border-slate-300 space-y-3">
                 <div class="flex justify-between items-center border-b pb-2 flex-wrap gap-2">
                     <div>
                         <h2 class="text-[11px] font-extrabold uppercase text-slate-800 tracking-wider">🎟️ Gestão de Vouchers & PDFs</h2>
-                        <p class="text-[10px] text-slate-500 font-semibold">Os vouchers herdam automaticamente a cor definida no Editar</p>
+                        <p class="text-[10px] text-slate-500 font-semibold">Selecione os locais e visualize instantaneamente</p>
                     </div>
                     <button onclick="adicionarVoucher()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-2.5 py-1.5 rounded-lg font-bold text-[11px] transition shadow-sm">➕ Novo Voucher</button>
                 </div>
@@ -134,7 +151,7 @@
 
     <!-- BARRA DE FERRAMENTAS FIXA -->
     <nav class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-md text-white px-2 py-2 shadow-2xl border-t border-slate-800 text-xs flex items-center gap-1 overflow-x-auto no-scrollbar">
-        <span class="bg-indigo-600 px-1 py-0.5 rounded font-mono font-bold text-[8px] shrink-0">v89.0</span>
+        <span class="bg-indigo-600 px-1 py-0.5 rounded font-mono font-bold text-[8px] shrink-0">v91.0</span>
         <button onclick="abrirGeminiModal()" class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-2 py-1 rounded-lg font-bold transition shrink-0 flex items-center gap-1 text-[10px]">
             <span>✨</span> Gemini
         </button>
@@ -206,7 +223,7 @@
     </div>
 
     <script>
-        const CHAVE_APP = "mariana_viagem_europa_v89";
+        const CHAVE_APP = "mariana_viagem_europa_v91";
         let destinoFiltro = 'todos';
         let tarefaFiltro = 'todas';
         let campoFocoAtual = null;
@@ -223,10 +240,10 @@
             ],
             diasConcluidos: {},
             itinerario: [
-                { id: 1, categoria: "Zurique", dataInicio: "2026-12-30", dataFim: "2027-01-02", trecho: "Estadia no ibis budget Zurich City West", embarque: "Zurich HB", desembarque: "ibis budget Zurich City West", cor: "#3b82f6", subBlocos: [] },
-                { id: 2, categoria: "Freiburg", dataInicio: "2027-01-02", dataFim: "2027-01-05", trecho: "Zurique ➔ Freiburg", embarque: "Zurich Bus Station", desembarque: "Premier Inn", cor: "#f59e0b", subBlocos: [] },
-                { id: 3, categoria: "França", dataInicio: "2027-01-05", dataFim: "2027-01-07", trecho: "Freiburg ➔ Disney", embarque: "Freiburg Hbf", desembarque: "Disney Hotel", cor: "#ec4899", subBlocos: [] },
-                { id: 4, categoria: "Interlaken", dataInicio: "2027-01-08", dataFim: "2027-01-12", trecho: "Paris ➔ Interlaken", embarque: "Gare de Lyon", desembarque: "Hotel Weisses", cor: "#10b981", subBlocos: [] }
+                { id: 1, categoria: "Zurique", dataInicio: "2026-12-30", dataFim: "2027-01-02", trecho: "Estadia no ibis budget Zurich City West", embarque: "Zurich HB", desembarque: "ibis budget Zurich City West", bloqueado: false, cor: "#3b82f6" },
+                { id: 2, categoria: "Freiburg", dataInicio: "2027-01-02", dataFim: "2027-01-05", trecho: "Zurique ➔ Freiburg", embarque: "Zurich Bus Station", desembarque: "Premier Inn", bloqueado: false, cor: "#f59e0b" },
+                { id: 3, categoria: "França", dataInicio: "2027-01-05", dataFim: "2027-01-07", trecho: "Freiburg ➔ Disney", embarque: "Freiburg Hbf", desembarque: "Disney Hotel", bloqueado: false, cor: "#ec4899" },
+                { id: 4, categoria: "Interlaken", dataInicio: "2027-01-08", dataFim: "2027-01-12", trecho: "Paris ➔ Interlaken", embarque: "Gare de Lyon", desembarque: "Hotel Weisses", bloqueado: false, cor: "#10b981" }
             ],
             tarefas: [
                 { id: 1, texto: "Comprar cartões Wise e Nomad", status: "Concluído", bloqueado: false },
@@ -262,7 +279,7 @@
             const manifestBlob = new Blob([JSON.stringify(manifestObj)], {type: 'application/manifest+json'});
             document.getElementById('pwa-manifest').href = URL.createObjectURL(manifestBlob);
 
-            const temaSalvo = localStorage.getItem('tema_v89');
+            const temaSalvo = localStorage.getItem('tema_v91');
             if (temaSalvo === 'dark') {
                 document.body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 document.body.classList.remove('bg-slate-100', 'text-slate-800');
@@ -306,10 +323,10 @@
         }
 
         function desbloquearComPin() {
-            let pinSalvo = localStorage.getItem('app_pin_v89') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v91') || '1510';
             let digitado = document.getElementById('input-pin').value;
             if(digitado === pinSalvo) {
-                sessionStorage.setItem('sessao_ativa_v89', 'true');
+                sessionStorage.setItem('sessao_ativa_v91', 'true');
                 document.getElementById('tela-bloqueio').classList.add('hidden');
                 document.getElementById('erro-pin').classList.add('hidden');
             } else {
@@ -318,17 +335,17 @@
         }
 
         async function desbloquearComBiometria() {
-            sessionStorage.setItem('sessao_ativa_v89', 'true');
+            sessionStorage.setItem('sessao_ativa_v91', 'true');
             document.getElementById('tela-bloqueio').classList.add('hidden');
         }
 
         function alterarSenhaPin() {
             let atual = prompt("Digite a senha atual (Padrão: 1510):");
-            let pinSalvo = localStorage.getItem('app_pin_v89') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v91') || '1510';
             if(atual === pinSalvo) {
                 let nova = prompt("Digite a nova senha PIN:");
                 if(nova && nova.trim() !== '') {
-                    localStorage.setItem('app_pin_v89', nova.trim());
+                    localStorage.setItem('app_pin_v91', nova.trim());
                     alert("🔑 Senha alterada com sucesso!");
                 }
             } else {
@@ -341,11 +358,11 @@
             if(body.classList.contains('dark')) {
                 body.classList.remove('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.add('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v89', 'light');
+                localStorage.setItem('tema_v91', 'light');
             } else {
                 body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.remove('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v89', 'dark');
+                localStorage.setItem('tema_v91', 'dark');
             }
         }
 
@@ -372,6 +389,15 @@
             localStorage.setItem(CHAVE_APP, JSON.stringify(dadosApp));
         }
 
+        function alternarBloqueio(id) {
+            const item = dadosApp.itinerario.find(i => i.id === id);
+            if(item) { 
+                item.bloqueado = !item.bloqueado; 
+                salvarStorage(); 
+                atualizarTudo(); 
+            }
+        }
+
         function alternarConcluidoLeitura(diaId) {
             if(!dadosApp.diasConcluidos) dadosApp.diasConcluidos = {};
             dadosApp.diasConcluidos[diaId] = !dadosApp.diasConcluidos[diaId];
@@ -383,7 +409,7 @@
             try {
                 renderizarFiltros();
                 renderizarFiltrosTarefas();
-                renderizarBlocos();
+                renderizarBlocosTabela();
                 renderizarTarefas();
                 renderizarVouchersTab();
                 renderizarModoLeitura();
@@ -407,7 +433,6 @@
             if(tab === 'comprados') { renderizarVouchersTab(); }
         }
 
-        // Função Master para buscar a cor definida no Editar (Itinerário) para o destino correspondente
         function obterCorPorCategoria(cat) {
             let item = dadosApp.itinerario.find(i => (i.categoria || "").toLowerCase() === (cat || "").toLowerCase());
             if(item && item.cor) return item.cor;
@@ -457,7 +482,9 @@
             let novo = prompt("Novo destino:");
             if(novo && novo.trim() !== '') {
                 let limpo = novo.trim();
-                if(!dadosApp.destinosCadastrados.includes(limpo)) { dadosApp.destinosCadastrados.push(limpo); salvarStorage(); atualizarTudo(); }
+                if(!dadosApp.destinosCadastrados.includes(limpo)) dadosApp.destinosCadastrados.push(limpo);
+                salvarStorage();
+                atualizarTudo();
                 filtrarDestino(limpo);
             }
         }
@@ -465,96 +492,65 @@
         function filtrarDestino(cat) { 
             destinoFiltro = cat; 
             renderizarFiltros(); 
-            renderizarBlocos(); 
+            renderizarBlocosTabela(); 
             renderizarModoLeitura();
         }
         function filtrarTarefas(f) { tarefaFiltro = f; renderizarFiltrosTarefas(); renderizarTarefas(); }
 
-        // GERADOR DOS QUADRADINHOS DIA A DIA
+        // GERADOR DO ROTEIRO: 1 BLOCO TRANCADO (🔒) = 1 CARTÃO COMPACTO
         function renderizarModoLeitura() {
             const container = document.getElementById('lista-leitura-html');
             const progressoEl = document.getElementById('progresso-viagem');
             if(!container) return;
             container.innerHTML = '';
 
-            let diasExpandidos = [];
-            if(!dadosApp.diasConcluidos) dadosApp.diasConcluidos = {};
+            let blocosAprovados = dadosApp.itinerario.filter(item => item.bloqueado === true);
+            if(destinoFiltro !== 'todos') {
+                blocosAprovados = blocosAprovados.filter(i => (i.categoria || "").toLowerCase().includes(destinoFiltro.toLowerCase()));
+            }
 
-            dadosApp.itinerario.forEach(item => {
-                let cat = item.categoria || "Geral";
-                if(destinoFiltro !== 'todos' && !cat.toLowerCase().includes(destinoFiltro.toLowerCase())) {
-                    return;
-                }
-
-                let corMaster = obterCorPorCategoria(cat);
-
-                if(item.dataInicio && item.dataFim) {
-                    let dStart = new Date(item.dataInicio);
-                    let dEnd = new Date(item.dataFim);
-                    let current = new Date(dStart);
-                    let diaCount = 1;
-
-                    while(current <= dEnd) {
-                        let dateStr = current.toISOString().split('T')[0];
-                        let uniqueDayId = `${item.id}_${dateStr}`;
-                        diasExpandidos.push({
-                            id: uniqueDayId,
-                            parentId: item.id,
-                            categoria: cat,
-                            dataInicioFormatada: item.dataInicio.split('-').reverse().join('/'),
-                            dataFimFormatada: item.dataFim.split('-').reverse().join('/'),
-                            diaLabel: `Dia ${diaCount} (${dateStr.split('-').reverse().join('/')})`,
-                            embarque: item.embarque || 'Origem',
-                            desembarque: item.desembarque || 'Destino',
-                            trecho: item.trecho || '',
-                            cor: corMaster,
-                            concluido: dadosApp.diasConcluidos[uniqueDayId] || false
-                        });
-                        current.setDate(current.getDate() + 1);
-                        diaCount++;
-                    }
-                }
-            });
-
-            let total = diasExpandidos.length;
-            let concluidos = diasExpandidos.filter(d => d.concluido).length;
-            if(progressoEl) progressoEl.innerText = `${concluidos} / ${total} Dias`;
+            let total = blocosAprovados.length;
+            let concluidos = blocosAprovados.filter(b => b.concluido).length;
+            if(progressoEl) progressoEl.innerText = `${concluidos} / ${total} Aprovados`;
 
             if(total === 0) {
-                container.innerHTML = '<div class="col-span-full bg-white p-3 rounded-xl text-center text-xs text-slate-500 border">Nenhum dia encontrado. Vá à aba <b>📅 Editar</b> para adicionar blocos!</div>';
+                container.innerHTML = '<div class="col-span-full bg-white p-4 rounded-xl text-center text-xs text-slate-500 border">Nenhum bloco aprovado. Vá à aba <b>📅 Editar (Tabela)</b> e clique no cadeado <b>(🔒)</b> da linha para enviar ao Roteiro!</div>';
                 return;
             }
 
-            diasExpandidos.forEach(dia => {
-                let bgStyle = dia.concluido ? 'bg-emerald-50 border-emerald-300 opacity-80' : 'bg-white border-slate-200';
-                let textDecor = dia.concluido ? 'line-through text-slate-400' : 'text-slate-800';
+            blocosAprovados.forEach(item => {
+                let corMaster = obterCorPorCategoria(item.categoria);
+                let bgStyle = item.concluido ? 'bg-emerald-50 border-emerald-300 opacity-80' : 'bg-white border-slate-200';
+                let textDecor = item.concluido ? 'line-through text-slate-400' : 'text-slate-800';
+                let dIni = item.dataInicio ? item.dataInicio.split('-').reverse().join('/') : '?';
+                let dFim = item.dataFim ? item.dataFim.split('-').reverse().join('/') : '?';
 
                 let card = document.createElement('div');
-                card.className = `p-2 rounded-xl border shadow-sm space-y-1 transition flex flex-col justify-between ${bgStyle}`;
-                card.style.borderLeft = `4px solid ${dia.cor}`;
+                card.className = `p-2.5 rounded-xl border shadow-sm space-y-1.5 transition flex flex-col justify-between ${bgStyle}`;
+                card.style.borderLeft = `5px solid ${corMaster}`;
 
                 card.innerHTML = `
-                    <div class="space-y-0.5">
-                        <div class="flex justify-between items-center gap-1 flex-wrap border-b pb-0.5">
+                    <div class="space-y-1">
+                        <div class="flex justify-between items-center gap-1 flex-wrap border-b pb-1">
                             <div class="flex items-center gap-1">
-                                <span class="font-black px-1 py-0.2 rounded text-[8px] text-white" style="background-color: ${dia.cor};">${dia.categoria}</span>
-                                <span class="text-slate-600 font-bold text-[8px]">📅 ${dia.dataInicioFormatada} ➔ ${dia.dataFimFormatada}</span>
+                                <span class="font-black px-1.5 py-0.5 rounded text-[9px] text-white" style="background-color: ${corMaster};">${item.categoria || 'Geral'}</span>
+                                <span class="text-slate-600 font-bold text-[9px]">📅 ${dIni} ➔ ${dFim}</span>
                             </div>
                             <div class="flex items-center gap-1">
-                                <label class="flex items-center gap-0.5 cursor-pointer font-bold bg-slate-100 hover:bg-slate-200 px-1 py-0.2 rounded transition text-[8px]">
-                                    <input type="checkbox" ${dia.concluido ? 'checked' : ''} onchange="alternarConcluidoLeitura('${dia.id}')" class="w-3 h-3 accent-emerald-600 rounded cursor-pointer">
+                                <label class="flex items-center gap-0.5 cursor-pointer font-bold bg-slate-100 hover:bg-slate-200 px-1.5 py-0.5 rounded transition text-[9px]">
+                                    <input type="checkbox" ${item.concluido ? 'checked' : ''} onchange="alternarConcluidoBloco(${item.id})" class="w-3 h-3 accent-emerald-600 rounded cursor-pointer">
                                     <span>Feito</span>
                                 </label>
-                                <button onclick="abrirMapaRuta('${dia.embarque}', '${dia.desembarque}')" class="bg-sky-100 text-sky-800 hover:bg-sky-200 px-1 py-0.2 rounded font-bold text-[8px]">🗺️ Mapa</button>
+                                <button onclick="abrirMapaRuta('${item.embarque}', '${item.desembarque}')" class="bg-sky-100 text-sky-800 hover:bg-sky-200 px-1.5 py-0.5 rounded font-bold text-[9px]">🗺️ Mapa</button>
                             </div>
                         </div>
 
-                        <div class="text-[9px] font-bold ${textDecor} truncate pt-0.5">
-                            📍 ${dia.embarque} ➔ 🏁 ${dia.desembarque}
+                        <div class="text-[10px] font-bold ${textDecor} truncate pt-0.5">
+                            📍 ${item.embarque || 'Origem'} ➔ 🏁 ${item.desembarque || 'Destino'}
                         </div>
 
-                        <div class="text-[8px] text-slate-600">
-                            <b>🚄 Rota:</b> ${dia.trecho}
+                        <div class="text-[9px] text-slate-600">
+                            <b>🚄 Rota:</b> ${item.trecho || ''}
                         </div>
                     </div>
                 `;
@@ -562,11 +558,11 @@
             });
         }
 
-        // RENDERIZAR BLOCOS EDITÁVEIS COMPLETOS COM "OUTRO..." E CAIXINHAS EXTRAS
-        function renderizarBlocos() {
-            const container = document.getElementById('lista-blocos');
-            if(!container) return;
-            container.innerHTML = '';
+        // RENDERIZAR TABELA EXCEL NO EDITAR (COM 'OUTRO...' PARA DESTINOS E LOCAIS, E CADEADO)
+        function renderizarBlocosTabela() {
+            const tbody = document.getElementById('lista-tabela-editar');
+            if(!tbody) return;
+            tbody.innerHTML = '';
             
             let filtrados = dadosApp.itinerario;
             if(destinoFiltro !== 'todos') {
@@ -574,14 +570,15 @@
             }
 
             if(filtrados.length === 0) {
-                container.innerHTML = '<div class="bg-white p-4 rounded-2xl text-center text-[11px] text-slate-400 border">Nenhum bloco encontrado.</div>';
+                tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-slate-400">Nenhum registo encontrado.</td></tr>`;
                 return;
             }
 
             filtrados.forEach((item) => {
-                let corHex = obterCorPorCategoria(item.categoria);
-                item.cor = corHex; // Sincroniza a cor master
-                let totalDias = calcularDias(item.dataInicio, item.dataFim);
+                let dis = item.bloqueado ? 'disabled' : '';
+                let lockIcon = item.bloqueado ? '🔒' : '🔓';
+                let lockBg = item.bloqueado ? 'bg-emerald-600 text-white' : 'bg-slate-200 text-slate-700';
+                let corMaster = obterCorPorCategoria(item.categoria);
 
                 let opcoesDestino = '';
                 if(!dadosApp.destinosCadastrados.includes(item.categoria)) dadosApp.destinosCadastrados.push(item.categoria);
@@ -604,83 +601,46 @@
                 });
                 opcoesLocaisDes += `<option value="outro_local">➕ Outro...</option>`;
 
-                let subBlocosHtml = '';
-                if(item.subBlocos && item.subBlocos.length > 0) {
-                    item.subBlocos.forEach(sb => {
-                        subBlocosHtml += `
-                            <div class="bg-white p-1.5 rounded-xl border border-black/10 space-y-1 mt-1 shadow-sm">
-                                <div class="flex items-center justify-between gap-1">
-                                    <input type="text" value="${sb.titulo}" oninput="atualizarSubBlocoTitulo(${item.id}, ${sb.id}, this.value)" class="bg-transparent font-black text-indigo-900 text-[10px] outline-none w-full border-b pb-0.5" placeholder="Título...">
-                                    <button onclick="removerSubBloco(${item.id}, ${sb.id})" class="text-red-500 font-bold px-1 rounded bg-red-50 text-[9px]">✕</button>
-                                </div>
-                                <textarea rows="1" oninput="atualizarSubBlocoConteudo(${item.id}, ${sb.id}, this.value)" class="w-full p-1 bg-white border rounded text-[10px] text-slate-800" placeholder="Conteúdo...">${sb.conteudo || ''}</textarea>
-                            </div>
-                        `;
-                    });
-                }
-
-                let card = document.createElement('div');
-                card.className = `p-2.5 rounded-2xl border border-black/15 space-y-2 transition shadow-sm`;
-                card.style.backgroundColor = corHex;
-
-                card.innerHTML = `
-                    <div class="flex justify-between items-center gap-1 border-b border-black/10 pb-1 flex-wrap">
-                        <div class="flex items-center gap-1 flex-wrap">
-                            <select onchange="lidarSelecaoDestino(${item.id}, this.value)" class="bg-white text-indigo-900 font-black px-2 py-0.5 rounded-lg text-[10px] border outline-none shadow-sm">
+                let tr = document.createElement('tr');
+                tr.className = "hover:bg-slate-50 transition text-[11px]";
+                tr.innerHTML = `
+                    <td class="p-2">
+                        <div class="space-y-1">
+                            <select onchange="lidarSelecaoDestino(${item.id}, this.value)" ${dis} class="font-bold px-2 py-1 rounded border text-white outline-none text-[10px]" style="background-color: ${corMaster};">
                                 ${opcoesDestino}
                             </select>
-                            <span class="bg-indigo-600 text-white font-bold px-1.5 py-0.5 rounded-lg text-[9px]">📅 ${totalDias}d</span>
+                            <div class="flex items-center gap-1">
+                                <input type="color" value="${corMaster}" class="w-4 h-4 rounded cursor-pointer border-0 bg-transparent" onchange="atualizarCorBlocoLocal(${item.id}, this.value)" title="Mudar cor master">
+                                <span class="text-[9px] text-slate-500">Cor</span>
+                            </div>
                         </div>
-                        <div class="flex items-center gap-1 bg-white p-0.5 rounded-lg border text-[10px] font-bold">
-                            <input type="date" value="${item.dataInicio || ''}" onchange="atualizarCampo(${item.id}, 'dataInicio', this.value)" class="bg-transparent outline-none text-[10px]">
+                    </td>
+                    <td class="p-2">
+                        <div class="flex items-center gap-0.5">
+                            <input type="date" value="${item.dataInicio || ''}" ${dis} onchange="atualizarLinha(${item.id}, 'dataInicio', this.value)" class="p-1 bg-slate-50 border rounded text-[10px]">
                             <span>➔</span>
-                            <input type="date" value="${item.dataFim || ''}" onchange="atualizarCampo(${item.id}, 'dataFim', this.value)" class="bg-transparent outline-none text-[10px]">
+                            <input type="date" value="${item.dataFim || ''}" ${dis} onchange="atualizarLinha(${item.id}, 'dataFim', this.value)" class="p-1 bg-slate-50 border rounded text-[10px]">
                         </div>
-                    </div>
-
-                    <div class="bg-white/95 p-2 rounded-xl border border-black/10 space-y-1.5 text-[10px]">
-                        <div class="grid grid-cols-2 gap-1.5">
-                            <div>
-                                <label class="block font-black mb-0.5 text-slate-900">📍 Origem</label>
-                                <select onchange="lidarSelecaoLocal(${item.id}, 'embarque', this.value)" class="w-full p-1 bg-white border rounded font-bold text-slate-900 text-[10px]">
-                                    ${opcoesLocaisEmb}
-                                </select>
-                            </div>
-                            <div>
-                                <label class="block font-black mb-0.5 text-slate-900">🏁 Destino</label>
-                                <select onchange="lidarSelecaoLocal(${item.id}, 'desembarque', this.value)" class="w-full p-1 bg-white border rounded font-bold text-slate-900 text-[10px]">
-                                    ${opcoesLocaisDes}
-                                </select>
-                            </div>
+                    </td>
+                    <td class="p-2">
+                        <div class="space-y-1">
+                            <select onchange="lidarSelecaoLocal(${item.id}, 'embarque', this.value)" ${dis} class="w-full p-1 bg-slate-50 border rounded text-[10px]">
+                                ${opcoesLocaisEmb}
+                            </select>
+                            <select onchange="lidarSelecaoLocal(${item.id}, 'desembarque', this.value)" ${dis} class="w-full p-1 bg-slate-50 border rounded text-[10px]">
+                                ${opcoesLocaisDes}
+                            </select>
                         </div>
-
-                        <div>
-                            <label class="block font-semibold text-slate-700">🚄 Rota / Trecho</label>
-                            <input type="text" value="${item.trecho || ''}" oninput="atualizarCampoDireto(${item.id}, 'trecho', this.value)" class="w-full p-1 bg-white border rounded text-[10px] font-bold" placeholder="Ex: Trem, Autocarro...">
-                        </div>
-
-                        <div>
-                            <div class="flex justify-between items-center border-b pb-0.5 mb-1">
-                                <span class="font-bold text-slate-700 uppercase text-[9px]">Caixinhas Extras</span>
-                                <button onclick="adicionarSubBloco(${item.id})" class="bg-indigo-600 text-white px-2 py-0.5 rounded text-[9px] font-bold">➕ Caixinha</button>
-                            </div>
-                            <div class="space-y-1">${subBlocosHtml || '<p class="text-[9px] text-slate-400 italic">Nenhuma caixinha extra.</p>'}</div>
-                        </div>
-                    </div>
-
-                    <div class="flex justify-between items-center pt-1.5 border-t border-black/10">
-                        <div class="flex items-center gap-1 bg-white px-1.5 py-0.5 rounded border text-[9px] font-bold">
-                            <input type="color" id="input-cor-${item.id}" value="${corHex}" class="w-4 h-4 rounded cursor-pointer border-0 bg-transparent" onchange="atualizarCorBlocoLocal(${item.id}, this.value)">
-                            <span>Cor Master</span>
-                        </div>
-                        <div class="flex items-center gap-1">
-                            <button onclick="moverBloco(${item.id}, -1)" class="bg-slate-200 px-1.5 py-0.5 rounded text-[10px] font-bold">⬆️</button>
-                            <button onclick="moverBloco(${item.id}, 1)" class="bg-slate-200 px-1.5 py-0.5 rounded text-[10px] font-bold">⬇️</button>
-                            <button onclick="apagarBloco(${item.id})" class="bg-red-50 text-red-500 px-2 py-0.5 rounded text-[10px] font-bold">Excluir ✕</button>
-                        </div>
-                    </div>
+                    </td>
+                    <td class="p-2">
+                        <input type="text" value="${item.trecho || ''}" ${dis} oninput="atualizarLinhaDireto(${item.id}, 'trecho', this.value)" class="w-full p-1 bg-slate-50 border rounded text-[10px]" placeholder="Ex: Trem, Rota...">
+                    </td>
+                    <td class="p-2 text-center flex items-center justify-center gap-1.5 pt-4">
+                        <button onclick="alternarBloqueio(${item.id})" class="${lockBg} px-2.5 py-1 rounded font-bold text-[10px] shadow-sm transition" title="Trancar e enviar para o Roteiro">${lockIcon}</button>
+                        <button onclick="apagarBloco(${item.id})" class="bg-red-50 hover:bg-red-100 text-red-600 px-2 py-1 rounded font-bold text-[10px]">✕</button>
+                    </td>
                 `;
-                container.appendChild(card);
+                tbody.appendChild(tr);
             });
         }
 
@@ -690,9 +650,9 @@
                 if(novo && novo.trim() !== '') {
                     let limpo = novo.trim();
                     if(!dadosApp.destinosCadastrados.includes(limpo)) dadosApp.destinosCadastrados.push(limpo);
-                    atualizarCampo(id, 'categoria', limpo);
-                } else { renderizarBlocos(); }
-            } else { atualizarCampo(id, 'categoria', valor); }
+                    atualizarLinha(id, 'categoria', limpo);
+                } else { renderizarBlocosTabela(); }
+            } else { atualizarLinha(id, 'categoria', valor); }
         }
 
         function lidarSelecaoLocal(id, campo, valor) {
@@ -701,9 +661,9 @@
                 if(novo && novo.trim() !== '') {
                     let limpo = novo.trim();
                     if(!dadosApp.locaisCadastrados.includes(limpo)) dadosApp.locaisCadastrados.push(limpo);
-                    atualizarCampo(id, campo, limpo);
-                } else { renderizarBlocos(); }
-            } else { atualizarCampo(id, campo, valor); }
+                    atualizarLinha(id, campo, limpo);
+                } else { renderizarBlocosTabela(); }
+            } else { atualizarLinha(id, campo, valor); }
         }
 
         function lidarSelecaoDestinoVoucher(id, valor) {
@@ -717,14 +677,14 @@
             } else { atualizarVoucherCampo(id, 'categoria', valor); }
         }
 
-        function atualizarCampo(id, campo, valor) {
+        function atualizarLinha(id, campo, val) {
             let item = dadosApp.itinerario.find(i => i.id === id);
-            if(item) { item[campo] = valor; salvarStorage(); atualizarTudo(); }
+            if(item) { item[campo] = val; salvarStorage(); atualizarTudo(); }
         }
 
-        function atualizarCampoDireto(id, campo, valor) {
+        function atualizarLinhaDireto(id, campo, val) {
             let item = dadosApp.itinerario.find(i => i.id === id);
-            if(item) { item[campo] = valor; localStorage.setItem(CHAVE_APP, JSON.stringify(dadosApp)); }
+            if(item) { item[campo] = val; localStorage.setItem(CHAVE_APP, JSON.stringify(dadosApp)); }
         }
 
         function atualizarCorBlocoLocal(id, corHex) {
@@ -736,23 +696,9 @@
             }
         }
 
-        function moverBloco(id, direcao) {
-            let index = dadosApp.itinerario.findIndex(i => i.id === id);
-            if(index !== -1) {
-                let novoIndex = index + direcao;
-                if(novoIndex >= 0 && novoIndex < dadosApp.itinerario.length) {
-                    let temp = dadosApp.itinerario[index];
-                    dadosApp.itinerario[index] = dadosApp.itinerario[novoIndex];
-                    dadosApp.itinerario[novoIndex] = temp;
-                    salvarStorage();
-                    atualizarTudo();
-                }
-            }
-        }
-
         function adicionarBloco() {
             let novoItem = {
-                id: Date.now(), categoria: "Zurique", dataInicio: "", dataFim: "", trecho: "Nova Rota", embarque: "Zurich HB", desembarque: "Hotel", cor: "#3b82f6", subBlocos: []
+                id: Date.now(), categoria: "Zurique", dataInicio: "", dataFim: "", trecho: "Nova Rota", embarque: "Zurich HB", desembarque: "Hotel", bloqueado: false, cor: "#3b82f6"
             };
             dadosApp.itinerario.unshift(novoItem);
             salvarStorage();
@@ -760,45 +706,10 @@
         }
 
         function apagarBloco(id) {
-            if(confirm("Excluir este bloco?")) {
+            if(confirm("Excluir esta linha?")) {
                 dadosApp.itinerario = dadosApp.itinerario.filter(i => i.id !== id);
                 salvarStorage();
                 atualizarTudo();
-            }
-        }
-
-        function adicionarSubBloco(itemId) {
-            let item = dadosApp.itinerario.find(i => i.id === itemId);
-            if(item) {
-                if(!item.subBlocos) item.subBlocos = [];
-                item.subBlocos.push({ id: Date.now(), titulo: "Nota Extra", conteudo: "" });
-                salvarStorage();
-                atualizarTudo();
-            }
-        }
-
-        function removerSubBloco(itemId, subId) {
-            let item = dadosApp.itinerario.find(i => i.id === itemId);
-            if(item && item.subBlocos) {
-                item.subBlocos = item.subBlocos.filter(s => s.id !== subId);
-                salvarStorage();
-                atualizarTudo();
-            }
-        }
-
-        function atualizarSubBlocoTitulo(itemId, subId, val) {
-            let item = dadosApp.itinerario.find(i => i.id === itemId);
-            if(item && item.subBlocos) {
-                let sub = item.subBlocos.find(s => s.id === subId);
-                if(sub) { sub.titulo = val; salvarStorage(); }
-            }
-        }
-
-        function atualizarSubBlocoConteudo(itemId, subId, val) {
-            let item = dadosApp.itinerario.find(i => i.id === itemId);
-            if(item && item.subBlocos) {
-                let sub = item.subBlocos.find(s => s.id === subId);
-                if(sub) { sub.conteudo = val; salvarStorage(); }
             }
         }
 
