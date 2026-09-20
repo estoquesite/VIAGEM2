@@ -73,7 +73,7 @@
             <div id="lista-leitura-html" class="grid grid-cols-1 sm:grid-cols-2 gap-2"></div>
         </div>
 
-        <!-- TAB 2: ITINERÁRIO EDITÁVEL (COM MÚLTIPLOS TRECHOS E CAMPOS ENXUTOS) -->
+        <!-- TAB 2: ITINERÁRIO EDITÁVEL -->
         <div id="tab-itinerario" class="space-y-3 hidden">
             <div id="filtros-container" class="bg-slate-200 p-1.5 rounded-xl overflow-x-auto flex gap-1 text-[11px] items-center no-scrollbar shadow-inner">
                 <!-- Renderizado via JS -->
@@ -90,7 +90,7 @@
             <div id="lista-blocos" class="space-y-2"></div>
         </div>
 
-        <!-- TAB 3: VOOS & PASSAGENS (COM PDF) -->
+        <!-- TAB 3: VOOS & PASSAGENS E CONTATOS (LADO A LADO) -->
         <div id="tab-voos" class="space-y-3 hidden">
             <div class="grid grid-cols-2 gap-2">
                 <div class="bg-white p-2.5 rounded-2xl border shadow-sm space-y-2">
@@ -515,6 +515,53 @@
             window.print();
         }
 
+        function renderizarContatosTab() {
+            const container = document.getElementById('lista-contatos-html');
+            if(!container) return;
+            container.innerHTML = '';
+
+            if(!dadosApp.contatos || dadosApp.contatos.length === 0) {
+                container.innerHTML = '<p class="text-[10px] text-slate-400 italic text-center py-2">Nenhum contato.</p>';
+                return;
+            }
+
+            dadosApp.contatos.forEach(ct => {
+                let div = document.createElement('div');
+                div.className = "p-1.5 rounded-lg border bg-white flex items-center justify-between gap-1 shadow-sm text-[11px]";
+                div.innerHTML = `
+                    <input type="text" value="${ct.nome}" oninput="atualizarContatoNome(${ct.id}, this.value)" class="flex-1 bg-transparent outline-none font-bold text-slate-800 truncate text-[10px]" placeholder="Nome...">
+                    <input type="text" value="${ct.numero}" oninput="atualizarContatoNumero(${ct.id}, this.value)" class="w-20 p-0.5 bg-slate-50 border rounded font-black text-[10px]" placeholder="Número...">
+                    <button onclick="apagarContato(${ct.id})" class="text-red-500 font-bold bg-red-50 hover:bg-red-100 px-1.5 py-0.5 rounded transition shrink-0 text-[9px]">✕</button>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function adicionarContato() {
+            registarEstadoAnterior();
+            if(!dadosApp.contatos) dadosApp.contatos = [];
+            dadosApp.contatos.unshift({ id: Date.now(), nome: "Contato", numero: "0000" });
+            salvarStorage();
+            atualizarTudo();
+        }
+
+        function apagarContato(id) {
+            registarEstadoAnterior();
+            dadosApp.contatos = dadosApp.contatos.filter(c => c.id !== id);
+            salvarStorage();
+            atualizarTudo();
+        }
+
+        function atualizarContatoNome(id, val) {
+            let c = dadosApp.contatos.find(item => item.id === id);
+            if(c) { c.nome = val; localStorage.setItem(CHAVE_APP, JSON.stringify(dadosApp)); }
+        }
+
+        function atualizarContatoNumero(id, val) {
+            let c = dadosApp.contatos.find(item => item.id === id);
+            if(c) { c.numero = val; localStorage.setItem(CHAVE_APP, JSON.stringify(dadosApp)); }
+        }
+
         function removerDoRoteiro(id) {
             registarEstadoAnterior();
             const item = dadosApp.itinerario.find(i => i.id === id);
@@ -745,7 +792,7 @@
             });
         }
 
-        // RENDERIZAR EDITAR (COM MÚLTIPLOS TRECHOS E CAMPOS ENXUTOS)
+        // RENDERIZAR EDITAR
         function renderizarBlocos() {
             const container = document.getElementById('lista-blocos');
             if(!container) return;
@@ -985,7 +1032,7 @@
             }
         }
 
-        // VOOS & PASSAGENS (COM PDF)
+        // VOOS & PASSAGENS
         function renderizarVoosTab() {
             const containerV = document.getElementById('lista-voos-html');
             const containerC = document.getElementById('lista-contatos-html');
