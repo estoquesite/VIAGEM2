@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v131.0)</title>
+    <title>Roteiro Europa - Mariana (v133.0)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Manifest Dinâmico via JavaScript -->
@@ -37,7 +37,7 @@
         <span class="font-bold tracking-wide">🚄 Roteiro Europa - Mariana</span>
         <div class="flex items-center gap-2">
             <button onclick="exportarPdfPrint()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2 py-0.5 rounded font-bold text-[9px] transition">🖨️ Imprimir Tudo</button>
-            <span class="bg-indigo-600 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v131.0</span>
+            <span class="bg-indigo-600 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v133.0</span>
         </div>
     </header>
 
@@ -227,7 +227,7 @@
 
     <!-- BARRA DE FERRAMENTAS FIXA -->
     <nav class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-md text-white px-2 py-2 shadow-2xl border-t border-slate-800 text-xs flex items-center gap-1 overflow-x-auto no-scrollbar">
-        <span class="bg-indigo-600 px-1 py-0.5 rounded font-mono font-bold text-[8px] shrink-0">v131.0</span>
+        <span class="bg-indigo-600 px-1 py-0.5 rounded font-mono font-bold text-[8px] shrink-0">v133.0</span>
         <button onclick="abrirGeminiModal()" class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-2 py-1 rounded-lg font-bold transition shrink-0 flex items-center gap-1 text-[10px]">
             <span>✨</span> Gemini
         </button>
@@ -265,7 +265,7 @@
         </div>
     </div>
 
-    <!-- MODAL DE INSTALAÇÃO DO APP (ROBUSTO) -->
+    <!-- MODAL DE INSTALAÇÃO DO APP -->
     <div id="modal-instalacao" class="fixed inset-0 z-50 bg-slate-900/70 backdrop-blur-sm hidden flex items-center justify-center p-4">
         <div class="bg-white p-5 rounded-2xl shadow-2xl max-w-xs w-full space-y-3 text-center text-xs">
             <div class="w-10 h-10 bg-indigo-100 text-indigo-600 rounded-xl mx-auto flex items-center justify-center text-xl font-black">🚄</div>
@@ -280,7 +280,7 @@
     </div>
 
     <script>
-        const CHAVE_APP = "mariana_viagem_europa_v131";
+        const CHAVE_APP = "mariana_viagem_europa_v133";
         let destinoFiltro = 'todos';
         let tarefaFiltro = 'todas';
         let utilidadeFiltro = 'todos';
@@ -352,11 +352,11 @@
             const manifestBlob = new Blob([JSON.stringify(manifestObj)], {type: 'application/manifest+json'});
             document.getElementById('pwa-manifest').href = URL.createObjectURL(manifestBlob);
 
-            if (!sessionStorage.getItem('sessao_ativa_v131')) {
+            if (!sessionStorage.getItem('sessao_ativa_v133')) {
                 document.getElementById('tela-bloqueio').classList.remove('hidden');
             }
 
-            const temaSalvo = localStorage.getItem('tema_v131');
+            const temaSalvo = localStorage.getItem('tema_v133');
             if (temaSalvo === 'dark') {
                 document.body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 document.body.classList.remove('bg-slate-100', 'text-slate-800');
@@ -413,10 +413,10 @@
         }
 
         function desbloquearComPin() {
-            let pinSalvo = localStorage.getItem('app_pin_v131') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v133') || '1510';
             let digitado = document.getElementById('input-pin').value;
             if(digitado === pinSalvo) {
-                sessionStorage.setItem('sessao_ativa_v131', 'true');
+                sessionStorage.setItem('sessao_ativa_v133', 'true');
                 document.getElementById('tela-bloqueio').classList.add('hidden');
                 document.getElementById('erro-pin').classList.add('hidden');
             } else {
@@ -425,17 +425,17 @@
         }
 
         async function desbloquearComBiometria() {
-            sessionStorage.setItem('sessao_ativa_v131', 'true');
+            sessionStorage.setItem('sessao_ativa_v133', 'true');
             document.getElementById('tela-bloqueio').classList.add('hidden');
         }
 
         function alterarSenhaPin() {
             let atual = prompt("Digite a senha atual (Padrão: 1510):");
-            let pinSalvo = localStorage.getItem('app_pin_v131') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v133') || '1510';
             if(atual === pinSalvo) {
                 let nova = prompt("Digite a nova senha PIN:");
                 if(nova && nova.trim() !== '') {
-                    localStorage.setItem('app_pin_v131', nova.trim());
+                    localStorage.setItem('app_pin_v133', nova.trim());
                     alert("🔑 Senha alterada com sucesso!");
                 }
             } else {
@@ -448,11 +448,11 @@
             if(body.classList.contains('dark')) {
                 body.classList.remove('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.add('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v131', 'light');
+                localStorage.setItem('tema_v133', 'light');
             } else {
                 body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.remove('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v131', 'dark');
+                localStorage.setItem('tema_v133', 'dark');
             }
         }
 
@@ -713,7 +713,7 @@
             });
         }
 
-        // RENDERIZAR EDITAR
+        // RENDERIZAR EDITAR (COM TRECHOS EM ANDARES PARA NÃO ESTOURAR O ECRÃ)
         function renderizarBlocos() {
             const container = document.getElementById('lista-blocos');
             if(!container) return;
@@ -758,7 +758,31 @@
                         });
                         opcoesDest += '<option value="outro_local">➕ Outro...</option>';
 
-                        trechosHtml += '<div class="bg-white p-1.5 rounded-lg border border-black/10 flex flex-col gap-1 text-[10px] mb-1"><div class="flex items-center gap-1"><select onchange="lidarSelecaoLocalTrecho(' + item.id + ', ' + tr.id + ', \'origem\', this.value)" class="flex-1 p-1 bg-slate-50 border rounded font-bold text-[9px] truncate"><option value="">Origem...</option>' + opcoesOrigem + '</select><span>➔</span><select onchange="lidarSelecaoLocalTrecho(' + item.id + ', ' + tr.id + ', \'destino\', this.value)" class="flex-1 p-1 bg-slate-50 border rounded font-bold text-[9px] truncate"><option value="">Destino...</option>' + opcoesDest + '</select><select onchange="atualizarTrecho(' + item.id + ', ' + tr.id + ', \'transporte\', this.value)" class="w-16 p-1 bg-slate-50 border rounded font-bold text-[9px]"><option value="Trem" ' + (tr.transporte==='Trem'?'selected':'') + '>Trem</option><option value="Ônibus" ' + (tr.transporte==='Ônibus'?'selected':'') + '>Ônibus</option><option value="Avião" ' + (tr.transporte==='Avião'?'selected':'') + '>Avião</option><option value="Metrô" ' + (tr.transporte==='Metrô'?'selected':'') + '>Metrô</option><option value="Carro" ' + (tr.transporte==='Carro'?'selected':'') + '>Carro</option><option value="Outro" ' + (tr.transporte==='Outro'?'selected':'') + '>Outro</option></select><input type="number" value="' + (tr.valor || 0) + '" oninput="atualizarTrecho(' + item.id + ', ' + tr.id + ', \'valor\', this.value); atualizarTudo();" class="w-12 p-1 bg-slate-50 border rounded font-bold text-[10px]" placeholder="0"><select onchange="atualizarTrecho(' + item.id + ', ' + tr.id + ', \'moeda\', this.value); atualizarTudo();" class="p-1 bg-slate-50 border rounded font-bold text-[9px]"><option value="EUR" ' + (tr.moeda==='EUR'?'selected':'') + '>EUR</option><option value="CHF" ' + (tr.moeda==='CHF'?'selected':'') + '>CHF</option></select><button onclick="removerTrecho(' + item.id + ', ' + tr.id + ')" class="text-red-500 font-bold px-2 py-1 rounded bg-red-50 text-[10px]">✕</button></div><input type="text" value="' + (tr.notas || '') + '" oninput="atualizarTrecho(' + item.id + ', ' + tr.id + ', \'notas\', this.value)" class="w-full p-1.5 bg-slate-50 border rounded font-medium text-[9px]" placeholder="Informações adicionais para este trecho..."></div>';
+                        // Estrutura em andares para encaixar perfeitamente no telemóvel sem transbordar horizontalmente
+                        trechosHtml += '<div class="bg-white p-2 rounded-lg border border-black/10 flex flex-col gap-1.5 text-[10px] mb-1.5">' +
+                            '<div class="flex items-center gap-1">' +
+                                '<select onchange="lidarSelecaoLocalTrecho(' + item.id + ', ' + tr.id + ', \'origem\', this.value)" class="flex-1 p-1 bg-slate-50 border rounded font-bold text-[9px] truncate"><option value="">Origem...</option>' + opcoesOrigem + '</select>' +
+                                '<span>➔</span>' +
+                                '<select onchange="lidarSelecaoLocalTrecho(' + item.id + ', ' + tr.id + ', \'destino\', this.value)" class="flex-1 p-1 bg-slate-50 border rounded font-bold text-[9px] truncate"><option value="">Destino...</option>' + opcoesDest + '</select>' +
+                                '<button onclick="removerTrecho(' + item.id + ', ' + tr.id + ')" class="text-red-500 font-bold px-2 py-1 rounded bg-red-50 text-[10px] shrink-0">✕</button>' +
+                            '</div>' +
+                            '<div class="flex items-center gap-1">' +
+                                '<select onchange="atualizarTrecho(' + item.id + ', ' + tr.id + ', \'transporte\', this.value)" class="flex-1 p-1 bg-slate-50 border rounded font-bold text-[9px]">' +
+                                    '<option value="Trem" ' + (tr.transporte==='Trem'?'selected':'') + '>Trem</option>' +
+                                    '<option value="Ônibus" ' + (tr.transporte==='Ônibus'?'selected':'') + '>Ônibus</option>' +
+                                    '<option value="Avião" ' + (tr.transporte==='Avião'?'selected':'') + '>Avião</option>' +
+                                    '<option value="Metrô" ' + (tr.transporte==='Metrô'?'selected':'') + '>Metrô</option>' +
+                                    '<option value="Carro" ' + (tr.transporte==='Carro'?'selected':'') + '>Carro</option>' +
+                                    '<option value="Outro" ' + (tr.transporte==='Outro'?'selected':'') + '>Outro</option>' +
+                                '</select>' +
+                                '<input type="number" value="' + (tr.valor || 0) + '" oninput="atualizarTrecho(' + item.id + ', ' + tr.id + ', \'valor\', this.value); atualizarTudo();" class="w-14 p-1 bg-slate-50 border rounded font-bold text-[10px]" placeholder="0">' +
+                                '<select onchange="atualizarTrecho(' + item.id + ', ' + tr.id + ', \'moeda\', this.value); atualizarTudo();" class="w-14 p-1 bg-slate-50 border rounded font-bold text-[9px]">' +
+                                    '<option value="EUR" ' + (tr.moeda==='EUR'?'selected':'') + '>EUR</option>' +
+                                    '<option value="CHF" ' + (tr.moeda==='CHF'?'selected':'') + '>CHF</option>' +
+                                '</select>' +
+                            '</div>' +
+                            '<input type="text" value="' + (tr.notas || '') + '" oninput="atualizarTrecho(' + item.id + ', ' + tr.id + ', \'notas\', this.value)" class="w-full p-1.5 bg-slate-50 border rounded font-medium text-[9px]" placeholder="Informações adicionais para este trecho...">' +
+                        '</div>';
                     });
                 }
 
