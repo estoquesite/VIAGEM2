@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v67.0)</title>
+    <title>Roteiro Europa - Mariana (v68.0)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Leaflet CSS para Mapas -->
@@ -37,7 +37,7 @@
     <!-- CABEÇALHO COMPACTO NO TOPO -->
     <header class="bg-slate-900 text-white px-3 py-2 shadow-md border-b border-slate-800 text-xs flex justify-between items-center z-50 relative">
         <span class="font-bold tracking-wide">🚄 Roteiro Europa - Mariana</span>
-        <span class="bg-indigo-600 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v67.0</span>
+        <span class="bg-indigo-600 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v68.0</span>
     </header>
 
     <!-- CONTEÚDO PRINCIPAL COMPACTO -->
@@ -98,7 +98,7 @@
             </div>
         </div>
 
-        <!-- TAB 4: MAPA GERAL COM PONTOS COLORIDOS E ROTAS PONTILHADAS -->
+        <!-- TAB 4: MAPA GERAL COM PONTOS COLORIDOS -->
         <div id="tab-mapa-geral" class="space-y-3 hidden">
             <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-300 space-y-3">
                 <div class="flex justify-between items-center border-b pb-2 flex-wrap gap-2">
@@ -117,7 +117,7 @@
 
     <!-- BARRA DE FERRAMENTAS FIXA NO FINAL DA TELA COM GEMINI IA -->
     <nav class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-md text-white px-2 py-2 shadow-2xl border-t border-slate-800 text-xs flex items-center gap-1 overflow-x-auto no-scrollbar">
-        <span class="bg-indigo-600 px-1 py-0.5 rounded font-mono font-bold text-[8px] shrink-0">v67.0</span>
+        <span class="bg-indigo-600 px-1 py-0.5 rounded font-mono font-bold text-[8px] shrink-0">v68.0</span>
         <button onclick="abrirGeminiModal()" class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-2 py-1 rounded-lg font-bold transition shrink-0 flex items-center gap-1 text-[10px]">
             <span>✨</span> Gemini
         </button>
@@ -228,7 +228,7 @@
     <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
-        const CHAVE_APP = "mariana_viagem_europa_v67";
+        const CHAVE_APP = "mariana_viagem_europa_v68";
         let destinoFiltro = 'todos';
         let tarefaFiltro = 'todas';
         let campoFocoAtual = null;
@@ -252,7 +252,7 @@
             const manifestBlob = new Blob([JSON.stringify(manifestObj)], {type: 'application/manifest+json'});
             document.getElementById('pwa-manifest').href = URL.createObjectURL(manifestBlob);
 
-            const temaSalvo = localStorage.getItem('tema_v67');
+            const temaSalvo = localStorage.getItem('tema_v68');
             if (temaSalvo === 'dark') {
                 document.body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 document.body.classList.remove('bg-slate-100', 'text-slate-800');
@@ -320,10 +320,10 @@
         }
 
         function desbloquearComPin() {
-            let pinSalvo = localStorage.getItem('app_pin_v67') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v68') || '1510';
             let digitado = document.getElementById('input-pin').value;
             if(digitado === pinSalvo) {
-                sessionStorage.setItem('sessao_ativa_v67', 'true');
+                sessionStorage.setItem('sessao_ativa_v68', 'true');
                 document.getElementById('tela-bloqueio').classList.add('hidden');
                 document.getElementById('erro-pin').classList.add('hidden');
             } else {
@@ -332,17 +332,17 @@
         }
 
         async function desbloquearComBiometria() {
-            sessionStorage.setItem('sessao_ativa_v67', 'true');
+            sessionStorage.setItem('sessao_ativa_v68', 'true');
             document.getElementById('tela-bloqueio').classList.add('hidden');
         }
 
         function alterarSenhaPin() {
             let atual = prompt("Digite a senha atual (Padrão: 1510):");
-            let pinSalvo = localStorage.getItem('app_pin_v67') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v68') || '1510';
             if(atual === pinSalvo) {
                 let nova = prompt("Digite a nova senha PIN:");
                 if(nova && nova.trim() !== '') {
-                    localStorage.setItem('app_pin_v67', nova.trim());
+                    localStorage.setItem('app_pin_v68', nova.trim());
                     alert("🔑 Senha alterada com sucesso!");
                 }
             } else {
@@ -355,11 +355,11 @@
             if(body.classList.contains('dark')) {
                 body.classList.remove('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.add('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v67', 'light');
+                localStorage.setItem('tema_v68', 'light');
             } else {
                 body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.remove('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v67', 'dark');
+                localStorage.setItem('tema_v68', 'dark');
             }
         }
 
@@ -453,6 +453,30 @@
                         item.ordemSecoes[novoIdx] = temp;
                         salvarStorage();
                     }
+                }
+            }
+        }
+
+        function removerSecaoBloco(itemId, chaveSecao) {
+            let item = dadosApp.itinerario.find(i => i.id === itemId);
+            if(item && item.ordemSecoes) {
+                item.ordemSecoes = item.ordemSecoes.filter(s => s !== chaveSecao);
+                salvarStorage();
+            }
+        }
+
+        function adicionarSecaoBloco(itemId) {
+            let item = dadosApp.itinerario.find(i => i.id === itemId);
+            if(item) {
+                if(!item.ordemSecoes) item.ordemSecoes = [...dadosApp.ordemSecoesPadrao];
+                let disp = ['origemDestino', 'transporte', 'notas', 'extras'].filter(s => !item.ordemSecoes.includes(s));
+                if(disp.length === 0) { alert("Todas as secções já estão presentes!"); return; }
+                let escolha = prompt(`Escolha a secção para adicionar (${disp.join(', ')}):`, disp[0]);
+                if(escolha && disp.includes(escolha.trim())) {
+                    item.ordemSecoes.push(escolha.trim());
+                    salvarStorage();
+                } else if(escolha) {
+                    alert("Secção inválida.");
                 }
             }
         }
@@ -737,8 +761,9 @@
                     let controleSecao = `
                         <div class="flex items-center gap-1 shrink-0">
                             <span class="text-[9px] font-bold text-slate-600 uppercase tracking-wider">${secKey}</span>
-                            <button onclick="moverSecaoBloco(${item.id}, '${secKey}', -1)" class="bg-slate-200 hover:bg-slate-300 px-1.5 py-0.5 rounded text-[10px] font-bold" title="Subir">⬆️</button>
-                            <button onclick="moverSecaoBloco(${item.id}, '${secKey}', 1)" class="bg-slate-200 hover:bg-slate-300 px-1.5 py-0.5 rounded text-[10px] font-bold" title="Descer">⬇️</button>
+                            <button onclick="moverSecaoBloco(${item.id}, '${secKey}', -1)" class="bg-slate-200 hover:bg-slate-300 px-1 py-0.5 rounded text-[9px] font-bold" title="Subir">⬆️</button>
+                            <button onclick="moverSecaoBloco(${item.id}, '${secKey}', 1)" class="bg-slate-200 hover:bg-slate-300 px-1 py-0.5 rounded text-[9px] font-bold" title="Descer">⬇️</button>
+                            <button onclick="removerSecaoBloco(${item.id}, '${secKey}')" class="text-red-500 font-bold px-1 rounded bg-red-50 text-[9px]" title="Deletar secção">✕</button>
                         </div>
                     `;
 
@@ -847,8 +872,11 @@
                         </div>
                     </div>
 
-                    <!-- Secções móveis de dentro do quadrado (lado a lado na origem/destino) -->
+                    <!-- Secções móveis e deletáveis de dentro do quadrado -->
                     <div class="space-y-1.5">${htmlSecoes}</div>
+                    <div class="pt-1">
+                        <button onclick="adicionarSecaoBloco(${item.id})" class="w-full bg-slate-200 hover:bg-slate-300 text-slate-700 py-1 rounded-lg text-[10px] font-bold">➕ Adicionar Secção Removida</button>
+                    </div>
 
                     <!-- BARRA INFERIOR DO BLOCO -->
                     <div class="flex flex-wrap justify-between items-center gap-1 pt-1.5 border-t border-black/10">
