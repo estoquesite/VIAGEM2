@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v127.0)</title>
+    <title>Roteiro Europa - Mariana (v128.0)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Manifest Dinâmico via JavaScript -->
@@ -37,7 +37,7 @@
         <span class="font-bold tracking-wide">🚄 Roteiro Europa - Mariana</span>
         <div class="flex items-center gap-2">
             <button onclick="exportarPdfPrint()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2 py-0.5 rounded font-bold text-[9px] transition">🖨️ Imprimir Tudo</button>
-            <span class="bg-indigo-600 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v127.0</span>
+            <span class="bg-indigo-600 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v128.0</span>
         </div>
     </header>
 
@@ -84,7 +84,7 @@
             <div id="lista-blocos" class="space-y-2"></div>
         </div>
 
-        <!-- TAB 3: UTILIDADES & VOUCHERS (UM ABAIXO DO OUTRO PARA PERFEITO CONFORTO) -->
+        <!-- TAB 3: UTILIDADES & VOUCHERS -->
         <div id="tab-utilidades" class="space-y-3 hidden">
             <div class="bg-indigo-900 text-white p-2.5 rounded-2xl shadow-md space-y-2">
                 <div class="flex justify-between items-center flex-wrap gap-2">
@@ -109,7 +109,6 @@
                 </div>
             </div>
 
-            <!-- GRELHA DE COLUNA ÚNICA (UM ABAIXO DO OUTRO) -->
             <div id="hub-utilidades-grid" class="grid grid-cols-1 gap-2"></div>
         </div>
 
@@ -227,7 +226,7 @@
 
     <!-- BARRA DE FERRAMENTAS FIXA -->
     <nav class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-md text-white px-2 py-2 shadow-2xl border-t border-slate-800 text-xs flex items-center gap-1 overflow-x-auto no-scrollbar">
-        <span class="bg-indigo-600 px-1 py-0.5 rounded font-mono font-bold text-[8px] shrink-0">v127.0</span>
+        <span class="bg-indigo-600 px-1 py-0.5 rounded font-mono font-bold text-[8px] shrink-0">v128.0</span>
         <button onclick="abrirGeminiModal()" class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-2 py-1 rounded-lg font-bold transition shrink-0 flex items-center gap-1 text-[10px]">
             <span>✨</span> Gemini
         </button>
@@ -280,7 +279,7 @@
     </div>
 
     <script>
-        const CHAVE_APP = "mariana_viagem_europa_v127";
+        const CHAVE_APP = "mariana_viagem_europa_v128";
         let destinoFiltro = 'todos';
         let tarefaFiltro = 'todas';
         let utilidadeFiltro = 'todos';
@@ -351,7 +350,7 @@
             const manifestBlob = new Blob([JSON.stringify(manifestObj)], {type: 'application/manifest+json'});
             document.getElementById('pwa-manifest').href = URL.createObjectURL(manifestBlob);
 
-            const temaSalvo = localStorage.getItem('tema_v127');
+            const temaSalvo = localStorage.getItem('tema_v128');
             if (temaSalvo === 'dark') {
                 document.body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 document.body.classList.remove('bg-slate-100', 'text-slate-800');
@@ -396,7 +395,7 @@
                 deferredPrompt.prompt();
                 deferredPrompt.userChoice.then((choiceResult) => { deferredPrompt = null; });
             } else {
-                document.getElementById('modal-instalacao').classList.add('hidden');
+                document.getElementById('modal-instalacao').classList.remove('hidden');
             }
         }
 
@@ -405,10 +404,10 @@
         }
 
         function desbloquearComPin() {
-            let pinSalvo = localStorage.getItem('app_pin_v127') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v128') || '1510';
             let digitado = document.getElementById('input-pin').value;
             if(digitado === pinSalvo) {
-                sessionStorage.setItem('sessao_ativa_v127', 'true');
+                sessionStorage.setItem('sessao_ativa_v128', 'true');
                 document.getElementById('tela-bloqueio').classList.add('hidden');
                 document.getElementById('erro-pin').classList.add('hidden');
             } else {
@@ -417,17 +416,17 @@
         }
 
         async function desbloquearComBiometria() {
-            sessionStorage.setItem('sessao_ativa_v127', 'true');
+            sessionStorage.setItem('sessao_ativa_v128', 'true');
             document.getElementById('tela-bloqueio').classList.add('hidden');
         }
 
         function alterarSenhaPin() {
             let atual = prompt("Digite a senha atual (Padrão: 1510):");
-            let pinSalvo = localStorage.getItem('app_pin_v127') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v128') || '1510';
             if(atual === pinSalvo) {
                 let nova = prompt("Digite a nova senha PIN:");
                 if(nova && nova.trim() !== '') {
-                    localStorage.setItem('app_pin_v127', nova.trim());
+                    localStorage.setItem('app_pin_v128', nova.trim());
                     alert("🔑 Senha alterada com sucesso!");
                 }
             } else {
@@ -440,11 +439,11 @@
             if(body.classList.contains('dark')) {
                 body.classList.remove('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.add('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v127', 'light');
+                localStorage.setItem('tema_v128', 'light');
             } else {
                 body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.remove('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v127', 'dark');
+                localStorage.setItem('tema_v128', 'dark');
             }
         }
 
