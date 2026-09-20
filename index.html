@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v97.0)</title>
+    <title>Roteiro Europa - Mariana (v98.0)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Manifest Dinâmico via JavaScript -->
@@ -35,7 +35,7 @@
     <!-- CABEÇALHO COMPACTO NO TOPO -->
     <header class="bg-slate-900 text-white px-3 py-2 shadow-md border-b border-slate-800 text-xs flex justify-between items-center z-50 relative">
         <span class="font-bold tracking-wide">🚄 Roteiro Europa - Mariana</span>
-        <span class="bg-indigo-600 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v97.0</span>
+        <span class="bg-indigo-600 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v98.0</span>
     </header>
 
     <!-- CONTEÚDO PRINCIPAL COMPACTO -->
@@ -77,7 +77,7 @@
             <div class="flex justify-between items-center px-1 pt-0.5">
                 <h2 class="text-[11px] font-extrabold uppercase text-slate-600 tracking-wider">📦 Blocos de Destino (Tranque no 🔒 para enviar ao Roteiro)</h2>
                 <div class="flex gap-1">
-                    <button onclick="desfazerUltimaAcao()" class="bg-amber-600 hover:bg-amber-700 text-white px-2.5 py-1.5 rounded-lg font-bold text-[11px] transition shadow-sm">↩️ Desfazer</button>
+                    <button onclick="desfazerUltimaAcao()" class="bg-amber-600 hover:bg-amber-700 text-white px-2.5 py-1.5 rounded-lg font-bold text-[11px] transition shadow-sm">↩️ Voltar</button>
                     <button onclick="adicionarBloco()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-2.5 py-1.5 rounded-lg font-bold text-[11px] transition shadow-sm">➕ Novo Bloco</button>
                 </div>
             </div>
@@ -99,7 +99,7 @@
             </div>
         </div>
 
-        <!-- TAB 4: TAREFAS (COM BOTÃO DE DESFAZER E CORES DE DESTINO) -->
+        <!-- TAB 4: TAREFAS (COM LÁPIS E BOTÃO DE VOLTAR) -->
         <div id="tab-tarefas" class="space-y-3 hidden">
             <div class="bg-indigo-900 text-white p-3 rounded-2xl shadow-md space-y-2">
                 <div class="flex justify-between items-center flex-wrap gap-2">
@@ -108,7 +108,7 @@
                         <p id="stat-tarefas" class="text-xs font-black mt-0.5">0 / 0 Concluídas</p>
                     </div>
                     <div class="flex gap-1">
-                        <button onclick="desfazerUltimaAcao()" class="bg-amber-600 hover:bg-amber-700 text-white px-2.5 py-1.5 rounded-xl text-[11px] font-bold transition shadow-sm">↩️ Desfazer</button>
+                        <button onclick="desfazerUltimaAcao()" class="bg-amber-600 hover:bg-amber-700 text-white px-2.5 py-1.5 rounded-xl text-[11px] font-bold transition shadow-sm">↩️ Voltar</button>
                         <button onclick="adicionarTarefa()" class="bg-indigo-600 hover:bg-indigo-500 text-white px-3 py-1.5 rounded-xl text-[11px] font-bold transition shadow-sm">➕ Nova Tarefa</button>
                     </div>
                 </div>
@@ -137,9 +137,28 @@
         </div>
     </div>
 
+    <!-- MODAL DE EDITAR TAREFA -->
+    <div id="modal-tarefa" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-white p-4 rounded-2xl shadow-2xl max-w-sm w-full space-y-3 text-xs border border-slate-300">
+            <div class="flex justify-between items-center border-b pb-2">
+                <h3 class="font-bold text-xs text-slate-900">✏️ Editar Tarefa</h3>
+                <button onclick="fecharModalTarefa()" class="text-slate-400 font-bold">✕</button>
+            </div>
+            <input type="hidden" id="tarefa-edit-id">
+            <div>
+                <label class="block font-semibold text-slate-600 mb-0.5 text-[11px]">Descrição da Tarefa</label>
+                <textarea id="tarefa-edit-texto" rows="2" class="w-full p-2 bg-slate-50 border border-slate-300 rounded-xl outline-none text-slate-800 font-bold text-xs" placeholder="Descreva a tarefa..."></textarea>
+            </div>
+            <div class="flex gap-1.5 pt-1">
+                <button onclick="salvarTarefaModal()" class="flex-1 bg-indigo-600 text-white py-2 rounded-xl font-bold text-xs">Guardar</button>
+                <button onclick="fecharModalTarefa()" class="bg-slate-200 text-slate-700 px-3 py-2 rounded-xl text-xs">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
     <!-- BARRA DE FERRAMENTAS FIXA -->
     <nav class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-md text-white px-2 py-2 shadow-2xl border-t border-slate-800 text-xs flex items-center gap-1 overflow-x-auto no-scrollbar">
-        <span class="bg-indigo-600 px-1 py-0.5 rounded font-mono font-bold text-[8px] shrink-0">v97.0</span>
+        <span class="bg-indigo-600 px-1 py-0.5 rounded font-mono font-bold text-[8px] shrink-0">v98.0</span>
         <button onclick="abrirGeminiModal()" class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-2 py-1 rounded-lg font-bold transition shrink-0 flex items-center gap-1 text-[10px]">
             <span>✨</span> Gemini
         </button>
@@ -191,27 +210,8 @@
         </div>
     </div>
 
-    <!-- MODAL DE EDITAR TAREFA -->
-    <div id="modal-tarefa" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
-        <div class="bg-white p-4 rounded-2xl shadow-2xl max-w-sm w-full space-y-3 text-xs border border-slate-300">
-            <div class="flex justify-between items-center border-b pb-2">
-                <h3 class="font-bold text-xs text-slate-900">✏️ Editar Tarefa</h3>
-                <button onclick="fecharModalTarefa()" class="text-slate-400 font-bold">✕</button>
-            </div>
-            <input type="hidden" id="tarefa-edit-id">
-            <div>
-                <label class="block font-semibold text-slate-600 mb-0.5 text-[11px]">Descrição da Tarefa</label>
-                <textarea id="tarefa-edit-texto" rows="2" class="w-full p-2 bg-slate-50 border border-slate-300 rounded-xl outline-none text-slate-800 font-bold text-xs" placeholder="Descreva a tarefa..."></textarea>
-            </div>
-            <div class="flex gap-1.5 pt-1">
-                <button onclick="salvarTarefaModal()" class="flex-1 bg-indigo-600 text-white py-2 rounded-xl font-bold text-xs">Guardar</button>
-                <button onclick="fecharModalTarefa()" class="bg-slate-200 text-slate-700 px-3 py-2 rounded-xl text-xs">Cancelar</button>
-            </div>
-        </div>
-    </div>
-
     <script>
-        const CHAVE_APP = "mariana_viagem_europa_v97";
+        const CHAVE_APP = "mariana_viagem_europa_v98";
         let destinoFiltro = 'todos';
         let tarefaFiltro = 'todas';
         let campoFocoAtual = null;
@@ -286,7 +286,7 @@
             const manifestBlob = new Blob([JSON.stringify(manifestObj)], {type: 'application/manifest+json'});
             document.getElementById('pwa-manifest').href = URL.createObjectURL(manifestBlob);
 
-            const temaSalvo = localStorage.getItem('tema_v97');
+            const temaSalvo = localStorage.getItem('tema_v98');
             if (temaSalvo === 'dark') {
                 document.body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 document.body.classList.remove('bg-slate-100', 'text-slate-800');
@@ -331,10 +331,10 @@
         }
 
         function desbloquearComPin() {
-            let pinSalvo = localStorage.getItem('app_pin_v97') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v98') || '1510';
             let digitado = document.getElementById('input-pin').value;
             if(digitado === pinSalvo) {
-                sessionStorage.setItem('sessao_ativa_v97', 'true');
+                sessionStorage.setItem('sessao_ativa_v98', 'true');
                 document.getElementById('tela-bloqueio').classList.add('hidden');
                 document.getElementById('erro-pin').classList.add('hidden');
             } else {
@@ -343,17 +343,17 @@
         }
 
         async function desbloquearComBiometria() {
-            sessionStorage.setItem('sessao_ativa_v97', 'true');
+            sessionStorage.setItem('sessao_ativa_v98', 'true');
             document.getElementById('tela-bloqueio').classList.add('hidden');
         }
 
         function alterarSenhaPin() {
             let atual = prompt("Digite a senha atual (Padrão: 1510):");
-            let pinSalvo = localStorage.getItem('app_pin_v97') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v98') || '1510';
             if(atual === pinSalvo) {
                 let nova = prompt("Digite a nova senha PIN:");
                 if(nova && nova.trim() !== '') {
-                    localStorage.setItem('app_pin_v97', nova.trim());
+                    localStorage.setItem('app_pin_v98', nova.trim());
                     alert("🔑 Senha alterada com sucesso!");
                 }
             } else {
@@ -366,11 +366,11 @@
             if(body.classList.contains('dark')) {
                 body.classList.remove('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.add('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v97', 'light');
+                localStorage.setItem('tema_v98', 'light');
             } else {
                 body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.remove('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v97', 'dark');
+                localStorage.setItem('tema_v98', 'dark');
             }
         }
 
@@ -532,7 +532,7 @@
         }
         function filtrarTarefas(f) { tarefaFiltro = f; renderizarFiltrosTarefas(); renderizarTarefas(); }
 
-        // ROTEIRO
+        // ROTEIRO (✕ apenas destranca e devolve ao Editar)
         function renderizarModoLeitura() {
             const container = document.getElementById('lista-leitura-html');
             const progressoEl = document.getElementById('progresso-viagem');
@@ -577,7 +577,7 @@
                                     <span>Feito</span>
                                 </label>
                                 <button onclick="abrirMapaRuta('${item.embarque}', '${item.desembarque}')" class="bg-sky-100 text-sky-800 hover:bg-sky-200 px-1.5 py-0.5 rounded font-bold text-[9px]">🗺️ Mapa</button>
-                                <button onclick="removerDoRoteiro(${item.id})" class="bg-amber-50 hover:bg-amber-100 text-amber-700 px-1.5 py-0.5 rounded font-bold text-[9px]" title="Retirar do Roteiro">✕</button>
+                                <button onclick="removerDoRoteiro(${item.id})" class="bg-amber-50 hover:bg-amber-100 text-amber-700 px-1.5 py-0.5 rounded font-bold text-[9px]" title="Retirar do Roteiro (devolve ao Editar)">✕</button>
                             </div>
                         </div>
 
@@ -934,7 +934,7 @@
             renderizarVouchersTab(); 
         }
 
-        // TAREFAS COM CORES DE DESTINO
+        // TAREFAS COM CORES DE DESTINO E BOTÃO LÁPIS PARA ABRIR MODAL
         function renderizarTarefas() {
             const container = document.getElementById('lista-tarefas-html');
             container.innerHTML = '';
@@ -973,7 +973,10 @@
                 div.style.borderLeft = `4px solid ${corDestino}`;
                 div.innerHTML = `
                     <div class="flex items-center justify-between gap-1 flex-wrap">
-                        <input type="text" value="${t.texto}" oninput="atualizarTarefaTexto(${t.id}, this.value)" class="w-full p-0.5 bg-transparent border-b border-slate-200 outline-none ${textStyle} text-[11px]" placeholder="Tarefa...">
+                        <div class="flex items-center gap-1 flex-1">
+                            <button onclick="abrirModalTarefa(${t.id})" class="bg-slate-100 hover:bg-slate-200 p-1 rounded text-[10px]" title="Editar Tarefa">✏️</button>
+                            <input type="text" value="${t.texto}" oninput="atualizarTarefaTexto(${t.id}, this.value)" class="w-full p-0.5 bg-transparent border-b border-slate-200 outline-none ${textStyle} text-[11px]" placeholder="Tarefa...">
+                        </div>
                         <div class="flex items-center gap-1 w-full justify-between pt-0.5">
                             <div class="flex items-center gap-1">
                                 <select onchange="lidarSelecaoDestinoTarefa(${t.id}, this.value)" class="border rounded px-1.5 py-0.2 text-[9px] font-bold text-white shadow-sm" style="background-color: ${corDestino};">
@@ -989,6 +992,27 @@
                 `;
                 container.appendChild(div);
             });
+        }
+
+        function abrirModalTarefa(id) {
+            const t = dadosApp.tarefas.find(item => item.id === id);
+            if(t) { 
+                document.getElementById('tarefa-edit-id').value = t.id; 
+                document.getElementById('tarefa-edit-texto').value = t.texto || ''; 
+                document.getElementById('modal-tarefa').classList.remove('hidden'); 
+            }
+        }
+        function fecharModalTarefa() { document.getElementById('modal-tarefa').classList.add('hidden'); }
+        function salvarTarefaModal() {
+            registarEstadoAnterior();
+            const id = parseInt(document.getElementById('tarefa-edit-id').value);
+            const t = dadosApp.tarefas.find(item => item.id === id);
+            if(t) { 
+                t.texto = document.getElementById('tarefa-edit-texto').value; 
+                salvarStorage(); 
+                renderizarTarefas(); 
+                fecharModalTarefa(); 
+            }
         }
 
         function lidarSelecaoDestinoTarefa(id, valor) {
