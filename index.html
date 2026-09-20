@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v50.0)</title>
+    <title>Roteiro Europa - Mariana (v52.0)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Leaflet CSS para Mapas -->
@@ -37,7 +37,7 @@
     <!-- CABEÇALHO NORMAL NO TOPO -->
     <header class="bg-slate-900 text-white px-4 py-3 shadow-md border-b border-slate-700 text-xs flex justify-between items-center z-50 relative">
         <span class="font-bold tracking-wide">🚄 Roteiro Europa - Mariana</span>
-        <span class="bg-indigo-600 px-2 py-0.5 rounded font-mono font-bold text-[10px]">v50.0</span>
+        <span class="bg-indigo-600 px-2 py-0.5 rounded font-mono font-bold text-[10px]">v52.0</span>
     </header>
 
     <!-- CONTEÚDO PRINCIPAL -->
@@ -77,8 +77,8 @@
                     </div>
                     <button onclick="adicionarTarefa()" class="bg-indigo-600 hover:bg-indigo-500 text-white px-3.5 py-2 rounded-2xl text-xs font-bold transition shadow-sm">➕ Nova Tarefa</button>
                 </div>
-                <div id="filtros-tarefas-container" class="flex gap-1.5 pt-1 overflow-x-auto">
-                    <!-- Dinâmico via JS -->
+                <div id="filtros-tarefas-container" class="flex gap-1.5 pt-1 overflow-x-auto items-center flex-wrap">
+                    <!-- Dinâmico via JS com botão de adicionar novo status -->
                 </div>
             </div>
             <div id="lista-tarefas-html" class="space-y-3 text-xs"></div>
@@ -103,7 +103,7 @@
     <!-- BARRA DE FERRAMENTAS FIXA NO FINAL DA TELA -->
     <nav class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900 text-white px-4 py-2.5 shadow-2xl border-t border-slate-700 text-xs flex flex-wrap items-center justify-between gap-2">
         <div class="flex items-center gap-2">
-            <span class="bg-indigo-600 px-2 py-0.5 rounded font-mono font-bold text-[10px]">v50.0</span>
+            <span class="bg-indigo-600 px-2 py-0.5 rounded font-mono font-bold text-[10px]">v52.0</span>
             <span class="font-bold">Barra de Ações</span>
         </div>
         <div class="flex items-center gap-1.5 flex-wrap">
@@ -202,7 +202,7 @@
     <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
-        const CHAVE_APP = "mariana_viagem_europa_v50";
+        const CHAVE_APP = "mariana_viagem_europa_v52";
         let destinoFiltro = 'todos';
         let tarefaFiltro = 'todas';
         let campoFocoAtual = null;
@@ -236,7 +236,7 @@
             const manifestBlob = new Blob([JSON.stringify(manifestObj)], {type: 'application/manifest+json'});
             document.getElementById('pwa-manifest').href = URL.createObjectURL(manifestBlob);
 
-            const temaSalvo = localStorage.getItem('tema_v50');
+            const temaSalvo = localStorage.getItem('tema_v52');
             if (temaSalvo === 'dark') {
                 document.body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 document.body.classList.remove('bg-slate-100', 'text-slate-800');
@@ -258,13 +258,8 @@
                     "Hotel Weisses Kreuz", "Grindelwald", "Jungfraujoch"
                 ];
             }
-            if(!dadosApp.coresDestinos) {
-                dadosApp.coresDestinos = {
-                    "Zurique": "#e0f2fe",
-                    "Freiburg": "#fef3c7",
-                    "França": "#f3e8ff",
-                    "Interlaken": "#d1fae5"
-                };
+            if(!dadosApp.coresBlocos) {
+                dadosApp.coresBlocos = {};
             }
             if(!dadosApp.statusPersonalizados) {
                 dadosApp.statusPersonalizados = {
@@ -282,8 +277,8 @@
                 ];
             }
             
-            // Lógica de Sessão Inteligente ( sessionStorage para manter logado ao atualizar F5, mas pedir senha ao fechar a aba )
-            if (!sessionStorage.getItem('sessao_ativa_v50')) {
+            // Sessão Inteligente (Mantém logado ao atualizar F5, pede senha ao abrir nova aba/fechar)
+            if (!sessionStorage.getItem('sessao_ativa_v52')) {
                 document.getElementById('tela-bloqueio').classList.remove('hidden');
             } else {
                 document.getElementById('tela-bloqueio').classList.add('hidden');
@@ -305,7 +300,7 @@
                     deferredPrompt = null;
                 });
             } else {
-                document.getElementById('modal-instalacao').classList.remove('hidden');
+                document.getElementById('modal-instalacao').classList.add('hidden');
             }
         }
 
@@ -313,12 +308,12 @@
             document.getElementById('modal-instalacao').classList.add('hidden');
         }
 
-        // Funções de Segurança com a Senha 1510 e Sessão Ativa
+        // Funções de Segurança com a Senha 1510
         function desbloquearComPin() {
-            let pinSalvo = localStorage.getItem('app_pin_v50') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v52') || '1510';
             let digitado = document.getElementById('input-pin').value;
             if(digitado === pinSalvo) {
-                sessionStorage.setItem('sessao_ativa_v50', 'true');
+                sessionStorage.setItem('sessao_ativa_v52', 'true');
                 document.getElementById('tela-bloqueio').classList.add('hidden');
                 document.getElementById('erro-pin').classList.add('hidden');
             } else {
@@ -336,26 +331,26 @@
                     };
                     let credential = await navigator.credentials.get({ publicKey });
                     if(credential) {
-                        sessionStorage.setItem('sessao_ativa_v50', 'true');
+                        sessionStorage.setItem('sessao_ativa_v52', 'true');
                         document.getElementById('tela-bloqueio').classList.add('hidden');
                         return;
                     }
                 }
-                sessionStorage.setItem('sessao_ativa_v50', 'true');
+                sessionStorage.setItem('sessao_ativa_v52', 'true');
                 document.getElementById('tela-bloqueio').classList.add('hidden');
             } catch(e) {
-                sessionStorage.setItem('sessao_ativa_v50', 'true');
+                sessionStorage.setItem('sessao_ativa_v52', 'true');
                 document.getElementById('tela-bloqueio').classList.add('hidden');
             }
         }
 
         function alterarSenhaPin() {
             let atual = prompt("Digite a senha atual (Padrão: 1510):");
-            let pinSalvo = localStorage.getItem('app_pin_v50') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v52') || '1510';
             if(atual === pinSalvo) {
                 let nova = prompt("Digite a nova senha PIN:");
                 if(nova && nova.trim() !== '') {
-                    localStorage.setItem('app_pin_v50', nova.trim());
+                    localStorage.setItem('app_pin_v52', nova.trim());
                     alert("🔑 Senha alterada com sucesso!");
                 }
             } else {
@@ -368,11 +363,11 @@
             if(body.classList.contains('dark')) {
                 body.classList.remove('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.add('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v50', 'light');
+                localStorage.setItem('tema_v52', 'light');
             } else {
                 body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.remove('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v50', 'dark');
+                localStorage.setItem('tema_v52', 'dark');
             }
         }
 
@@ -385,24 +380,19 @@
                 "CAMPOSANILE PARIS 12 - Bercy Village", "Gare de Lyon (Paris)", "Interlaken Ost",
                 "Hotel Weisses Kreuz", "Grindelwald", "Jungfraujoch"
             ],
-            coresDestinos: {
-                "Zurique": "#e0f2fe",
-                "Freiburg": "#fef3c7",
-                "França": "#f3e8ff",
-                "Interlaken": "#d1fae5"
-            },
+            coresBlocos: {},
             statusPersonalizados: {
                 "Concluído": "#22c55e",
                 "Aguardando": "#f59e0b"
             },
             itinerario: [
-                { id: 1, categoria: "Zurique", dataInicio: "2026-12-30", dataFim: "2027-01-02", trecho: "Estadia no ibis budget Zurich City West", transporte: "Caminhada / Transporte local", embarque: "Zurich HB", desembarque: "ibis budget Zurich City West", moeda: "CHF", valor: "0", status: "Comprado", notas: "", textoLivre: "Check-in a partir das 15h00. Primeiros dias em Zurique.", pdfData: "", pdfNome: "", bloqueado: false },
-                { id: 2, categoria: "Freiburg", dataInicio: "2027-01-02", dataFim: "2027-01-05", trecho: "Zurique ➔ Premier Inn Freiburg", transporte: "Ônibus FlixBus", embarque: "Zurich Bus Station (Sihlquai)", desembarque: "Premier Inn Freiburg City Süd", moeda: "EUR", valor: "25", status: "Aguardando", notas: "", textoLivre: "Check-in a partir das 15h00. Estadia no Premier Inn Freiburg City Süd.", pdfData: "", pdfNome: "", bloqueado: false },
-                { id: 3, categoria: "Freiburg", dataInicio: "2027-01-03", dataFim: "2027-01-03", trecho: "Freiburg ➔ Europa-Park (Papai)", transporte: "Ônibus regional", embarque: "Premier Inn Freiburg City Süd", desembarque: "Europa-Park Rust", moeda: "EUR", valor: "65", status: "Aguardando", notas: "", textoLivre: "Dia inteiro no Europa-Park.", pdfData: "", pdfNome: "", bloqueado: false },
-                { id: 4, categoria: "França", dataInicio: "2027-01-05", dataFim: "2027-01-07", trecho: "Freiburg ➔ Disney Hotel Santa Fe", transporte: "Trem TGV / Conexão", embarque: "Freiburg Hbf (Estação Central)", desembarque: "Disney Hotel Santa Fe", moeda: "EUR", valor: "220", status: "Aguardando", notas: "", textoLivre: "Check-in às 15h00. Estadia no Disney Hotel Santa Fe.", pdfData: "", pdfNome: "", bloqueado: false },
-                { id: 5, categoria: "França", dataInicio: "2027-01-07", dataFim: "2027-01-08", trecho: "Disney ➔ Campanile Paris Bercy", transporte: "RER A / Metrô", embarque: "Disney Hotel Santa Fe", desembarque: "CAMPOSANILE PARIS 12 - Bercy Village", moeda: "EUR", valor: "150", status: "Aguardando", notas: "", textoLivre: "Check-in às 14h00. Passagem pelo outlet La Vallée Village e estadia em Paris Bercy.", pdfData: "", pdfNome: "", bloqueado: false },
-                { id: 6, categoria: "Interlaken", dataInicio: "2027-01-08", dataFim: "2027-01-12", trecho: "Paris ➔ Hotel Weisses Kreuz (Interlaken)", transporte: "Trem TGV Lyria / SBB", embarque: "Gare de Lyon (Paris)", desembarque: "Hotel Weisses Kreuz", moeda: "CHF", valor: "110", status: "Aguardando", notas: "", textoLivre: "Check-in às 15h00. Estadia alpina no Hotel Weisses Kreuz.", pdfData: "", pdfNome: "", bloqueado: false },
-                { id: 7, categoria: "Zurique", dataInicio: "2027-01-12", dataFim: "2027-01-12", trecho: "Interlaken ➔ Zurique (Retorno)", transporte: "Trem SBB", embarque: "Interlaken Ost", desembarque: "Zurich HB", moeda: "CHF", valor: "76", status: "Aguardando", notas: "", textoLivre: "Regresso a Zurique para voo de retorno.", pdfData: "", pdfNome: "", bloqueado: false }
+                { id: 1, categoria: "Zurique", dataInicio: "2026-12-30", dataFim: "2027-01-02", trecho: "Estadia no ibis budget Zurich City West", transporte: "Caminhada / Transporte local", embarque: "Zurich HB", desembarque: "ibis budget Zurich City West", moeda: "CHF", valor: "0", status: "Comprado", notas: "", textoLivre: "Check-in a partir das 15h00. Primeiros dias em Zurique.", pdfData: "", pdfNome: "", bloqueado: false, cor: "#e0f2fe" },
+                { id: 2, categoria: "Freiburg", dataInicio: "2027-01-02", dataFim: "2027-01-05", trecho: "Zurique ➔ Premier Inn Freiburg", transporte: "Ônibus FlixBus", embarque: "Zurich Bus Station (Sihlquai)", desembarque: "Premier Inn Freiburg City Süd", moeda: "EUR", valor: "25", status: "Aguardando", notas: "", textoLivre: "Check-in a partir das 15h00. Estadia no Premier Inn Freiburg City Süd.", pdfData: "", pdfNome: "", bloqueado: false, cor: "#fef3c7" },
+                { id: 3, categoria: "Freiburg", dataInicio: "2027-01-03", dataFim: "2027-01-03", trecho: "Freiburg ➔ Europa-Park (Papai)", transporte: "Ônibus regional", embarque: "Premier Inn Freiburg City Süd", desembarque: "Europa-Park Rust", moeda: "EUR", valor: "65", status: "Aguardando", notas: "", textoLivre: "Dia inteiro no Europa-Park.", pdfData: "", pdfNome: "", bloqueado: false, cor: "#fef3c7" },
+                { id: 4, categoria: "França", dataInicio: "2027-01-05", dataFim: "2027-01-07", trecho: "Freiburg ➔ Disney Hotel Santa Fe", transporte: "Trem TGV / Conexão", embarque: "Freiburg Hbf (Estação Central)", desembarque: "Disney Hotel Santa Fe", moeda: "EUR", valor: "220", status: "Aguardando", notas: "", textoLivre: "Check-in às 15h00. Estadia no Disney Hotel Santa Fe.", pdfData: "", pdfNome: "", bloqueado: false, cor: "#f3e8ff" },
+                { id: 5, categoria: "França", dataInicio: "2027-01-07", dataFim: "2027-01-08", trecho: "Disney ➔ Campanile Paris Bercy", transporte: "RER A / Metrô", embarque: "Disney Hotel Santa Fe", desembarque: "CAMPOSANILE PARIS 12 - Bercy Village", moeda: "EUR", valor: "150", status: "Aguardando", notas: "", textoLivre: "Check-in às 14h00. Passagem pelo outlet La Vallée Village e estadia em Paris Bercy.", pdfData: "", pdfNome: "", bloqueado: false, cor: "#f3e8ff" },
+                { id: 6, categoria: "Interlaken", dataInicio: "2027-01-08", dataFim: "2027-01-12", trecho: "Paris ➔ Hotel Weisses Kreuz (Interlaken)", transporte: "Trem TGV Lyria / SBB", embarque: "Gare de Lyon (Paris)", desembarque: "Hotel Weisses Kreuz", moeda: "CHF", valor: "110", status: "Aguardando", notas: "", textoLivre: "Check-in às 15h00. Estadia alpina no Hotel Weisses Kreuz.", pdfData: "", pdfNome: "", bloqueado: false, cor: "#d1fae5" },
+                { id: 7, categoria: "Zurique", dataInicio: "2027-01-12", dataFim: "2027-01-12", trecho: "Interlaken ➔ Zurique (Retorno)", transporte: "Trem SBB", embarque: "Interlaken Ost", desembarque: "Zurich HB", moeda: "CHF", valor: "76", status: "Aguardando", notas: "", textoLivre: "Regresso a Zurique para voo de retorno.", pdfData: "", pdfNome: "", bloqueado: false, cor: "#e0f2fe" }
             ],
             tarefas: [
                 { id: 1, texto: "Comprar cartões Wise e Nomad", status: "Concluído", bloqueado: false },
@@ -462,18 +452,25 @@
             if(activeBtn) activeBtn.className = "py-2.5 rounded-xl bg-indigo-600 text-white shadow-sm transition";
         }
 
-        function obterCorDestinoHex(cat) {
-            if(!dadosApp.coresDestinos) dadosApp.coresDestinos = {};
-            if(!dadosApp.coresDestinos[cat]) {
-                dadosApp.coresDestinos[cat] = "#f1f5f9";
-            }
-            return dadosApp.coresDestinos[cat];
+        function obterCorBlocoHex(item) {
+            if(item.cor) return item.cor;
+            let c = (item.categoria || "").toLowerCase();
+            if(c.includes('zurique') || c.includes('zurich')) return '#e0f2fe';
+            if(c.includes('freiburg')) return '#fef3c7';
+            if(c.includes('frança') || c.includes('france') || c.includes('paris')) return '#f3e8ff';
+            if(c.includes('interlaken')) return '#d1fae5';
+            return '#f1f5f9';
         }
 
-        function alterarCorDestino(cat, novaCor) {
-            if(!dadosApp.coresDestinos) dadosApp.coresDestinos = {};
-            dadosApp.coresDestinos[cat] = novaCor;
-            salvarStorage();
+        function atualizarCorBlocoLocal(id) {
+            let input = document.getElementById('input-cor-' + id);
+            if(input) {
+                const item = dadosApp.itinerario.find(i => i.id === id);
+                if(item) {
+                    item.cor = input.value;
+                    salvarStorage();
+                }
+            }
         }
 
         function calcularDias(inicio, fim) {
@@ -516,6 +513,8 @@
                 html += `<button onclick="filtrarTarefas('${st}')" id="btn-t-${st}" class="px-3 py-1 rounded-xl text-xs font-bold ${ativo ? 'bg-white text-indigo-950' : 'bg-indigo-800 text-white'} transition shadow-sm">${st}</button>`;
             });
 
+            html += `<button onclick="adicionarNovoStatusTarefaFiltro()" class="px-3 py-1 bg-emerald-600 text-white rounded-xl text-xs font-bold transition shadow-sm flex items-center gap-1"><span>➕</span> Novo Status</button>`;
+
             container.innerHTML = html;
         }
 
@@ -525,10 +524,20 @@
                 let limpo = novo.trim();
                 if(!dadosApp.destinosCadastrados.includes(limpo)) {
                     dadosApp.destinosCadastrados.push(limpo);
-                    dadosApp.coresDestinos[limpo] = "#fef08a";
                     salvarStorage();
                 }
                 filtrarDestino(limpo);
+            }
+        }
+
+        function adicionarNovoStatusTarefaFiltro() {
+            let nomeNovo = prompt("Digite o nome do novo status/card de tarefa (ex: Finalizado, Em Progresso):");
+            if(nomeNovo && nomeNovo.trim() !== '') {
+                let nomeLimpo = nomeNovo.trim();
+                let corNova = prompt("Digite a cor em HEX (ex: #3b82f6 para azul, #ec4899 para rosa):", "#3b82f6");
+                if(!dadosApp.statusPersonalizados) dadosApp.statusPersonalizados = {};
+                dadosApp.statusPersonalizados[nomeLimpo] = corNova || "#3b82f6";
+                salvarStorage();
             }
         }
 
@@ -551,7 +560,6 @@
                     let destinoLimpo = novo.trim();
                     if(!dadosApp.destinosCadastrados.includes(destinoLimpo)) {
                         dadosApp.destinosCadastrados.push(destinoLimpo);
-                        dadosApp.coresDestinos[destinoLimpo] = "#fef08a";
                         salvarStorage();
                     }
                     atualizarCampo(id, 'categoria', destinoLimpo);
@@ -588,7 +596,6 @@
                     let destinoLimpo = novo.trim();
                     if(!dadosApp.destinosCadastrados.includes(destinoLimpo)) {
                         dadosApp.destinosCadastrados.push(destinoLimpo);
-                        dadosApp.coresDestinos[destinoLimpo] = "#fef08a";
                         salvarStorage();
                     }
                     atualizarVoucherCampo(id, 'categoria', destinoLimpo);
@@ -645,7 +652,7 @@
 
             filtrados.forEach((item) => {
                 let dis = item.bloqueado ? 'disabled' : '';
-                let corHex = obterCorDestinoHex(item.categoria);
+                let corHex = obterCorBlocoHex(item);
                 let pdfBadge = item.pdfData ? `<a href="${item.pdfData}" download="${item.pdfNome || 'voucher.pdf'}" class="bg-blue-100 text-blue-800 px-2.5 py-1 rounded-lg text-[10px] font-bold">📄 PDF Anexado</a>` : '';
                 let btnOkText = item.bloqueado ? '🔒 OK' : '✅ OK';
                 let btnOkClass = item.bloqueado ? 'bg-emerald-600 text-white' : 'bg-slate-200 text-slate-700 hover:bg-emerald-500 hover:text-white';
@@ -694,9 +701,10 @@
                             <select onchange="lidarSelecaoDestino(${item.id}, this.value)" ${dis} class="bg-white text-indigo-900 font-black px-3 py-1.5 rounded-xl text-xs border border-black/15 outline-none shadow-sm">
                                 ${opcoesDestino}
                             </select>
-                            <div class="flex items-center gap-1 bg-white/80 px-2 py-1 rounded-xl border border-black/15 text-[11px] font-bold">
+                            <div class="flex items-center gap-1 bg-white/90 px-2 py-1 rounded-xl border border-black/15 text-[11px] font-bold">
                                 <span class="text-[10px]">🎨 Cor:</span>
-                                <input type="color" value="${corHex}" onchange="alterarCorDestino('${item.categoria}', this.value)" title="Escolher cor personalizada para este destino" class="w-6 h-6 rounded cursor-pointer border-0 bg-transparent">
+                                <input type="color" id="input-cor-${item.id}" value="${corHex}" class="w-6 h-6 rounded cursor-pointer border-0 bg-transparent">
+                                <button onclick="atualizarCorBlocoLocal(${item.id})" class="bg-indigo-600 hover:bg-indigo-700 text-white px-2 py-0.5 rounded text-[10px] font-bold shadow-sm">OK</button>
                             </div>
                             <span class="bg-indigo-600 text-white font-black px-2.5 py-1 rounded-xl text-[10px]">📅 ${textoDias}</span>
                         </div>
@@ -714,7 +722,7 @@
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs bg-white/80 p-3 rounded-2xl border border-black/15 shadow-inner">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs bg-white/90 p-3 rounded-2xl border border-black/15 shadow-inner">
                         <div>
                             <label class="block font-black mb-1 text-slate-900">📍 Local de Origem (Embarque)</label>
                             <select onchange="lidarSelecaoLocal(${item.id}, 'embarque', this.value)" ${dis} class="w-full p-2.5 bg-white border border-black/15 rounded-xl outline-none font-bold text-slate-900 shadow-sm">
@@ -761,7 +769,7 @@
                             <button onclick="abrirModalDetalhes(${item.id})" class="bg-white hover:bg-slate-100 border border-black/15 px-2.5 py-1.5 rounded-xl font-bold text-xs" title="Editar notas e PDF">✏️ Lápis</button>
                             <button onclick="desfazerBloco(${item.id})" class="bg-amber-100 text-amber-800 hover:bg-amber-200 px-2.5 py-1.5 rounded-xl font-bold text-xs" title="Desfazer alterações">↩️ Desfazer</button>
                             <button onclick="alternarBloqueio(${item.id})" class="${btnOkClass} px-3 py-1.5 rounded-xl font-bold text-xs transition border border-black/15" title="Bloquear/Desbloquear">${btnOkText}</button>
-                            <button onclick="apagarBloco(${item.id})" class="bg-red-50 text-red-500 hover:bg-red-100 px-2.5 py-1.5 rounded-xl font-bold text-xs" title="Excluir">✕</button>
+                            <button onclick="apagarBloco(${item.id})" class="bg-red-50 text-red-500 hover:text-red-100 px-2.5 py-1.5 rounded-xl font-bold text-xs" title="Excluir">✕</button>
                         </div>
                     </div>
                 `;
@@ -769,6 +777,7 @@
             });
         }
 
+        // TAREFAS COM LINHA RISCADA SE CONCLUÍDO
         function renderizarTarefas() {
             const container = document.getElementById('lista-tarefas-html');
             container.innerHTML = '';
@@ -797,6 +806,8 @@
 
                 let statusAtual = t.status || "Aguardando";
                 let corStatus = dadosApp.statusPersonalizados[statusAtual] || "#f59e0b";
+                let isConcluido = (statusAtual === 'Concluído');
+                let textStyle = isConcluido ? 'line-through text-slate-400 font-normal' : 'font-bold text-slate-800';
 
                 let opcoesStatus = '';
                 Object.keys(dadosApp.statusPersonalizados).forEach(st => {
@@ -813,7 +824,7 @@
                     <div class="flex items-center justify-between gap-2 flex-wrap">
                         <div class="flex items-center gap-1.5 flex-1 min-w-[200px]">
                             <button onclick="abrirModalTarefa(${t.id})" class="bg-slate-100 hover:bg-slate-200 p-1.5 rounded-lg text-slate-700 font-bold text-[11px] shrink-0" title="Editar Tarefa">✏️</button>
-                            <input type="text" value="${t.texto}" ${dis} oninput="atualizarTarefaTexto(${t.id}, this.value)" class="w-full p-1.5 bg-transparent border-b border-slate-200 outline-none font-bold text-slate-800 text-xs" placeholder="Descrição da tarefa...">
+                            <input type="text" value="${t.texto}" ${dis} oninput="atualizarTarefaTexto(${t.id}, this.value)" class="w-full p-1.5 bg-transparent border-b border-slate-200 outline-none ${textStyle} text-xs" placeholder="Descrição da tarefa...">
                         </div>
                         <div class="flex items-center gap-1.5">
                             <select onchange="lidarSelecaoStatusTarefa(${t.id}, this.value)" ${dis} class="border rounded-xl px-2.5 py-1 text-xs font-bold outline-none shadow-sm text-white" style="background-color: ${corStatus};">
@@ -861,7 +872,7 @@
             if(item) {
                 if(!backupEstado[id]) backupEstado[id] = JSON.parse(JSON.stringify(item));
                 item[campo] = valor;
-                if(campo === 'dataInicio') {
+                if(campo === 'dataInicio' || campo === 'dataFim') {
                     ordenarItinerario();
                 }
                 salvarStorage();
@@ -912,7 +923,8 @@
                 textoLivre: "",
                 pdfData: "",
                 pdfNome: "",
-                bloqueado: false
+                bloqueado: false,
+                cor: "#e0f2fe"
             };
             dadosApp.itinerario.unshift(novoItem);
             salvarStorage();
@@ -1021,7 +1033,6 @@
             document.getElementById('modal-mapa').classList.add('hidden');
         }
 
-        // Modal de Detalhes e PDF (Itinerário)
         function abrirModalDetalhes(id) {
             const item = dadosApp.itinerario.find(i => i.id === id);
             if(item) {
