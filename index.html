@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v128.0)</title>
+    <title>Roteiro Europa - Mariana (v130.0)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Manifest Dinâmico via JavaScript -->
@@ -37,7 +37,7 @@
         <span class="font-bold tracking-wide">🚄 Roteiro Europa - Mariana</span>
         <div class="flex items-center gap-2">
             <button onclick="exportarPdfPrint()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2 py-0.5 rounded font-bold text-[9px] transition">🖨️ Imprimir Tudo</button>
-            <span class="bg-indigo-600 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v128.0</span>
+            <span class="bg-indigo-600 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v130.0</span>
         </div>
     </header>
 
@@ -105,6 +105,7 @@
                     <button onclick="filtrarUtilidade('tarefas')" id="filt-util-tarefas" class="px-2.5 py-1 rounded-lg bg-indigo-800 text-white font-bold text-[10px] shrink-0 transition">📋 Tarefas</button>
                     <button onclick="filtrarUtilidade('checklist')" id="filt-util-checklist" class="px-2.5 py-1 rounded-lg bg-indigo-800 text-white font-bold text-[10px] shrink-0 transition">🎒 Checklist</button>
                     <button onclick="filtrarUtilidade('vouchers')" id="filt-util-vouchers" class="px-2.5 py-1 rounded-lg bg-indigo-800 text-white font-bold text-[10px] shrink-0 transition">🎟️ Vouchers</button>
+                    <button onclick="filtrarUtilidade('chat')" id="filt-util-chat" class="px-2.5 py-1 rounded-lg bg-indigo-800 text-white font-bold text-[10px] shrink-0 transition">💬 Chat</button>
                     <button onclick="adicionarItemOutroPrompt()" class="px-2.5 py-1 rounded-lg bg-emerald-600 text-white font-bold text-[10px] shrink-0 transition">➕ Outros</button>
                 </div>
             </div>
@@ -226,7 +227,7 @@
 
     <!-- BARRA DE FERRAMENTAS FIXA -->
     <nav class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-md text-white px-2 py-2 shadow-2xl border-t border-slate-800 text-xs flex items-center gap-1 overflow-x-auto no-scrollbar">
-        <span class="bg-indigo-600 px-1 py-0.5 rounded font-mono font-bold text-[8px] shrink-0">v128.0</span>
+        <span class="bg-indigo-600 px-1 py-0.5 rounded font-mono font-bold text-[8px] shrink-0">v130.0</span>
         <button onclick="abrirGeminiModal()" class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-2 py-1 rounded-lg font-bold transition shrink-0 flex items-center gap-1 text-[10px]">
             <span>✨</span> Gemini
         </button>
@@ -279,7 +280,7 @@
     </div>
 
     <script>
-        const CHAVE_APP = "mariana_viagem_europa_v128";
+        const CHAVE_APP = "mariana_viagem_europa_v130";
         let destinoFiltro = 'todos';
         let tarefaFiltro = 'todas';
         let utilidadeFiltro = 'todos';
@@ -309,7 +310,8 @@
             orcamento: [],
             checklist: [],
             contatos: [],
-            outros: []
+            outros: [],
+            chat: []
         };
 
         function registarEstadoAnterior() {
@@ -350,7 +352,11 @@
             const manifestBlob = new Blob([JSON.stringify(manifestObj)], {type: 'application/manifest+json'});
             document.getElementById('pwa-manifest').href = URL.createObjectURL(manifestBlob);
 
-            const temaSalvo = localStorage.getItem('tema_v128');
+            if (!sessionStorage.getItem('sessao_ativa_v130')) {
+                document.getElementById('tela-bloqueio').classList.remove('hidden');
+            }
+
+            const temaSalvo = localStorage.getItem('tema_v130');
             if (temaSalvo === 'dark') {
                 document.body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 document.body.classList.remove('bg-slate-100', 'text-slate-800');
@@ -373,6 +379,7 @@
                         if(!dadosApp.checklist) dadosApp.checklist = [];
                         if(!dadosApp.contatos) dadosApp.contatos = [];
                         if(!dadosApp.outros) dadosApp.outros = [];
+                        if(!dadosApp.chat) dadosApp.chat = [];
                     }
                 }
             } catch(e) {}
@@ -391,12 +398,7 @@
         });
 
         function tentarInstalarApp() {
-            if (deferredPrompt) {
-                deferredPrompt.prompt();
-                deferredPrompt.userChoice.then((choiceResult) => { deferredPrompt = null; });
-            } else {
-                document.getElementById('modal-instalacao').classList.remove('hidden');
-            }
+            document.getElementById('modal-instalacao').classList.remove('hidden');
         }
 
         function fecharModalInstalacao() {
@@ -404,29 +406,29 @@
         }
 
         function desbloquearComPin() {
-            let pinSalvo = localStorage.getItem('app_pin_v128') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v130') || '1510';
             let digitado = document.getElementById('input-pin').value;
             if(digitado === pinSalvo) {
-                sessionStorage.setItem('sessao_ativa_v128', 'true');
+                sessionStorage.setItem('sessao_ativa_v130', 'true');
                 document.getElementById('tela-bloqueio').classList.add('hidden');
                 document.getElementById('erro-pin').classList.add('hidden');
             } else {
-                document.getElementById('erro-pin').classList.add('hidden');
+                document.getElementById('erro-pin').classList.remove('hidden');
             }
         }
 
         async function desbloquearComBiometria() {
-            sessionStorage.setItem('sessao_ativa_v128', 'true');
+            sessionStorage.setItem('sessao_ativa_v130', 'true');
             document.getElementById('tela-bloqueio').classList.add('hidden');
         }
 
         function alterarSenhaPin() {
             let atual = prompt("Digite a senha atual (Padrão: 1510):");
-            let pinSalvo = localStorage.getItem('app_pin_v128') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v130') || '1510';
             if(atual === pinSalvo) {
                 let nova = prompt("Digite a nova senha PIN:");
                 if(nova && nova.trim() !== '') {
-                    localStorage.setItem('app_pin_v128', nova.trim());
+                    localStorage.setItem('app_pin_v130', nova.trim());
                     alert("🔑 Senha alterada com sucesso!");
                 }
             } else {
@@ -439,11 +441,11 @@
             if(body.classList.contains('dark')) {
                 body.classList.remove('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.add('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v128', 'light');
+                localStorage.setItem('tema_v130', 'light');
             } else {
                 body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.remove('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v128', 'dark');
+                localStorage.setItem('tema_v130', 'dark');
             }
         }
 
@@ -648,7 +650,7 @@
 
         function filtrarUtilidade(tipo) {
             utilidadeFiltro = tipo;
-            ['todos', 'voos', 'contatos', 'tarefas', 'checklist', 'vouchers', 'outros'].forEach(t => {
+            ['todos', 'voos', 'contatos', 'tarefas', 'checklist', 'vouchers', 'chat', 'outros'].forEach(t => {
                 let btn = document.getElementById('filt-util-' + t);
                 if(btn) {
                     if(t === tipo) {
@@ -869,6 +871,7 @@
             let mostrarTarefas = (utilidadeFiltro === 'todos' || utilidadeFiltro === 'tarefas');
             let mostrarChecklist = (utilidadeFiltro === 'todos' || utilidadeFiltro === 'checklist');
             let mostrarVouchers = (utilidadeFiltro === 'todos' || utilidadeFiltro === 'vouchers');
+            let mostrarChat = (utilidadeFiltro === 'todos' || utilidadeFiltro === 'chat');
             let mostrarOutros = (utilidadeFiltro === 'todos' || utilidadeFiltro === 'outros');
 
             if(mostrarVoos) {
@@ -951,6 +954,18 @@
                 container.innerHTML += '<div class="bg-white p-2.5 rounded-2xl border shadow-sm space-y-2" id="card-vouchers"><div class="flex justify-between items-center border-b pb-1"><h3 class="font-bold text-[10px] uppercase text-slate-800">🎟️ Vouchers & PDFs</h3><div class="flex gap-1"><button onclick="imprimirSeccaoCustom(\'Vouchers\', document.getElementById(\'card-vouchers\').innerHTML)" class="bg-emerald-600 text-white px-2 py-0.5 rounded text-[8px] font-bold">🖨️ PDF</button><button onclick="adicionarVoucher()" class="bg-indigo-600 text-white px-2 py-0.5 rounded text-[9px] font-bold">➕ Voucher</button></div></div><div class="space-y-1 text-[11px]">' + vouchersHubHtml + '</div></div>';
             }
 
+            if(mostrarChat) {
+                let chatHubHtml = '';
+                if(!dadosApp.chat || dadosApp.chat.length === 0) {
+                    chatHubHtml = '<p class="text-[10px] text-slate-400 italic text-center py-2">Nenhuma nota no chat.</p>';
+                } else {
+                    dadosApp.chat.forEach(ch => {
+                        chatHubHtml += '<div class="p-1.5 rounded-lg border bg-white flex items-center justify-between gap-1 shadow-sm text-[11px]"><input type="text" value="' + ch.texto + '" oninput="atualizarChat(' + ch.id + ', this.value)" class="flex-1 bg-transparent outline-none font-bold text-slate-800 truncate text-[10px]" placeholder="Escreva uma nota..."><button onclick="apagarChat(' + ch.id + ')" class="text-red-500 font-bold bg-red-50 px-1 rounded text-[9px]">✕</button></div>';
+                    });
+                }
+                container.innerHTML += '<div class="bg-white p-2.5 rounded-2xl border shadow-sm space-y-2" id="card-chat"><div class="flex justify-between items-center border-b pb-1"><h3 class="font-bold text-[10px] uppercase text-slate-800">💬 Chat / Notas Rápidas</h3><div class="flex gap-1"><button onclick="imprimirSeccaoCustom(\'Chat & Notas\', document.getElementById(\'card-chat\').innerHTML)" class="bg-emerald-600 text-white px-2 py-0.5 rounded text-[8px] font-bold">🖨️ PDF</button><button onclick="adicionarChat()" class="bg-indigo-600 text-white px-2 py-0.5 rounded text-[9px] font-bold">➕ Nota</button></div></div><div class="space-y-1.5 text-[11px]">' + chatHubHtml + '</div></div>';
+            }
+
             if(mostrarOutros) {
                 let outrosHtml = '';
                 if(!dadosApp.outros || dadosApp.outros.length === 0) {
@@ -962,6 +977,26 @@
                 }
                 container.innerHTML += '<div class="bg-white p-2.5 rounded-2xl border shadow-sm space-y-2" id="card-outros"><div class="flex justify-between items-center border-b pb-1"><h3 class="font-bold text-[10px] uppercase text-slate-800">✨ Outros</h3><div class="flex gap-1"><button onclick="imprimirSeccaoCustom(\'Outros\', document.getElementById(\'card-outros\').innerHTML)" class="bg-emerald-600 text-white px-2 py-0.5 rounded text-[8px] font-bold">🖨️ PDF</button><button onclick="adicionarItemOutroPrompt()" class="bg-emerald-600 text-white px-2 py-0.5 rounded text-[8px] font-bold">➕ Outro</button></div></div><div class="space-y-1 text-[11px]">' + outrosHtml + '</div></div>';
             }
+        }
+
+        function adicionarChat() {
+            registarEstadoAnterior();
+            if(!dadosApp.chat) dadosApp.chat = [];
+            dadosApp.chat.unshift({ id: Date.now(), texto: "Nova anotação..." });
+            salvarStorage();
+            renderizarHubUtilidades();
+        }
+
+        function apagarChat(id) {
+            registarEstadoAnterior();
+            dadosApp.chat = dadosApp.chat.filter(c => c.id !== id);
+            salvarStorage();
+            renderizarHubUtilidades();
+        }
+
+        function atualizarChat(id, val) {
+            let c = dadosApp.chat.find(item => item.id === id);
+            if(c) { c.texto = val; localStorage.setItem(CHAVE_APP, JSON.stringify(dadosApp)); }
         }
 
         function adicionarItemOutroPrompt() {
