@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v19.0)</title>
+    <title>Roteiro Europa - Mariana (v22.0)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Leaflet CSS para Mapas -->
@@ -19,39 +19,23 @@
         %22icons%22: [{%22src%22: %22data:image/svg+xml;utf8,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27 fill=%27%234f46e5%27><path d=%27M12 2c-4 0-8 .5-8 4v9.5C4 17.43 5.57 19 7.5 19L6 20.5v.5h12v-.5L16.5 19c1.93 0 3.5-1.57 3.5-3.5V6c0-3.5-4-4-8-4zM7.5 17c-.83 0-1.5-.67-1.5-1.5S6.67 14 7.5 14s1.5.67 1.5 1.5S8.33 17 7.5 17zm3.5-7H6V7h5v3zm2 0V7h5v3h-5zm3.5 7c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z%27/></svg>%22, %22sizes%22: %22512x512%22, %22type%22: %22image/svg+xml%22}]
     }">
 </head>
-<body class="bg-slate-100 text-slate-800 min-h-screen pb-32 select-none transition-colors duration-200">
+<body class="bg-slate-100 text-slate-800 min-h-screen pb-36 select-none transition-colors duration-200">
 
-    <!-- BARRA SUPERIOR FIXA -->
-    <header class="bg-slate-900 text-white px-3 py-2.5 shadow-md border-b border-slate-700 text-xs flex flex-wrap items-center justify-between gap-2 z-50">
-        <div class="flex items-center gap-2">
-            <span class="bg-indigo-600 px-2 py-0.5 rounded font-mono font-bold text-[10px]">v19.0</span>
-            <span class="font-bold tracking-wide">🚄 Roteiro Europa (Destinos Livres)</span>
-        </div>
-        <div class="flex items-center gap-1.5 flex-wrap">
-            <button onclick="ativarMicrofone()" class="bg-purple-600 hover:bg-purple-700 text-white px-2 py-1 rounded-lg font-bold transition">
-                🎤 Ditar
-            </button>
-            <button onclick="alternarTema()" class="bg-slate-800 hover:bg-slate-700 text-white px-2 py-1 rounded-lg font-bold transition border border-slate-700">
-                🌓 Tema
-            </button>
-            <button onclick="exportarWord()" class="bg-indigo-700 hover:bg-indigo-800 text-white px-2 py-1 rounded-lg font-bold transition">
-                📥 Word
-            </button>
-            <button onclick="tentarInstalarApp()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2.5 py-1 rounded-lg font-bold transition shadow-sm">
-                📱 App
-            </button>
-        </div>
+    <!-- CABEÇALHO NORMAL NO TOPO -->
+    <header class="bg-slate-900 text-white px-4 py-3 shadow-md border-b border-slate-700 text-xs flex justify-between items-center">
+        <span class="font-bold tracking-wide">🚄 Roteiro Europa - Mariana</span>
+        <span class="bg-indigo-600 px-2 py-0.5 rounded font-mono font-bold text-[10px]">v22.0</span>
     </header>
 
     <!-- CONTEÚDO PRINCIPAL -->
-    <div class="max-w-4xl mx-auto p-3 sm:p-6 space-y-6 pt-6">
+    <div class="max-w-4xl mx-auto p-3 sm:p-6 space-y-6 pt-4">
         
-        <!-- CABEÇALHO -->
+        <!-- CABEÇALHO DESCRITIVO -->
         <div class="bg-white border border-slate-300 p-5 rounded-3xl shadow-sm flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
             <div>
-                <span class="text-[10px] font-extrabold uppercase tracking-widest bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full">Itinerário com Caixas Livres</span>
+                <span class="text-[10px] font-extrabold uppercase tracking-widest bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full">Itinerário com Rotas no Mapa (Origem ➔ Destino)</span>
                 <h1 class="text-xl sm:text-2xl font-black text-slate-900 mt-2">Zurique, Freiburg, França & Interlaken 🚄🏔️</h1>
-                <p class="text-xs text-slate-500 mt-1">Escreva livremente qualquer destino, datas e notas em blocos totalmente abertos.</p>
+                <p class="text-xs text-slate-500 mt-1">Visualize a rota exata de embarque e desembarque no mapa interativo.</p>
             </div>
             <div class="bg-slate-50 px-4 py-3 rounded-2xl border border-slate-300 text-right shadow-sm w-full sm:w-auto shrink-0">
                 <span class="text-[10px] text-slate-400 block uppercase font-bold">Gastos Totais</span>
@@ -80,7 +64,7 @@
             <div class="flex justify-between items-center px-1 pt-2">
                 <h2 class="text-xs font-extrabold uppercase text-slate-600 tracking-wider">📦 Blocos de Destino</h2>
                 <button onclick="adicionarBloco()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-2 rounded-xl font-bold text-xs transition shadow-sm">
-                    ➕ Adicionar Novo Bloco
+                    ➕ Adicionar Novo Bloco (Topo)
                 </button>
             </div>
             <div id="lista-blocos" class="space-y-4"></div>
@@ -110,6 +94,28 @@
 
     </div>
 
+    <!-- BARRA DE FERRAMENTAS FIXA NO FINAL DA TELA -->
+    <nav class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900 text-white px-4 py-3 shadow-2xl border-t border-slate-700 text-xs flex flex-wrap items-center justify-between gap-2">
+        <div class="flex items-center gap-2">
+            <span class="bg-indigo-600 px-2 py-0.5 rounded font-mono font-bold text-[10px]">v22.0</span>
+            <span class="font-bold">Barra de Ações</span>
+        </div>
+        <div class="flex items-center gap-1.5 flex-wrap">
+            <button onclick="ativarMicrofone()" class="bg-purple-600 hover:bg-purple-700 text-white px-2.5 py-1.5 rounded-xl font-bold transition shadow-sm flex items-center gap-1">
+                <span>🎤</span> Ditar
+            </button>
+            <button onclick="alternarTema()" class="bg-slate-800 hover:bg-slate-700 text-white px-2.5 py-1.5 rounded-xl font-bold transition border border-slate-700 flex items-center gap-1">
+                <span>🌓</span> Tema
+            </button>
+            <button onclick="exportarWord()" class="bg-indigo-700 hover:bg-indigo-800 text-white px-2.5 py-1.5 rounded-xl font-bold transition shadow-sm flex items-center gap-1">
+                <span>📥</span> Word
+            </button>
+            <button onclick="tentarInstalarApp()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2.5 py-1.5 rounded-xl font-bold transition shadow-sm flex items-center gap-1">
+                <span>📱</span> App
+            </button>
+        </div>
+    </nav>
+
     <!-- MODAL DE INSTALAÇÃO DO APP -->
     <div id="modal-instalacao" class="fixed inset-0 z-50 bg-slate-900/70 backdrop-blur-sm hidden flex items-center justify-center p-4">
         <div class="bg-white p-6 rounded-3xl shadow-2xl max-w-sm w-full space-y-4 text-center text-xs">
@@ -127,15 +133,15 @@
         </div>
     </div>
 
-    <!-- MODAL DO MAPA -->
+    <!-- MODAL DO MAPA COM ROTA -->
     <div id="modal-mapa" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
-        <div class="bg-white p-5 rounded-3xl shadow-2xl max-w-lg w-full space-y-3">
+        <div class="bg-white p-5 rounded-3xl shadow-2xl max-w-lg w-full space-y-3 text-xs">
             <div class="flex justify-between items-center border-b pb-2">
-                <h3 id="mapa-titulo" class="font-bold text-sm text-slate-900">🗺️ Localização no Mapa</h3>
+                <h3 id="mapa-titulo" class="font-bold text-sm text-slate-900">🗺️ Rota no Mapa</h3>
                 <button onclick="fecharModalMapa()" class="text-slate-400 hover:text-slate-600 font-bold">✕</button>
             </div>
             <div id="map" class="w-full h-64 rounded-2xl z-10 border border-slate-300"></div>
-            <p class="text-[11px] text-slate-500 text-center">Visualização do local de embarque e desembarque.</p>
+            <div id="mapa-status" class="text-stone-500 text-center italic">A calcular rota entre origem e destino...</div>
         </div>
     </div>
 
@@ -167,7 +173,7 @@
     <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
-        const CHAVE_APP = "mariana_viagem_europa_v19";
+        const CHAVE_APP = "mariana_viagem_europa_v22";
         let destinoFiltro = 'todos';
         let campoFocoAtual = null;
         let mapInstance = null;
@@ -212,24 +218,25 @@
             if(body.classList.contains('dark')) {
                 body.classList.remove('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.add('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v19', 'light');
+                localStorage.setItem('tema_v22', 'light');
             } else {
                 body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.remove('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v19', 'dark');
+                localStorage.setItem('tema_v22', 'dark');
             }
         }
 
         let dadosApp = {
+            destinosCadastrados: ["Zurique", "Freiburg", "França", "Interlaken"],
             itinerario: [
-                { id: 1, categoria: "Zurique", dataInicio: "2026-12-30", dataFim: "2027-01-02", trecho: "Zurique (Estadia Inicial)", transporte: "Transporte local / Caminhada", embarque: "Centro", desembarque: "Hotel", moeda: "CHF", valor: "0", status: "Comprado", notas: "", textoLivre: "Primeiros dias em Zurique. Caminhada pelo centro histórico e preparação para os passeios.", pdfData: "", pdfNome: "", bloqueado: false },
+                { id: 1, categoria: "Zurique", dataInicio: "2026-12-30", dataFim: "2027-01-02", trecho: "Zurique (Estadia Inicial)", transporte: "Transporte local / Caminhada", embarque: "Zurich HB", desembarque: "Hotel Zurich", moeda: "CHF", valor: "0", status: "Comprado", notas: "", textoLivre: "Primeiros dias em Zurique. Caminhada pelo centro histórico e preparação para os passeios.", pdfData: "", pdfNome: "", bloqueado: false },
                 { id: 2, categoria: "Zurique", dataInicio: "2027-01-02", dataFim: "2027-01-02", trecho: "Zurique ➔ Freiburg", transporte: "Ônibus FlixBus", embarque: "Zurich Bus Station", desembarque: "Freiburg Station", moeda: "EUR", valor: "25", status: "Aguardando", notas: "", textoLivre: "Partida no final da tarde. Verificar bilhetes na app da FlixBus.", pdfData: "", pdfNome: "", bloqueado: false },
                 { id: 3, categoria: "Freiburg", dataInicio: "2027-01-03", dataFim: "2027-01-03", trecho: "Freiburg ➔ Europa-Park (Papai)", transporte: "Ônibus regional", embarque: "Freiburg Central", desembarque: "Europa-Park Rust", moeda: "EUR", valor: "65", status: "Aguardando", notas: "", textoLivre: "Dia inteiro no parque Europa-Park. Levar roupas bem quentes.", pdfData: "", pdfNome: "", bloqueado: false },
-                { id: 4, categoria: "Freiburg", dataInicio: "2027-01-04", dataFim: "2027-01-04", trecho: "Freiburg (Dia livre)", transporte: "A pé", embarque: "Hotel", desembarque: "Hotel", moeda: "EUR", valor: "0", status: "Comprado", notas: "", textoLivre: "Passeio livre por Freiburg e descanso.", pdfData: "", pdfNome: "", bloqueado: false },
+                { id: 4, categoria: "Freiburg", dataInicio: "2027-01-04", dataFim: "2027-01-04", trecho: "Freiburg (Dia livre)", transporte: "A pé", embarque: "Hotel Freiburg", desembarque: "Centro Freiburg", moeda: "EUR", valor: "0", status: "Comprado", notas: "", textoLivre: "Passeio livre por Freiburg e descanso.", pdfData: "", pdfNome: "", bloqueado: false },
                 { id: 5, categoria: "França", dataInicio: "2027-01-05", dataFim: "2027-01-06", trecho: "França / Disneyland Paris", transporte: "Trem TGV", embarque: "Estação Central", desembarque: "Marne-la-Vallée Chessy", moeda: "EUR", valor: "220", status: "Aguardando", notas: "", textoLivre: "Dois dias completos na Disney. Aproveitar os parques e atrações.", pdfData: "", pdfNome: "", bloqueado: false },
-                { id: 6, categoria: "França", dataInicio: "2027-01-07", dataFim: "2027-01-07", trecho: "La Vallée Village (Outlet de Compras)", transporte: "RER A", embarque: "Chessy", desembarque: "Val d'Europe", moeda: "EUR", valor: "150", status: "Aguardando", notas: "", textoLivre: "Dia de compras no outlet La Vallée Village junto à Disney.", pdfData: "", pdfNome: "", bloqueado: false },
+                { id: 6, categoria: "França", dataInicio: "2027-01-07", dataFim: "2027-01-07", trecho: "La Vallée Village (Outlet de Compras)", transporte: "RER A", embarque: "Chessy Marne-la-Vallée", desembarque: "Val d'Europe", moeda: "EUR", valor: "150", status: "Aguardando", notas: "", textoLivre: "Dia de compras no outlet La Vallée Village junto à Disney.", pdfData: "", pdfNome: "", bloqueado: false },
                 { id: 7, categoria: "Interlaken", dataInicio: "2027-01-08", dataFim: "2027-01-08", trecho: "França ➔ Interlaken", transporte: "Trem TGV Lyria", embarque: "Estação França", desembarque: "Interlaken Ost", moeda: "CHF", valor: "110", status: "Aguardando", notas: "", textoLivre: "Viagem rumo aos Alpes suíços.", pdfData: "", pdfNome: "", bloqueado: false },
-                { id: 8, categoria: "Interlaken", dataInicio: "2027-01-08", dataFim: "2027-01-12", trecho: "Interlaken (Estadia Alpina)", transporte: "Autocarros locais", embarque: "Interlaken Ost", desembarque: "Alpes", moeda: "CHF", valor: "0", status: "Comprado", notas: "", textoLivre: "Dias em Interlaken explorando Grindelwald, Jungfraujoch e paisagens alpinas.", pdfData: "", pdfNome: "", bloqueado: false },
+                { id: 8, categoria: "Interlaken", dataInicio: "2027-01-08", dataFim: "2027-01-12", trecho: "Interlaken (Estadia Alpina)", transporte: "Autocarros locais", embarque: "Interlaken Ost", desembarque: "Grindelwald", moeda: "CHF", valor: "0", status: "Comprado", notas: "", textoLivre: "Dias em Interlaken explorando Grindelwald, Jungfraujoch e paisagens alpinas.", pdfData: "", pdfNome: "", bloqueado: false },
                 { id: 9, categoria: "Interlaken", dataInicio: "2027-01-12", dataFim: "2027-01-12", trecho: "Interlaken ➔ Zurique", transporte: "Trem SBB", embarque: "Interlaken Ost", desembarque: "Zurich HB", moeda: "CHF", valor: "76", status: "Aguardando", notas: "", textoLivre: "Regresso a Zurique para preparar o retorno.", pdfData: "", pdfNome: "", bloqueado: false }
             ],
             tarefas: [
@@ -240,7 +247,7 @@
         };
 
         window.addEventListener('DOMContentLoaded', () => {
-            const temaSalvo = localStorage.getItem('tema_v19');
+            const temaSalvo = localStorage.getItem('tema_v22');
             if (temaSalvo === 'dark') {
                 document.body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 document.body.classList.remove('bg-slate-100', 'text-slate-800');
@@ -250,12 +257,25 @@
             if (salvo) {
                 try { dadosApp = JSON.parse(salvo); } catch(e){}
             }
+            if(!dadosApp.destinosCadastrados) {
+                dadosApp.destinosCadastrados = ["Zurique", "Freiburg", "França", "Interlaken"];
+            }
+            ordenarItinerario();
             atualizarTudo();
         });
 
         function salvarStorage() {
+            ordenarItinerario();
             localStorage.setItem(CHAVE_APP, JSON.stringify(dadosApp));
             atualizarTudo();
+        }
+
+        function ordenarItinerario() {
+            dadosApp.itinerario.sort((a, b) => {
+                let d1 = a.dataInicio ? new Date(a.dataInicio) : new Date(0);
+                let d2 = b.dataInicio ? new Date(b.dataInicio) : new Date(0);
+                return d1 - d2;
+            });
         }
 
         function atualizarTudo() {
@@ -317,6 +337,23 @@
             renderizarBlocos();
         }
 
+        function lidarSelecaoDestino(id, valor) {
+            if(valor === 'novo_destino') {
+                let novo = prompt("Digite o nome do novo destino:");
+                if(novo && novo.trim() !== '') {
+                    let destinoLimpo = novo.trim();
+                    if(!dadosApp.destinosCadastrados.includes(destinoLimpo)) {
+                        dadosApp.destinosCadastrados.push(destinoLimpo);
+                    }
+                    atualizarCampo(id, 'categoria', destinoLimpo);
+                } else {
+                    renderizarBlocos();
+                }
+            } else {
+                atualizarCampo(id, 'categoria', valor);
+            }
+        }
+
         function renderizarBlocos() {
             const container = document.getElementById('lista-blocos');
             container.innerHTML = '';
@@ -344,13 +381,25 @@
                 let totalDias = calcularDias(item.dataInicio, item.dataFim);
                 let textoDias = totalDias === 1 ? '1 dia' : `${totalDias} dias`;
 
+                let opcoesDestino = '';
+                if(!dadosApp.destinosCadastrados.includes(item.categoria)) {
+                    dadosApp.destinosCadastrados.push(item.categoria);
+                }
+                dadosApp.destinosCadastrados.forEach(d => {
+                    let sel = item.categoria === d ? 'selected' : '';
+                    opcoesDestino += `<option value="${d}" ${sel}>${d}</option>`;
+                });
+                opcoesDestino += `<option value="novo_destino">➕ Outro (Cadastrar novo)...</option>`;
+
                 let card = document.createElement('div');
                 card.className = `p-4 sm:p-5 rounded-3xl border ${corTema} space-y-3 transition shadow-sm`;
                 card.innerHTML = `
                     <div class="flex justify-between items-center gap-2 border-b border-black/10 pb-2">
                         <div class="flex items-center gap-2 flex-wrap">
                             <span class="bg-indigo-600 text-white font-black px-2.5 py-0.5 rounded-full text-[10px]">📅 ${textoDias}</span>
-                            <input type="text" value="${item.categoria}" ${dis} onfocus="registarFoco(this)" oninput="atualizarCampo(${item.id}, 'categoria', this.value); renderizarBlocos();" class="bg-white/90 text-indigo-900 font-black px-2.5 py-1 rounded-xl text-xs border border-black/10 outline-none w-36" placeholder="Digite o destino livremente">
+                            <select onchange="lidarSelecaoDestino(${item.id}, this.value)" ${dis} class="bg-white/90 text-indigo-900 font-black px-2.5 py-1 rounded-xl text-xs border border-black/10 outline-none">
+                                ${opcoesDestino}
+                            </select>
                         </div>
                         <select onchange="atualizarCampo(${item.id}, 'status', this.value)" ${dis} class="border border-black/10 rounded-xl px-2.5 py-1 text-xs font-bold outline-none ${item.status === 'Comprado' ? 'bg-emerald-100 text-emerald-800' : item.status === 'Reservado' ? 'bg-blue-100 text-blue-800' : 'bg-amber-100 text-amber-800'}">
                             <option value="Comprado" ${item.status === 'Comprado' ? 'selected' : ''}>Comprado</option>
@@ -381,12 +430,12 @@
                             <input type="text" value="${item.transporte}" ${dis} onfocus="registarFoco(this)" oninput="atualizarCampo(${item.id}, 'transporte', this.value)" class="w-full p-2.5 bg-white border border-black/10 rounded-xl outline-none" placeholder="Ex: Trem SBB / Ônibus FlixBus">
                         </div>
                         <div>
-                            <label class="block font-semibold text-slate-600 mb-0.5">Local de Embarque</label>
-                            <input type="text" value="${item.embarque}" ${dis} onfocus="registarFoco(this)" oninput="atualizarCampo(${item.id}, 'embarque', this.value)" class="w-full p-2.5 bg-white border border-black/10 rounded-xl outline-none" placeholder="Onde embarca?">
+                            <label class="block font-semibold text-slate-600 mb-0.5">Local de Origem (Embarque)</label>
+                            <input type="text" value="${item.embarque}" ${dis} onfocus="registarFoco(this)" oninput="atualizarCampo(${item.id}, 'embarque', this.value)" class="w-full p-2.5 bg-white border border-black/10 rounded-xl outline-none" placeholder="Ex: Zurich HB">
                         </div>
                         <div>
-                            <label class="block font-semibold text-slate-600 mb-0.5">Local de Desembarque</label>
-                            <input type="text" value="${item.desembarque}" ${dis} onfocus="registarFoco(this)" oninput="atualizarCampo(${item.id}, 'desembarque', this.value)" class="w-full p-2.5 bg-white border border-black/10 rounded-xl outline-none" placeholder="Onde desembarca?">
+                            <label class="block font-semibold text-slate-600 mb-0.5">Local de Destino (Desembarque)</label>
+                            <input type="text" value="${item.desembarque}" ${dis} onfocus="registarFoco(this)" oninput="atualizarCampo(${item.id}, 'desembarque', this.value)" class="w-full p-2.5 bg-white border border-black/10 rounded-xl outline-none" placeholder="Ex: Hotel ou Estação">
                         </div>
                     </div>
 
@@ -408,7 +457,7 @@
                         </div>
                         
                         <div class="flex items-center gap-1 flex-wrap">
-                            <button onclick="abrirMapa('${item.embarque}', '${item.desembarque}', '${item.categoria}')" class="bg-sky-100 text-sky-800 hover:bg-sky-200 px-2.5 py-1.5 rounded-xl font-bold text-xs flex items-center gap-1" title="Ver no Mapa">🗺️ Mapa</button>
+                            <button onclick="abrirMapaRuta('${item.embarque}', '${item.desembarque}', '${item.categoria}')" class="bg-sky-100 text-sky-800 hover:bg-sky-200 px-2.5 py-1.5 rounded-xl font-bold text-xs flex items-center gap-1" title="Ver Rota no Mapa">🗺️ Mapa Rota</button>
                             <button onclick="abrirModalDetalhes(${item.id})" class="bg-white hover:bg-slate-100 border border-black/10 px-2.5 py-1.5 rounded-xl font-bold text-xs" title="Editar notas e PDF">✏️ Lápis</button>
                             <button onclick="desfazerBloco(${item.id})" class="bg-amber-100 text-amber-800 hover:bg-amber-200 px-2.5 py-1.5 rounded-xl font-bold text-xs" title="Desfazer alterações">↩️ Desfazer</button>
                             <button onclick="alternarBloqueio(${item.id})" class="${btnOkClass} px-3 py-1.5 rounded-xl font-bold text-xs transition" title="Bloquear/Desbloquear">${btnOkText}</button>
@@ -426,6 +475,9 @@
             const item = dadosApp.itinerario.find(i => i.id === id);
             if(item) {
                 item[campo] = valor;
+                if(campo === 'dataInicio') {
+                    ordenarItinerario();
+                }
                 salvarStorage();
             }
         }
@@ -458,11 +510,11 @@
 
         function adicionarBloco() {
             const novoId = dadosApp.itinerario.length > 0 ? Math.max(...dadosApp.itinerario.map(i => i.id)) + 1 : 1;
-            dadosApp.itinerario.push({
+            const novoItem = {
                 id: novoId,
                 categoria: "Zurique",
-                dataInicio: "2027-01-01",
-                dataFim: "2027-01-01",
+                dataInicio: "",
+                dataFim: "",
                 trecho: "Novo Trecho",
                 transporte: "Trem / Ônibus",
                 embarque: "Origem",
@@ -475,7 +527,8 @@
                 pdfData: "",
                 pdfNome: "",
                 bloqueado: false
-            });
+            };
+            dadosApp.itinerario.unshift(novoItem);
             salvarStorage();
             renderizarBlocos();
         }
@@ -488,12 +541,13 @@
             }
         }
 
-        // Mapa com Leaflet
-        function abrirMapa(embarque, desembarque, destino) {
-            document.getElementById('mapa-titulo').innerText = `🗺️ Mapa: ${destino} (${embarque} ➔ ${desembarque})`;
+        // Mapa com Rota Dinâmica (Origem ➔ Destino)
+        async function abrirMapaRuta(origem, destinoLocal, destinoCategoria) {
+            document.getElementById('mapa-titulo').innerText = `🗺️ Rota: ${origem} ➔ ${destinoLocal} (${destinoCategoria})`;
+            document.getElementById('mapa-status').innerText = "A traçar rota no mapa...";
             document.getElementById('modal-mapa').classList.remove('hidden');
             
-            setTimeout(() => {
+            setTimeout(async () => {
                 if(!mapInstance) {
                     mapInstance = L.map('map').setView([47.3769, 8.5417], 7);
                     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -503,8 +557,48 @@
                 } else {
                     mapInstance.invalidateSize();
                 }
-                L.marker([47.3769, 8.5417]).addTo(mapInstance)
-                  .bindPopup(`<b>${destino}</b><br>Embarque: ${embarque}<br>Desembarque: ${desembarque}`).openPopup();
+
+                // Limpar marcadores anteriores e linhas
+                mapInstance.eachLayer(layer => {
+                    if (layer instanceof L.Marker || layer instanceof L.Polyline) {
+                        mapInstance.removeLayer(layer);
+                    }
+                });
+
+                async function buscarCoords(query) {
+                    try {
+                        let res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}`);
+                        let data = await res.json();
+                        if(data && data.length > 0) {
+                            return [parseFloat(data[0].lat), parseFloat(data[0].lon)];
+                        }
+                    } catch(e) {}
+                    return null;
+                }
+
+                let coordsOrigem = await buscarCoords(origem) || [47.3769, 8.5417]; // Zurique default
+                let coordsDestino = await buscarCoords(destinoLocal) || [46.9480, 7.4474]; // Berna default
+
+                L.marker(coordsOrigem).addTo(mapInstance).bindPopup(`<b>Origem (Embarque):</b> ${origem}`).openPopup();
+                L.marker(coordsDestino).addTo(mapInstance).bindPopup(`<b>Destino (Desembarque):</b> ${destinoLocal}`);
+
+                // Tentar carregar rota real (OSRM)
+                try {
+                    let rotaRes = await fetch(`https://router.project-osrm.org/route/v1/driving/${coordsOrigem[1]},${coordsOrigem[0]};${coordsDestino[1]},${coordsDestino[0]}?overview=full&geometries=geojson`);
+                    let rotaData = await rotaRes.json();
+                    if(rotaData.routes && rotaData.routes.length > 0) {
+                        let pontos = rotaData.routes[0].geometry.coordinates.map(c => [c[1], c[0]]);
+                        let polyline = L.polyline(pontos, {color: '#4f46e5', weight: 5, opacity: 0.8}).addTo(mapInstance);
+                        mapInstance.fitBounds(polyline.getBounds(), {padding: [50, 50]});
+                        document.getElementById('mapa-status').innerText = "Rota traçada com sucesso!";
+                        return;
+                    }
+                } catch(e) {}
+
+                // Fallback: Linha direta pontilhada
+                let polyline = L.polyline([coordsOrigem, coordsDestino], {color: '#4f46e5', weight: 4, dashArray: '5, 10'}).addTo(mapInstance);
+                mapInstance.fitBounds(polyline.getBounds(), {padding: [50, 50]});
+                document.getElementById('mapa-status').innerText = "Rota exibida no mapa.";
             }, 300);
         }
 
@@ -640,7 +734,7 @@
         }
 
         function exportarWord() {
-            let htmlConteudo = `<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><title>Roteiro Europa</title><style>body{font-family:Arial,sans-serif;}table{width:100%;border-collapse:collapse;}th,td{border:1px solid #94a3b8;padding:8px;font-size:11px;}th{background:#4f46e5;color:#fff;}</style></head><body><h1>Roteiro Europa</h1><table><tr><th>Destino</th><th>Início</th><th>Fim</th><th>Trecho</th><th>Transporte</th><th>Embarque</th><th>Desembarque</th><th>Valor</th><th>Status</th></tr>`;
+            let htmlConteudo = `<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><title>Roteiro Europa</title><style>body{font-family:Arial,sans-serif;}table{width:100%;border-collapse:collapse;}th,td{border:1px solid #94a3b8;padding:8px;font-size:11px;}th{background:#4f46e5;color:#fff;}</style></head><body><h1>Roteiro Europa</h1><table><tr><th>Destino</th><th>Início</th><th>Fim</th><th>Trecho</th><th>Transporte</th><th>Origem</th><th>Destino</th><th>Valor</th><th>Status</th></tr>`;
             dadosApp.itinerario.forEach(i => {
                 htmlConteudo += `<tr><td>${i.categoria}</td><td>${i.dataInicio}</td><td>${i.dataFim}</td><td>${i.trecho}</td><td>${i.transporte}</td><td>${i.embarque}</td><td>${i.desembarque}</td><td>${i.moeda} ${i.valor}</td><td>${i.status}</td></tr>`;
             });
