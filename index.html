@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v81.0)</title>
+    <title>Roteiro Europa - Mariana (v82.0)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Manifest Dinâmico via JavaScript -->
@@ -35,7 +35,7 @@
     <!-- CABEÇALHO COMPACTO NO TOPO -->
     <header class="bg-slate-900 text-white px-3 py-2 shadow-md border-b border-slate-800 text-xs flex justify-between items-center z-50 relative">
         <span class="font-bold tracking-wide">🚄 Roteiro Europa - Mariana</span>
-        <span class="bg-indigo-600 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v81.0</span>
+        <span class="bg-indigo-600 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v82.0</span>
     </header>
 
     <!-- CONTEÚDO PRINCIPAL COMPACTO -->
@@ -108,20 +108,15 @@
             </div>
         </div>
 
-        <!-- TAB 5: GOOGLE MAPS INTERATIVO -->
+        <!-- TAB 5: MAPA RÁPIDO E LEVE -->
         <div id="tab-mapa-geral" class="space-y-3 hidden">
-            <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-300 space-y-3">
-                <div class="flex justify-between items-center border-b pb-2 flex-wrap gap-2">
-                    <div>
-                        <h2 class="text-[11px] font-extrabold uppercase text-slate-800 tracking-wider">🗺️ Google Maps Oficial (Com Street View & 3D)</h2>
-                        <p class="text-[10px] text-slate-500 font-semibold">Explore os locais reais em português, satélite e 3D do Google</p>
-                    </div>
-                    <button onclick="abrirGoogleMapsGeral()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1.5 rounded-lg font-bold text-[11px] transition shadow-sm">🌍 Abrir no Google Maps</button>
-                </div>
-                <div class="w-full h-[420px] rounded-xl overflow-hidden border border-slate-300 relative">
-                    <iframe id="google-maps-iframe" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2700147.23456!2d7.4474!3d47.3769!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47900b9730fea3b7%3A0x120fbe879198444!2sSwitzerland!5e0!3m2!1spt-PT!2sbr!4v1700000000000!5m2!1spt-PT!2sbr"></iframe>
-                </div>
-                <div class="text-stone-500 text-center text-[11px] italic">Dica: No Google Maps podes usar o bonequinho (Street View) e a visão de Satélite/3D em português!</div>
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-300 space-y-4 text-center">
+                <div class="w-14 h-14 bg-indigo-100 text-indigo-600 rounded-2xl mx-auto flex items-center justify-center text-2xl font-black">🗺️</div>
+                <h3 class="text-sm font-black text-slate-900">Google Maps Oficial em Português</h3>
+                <p class="text-xs text-slate-600 leading-relaxed">Clique no botão abaixo para abrir o Google Maps de forma rápida, leve e sem travamentos no telemóvel:</p>
+                <button onclick="abrirGoogleMapsGeral()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-3 rounded-xl font-bold text-xs transition shadow-md">
+                    🌍 Abrir Google Maps Oficial (Com Street View & 3D)
+                </button>
             </div>
         </div>
 
@@ -129,7 +124,7 @@
 
     <!-- BARRA DE FERRAMENTAS FIXA NO FINAL DA TELA COM GEMINI IA -->
     <nav class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-md text-white px-2 py-2 shadow-2xl border-t border-slate-800 text-xs flex items-center gap-1 overflow-x-auto no-scrollbar">
-        <span class="bg-indigo-600 px-1 py-0.5 rounded font-mono font-bold text-[8px] shrink-0">v81.0</span>
+        <span class="bg-indigo-600 px-1 py-0.5 rounded font-mono font-bold text-[8px] shrink-0">v82.0</span>
         <button onclick="abrirGeminiModal()" class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-2 py-1 rounded-lg font-bold transition shrink-0 flex items-center gap-1 text-[10px]">
             <span>✨</span> Gemini
         </button>
@@ -226,7 +221,7 @@
     </div>
 
     <script>
-        const CHAVE_APP = "mariana_viagem_europa_v81";
+        const CHAVE_APP = "mariana_viagem_europa_v82";
         let destinoFiltro = 'todos';
         let tarefaFiltro = 'todas';
         let campoFocoAtual = null;
@@ -292,7 +287,7 @@
             const manifestBlob = new Blob([JSON.stringify(manifestObj)], {type: 'application/manifest+json'});
             document.getElementById('pwa-manifest').href = URL.createObjectURL(manifestBlob);
 
-            const temaSalvo = localStorage.getItem('tema_v81');
+            const temaSalvo = localStorage.getItem('tema_v82');
             if (temaSalvo === 'dark') {
                 document.body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 document.body.classList.remove('bg-slate-100', 'text-slate-800');
@@ -346,10 +341,10 @@
         }
 
         function desbloquearComPin() {
-            let pinSalvo = localStorage.getItem('app_pin_v81') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v82') || '1510';
             let digitado = document.getElementById('input-pin').value;
             if(digitado === pinSalvo) {
-                sessionStorage.setItem('sessao_ativa_v81', 'true');
+                sessionStorage.setItem('sessao_ativa_v82', 'true');
                 document.getElementById('tela-bloqueio').classList.add('hidden');
                 document.getElementById('erro-pin').classList.add('hidden');
             } else {
@@ -358,17 +353,17 @@
         }
 
         async function desbloquearComBiometria() {
-            sessionStorage.setItem('sessao_ativa_v81', 'true');
+            sessionStorage.setItem('sessao_ativa_v82', 'true');
             document.getElementById('tela-bloqueio').classList.add('hidden');
         }
 
         function alterarSenhaPin() {
             let atual = prompt("Digite a senha atual (Padrão: 1510):");
-            let pinSalvo = localStorage.getItem('app_pin_v81') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v82') || '1510';
             if(atual === pinSalvo) {
                 let nova = prompt("Digite a nova senha PIN:");
                 if(nova && nova.trim() !== '') {
-                    localStorage.setItem('app_pin_v81', nova.trim());
+                    localStorage.setItem('app_pin_v82', nova.trim());
                     alert("🔑 Senha alterada com sucesso!");
                 }
             } else {
@@ -381,11 +376,11 @@
             if(body.classList.contains('dark')) {
                 body.classList.remove('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.add('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v81', 'light');
+                localStorage.setItem('tema_v82', 'light');
             } else {
                 body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.remove('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v81', 'dark');
+                localStorage.setItem('tema_v82', 'dark');
             }
         }
 
