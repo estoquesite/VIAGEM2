@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v84.0)</title>
+    <title>Roteiro Europa - Mariana (v74.0)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Manifest Dinâmico via JavaScript -->
@@ -35,7 +35,7 @@
     <!-- CABEÇALHO COMPACTO NO TOPO -->
     <header class="bg-slate-900 text-white px-3 py-2 shadow-md border-b border-slate-800 text-xs flex justify-between items-center z-50 relative">
         <span class="font-bold tracking-wide">🚄 Roteiro Europa - Mariana</span>
-        <span class="bg-indigo-600 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v84.0</span>
+        <span class="bg-indigo-600 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v74.0</span>
     </header>
 
     <!-- CONTEÚDO PRINCIPAL COMPACTO -->
@@ -50,7 +50,7 @@
             <button onclick="mudarTab('mapa-geral')" id="tab-btn-mapa-geral" class="py-2 rounded-lg text-slate-600 hover:bg-white/50 transition">🗺️ Mapa</button>
         </div>
 
-        <!-- TAB 1: MODO LEITURA LIMPA / SEQUÊNCIA DO ROTEIRO -->
+        <!-- TAB 1: ROTEIRO SEQUENCIAL (PRIMEIRA ABA PRINCIPAL) -->
         <div id="tab-leitura" class="space-y-3">
             <div class="bg-gradient-to-r from-indigo-900 to-slate-900 text-white p-3 rounded-2xl shadow-md flex justify-between items-center">
                 <div>
@@ -62,9 +62,11 @@
             <div id="lista-leitura-html" class="space-y-3"></div>
         </div>
 
-        <!-- TAB 2: ITINERÁRIO EM BLOCOS EDITÁVEIS -->
+        <!-- TAB 2: ITINERÁRIO EDITÁVEL -->
         <div id="tab-itinerario" class="space-y-3 hidden">
-            <div id="filtros-container" class="bg-slate-200 p-1.5 rounded-xl overflow-x-auto flex gap-1 text-[11px] items-center no-scrollbar shadow-inner"></div>
+            <div id="filtros-container" class="bg-slate-200 p-1.5 rounded-xl overflow-x-auto flex gap-1 text-[11px] items-center no-scrollbar shadow-inner">
+                <!-- Renderizado via JS -->
+            </div>
 
             <div class="flex justify-between items-center px-1 pt-0.5">
                 <h2 class="text-[11px] font-extrabold uppercase text-slate-600 tracking-wider">📦 Blocos de Destino & Hotéis</h2>
@@ -85,7 +87,9 @@
                     </div>
                     <button onclick="adicionarTarefa()" class="bg-indigo-600 hover:bg-indigo-500 text-white px-3 py-1.5 rounded-xl text-[11px] font-bold transition shadow-sm">➕ Nova Tarefa</button>
                 </div>
-                <div id="filtros-tarefas-container" class="flex gap-1 pt-1 overflow-x-auto items-center flex-wrap"></div>
+                <div id="filtros-tarefas-container" class="flex gap-1 pt-1 overflow-x-auto items-center flex-wrap">
+                    <!-- Dinâmico via JS -->
+                </div>
             </div>
             <div id="lista-tarefas-html" class="space-y-2 text-xs"></div>
         </div>
@@ -109,7 +113,7 @@
             <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-300 space-y-4 text-center">
                 <div class="w-14 h-14 bg-indigo-100 text-indigo-600 rounded-2xl mx-auto flex items-center justify-center text-2xl font-black">🗺️</div>
                 <h3 class="text-sm font-black text-slate-900">Google Maps Oficial em Português</h3>
-                <p class="text-xs text-slate-600 leading-relaxed">Clique no botão abaixo para abrir o Google Maps:</p>
+                <p class="text-xs text-slate-600 leading-relaxed">Clique no botão abaixo para abrir o Google Maps de forma rápida e leve:</p>
                 <button onclick="abrirGoogleMapsGeral()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-3 rounded-xl font-bold text-xs transition shadow-md">
                     🌍 Abrir Google Maps Oficial
                 </button>
@@ -120,16 +124,28 @@
 
     <!-- BARRA DE FERRAMENTAS FIXA -->
     <nav class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-md text-white px-2 py-2 shadow-2xl border-t border-slate-800 text-xs flex items-center gap-1 overflow-x-auto no-scrollbar">
-        <span class="bg-indigo-600 px-1 py-0.5 rounded font-mono font-bold text-[8px] shrink-0">v84.0</span>
-        <button onclick="abrirGeminiModal()" class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-2 py-1 rounded-lg font-bold transition shrink-0 flex items-center gap-1 text-[10px]"><span>✨</span> Gemini</button>
-        <button onclick="ativarMicrofone()" class="bg-purple-600 text-white px-2 py-1 rounded-lg font-bold transition shrink-0 flex items-center gap-1 text-[10px]"><span>🎤</span> Ditar</button>
-        <button onclick="alternarTema()" class="bg-slate-800 text-white px-2 py-1 rounded-lg font-bold transition border border-slate-700 shrink-0 flex items-center gap-1 text-[10px]"><span>🌓</span> Tema</button>
-        <button onclick="alterarSenhaPin()" class="bg-amber-600 text-white px-2 py-1 rounded-lg font-bold transition shrink-0 flex items-center gap-1 text-[10px]"><span>🔑</span> Senha</button>
-        <button onclick="exportarWord()" class="bg-indigo-700 text-white px-2 py-1 rounded-lg font-bold transition shrink-0 flex items-center gap-1 text-[10px]"><span>📥</span> Word</button>
-        <button onclick="tentarInstalarApp()" class="bg-emerald-600 text-white px-2 py-1 rounded-lg font-bold transition shrink-0 flex items-center gap-1 text-[10px]"><span>📱</span> App</button>
+        <span class="bg-indigo-600 px-1 py-0.5 rounded font-mono font-bold text-[8px] shrink-0">v74.0</span>
+        <button onclick="abrirGeminiModal()" class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-2 py-1 rounded-lg font-bold transition shrink-0 flex items-center gap-1 text-[10px]">
+            <span>✨</span> Gemini
+        </button>
+        <button onclick="ativarMicrofone()" class="bg-purple-600 text-white px-2 py-1 rounded-lg font-bold transition shrink-0 flex items-center gap-1 text-[10px]">
+            <span>🎤</span> Ditar
+        </button>
+        <button onclick="alternarTema()" class="bg-slate-800 text-white px-2 py-1 rounded-lg font-bold transition border border-slate-700 shrink-0 flex items-center gap-1 text-[10px]">
+            <span>🌓</span> Tema
+        </button>
+        <button onclick="alterarSenhaPin()" class="bg-amber-600 text-white px-2 py-1 rounded-lg font-bold transition shrink-0 flex items-center gap-1 text-[10px]">
+            <span>🔑</span> Senha
+        </button>
+        <button onclick="exportarWord()" class="bg-indigo-700 text-white px-2 py-1 rounded-lg font-bold transition shrink-0 flex items-center gap-1 text-[10px]">
+            <span>📥</span> Word
+        </button>
+        <button onclick="tentarInstalarApp()" class="bg-emerald-600 text-white px-2 py-1 rounded-lg font-bold transition shrink-0 flex items-center gap-1 text-[10px]">
+            <span>📱</span> App
+        </button>
     </nav>
 
-    <!-- MODAL GEMINI -->
+    <!-- MODAL DA GEMINI IA -->
     <div id="modal-gemini" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
         <div class="bg-white p-4 rounded-2xl shadow-2xl max-w-sm w-full space-y-2.5 text-xs flex flex-col h-[380px] border border-slate-300">
             <div class="flex justify-between items-center border-b pb-2">
@@ -146,17 +162,21 @@
         </div>
     </div>
 
-    <!-- MODAL INSTALAÇÃO -->
+    <!-- MODAL DE INSTALAÇÃO DO APP -->
     <div id="modal-instalacao" class="fixed inset-0 z-50 bg-slate-900/70 backdrop-blur-sm hidden flex items-center justify-center p-4">
         <div class="bg-white p-5 rounded-2xl shadow-2xl max-w-xs w-full space-y-3 text-center text-xs">
             <div class="w-10 h-10 bg-indigo-100 text-indigo-600 rounded-xl mx-auto flex items-center justify-center text-xl font-black">🚄</div>
             <h3 class="font-black text-slate-900 text-xs">Instalar Roteiro Europa</h3>
             <p class="text-slate-600 leading-relaxed text-[11px]">Adicione este Super App ao seu ecrã inicial:</p>
+            <div class="bg-slate-50 p-2.5 rounded-xl text-left space-y-1.5 text-[10px] text-slate-700 border">
+                <p><b>📱 Android (Chrome):</b> Menu ➔ <b>"Adicionar à tela inicial"</b>.</p>
+                <p><b>🍏 iPhone (Safari):</b> Partilha ➔ <b>"Adicionar à Tela de Início"</b>.</p>
+            </div>
             <button onclick="fecharModalInstalacao()" class="w-full bg-indigo-600 text-white font-bold py-2 rounded-xl text-xs">Entendido ✨</button>
         </div>
     </div>
 
-    <!-- MODAL DETALHES -->
+    <!-- MODAL DE DETALHES / PDF -->
     <div id="modal-detalhes" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
         <div class="bg-white p-4 rounded-2xl shadow-2xl max-w-sm w-full space-y-3 text-xs border border-slate-300">
             <div class="flex justify-between items-center border-b pb-2">
@@ -167,10 +187,10 @@
             <div id="modal-info-trecho" class="font-bold text-indigo-600 text-[11px]"></div>
             <div>
                 <label class="block font-semibold text-slate-600 mb-0.5 text-[11px]">Notas Adicionais</label>
-                <textarea id="modal-notas" rows="2" class="w-full p-2 bg-slate-50 border border-slate-300 rounded-xl outline-none text-slate-800 text-xs"></textarea>
+                <textarea id="modal-notas" rows="2" class="w-full p-2 bg-slate-50 border border-slate-300 rounded-xl outline-none text-slate-800 text-xs" placeholder="Ex: Número do bilhete..."></textarea>
             </div>
             <div>
-                <label class="block font-semibold text-slate-600 mb-0.5 text-[11px]">Atualizar PDF</label>
+                <label class="block font-semibold text-slate-600 mb-0.5 text-[11px]">Anexar ou Atualizar PDF</label>
                 <input type="file" id="modal-pdf" accept="application/pdf" class="w-full p-1 bg-slate-50 border border-slate-300 rounded-xl text-[10px]">
             </div>
             <div class="flex gap-1.5 pt-1">
@@ -180,7 +200,7 @@
         </div>
     </div>
 
-    <!-- MODAL TAREFA -->
+    <!-- MODAL DE EDITAR TAREFA -->
     <div id="modal-tarefa" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
         <div class="bg-white p-4 rounded-2xl shadow-2xl max-w-sm w-full space-y-3 text-xs border border-slate-300">
             <div class="flex justify-between items-center border-b pb-2">
@@ -188,7 +208,10 @@
                 <button onclick="fecharModalTarefa()" class="text-slate-400 font-bold">✕</button>
             </div>
             <input type="hidden" id="tarefa-edit-id">
-            <textarea id="tarefa-edit-texto" rows="2" class="w-full p-2 bg-slate-50 border border-slate-300 rounded-xl outline-none text-slate-800 font-bold text-xs"></textarea>
+            <div>
+                <label class="block font-semibold text-slate-600 mb-0.5 text-[11px]">Descrição da Tarefa</label>
+                <textarea id="tarefa-edit-texto" rows="2" class="w-full p-2 bg-slate-50 border border-slate-300 rounded-xl outline-none text-slate-800 font-bold text-xs" placeholder="Descreva a tarefa..."></textarea>
+            </div>
             <div class="flex gap-1.5 pt-1">
                 <button onclick="salvarTarefaModal()" class="flex-1 bg-indigo-600 text-white py-2 rounded-xl font-bold text-xs">Guardar</button>
                 <button onclick="fecharModalTarefa()" class="bg-slate-200 text-slate-700 px-3 py-2 rounded-xl text-xs">Cancelar</button>
@@ -197,7 +220,7 @@
     </div>
 
     <script>
-        const CHAVE_APP = "mariana_viagem_europa_v84";
+        const CHAVE_APP = "mariana_viagem_europa_v74";
         let destinoFiltro = 'todos';
         let tarefaFiltro = 'todas';
         let campoFocoAtual = null;
@@ -207,12 +230,28 @@
 
         let dadosApp = {
             destinosCadastrados: ["Zurique", "Freiburg", "França", "Interlaken"],
-            locaisCadastrados: ["Zurich HB", "Zurich Bus Station (Sihlquai)", "ibis budget Zurich City West", "Freiburg Hbf (Estação Central)", "Premier Inn Freiburg City Süd", "Europa-Park Rust", "Disney Hotel Santa Fe", "Marne-la-Vallée Chessy (Disney)", "Val d'Europe (Outlet)", "CAMPOSANILE PARIS 12 - Bercy Village", "Gare de Lyon (Paris)", "Interlaken Ost", "Hotel Weisses Kreuz", "Grindelwald", "Jungfraujoch"],
-            labelsPersonalizadas: { origem: "Local de Origem", destino: "Local de Destino", trecho: "Trecho / Rota", transporte: "Transporte", numTransporte: "Nº Transporte", notas: "Notas do Dia" },
-            titulosSecoes: { origemDestino: "ORIGEMDESTINO", transporte: "TRANSPORTE", notas: "NOTAS", extras: "EXTRAS" },
+            locaisCadastrados: [
+                "Zurich HB", "Zurich Bus Station (Sihlquai)", "ibis budget Zurich City West",
+                "Freiburg Hbf (Estação Central)", "Premier Inn Freiburg City Süd", "Europa-Park Rust",
+                "Disney Hotel Santa Fe", "Marne-la-Vallée Chessy (Disney)", "Val d'Europe (Outlet)",
+                "CAMPOSANILE PARIS 12 - Bercy Village", "Gare de Lyon (Paris)", "Interlaken Ost",
+                "Hotel Weisses Kreuz", "Grindelwald", "Jungfraujoch"
+            ],
+            labelsPersonalizadas: {
+                origem: "Local de Origem",
+                destino: "Local de Destino",
+                trecho: "Trecho / Rota",
+                transporte: "Transporte",
+                numTransporte: "Nº Transporte",
+                notas: "Notas do Dia"
+            },
+            titulosSecoes: {
+                origemDestino: "ORIGEMDESTINO",
+                transporte: "TRANSPORTE",
+                notas: "NOTAS",
+                extras: "EXTRAS"
+            },
             ordemSecoesPadrao: ['origemDestino', 'transporte', 'notas', 'extras'],
-            coresBlocos: {},
-            pontosExtrasMapa: [],
             statusPersonalizados: { "Concluído": "#22c55e", "Aguardando": "#f59e0b" },
             itinerario: [
                 { id: 1, categoria: "Zurique", dataInicio: "2026-12-30", dataFim: "2027-01-02", trecho: "Estadia no ibis budget Zurich City West", transporte: "Caminhada", numeroTransporte: "", embarque: "Zurich HB", desembarque: "ibis budget Zurich City West", moeda: "CHF", valor: "0", status: "Comprado", notas: "", textoLivre: "Check-in às 15h00.", pdfData: "", pdfNome: "", bloqueado: false, cor: "#3b82f6", ordemSecoes: ['origemDestino', 'transporte', 'notas', 'extras'], subBlocos: [], concluido: false },
@@ -234,96 +273,141 @@
         };
 
         window.addEventListener('DOMContentLoaded', () => {
+            const manifestObj = {
+                "name": "Roteiro Europa - Mariana",
+                "short_name": "Viagem Europa",
+                "start_url": ".",
+                "display": "standalone",
+                "background_color": "#f8fafc",
+                "theme_color": "#4f46e5"
+            };
+            const manifestBlob = new Blob([JSON.stringify(manifestObj)], {type: 'application/manifest+json'});
+            document.getElementById('pwa-manifest').href = URL.createObjectURL(manifestBlob);
+
+            const temaSalvo = localStorage.getItem('tema_v74');
+            if (temaSalvo === 'dark') {
+                document.body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
+                document.body.classList.remove('bg-slate-100', 'text-slate-800');
+            }
+
+            // Carregamento limpo estrito da versão 74 (sem buscar lixo antigo)
             try {
-                const manifestObj = { "name": "Roteiro Europa - Mariana", "short_name": "Viagem Europa", "start_url": ".", "display": "standalone", "background_color": "#f8fafc", "theme_color": "#4f46e5" };
-                const manifestBlob = new Blob([JSON.stringify(manifestObj)], {type: 'application/manifest+json'});
-                document.getElementById('pwa-manifest').href = URL.createObjectURL(manifestBlob);
-
-                const temaSalvo = localStorage.getItem('tema_v84');
-                if (temaSalvo === 'dark') {
-                    document.body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
-                    document.body.classList.remove('bg-slate-100', 'text-slate-800');
-                }
-
-                // Tenta carregar qualquer dado salvo anterior de forma segura
-                for (let i = 0; i < localStorage.length; i++) {
-                    let key = localStorage.key(i);
-                    if (key && key.includes("mariana_viagem_europa")) {
-                        let d = localStorage.getItem(key);
-                        if (d) {
-                            try {
-                                let parsed = JSON.parse(d);
-                                if (parsed && parsed.itinerario && Array.isArray(parsed.itinerario)) {
-                                    dadosApp = parsed;
-                                    break;
-                                }
-                            } catch(e){}
-                        }
+                let salvo = localStorage.getItem(CHAVE_APP);
+                if (salvo) {
+                    let parsed = JSON.parse(salvo);
+                    if (parsed && parsed.itinerario) {
+                        dadosApp = parsed;
                     }
                 }
-            } catch(err) {
-                console.error("Erro ao recuperar dados, usando padrão.", err);
-            }
+            } catch(e) {}
 
             try {
                 atualizarTudo();
-                mudarTab('leitura');
+                mudarTab('leitura'); // Força abrir direto na aba de Roteiro Sequencial
             } catch(e) {
-                console.error("Erro fatal no render:", e);
+                console.error("Erro ao iniciar:", e);
             }
         });
 
-        window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); deferredPrompt = e; });
-        function tentarInstalarApp() { if (deferredPrompt) { deferredPrompt.prompt(); deferredPrompt.userChoice.then(() => { deferredPrompt = null; }); } else { document.getElementById('modal-instalacao').classList.remove('hidden'); } }
-        function fecharModalInstalacao() { document.getElementById('modal-instalacao').classList.add('hidden'); }
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+        });
+
+        function tentarInstalarApp() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => { deferredPrompt = null; });
+            } else {
+                document.getElementById('modal-instalacao').classList.remove('hidden');
+            }
+        }
+
+        function fecharModalInstalacao() {
+            document.getElementById('modal-instalacao').classList.add('hidden');
+        }
+
         function desbloquearComPin() {
-            let pinSalvo = localStorage.getItem('app_pin_v84') || '1510';
-            if(document.getElementById('input-pin').value === pinSalvo) {
-                sessionStorage.setItem('sessao_ativa_v84', 'true');
+            let pinSalvo = localStorage.getItem('app_pin_v74') || '1510';
+            let digitado = document.getElementById('input-pin').value;
+            if(digitado === pinSalvo) {
+                sessionStorage.setItem('sessao_ativa_v74', 'true');
                 document.getElementById('tela-bloqueio').classList.add('hidden');
+                document.getElementById('erro-pin').classList.add('hidden');
             } else {
                 document.getElementById('erro-pin').classList.remove('hidden');
             }
         }
-        function desbloquearComBiometria() { sessionStorage.setItem('sessao_ativa_v84', 'true'); document.getElementById('tela-bloqueio').classList.add('hidden'); }
+
+        async function desbloquearComBiometria() {
+            sessionStorage.setItem('sessao_ativa_v74', 'true');
+            document.getElementById('tela-bloqueio').classList.add('hidden');
+        }
+
         function alterarSenhaPin() {
             let atual = prompt("Digite a senha atual (Padrão: 1510):");
-            if(atual === (localStorage.getItem('app_pin_v84') || '1510')) {
+            let pinSalvo = localStorage.getItem('app_pin_v74') || '1510';
+            if(atual === pinSalvo) {
                 let nova = prompt("Digite a nova senha PIN:");
-                if(nova && nova.trim() !== '') { localStorage.setItem('app_pin_v84', nova.trim()); alert("🔑 Senha alterada!"); }
-            } else { alert("Senha incorreta."); }
+                if(nova && nova.trim() !== '') {
+                    localStorage.setItem('app_pin_v74', nova.trim());
+                    alert("🔑 Senha alterada com sucesso!");
+                }
+            } else {
+                alert("Senha atual incorreta.");
+            }
         }
+
         function alternarTema() {
             const body = document.body;
             if(body.classList.contains('dark')) {
-                body.classList.remove('dark', 'bg-slate-900', 'text-slate-100'); body.classList.add('bg-slate-100', 'text-slate-800'); localStorage.setItem('tema_v84', 'light');
+                body.classList.remove('dark', 'bg-slate-900', 'text-slate-100');
+                body.classList.add('bg-slate-100', 'text-slate-800');
+                localStorage.setItem('tema_v74', 'light');
             } else {
-                body.classList.add('dark', 'bg-slate-900', 'text-slate-100'); body.classList.remove('bg-slate-100', 'text-slate-800'); localStorage.setItem('tema_v84', 'dark');
+                body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
+                body.classList.remove('bg-slate-100', 'text-slate-800');
+                localStorage.setItem('tema_v74', 'dark');
             }
         }
+
         function abrirGeminiModal() { document.getElementById('modal-gemini').classList.remove('hidden'); }
         function fecharGeminiModal() { document.getElementById('modal-gemini').classList.add('hidden'); }
+
         function enviarMensagemGemini() {
-            let input = document.getElementById('gemini-input'), log = document.getElementById('gemini-chat-log'), texto = input.value.trim();
+            let input = document.getElementById('gemini-input');
+            let log = document.getElementById('gemini-chat-log');
+            let texto = input.value.trim();
             if(!texto) return;
             log.innerHTML += `<div class="bg-slate-200 text-slate-800 p-2 rounded-lg text-right ml-6 font-medium"><b>Tu:</b> ${texto}</div>`;
-            input.value = ''; log.scrollTop = log.scrollHeight;
+            input.value = '';
+            log.scrollTop = log.scrollHeight;
+
             setTimeout(() => {
-                log.innerHTML += `<div class="bg-indigo-50 text-indigo-900 p-2 rounded-lg mr-6 font-medium"><b>Gemini:</b> Estou a monitorizar o teu roteiro perfeitamente, Mariana! Tudo salvo e seguro.</div>`;
+                let resposta = "Estou aqui a ajudar-te com o teu roteiro compacto para a Europa, Mariana! Podes gerir os teus blocos com total segurança (senha 1510).";
+                log.innerHTML += `<div class="bg-indigo-50 text-indigo-900 p-2 rounded-lg mr-6 font-medium"><b>Gemini:</b> ${resposta}</div>`;
                 log.scrollTop = log.scrollHeight;
             }, 400);
         }
-        function salvarStorage() { localStorage.setItem(CHAVE_APP, JSON.stringify(dadosApp)); }
+
+        function salvarStorage() {
+            localStorage.setItem(CHAVE_APP, JSON.stringify(dadosApp));
+        }
+
         function moverBloco(id, direcao) {
-            let idx = dadosApp.itinerario.findIndex(i => i.id === id);
-            if(idx !== -1) {
-                let novoIdx = idx + direcao;
-                if(novoIdx >= 0 && novoIdx < dadosApp.itinerario.length) {
-                    let temp = dadosApp.itinerario[idx]; dadosApp.itinerario[idx] = dadosApp.itinerario[novoIdx]; dadosApp.itinerario[novoIdx] = temp;
-                    salvarStorage(); atualizarTudo();
+            let index = dadosApp.itinerario.findIndex(i => i.id === id);
+            if(index !== -1) {
+                let novoIndex = index + direcao;
+                if(novoIndex >= 0 && novoIndex < dadosApp.itinerario.length) {
+                    let temp = dadosApp.itinerario[index];
+                    dadosApp.itinerario[index] = dadosApp.itinerario[novoIndex];
+                    dadosApp.itinerario[novoIndex] = temp;
+                    salvarStorage();
+                    atualizarTudo();
                 }
             }
         }
+
         function moverSecaoBloco(itemId, chaveSecao, direcao) {
             let item = dadosApp.itinerario.find(i => i.id === itemId);
             if(item) {
@@ -332,50 +416,95 @@
                 if(idx !== -1) {
                     let novoIdx = idx + direcao;
                     if(novoIdx >= 0 && novoIdx < item.ordemSecoes.length) {
-                        let temp = item.ordemSecoes[idx]; item.ordemSecoes[idx] = item.ordemSecoes[novoIdx]; item.ordemSecoes[novoIdx] = temp;
-                        salvarStorage(); atualizarTudo();
+                        let temp = item.ordemSecoes[idx];
+                        item.ordemSecoes[idx] = item.ordemSecoes[novoIdx];
+                        item.ordemSecoes[novoIdx] = temp;
+                        salvarStorage();
+                        atualizarTudo();
                     }
                 }
             }
         }
+
         function removerSecaoBloco(itemId, chaveSecao) {
             let item = dadosApp.itinerario.find(i => i.id === itemId);
-            if(item && item.ordemSecoes) { item.ordemSecoes = item.ordemSecoes.filter(s => s !== chaveSecao); salvarStorage(); atualizarTudo(); }
+            if(item && item.ordemSecoes) {
+                item.ordemSecoes = item.ordemSecoes.filter(s => s !== chaveSecao);
+                salvarStorage();
+                atualizarTudo();
+            }
         }
+
         function adicionarSecaoBloco(itemId) {
             let item = dadosApp.itinerario.find(i => i.id === itemId);
             if(item) {
                 if(!item.ordemSecoes) item.ordemSecoes = [...dadosApp.ordemSecoesPadrao];
                 let disp = ['origemDestino', 'transporte', 'notas', 'extras'].filter(s => !item.ordemSecoes.includes(s));
-                if(disp.length === 0) { alert("Todas as secções já presentes!"); return; }
-                let escolha = prompt(`Escolha (${disp.join(', ')}):`, disp[0]);
-                if(escolha && disp.includes(escolha.trim())) { item.ordemSecoes.push(escolha.trim()); salvarStorage(); atualizarTudo(); }
+                if(disp.length === 0) { alert("Todas as secções já estão presentes!"); return; }
+                let escolha = prompt(`Escolha a secção para adicionar (${disp.join(', ')}):`, disp[0]);
+                if(escolha && disp.includes(escolha.trim())) {
+                    item.ordemSecoes.push(escolha.trim());
+                    salvarStorage();
+                    atualizarTudo();
+                } else if(escolha) {
+                    alert("Secção inválida.");
+                }
             }
         }
+
         function editarLabel(chave, tituloAtual) {
-            let novo = prompt(`Renomear "${tituloAtual}" para:`, dadosApp.labelsPersonalizadas[chave] || tituloAtual);
-            if(novo && novo.trim() !== '') { dadosApp.labelsPersonalizadas[chave] = novo.trim(); salvarStorage(); atualizarTudo(); }
+            let novoNome = prompt(`Renomear "${tituloAtual}" para:`, dadosApp.labelsPersonalizadas[chave] || tituloAtual);
+            if(novoNome && novoNome.trim() !== '') {
+                dadosApp.labelsPersonalizadas[chave] = novoNome.trim();
+                salvarStorage();
+                atualizarTudo();
+            }
         }
+
         function editarTituloSecao(chaveSecao, tituloAtual) {
-            let novo = prompt(`Renomear secção "${tituloAtual}" para:`, dadosApp.titulosSecoes[chaveSecao] || tituloAtual);
-            if(novo && novo.trim() !== '') { dadosApp.titulosSecoes[chaveSecao] = novo.trim().toUpperCase(); salvarStorage(); atualizarTudo(); }
+            let novoNome = prompt(`Renomear secção "${tituloAtual}" para:`, dadosApp.titulosSecoes[chaveSecao] || tituloAtual);
+            if(novoNome && novoNome.trim() !== '') {
+                dadosApp.titulosSecoes[chaveSecao] = novoNome.trim().toUpperCase();
+                salvarStorage();
+                atualizarTudo();
+            }
         }
+
         function adicionarSubBloco(itemId) {
             let item = dadosApp.itinerario.find(i => i.id === itemId);
-            if(item) { if(!item.subBlocos) item.subBlocos = []; item.subBlocos.push({ id: Date.now(), titulo: "Nota Extra", conteudo: "" }); salvarStorage(); atualizarTudo(); }
+            if(item) {
+                if(!item.subBlocos) item.subBlocos = [];
+                item.subBlocos.push({ id: Date.now(), titulo: "Nota Extra", conteudo: "" });
+                salvarStorage();
+                atualizarTudo();
+            }
         }
+
         function removerSubBloco(itemId, subId) {
             let item = dadosApp.itinerario.find(i => i.id === itemId);
-            if(item && item.subBlocos) { item.subBlocos = item.subBlocos.filter(s => s.id !== subId); salvarStorage(); atualizarTudo(); }
+            if(item && item.subBlocos) {
+                item.subBlocos = item.subBlocos.filter(s => s.id !== subId);
+                salvarStorage();
+                atualizarTudo();
+            }
         }
+
         function atualizarSubBlocoTitulo(itemId, subId, val) {
             let item = dadosApp.itinerario.find(i => i.id === itemId);
-            if(item && item.subBlocos) { let sub = item.subBlocos.find(s => s.id === subId); if(sub) { sub.titulo = val; salvarStorage(); } }
+            if(item && item.subBlocos) {
+                let sub = item.subBlocos.find(s => s.id === subId);
+                if(sub) { sub.titulo = val; salvarStorage(); }
+            }
         }
+
         function atualizarSubBlocoConteudo(itemId, subId, val) {
             let item = dadosApp.itinerario.find(i => i.id === itemId);
-            if(item && item.subBlocos) { let sub = item.subBlocos.find(s => s.id === subId); if(sub) { sub.conteudo = val; salvarStorage(); } }
+            if(item && item.subBlocos) {
+                let sub = item.subBlocos.find(s => s.id === subId);
+                if(sub) { sub.conteudo = val; salvarStorage(); }
+            }
         }
+
         function dragSub(e, itemId, subId) { draggedParentId = itemId; draggedSubId = subId; }
         function allowDropSub(e) { e.preventDefault(); }
         function dropSub(e, itemId, targetSubId) {
@@ -383,16 +512,38 @@
             if (draggedParentId !== itemId) return;
             let item = dadosApp.itinerario.find(i => i.id === itemId);
             if (!item || !item.subBlocos) return;
-            let from = item.subBlocos.findIndex(s => s.id === draggedSubId), to = item.subBlocos.findIndex(s => s.id === targetSubId);
-            if (from !== -1 && to !== -1 && from !== to) { let m = item.subBlocos.splice(from, 1)[0]; item.subBlocos.splice(to, 0, m); salvarStorage(); atualizarTudo(); }
+            let fromIdx = item.subBlocos.findIndex(s => s.id === draggedSubId);
+            let toIdx = item.subBlocos.findIndex(s => s.id === targetSubId);
+            if (fromIdx !== -1 && toIdx !== -1 && fromIdx !== toIdx) {
+                let moved = item.subBlocos.splice(fromIdx, 1)[0];
+                item.subBlocos.splice(toIdx, 0, moved);
+                salvarStorage();
+                atualizarTudo();
+            }
         }
+
         function alternarConcluidoLeitura(id) {
             let item = dadosApp.itinerario.find(i => i.id === id);
-            if(item) { item.concluido = !item.concluido; salvarStorage(); renderizarModoLeitura(); }
+            if(item) {
+                item.concluido = !item.concluido;
+                salvarStorage();
+                renderizarModoLeitura();
+            }
         }
+
         function atualizarTudo() {
-            renderizarFiltros(); renderizarFiltrosTarefas(); renderizarBlocos(); renderizarTarefas(); renderizarVouchersTab(); renderizarModoLeitura();
+            try {
+                renderizarFiltros();
+                renderizarFiltrosTarefas();
+                renderizarBlocos();
+                renderizarTarefas();
+                renderizarVouchersTab();
+                renderizarModoLeitura();
+            } catch(e) {
+                console.error("Erro no render:", e);
+            }
         }
+
         function mudarTab(tab) {
             ['itinerario', 'leitura', 'tarefas', 'comprados', 'mapa-geral'].forEach(t => {
                 document.getElementById('tab-' + t).classList.add('hidden');
@@ -400,10 +551,11 @@
                 if(btn) btn.className = "py-2 rounded-lg text-slate-600 hover:bg-white/50 transition";
             });
             document.getElementById('tab-' + tab).classList.remove('hidden');
-            let active = document.getElementById('tab-btn-' + tab);
-            if(active) active.className = "py-2 rounded-lg bg-indigo-600 text-white shadow-sm transition";
-            if(tab === 'leitura') renderizarModoLeitura();
+            let activeBtn = document.getElementById('tab-btn-' + tab);
+            if(activeBtn) activeBtn.className = "py-2 rounded-lg bg-indigo-600 text-white shadow-sm transition";
+            if(tab === 'leitura') { renderizarModoLeitura(); }
         }
+
         function obterCorBlocoHex(item) {
             if(item.cor) return item.cor;
             let c = (item.categoria || "").toLowerCase();
@@ -413,188 +565,430 @@
             if(c.includes('interlaken')) return '#10b981';
             return '#3b82f6';
         }
+
         function atualizarCorBlocoLocal(id) {
             let input = document.getElementById('input-cor-' + id);
-            if(input) { let item = dadosApp.itinerario.find(i => i.id === id); if(item) { item.cor = input.value; salvarStorage(); atualizarTudo(); } }
+            if(input) {
+                const item = dadosApp.itinerario.find(i => i.id === id);
+                if(item) { item.cor = input.value; salvarStorage(); atualizarTudo(); }
+            }
         }
+
         function calcularDias(inicio, fim) {
             if(!inicio || !fim) return 1;
-            let d1 = new Date(inicio), d2 = new Date(fim);
-            let diff = Math.ceil(Math.abs(d2 - d1) / (1000 * 60 * 60 * 24)) + 1;
-            return diff > 0 ? diff : 1;
+            let d1 = new Date(inicio);
+            let d2 = new Date(fim);
+            let diffTime = Math.abs(d2 - d1);
+            let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
+            return diffDays > 0 ? diffDays : 1;
         }
+
         function renderizarFiltros() {
-            let c = document.getElementById('filtros-container');
-            if(!c) return;
-            let h = `<button onclick="filtrarDestino('todos')" class="px-2.5 py-1 ${destinoFiltro === 'todos' ? 'bg-indigo-600 text-white' : 'bg-white border text-slate-700'} rounded-lg font-bold text-[11px] shrink-0">Todos</button>`;
+            const container = document.getElementById('filtros-container');
+            if(!container) return;
+            let html = `<button onclick="filtrarDestino('todos')" id="btn-cat-todos" class="px-2.5 py-1 ${destinoFiltro === 'todos' ? 'bg-indigo-600 text-white' : 'bg-white border text-slate-700'} rounded-lg font-bold text-[11px] shrink-0 transition">Todos</button>`;
             if(!dadosApp.destinosCadastrados) dadosApp.destinosCadastrados = ["Zurique", "Freiburg", "França", "Interlaken"];
             dadosApp.destinosCadastrados.forEach(dest => {
-                let ativo = destinoFiltro === dest, ex = dadosApp.itinerario.find(i => i.categoria === dest), cor = ex ? obterCorBlocoHex(ex) : '#3b82f6';
-                let style = ativo ? 'bg-indigo-600 text-white font-bold' : `background-color: ${cor}; color: #fff; font-weight: 600;`;
-                h += `<button onclick="filtrarDestino('${dest}')" style="${style}" class="px-2.5 py-1 rounded-lg text-[11px] shrink-0">${dest}</button>`;
+                let ativo = destinoFiltro === dest;
+                let blocoExemplo = dadosApp.itinerario.find(i => i.categoria === dest);
+                let corDest = blocoExemplo ? obterCorBlocoHex(blocoExemplo) : '#3b82f6';
+                let estiloBtn = ativo ? 'bg-indigo-600 text-white font-bold' : `background-color: ${corDest}; color: #ffffff; font-weight: 600; border: 1px solid rgba(0,0,0,0.15);`;
+                html += `<button onclick="filtrarDestino('${dest}')" style="${estiloBtn}" class="px-2.5 py-1 rounded-lg text-[11px] shrink-0 transition shadow-sm">${dest}</button>`;
             });
-            h += `<button onclick="adicionarNovoDestinoFiltro()" class="px-2.5 py-1 bg-emerald-600 text-white rounded-lg font-bold text-[11px] shrink-0">➕ Destino</button>`;
-            c.innerHTML = h;
+            html += `<button onclick="adicionarNovoDestinoFiltro()" class="px-2.5 py-1 bg-emerald-600 text-white rounded-lg font-bold text-[11px] shrink-0 transition">➕ Destino</button>`;
+            container.innerHTML = html;
         }
+
         function renderizarFiltrosTarefas() {
-            let c = document.getElementById('filtros-tarefas-container');
-            if(!c) return;
-            let h = `<button onclick="filtrarTarefas('todas')" class="px-2.5 py-1 rounded-lg text-[10px] font-bold ${tarefaFiltro === 'todas' ? 'bg-white text-indigo-950' : 'bg-indigo-800 text-white'}">Todas</button>`;
+            const container = document.getElementById('filtros-tarefas-container');
+            if(!container) return;
+            let html = `<button onclick="filtrarTarefas('todas')" class="px-2.5 py-1 rounded-lg text-[10px] font-bold ${tarefaFiltro === 'todas' ? 'bg-white text-indigo-950' : 'bg-indigo-800 text-white'} transition">Todas</button>`;
             if(!dadosApp.statusPersonalizados) dadosApp.statusPersonalizados = {"Concluído": "#22c55e", "Aguardando": "#f59e0b"};
             Object.keys(dadosApp.statusPersonalizados).forEach(st => {
-                let ativo = tarefaFiltro === st, cor = dadosApp.statusPersonalizados[st];
-                let style = ativo ? `background-color: #fff; color: #0f172a; border: 2px solid ${cor};` : `background-color: ${cor}; color: #fff;`;
-                h += `<button onclick="filtrarTarefas('${st}')" style="${style}" class="px-2.5 py-1 rounded-lg text-[10px] font-bold">${st}</button>`;
+                let ativo = tarefaFiltro === st;
+                let corSt = dadosApp.statusPersonalizados[st];
+                let btnStyle = ativo ? `background-color: #fff; color: #0f172a; border: 2px solid ${corSt};` : `background-color: ${corSt}; color: #fff;`;
+                html += `<button onclick="filtrarTarefas('${st}')" style="${btnStyle}" class="px-2.5 py-1 rounded-lg text-[10px] font-bold transition">${st}</button>`;
             });
-            c.innerHTML = h;
+            html += `<button onclick="adicionarNovoStatusTarefaFiltro()" class="px-2.5 py-1 bg-emerald-600 text-white rounded-lg text-[10px] font-bold transition">➕ Status</button>`;
+            container.innerHTML = html;
         }
+
         function adicionarNovoDestinoFiltro() {
-            let n = prompt("Novo destino:");
-            if(n && n.trim() !== '') { let limpo = n.trim(); if(!dadosApp.destinosCadastrados.includes(limpo)) dadosApp.destinosCadastrados.push(limpo); salvarStorage(); atualizarTudo(); filtrarDestino(limpo); }
+            let novo = prompt("Novo destino:");
+            if(novo && novo.trim() !== '') {
+                let limpo = novo.trim();
+                if(!dadosApp.destinosCadastrados.includes(limpo)) { dadosApp.destinosCadastrados.push(limpo); salvarStorage(); atualizarTudo(); }
+                filtrarDestino(limpo);
+            }
         }
+
+        function adicionarNovoStatusTarefaFiltro() {
+            let nomeNovo = prompt("Nome do status:");
+            if(nomeNovo && nomeNovo.trim() !== '') {
+                let corNova = prompt("Cor HEX:", "#3b82f6");
+                if(!dadosApp.statusPersonalizados) dadosApp.statusPersonalizados = {};
+                dadosApp.statusPersonalizados[nomeNovo.trim()] = corNova || "#3b82f6";
+                salvarStorage();
+                atualizarTudo();
+            }
+        }
+
         function filtrarDestino(cat) { destinoFiltro = cat; renderizarFiltros(); renderizarBlocos(); }
         function filtrarTarefas(f) { tarefaFiltro = f; renderizarFiltrosTarefas(); renderizarTarefas(); }
-        function lidarSelecaoDestino(id, val) {
-            if(val === 'novo_destino') {
-                let n = prompt("Novo destino:");
-                if(n && n.trim() !== '') { let limpo = n.trim(); if(!dadosApp.destinosCadastrados.includes(limpo)) dadosApp.destinosCadastrados.push(limpo); atualizarCampo(id, 'categoria', limpo); }
-            } else { atualizarCampo(id, 'categoria', val); }
+
+        function lidarSelecaoDestino(id, valor) {
+            if(valor === 'novo_destino') {
+                let novo = prompt("Novo destino:");
+                if(novo && novo.trim() !== '') {
+                    let limpo = novo.trim();
+                    if(!dadosApp.destinosCadastrados.includes(limpo)) dadosApp.destinosCadastrados.push(limpo);
+                    atualizarCampo(id, 'categoria', limpo);
+                } else { renderizarBlocos(); }
+            } else { atualizarCampo(id, 'categoria', valor); }
         }
-        function lidarSelecaoLocal(id, campo, val) {
-            if(val === 'outro_local') {
-                let n = prompt("Novo local:");
-                if(n && n.trim() !== '') { let limpo = n.trim(); if(!dadosApp.locaisCadastrados.includes(limpo)) dadosApp.locaisCadastrados.push(limpo); atualizarCampo(id, campo, limpo); }
-            } else { atualizarCampo(id, campo, val); }
+
+        function lidarSelecaoLocal(id, campo, valor) {
+            if(valor === 'outro_local') {
+                let novo = prompt("Novo local:");
+                if(novo && novo.trim() !== '') {
+                    let limpo = novo.trim();
+                    if(!dadosApp.locaisCadastrados.includes(limpo)) dadosApp.locaisCadastrados.push(limpo);
+                    atualizarCampo(id, campo, limpo);
+                } else { renderizarBlocos(); }
+            } else { atualizarCampo(id, campo, valor); }
         }
+
+        function lidarSelecaoDestinoVoucher(id, valor) {
+            if(valor === 'novo_destino') {
+                let novo = prompt("Novo destino:");
+                if(novo && novo.trim() !== '') {
+                    let limpo = novo.trim();
+                    if(!dadosApp.destinosCadastrados.includes(limpo)) dadosApp.destinosCadastrados.push(limpo);
+                    atualizarVoucherCampo(id, 'categoria', limpo);
+                } else { renderizarVouchersTab(); }
+            } else { atualizarVoucherCampo(id, 'categoria', valor); }
+        }
+
+        function lidarSelecaoStatusTarefa(id, valor) {
+            if(valor === 'novo_status') {
+                let nomeNovo = prompt("Nome do status:");
+                if(nomeNovo && nomeNovo.trim() !== '') {
+                    let corNova = prompt("Cor HEX:", "#3b82f6");
+                    if(!dadosApp.statusPersonalizados) dadosApp.statusPersonalizados = {};
+                    dadosApp.statusPersonalizados[nomeNovo.trim()] = corNova || "#3b82f6";
+                    const t = dadosApp.tarefas.find(item => item.id === id);
+                    if(t) { t.status = nomeNovo.trim(); salvarStorage(); renderizarTarefas(); }
+                } else { renderizarTarefas(); }
+            } else {
+                const t = dadosApp.tarefas.find(item => item.id === id);
+                if(t) { t.status = valor; salvarStorage(); renderizarTarefas(); }
+            }
+        }
+
         function renderizarModoLeitura() {
-            let container = document.getElementById('lista-leitura-html'), prog = document.getElementById('progresso-viagem');
+            const container = document.getElementById('lista-leitura-html');
+            const progressoEl = document.getElementById('progresso-viagem');
             if(!container) return;
             container.innerHTML = '';
-            let total = dadosApp.itinerario.length, concluidos = dadosApp.itinerario.filter(i => i.concluido).length;
-            if(prog) prog.innerText = `${concluidos} / ${total} Feito`;
-            if(total === 0) { container.innerHTML = '<div class="bg-white p-4 rounded-2xl text-center text-xs text-slate-400 border">Nenhum itinerário.</div>'; return; }
+
+            let total = dadosApp.itinerario.length;
+            let concluidos = dadosApp.itinerario.filter(i => i.concluido).length;
+            if(progressoEl) progressoEl.innerText = `${concluidos} / ${total} Feito`;
+
+            if(total === 0) {
+                container.innerHTML = '<div class="bg-white p-4 rounded-2xl text-center text-xs text-slate-400 border">Nenhum itinerário criado.</div>';
+                return;
+            }
+
             dadosApp.itinerario.forEach(item => {
-                let cor = obterCorBlocoHex(item), checked = item.concluido ? 'checked' : '', bg = item.concluido ? 'bg-emerald-50 border-emerald-300 opacity-80' : 'bg-white border-slate-200';
-                let dec = item.concluido ? 'line-through text-slate-400' : 'text-slate-800 font-semibold', extras = '';
-                if(item.subBlocos) item.subBlocos.forEach(sb => { extras += `<div class="mt-1 text-[11px] text-slate-600"><b>• ${sb.titulo}:</b> ${sb.conteudo || ''}</div>`; });
+                let corHex = obterCorBlocoHex(item);
+                let isChecked = item.concluido ? 'checked' : '';
+                let bgStyle = item.concluido ? 'bg-emerald-50 border-emerald-300 opacity-80' : 'bg-white border-slate-200';
+                let textDecor = item.concluido ? 'line-through text-slate-400' : 'text-slate-800 font-semibold';
+
+                let extrasText = '';
+                if(item.subBlocos && item.subBlocos.length > 0) {
+                    item.subBlocos.forEach(sb => {
+                        extrasText += `<div class="mt-1 text-[11px] text-slate-600"><b>• ${sb.titulo}:</b> ${sb.conteudo || ''}</div>`;
+                    });
+                }
+
                 let card = document.createElement('div');
-                card.className = `p-4 rounded-2xl border shadow-sm space-y-2 transition ${bg}`;
-                card.style.borderLeft = `6px solid ${cor}`;
+                card.className = `p-4 rounded-2xl border shadow-sm space-y-2 transition ${bgStyle}`;
+                card.style.borderLeft = `6px solid ${corHex}`;
+
                 card.innerHTML = `
                     <div class="flex justify-between items-center gap-2">
                         <div class="flex items-center gap-2">
                             <span class="bg-indigo-100 text-indigo-800 font-black px-2.5 py-0.5 rounded-lg text-xs">${item.categoria}</span>
                             <span class="text-slate-500 font-bold text-[11px]">📅 ${item.dataInicio || '?'} ➔ ${item.dataFim || '?'}</span>
                         </div>
-                        <label class="flex items-center gap-1.5 cursor-pointer bg-slate-100 px-3 py-1 rounded-xl text-xs font-bold">
-                            <input type="checkbox" ${checked} onchange="alternarConcluidoLeitura(${item.id})" class="w-4 h-4 accent-emerald-600 rounded">
+                        <label class="flex items-center gap-1.5 cursor-pointer bg-slate-100 hover:bg-slate-200 px-3 py-1 rounded-xl text-xs font-bold transition">
+                            <input type="checkbox" ${isChecked} onchange="alternarConcluidoLeitura(${item.id})" class="w-4 h-4 accent-emerald-600 rounded cursor-pointer">
                             <span>OK, feito</span>
                         </label>
                     </div>
+
                     <div class="space-y-1 text-xs pt-1">
-                        <div class="${dec}"><b>📍 Origem:</b> ${item.embarque || 'Não definida'}</div>
-                        <div class="${dec}"><b>🏁 Destino:</b> ${item.desembarque || 'Não definido'}</div>
-                        <div class="${dec}"><b>🚄 Rota:</b> ${item.trecho || ''} (${item.transporte || ''})</div>
-                        ${item.textoLivre ? `<div class="bg-slate-50 p-2 rounded-xl text-[11px] text-slate-700">📝 ${item.textoLivre}</div>` : ''}
-                        ${extras}
+                        <div class="${textDecor}"><b>📍 Origem:</b> ${item.embarque || 'Não definida'}</div>
+                        <div class="${textDecor}"><b>🏁 Destino:</b> ${item.desembarque || 'Não definido'}</div>
+                        <div class="${textDecor}"><b>🚄 Rota:</b> ${item.trecho || ''} (${item.transporte || ''} ${item.numeroTransporte ? '- ' + item.numeroTransporte : ''})</div>
+                        ${item.textoLivre ? `<div class="bg-slate-50 p-2 rounded-xl text-[11px] text-slate-700 mt-1">📝 ${item.textoLivre}</div>` : ''}
+                        ${extrasText}
                     </div>
-                    <div class="flex justify-between items-center pt-2 border-t text-[11px] font-bold text-slate-500">
+
+                    <div class="flex justify-between items-center pt-2 border-t text-[11px] text-slate-500 font-bold">
                         <span>💰 ${item.moeda || 'CHF'} ${item.valor || '0'}</span>
-                        <button onclick="window.open('https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(item.embarque || '')}&destination=${encodeURIComponent(item.desembarque || '')}', '_blank')" class="bg-sky-100 text-sky-800 px-2.5 py-1 rounded-xl">🗺️ Rota</button>
+                        <button onclick="abrirMapaRuta('${item.embarque}', '${item.desembarque}', '${item.categoria}', '${item.transporte || ''}', '${item.numeroTransporte || ''}')" class="bg-sky-100 text-sky-800 hover:bg-sky-200 px-2.5 py-1 rounded-xl font-bold">🗺️ Ver Rota no Google Maps</button>
                     </div>
                 `;
                 container.appendChild(card);
             });
         }
+
         function renderizarBlocos() {
-            let container = document.getElementById('lista-blocos');
-            if(!container) return;
+            const container = document.getElementById('lista-blocos');
             container.innerHTML = '';
-            let filtrados = destinoFiltro === 'todos' ? dadosApp.itinerario : dadosApp.itinerario.filter(i => (i.categoria || "").toLowerCase().includes(destinoFiltro.toLowerCase()));
-            if(filtrados.length === 0) { container.innerHTML = '<div class="bg-white p-4 rounded-2xl text-center text-xs text-slate-400 border">Nenhum bloco.</div>'; return; }
-            let lb = dadosApp.labelsPersonalizadas, ts = dadosApp.titulosSecoes;
-            filtrados.forEach(item => {
-                let dis = item.bloqueado ? 'disabled' : '', cor = obterCorBlocoHex(item), dias = calcularDias(item.dataInicio, item.dataFim);
-                let optDest = ''; dadosApp.destinosCadastrados.forEach(d => { optDest += `<option value="${d}" ${item.categoria === d ? 'selected' : ''}>${d}</option>`; });
-                optDest += `<option value="novo_destino">➕ Outro...</option>`;
-                let optEmb = ''; dadosApp.locaisCadastrados.forEach(l => { optEmb += `<option value="${l}" ${item.embarque === l ? 'selected' : ''}>${l}</option>`; });
-                optEmb += `<option value="outro_local">➕ Outro...</option>`;
-                let optDes = ''; dadosApp.locaisCadastrados.forEach(l => { optDes += `<option value="${l}" ${item.desembarque === l ? 'selected' : ''}>${l}</option>`; });
-                optDes += `<option value="outro_local">➕ Outro...</option>`;
+            let filtrados = dadosApp.itinerario;
+            if(destinoFiltro !== 'todos') {
+                filtrados = dadosApp.itinerario.filter(i => (i.categoria || "").toLowerCase().includes(destinoFiltro.toLowerCase()));
+            }
+
+            if(filtrados.length === 0) {
+                container.innerHTML = '<div class="bg-white p-4 rounded-2xl text-center text-[11px] text-slate-400 border">Nenhum bloco encontrado.</div>';
+                return;
+            }
+
+            let lb = dadosApp.labelsPersonalizadas || { origem: "Local de Origem", destino: "Local de Destino", trecho: "Trecho / Rota", transporte: "Transporte", numTransporte: "Nº Transporte", notas: "Notas do Dia" };
+            let ts = dadosApp.titulosSecoes || { origemDestino: "ORIGEMDESTINO", transporte: "TRANSPORTE", notas: "NOTAS", extras: "EXTRAS" };
+
+            filtrados.forEach((item) => {
+                let dis = item.bloqueado ? 'disabled' : '';
+                let corHex = obterCorBlocoHex(item);
+                let pdfBadge = item.pdfData ? `<a href="${item.pdfData}" download="${item.pdfNome || 'v.pdf'}" class="bg-blue-100 text-blue-800 px-2 py-0.5 rounded text-[9px] font-bold">📄 PDF</a>` : '';
+                let btnOkText = item.bloqueado ? '🔒' : '✅';
+                let btnOkClass = item.bloqueado ? 'bg-emerald-600 text-white' : 'bg-slate-200 text-slate-700';
+                let totalDias = calcularDias(item.dataInicio, item.dataFim);
+
+                let opcoesDestino = '';
+                if(!dadosApp.destinosCadastrados.includes(item.categoria)) dadosApp.destinosCadastrados.push(item.categoria);
+                dadosApp.destinosCadastrados.forEach(d => {
+                    opcoesDestino += `<option value="${d}" ${item.categoria === d ? 'selected' : ''}>${d}</option>`;
+                });
+                opcoesDestino += `<option value="novo_destino">➕ Outro...</option>`;
+
+                let opcoesLocaisEmb = '';
+                dadosApp.locaisCadastrados.forEach(l => {
+                    opcoesLocaisEmb += `<option value="${l}" ${item.embarque === l ? 'selected' : ''}>${l}</option>`;
+                });
+                opcoesLocaisEmb += `<option value="outro_local">➕ Outro...</option>`;
+
+                let opcoesLocaisDes = '';
+                dadosApp.locaisCadastrados.forEach(l => {
+                    opcoesLocaisDes += `<option value="${l}" ${item.desembarque === l ? 'selected' : ''}>${l}</option>`;
+                });
+                opcoesLocaisDes += `<option value="outro_local">➕ Outro...</option>`;
 
                 if(!item.ordemSecoes) item.ordemSecoes = [...dadosApp.ordemSecoesPadrao];
-                let secoesHtml = '';
-                item.ordemSecoes.forEach(secKey => {
-                    let nomeSec = ts[secKey] || secKey.toUpperCase();
-                    let ctrl = `<div class="flex items-center gap-1 shrink-0"><span class="text-slate-400 font-bold text-xs">⋮⋮</span><span onclick="editarTituloSecao('${secKey}', '${nomeSec}')" class="text-[9px] font-bold text-slate-700 uppercase cursor-pointer">${nomeSec} ✏️</span><button onclick="moverSecaoBloco(${item.id}, '${secKey}', -1)" class="bg-slate-200 px-1 rounded text-[10px]">⬆️</button><button onclick="moverSecaoBloco(${item.id}, '${secKey}', 1)" class="bg-slate-200 px-1 rounded text-[10px]">⬇️</button><button onclick="removerSecaoBloco(${item.id}, '${secKey}')" class="text-red-500 bg-red-50 px-1 rounded text-[10px]">✕</button></div>`;
+                
+                let htmlSecoes = '';
+                item.ordemSecoes.forEach((secKey, secIdx) => {
+                    let nomeSecaoAtual = ts[secKey] || secKey.toUpperCase();
+                    let controleSecao = `
+                        <div class="flex items-center gap-1 shrink-0">
+                            <span class="text-slate-400 font-bold text-xs select-none">⋮⋮</span>
+                            <span onclick="editarTituloSecao('${secKey}', '${nomeSecaoAtual}')" class="text-[9px] font-bold text-slate-700 uppercase tracking-wider cursor-pointer hover:text-indigo-600" title="Clique para renomear">${nomeSecaoAtual} ✏️</span>
+                            <button onclick="moverSecaoBloco(${item.id}, '${secKey}', -1)" class="bg-slate-200 hover:bg-slate-300 px-1.5 py-0.5 rounded text-[10px] font-bold" title="Subir">⬆️</button>
+                            <button onclick="moverSecaoBloco(${item.id}, '${secKey}', 1)" class="bg-slate-200 hover:bg-slate-300 px-1.5 py-0.5 rounded text-[10px] font-bold" title="Descer">⬇️</button>
+                            <button onclick="removerSecaoBloco(${item.id}, '${secKey}')" class="text-red-500 font-bold px-1 rounded bg-red-50 text-[10px]" title="Deletar secção">✕</button>
+                        </div>
+                    `;
+
                     if(secKey === 'origemDestino') {
-                        secoesHtml += `<div class="bg-white/95 p-2 rounded-xl border space-y-1"><div class="flex justify-between items-center border-b pb-0.5 mb-1">${ctrl}</div><div class="grid grid-cols-2 gap-1.5 text-[11px]"><div><label onclick="editarLabel('origem', '${lb.origem}')" class="block font-black text-[10px] cursor-pointer">📍 ${lb.origem} ✏️</label><select onchange="lidarSelecaoLocal(${item.id}, 'embarque', this.value)" class="w-full p-1 bg-white border rounded text-[10px] font-bold">${optEmb}</select></div><div><label onclick="editarLabel('destino', '${lb.destino}')" class="block font-black text-[10px] cursor-pointer">🏁 ${lb.destino} ✏️</label><select onchange="lidarSelecaoLocal(${item.id}, 'desembarque', this.value)" class="w-full p-1 bg-white border rounded text-[10px] font-bold">${optDes}</select></div></div></div>`;
+                        htmlSecoes += `
+                            <div class="bg-white/95 p-2 rounded-xl border border-black/10 space-y-1">
+                                <div class="flex justify-between items-center border-b pb-0.5 mb-1">
+                                    ${controleSecao}
+                                    <button onclick="abrirMapaRuta('${item.embarque}', '${item.desembarque}', '${item.categoria}', '${item.transporte || ''}', '${item.numeroTransporte || ''}')" class="bg-sky-100 hover:bg-sky-200 text-sky-800 px-1.5 py-0.5 rounded text-[10px] font-bold flex items-center gap-0.5" title="Ver Rota">🗺️ Rota</button>
+                                </div>
+                                <div class="grid grid-cols-2 gap-1.5 text-[11px]">
+                                    <div>
+                                        <label onclick="editarLabel('origem', '${lb.origem}')" class="block font-black mb-0.5 text-slate-900 text-[10px] cursor-pointer hover:text-indigo-600 truncate">📍 ${lb.origem} ✏️</label>
+                                        <select onchange="lidarSelecaoLocal(${item.id}, 'embarque', this.value)" ${dis} class="w-full p-1 bg-white border rounded-lg text-[10px] font-bold text-slate-900">
+                                            ${opcoesLocaisEmb}
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label onclick="editarLabel('destino', '${lb.destino}')" class="block font-black mb-0.5 text-slate-900 text-[10px] cursor-pointer hover:text-indigo-600 truncate">🏁 ${lb.destino} ✏️</label>
+                                        <select onchange="lidarSelecaoLocal(${item.id}, 'desembarque', this.value)" ${dis} class="w-full p-1 bg-white border rounded-lg text-[10px] font-bold text-slate-900">
+                                            ${opcoesLocaisDes}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
                     } else if(secKey === 'transporte') {
-                        secoesHtml += `<div class="bg-white/95 p-2 rounded-xl border space-y-1"><div class="flex justify-between items-center border-b pb-0.5 mb-1">${ctrl}</div><div class="grid grid-cols-3 gap-1 text-[11px]"><div><label onclick="editarLabel('trecho', '${lb.trecho}')" class="text-[9px] font-semibold cursor-pointer">${lb.trecho} ✏️</label><input type="text" value="${item.trecho}" oninput="atualizarCampoDireto(${item.id}, 'trecho', this.value)" class="w-full p-1 bg-white border rounded text-[10px]"></div><div><label onclick="editarLabel('transporte', '${lb.transporte}')" class="text-[9px] font-semibold cursor-pointer">${lb.transporte} ✏️</label><input type="text" value="${item.transporte}" oninput="atualizarCampoDireto(${item.id}, 'transporte', this.value)" class="w-full p-1 bg-white border rounded text-[10px]"></div><div><label onclick="editarLabel('numTransporte', '${lb.numTransporte}')" class="text-[9px] font-semibold cursor-pointer">${lb.numTransporte} ✏️</label><input type="text" value="${item.numeroTransporte || ''}" oninput="atualizarCampoDireto(${item.id}, 'numeroTransporte', this.value)" class="w-full p-1 bg-white border rounded text-[10px]"></div></div></div>`;
+                        htmlSecoes += `
+                            <div class="bg-white/95 p-2 rounded-xl border border-black/10 space-y-1">
+                                <div class="flex justify-between items-center border-b pb-0.5 mb-1">${controleSecao}</div>
+                                <div class="grid grid-cols-3 gap-1 text-[11px]">
+                                    <div>
+                                        <label onclick="editarLabel('trecho', '${lb.trecho}')" class="block font-semibold text-slate-700 text-[9px] cursor-pointer hover:text-indigo-600 truncate">${lb.trecho} ✏️</label>
+                                        <input type="text" value="${item.trecho}" ${dis} oninput="atualizarCampoDireto(${item.id}, 'trecho', this.value)" class="w-full p-1 bg-white border rounded-lg text-[10px] font-bold text-slate-900" placeholder="Rota">
+                                    </div>
+                                    <div>
+                                        <label onclick="editarLabel('transporte', '${lb.transporte}')" class="block font-semibold text-slate-700 text-[9px] cursor-pointer hover:text-indigo-600 truncate">${lb.transporte} ✏️</label>
+                                        <input type="text" value="${item.transporte}" ${dis} oninput="atualizarCampoDireto(${item.id}, 'transporte', this.value)" class="w-full p-1 bg-white border rounded-lg text-[10px]" placeholder="Trem">
+                                    </div>
+                                    <div>
+                                        <label onclick="editarLabel('numTransporte', '${lb.numTransporte}')" class="block font-semibold text-slate-700 text-[9px] cursor-pointer hover:text-indigo-600 truncate">${lb.numTransporte} ✏️</label>
+                                        <input type="text" value="${item.numeroTransporte || ''}" ${dis} oninput="atualizarCampoDireto(${item.id}, 'numeroTransporte', this.value)" class="w-full p-1 bg-white border rounded-lg text-[10px] font-bold text-indigo-900" placeholder="Nº">
+                                    </div>
+                                </div>
+                            </div>
+                        `;
                     } else if(secKey === 'notas') {
-                        secoesHtml += `<div class="bg-white/95 p-2 rounded-xl border space-y-1"><div class="flex justify-between items-center border-b pb-0.5 mb-1">${ctrl}</div><div><label onclick="editarLabel('notas', '${lb.notas}')" class="text-[10px] font-semibold cursor-pointer">📝 ${lb.notas} ✏️</label><textarea oninput="atualizarCampoDireto(${item.id}, 'textoLivre', this.value)" rows="1" class="w-full p-1 bg-white border rounded text-[11px]">${item.textoLivre || ''}</textarea></div></div>`;
+                        htmlSecoes += `
+                            <div class="bg-white/95 p-2 rounded-xl border border-black/10 space-y-1">
+                                <div class="flex justify-between items-center border-b pb-0.5 mb-1">${controleSecao}</div>
+                                <div>
+                                    <label onclick="editarLabel('notas', '${lb.notas}')" class="block font-semibold text-slate-700 text-[10px] cursor-pointer hover:text-indigo-600">📝 ${lb.notas} ✏️</label>
+                                    <textarea ${dis} oninput="atualizarCampoDireto(${item.id}, 'textoLivre', this.value)" rows="1" class="w-full p-1.5 bg-white border rounded-lg text-[11px] text-slate-800" placeholder="Notas...">${item.textoLivre || ''}</textarea>
+                                </div>
+                            </div>
+                        `;
                     } else if(secKey === 'extras') {
-                        let subs = '';
-                        if(item.subBlocos) item.subBlocos.forEach(sb => { subs += `<div draggable="true" ondragstart="dragSub(event, ${item.id}, ${sb.id})" ondragover="allowDropSub(event)" ondrop="dropSub(event, ${item.id}, ${sb.id})" class="bg-white p-2 rounded-xl border mt-1 cursor-move"><div class="flex justify-between"><input type="text" value="${sb.titulo}" oninput="atualizarSubBlocoTitulo(${item.id}, ${sb.id}, this.value)" class="font-black text-indigo-900 text-[11px] bg-transparent outline-none border-b"><button onclick="removerSubBloco(${item.id}, ${sb.id})" class="text-red-500">✕</button></div><textarea rows="1" oninput="atualizarSubBlocoConteudo(${item.id}, ${sb.id}, this.value)" class="w-full p-1 border rounded text-[11px] mt-1">${sb.conteudo || ''}</textarea></div>`; });
-                        secoesHtml += `<div class="bg-white/95 p-2 rounded-xl border space-y-1"><div class="flex justify-between items-center border-b pb-0.5 mb-1">${ctrl}<button onclick="adicionarSubBloco(${item.id})" class="bg-indigo-600 text-white px-2 py-0.5 rounded text-[9px]">➕ Caixinha</button></div><div>${subs || '<p class="text-[10px] text-slate-400">Sem caixas extras.</p>'}</div></div>`;
+                        let subBlocosHtml = '';
+                        if(item.subBlocos && item.subBlocos.length > 0) {
+                            item.subBlocos.forEach(sb => {
+                                subBlocosHtml += `
+                                    <div draggable="true" ondragstart="dragSub(event, ${item.id}, ${sb.id})" ondragover="allowDropSub(event)" ondrop="dropSub(event, ${item.id}, ${sb.id})" class="bg-white p-2 rounded-xl border border-black/10 space-y-1 shadow-sm cursor-move mt-1">
+                                        <div class="flex items-center justify-between gap-1">
+                                            <div class="flex items-center gap-1 flex-1">
+                                                <span class="text-slate-400 font-bold text-xs select-none" title="Arraste">⠿</span>
+                                                <input type="text" value="${sb.titulo}" oninput="atualizarSubBlocoTitulo(${item.id}, ${sb.id}, this.value)" class="bg-transparent font-black text-indigo-900 text-[11px] outline-none w-full border-b border-indigo-100 pb-0.5" placeholder="Título...">
+                                            </div>
+                                            <button onclick="removerSubBloco(${item.id}, ${sb.id})" class="text-red-500 font-bold px-1 rounded bg-red-50 text-[10px]">✕</button>
+                                        </div>
+                                        <textarea rows="1" oninput="atualizarSubBlocoConteudo(${item.id}, ${sb.id}, this.value)" class="w-full p-1 bg-white border border-slate-200 rounded-lg outline-none text-[11px] text-slate-800" placeholder="Conteúdo...">${sb.conteudo || ''}</textarea>
+                                    </div>
+                                `;
+                            });
+                        }
+                        htmlSecoes += `
+                            <div class="bg-white/95 p-2 rounded-xl border border-black/10 space-y-1">
+                                <div class="flex justify-between items-center border-b pb-0.5 mb-1">
+                                    ${controleSecao}
+                                    <button onclick="adicionarSubBloco(${item.id})" class="bg-indigo-600 text-white px-2 py-0.5 rounded text-[9px] font-bold">➕ Caixinha</button>
+                                </div>
+                                <div class="space-y-1">${subBlocosHtml || '<p class="text-[10px] text-slate-400 italic">Nenhuma caixinha extra.</p>'}</div>
+                            </div>
+                        `;
                     }
                 });
 
                 let card = document.createElement('div');
-                card.className = "p-2.5 rounded-2xl border border-black/15 space-y-2 shadow-sm";
-                card.style.backgroundColor = cor;
+                card.className = `p-2.5 rounded-2xl border border-black/15 space-y-2 transition shadow-sm`;
+                card.style.backgroundColor = corHex;
+
                 card.innerHTML = `
                     <div class="flex justify-between items-center gap-1 border-b border-black/10 pb-1.5 flex-wrap">
-                        <div class="flex items-center gap-1">
-                            <select onchange="lidarSelecaoDestino(${item.id}, this.value)" class="bg-white text-indigo-900 font-black px-2 py-0.5 rounded text-[11px] border">${optDest}</select>
-                            <span class="bg-indigo-600 text-white font-bold px-1.5 py-0.5 rounded text-[9px]">📅 ${dias}d</span>
+                        <div class="flex items-center gap-1 flex-wrap">
+                            <select onchange="lidarSelecaoDestino(${item.id}, this.value)" ${dis} class="bg-white text-indigo-900 font-black px-2 py-0.5 rounded-lg text-[11px] border border-black/15 outline-none shadow-sm">
+                                ${opcoesDestino}
+                            </select>
+                            <span class="bg-indigo-600 text-white font-bold px-1.5 py-0.5 rounded-lg text-[9px]">📅 ${totalDias}d</span>
                         </div>
                         <div class="flex items-center gap-1">
-                            <input type="date" value="${item.dataInicio || ''}" onchange="atualizarCampo(${item.id}, 'dataInicio', this.value)" class="bg-white p-0.5 rounded text-[10px]">
-                            <span>➔</span>
-                            <input type="date" value="${item.dataFim || ''}" onchange="atualizarCampo(${item.id}, 'dataFim', this.value)" class="bg-white p-0.5 rounded text-[10px]">
+                            <div class="flex items-center gap-0.5 bg-white p-0.5 rounded-lg border text-[10px] font-bold">
+                                <input type="date" value="${item.dataInicio || ''}" ${dis} onchange="atualizarCampo(${item.id}, 'dataInicio', this.value)" class="bg-transparent outline-none text-slate-800 text-[10px]">
+                                <span>➔</span>
+                                <input type="date" value="${item.dataFim || ''}" ${dis} onchange="atualizarCampo(${item.id}, 'dataFim', this.value)" class="bg-transparent outline-none text-slate-800 text-[10px]">
+                            </div>
+                            <select onchange="atualizarCampo(${item.id}, 'status', this.value)" ${dis} class="border rounded-lg px-1.5 py-0.5 text-[10px] font-bold outline-none ${item.status === 'Comprado' ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'}">
+                                <option value="Comprado" ${item.status === 'Comprado' ? 'selected' : ''}>Comprado</option>
+                                <option value="Aguardando" ${item.status === 'Aguardando' ? 'selected' : ''}>Aguardando</option>
+                            </select>
                         </div>
                     </div>
-                    <div class="space-y-1.5">${secoesHtml}</div>
-                    <button onclick="adicionarSecaoBloco(${item.id})" class="w-full bg-slate-200 py-1 rounded text-[10px] font-bold">➕ Adicionar Secção</button>
-                    <div class="flex justify-between items-center pt-1.5 border-t border-black/10">
+
+                    <div class="space-y-1.5">${htmlSecoes}</div>
+                    <div class="pt-1">
+                        <button onclick="adicionarSecaoBloco(${item.id})" class="w-full bg-slate-200 hover:bg-slate-300 text-slate-700 py-1 rounded-lg text-[10px] font-bold">➕ Adicionar Secção Removida</button>
+                    </div>
+
+                    <div class="flex flex-wrap justify-between items-center gap-1 pt-1.5 border-t border-black/10">
                         <div class="flex items-center gap-1">
-                            <select onchange="atualizarCampo(${item.id}, 'moeda', this.value)" class="p-0.5 bg-white font-bold rounded text-[10px]"><option value="CHF" ${item.moeda === 'CHF' ? 'selected' : ''}>CHF</option><option value="EUR" ${item.moeda === 'EUR' ? 'selected' : ''}>EUR</option></select>
-                            <input type="text" value="${item.valor}" oninput="atualizarCampoDireto(${item.id}, 'valor', this.value)" class="w-14 p-0.5 bg-white font-black rounded text-[10px]">
+                            <select onchange="atualizarCampo(${item.id}, 'moeda', this.value)" ${dis} class="p-0.5 bg-white font-bold border rounded text-[10px]">
+                                <option value="CHF" ${item.moeda === 'CHF' ? 'selected' : ''}>CHF</option>
+                                <option value="EUR" ${item.moeda === 'EUR' ? 'selected' : ''}>EUR</option>
+                            </select>
+                            <input type="text" value="${item.valor}" ${dis} oninput="atualizarCampoDireto(${item.id}, 'valor', this.value)" class="w-14 p-0.5 bg-white font-black border rounded text-[10px]" placeholder="Valor">
+                            ${pdfBadge}
                         </div>
+                        
                         <div class="flex items-center gap-1">
-                            <button onclick="moverBloco(${item.id}, -1)" class="bg-slate-200 px-1.5 py-0.5 rounded text-[10px]">⬆️</button>
-                            <button onclick="moverBloco(${item.id}, 1)" class="bg-slate-200 px-1.5 py-0.5 rounded text-[10px]">⬇️</button>
-                            <input type="color" id="input-cor-${item.id}" value="${cor}" class="w-4 h-4 rounded cursor-pointer bg-transparent">
-                            <button onclick="atualizarCorBlocoLocal(${item.id})" class="bg-indigo-600 text-white px-1 py-0.5 rounded text-[9px]">OK</button>
+                            <button onclick="moverBloco(${item.id}, -1)" class="bg-slate-200 px-1.5 py-0.5 rounded text-[10px] font-bold" title="Subir bloco">⬆️</button>
+                            <button onclick="moverBloco(${item.id}, 1)" class="bg-slate-200 px-1.5 py-0.5 rounded text-[10px] font-bold" title="Descer bloco">⬇️</button>
+                            <div class="flex items-center gap-0.5 bg-white px-1 py-0.5 rounded border text-[9px] font-bold">
+                                <input type="color" id="input-cor-${item.id}" value="${corHex}" class="w-4 h-4 rounded cursor-pointer border-0 bg-transparent">
+                                <button onclick="atualizarCorBlocoLocal(${item.id})" class="bg-indigo-600 text-white px-1 py-0.5 rounded text-[9px]">OK</button>
+                            </div>
+                            <button onclick="abrirMapaRuta('${item.embarque}', '${item.desembarque}', '${item.categoria}', '${item.transporte || ''}', '${item.numeroTransporte || ''}')" class="bg-sky-100 text-sky-800 px-1.5 py-0.5 rounded text-[10px] font-bold">🗺️</button>
                             <button onclick="abrirModalDetalhes(${item.id})" class="bg-white border px-1.5 py-0.5 rounded text-[10px]">✏️</button>
-                            <button onclick="apagarBloco(${item.id})" class="bg-red-50 text-red-500 px-1.5 py-0.5 rounded text-[10px]">✕</button>
+                            <button onclick="alternarBloqueio(${item.id})" class="${btnOkClass} px-2 py-0.5 rounded text-[10px] font-bold border">${btnOkText}</button>
+                            <button onclick="apagarBloco(${item.id})" class="bg-red-50 text-red-500 px-1.5 py-0.5 rounded text-[10px] font-bold">✕</button>
                         </div>
                     </div>
                 `;
                 container.appendChild(card);
             });
         }
+
         function renderizarTarefas() {
-            let container = document.getElementById('lista-tarefas-html');
-            if(!container) return;
+            const container = document.getElementById('lista-tarefas-html');
             container.innerHTML = '';
-            let filtradas = tarefaFiltro === 'todas' ? dadosApp.tarefas : dadosApp.tarefas.filter(t => t.status === tarefaFiltro);
-            document.getElementById('stat-tarefas').innerText = `${dadosApp.tarefas.filter(t => t.status === 'Concluído').length} / ${dadosApp.tarefas.length} Concluídas`;
-            if(filtradas.length === 0) { container.innerHTML = '<p class="text-xs text-slate-400 italic text-center py-4">Nenhuma tarefa.</p>'; return; }
+            let filtradas = dadosApp.tarefas;
+            if (tarefaFiltro !== 'todas') filtradas = dadosApp.tarefas.filter(t => t.status === tarefaFiltro);
+            let total = dadosApp.tarefas.length;
+            let concluidas = dadosApp.tarefas.filter(t => t.status === 'Concluído').length;
+            document.getElementById('stat-tarefas').innerText = `${concluidas} / ${total} Concluídas`;
+
+            if(filtradas.length === 0) {
+                container.innerHTML = '<p class="text-xs text-slate-400 italic text-center py-4">Nenhuma tarefa.</p>';
+                return;
+            }
+
             filtradas.forEach(t => {
-                let cor = dadosApp.statusPersonalizados[t.status || 'Aguardando'] || '#f59e0b';
+                let dis = t.bloqueado ? 'disabled' : '';
+                let cardBg = t.bloqueado ? 'bg-slate-50 border-slate-300' : 'bg-white border-indigo-200 shadow-sm';
+                let btnOkText = t.bloqueado ? '🔒' : '✅';
+                let statusAtual = t.status || "Aguardando";
+                let corStatus = dadosApp.statusPersonalizados[statusAtual] || "#f59e0b";
+                let textStyle = (statusAtual === 'Concluído') ? 'line-through text-slate-400 font-normal' : 'font-bold text-slate-800';
+
+                let opcoesStatus = '';
+                Object.keys(dadosApp.statusPersonalizados).forEach(st => {
+                    opcoesStatus += `<option value="${st}" ${statusAtual === st ? 'selected' : ''}>${st}</option>`;
+                });
+                opcoesStatus += `<option value="novo_status">➕ Novo...</option>`;
+
                 let div = document.createElement('div');
-                div.className = "p-2.5 rounded-xl border bg-white space-y-1.5 shadow-sm";
-                div.style.borderLeft = `5px solid ${cor}`;
+                div.className = `p-2.5 rounded-xl border ${cardBg} space-y-1.5 transition`;
+                div.style.borderLeft = `5px solid ${corStatus}`;
                 div.innerHTML = `
                     <div class="flex items-center justify-between gap-1 flex-wrap">
-                        <input type="text" value="${t.texto}" oninput="atualizarTarefaTexto(${t.id}, this.value)" class="w-full p-0.5 bg-transparent border-b outline-none text-xs font-bold">
-                        <div class="flex items-center gap-1 w-full justify-between pt-1">
-                            <select onchange="lidarSelecaoStatusTarefa(${t.id}, this.value)" class="font-bold px-2 py-0.5 rounded text-[10px] text-white" style="background-color: ${cor};">
-                                <option value="Concluído" ${t.status === 'Concluído' ? 'selected' : ''}>Concluído</option>
-                                <option value="Aguardando" ${t.status === 'Aguardando' ? 'selected' : ''}>Aguardando</option>
+                        <div class="flex items-center gap-1 flex-1 min-w-[150px]">
+                            <button onclick="abrirModalTarefa(${t.id})" class="bg-slate-100 hover:bg-slate-200 p-1 rounded text-[10px]" title="Editar">✏️</button>
+                            <input type="text" value="${t.texto}" ${dis} oninput="atualizarTarefaTexto(${t.id}, this.value)" class="w-full p-0.5 bg-transparent border-b border-slate-200 outline-none ${textStyle} text-xs" placeholder="Tarefa...">
+                        </div>
+                        <div class="flex items-center gap-1">
+                            <select onchange="lidarSelecaoStatusTarefa(${t.id}, this.value)" ${dis} class="border rounded-lg px-2 py-0.5 text-[10px] font-bold text-white shadow-sm" style="background-color: ${corStatus};">
+                                ${opcoesStatus}
                             </select>
+                            <button onclick="desfazerTarefa(${t.id})" class="bg-amber-100 text-amber-800 px-1.5 py-0.5 rounded text-[10px]" title="Desfazer">↩️</button>
+                            <button onclick="alternarBloqueioTarefa(${t.id})" class="bg-slate-200 px-1.5 py-0.5 rounded text-[10px]" title="OK">${btnOkText}</button>
                             <button onclick="apagarTarefa(${t.id})" class="text-red-500 bg-red-50 px-1.5 py-0.5 rounded text-[10px]">✕</button>
                         </div>
                     </div>
@@ -602,60 +996,154 @@
                 container.appendChild(div);
             });
         }
-        function lidarSelecaoStatusTarefa(id, val) { let t = dadosApp.tarefas.find(i => i.id === id); if(t) { t.status = val; salvarStorage(); renderizarTarefas(); } }
-        function atualizarCampo(id, campo, val) { let i = dadosApp.itinerario.find(x => x.id === id); if(i) { i[campo] = val; salvarStorage(); } }
-        function atualizarCampoDireto(id, campo, val) { let i = dadosApp.itinerario.find(x => x.id === id); if(i) { i[campo] = val; localStorage.setItem(CHAVE_APP, JSON.stringify(dadosApp)); } }
-        function adicionarBloco() { dadosApp.itinerario.unshift({ id: Date.now(), categoria: "Zurique", dataInicio: "", dataFim: "", trecho: "Novo Trecho", transporte: "Trem", numeroTransporte: "", embarque: "Zurich HB", desembarque: "Hotel", moeda: "CHF", valor: "0", status: "Aguardando", notas: "", textoLivre: "", pdfData: "", pdfNome: "", bloqueado: false, cor: "#3b82f6", ordemSecoes: ['origemDestino', 'transporte', 'notas', 'extras'], subBlocos: [], concluido: false }); salvarStorage(); atualizarTudo(); }
-        function apagarBloco(id) { if(confirm("Excluir?")) { dadosApp.itinerario = dadosApp.itinerario.filter(i => i.id !== id); salvarStorage(); atualizarTudo(); } }
-        function atualizarTarefaTexto(id, val) { let t = dadosApp.tarefas.find(i => i.id === id); if(t) { t.texto = val; localStorage.setItem(CHAVE_APP, JSON.stringify(dadosApp)); } }
-        function adicionarTarefa() { dadosApp.tarefas.unshift({ id: Date.now(), texto: "Nova tarefa...", status: "Aguardando", bloqueado: false }); salvarStorage(); renderizarTarefas(); }
-        function apagarTarefa(id) { dadosApp.tarefas = dadosApp.tarefas.filter(t => t.id !== id); salvarStorage(); renderizarTarefas(); }
+
+        function abrirGoogleMapsGeral() {
+            window.open("https://www.google.com/maps/search/Zurich+Freiburg+Paris+Interlaken", "_blank");
+        }
+
+        function abrirModalTarefa(id) {
+            const t = dadosApp.tarefas.find(item => item.id === id);
+            if(t) { document.getElementById('tarefa-edit-id').value = t.id; document.getElementById('tarefa-edit-texto').value = t.texto || ''; document.getElementById('modal-tarefa').classList.remove('hidden'); }
+        }
+        function fecharModalTarefa() { document.getElementById('modal-tarefa').classList.add('hidden'); }
+        function salvarTarefaModal() {
+            const id = parseInt(document.getElementById('tarefa-edit-id').value);
+            const t = dadosApp.tarefas.find(item => item.id === id);
+            if(t) { t.texto = document.getElementById('tarefa-edit-texto').value; salvarStorage(); renderizarTarefas(); fecharModalTarefa(); }
+        }
+
+        function atualizarCampo(id, campo, valor) {
+            const item = dadosApp.itinerario.find(i => i.id === id);
+            if(item) { item[campo] = valor; salvarStorage(); }
+        }
+        function atualizarCampoDireto(id, campo, valor) {
+            const item = dadosApp.itinerario.find(i => i.id === id);
+            if(item) { item[campo] = valor; localStorage.setItem(CHAVE_APP, JSON.stringify(dadosApp)); }
+        }
+        function alternarBloqueio(id) {
+            const item = dadosApp.itinerario.find(i => i.id === id);
+            if(item) { item.bloqueado = !item.bloqueado; salvarStorage(); atualizarTudo(); }
+        }
+        function adicionarBloco() {
+            let novoItem = {
+                id: Date.now(), categoria: "Zurique", dataInicio: "", dataFim: "", trecho: "Novo Trecho", transporte: "Trem", numeroTransporte: "", embarque: "Zurich HB", desembarque: "Hotel", moeda: "CHF", valor: "0", status: "Aguardando", notas: "", textoLivre: "", pdfData: "", pdfNome: "", bloqueado: false, cor: "#3b82f6", ordemSecoes: ['origemDestino', 'transporte', 'notas', 'extras'], subBlocos: [], concluido: false
+            };
+            dadosApp.itinerario.unshift(novoItem);
+            salvarStorage();
+            atualizarTudo();
+        }
+        function apagarBloco(id) {
+            if(confirm("Excluir bloco?")) { dadosApp.itinerario = dadosApp.itinerario.filter(i => i.id !== id); salvarStorage(); atualizarTudo(); }
+        }
+        function atualizarTarefaTexto(id, valor) {
+            const t = dadosApp.tarefas.find(item => item.id === id);
+            if(t) { t.texto = valor; localStorage.setItem(CHAVE_APP, JSON.stringify(dadosApp)); }
+        }
+        function alternarBloqueioTarefa(id) {
+            const t = dadosApp.tarefas.find(item => item.id === id);
+            if(t) { t.bloqueado = !t.bloqueado; salvarStorage(); renderizarTarefas(); }
+        }
+        function desfazerTarefa(id) { renderizarTarefas(); }
+        function adicionarTarefa() {
+            dadosApp.tarefas.unshift({ id: Date.now(), texto: "Nova tarefa...", status: "Aguardando", bloqueado: false });
+            salvarStorage();
+            renderizarTarefas();
+        }
+        function apagarTarefa(id) {
+            dadosApp.tarefas = dadosApp.tarefas.filter(t => t.id !== id);
+            salvarStorage();
+            renderizarTarefas();
+        }
+
+        async function abrirMapaRuta(origem, destinoLocal) {
+            window.open(`https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(origem)}&destination=${encodeURIComponent(destinoLocal)}`, '_blank');
+        }
+
         function abrirModalDetalhes(id) {
-            let item = dadosApp.itinerario.find(i => i.id === id);
-            if(item) { document.getElementById('modal-edit-id').value = item.id; document.getElementById('modal-info-trecho').innerText = `${item.categoria} — ${item.trecho}`; document.getElementById('modal-notas').value = item.notas || ''; document.getElementById('modal-detalhes').classList.remove('hidden'); }
+            const item = dadosApp.itinerario.find(i => i.id === id);
+            if(item) {
+                document.getElementById('modal-edit-id').value = item.id;
+                document.getElementById('modal-info-trecho').innerText = `${item.categoria} — ${item.trecho}`;
+                document.getElementById('modal-notas').value = item.notas || '';
+                document.getElementById('modal-detalhes').classList.remove('hidden');
+            }
         }
         function fecharModalDetalhes() { document.getElementById('modal-detalhes').classList.add('hidden'); }
         function salvarDetalhesModal() {
-            let id = parseInt(document.getElementById('modal-edit-id').value), item = dadosApp.itinerario.find(i => i.id === id), file = document.getElementById('modal-pdf').files[0];
+            const id = parseInt(document.getElementById('modal-edit-id').value);
+            const item = dadosApp.itinerario.find(i => i.id === id);
+            let fileInput = document.getElementById('modal-pdf');
             if(item) {
                 item.notas = document.getElementById('modal-notas').value;
-                if(file) {
-                    let r = new FileReader(); r.onload = (e) => { item.pdfData = e.target.result; item.pdfNome = file.name; salvarStorage(); fecharModalDetalhes(); atualizarTudo(); }; r.readAsDataURL(file);
+                if(fileInput.files && fileInput.files[0]) {
+                    const reader = new FileReader();
+                    reader.onload = function(evt) {
+                        item.pdfData = evt.target.result;
+                        item.pdfNome = fileInput.files[0].name;
+                        salvarStorage(); fecharModalDetalhes(); atualizarTudo();
+                    };
+                    reader.readAsDataURL(fileInput.files[0]);
                 } else { salvarStorage(); fecharModalDetalhes(); atualizarTudo(); }
             }
         }
+
         function renderizarVouchersTab() {
-            let c = document.getElementById('lista-comprados-html');
-            if(!c) return; c.innerHTML = '';
-            if(!dadosApp.vouchers || dadosApp.vouchers.length === 0) { c.innerHTML = '<p class="text-xs text-slate-400 italic text-center py-4">Nenhum voucher.</p>'; return; }
+            const container = document.getElementById('lista-comprados-html');
+            container.innerHTML = '';
+            if(!dadosApp.vouchers || dadosApp.vouchers.length === 0) { container.innerHTML = '<p class="text-xs text-slate-400 italic text-center py-4">Nenhum voucher.</p>'; return; }
             dadosApp.vouchers.forEach(v => {
                 let pdfAction = v.pdfData ? `<a href="${v.pdfData}" download="${v.pdfNome || 'v.pdf'}" class="bg-blue-600 text-white px-2 py-1 rounded text-[10px] font-bold">📄 PDF</a>` : `<label class="bg-slate-100 text-slate-700 px-2 py-1 rounded text-[10px] font-bold cursor-pointer">📎 Anexar<input type="file" accept="application/pdf" onchange="anexarPdfVoucher(${v.id}, event)" class="hidden"></label>`;
                 let div = document.createElement('div');
                 div.className = "p-2.5 rounded-xl border bg-white space-y-1.5 shadow-sm";
-                div.innerHTML = `<input type="text" value="${v.titulo}" oninput="atualizarVoucherCampo(${v.id}, 'titulo', this.value)" class="w-full p-1 border-b outline-none font-bold text-xs"><div class="flex justify-between pt-1"><span class="bg-indigo-50 font-bold px-2 py-1 rounded text-[11px] border">${v.categoria}</span><div class="flex items-center gap-1">${pdfAction}<button onclick="apagarVoucher(${v.id})" class="text-red-500 bg-red-50 px-1.5 py-0.5 rounded text-[10px]">✕</button></div></div>`;
-                c.appendChild(div);
+                div.innerHTML = `
+                    <div class="flex items-center justify-between gap-1 flex-wrap">
+                        <input type="text" value="${v.titulo}" oninput="atualizarVoucherCampo(${v.id}, 'titulo', this.value)" class="w-full p-1 bg-transparent border-b outline-none font-bold text-xs" placeholder="Hotel...">
+                        <div class="flex items-center gap-1 w-full justify-between pt-1">
+                            <select onchange="lidarSelecaoDestinoVoucher(${v.id}, this.value)" class="bg-indigo-50 font-bold px-2 py-1 rounded text-[11px] border">
+                                <option value="${v.categoria}">${v.categoria}</option>
+                            </select>
+                            <div class="flex items-center gap-1">${pdfAction}<button onclick="apagarVoucher(${v.id})" class="text-red-500 font-bold text-[10px] bg-red-50 px-1.5 py-0.5 rounded">✕</button></div>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(div);
             });
         }
-        function anexarPdfVoucher(id, e) {
-            let file = e.target.files[0];
-            if(file) { let r = new FileReader(); r.onload = (evt) => { let v = dadosApp.vouchers.find(i => i.id === id); if(v) { v.pdfData = evt.target.result; v.pdfNome = file.name; salvarStorage(); renderizarVouchersTab(); alert("PDF anexado!"); } }; r.readAsDataURL(file); }
+        function anexarPdfVoucher(id, event) {
+            const file = event.target.files[0];
+            if(file) {
+                const reader = new FileReader();
+                reader.onload = function(evt) {
+                    const v = dadosApp.vouchers.find(item => item.id === id);
+                    if(v) { v.pdfData = evt.target.result; v.pdfNome = file.name; salvarStorage(); alert("PDF anexado!"); renderizarVouchersTab(); }
+                };
+                reader.readAsDataURL(file);
+            }
         }
-        function atualizarVoucherCampo(id, campo, val) { let v = dadosApp.vouchers.find(i => i.id === id); if(v) { v[campo] = val; localStorage.setItem(CHAVE_APP, JSON.stringify(dadosApp)); } }
+        function atualizarVoucherCampo(id, campo, val) { const v = dadosApp.vouchers.find(i => i.id === id); if(v) { v[campo] = val; localStorage.setItem(CHAVE_APP, JSON.stringify(dadosApp)); } }
         function adicionarVoucher() { dadosApp.vouchers.unshift({ id: Date.now(), titulo: "Novo Voucher", categoria: "Geral", pdfData: "", pdfNome: "", bloqueado: false }); salvarStorage(); renderizarVouchersTab(); }
         function apagarVoucher(id) { dadosApp.vouchers = dadosApp.vouchers.filter(v => v.id !== id); salvarStorage(); renderizarVouchersTab(); }
+
         function ativarMicrofone() {
-            let SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
-            if(!SpeechRec) { alert("Sem suporte a voz."); return; }
-            let rec = new SpeechRec(); rec.lang = 'pt-BR';
-            rec.onresult = (e) => { if(campoFocoAtual) { campoFocoAtual.value = e.results[0][0].transcript; campoFocoAtual.dispatchEvent(new Event('input')); } };
-            rec.start();
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (!SpeechRecognition) { alert("Sem suporte a voz."); return; }
+            const recognition = new SpeechRecognition();
+            recognition.lang = 'pt-BR';
+            recognition.onresult = function(event) {
+                if (campoFocoAtual) { campoFocoAtual.value = event.results[0][0].transcript; campoFocoAtual.dispatchEvent(new Event('input')); }
+            };
+            recognition.start();
         }
+
         function exportarWord() {
             let html = `<html><head><meta charset='utf-8'></head><body><h1>Roteiro</h1><table border='1'><tr><th>Destino</th><th>Trecho</th><th>Valor</th></tr>`;
             dadosApp.itinerario.forEach(i => { html += `<tr><td>${i.categoria}</td><td>${i.trecho}</td><td>${i.moeda} ${i.valor}</td></tr>`; });
             html += `</table></body></html>`;
-            let blob = new Blob(['\ufeff' + html], { type: 'application/msword' }), url = URL.createObjectURL(blob);
-            let a = document.createElement('a'); a.href = url; a.download = 'Roteiro.doc'; document.body.appendChild(a); a.click(); document.body.removeChild(a);
+            const blob = new Blob(['\ufeff' + html], { type: 'application/msword' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a'); a.href = url; a.download = 'Roteiro.doc';
+            document.body.appendChild(a); a.click(); document.body.removeChild(a);
+            alert("📥 Exportado!");
         }
     </script>
 </body>
