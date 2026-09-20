@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v40.0)</title>
+    <title>Roteiro Europa - Mariana (v41.0)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Leaflet CSS para Mapas -->
@@ -11,12 +11,12 @@
     <!-- Manifest Dinâmico via JavaScript -->
     <link id="pwa-manifest" rel="manifest" href="">
 </head>
-<body class="bg-slate-100 text-slate-800 min-h-screen pb-44 select-none transition-colors duration-200">
+<body class="bg-slate-100 text-slate-800 min-h-screen pb-48 select-none transition-colors duration-200">
 
     <!-- CABEÇALHO NORMAL NO TOPO -->
     <header class="bg-slate-900 text-white px-4 py-3 shadow-md border-b border-slate-700 text-xs flex justify-between items-center z-50 relative">
         <span class="font-bold tracking-wide">🚄 Roteiro Europa - Mariana</span>
-        <span class="bg-indigo-600 px-2 py-0.5 rounded font-mono font-bold text-[10px]">v40.0</span>
+        <span class="bg-indigo-600 px-2 py-0.5 rounded font-mono font-bold text-[10px]">v41.0</span>
     </header>
 
     <!-- CONTEÚDO PRINCIPAL -->
@@ -40,7 +40,7 @@
             <div id="lista-blocos" class="space-y-4"></div>
         </div>
 
-        <!-- TAB 2: TAREFAS (COM STATUS E LÁPIS NA MESMA LINHA) -->
+        <!-- TAB 2: TAREFAS -->
         <div id="tab-tarefas" class="space-y-4 hidden">
             <!-- CARD DE RESUMO NO TOPO -->
             <div class="bg-indigo-900 text-white p-4 rounded-3xl shadow-md flex justify-between items-center">
@@ -77,7 +77,7 @@
     <!-- BARRA DE FERRAMENTAS FIXA NO FINAL DA TELA -->
     <nav class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900 text-white px-4 py-2.5 shadow-2xl border-t border-slate-700 text-xs flex flex-wrap items-center justify-between gap-2">
         <div class="flex items-center gap-2">
-            <span class="bg-indigo-600 px-2 py-0.5 rounded font-mono font-bold text-[10px]">v40.0</span>
+            <span class="bg-indigo-600 px-2 py-0.5 rounded font-mono font-bold text-[10px]">v41.0</span>
             <span class="font-bold">Barra de Ações</span>
         </div>
         <div class="flex items-center gap-1.5 flex-wrap">
@@ -170,38 +170,10 @@
         </div>
     </div>
 
-    <!-- MODAL DE EDITAR VOUCHER -->
-    <div id="modal-voucher" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
-        <div class="bg-white p-6 rounded-3xl shadow-2xl max-w-md w-full space-y-4 border border-slate-300 text-xs">
-            <div class="flex justify-between items-center border-b pb-3">
-                <h3 class="font-bold text-sm text-slate-900">🎟️ Editar Voucher / PDF</h3>
-                <button onclick="fecharModalVoucher()" class="text-slate-400 hover:text-slate-600 font-bold">✕</button>
-            </div>
-            <input type="hidden" id="voucher-edit-id">
-            <div>
-                <label class="block font-semibold text-slate-600 mb-1">Título do Documento / Voucher</label>
-                <input type="text" id="voucher-titulo" class="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-xl outline-none font-bold text-slate-900" placeholder="Ex: Bilhete Europa-Park, Seguro Viagem...">
-            </div>
-            <div>
-                <label class="block font-semibold text-slate-600 mb-1">Categoria / Destino</label>
-                <input type="text" id="voucher-categoria" class="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-xl outline-none" placeholder="Ex: Zurique, Disney, Geral...">
-            </div>
-            <div>
-                <label class="block font-semibold text-slate-600 mb-1">Carregar / Atualizar Ficheiro PDF</label>
-                <input type="file" id="voucher-file" accept="application/pdf" class="w-full p-1 bg-slate-50 border border-slate-300 rounded-xl text-[10px]">
-                <div id="voucher-pdf-status" class="mt-1 text-[11px] text-slate-500"></div>
-            </div>
-            <div class="flex gap-2 pt-2">
-                <button onclick="salvarVoucherModal()" class="flex-1 bg-indigo-600 text-white py-2.5 rounded-xl font-bold">Guardar Voucher</button>
-                <button onclick="fecharModalVoucher()" class="bg-slate-200 text-slate-700 px-4 py-2.5 rounded-xl">Cancelar</button>
-            </div>
-        </div>
-    </div>
-
     <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
-        const CHAVE_APP = "mariana_viagem_europa_v40";
+        const CHAVE_APP = "mariana_viagem_europa_v41";
         let destinoFiltro = 'todos';
         let campoFocoAtual = null;
         let mapInstance = null;
@@ -236,7 +208,7 @@
             const manifestBlob = new Blob([JSON.stringify(manifestObj)], {type: 'application/manifest+json'});
             document.getElementById('pwa-manifest').href = URL.createObjectURL(manifestBlob);
 
-            const temaSalvo = localStorage.getItem('tema_v40');
+            const temaSalvo = localStorage.getItem('tema_v41');
             if (temaSalvo === 'dark') {
                 document.body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 document.body.classList.remove('bg-slate-100', 'text-slate-800');
@@ -296,11 +268,11 @@
             if(body.classList.contains('dark')) {
                 body.classList.remove('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.add('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v40', 'light');
+                localStorage.setItem('tema_v41', 'light');
             } else {
                 body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.remove('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v40', 'dark');
+                localStorage.setItem('tema_v41', 'dark');
             }
         }
 
@@ -606,6 +578,7 @@
             });
         }
 
+        // TAREFAS COM TEXTO, STATUS E LÁPIS NA MESMA LINHA
         function renderizarTarefas() {
             const container = document.getElementById('lista-tarefas-html');
             container.innerHTML = '';
@@ -631,11 +604,11 @@
                 let statusText = t.status === 'Concluído' ? '✅ Concluído' : '⏳ Aguardando';
 
                 let div = document.createElement('div');
-                div.className = `p-4 rounded-2xl border ${cardBg} space-y-2 transition`;
+                div.className = `p-4 rounded-2xl border ${cardBg} space-y-3 transition`;
                 div.innerHTML = `
                     <div class="flex items-center justify-between gap-2 flex-wrap">
                         <div class="flex items-center gap-2 flex-1 min-w-[200px]">
-                            <button onclick="abrirModalTarefa(${t.id})" class="bg-slate-100 hover:bg-slate-200 p-2 rounded-xl text-slate-700 font-bold" title="Editar com Lápis">✏️</button>
+                            <button onclick="abrirModalTarefa(${t.id})" class="bg-slate-100 hover:bg-slate-200 p-2 rounded-xl text-slate-700 font-bold shrink-0" title="Editar Tarefa (Lápis)">✏️</button>
                             <input type="text" value="${t.texto}" ${dis} oninput="atualizarTarefaTexto(${t.id}, this.value)" class="w-full p-2 bg-transparent border-b border-slate-300 outline-none font-bold text-slate-800 text-xs" placeholder="Descrição da tarefa...">
                         </div>
                         <div class="flex items-center gap-2">
