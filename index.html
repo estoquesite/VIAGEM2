@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v185.0)</title>
+    <title>Roteiro Europa - Mariana (v187.0)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Manifest Dinâmico via JavaScript -->
@@ -39,7 +39,7 @@
             <a href="https://translate.google.com/?hl=pt&sl=auto&tl=pt&op=images" target="_blank" class="bg-indigo-600 hover:bg-indigo-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm flex items-center gap-1" title="Google Tradutor & Câmara">🌐 Tradutor</a>
             <button onclick="window.location.reload()" class="bg-slate-800 hover:bg-slate-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm border border-slate-700" title="Atualizar Página">🔄</button>
             <button onclick="exportarPdfPrint()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm" title="Imprimir Tudo">🖨️</button>
-            <span class="bg-indigo-950 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v185.0</span>
+            <span class="bg-indigo-950 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v187.0</span>
         </div>
     </header>
 
@@ -113,7 +113,7 @@
             <div id="hub-utilidades-grid" class="grid grid-cols-1 gap-3"></div>
         </div>
 
-        <!-- TAB 4: ORÇAMENTO COM CARD GLOBAL NO TOPO E SUB-ABAS NÍTIDAS -->
+        <!-- TAB 4: ORÇAMENTO COM CAIXAS DE EUROS, FRANCOS E CONVERSOR -->
         <div id="tab-orcamento" class="space-y-3 hidden">
             <div class="bg-white p-3.5 sm:p-5 rounded-2xl shadow-sm border border-slate-200 space-y-4 text-xs">
                 <div class="flex justify-between items-center border-b pb-3 flex-wrap gap-2">
@@ -199,7 +199,7 @@
 
     <!-- BARRA DE FERRAMENTAS FIXA -->
     <nav class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-md text-white px-3 py-2.5 shadow-2xl border-t border-slate-800 text-xs flex items-center justify-around gap-1 overflow-x-auto no-scrollbar max-w-4xl mx-auto rounded-t-2xl">
-        <span class="bg-indigo-600 px-2 py-1 rounded font-mono font-bold text-[9px] shrink-0">v185.0</span>
+        <span class="bg-indigo-600 px-2 py-1 rounded font-mono font-bold text-[9px] shrink-0">v187.0</span>
         <button onclick="abrirGeminiModal()" class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-3 py-1.5 rounded-xl font-bold transition shrink-0 flex items-center gap-1 text-xs shadow-sm">
             <span>✨</span> Gemini
         </button>
@@ -238,7 +238,7 @@
     </div>
 
     <script>
-        const CHAVE_APP = "mariana_viagem_europa_v185";
+        const CHAVE_APP = "mariana_viagem_europa_v187";
         let destinoFiltro = 'todos';
         let tarefaFiltro = 'todas';
         let utilidadeFiltro = 'todos';
@@ -346,11 +346,11 @@
                 navigator.serviceWorker.register(URL.createObjectURL(swBlob)).catch(err => {});
             }
 
-            if (!sessionStorage.getItem('sessao_ativa_v185')) {
+            if (!sessionStorage.getItem('sessao_ativa_v187')) {
                 document.getElementById('tela-bloqueio').classList.remove('hidden');
             }
 
-            const temaSalvo = localStorage.getItem('tema_v185');
+            const temaSalvo = localStorage.getItem('tema_v187');
             if (temaSalvo === 'dark') {
                 document.body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 document.body.classList.remove('bg-slate-100', 'text-slate-800');
@@ -382,8 +382,13 @@
             } catch(e) {}
 
             try {
+                let inputEur = document.getElementById('input-cotacao-eur');
+                let inputChf = document.getElementById('input-cotacao-chf');
+                if(inputEur) inputEur.value = dadosApp.cotacaoEur;
+                if(inputChf) inputChf.value = dadosApp.cotacaoChf;
+
                 atualizarTudo();
-                let tabSalva = localStorage.getItem('tab_ativa_v185') || 'leitura';
+                let tabSalva = localStorage.getItem('tab_ativa_v187') || 'leitura';
                 mudarTab(tabSalva);
             } catch(e) {
                 console.error("Erro ao iniciar:", e);
@@ -407,29 +412,30 @@
         }
 
         function desbloquearComPin() {
-            let pinSalvo = localStorage.getItem('app_pin_v185') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v187') || '1510';
             let digitado = document.getElementById('input-pin').value;
             if(digitado === pinSalvo) {
-                sessionStorage.setItem('sessao_ativa_v185', 'true');
+                sessionStorage.setItem('sessao_ativa_v187', 'true');
                 document.getElementById('tela-bloqueio').classList.add('hidden');
                 document.getElementById('erro-pin').classList.add('hidden');
             } else {
+                document.getElementById('erro-pin').classList.add('hidden'); // fix error pin display
                 document.getElementById('erro-pin').classList.remove('hidden');
             }
         }
 
         async function desbloquearComBiometria() {
-            sessionStorage.setItem('sessao_ativa_v185', 'true');
+            sessionStorage.setItem('sessao_ativa_v187', 'true');
             document.getElementById('tela-bloqueio').classList.add('hidden');
         }
 
         function alterarSenhaPin() {
             let atual = prompt("Digite a senha atual (Padrão: 1510):");
-            let pinSalvo = localStorage.getItem('app_pin_v185') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v187') || '1510';
             if(atual === pinSalvo) {
                 let nova = prompt("Digite a nova senha PIN:");
                 if(nova && nova.trim() !== '') {
-                    localStorage.setItem('app_pin_v185', nova.trim());
+                    localStorage.setItem('app_pin_v187', nova.trim());
                     alert("🔑 Senha alterada com sucesso!");
                 }
             } else {
@@ -442,11 +448,11 @@
             if(body.classList.contains('dark')) {
                 body.classList.remove('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.add('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v185', 'light');
+                localStorage.setItem('tema_v187', 'light');
             } else {
                 body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.remove('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v185', 'dark');
+                localStorage.setItem('tema_v187', 'dark');
             }
         }
 
@@ -633,7 +639,7 @@
         }
 
         function mudarTab(tab) {
-            localStorage.setItem('tab_ativa_v185', tab);
+            localStorage.setItem('tab_ativa_v187', tab);
             if(tab === 'itinerario' || tab === 'leitura') {
                 destinoFiltro = 'todos';
             }
@@ -851,7 +857,8 @@
                 let trechosTexto = '';
                 if(item.trechos && item.trechos.length > 0) {
                     item.trechos.forEach(tr => {
-                        trechosTexto += '<div class="text-xs ' + textStyle + ' bg-slate-50 p-2.5 rounded-xl border border-slate-200 flex flex-col gap-2 my-1.5 shadow-sm"><div class="flex justify-between items-start gap-2"><div class="flex-1 min-w-0 break-words"><span class="font-bold text-xs ' + (item.concluido ? 'line-through text-slate-400' : 'text-slate-900') + '">🚄 ' + (tr.origem || '?') + ' ➔ ' + (tr.destino || '?') + '</span> <span class="font-medium">(' + (tr.transporte || 'Trem') + ')</span>' + (tr.valor ? ' • <span class="font-black ' + (item.concluido ? 'line-through text-slate-400' : 'text-amber-900') + '">' + tr.valor + ' ' + (tr.moeda || 'EUR') + '</span>' : '') + (tr.notas ? '<div class="text-[11px] italic mt-1 whitespace-pre-wrap break-words">📝 ' + tr.notas + '</div>' : '') + '</div></div><div class="flex gap-1.5 flex-wrap border-t border-slate-200 pt-2"><button onclick="abrirMapaRuta(\'' + (tr.origem || '') + '\', \'' + (tr.destino || '') + '\')" class="bg-sky-100 text-sky-800 hover:bg-sky-200 px-2.5 py-1 rounded-lg font-bold text-[10px] transition">🗺️ Mapa</button><button onclick="abrirWebcam(\'' + (tr.destino || item.categoria) + '\')" class="bg-purple-100 text-purple-800 hover:bg-purple-200 px-2.5 py-1 rounded-lg font-bold text-[10px] transition">📹 Câmera</button><button onclick="mostrarClimaModal(\'' + (tr.destino || item.categoria) + '\')" class="bg-amber-100 text-amber-800 hover:bg-amber-200 px-2.5 py-1 rounded-lg font-bold text-[10px] transition">🌤️ Clima</button></div></div>';
+                        let mapsUrl = 'https://www.google.com/maps/dir/?api=1&origin=' + encodeURIComponent(tr.origem || '') + '&destination=' + encodeURIComponent(tr.destino || '') + '&travelmode=transit';
+                        trechosTexto += '<div class="text-xs ' + textStyle + ' bg-slate-50 p-2.5 rounded-xl border border-slate-200 flex flex-col gap-2 my-1.5 shadow-sm"><div class="flex justify-between items-start gap-2"><div class="flex-1 min-w-0 break-words"><span class="font-bold text-xs ' + (item.concluido ? 'line-through text-slate-400' : 'text-slate-900') + '">🚄 ' + (tr.origem || '?') + ' ➔ ' + (tr.destino || '?') + '</span> <span class="font-medium">(' + (tr.transporte || 'Trem') + ')</span>' + (tr.valor ? ' • <span class="font-black ' + (item.concluido ? 'line-through text-slate-400' : 'text-amber-900') + '">' + tr.valor + ' ' + (tr.moeda || 'EUR') + '</span>' : '') + (tr.notas ? '<div class="text-[11px] italic mt-1 whitespace-pre-wrap break-words">📝 ' + tr.notas + '</div>' : '') + '</div></div><div class="flex gap-1.5 flex-wrap border-t border-slate-200 pt-2"><a href="' + mapsUrl + '" target="_blank" class="bg-sky-100 text-sky-800 hover:bg-sky-200 px-2.5 py-1 rounded-lg font-bold text-[10px] transition inline-block text-center">🗺️ Mapa</a><button onclick="abrirWebcam(\'' + (tr.destino || item.categoria) + '\')" class="bg-purple-100 text-purple-800 hover:bg-purple-200 px-2.5 py-1 rounded-lg font-bold text-[10px] transition">📹 Câmera</button><button onclick="mostrarClimaModal(\'' + (tr.destino || item.categoria) + '\')" class="bg-amber-100 text-amber-800 hover:bg-amber-200 px-2.5 py-1 rounded-lg font-bold text-[10px] transition">🌤️ Clima</button></div></div>';
                     });
                 }
 
