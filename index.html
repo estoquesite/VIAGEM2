@@ -113,7 +113,7 @@
             <div id="hub-utilidades-grid" class="grid grid-cols-1 gap-3"></div>
         </div>
 
-        <!-- TAB 4: ORÇAMENTO COM CAIXAS DE EUROS, FRANCOS E CONVERSOR -->
+        <!-- TAB 4: ORÇAMENTO COM CAIXAS DE EUROS, FRANCOS, CONVERSOR E COMPRAS -->
         <div id="tab-orcamento" class="space-y-3 hidden">
             <div class="bg-white p-3.5 sm:p-5 rounded-2xl shadow-sm border border-slate-200 space-y-4 text-xs">
                 <div class="flex justify-between items-center border-b pb-3 flex-wrap gap-2">
@@ -128,7 +128,7 @@
                 <div class="bg-emerald-50/80 p-4 rounded-2xl border-2 border-emerald-300 shadow-md text-center space-y-1">
                     <span class="font-black text-xs text-emerald-900 uppercase tracking-wide block">📊 Total Gasto Geral em Reais (R$)</span>
                     <div id="resumo-total-gasto-brl" class="text-2xl font-black text-emerald-700">R$ 0.00</div>
-                    <p class="text-[10px] text-slate-600">Soma acumulada de todas as despesas e trechos (Euros + Francos).</p>
+                    <p class="text-[10px] text-slate-600">Soma acumulada de todas as despesas, trechos e compras (Euros + Francos).</p>
                 </div>
 
                 <!-- COTAÇÃO GERAL -->
@@ -149,10 +149,11 @@
                 </div>
 
                 <!-- SUB-MENU DE ORÇAMENTO COM ESTILO NÍTIDO E CLARO -->
-                <div class="flex gap-1.5 bg-slate-100 p-1.5 rounded-2xl text-xs font-bold border border-slate-200 shadow-inner">
-                    <button onclick="mudarOrcamentoSubTab('eur')" id="subtab-eur" class="flex-1 py-2.5 rounded-xl bg-amber-600 text-white shadow-sm transition text-center font-bold">💶 Euros (€)</button>
-                    <button onclick="mudarOrcamentoSubTab('chf')" id="subtab-chf" class="flex-1 py-2.5 rounded-xl bg-white text-slate-700 border border-slate-200 shadow-sm transition text-center font-bold hover:bg-slate-50">🇨🇭 Francos (CHF)</button>
-                    <button onclick="mudarOrcamentoSubTab('conversor')" id="subtab-conversor" class="flex-1 py-2.5 rounded-xl bg-white text-slate-700 border border-slate-200 shadow-sm transition text-center font-bold hover:bg-slate-50">🧮 Conversor</button>
+                <div class="flex gap-1.5 bg-slate-100 p-1.5 rounded-2xl text-xs font-bold border border-slate-200 shadow-inner overflow-x-auto no-scrollbar">
+                    <button onclick="mudarOrcamentoSubTab('eur')" id="subtab-eur" class="flex-1 py-2.5 px-3 rounded-xl bg-amber-600 text-white shadow-sm transition text-center font-bold shrink-0">💶 Euros (€)</button>
+                    <button onclick="mudarOrcamentoSubTab('chf')" id="subtab-chf" class="flex-1 py-2.5 px-3 rounded-xl bg-white text-slate-700 border border-slate-200 shadow-sm transition text-center font-bold hover:bg-slate-50 shrink-0">🇨🇭 Francos (CHF)</button>
+                    <button onclick="mudarOrcamentoSubTab('conversor')" id="subtab-conversor" class="flex-1 py-2.5 px-3 rounded-xl bg-white text-slate-700 border border-slate-200 shadow-sm transition text-center font-bold hover:bg-slate-50 shrink-0">🧮 Conversor</button>
+                    <button onclick="mudarOrcamentoSubTab('compras')" id="subtab-compras" class="flex-1 py-2.5 px-3 rounded-xl bg-white text-slate-700 border border-slate-200 shadow-sm transition text-center font-bold hover:bg-slate-50 shrink-0">🛍️ Compras</button>
                 </div>
 
                 <!-- CONTEÚDO DAS SUB-ABAS DE ORÇAMENTO -->
@@ -278,7 +279,8 @@
             checklist: [],
             contatos: [],
             outros: [],
-            chat: []
+            chat: [],
+            compras: []
         };
 
         document.addEventListener('focusin', (e) => {
@@ -385,6 +387,7 @@
                         if(!dadosApp.contatos) dadosApp.contatos = [];
                         if(!dadosApp.outros) dadosApp.outros = [];
                         if(!dadosApp.chat) dadosApp.chat = [];
+                        if(!dadosApp.compras) dadosApp.compras = [];
                     }
                 }
             } catch(e) {}
@@ -679,15 +682,16 @@
 
         function mudarOrcamentoSubTab(sub) {
             orcamentoSubTab = sub;
-            ['eur', 'chf', 'conversor'].forEach(s => {
+            ['eur', 'chf', 'conversor', 'compras'].forEach(s => {
                 let btn = document.getElementById('subtab-' + s);
                 if(btn) {
                     if(s === sub) {
-                        if(s === 'eur') btn.className = "flex-1 py-2.5 rounded-xl bg-amber-600 text-white shadow-sm transition text-center font-bold";
-                        else if(s === 'chf') btn.className = "flex-1 py-2.5 rounded-xl bg-blue-600 text-white shadow-sm transition text-center font-bold";
-                        else btn.className = "flex-1 py-2.5 rounded-xl bg-indigo-600 text-white shadow-sm transition text-center font-bold";
+                        if(s === 'eur') btn.className = "flex-1 py-2.5 px-3 rounded-xl bg-amber-600 text-white shadow-sm transition text-center font-bold shrink-0";
+                        else if(s === 'chf') btn.className = "flex-1 py-2.5 px-3 rounded-xl bg-blue-600 text-white shadow-sm transition text-center font-bold shrink-0";
+                        else if(s === 'conversor') btn.className = "flex-1 py-2.5 px-3 rounded-xl bg-indigo-600 text-white shadow-sm transition text-center font-bold shrink-0";
+                        else btn.className = "flex-1 py-2.5 px-3 rounded-xl bg-purple-600 text-white shadow-sm transition text-center font-bold shrink-0";
                     } else {
-                        btn.className = "flex-1 py-2.5 rounded-xl bg-white text-slate-700 border border-slate-200 shadow-sm transition text-center font-bold hover:bg-slate-50";
+                        btn.className = "flex-1 py-2.5 px-3 rounded-xl bg-white text-slate-700 border border-slate-200 shadow-sm transition text-center font-bold hover:bg-slate-50 shrink-0";
                     }
                 }
             });
@@ -1542,6 +1546,17 @@
                     });
                 }
 
+                if(dadosApp.compras && dadosApp.compras.length > 0) {
+                    dadosApp.compras.forEach(c => {
+                        let val = limparNumero(c.valor);
+                        let moeda = c.moeda || 'EUR';
+                        if(val > 0) {
+                            if(moeda === 'EUR') gastoEur += val;
+                            else if(moeda === 'CHF') gastoChf += val;
+                        }
+                    });
+                }
+
                 let totalGastoBrl = (gastoEur * cotEur) + (gastoChf * cotChf);
                 if(resumoTotalGastoBrl) resumoTotalGastoBrl.innerText = 'R$ ' + totalGastoBrl.toFixed(2);
 
@@ -1694,6 +1709,91 @@
                             </div>
                         </div>
                     `;
+
+                } else if (orcamentoSubTab === 'compras') {
+                    let comprasAdultosEur = 0, comprasAdultosChf = 0;
+                    let comprasCriancasEur = 0, comprasCriancasChf = 0;
+                    let comprasHtml = '';
+
+                    if(dadosApp.compras) {
+                        dadosApp.compras.forEach(c => {
+                            let val = limparNumero(c.valor);
+                            let moeda = c.moeda || 'EUR';
+                            let pub = c.publico || 'Adulto';
+                            if(val > 0) {
+                                if(pub === 'Adulto') {
+                                    if(moeda === 'EUR') comprasAdultosEur += val;
+                                    else if(moeda === 'CHF') comprasAdultosChf += val;
+                                } else {
+                                    if(moeda === 'EUR') comprasCriancasEur += val;
+                                    else if(moeda === 'CHF') comprasCriancasChf += val;
+                                }
+                            }
+
+                            let valBrl = moeda === 'EUR' ? val * cotEur : val * cotChf;
+                            let localSafe = (c.local || '').replace(/"/g, '&quot;');
+                            let concluidoClass = c.concluido ? 'bg-emerald-50 opacity-75 border-emerald-300' : 'bg-white border-slate-200';
+                            let textClass = c.concluido ? 'line-through text-slate-400' : 'text-slate-800';
+
+                            comprasHtml += `
+                                <div class="p-3 rounded-xl border ${concluidoClass} flex flex-col gap-2 text-xs shadow-sm">
+                                    <div class="flex justify-between items-center gap-2">
+                                        <input type="text" value="${localSafe}" oninput="atualizarCompra(${c.id}, 'local', this.value)" class="flex-1 bg-transparent outline-none font-bold ${textClass} text-xs truncate" placeholder="Local de Compra (Ex: Outlet, Loja...)">
+                                        <label class="flex items-center gap-1 cursor-pointer font-bold bg-slate-50 px-2 py-1 rounded-lg border text-[11px] shrink-0 shadow-sm">
+                                            <input type="checkbox" ${c.concluido ? 'checked' : ''} onchange="alternarConcluidoCompra(${c.id})" class="w-3.5 h-3.5 accent-emerald-600 rounded cursor-pointer">
+                                            <span>Feito</span>
+                                        </label>
+                                        <button onclick="apagarCompra(${c.id})" class="text-red-500 font-bold px-2 py-1 rounded-xl bg-red-50 hover:bg-red-100 text-xs shrink-0">✕</button>
+                                    </div>
+                                    <div class="flex gap-2 items-center justify-between border-t border-slate-100 pt-2">
+                                        <select onchange="atualizarCompra(${c.id}, 'publico', this.value)" class="p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs">
+                                            <option value="Adulto" ${pub==='Adulto'?'selected':''}>👤 Adulto</option>
+                                            <option value="Criança (Sofia)" ${pub==='Criança (Sofia)'?'selected':''}>👧 Criança (Sofia)</option>
+                                        </select>
+                                        <div class="flex items-center gap-1.5">
+                                            <input type="text" value="${val !== 0 ? val : ''}" id="compra-val-${c.id}" class="w-20 p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-black text-right text-xs outline-none" placeholder="0">
+                                            <select onchange="atualizarCompraMoeda(${c.id}, this.value)" class="p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs">
+                                                <option value="EUR" ${moeda==='EUR'?'selected':''}>EUR (€)</option>
+                                                <option value="CHF" ${moeda==='CHF'?'selected':''}>CHF</option>
+                                            </select>
+                                            <button onclick="salvarCompraValor(${c.id}, document.getElementById('compra-val-${c.id}').value)" class="bg-emerald-600 text-white px-2.5 py-1.5 rounded-lg font-bold text-[10px]">OK</button>
+                                        </div>
+                                    </div>
+                                    <div class="text-right text-[11px] font-bold text-emerald-700">R$ ${valBrl.toFixed(2)}</div>
+                                </div>
+                            `;
+                        });
+                    }
+                    if(comprasHtml === '') comprasHtml = '<p class="text-xs text-slate-400 italic">Nenhum local de compra registado.</p>';
+
+                    let totalAdultosBrl = (comprasAdultosEur * cotEur) + (comprasAdultosChf * cotChf);
+                    let totalCriancasBrl = (comprasCriancasEur * cotEur) + (comprasCriancasChf * cotChf);
+
+                    container.innerHTML = `
+                        <div class="bg-purple-50/50 p-4 rounded-2xl border border-purple-200 space-y-3 shadow-sm">
+                            <h3 class="font-black text-purple-900 text-xs uppercase border-b border-purple-200 pb-1.5">🛍️ Gestão de Compras (Adultos vs Crianças)</h3>
+                            
+                            <!-- CAIXINHA EM CIMA COM OS VALORES SOMANDO NO ORÇAMENTO -->
+                            <div class="grid grid-cols-2 gap-2">
+                                <div class="bg-white p-3 rounded-xl border border-purple-200 shadow-sm text-center space-y-1">
+                                    <span class="font-bold text-[10px] text-purple-900 uppercase">👤 Adultos</span>
+                                    <div class="font-black text-xs text-slate-800">${comprasAdultosEur.toFixed(2)} € | ${comprasAdultosChf.toFixed(2)} CHF</div>
+                                    <div class="font-bold text-[11px] text-emerald-700">R$ ${totalAdultosBrl.toFixed(2)}</div>
+                                </div>
+                                <div class="bg-white p-3 rounded-xl border border-purple-200 shadow-sm text-center space-y-1">
+                                    <span class="font-bold text-[10px] text-purple-900 uppercase">👧 Crianças (Sofia)</span>
+                                    <div class="font-black text-xs text-slate-800">${comprasCriancasEur.toFixed(2)} € | ${comprasCriancasChf.toFixed(2)} CHF</div>
+                                    <div class="font-bold text-[11px] text-emerald-700">R$ ${totalCriancasBrl.toFixed(2)}</div>
+                                </div>
+                            </div>
+
+                            <div class="space-y-2 pt-2">
+                                <span class="font-bold text-xs text-purple-900 uppercase block">Locais de Compras:</span>
+                                <div class="space-y-2.5">${comprasHtml}</div>
+                            </div>
+                            <button onclick="adicionarCompra()" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-2.5 rounded-xl text-xs transition shadow-sm mt-3">➕ Adicionar Local de Compra</button>
+                        </div>
+                    `;
                 }
             } catch(err) {
                 console.error("Erro no orçamento:", err);
@@ -1762,6 +1862,59 @@
         function atualizarOrcamentoDescricao(id, val) {
             let d = dadosApp.orcamento.find(item => String(item.id) === String(id));
             if(d) { d.descricao = val; localStorage.setItem(CHAVE_APP, JSON.stringify(dadosApp)); }
+        }
+
+        function adicionarCompra() {
+            registarEstadoAnterior();
+            if(!dadosApp.compras) dadosApp.compras = [];
+            dadosApp.compras.unshift({ id: Date.now(), local: "Loja / Outlet", valor: 0, moeda: "EUR", publico: "Adulto", concluido: false });
+            salvarStorage();
+            renderizarOrcamentoTab();
+        }
+
+        function apagarCompra(id) {
+            registarEstadoAnterior();
+            dadosApp.compras = dadosApp.compras.filter(c => String(c.id) !== String(id));
+            salvarStorage();
+            renderizarOrcamentoTab();
+        }
+
+        function atualizarCompra(id, campo, val) {
+            let c = dadosApp.compras.find(item => String(item.id) === String(id));
+            if(c) {
+                c[campo] = val;
+                salvarStorage();
+                if(campo === 'publico' || campo === 'moeda') renderizarOrcamentoTab();
+            }
+        }
+
+        function atualizarCompraMoeda(id, val) {
+            let c = dadosApp.compras.find(item => String(item.id) === String(id));
+            if(c) {
+                c.moeda = val;
+                salvarStorage();
+                renderizarOrcamentoTab();
+            }
+        }
+
+        function salvarCompraValor(id, val) {
+            registarEstadoAnterior();
+            let c = dadosApp.compras.find(item => String(item.id) === String(id));
+            if(c) {
+                c.valor = val !== "" ? limparNumero(val) : 0;
+                salvarStorage();
+                renderizarOrcamentoTab();
+            }
+        }
+
+        function alternarConcluidoCompra(id) {
+            registarEstadoAnterior();
+            let c = dadosApp.compras.find(item => String(item.id) === String(id));
+            if(c) {
+                c.concluido = !c.concluido;
+                salvarStorage();
+                renderizarOrcamentoTab();
+            }
         }
 
         function ativarMicrofone() {
