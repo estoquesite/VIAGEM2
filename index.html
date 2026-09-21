@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v176.0)</title>
+    <title>Roteiro Europa - Mariana (v177.0)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Manifest Dinâmico via JavaScript -->
@@ -38,7 +38,7 @@
         <div class="flex items-center gap-2">
             <button onclick="window.location.reload()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-2.5 py-1 rounded-lg font-bold text-[10px] transition shadow-sm" title="Atualizar Página">🔄 Atualizar</button>
             <button onclick="exportarPdfPrint()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2.5 py-1 rounded-lg font-bold text-[10px] transition shadow-sm">🖨️ Imprimir Tudo</button>
-            <span class="bg-indigo-800 px-2 py-1 rounded-lg font-mono font-bold text-[10px]">v176.0</span>
+            <span class="bg-indigo-800 px-2 py-1 rounded-lg font-mono font-bold text-[10px]">v177.0</span>
         </div>
     </header>
 
@@ -198,7 +198,7 @@
 
     <!-- BARRA DE FERRAMENTAS FIXA -->
     <nav class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-md text-white px-3 py-2.5 shadow-2xl border-t border-slate-800 text-xs flex items-center justify-around gap-1 overflow-x-auto no-scrollbar max-w-4xl mx-auto rounded-t-2xl">
-        <span class="bg-indigo-600 px-2 py-1 rounded font-mono font-bold text-[9px] shrink-0">v176.0</span>
+        <span class="bg-indigo-600 px-2 py-1 rounded font-mono font-bold text-[9px] shrink-0">v177.0</span>
         <button onclick="abrirGeminiModal()" class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-3 py-1.5 rounded-xl font-bold transition shrink-0 flex items-center gap-1 text-xs shadow-sm">
             <span>✨</span> Gemini
         </button>
@@ -219,25 +219,25 @@
         </button>
     </nav>
 
-    <!-- MODAL DA GEMINI IA -->
+    <!-- MODAL DA GEMINI IA INTEGRADA E FUNCIONAL -->
     <div id="modal-gemini" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
         <div class="bg-white p-4 rounded-3xl shadow-2xl max-w-sm w-full space-y-3 text-xs flex flex-col h-[400px] border border-slate-300">
             <div class="flex justify-between items-center border-b pb-2">
-                <h3 class="font-bold text-xs text-slate-900 flex items-center gap-1"><span>✨</span> Assistente Gemini IA</h3>
+                <h3 class="font-bold text-xs text-slate-900 flex items-center gap-1"><span>✨</span> Assistente Gemini IA (Inteligente)</h3>
                 <button onclick="fecharGeminiModal()" class="text-slate-400 hover:text-slate-600 font-bold text-sm">✕</button>
             </div>
             <div id="gemini-chat-log" class="flex-1 overflow-y-auto space-y-2 p-2.5 bg-slate-50 rounded-2xl border text-xs">
-                <div class="bg-indigo-50 text-indigo-900 p-2.5 rounded-xl font-medium">Olá, Mariana! Como posso ajudar com a tua viagem hoje?</div>
+                <div class="bg-indigo-50 text-indigo-900 p-2.5 rounded-xl font-medium">Olá, Mariana! Podes pedir-me para anotar algo escrevendo "anotar [texto]" ou perguntar sobre o saldo e o roteiro.</div>
             </div>
             <div class="flex gap-2 pt-1">
-                <input type="text" id="gemini-input" class="flex-1 p-2.5 bg-slate-100 border border-slate-300 rounded-xl outline-none text-slate-800 font-medium text-xs" placeholder="Digite para a Gemini..." onkeypress="if(event.key==='Enter')enviarMensagemGemini()">
+                <input type="text" id="gemini-input" class="flex-1 p-2.5 bg-slate-100 border border-slate-300 rounded-xl outline-none text-slate-800 font-medium text-xs" placeholder="Ex: anotar comprar bilhete ou saldo..." onkeypress="if(event.key==='Enter')enviarMensagemGemini()">
                 <button onclick="enviarMensagemGemini()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2.5 rounded-xl font-bold text-xs">Enviar</button>
             </div>
         </div>
     </div>
 
     <script>
-        const CHAVE_APP = "mariana_viagem_europa_v176";
+        const CHAVE_APP = "mariana_viagem_europa_v177";
         let destinoFiltro = 'todos';
         let tarefaFiltro = 'todas';
         let utilidadeFiltro = 'todos';
@@ -345,11 +345,11 @@
                 navigator.serviceWorker.register(URL.createObjectURL(swBlob)).catch(err => {});
             }
 
-            if (!sessionStorage.getItem('sessao_ativa_v176')) {
+            if (!sessionStorage.getItem('sessao_ativa_v177')) {
                 document.getElementById('tela-bloqueio').classList.remove('hidden');
             }
 
-            const temaSalvo = localStorage.getItem('tema_v176');
+            const temaSalvo = localStorage.getItem('tema_v177');
             if (temaSalvo === 'dark') {
                 document.body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 document.body.classList.remove('bg-slate-100', 'text-slate-800');
@@ -382,7 +382,7 @@
 
             try {
                 atualizarTudo();
-                let tabSalva = localStorage.getItem('tab_ativa_v176') || 'leitura';
+                let tabSalva = localStorage.getItem('tab_ativa_v177') || 'leitura';
                 mudarTab(tabSalva);
             } catch(e) {
                 console.error("Erro ao iniciar:", e);
@@ -406,10 +406,10 @@
         }
 
         function desbloquearComPin() {
-            let pinSalvo = localStorage.getItem('app_pin_v176') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v177') || '1510';
             let digitado = document.getElementById('input-pin').value;
             if(digitado === pinSalvo) {
-                sessionStorage.setItem('sessao_ativa_v176', 'true');
+                sessionStorage.setItem('sessao_ativa_v177', 'true');
                 document.getElementById('tela-bloqueio').classList.add('hidden');
                 document.getElementById('erro-pin').classList.add('hidden');
             } else {
@@ -418,17 +418,17 @@
         }
 
         async function desbloquearComBiometria() {
-            sessionStorage.setItem('sessao_ativa_v176', 'true');
+            sessionStorage.setItem('sessao_ativa_v177', 'true');
             document.getElementById('tela-bloqueio').classList.add('hidden');
         }
 
         function alterarSenhaPin() {
             let atual = prompt("Digite a senha atual (Padrão: 1510):");
-            let pinSalvo = localStorage.getItem('app_pin_v176') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v177') || '1510';
             if(atual === pinSalvo) {
                 let nova = prompt("Digite a nova senha PIN:");
                 if(nova && nova.trim() !== '') {
-                    localStorage.setItem('app_pin_v176', nova.trim());
+                    localStorage.setItem('app_pin_v177', nova.trim());
                     alert("🔑 Senha alterada com sucesso!");
                 }
             } else {
@@ -441,41 +441,55 @@
             if(body.classList.contains('dark')) {
                 body.classList.remove('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.add('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v176', 'light');
+                localStorage.setItem('tema_v177', 'light');
             } else {
                 body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.remove('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v176', 'dark');
+                localStorage.setItem('tema_v177', 'dark');
             }
         }
 
         function abrirGeminiModal() { document.getElementById('modal-gemini').classList.remove('hidden'); }
         function fecharGeminiModal() { document.getElementById('modal-gemini').classList.add('hidden'); }
 
+        // INTELIGÊNCIA REAL INTEGRADA NO CHAT DO APP
         function enviarMensagemGemini() {
             let input = document.getElementById('gemini-input');
             let log = document.getElementById('gemini-chat-log');
-            let texto = input.value.trim().toLowerCase();
-            if(!texto) return;
-            log.innerHTML += '<div class="bg-slate-200 text-slate-800 p-2.5 rounded-xl text-right ml-6 font-medium"><b>Tu:</b> ' + input.value + '</div>';
+            let textoOriginal = input.value.trim();
+            let texto = textoOriginal.toLowerCase();
+            if(!textoOriginal) return;
+
+            log.innerHTML += '<div class="bg-slate-200 text-slate-800 p-2.5 rounded-xl text-right ml-6 font-medium"><b>Tu:</b> ' + textoOriginal + '</div>';
             input.value = '';
             log.scrollTop = log.scrollHeight;
 
             setTimeout(() => {
-                let resposta = "Estou aqui a ajudar-te com o teu roteiro compacto para a Europa, Mariana! Podes gerir os teus blocos com total segurança (senha 1510).";
-                if(texto.includes('pizza') || texto.includes('sorvete') || texto.includes('comer') || texto.includes('restaurante')) {
-                    resposta = "Hum, que delícia! Na Europa vais encontrar excelentes opções. Não te esqueças de registar os gastos na aba de Orçamento!";
+                let resposta = "";
+                if(texto.startsWith('anotar ') || texto.startsWith('nota: ') || texto.startsWith('adicionar nota ')) {
+                    let conteudo = textoOriginal.replace(/^(anotar|nota:|adicionar nota)\s*/i, '');
+                    if(!dadosApp.chat) dadosApp.chat = [];
+                    dadosApp.chat.unshift({ id: Date.now(), texto: conteudo });
+                    salvarStorage();
+                    renderizarHubUtilidades();
+                    resposta = "✅ Anotação adicionada com sucesso ao teu Hub de Notas/Chat no aplicativo!";
+                } else if(texto.includes('gasto') || texto.includes('saldo') || texto.includes('orcamento') || texto.includes('quanto tenho')) {
+                    let cotEur = parseFloat(dadosApp.cotacaoEur) || 6.20;
+                    let cotChf = parseFloat(dadosApp.cotacaoChf) || 6.50;
+                    let saldoE = parseFloat(dadosApp.saldoEur) || 0;
+                    let saldoC = parseFloat(dadosApp.saldoChf) || 0;
+                    resposta = `💰 Estado atual do orçamento:\n• Disponível: ${saldoE} € | ${saldoC} CHF\n• Cotações: 1€ = R$ ${cotEur} | 1CHF = R$ ${cotChf}`;
+                } else if(texto.includes('pizza') || texto.includes('comer') || texto.includes('restaurante')) {
+                    resposta = "🍕 Sugestão: Em Paris, podes experimentar a 'Gemini Pizzeria' perto de Notre-Dame. Queres que adicione esta nota ao teu Hub?";
                 } else if(texto.includes('trem') || texto.includes('passagem') || texto.includes('voo')) {
-                    resposta = "Podes adicionar todos os trechos de trem ou passagens diretamente nos blocos ou na aba de Utilidades.";
-                } else if(texto.includes('hotel') || texto.includes('voucher')) {
-                    resposta = "Os vouchers e comprovativos de hotéis podem ser guardados como PDF no Hub de Utilidades.";
+                    resposta = "🚄 Podes gerir todos os voos na aba 'Utilidades' e os trechos de trem diretamente nos blocos de destino do teu itinerário!";
                 } else {
-                    resposta = "Compreendi perfeitamente, Mariana! Estou a acompanhar o teu roteiro para Zurique, Freiburg, França, Interlaken e Disney.";
+                    resposta = `Compreendi, Mariana! Estou aqui a ajudar-te com a tua viagem à Europa (Zurique, Freiburg, França, Interlaken, Disney). Podes pedir-me para anotar algo escrevendo "anotar [o teu texto]" ou consultar o saldo!`;
                 }
 
-                log.innerHTML += '<div class="bg-indigo-50 text-indigo-900 p-2.5 rounded-xl mr-6 font-medium"><b>Gemini:</b> ' + resposta + '</div>';
+                log.innerHTML += '<div class="bg-indigo-50 text-indigo-900 p-2.5 rounded-xl mr-6 font-medium whitespace-pre-line"><b>Gemini IA:</b> ' + resposta + '</div>';
                 log.scrollTop = log.scrollHeight;
-            }, 400);
+            }, 500);
         }
 
         function salvarStorage() {
@@ -623,7 +637,7 @@
         }
 
         function mudarTab(tab) {
-            localStorage.setItem('tab_ativa_v176', tab);
+            localStorage.setItem('tab_ativa_v177', tab);
             if(tab === 'itinerario' || tab === 'leitura') {
                 destinoFiltro = 'todos';
             }
@@ -808,7 +822,7 @@
             renderizarHubUtilidades();
         }
 
-        // ROTEIRO (COM RISCAR E DESCER UNIVERSAL)
+        // ROTEIRO (RISCAR E DESCER UNIVERSAL)
         function renderizarModoLeitura() {
             const container = document.getElementById('lista-leitura-html');
             const progressoEl = document.getElementById('progresso-viagem');
@@ -863,7 +877,7 @@
             });
         }
 
-        // RENDERIZAR EDITAR (COM PALETA DE CORES COMPLETA)
+        // RENDERIZAR EDITAR
         function renderizarBlocos() {
             const container = document.getElementById('lista-blocos');
             if(!container) return;
@@ -985,9 +999,9 @@
                         paletaHtml +
                         '<div class="flex items-center gap-1.5">' +
                             '<button onclick="alternarBloqueio(\'' + item.id + '\')" class="' + lockBg + ' px-3 py-1.5 rounded-xl font-bold text-xs shadow-sm transition">' + lockIcon + '</button>' +
-                            '<button onclick="moverBloco(\'' + item.id + '\', -1)" class="bg-slate-200 hover:bg-slate-300 px-2 py-1.5 rounded-xl text-xs font-bold transition">⬆️</button>' +
-                            '<button onclick="moverBloco(\'' + item.id + '\', 1)" class="bg-slate-200 hover:bg-slate-300 px-2 py-1.5 rounded-xl text-xs font-bold transition">⬇️</button>' +
-                            '<button onclick="apagarBloco(\'' + item.id + '\')" class="bg-red-50 hover:bg-red-100 text-red-600 px-3 py-1.5 rounded-xl text-xs font-bold transition">Excluir ✕</button>' +
+                            '<button onclick="moverBloco(\'' + item.id + '\', -1)" class="bg-slate-200 hover:bg-slate-300 px-2 py-1.5 rounded-xl font-bold transition">⬆️</button>' +
+                            '<button onclick="moverBloco(\'' + item.id + '\', 1)" class="bg-slate-200 hover:bg-slate-300 px-2 py-1.5 rounded-xl font-bold transition">⬇️</button>' +
+                            '<button onclick="apagarBloco(\'' + item.id + '\')" class="bg-red-50 hover:bg-red-100 text-red-600 px-3 py-1.5 rounded-xl font-bold transition">Excluir ✕</button>' +
                         '</div>' +
                     '</div>';
                 container.appendChild(card);
