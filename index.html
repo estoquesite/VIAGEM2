@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v196.0)</title>
+    <title>Roteiro Europa - Mariana (v197.0)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Manifest Dinâmico via JavaScript -->
@@ -39,7 +39,7 @@
             <a href="https://translate.google.com/?hl=pt&sl=auto&tl=pt&op=images" target="_blank" class="bg-indigo-600 hover:bg-indigo-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm flex items-center gap-1" title="Google Tradutor & Câmara">🌐 Tradutor</a>
             <button onclick="window.location.reload()" class="bg-slate-800 hover:bg-slate-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm border border-slate-700" title="Atualizar Página">🔄</button>
             <button onclick="exportarPdfPrint()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm" title="Imprimir Tudo">🖨️</button>
-            <span class="bg-indigo-950 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v196.0</span>
+            <span class="bg-indigo-950 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v197.0</span>
         </div>
     </header>
 
@@ -199,7 +199,7 @@
 
     <!-- BARRA DE FERRAMENTAS FIXA -->
     <nav class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-md text-white px-3 py-2.5 shadow-2xl border-t border-slate-800 text-xs flex items-center justify-around gap-1 overflow-x-auto no-scrollbar max-w-4xl mx-auto rounded-t-2xl">
-        <span class="bg-indigo-600 px-2 py-1 rounded font-mono font-bold text-[9px] shrink-0">v196.0</span>
+        <span class="bg-indigo-600 px-2 py-1 rounded font-mono font-bold text-[9px] shrink-0">v197.0</span>
         <button onclick="abrirGeminiModal()" class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-3 py-1.5 rounded-xl font-bold transition shrink-0 flex items-center gap-1 text-xs shadow-sm">
             <span>✨</span> Gemini
         </button>
@@ -238,7 +238,7 @@
     </div>
 
     <script>
-        // CHAVE FIXA PERMANENTE: Os teus dados nunca mais se vão perder ao atualizar as versões!
+        // CHAVE PERMANENTE FIXA: Os teus dados nunca mais se vão perder ao atualizar as versões!
         const CHAVE_APP = "mariana_viagem_europa_dados_fixos";
         let destinoFiltro = 'todos';
         let tarefaFiltro = 'todas';
@@ -313,9 +313,16 @@
             return diffDays > 0 ? diffDays : 1;
         }
 
+        // FUNÇÃO DE LIMPEZA DE NÚMEROS CORRIGIDA PARA DECIMAIS (PONTO E VÍRGULA)
         function limparNumero(val) {
             if (val === undefined || val === null || val === "") return 0;
-            let str = String(val).trim().replace(/\./g, '').replace(',', '.');
+            if (typeof val === 'number') return isNaN(val) ? 0 : val;
+            let str = String(val).trim();
+            if (str.includes('.') && str.includes(',')) {
+                str = str.replace(/\./g, '').replace(',', '.');
+            } else if (str.includes(',')) {
+                str = str.replace(',', '.');
+            }
             let num = parseFloat(str);
             return isNaN(num) ? 0 : num;
         }
@@ -347,11 +354,11 @@
                 navigator.serviceWorker.register(URL.createObjectURL(swBlob)).catch(err => {});
             }
 
-            if (!sessionStorage.getItem('sessao_ativa_v196')) {
+            if (!sessionStorage.getItem('sessao_ativa_v197')) {
                 document.getElementById('tela-bloqueio').classList.add('hidden');
             }
 
-            const temaSalvo = localStorage.getItem('tema_v196');
+            const temaSalvo = localStorage.getItem('tema_v197');
             if (temaSalvo === 'dark') {
                 document.body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 document.body.classList.remove('bg-slate-100', 'text-slate-800');
@@ -389,7 +396,7 @@
                 if(inputChf) inputChf.value = dadosApp.cotacaoChf;
 
                 atualizarTudo();
-                let tabSalva = localStorage.getItem('tab_ativa_v196') || 'leitura';
+                let tabSalva = localStorage.getItem('tab_ativa_v197') || 'leitura';
                 mudarTab(tabSalva);
             } catch(e) {
                 console.error("Erro ao iniciar:", e);
@@ -413,10 +420,10 @@
         }
 
         function desbloquearComPin() {
-            let pinSalvo = localStorage.getItem('app_pin_v196') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v197') || '1510';
             let digitado = document.getElementById('input-pin').value;
             if(digitado === pinSalvo) {
-                sessionStorage.setItem('sessao_ativa_v196', 'true');
+                sessionStorage.setItem('sessao_ativa_v197', 'true');
                 document.getElementById('tela-bloqueio').classList.add('hidden');
                 document.getElementById('erro-pin').classList.add('hidden');
             } else {
@@ -425,17 +432,17 @@
         }
 
         async function desbloquearComBiometria() {
-            sessionStorage.setItem('sessao_ativa_v196', 'true');
+            sessionStorage.setItem('sessao_ativa_v197', 'true');
             document.getElementById('tela-bloqueio').classList.add('hidden');
         }
 
         function alterarSenhaPin() {
             let atual = prompt("Digite a senha atual (Padrão: 1510):");
-            let pinSalvo = localStorage.getItem('app_pin_v196') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v197') || '1510';
             if(atual === pinSalvo) {
                 let nova = prompt("Digite a nova senha PIN:");
                 if(nova && nova.trim() !== '') {
-                    localStorage.setItem('app_pin_v196', nova.trim());
+                    localStorage.setItem('app_pin_v197', nova.trim());
                     alert("🔑 Senha alterada com sucesso!");
                 }
             } else {
@@ -448,11 +455,11 @@
             if(body.classList.contains('dark')) {
                 body.classList.remove('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.add('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v196', 'light');
+                localStorage.setItem('tema_v197', 'light');
             } else {
                 body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.remove('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v196', 'dark');
+                localStorage.setItem('tema_v197', 'dark');
             }
         }
 
@@ -642,7 +649,7 @@
         }
 
         function mudarTab(tab) {
-            localStorage.setItem('tab_ativa_v196', tab);
+            localStorage.setItem('tab_ativa_v197', tab);
             if(tab === 'itinerario' || tab === 'leitura') {
                 destinoFiltro = 'todos';
             }
@@ -1574,7 +1581,8 @@
                     }
                     if(despesasEurHtml === '') despesasEurHtml = '<p class="text-xs text-slate-400 italic">Sem despesas em Euros registadas.</p>';
 
-                    let sobraEur = (limparNumero(dadosApp.saldoEur)) - gastoEur;
+                    let saldoEurNum = limparNumero(dadosApp.saldoEur);
+                    let sobraEur = saldoEurNum - gastoEur;
                     container.innerHTML = `
                         <div class="bg-amber-50/50 p-4 rounded-2xl border border-amber-200 space-y-3 shadow-sm">
                             <h3 class="font-black text-amber-900 text-xs uppercase border-b border-amber-200 pb-1.5">💶 Gestão de Euros (€)</h3>
@@ -1637,7 +1645,8 @@
                     }
                     if(despesasChfHtml === '') despesasChfHtml = '<p class="text-xs text-slate-400 italic">Sem despesas em Francos registadas.</p>';
 
-                    let sobraChf = (limparNumero(dadosApp.saldoChf)) - gastoChf;
+                    let saldoChfNum = limparNumero(dadosApp.saldoChf);
+                    let sobraChf = saldoChfNum - gastoChf;
                     container.innerHTML = `
                         <div class="bg-blue-50/50 p-4 rounded-2xl border border-blue-200 space-y-3 shadow-sm">
                             <h3 class="font-black text-blue-900 text-xs uppercase border-b border-blue-200 pb-1.5">🇨🇭 Gestão de Francos (CHF)</h3>
@@ -1690,6 +1699,86 @@
                 console.error("Erro no orçamento:", err);
                 container.innerHTML = '<div class="p-3 bg-red-50 text-red-600 rounded-xl text-xs">Erro ao carregar orçamento. Tente atualizar a página.</div>';
             }
+        }
+
+        function salvarSaldo(moeda, val) {
+            registarEstadoAnterior();
+            let num = limparNumero(val);
+            if(moeda === 'EUR') dadosApp.saldoEur = val !== "" ? num : "";
+            if(moeda === 'CHF') dadosApp.saldoChf = val !== "" ? num : "";
+            salvarStorage();
+            renderizarOrcamentoTab();
+            alert("💾 Saldo guardado com sucesso!");
+        }
+
+        function salvarCotacao(moeda, val) {
+            registarEstadoAnterior();
+            let num = limparNumero(val);
+            if(moeda === 'EUR') dadosApp.cotacaoEur = num > 0 ? num : 6.20;
+            if(moeda === 'CHF') dadosApp.cotacaoChf = num > 0 ? num : 6.50;
+            salvarStorage();
+            renderizarOrcamentoTab();
+            alert("💾 Cotação guardada com sucesso!");
+        }
+
+        function salvarDespesaValor(id, val) {
+            registarEstadoAnterior();
+            let d = dadosApp.orcamento.find(item => String(item.id) === String(id));
+            if(d) {
+                d.valor = val !== "" ? limparNumero(val) : 0;
+                salvarStorage();
+                renderizarOrcamentoTab();
+            }
+        }
+
+        function calcularConversaoRapida() {
+            let elVal = document.getElementById('conv-valor');
+            let elMoeda = document.getElementById('conv-moeda');
+            let elRes = document.getElementById('conv-resultado');
+            if(!elVal || !elMoeda || !elRes) return;
+            let val = limparNumero(elVal.value);
+            let moeda = elMoeda.value;
+            let cotEur = parseFloat(dadosApp.cotacaoEur) || 6.20;
+            let cotChf = parseFloat(dadosApp.cotacaoChf) || 6.50;
+            let resultado = moeda === 'EUR' ? val * cotEur : val * cotChf;
+            elRes.innerText = 'R$ ' + resultado.toFixed(2);
+        }
+
+        function adicionarDespesa(moedaForcada) {
+            registarEstadoAnterior();
+            if(!dadosApp.orcamento) dadosApp.orcamento = [];
+            dadosApp.orcamento.unshift({ id: Date.now(), descricao: "Despesa", valor: 0, moeda: moedaForcada });
+            salvarStorage();
+            renderizarOrcamentoTab();
+        }
+
+        function apagarDespesa(id) {
+            registarEstadoAnterior();
+            dadosApp.orcamento = dadosApp.orcamento.filter(d => String(d.id) !== String(id));
+            salvarStorage();
+            renderizarOrcamentoTab();
+        }
+
+        function atualizarOrcamentoDescricao(id, val) {
+            let d = dadosApp.orcamento.find(item => String(item.id) === String(id));
+            if(d) { d.descricao = val; localStorage.setItem(CHAVE_APP, JSON.stringify(dadosApp)); }
+        }
+
+        function ativarMicrofone() {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (!SpeechRecognition) { alert("Sem suporte a voz."); return; }
+            if (!campoFocoAtual) {
+                alert("Por favor, clique primeiro num campo de texto onde deseja ditar.");
+                return;
+            }
+            const recognition = new SpeechRecognition();
+            recognition.lang = 'pt-BR';
+            recognition.onresult = function(event) {
+                campoFocoAtual.value = event.results[0][0].transcript;
+                campoFocoAtual.dispatchEvent(new Event('input'));
+                campoFocoAtual.dispatchEvent(new Event('change'));
+            };
+            recognition.start();
         }
     </script>
 </body>
