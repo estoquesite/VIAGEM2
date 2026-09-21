@@ -1713,29 +1713,21 @@
                 } else if (orcamentoSubTab === 'compras') {
                     let comprasAdultosEur = 0, comprasAdultosChf = 0;
                     let comprasCriancasEur = 0, comprasCriancasChf = 0;
-                    let comprasHtml = '';
+                    let comprasAdultosHtml = '';
+                    let comprasCriancasHtml = '';
 
                     if(dadosApp.compras) {
                         dadosApp.compras.forEach(c => {
                             let val = limparNumero(c.valor);
                             let moeda = c.moeda || 'EUR';
                             let pub = c.publico || 'Adulto';
-                            if(val > 0) {
-                                if(pub === 'Adulto') {
-                                    if(moeda === 'EUR') comprasAdultosEur += val;
-                                    else if(moeda === 'CHF') comprasAdultosChf += val;
-                                } else {
-                                    if(moeda === 'EUR') comprasCriancasEur += val;
-                                    else if(moeda === 'CHF') comprasCriancasChf += val;
-                                }
-                            }
-
+                            
                             let valBrl = moeda === 'EUR' ? val * cotEur : val * cotChf;
                             let localSafe = (c.local || '').replace(/"/g, '&quot;');
                             let concluidoClass = c.concluido ? 'bg-emerald-50 opacity-75 border-emerald-300' : 'bg-white border-slate-200';
                             let textClass = c.concluido ? 'line-through text-slate-400' : 'text-slate-800';
 
-                            comprasHtml += `
+                            let itemHtml = `
                                 <div class="p-3 rounded-xl border ${concluidoClass} flex flex-col gap-2 text-xs shadow-sm">
                                     <div class="flex justify-between items-center gap-2">
                                         <input type="text" value="${localSafe}" oninput="atualizarCompra(${c.id}, 'local', this.value)" class="flex-1 bg-transparent outline-none font-bold ${textClass} text-xs truncate" placeholder="Local de Compra (Ex: Outlet, Loja...)">
@@ -1746,10 +1738,7 @@
                                         <button onclick="apagarCompra(${c.id})" class="text-red-500 font-bold px-2 py-1 rounded-xl bg-red-50 hover:bg-red-100 text-xs shrink-0">✕</button>
                                     </div>
                                     <div class="flex gap-2 items-center justify-between border-t border-slate-100 pt-2">
-                                        <select onchange="atualizarCompra(${c.id}, 'publico', this.value)" class="p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs">
-                                            <option value="Adulto" ${pub==='Adulto'?'selected':''}>👤 Adulto</option>
-                                            <option value="Criança (Sofia)" ${pub==='Criança (Sofia)'?'selected':''}>👧 Criança (Sofia)</option>
-                                        </select>
+                                        <span class="font-bold text-slate-600 text-[11px]">${pub === 'Adulto' ? '👤 Adulto' : '👧 Criança (Sofia)'}</span>
                                         <div class="flex items-center gap-1.5">
                                             <input type="text" value="${val !== 0 ? val : ''}" id="compra-val-${c.id}" class="w-20 p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-black text-right text-xs outline-none" placeholder="0">
                                             <select onchange="atualizarCompraMoeda(${c.id}, this.value)" class="p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs">
@@ -1762,15 +1751,31 @@
                                     <div class="text-right text-[11px] font-bold text-emerald-700">R$ ${valBrl.toFixed(2)}</div>
                                 </div>
                             `;
+
+                            if(pub === 'Adulto') {
+                                if(val > 0) {
+                                    if(moeda === 'EUR') comprasAdultosEur += val;
+                                    else if(moeda === 'CHF') comprasAdultosChf += val;
+                                }
+                                comprasAdultosHtml += itemHtml;
+                            } else {
+                                if(val > 0) {
+                                    if(moeda === 'EUR') comprasCriancasEur += val;
+                                    else if(moeda === 'CHF') comprasCriancasChf += val;
+                                }
+                                comprasCriancasHtml += itemHtml;
+                            }
                         });
                     }
-                    if(comprasHtml === '') comprasHtml = '<p class="text-xs text-slate-400 italic">Nenhum local de compra registado.</p>';
+
+                    if(comprasAdultosHtml === '') comprasAdultosHtml = '<p class="text-xs text-slate-400 italic">Nenhuma compra de adulto registada.</p>';
+                    if(comprasCriancasHtml === '') comprasCriancasHtml = '<p class="text-xs text-slate-400 italic">Nenhuma compra de criança registada.</p>';
 
                     let totalAdultosBrl = (comprasAdultosEur * cotEur) + (comprasAdultosChf * cotChf);
                     let totalCriancasBrl = (comprasCriancasEur * cotEur) + (comprasCriancasChf * cotChf);
 
                     container.innerHTML = `
-                        <div class="bg-purple-50/50 p-4 rounded-2xl border border-purple-200 space-y-3 shadow-sm">
+                        <div class="bg-purple-50/50 p-4 rounded-2xl border border-purple-200 space-y-4 shadow-sm">
                             <h3 class="font-black text-purple-900 text-xs uppercase border-b border-purple-200 pb-1.5">🛍️ Gestão de Compras (Adultos vs Crianças)</h3>
                             
                             <!-- CAIXINHA EM CIMA COM OS VALORES SOMANDO NO ORÇAMENTO -->
@@ -1787,11 +1792,23 @@
                                 </div>
                             </div>
 
-                            <div class="space-y-2 pt-2">
-                                <span class="font-bold text-xs text-purple-900 uppercase block">Locais de Compras:</span>
-                                <div class="space-y-2.5">${comprasHtml}</div>
+                            <!-- SEÇÃO ADULTOS -->
+                            <div class="space-y-2 bg-white/60 p-3 rounded-xl border border-purple-100">
+                                <div class="flex justify-between items-center border-b border-purple-100 pb-1.5">
+                                    <span class="font-bold text-xs text-purple-900 uppercase">👤 Compras - Adultos</span>
+                                    <button onclick="adicionarCompraEspecifica('Adulto')" class="bg-purple-600 hover:bg-purple-700 text-white px-2.5 py-1 rounded-lg text-[11px] font-bold transition shadow-sm">➕ Adicionar</button>
+                                </div>
+                                <div class="space-y-2.5 pt-1">${comprasAdultosHtml}</div>
                             </div>
-                            <button onclick="adicionarCompra()" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-2.5 rounded-xl text-xs transition shadow-sm mt-3">➕ Adicionar Local de Compra</button>
+
+                            <!-- SEÇÃO CRIANÇAS -->
+                            <div class="space-y-2 bg-white/60 p-3 rounded-xl border border-purple-100">
+                                <div class="flex justify-between items-center border-b border-purple-100 pb-1.5">
+                                    <span class="font-bold text-xs text-purple-900 uppercase">👧 Compras - Crianças (Sofia)</span>
+                                    <button onclick="adicionarCompraEspecifica('Criança (Sofia)')" class="bg-purple-600 hover:bg-purple-700 text-white px-2.5 py-1 rounded-lg text-[11px] font-bold transition shadow-sm">➕ Adicionar</button>
+                                </div>
+                                <div class="space-y-2.5 pt-1">${comprasCriancasHtml}</div>
+                            </div>
                         </div>
                     `;
                 }
@@ -1864,12 +1881,16 @@
             if(d) { d.descricao = val; localStorage.setItem(CHAVE_APP, JSON.stringify(dadosApp)); }
         }
 
-        function adicionarCompra() {
+        function adicionarCompraEspecifica(publico) {
             registarEstadoAnterior();
             if(!dadosApp.compras) dadosApp.compras = [];
-            dadosApp.compras.unshift({ id: Date.now(), local: "Loja / Outlet", valor: 0, moeda: "EUR", publico: "Adulto", concluido: false });
+            dadosApp.compras.unshift({ id: Date.now(), local: "Loja / Outlet", valor: 0, moeda: "EUR", publico: publico, concluido: false });
             salvarStorage();
             renderizarOrcamentoTab();
+        }
+
+        function adicionarCompra() {
+            adicionarCompraEspecifica('Adulto');
         }
 
         function apagarCompra(id) {
