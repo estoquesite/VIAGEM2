@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v178.0)</title>
+    <title>Roteiro Europa - Mariana (v179.0)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Manifest Dinâmico via JavaScript -->
@@ -38,7 +38,7 @@
         <div class="flex items-center gap-2">
             <button onclick="window.location.reload()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-2.5 py-1 rounded-lg font-bold text-[10px] transition shadow-sm" title="Atualizar Página">🔄 Atualizar</button>
             <button onclick="exportarPdfPrint()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2.5 py-1 rounded-lg font-bold text-[10px] transition shadow-sm">🖨️ Imprimir Tudo</button>
-            <span class="bg-indigo-800 px-2 py-1 rounded-lg font-mono font-bold text-[10px]">v178.0</span>
+            <span class="bg-indigo-800 px-2 py-1 rounded-lg font-mono font-bold text-[10px]">v179.0</span>
         </div>
     </header>
 
@@ -85,7 +85,7 @@
             <div id="lista-blocos" class="space-y-3"></div>
         </div>
 
-        <!-- TAB 3: UTILIDADES & VOUCHERS -->
+        <!-- TAB 3: UTILIDADES & VOUCHERS (COM TRADUTOR E CÂMARA) -->
         <div id="tab-utilidades" class="space-y-3 hidden">
             <div class="bg-indigo-900 text-white p-3.5 rounded-2xl shadow-md space-y-2.5">
                 <div class="flex justify-between items-center flex-wrap gap-2">
@@ -99,13 +99,13 @@
                 <!-- Filtros Hub -->
                 <div class="flex gap-1.5 overflow-x-auto no-scrollbar pt-1">
                     <button onclick="filtrarUtilidade('todos')" id="filt-util-todos" class="px-3 py-1.5 rounded-xl bg-white text-indigo-950 font-bold text-xs shrink-0 transition shadow-sm">🔍 Todos</button>
+                    <button onclick="filtrarUtilidade('tradutor')" id="filt-util-tradutor" class="px-3 py-1.5 rounded-xl bg-indigo-800 text-white font-bold text-xs shrink-0 transition">🌐 Tradutor</button>
                     <button onclick="filtrarUtilidade('voos')" id="filt-util-voos" class="px-3 py-1.5 rounded-xl bg-indigo-800 text-white font-bold text-xs shrink-0 transition">✈️ Voos</button>
                     <button onclick="filtrarUtilidade('contatos')" id="filt-util-contatos" class="px-3 py-1.5 rounded-xl bg-indigo-800 text-white font-bold text-xs shrink-0 transition">📞 Contatos</button>
                     <button onclick="filtrarUtilidade('tarefas')" id="filt-util-tarefas" class="px-3 py-1.5 rounded-xl bg-indigo-800 text-white font-bold text-xs shrink-0 transition">📋 Tarefas</button>
                     <button onclick="filtrarUtilidade('checklist')" id="filt-util-checklist" class="px-3 py-1.5 rounded-xl bg-indigo-800 text-white font-bold text-xs shrink-0 transition">🎒 Checklist</button>
                     <button onclick="filtrarUtilidade('vouchers')" id="filt-util-vouchers" class="px-3 py-1.5 rounded-xl bg-indigo-800 text-white font-bold text-xs shrink-0 transition">🎟️ Vouchers</button>
                     <button onclick="filtrarUtilidade('chat')" id="filt-util-chat" class="px-3 py-1.5 rounded-xl bg-indigo-800 text-white font-bold text-xs shrink-0 transition">💬 Chat</button>
-                    <button onclick="adicionarItemOutroPrompt()" class="px-3 py-1.5 rounded-xl bg-emerald-600 text-white font-bold text-xs shrink-0 transition">➕ Outros</button>
                 </div>
             </div>
 
@@ -198,7 +198,7 @@
 
     <!-- BARRA DE FERRAMENTAS FIXA -->
     <nav class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-md text-white px-3 py-2.5 shadow-2xl border-t border-slate-800 text-xs flex items-center justify-around gap-1 overflow-x-auto no-scrollbar max-w-4xl mx-auto rounded-t-2xl">
-        <span class="bg-indigo-600 px-2 py-1 rounded font-mono font-bold text-[9px] shrink-0">v178.0</span>
+        <span class="bg-indigo-600 px-2 py-1 rounded font-mono font-bold text-[9px] shrink-0">v179.0</span>
         <button onclick="abrirGeminiModal()" class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-3 py-1.5 rounded-xl font-bold transition shrink-0 flex items-center gap-1 text-xs shadow-sm">
             <span>✨</span> Gemini
         </button>
@@ -223,21 +223,21 @@
     <div id="modal-gemini" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
         <div class="bg-white p-4 rounded-3xl shadow-2xl max-w-sm w-full space-y-3 text-xs flex flex-col h-[400px] border border-slate-300">
             <div class="flex justify-between items-center border-b pb-2">
-                <h3 class="font-bold text-xs text-slate-900 flex items-center gap-1"><span>✨</span> Assistente Gemini IA (Inteligente)</h3>
+                <h3 class="font-bold text-xs text-slate-900 flex items-center gap-1"><span>✨</span> Assistente Gemini IA</h3>
                 <button onclick="fecharGeminiModal()" class="text-slate-400 hover:text-slate-600 font-bold text-sm">✕</button>
             </div>
             <div id="gemini-chat-log" class="flex-1 overflow-y-auto space-y-2 p-2.5 bg-slate-50 rounded-2xl border text-xs">
-                <div class="bg-indigo-50 text-indigo-900 p-2.5 rounded-xl font-medium">Olá, Mariana! Podes pedir-me para anotar algo escrevendo "anotar [texto]" ou perguntar sobre o saldo e o roteiro.</div>
+                <div class="bg-indigo-50 text-indigo-900 p-2.5 rounded-xl font-medium">Olá, Mariana! Podes pedir-me para anotar algo escrevendo "anotar [texto]" ou consultar o saldo.</div>
             </div>
             <div class="flex gap-2 pt-1">
-                <input type="text" id="gemini-input" class="flex-1 p-2.5 bg-slate-100 border border-slate-300 rounded-xl outline-none text-slate-800 font-medium text-xs" placeholder="Ex: anotar comprar bilhete ou saldo..." onkeypress="if(event.key==='Enter')enviarMensagemGemini()">
+                <input type="text" id="gemini-input" class="flex-1 p-2.5 bg-slate-100 border border-slate-300 rounded-xl outline-none text-slate-800 font-medium text-xs" placeholder="Digite para a Gemini..." onkeypress="if(event.key==='Enter')enviarMensagemGemini()">
                 <button onclick="enviarMensagemGemini()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2.5 rounded-xl font-bold text-xs">Enviar</button>
             </div>
         </div>
     </div>
 
     <script>
-        const CHAVE_APP = "mariana_viagem_europa_v178";
+        const CHAVE_APP = "mariana_viagem_europa_v179";
         let destinoFiltro = 'todos';
         let tarefaFiltro = 'todas';
         let utilidadeFiltro = 'todos';
@@ -345,11 +345,11 @@
                 navigator.serviceWorker.register(URL.createObjectURL(swBlob)).catch(err => {});
             }
 
-            if (!sessionStorage.getItem('sessao_ativa_v178')) {
+            if (!sessionStorage.getItem('sessao_ativa_v179')) {
                 document.getElementById('tela-bloqueio').classList.remove('hidden');
             }
 
-            const temaSalvo = localStorage.getItem('tema_v178');
+            const temaSalvo = localStorage.getItem('tema_v179');
             if (temaSalvo === 'dark') {
                 document.body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 document.body.classList.remove('bg-slate-100', 'text-slate-800');
@@ -382,7 +382,7 @@
 
             try {
                 atualizarTudo();
-                let tabSalva = localStorage.getItem('tab_ativa_v178') || 'leitura';
+                let tabSalva = localStorage.getItem('tab_ativa_v179') || 'leitura';
                 mudarTab(tabSalva);
             } catch(e) {
                 console.error("Erro ao iniciar:", e);
@@ -406,10 +406,10 @@
         }
 
         function desbloquearComPin() {
-            let pinSalvo = localStorage.getItem('app_pin_v178') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v179') || '1510';
             let digitado = document.getElementById('input-pin').value;
             if(digitado === pinSalvo) {
-                sessionStorage.setItem('sessao_ativa_v178', 'true');
+                sessionStorage.setItem('sessao_ativa_v179', 'true');
                 document.getElementById('tela-bloqueio').classList.add('hidden');
                 document.getElementById('erro-pin').classList.add('hidden');
             } else {
@@ -418,17 +418,17 @@
         }
 
         async function desbloquearComBiometria() {
-            sessionStorage.setItem('sessao_ativa_v178', 'true');
+            sessionStorage.setItem('sessao_ativa_v179', 'true');
             document.getElementById('tela-bloqueio').classList.add('hidden');
         }
 
         function alterarSenhaPin() {
             let atual = prompt("Digite a senha atual (Padrão: 1510):");
-            let pinSalvo = localStorage.getItem('app_pin_v178') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v179') || '1510';
             if(atual === pinSalvo) {
                 let nova = prompt("Digite a nova senha PIN:");
                 if(nova && nova.trim() !== '') {
-                    localStorage.setItem('app_pin_v178', nova.trim());
+                    localStorage.setItem('app_pin_v179', nova.trim());
                     alert("🔑 Senha alterada com sucesso!");
                 }
             } else {
@@ -441,11 +441,11 @@
             if(body.classList.contains('dark')) {
                 body.classList.remove('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.add('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v178', 'light');
+                localStorage.setItem('tema_v179', 'light');
             } else {
                 body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.remove('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v178', 'dark');
+                localStorage.setItem('tema_v179', 'dark');
             }
         }
 
@@ -478,12 +478,8 @@
                     let saldoE = parseFloat(dadosApp.saldoEur) || 0;
                     let saldoC = parseFloat(dadosApp.saldoChf) || 0;
                     resposta = `💰 Estado atual do orçamento:\n• Disponível: ${saldoE} € | ${saldoC} CHF\n• Cotações: 1€ = R$ ${cotEur} | 1CHF = R$ ${cotChf}`;
-                } else if(texto.includes('pizza') || texto.includes('comer') || texto.includes('restaurante')) {
-                    resposta = "🍕 Sugestão: Em Paris, podes experimentar a 'Gemini Pizzeria' perto de Notre-Dame. Queres que adicione esta nota ao teu Hub?";
-                } else if(texto.includes('trem') || texto.includes('passagem') || texto.includes('voo')) {
-                    resposta = "🚄 Podes gerir todos os voos na aba 'Utilidades' e os trechos de trem diretamente nos blocos de destino do teu itinerario!";
                 } else {
-                    resposta = `Compreendi, Mariana! Estou aqui a ajudar-te com a tua viagem à Europa (Zurique, Freiburg, França, Interlaken, Disney). Podes pedir-me para anotar algo escrevendo "anotar [o teu texto]" ou consultar o saldo!`;
+                    resposta = `Compreendi, Mariana! Podes pedir-me para anotar algo escrevendo "anotar [o teu texto]" ou consultar o saldo.`;
                 }
 
                 log.innerHTML += '<div class="bg-indigo-50 text-indigo-900 p-2.5 rounded-xl mr-6 font-medium whitespace-pre-line"><b>Gemini IA:</b> ' + resposta + '</div>';
@@ -636,7 +632,7 @@
         }
 
         function mudarTab(tab) {
-            localStorage.setItem('tab_ativa_v178', tab);
+            localStorage.setItem('tab_ativa_v179', tab);
             if(tab === 'itinerario' || tab === 'leitura') {
                 destinoFiltro = 'todos';
             }
@@ -808,7 +804,7 @@
 
         function filtrarUtilidade(tipo) {
             utilidadeFiltro = tipo;
-            ['todos', 'voos', 'contatos', 'tarefas', 'checklist', 'vouchers', 'chat', 'outros'].forEach(t => {
+            ['todos', 'tradutor', 'voos', 'contatos', 'tarefas', 'checklist', 'vouchers', 'chat'].forEach(t => {
                 let btn = document.getElementById('filt-util-' + t);
                 if(btn) {
                     if(t === tipo) {
@@ -1150,19 +1146,34 @@
             }
         }
 
-        // RENDERIZAR HUB DE UTILIDADES (COM BOTÃO LIGAR DIRETO NO TELEFONE)
+        // RENDERIZAR HUB DE UTILIDADES (COM ABA DE TRADUTOR E CÂMARA)
         function renderizarHubUtilidades() {
             const container = document.getElementById('hub-utilidades-grid');
             if(!container) return;
             container.innerHTML = '';
 
+            let mostrarTradutor = (utilidadeFiltro === 'todos' || utilidadeFiltro === 'tradutor');
             let mostrarVoos = (utilidadeFiltro === 'todos' || utilidadeFiltro === 'voos');
             let mostrarContatos = (utilidadeFiltro === 'todos' || utilidadeFiltro === 'contatos');
             let mostrarTarefas = (utilidadeFiltro === 'todos' || utilidadeFiltro === 'tarefas');
             let mostrarChecklist = (utilidadeFiltro === 'todos' || utilidadeFiltro === 'checklist');
             let mostrarVouchers = (utilidadeFiltro === 'todos' || utilidadeFiltro === 'vouchers');
             let mostrarChat = (utilidadeFiltro === 'todos' || utilidadeFiltro === 'chat');
-            let mostrarOutros = (utilidadeFiltro === 'todos' || utilidadeFiltro === 'outros');
+
+            if(mostrarTradutor) {
+                container.innerHTML += `
+                    <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+                        <div class="flex justify-between items-center border-b pb-2">
+                            <h3 class="font-bold text-xs uppercase text-slate-800">🌐 Tradutor & Câmara</h3>
+                            <a href="https://translate.google.com/?hl=pt&sl=auto&tl=pt&op=images" target="_blank" class="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1.5 rounded-xl text-xs font-bold transition shadow-sm">📸 Traduzir com Câmara (Google Lens)</a>
+                        </div>
+                        <p class="text-xs text-slate-600">Podes traduzir placas, cardápios e textos instantaneamente usando a ferramenta oficial da Google.</p>
+                        <div class="flex gap-2">
+                            <a href="https://translate.google.com/?hl=pt" target="_blank" class="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-800 p-2.5 rounded-xl text-center font-bold text-xs border transition">🌐 Abrir Google Tradutor Web</a>
+                        </div>
+                    </div>
+                `;
+            }
 
             if(mostrarVoos) {
                 let voosHtml = '';
@@ -1262,18 +1273,6 @@
                 }
                 container.innerHTML += '<div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-3" id="card-chat"><div class="flex justify-between items-center border-b pb-2"><h3 class="font-bold text-xs uppercase text-slate-800">💬 Chat / Notas Rápidas</h3><div class="flex gap-1.5"><button onclick="imprimirSeccaoCustom(\'Chat & Notas\', document.getElementById(\'card-chat\').innerHTML)" class="bg-emerald-600 text-white px-2.5 py-1 rounded-xl text-xs font-bold shadow-sm">🖨️ PDF</button><button onclick="adicionarChat()" class="bg-indigo-600 text-white px-2.5 py-1 rounded-xl text-xs font-bold shadow-sm">➕ Nota</button></div></div><div class="space-y-2 text-xs">' + chatHubHtml + '</div></div>';
             }
-
-            if(mostrarOutros) {
-                let outrosHtml = '';
-                if(!dadosApp.outros || dadosApp.outros.length === 0) {
-                    outrosHtml = '<p class="text-xs text-slate-400 italic text-center py-2">Nenhum item em Outros.</p>';
-                } else {
-                    dadosApp.outros.forEach(o => {
-                        outrosHtml += '<div class="p-2.5 rounded-2xl border border-slate-200 bg-white flex items-center justify-between gap-2 shadow-sm text-xs"><input type="text" value="' + o.titulo + '" onchange="atualizarOutro(' + o.id + ', this.value)" class="flex-1 bg-transparent outline-none font-bold text-slate-800 text-xs truncate" placeholder="Item..."><button onclick="apagarOutro(' + o.id + ')" class="text-red-500 font-bold bg-red-50 hover:bg-red-100 px-2 py-1 rounded-xl text-xs">✕</button></div>';
-                    });
-                }
-                container.innerHTML += '<div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-3" id="card-outros"><div class="flex justify-between items-center border-b pb-2"><h3 class="font-bold text-xs uppercase text-slate-800">✨ Outros</h3><div class="flex gap-1.5"><button onclick="imprimirSeccaoCustom(\'Outros\', document.getElementById(\'card-outros\').innerHTML)" class="bg-emerald-600 text-white px-2.5 py-1 rounded-xl text-xs font-bold shadow-sm">🖨️ PDF</button><button onclick="adicionarItemOutroPrompt()" class="bg-emerald-600 text-white px-2.5 py-1 rounded-xl text-xs font-bold shadow-sm">➕ Outro</button></div></div><div class="space-y-2 text-xs">' + outrosHtml + '</div></div>';
-            }
         }
 
         function adicionarChat() {
@@ -1296,30 +1295,31 @@
             if(c) { c.texto = val; localStorage.setItem(CHAVE_APP, JSON.stringify(dadosApp)); }
         }
 
-        function adicionarItemOutroPrompt() {
-            let tipo = prompt("O que deseja adicionar em Outros? (ex: Link, Nota)");
-            if(tipo && tipo.trim() !== '') {
-                registarEstadoAnterior();
-                if(!dadosApp.outros) dadosApp.outros = [];
-                dadosApp.outros.unshift({ id: Date.now(), titulo: tipo.trim() });
-                salvarStorage();
-                renderizarHubUtilidades();
-            }
+        function atualizarContatoNome(id, val) {
+            let c = dadosApp.contatos.find(item => item.id === id);
+            if(c) { c.nome = val; salvarStorage(); renderizarHubUtilidades(); }
         }
 
-        function atualizarOutro(id, val) {
-            let o = dadosApp.outros.find(item => item.id === id);
-            if(o) { o.titulo = val; localStorage.setItem(CHAVE_APP, JSON.stringify(dadosApp)); }
+        function atualizarContatoNumero(id, val) {
+            let c = dadosApp.contatos.find(item => item.id === id);
+            if(c) { c.numero = val; salvarStorage(); renderizarHubUtilidades(); }
         }
 
-        function apagarOutro(id) {
+        function adicionarContato() {
             registarEstadoAnterior();
-            dadosApp.outros = dadosApp.outros.filter(o => o.id !== id);
+            if(!dadosApp.contatos) dadosApp.contatos = [];
+            dadosApp.contatos.unshift({ id: Date.now(), nome: "Contato", numero: "" });
             salvarStorage();
             renderizarHubUtilidades();
         }
 
-        // VOO HELPERS
+        function apagarContato(id) {
+            registarEstadoAnterior();
+            dadosApp.contatos = dadosApp.contatos.filter(c => c.id !== id);
+            salvarStorage();
+            renderizarHubUtilidades();
+        }
+
         function adicionarVoo() {
             registarEstadoAnterior();
             if(!dadosApp.voos) dadosApp.voos = [];
@@ -1357,107 +1357,6 @@
                 };
                 reader.readAsDataURL(file);
             }
-        }
-
-        // CONTATOS HELPERS
-        function adicionarContato() {
-            registarEstadoAnterior();
-            if(!dadosApp.contatos) dadosApp.contatos = [];
-            dadosApp.contatos.unshift({ id: Date.now(), nome: "Contato", numero: "0000" });
-            salvarStorage();
-            renderizarHubUtilidades();
-        }
-
-        function apagarContato(id) {
-            registarEstadoAnterior();
-            dadosApp.contatos = dadosApp.contatos.filter(c => c.id !== id);
-            salvarStorage();
-            renderizarHubUtilidades();
-        }
-
-        function atualizarContatoNome(id, val) {
-            let c = dadosApp.contatos.find(item => item.id === id);
-            if(c) { c.nome = val; localStorage.setItem(CHAVE_APP, JSON.stringify(dadosApp)); renderizarHubUtilidades(); }
-        }
-
-        function atualizarContatoNumero(id, val) {
-            let c = dadosApp.contatos.find(item => item.id === id);
-            if(c) { c.numero = val; localStorage.setItem(CHAVE_APP, JSON.stringify(dadosApp)); renderizarHubUtilidades(); }
-        }
-
-        // TAREFAS HELPERS
-        function adicionarTarefa() {
-            registarEstadoAnterior();
-            if(!dadosApp.tarefas) dadosApp.tarefas = [];
-            dadosApp.tarefas.unshift({ id: Date.now(), texto: "Nova tarefa...", status: "", categoria: "" });
-            salvarStorage();
-            renderizarHubUtilidades();
-        }
-
-        function apagarTarefa(id) {
-            registarEstadoAnterior();
-            dadosApp.tarefas = dadosApp.tarefas.filter(t => t.id !== id);
-            salvarStorage();
-            renderizarHubUtilidades();
-        }
-
-        function atualizarTarefaTexto(id, valor) {
-            const t = dadosApp.tarefas.find(item => item.id === id);
-            if(t) { t.texto = valor; localStorage.setItem(CHAVE_APP, JSON.stringify(dadosApp)); }
-        }
-
-        function lidarSelecaoDestinoTarefa(id, valor) {
-            registarEstadoAnterior();
-            const t = dadosApp.tarefas.find(item => item.id === id);
-            if(t) { t.categoria = valor; salvarStorage(); renderizarHubUtilidades(); }
-        }
-
-        function lidarSelecaoStatusTarefa(id, valor) {
-            registarEstadoAnterior();
-            const t = dadosApp.tarefas.find(item => item.id === id);
-            if(t) { t.status = valor; salvarStorage(); renderizarHubUtilidades(); }
-        }
-
-        // CHECKLIST HELPERS
-        function adicionarItemChecklist() {
-            registarEstadoAnterior();
-            if(!dadosApp.checklist) dadosApp.checklist = [];
-            dadosApp.checklist.push({ id: Date.now(), item: "Novo item...", feito: false });
-            salvarStorage();
-            renderizarHubUtilidades();
-        }
-
-        function apagarItemChecklist(id) {
-            registarEstadoAnterior();
-            dadosApp.checklist = dadosApp.checklist.filter(c => c.id !== id);
-            salvarStorage();
-            renderizarHubUtilidades();
-        }
-
-        function alternarItemChecklist(id) {
-            registarEstadoAnterior();
-            let c = dadosApp.checklist.find(item => item.id === id);
-            if(c) { c.feito = !c.feito; salvarStorage(); renderizarHubUtilidades(); }
-        }
-
-        function atualizarItemChecklistText(id, val) {
-            let c = dadosApp.checklist.find(item => item.id === id);
-            if(c) { c.item = val; localStorage.setItem(CHAVE_APP, JSON.stringify(dadosApp)); }
-        }
-
-        // VOUCHERS HELPERS
-        function renderizarVouchersTab() {}
-
-        function lidarSelecaoLocalVoucher(id, valor) {
-            registarEstadoAnterior();
-            if(valor === 'outro_local') {
-                let novo = prompt("Novo local/hotel:");
-                if(novo && novo.trim() !== '') {
-                    let limpo = novo.trim();
-                    if(!dadosApp.locaisCadastrados.includes(limpo)) dadosApp.locaisCadastrados.push(limpo);
-                    atualizarVoucherCampo(id, 'titulo', limpo);
-                } else { renderizarHubUtilidades(); }
-            } else { atualizarVoucherCampo(id, 'titulo', valor); }
         }
 
         function abrirLeitorPdf(id, titulo) {
@@ -1525,6 +1424,64 @@
                     atualizarVoucherCampo(id, 'categoria', limpo);
                 } else { renderizarHubUtilidades(); }
             } else { atualizarVoucherCampo(id, 'categoria', valor); }
+        }
+
+        function adicionarTarefa() {
+            registarEstadoAnterior();
+            if(!dadosApp.tarefas) dadosApp.tarefas = [];
+            dadosApp.tarefas.unshift({ id: Date.now(), texto: "Nova tarefa...", status: "", categoria: "" });
+            salvarStorage();
+            renderizarHubUtilidades();
+        }
+
+        function apagarTarefa(id) {
+            registarEstadoAnterior();
+            dadosApp.tarefas = dadosApp.tarefas.filter(t => t.id !== id);
+            salvarStorage();
+            renderizarHubUtilidades();
+        }
+
+        function atualizarTarefaTexto(id, valor) {
+            const t = dadosApp.tarefas.find(item => item.id === id);
+            if(t) { t.texto = valor; localStorage.setItem(CHAVE_APP, JSON.stringify(dadosApp)); }
+        }
+
+        function lidarSelecaoDestinoTarefa(id, valor) {
+            registarEstadoAnterior();
+            const t = dadosApp.tarefas.find(item => item.id === id);
+            if(t) { t.categoria = valor; salvarStorage(); renderizarHubUtilidades(); }
+        }
+
+        function lidarSelecaoStatusTarefa(id, valor) {
+            registarEstadoAnterior();
+            const t = dadosApp.tarefas.find(item => item.id === id);
+            if(t) { t.status = valor; salvarStorage(); renderizarHubUtilidades(); }
+        }
+
+        function adicionarItemChecklist() {
+            registarEstadoAnterior();
+            if(!dadosApp.checklist) dadosApp.checklist = [];
+            dadosApp.checklist.push({ id: Date.now(), item: "Novo item...", feito: false });
+            salvarStorage();
+            renderizarHubUtilidades();
+        }
+
+        function apagarItemChecklist(id) {
+            registarEstadoAnterior();
+            dadosApp.checklist = dadosApp.checklist.filter(c => c.id !== id);
+            salvarStorage();
+            renderizarHubUtilidades();
+        }
+
+        function alternarItemChecklist(id) {
+            registarEstadoAnterior();
+            let c = dadosApp.checklist.find(item => item.id === id);
+            if(c) { c.feito = !c.feito; salvarStorage(); renderizarHubUtilidades(); }
+        }
+
+        function atualizarItemChecklistText(id, val) {
+            let c = dadosApp.checklist.find(item => item.id === id);
+            if(c) { c.item = val; localStorage.setItem(CHAVE_APP, JSON.stringify(dadosApp)); }
         }
 
         // ORÇAMENTO
