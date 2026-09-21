@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v177.0)</title>
+    <title>Roteiro Europa - Mariana (v178.0)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Manifest Dinâmico via JavaScript -->
@@ -38,7 +38,7 @@
         <div class="flex items-center gap-2">
             <button onclick="window.location.reload()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-2.5 py-1 rounded-lg font-bold text-[10px] transition shadow-sm" title="Atualizar Página">🔄 Atualizar</button>
             <button onclick="exportarPdfPrint()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2.5 py-1 rounded-lg font-bold text-[10px] transition shadow-sm">🖨️ Imprimir Tudo</button>
-            <span class="bg-indigo-800 px-2 py-1 rounded-lg font-mono font-bold text-[10px]">v177.0</span>
+            <span class="bg-indigo-800 px-2 py-1 rounded-lg font-mono font-bold text-[10px]">v178.0</span>
         </div>
     </header>
 
@@ -198,7 +198,7 @@
 
     <!-- BARRA DE FERRAMENTAS FIXA -->
     <nav class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-md text-white px-3 py-2.5 shadow-2xl border-t border-slate-800 text-xs flex items-center justify-around gap-1 overflow-x-auto no-scrollbar max-w-4xl mx-auto rounded-t-2xl">
-        <span class="bg-indigo-600 px-2 py-1 rounded font-mono font-bold text-[9px] shrink-0">v177.0</span>
+        <span class="bg-indigo-600 px-2 py-1 rounded font-mono font-bold text-[9px] shrink-0">v178.0</span>
         <button onclick="abrirGeminiModal()" class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-3 py-1.5 rounded-xl font-bold transition shrink-0 flex items-center gap-1 text-xs shadow-sm">
             <span>✨</span> Gemini
         </button>
@@ -219,7 +219,7 @@
         </button>
     </nav>
 
-    <!-- MODAL DA GEMINI IA INTEGRADA E FUNCIONAL -->
+    <!-- MODAL DA GEMINI IA -->
     <div id="modal-gemini" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
         <div class="bg-white p-4 rounded-3xl shadow-2xl max-w-sm w-full space-y-3 text-xs flex flex-col h-[400px] border border-slate-300">
             <div class="flex justify-between items-center border-b pb-2">
@@ -237,7 +237,7 @@
     </div>
 
     <script>
-        const CHAVE_APP = "mariana_viagem_europa_v177";
+        const CHAVE_APP = "mariana_viagem_europa_v178";
         let destinoFiltro = 'todos';
         let tarefaFiltro = 'todas';
         let utilidadeFiltro = 'todos';
@@ -345,11 +345,11 @@
                 navigator.serviceWorker.register(URL.createObjectURL(swBlob)).catch(err => {});
             }
 
-            if (!sessionStorage.getItem('sessao_ativa_v177')) {
+            if (!sessionStorage.getItem('sessao_ativa_v178')) {
                 document.getElementById('tela-bloqueio').classList.remove('hidden');
             }
 
-            const temaSalvo = localStorage.getItem('tema_v177');
+            const temaSalvo = localStorage.getItem('tema_v178');
             if (temaSalvo === 'dark') {
                 document.body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 document.body.classList.remove('bg-slate-100', 'text-slate-800');
@@ -382,7 +382,7 @@
 
             try {
                 atualizarTudo();
-                let tabSalva = localStorage.getItem('tab_ativa_v177') || 'leitura';
+                let tabSalva = localStorage.getItem('tab_ativa_v178') || 'leitura';
                 mudarTab(tabSalva);
             } catch(e) {
                 console.error("Erro ao iniciar:", e);
@@ -406,10 +406,10 @@
         }
 
         function desbloquearComPin() {
-            let pinSalvo = localStorage.getItem('app_pin_v177') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v178') || '1510';
             let digitado = document.getElementById('input-pin').value;
             if(digitado === pinSalvo) {
-                sessionStorage.setItem('sessao_ativa_v177', 'true');
+                sessionStorage.setItem('sessao_ativa_v178', 'true');
                 document.getElementById('tela-bloqueio').classList.add('hidden');
                 document.getElementById('erro-pin').classList.add('hidden');
             } else {
@@ -418,17 +418,17 @@
         }
 
         async function desbloquearComBiometria() {
-            sessionStorage.setItem('sessao_ativa_v177', 'true');
+            sessionStorage.setItem('sessao_ativa_v178', 'true');
             document.getElementById('tela-bloqueio').classList.add('hidden');
         }
 
         function alterarSenhaPin() {
             let atual = prompt("Digite a senha atual (Padrão: 1510):");
-            let pinSalvo = localStorage.getItem('app_pin_v177') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v178') || '1510';
             if(atual === pinSalvo) {
                 let nova = prompt("Digite a nova senha PIN:");
                 if(nova && nova.trim() !== '') {
-                    localStorage.setItem('app_pin_v177', nova.trim());
+                    localStorage.setItem('app_pin_v178', nova.trim());
                     alert("🔑 Senha alterada com sucesso!");
                 }
             } else {
@@ -441,18 +441,17 @@
             if(body.classList.contains('dark')) {
                 body.classList.remove('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.add('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v177', 'light');
+                localStorage.setItem('tema_v178', 'light');
             } else {
                 body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.remove('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v177', 'dark');
+                localStorage.setItem('tema_v178', 'dark');
             }
         }
 
         function abrirGeminiModal() { document.getElementById('modal-gemini').classList.remove('hidden'); }
         function fecharGeminiModal() { document.getElementById('modal-gemini').classList.add('hidden'); }
 
-        // INTELIGÊNCIA REAL INTEGRADA NO CHAT DO APP
         function enviarMensagemGemini() {
             let input = document.getElementById('gemini-input');
             let log = document.getElementById('gemini-chat-log');
@@ -482,7 +481,7 @@
                 } else if(texto.includes('pizza') || texto.includes('comer') || texto.includes('restaurante')) {
                     resposta = "🍕 Sugestão: Em Paris, podes experimentar a 'Gemini Pizzeria' perto de Notre-Dame. Queres que adicione esta nota ao teu Hub?";
                 } else if(texto.includes('trem') || texto.includes('passagem') || texto.includes('voo')) {
-                    resposta = "🚄 Podes gerir todos os voos na aba 'Utilidades' e os trechos de trem diretamente nos blocos de destino do teu itinerário!";
+                    resposta = "🚄 Podes gerir todos os voos na aba 'Utilidades' e os trechos de trem diretamente nos blocos de destino do teu itinerario!";
                 } else {
                     resposta = `Compreendi, Mariana! Estou aqui a ajudar-te com a tua viagem à Europa (Zurique, Freiburg, França, Interlaken, Disney). Podes pedir-me para anotar algo escrevendo "anotar [o teu texto]" ou consultar o saldo!`;
                 }
@@ -637,7 +636,7 @@
         }
 
         function mudarTab(tab) {
-            localStorage.setItem('tab_ativa_v177', tab);
+            localStorage.setItem('tab_ativa_v178', tab);
             if(tab === 'itinerario' || tab === 'leitura') {
                 destinoFiltro = 'todos';
             }
@@ -999,8 +998,8 @@
                         paletaHtml +
                         '<div class="flex items-center gap-1.5">' +
                             '<button onclick="alternarBloqueio(\'' + item.id + '\')" class="' + lockBg + ' px-3 py-1.5 rounded-xl font-bold text-xs shadow-sm transition">' + lockIcon + '</button>' +
-                            '<button onclick="moverBloco(\'' + item.id + '\', -1)" class="bg-slate-200 hover:bg-slate-300 px-2 py-1.5 rounded-xl font-bold transition">⬆️</button>' +
-                            '<button onclick="moverBloco(\'' + item.id + '\', 1)" class="bg-slate-200 hover:bg-slate-300 px-2 py-1.5 rounded-xl font-bold transition">⬇️</button>' +
+                            '<button onclick="moverBloco(\'' + item.id + '\', -1)" class="bg-slate-200 hover:bg-slate-300 px-2 py-1.5 rounded-xl text-xs font-bold transition">⬆️</button>' +
+                            '<button onclick="moverBloco(\'' + item.id + '\', 1)" class="bg-slate-200 hover:bg-slate-300 px-2 py-1.5 rounded-xl text-xs font-bold transition">⬇️</button>' +
                             '<button onclick="apagarBloco(\'' + item.id + '\')" class="bg-red-50 hover:bg-red-100 text-red-600 px-3 py-1.5 rounded-xl font-bold transition">Excluir ✕</button>' +
                         '</div>' +
                     '</div>';
@@ -1151,7 +1150,7 @@
             }
         }
 
-        // RENDERIZAR HUB DE UTILIDADES
+        // RENDERIZAR HUB DE UTILIDADES (COM BOTÃO LIGAR DIRETO NO TELEFONE)
         function renderizarHubUtilidades() {
             const container = document.getElementById('hub-utilidades-grid');
             if(!container) return;
@@ -1184,7 +1183,14 @@
                     contatosHtml = '<p class="text-xs text-slate-400 italic text-center py-2">Nenhum contato registado.</p>';
                 } else {
                     dadosApp.contatos.forEach(ct => {
-                        contatosHtml += '<div class="p-2.5 rounded-2xl border border-slate-200 bg-white flex items-center justify-between gap-2 shadow-sm text-xs"><input type="text" value="' + ct.nome + '" onchange="atualizarContatoNome(' + ct.id + ', this.value)" class="flex-1 bg-transparent outline-none font-bold text-slate-800 text-xs" placeholder="Nome..."><input type="text" value="' + ct.numero + '" onchange="atualizarContatoNumero(' + ct.id + ', this.value)" class="w-24 p-1 bg-slate-50 border rounded-xl font-black text-xs" placeholder="Número..."><button onclick="apagarContato(' + ct.id + ')" class="text-red-500 font-bold bg-red-50 hover:bg-red-100 px-2 py-1 rounded-xl text-xs">✕</button></div>';
+                        let numeroLimpo = ct.numero ? ct.numero.replace(/\s+/g, '') : '';
+                        let telHref = numeroLimpo ? 'tel:' + numeroLimpo : '#';
+                        contatosHtml += '<div class="p-2.5 rounded-2xl border border-slate-200 bg-white flex items-center justify-between gap-2 shadow-sm text-xs">' +
+                            '<input type="text" value="' + ct.nome + '" onchange="atualizarContatoNome(' + ct.id + ', this.value)" class="flex-1 bg-transparent outline-none font-bold text-slate-800 text-xs" placeholder="Nome...">' +
+                            '<input type="text" value="' + ct.numero + '" onchange="atualizarContatoNumero(' + ct.id + ', this.value)" class="w-24 p-1 bg-slate-50 border rounded-xl font-black text-xs" placeholder="Número...">' +
+                            '<a href="' + telHref + '" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2.5 py-1 rounded-xl font-bold text-[10px] transition shrink-0 flex items-center gap-1 shadow-sm" title="Ligar">📞 Ligar</a>' +
+                            '<button onclick="apagarContato(' + ct.id + ')" class="text-red-500 font-bold bg-red-50 hover:bg-red-100 px-2 py-1 rounded-xl text-xs shrink-0">✕</button>' +
+                        '</div>';
                     });
                 }
                 container.innerHTML += '<div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-3" id="card-contatos"><div class="flex justify-between items-center border-b pb-2"><h3 class="font-bold text-xs uppercase text-slate-800">📞 Contatos Úteis</h3><div class="flex gap-1.5"><button onclick="imprimirSeccaoCustom(\'Contatos Úteis\', document.getElementById(\'card-contatos\').innerHTML)" class="bg-emerald-600 text-white px-2.5 py-1 rounded-xl text-xs font-bold shadow-sm">🖨️ PDF</button><button onclick="adicionarContato()" class="bg-indigo-600 text-white px-2.5 py-1 rounded-xl text-xs font-bold shadow-sm">➕ Contato</button></div></div><div class="space-y-2">' + contatosHtml + '</div></div>';
@@ -1371,12 +1377,12 @@
 
         function atualizarContatoNome(id, val) {
             let c = dadosApp.contatos.find(item => item.id === id);
-            if(c) { c.nome = val; localStorage.setItem(CHAVE_APP, JSON.stringify(dadosApp)); }
+            if(c) { c.nome = val; localStorage.setItem(CHAVE_APP, JSON.stringify(dadosApp)); renderizarHubUtilidades(); }
         }
 
         function atualizarContatoNumero(id, val) {
             let c = dadosApp.contatos.find(item => item.id === id);
-            if(c) { c.numero = val; localStorage.setItem(CHAVE_APP, JSON.stringify(dadosApp)); }
+            if(c) { c.numero = val; localStorage.setItem(CHAVE_APP, JSON.stringify(dadosApp)); renderizarHubUtilidades(); }
         }
 
         // TAREFAS HELPERS
