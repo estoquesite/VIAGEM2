@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v168.0)</title>
+    <title>Roteiro Europa - Mariana (v169.0)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Manifest Dinâmico via JavaScript -->
@@ -38,7 +38,7 @@
         <div class="flex items-center gap-2">
             <button onclick="window.location.reload()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-2.5 py-1 rounded-lg font-bold text-[10px] transition shadow-sm" title="Atualizar Página">🔄 Atualizar</button>
             <button onclick="exportarPdfPrint()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2.5 py-1 rounded-lg font-bold text-[10px] transition shadow-sm">🖨️ Imprimir Tudo</button>
-            <span class="bg-indigo-800 px-2 py-1 rounded-lg font-mono font-bold text-[10px]">v168.0</span>
+            <span class="bg-indigo-800 px-2 py-1 rounded-lg font-mono font-bold text-[10px]">v169.0</span>
         </div>
     </header>
 
@@ -125,9 +125,9 @@
 
                 <!-- CARD DE DESTAQUE: TOTAL GASTO GERAL EM REAIS NO TOPO -->
                 <div class="bg-emerald-50/80 p-4 rounded-2xl border-2 border-emerald-300 shadow-md text-center space-y-1">
-                    <span class="font-black text-xs text-emerald-900 uppercase tracking-wide block">📊 Total Gasto Geral em Reais (R$)</span>
+                    <span class="font-black text-xs text-emerald-900 uppercase tracking-wide block">📊 Total Gasto Geral em Reais (R$)[span_2](start_span)[span_2](end_span)</span>
                     <div id="resumo-total-gasto-brl" class="text-2xl font-black text-emerald-700">R$ 0.00</div>
-                    <p class="text-[10px] text-slate-600">Soma acumulada de todas as despesas e trechos (Euros + Francos).</p>
+                    <p class="text-[10px] text-slate-600">Soma acumulada de todas as despesas e trechos (Euros + Francos)[span_3](start_span)[span_3](end_span).</p>
                 </div>
 
                 <!-- COTAÇÃO GERAL -->
@@ -198,7 +198,7 @@
 
     <!-- BARRA DE FERRAMENTAS FIXA -->
     <nav class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-md text-white px-3 py-2.5 shadow-2xl border-t border-slate-800 text-xs flex items-center justify-around gap-1 overflow-x-auto no-scrollbar max-w-4xl mx-auto rounded-t-2xl">
-        <span class="bg-indigo-600 px-2 py-1 rounded font-mono font-bold text-[9px] shrink-0">v168.0</span>
+        <span class="bg-indigo-600 px-2 py-1 rounded font-mono font-bold text-[9px] shrink-0">v169.0</span>
         <button onclick="abrirGeminiModal()" class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-3 py-1.5 rounded-xl font-bold transition shrink-0 flex items-center gap-1 text-xs shadow-sm">
             <span>✨</span> Gemini
         </button>
@@ -237,7 +237,7 @@
     </div>
 
     <script>
-        const CHAVE_APP = "mariana_viagem_europa_v168";
+        const CHAVE_APP = "mariana_viagem_europa_v169";
         let destinoFiltro = 'todos';
         let tarefaFiltro = 'todas';
         let utilidadeFiltro = 'todos';
@@ -338,11 +338,11 @@
                 navigator.serviceWorker.register(URL.createObjectURL(swBlob)).catch(err => {});
             }
 
-            if (!sessionStorage.getItem('sessao_ativa_v168')) {
+            if (!sessionStorage.getItem('sessao_ativa_v169')) {
                 document.getElementById('tela-bloqueio').classList.remove('hidden');
             }
 
-            const temaSalvo = localStorage.getItem('tema_v168');
+            const temaSalvo = localStorage.getItem('tema_v169');
             if (temaSalvo === 'dark') {
                 document.body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 document.body.classList.remove('bg-slate-100', 'text-slate-800');
@@ -375,7 +375,7 @@
 
             try {
                 atualizarTudo();
-                let tabSalva = localStorage.getItem('tab_ativa_v168') || 'leitura';
+                let tabSalva = localStorage.getItem('tab_ativa_v169') || 'leitura';
                 mudarTab(tabSalva);
             } catch(e) {
                 console.error("Erro ao iniciar:", e);
@@ -399,10 +399,10 @@
         }
 
         function desbloquearComPin() {
-            let pinSalvo = localStorage.getItem('app_pin_v168') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v169') || '1510';
             let digitado = document.getElementById('input-pin').value;
             if(digitado === pinSalvo) {
-                sessionStorage.setItem('sessao_ativa_v168', 'true');
+                sessionStorage.setItem('sessao_ativa_v169', 'true');
                 document.getElementById('tela-bloqueio').classList.add('hidden');
                 document.getElementById('erro-pin').classList.add('hidden');
             } else {
@@ -411,17 +411,17 @@
         }
 
         async function desbloquearComBiometria() {
-            sessionStorage.setItem('sessao_ativa_v168', 'true');
+            sessionStorage.setItem('sessao_ativa_v169', 'true');
             document.getElementById('tela-bloqueio').classList.add('hidden');
         }
 
         function alterarSenhaPin() {
             let atual = prompt("Digite a senha atual (Padrão: 1510):");
-            let pinSalvo = localStorage.getItem('app_pin_v168') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v169') || '1510';
             if(atual === pinSalvo) {
                 let nova = prompt("Digite a nova senha PIN:");
                 if(nova && nova.trim() !== '') {
-                    localStorage.setItem('app_pin_v168', nova.trim());
+                    localStorage.setItem('app_pin_v169', nova.trim());
                     alert("🔑 Senha alterada com sucesso!");
                 }
             } else {
@@ -434,11 +434,11 @@
             if(body.classList.contains('dark')) {
                 body.classList.remove('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.add('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v168', 'light');
+                localStorage.setItem('tema_v169', 'light');
             } else {
                 body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.remove('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v168', 'dark');
+                localStorage.setItem('tema_v169', 'dark');
             }
         }
 
@@ -607,7 +607,7 @@
         }
 
         function mudarTab(tab) {
-            localStorage.setItem('tab_ativa_v168', tab);
+            localStorage.setItem('tab_ativa_v169', tab);
             if(tab === 'itinerario' || tab === 'leitura') {
                 destinoFiltro = 'todos';
             }
@@ -846,7 +846,7 @@
             });
         }
 
-        // RENDERIZAR EDITAR
+        // RENDERIZAR EDITAR (COM PALETA DE CORES RÁPIDAS E BLINDADAS)
         function renderizarBlocos() {
             const container = document.getElementById('lista-blocos');
             if(!container) return;
@@ -932,6 +932,15 @@
                 card.className = 'p-4 rounded-2xl border border-slate-300 space-y-3 transition shadow-sm min-w-0';
                 card.style.backgroundColor = corHex;
 
+                // PALETA DE CORES RÁPIDAS (Bolinhas de cores clicáveis para garantir funcionamento 100%)
+                let coresPaleta = ["#3b82f6", "#f59e0b", "#ec4899", "#10b981", "#8b5cf6", "#ef4444", "#06b6d4", "#64748b"];
+                let paletaHtml = '<div class="flex items-center gap-1.5 bg-white px-2.5 py-1.5 rounded-xl border border-slate-300 shadow-sm flex-wrap"><span class="font-bold text-[11px] text-slate-700 mr-1">Cor:</span>';
+                coresPaleta.forEach(col => {
+                    let ring = corHex === col ? 'ring-2 ring-slate-900 scale-110' : '';
+                    paletaHtml += '<button onclick="atualizarCorBlocoLocal(\'' + item.id + '\', \'' + col + '\')" style="background-color: ' + col + ';" class="w-5 h-5 rounded-full shadow-sm transition transform hover:scale-110 ' + ring + '"></button>';
+                });
+                paletaHtml += '</div>';
+
                 card.innerHTML = '<div class="flex flex-col gap-2 border-b border-black/10 pb-2.5">' +
                     '<div class="flex justify-between items-center gap-2 flex-wrap">' +
                         '<div class="flex items-center gap-2 flex-wrap">' +
@@ -957,11 +966,7 @@
                         '</div>' +
                     '</div>' +
                     '<div class="flex justify-between items-center pt-2 border-t border-black/10 flex-wrap gap-2">' +
-                        '<div class="flex items-center gap-1.5 bg-white px-2.5 py-1.5 rounded-xl border border-slate-300 text-xs font-bold shadow-sm">' +
-                            '<input type="color" id="input-cor-' + item.id + '" value="' + corHex + '" class="w-5 h-5 rounded-lg cursor-pointer border-0 bg-transparent">' +
-                            '<span>Cor Master</span>' +
-                            '<button onclick="atualizarCorBlocoLocal(\'' + item.id + '\', document.getElementById(\'input-cor-' + item.id + '\').value)" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition">OK</button>' +
-                        '</div>' +
+                        paletaHtml +
                         '<div class="flex items-center gap-1.5">' +
                             '<button onclick="alternarBloqueio(\'' + item.id + '\')" class="' + lockBg + ' px-3 py-1.5 rounded-xl font-bold text-xs shadow-sm transition">' + lockIcon + '</button>' +
                             '<button onclick="moverBloco(\'' + item.id + '\', -1)" class="bg-slate-200 hover:bg-slate-300 px-2 py-1.5 rounded-xl text-xs font-bold transition">⬆️</button>' +
@@ -1536,11 +1541,10 @@
                                 '<input type="text" value="' + d.descricao + '" onchange="atualizarOrcamentoDescricao(' + d.id + ', this.value)" class="w-full bg-transparent outline-none font-bold text-slate-800 text-xs border-b pb-1" placeholder="Descrição...">' +
                                 '<div class="flex items-center justify-between gap-2">' +
                                     '<span class="text-slate-500 font-medium">Valor (€):</span>' +
-                                    '<div class="flex items-center gap-1.5"><input type="text" value="' + (val !== 0 ? val : '') + '" id="despesa-val-' + d.id + '" class="w-24 p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-black text-right text-xs outline-none" placeholder="0">' +
-                                    '<button onclick="salvarDespesaValor(' + d.id + ', document.getElementById(\'despesa-val-' + d.id + '\').value)" class="bg-emerald-600 text-white px-3 py-1.5 rounded-xl font-bold text-xs">OK</button>' +
+                                    '<div class="flex items-center gap-1.5"><input type="text" value="' + (val !== 0 ? val : '') + '" id="despesa-val-' + d.id + '" class="w-20 p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-black text-right text-xs outline-none" placeholder="0">' +
+                                    '<button onclick="salvarDespesaValor(' + d.id + ', document.getElementById(\'despesa-val-' + d.id + '\').value)" class="bg-emerald-600 text-white px-2.5 py-1.5 rounded-lg font-bold text-[10px]">OK</button></div>' +
                                     '<button onclick="apagarDespesa(' + d.id + ')" class="text-red-500 font-bold px-2 py-1.5 rounded-xl bg-red-50 hover:bg-red-100 text-xs">✕</button></div>' +
-                                '</div>' +
-                            '</div>';
+                                '</div>';
                         }
                     });
                 }
@@ -1603,7 +1607,7 @@
                                 '<div class="flex items-center justify-between gap-2">' +
                                     '<span class="text-slate-500 font-medium">Valor (CHF):</span>' +
                                     '<div class="flex items-center gap-1.5"><input type="text" value="' + (val !== 0 ? val : '') + '" id="despesa-val-' + d.id + '" class="w-20 p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-black text-right text-xs outline-none" placeholder="0">' +
-                                    '<button onclick="salvarDespesaValor(' + d.id + ', document.getElementById(\'despesa-val-' + d.id + '\').value)" class="bg-emerald-600 text-white px-2 py-1.5 rounded-lg font-bold text-[10px]">OK</button></div>' +
+                                    '<button onclick="salvarDespesaValor(' + d.id + ', document.getElementById(\'despesa-val-' + d.id + '\').value)" class="bg-emerald-600 text-white px-2.5 py-1.5 rounded-lg font-bold text-[10px]">OK</button></div>' +
                                     '<button onclick="apagarDespesa(' + d.id + ')" class="text-red-500 font-bold px-2 py-1.5 rounded-xl bg-red-50 hover:bg-red-100 text-xs">✕</button></div>' +
                                 '</div>';
                         }
