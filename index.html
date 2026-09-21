@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v191.0)</title>
+    <title>Roteiro Europa - Mariana (v192.0)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Manifest Dinâmico via JavaScript -->
@@ -39,7 +39,7 @@
             <a href="https://translate.google.com/?hl=pt&sl=auto&tl=pt&op=images" target="_blank" class="bg-indigo-600 hover:bg-indigo-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm flex items-center gap-1" title="Google Tradutor & Câmara">🌐 Tradutor</a>
             <button onclick="window.location.reload()" class="bg-slate-800 hover:bg-slate-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm border border-slate-700" title="Atualizar Página">🔄</button>
             <button onclick="exportarPdfPrint()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm" title="Imprimir Tudo">🖨️</button>
-            <span class="bg-indigo-950 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v191.0</span>
+            <span class="bg-indigo-950 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v192.0</span>
         </div>
     </header>
 
@@ -199,7 +199,7 @@
 
     <!-- BARRA DE FERRAMENTAS FIXA -->
     <nav class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-md text-white px-3 py-2.5 shadow-2xl border-t border-slate-800 text-xs flex items-center justify-around gap-1 overflow-x-auto no-scrollbar max-w-4xl mx-auto rounded-t-2xl">
-        <span class="bg-indigo-600 px-2 py-1 rounded font-mono font-bold text-[9px] shrink-0">v191.0</span>
+        <span class="bg-indigo-600 px-2 py-1 rounded font-mono font-bold text-[9px] shrink-0">v192.0</span>
         <button onclick="abrirGeminiModal()" class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-3 py-1.5 rounded-xl font-bold transition shrink-0 flex items-center gap-1 text-xs shadow-sm">
             <span>✨</span> Gemini
         </button>
@@ -238,7 +238,7 @@
     </div>
 
     <script>
-        const CHAVE_APP = "mariana_viagem_europa_v191";
+        const CHAVE_APP = "mariana_viagem_europa_v192";
         let destinoFiltro = 'todos';
         let tarefaFiltro = 'todas';
         let utilidadeFiltro = 'todos';
@@ -346,11 +346,11 @@
                 navigator.serviceWorker.register(URL.createObjectURL(swBlob)).catch(err => {});
             }
 
-            if (!sessionStorage.getItem('sessao_ativa_v191')) {
+            if (!sessionStorage.getItem('sessao_ativa_v192')) {
                 document.getElementById('tela-bloqueio').classList.remove('hidden');
             }
 
-            const temaSalvo = localStorage.getItem('tema_v191');
+            const temaSalvo = localStorage.getItem('tema_v192');
             if (temaSalvo === 'dark') {
                 document.body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 document.body.classList.remove('bg-slate-100', 'text-slate-800');
@@ -388,7 +388,7 @@
                 if(inputChf) inputChf.value = dadosApp.cotacaoChf;
 
                 atualizarTudo();
-                let tabSalva = localStorage.getItem('tab_ativa_v191') || 'leitura';
+                let tabSalva = localStorage.getItem('tab_ativa_v192') || 'leitura';
                 mudarTab(tabSalva);
             } catch(e) {
                 console.error("Erro ao iniciar:", e);
@@ -412,10 +412,10 @@
         }
 
         function desbloquearComPin() {
-            let pinSalvo = localStorage.getItem('app_pin_v191') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v192') || '1510';
             let digitado = document.getElementById('input-pin').value;
             if(digitado === pinSalvo) {
-                sessionStorage.setItem('sessao_ativa_v191', 'true');
+                sessionStorage.setItem('sessao_ativa_v192', 'true');
                 document.getElementById('tela-bloqueio').classList.add('hidden');
                 document.getElementById('erro-pin').classList.add('hidden');
             } else {
@@ -424,17 +424,17 @@
         }
 
         async function desbloquearComBiometria() {
-            sessionStorage.setItem('sessao_ativa_v191', 'true');
+            sessionStorage.setItem('sessao_ativa_v192', 'true');
             document.getElementById('tela-bloqueio').classList.add('hidden');
         }
 
         function alterarSenhaPin() {
             let atual = prompt("Digite a senha atual (Padrão: 1510):");
-            let pinSalvo = localStorage.getItem('app_pin_v191') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v192') || '1510';
             if(atual === pinSalvo) {
                 let nova = prompt("Digite a nova senha PIN:");
                 if(nova && nova.trim() !== '') {
-                    localStorage.setItem('app_pin_v191', nova.trim());
+                    localStorage.setItem('app_pin_v192', nova.trim());
                     alert("🔑 Senha alterada com sucesso!");
                 }
             } else {
@@ -447,11 +447,11 @@
             if(body.classList.contains('dark')) {
                 body.classList.remove('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.add('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v191', 'light');
+                localStorage.setItem('tema_v192', 'light');
             } else {
                 body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.remove('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v191', 'dark');
+                localStorage.setItem('tema_v192', 'dark');
             }
         }
 
@@ -641,7 +641,7 @@
         }
 
         function mudarTab(tab) {
-            localStorage.setItem('tab_ativa_v191', tab);
+            localStorage.setItem('tab_ativa_v192', tab);
             if(tab === 'itinerario' || tab === 'leitura') {
                 destinoFiltro = 'todos';
             }
@@ -975,8 +975,9 @@
                 let itensHtml = '';
                 if(item.itens && item.itens.length > 0) {
                     item.itens.forEach(it => {
+                        let itTextoSafe = (it.texto || '').replace(/"/g, '&quot;');
                         itensHtml += '<div class="flex items-center gap-1.5 bg-white p-2 rounded-xl border border-slate-200 text-xs min-w-0 mb-1.5 shadow-sm">' +
-                            '<input type="text" value="' + (it.texto || '') + '" onchange="atualizarTextoItemBloco(\'' + item.id + '\', \'' + it.id + '\', this.value)" class="flex-1 min-w-0 bg-transparent outline-none font-bold text-slate-800 text-xs" placeholder="Escreva um texto livre...">' +
+                            '<input type="text" value="' + itTextoSafe + '" onchange="atualizarTextoItemBloco(\'' + item.id + '\', \'' + it.id + '\', this.value)" class="flex-1 min-w-0 bg-transparent outline-none font-bold text-slate-800 text-xs" placeholder="Escreva um texto livre...">' +
                             '<button onclick="removerItemBloco(\'' + item.id + '\', \'' + it.id + '\')" class="text-red-500 font-bold px-2.5 py-1.5 rounded-xl bg-red-50 text-xs shrink-0 hover:bg-red-100 transition">✕</button>' +
                         '</div>';
                     });
@@ -1174,7 +1175,7 @@
             }
         }
 
-        // RENDERIZAR HUB DE UTILIDADES
+        // RENDERIZAR HUB DE UTILIDADES COM SEGURANÇA TOTAL
         function renderizarHubUtilidades() {
             const container = document.getElementById('hub-utilidades-grid');
             if(!container) return;
@@ -1195,7 +1196,11 @@
                 } else {
                     dadosApp.voos.forEach(v => {
                         let pdfAction = v.pdfData ? '<button onclick="abrirLeitorPdf(\'' + v.id + '\', \'Passagem ' + (v.voo || 'Voo') + '\')" class="bg-indigo-600 text-white px-2.5 py-1 rounded-xl text-xs font-bold shadow-sm">📄 PDF</button>' : '<label class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-2.5 py-1 rounded-xl text-xs font-bold cursor-pointer border shadow-sm">📎 PDF<input type="file" accept="application/pdf" onchange="anexarPdfVoo(' + v.id + ', event)" class="hidden"></label>';
-                        voosHtml += '<div class="p-2.5 rounded-2xl border border-slate-200 bg-white space-y-2 shadow-sm text-xs min-w-0"><div class="flex gap-1.5 items-center min-w-0"><input type="text" value="' + (v.cia || '') + '" oninput="atualizarVoo(' + v.id + ', \'cia\', this.value)" class="w-16 shrink-0 p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs" placeholder="Cia"><input type="text" value="' + (v.voo || '') + '" oninput="atualizarVoo(' + v.id + ', \'voo\', this.value)" class="w-14 shrink-0 p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs" placeholder="Voo"><input type="text" value="' + (v.pnr || '') + '" oninput="atualizarVoo(' + v.id + ', \'pnr\', this.value)" class="flex-1 min-w-0 p-1.5 bg-amber-50 border border-amber-300 rounded-xl font-black text-amber-900 text-xs truncate" placeholder="PNR"></div><div class="flex gap-1.5 items-center min-w-0"><input type="text" value="' + (v.rota || '') + '" oninput="atualizarVoo(' + v.id + ', \'rota\', this.value)" class="flex-1 min-w-0 p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs truncate" placeholder="Rota"><input type="date" value="' + (v.data || '') + '" onchange="atualizarVoo(' + v.id + ', \'data\', this.value)" class="w-28 shrink-0 p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs"><div class="shrink-0 flex items-center gap-1">' + pdfAction + '<button onclick="apagarVoo(' + v.id + ')" class="text-red-500 font-bold px-2 py-1.5 rounded-xl bg-red-50 hover:bg-red-100 text-xs shrink-0">✕</button></div></div></div>';
+                        let ciaSafe = (v.cia || '').replace(/"/g, '&quot;');
+                        let vooSafe = (v.voo || '').replace(/"/g, '&quot;');
+                        let pnrSafe = (v.pnr || '').replace(/"/g, '&quot;');
+                        let rotaSafe = (v.rota || '').replace(/"/g, '&quot;');
+                        voosHtml += '<div class="p-2.5 rounded-2xl border border-slate-200 bg-white space-y-2 shadow-sm text-xs min-w-0"><div class="flex gap-1.5 items-center min-w-0"><input type="text" value="' + ciaSafe + '" oninput="atualizarVoo(' + v.id + ', \'cia\', this.value)" class="w-16 shrink-0 p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs" placeholder="Cia"><input type="text" value="' + vooSafe + '" oninput="atualizarVoo(' + v.id + ', \'voo\', this.value)" class="w-14 shrink-0 p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs" placeholder="Voo"><input type="text" value="' + pnrSafe + '" oninput="atualizarVoo(' + v.id + ', \'pnr\', this.value)" class="flex-1 min-w-0 p-1.5 bg-amber-50 border border-amber-300 rounded-xl font-black text-amber-900 text-xs truncate" placeholder="PNR"></div><div class="flex gap-1.5 items-center min-w-0"><input type="text" value="' + rotaSafe + '" oninput="atualizarVoo(' + v.id + ', \'rota\', this.value)" class="flex-1 min-w-0 p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs truncate" placeholder="Rota"><input type="date" value="' + (v.data || '') + '" onchange="atualizarVoo(' + v.id + ', \'data\', this.value)" class="w-28 shrink-0 p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs"><div class="shrink-0 flex items-center gap-1">' + pdfAction + '<button onclick="apagarVoo(' + v.id + ')" class="text-red-500 font-bold px-2 py-1.5 rounded-xl bg-red-50 hover:bg-red-100 text-xs shrink-0">✕</button></div></div></div>';
                     });
                 }
                 container.innerHTML += '<div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-3 min-w-0" id="card-voos"><div class="flex justify-between items-center border-b pb-2"><h3 class="font-bold text-xs uppercase text-slate-800">✈️ Voos & Passagens</h3><div class="flex gap-1.5"><button onclick="imprimirSeccaoCustom(\'Voos & Passagens\', document.getElementById(\'card-voos\').innerHTML)" class="bg-emerald-600 text-white px-2.5 py-1 rounded-xl text-xs font-bold shadow-sm">🖨️ PDF</button><button onclick="adicionarVoo()" class="bg-indigo-600 text-white px-2.5 py-1 rounded-xl text-xs font-bold shadow-sm">➕ Voo</button></div></div><div class="space-y-2 min-w-0">' + voosHtml + '</div></div>';
@@ -1209,9 +1214,11 @@
                     dadosApp.contatos.forEach(ct => {
                         let numeroLimpo = ct.numero ? String(ct.numero).replace(/\s+/g, '') : '';
                         let telHref = numeroLimpo ? 'tel:' + numeroLimpo : '#';
+                        let nomeSafe = (ct.nome || '').replace(/"/g, '&quot;');
+                        let numSafe = (ct.numero || '').replace(/"/g, '&quot;');
                         contatosHtml += '<div class="p-2.5 rounded-2xl border border-slate-200 bg-white flex items-center gap-1.5 shadow-sm text-xs min-w-0">' +
-                            '<input type="text" value="' + (ct.nome || '') + '" oninput="atualizarContatoNome(' + ct.id + ', this.value)" class="flex-1 min-w-0 bg-transparent outline-none font-bold text-slate-800 text-xs truncate" placeholder="Nome...">' +
-                            '<input type="text" value="' + (ct.numero || '') + '" oninput="atualizarContatoNumero(' + ct.id + ', this.value)" class="w-24 shrink-0 p-1 bg-slate-50 border border-slate-300 rounded-xl font-black text-xs text-center" placeholder="Número...">' +
+                            '<input type="text" value="' + nomeSafe + '" oninput="atualizarContatoNome(' + ct.id + ', this.value)" class="flex-1 min-w-0 bg-transparent outline-none font-bold text-slate-800 text-xs truncate" placeholder="Nome...">' +
+                            '<input type="text" value="' + numSafe + '" oninput="atualizarContatoNumero(' + ct.id + ', this.value)" class="w-24 shrink-0 p-1 bg-slate-50 border border-slate-300 rounded-xl font-black text-xs text-center" placeholder="Número...">' +
                             '<a href="' + telHref + '" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2 py-1 rounded-xl font-bold text-[10px] transition shrink-0 flex items-center gap-1 shadow-sm" title="Ligar">📞 Ligar</a>' +
                             '<button onclick="apagarContato(' + ct.id + ')" class="text-red-500 font-bold bg-red-50 hover:bg-red-100 px-2 py-1 rounded-xl text-xs shrink-0">✕</button>' +
                         '</div>';
@@ -1243,7 +1250,8 @@
                             opcoesDestinoT += '<option value="' + d + '" ' + ((t.categoria || '') === d ? 'selected' : '') + '>' + d + '</option>';
                         });
 
-                        tarefasHtml += '<div class="p-3 rounded-2xl border border-slate-200 bg-white flex flex-col gap-2 shadow-sm" style="border-left: 4px solid ' + (t.categoria ? corDestino : '#94a3b8') + ';"><div class="flex items-center gap-2"><button onclick="abrirModalTarefa(' + t.id + ')" class="bg-slate-100 hover:bg-slate-200 p-1.5 rounded-xl text-xs shrink-0" title="Editar">✏️</button><input type="text" value="' + (t.texto || '') + '" oninput="atualizarTarefaTexto(' + t.id + ', this.value)" class="flex-1 min-w-0 p-1 bg-transparent outline-none ' + textStyle + ' text-xs" placeholder="Tarefa..."><button onclick="apagarTarefa(' + t.id + ')" class="text-red-500 font-bold text-xs bg-red-50 hover:bg-red-100 px-2 py-1 rounded-xl">✕</button></div><div class="flex gap-2 items-center"><select onchange="lidarSelecaoDestinoTarefa(' + t.id + ', this.value)" class="flex-1 border border-slate-300 rounded-xl px-2.5 py-1 text-xs font-bold text-white shadow-sm" style="background-color: ' + (t.categoria ? corDestino : '#64748b') + ';">' + opcoesDestinoT + '</select><select onchange="lidarSelecaoStatusTarefa(' + t.id + ', this.value)" class="flex-1 border border-slate-300 rounded-xl px-2.5 py-1 text-xs font-bold text-white shadow-sm" style="background-color: ' + (statusAtual ? corStatus : '#64748b') + ';">' + opcoesStatus + '</select></div></div>';
+                        let textoSafe = (t.texto || '').replace(/"/g, '&quot;');
+                        tarefasHtml += '<div class="p-3 rounded-2xl border border-slate-200 bg-white flex flex-col gap-2 shadow-sm" style="border-left: 4px solid ' + (t.categoria ? corDestino : '#94a3b8') + ';"><div class="flex items-center gap-2"><button onclick="abrirModalTarefa(' + t.id + ')" class="bg-slate-100 hover:bg-slate-200 p-1.5 rounded-xl text-xs shrink-0" title="Editar">✏️</button><input type="text" value="' + textoSafe + '" oninput="atualizarTarefaTexto(' + t.id + ', this.value)" class="flex-1 min-w-0 p-1 bg-transparent outline-none ' + textStyle + ' text-xs" placeholder="Tarefa..."><button onclick="apagarTarefa(' + t.id + ')" class="text-red-500 font-bold text-xs bg-red-50 hover:bg-red-100 px-2 py-1 rounded-xl">✕</button></div><div class="flex gap-2 items-center"><select onchange="lidarSelecaoDestinoTarefa(' + t.id + ', this.value)" class="flex-1 border border-slate-300 rounded-xl px-2.5 py-1 text-xs font-bold text-white shadow-sm" style="background-color: ' + (t.categoria ? corDestino : '#64748b') + ';">' + opcoesDestinoT + '</select><select onchange="lidarSelecaoStatusTarefa(' + t.id + ', this.value)" class="flex-1 border border-slate-300 rounded-xl px-2.5 py-1 text-xs font-bold text-white shadow-sm" style="background-color: ' + (statusAtual ? corStatus : '#64748b') + ';">' + opcoesStatus + '</select></div></div>';
                     });
                 }
                 container.innerHTML += '<div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-3" id="card-tarefas"><div class="flex justify-between items-center border-b pb-2"><h3 class="font-bold text-xs uppercase text-slate-800">📋 Tarefas</h3><div class="flex gap-1.5"><button onclick="imprimirSeccaoCustom(\'Tarefas\', document.getElementById(\'card-tarefas\').innerHTML)" class="bg-emerald-600 text-white px-2.5 py-1 rounded-xl text-xs font-bold shadow-sm">🖨️ PDF</button><button onclick="adicionarTarefa()" class="bg-indigo-600 text-white px-2.5 py-1 rounded-xl text-xs font-bold shadow-sm">➕ Tarefa</button></div></div><div class="space-y-2.5 text-xs">' + tarefasHtml + '</div></div>';
@@ -1255,7 +1263,8 @@
                     checklistHtml = '<p class="text-xs text-slate-400 italic text-center py-2">Nenhum item no checklist.</p>';
                 } else {
                     dadosApp.checklist.forEach(c => {
-                        checklistHtml += '<div class="p-2.5 rounded-2xl border border-slate-200 bg-white flex items-center justify-between gap-2 shadow-sm text-xs"><label class="flex items-center gap-2 flex-1 cursor-pointer min-w-0"><input type="checkbox" ' + (c.feito ? 'checked' : '') + ' onchange="alternarItemChecklist(' + c.id + ')" class="w-4 h-4 accent-indigo-600 rounded cursor-pointer shrink-0"><input type="text" value="' + (c.item || '') + '" oninput="atualizarItemChecklistText(' + c.id + ', this.value)" class="flex-1 bg-transparent outline-none font-bold ' + (c.feito ? 'line-through text-slate-400' : 'text-slate-800') + ' truncate text-xs" placeholder="Item..."></label><button onclick="apagarItemChecklist(' + c.id + ')" class="text-red-500 font-bold bg-red-50 hover:bg-red-100 px-2 py-1 rounded-xl transition shrink-0 text-xs">✕</button></div>';
+                        let itemSafe = (c.item || '').replace(/"/g, '&quot;');
+                        checklistHtml += '<div class="p-2.5 rounded-2xl border border-slate-200 bg-white flex items-center justify-between gap-2 shadow-sm text-xs"><label class="flex items-center gap-2 flex-1 cursor-pointer min-w-0"><input type="checkbox" ' + (c.feito ? 'checked' : '') + ' onchange="alternarItemChecklist(' + c.id + ')" class="w-4 h-4 accent-indigo-600 rounded cursor-pointer shrink-0"><input type="text" value="' + itemSafe + '" oninput="atualizarItemChecklistText(' + c.id + ', this.value)" class="flex-1 bg-transparent outline-none font-bold ' + (c.feito ? 'line-through text-slate-400' : 'text-slate-800') + ' truncate text-xs" placeholder="Item..."></label><button onclick="apagarItemChecklist(' + c.id + ')" class="text-red-500 font-bold bg-red-50 hover:bg-red-100 px-2 py-1 rounded-xl transition shrink-0 text-xs">✕</button></div>';
                     });
                 }
                 container.innerHTML += '<div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-3" id="card-checklist"><div class="flex justify-between items-center border-b pb-2"><h3 class="font-bold text-xs uppercase text-slate-800">🎒 Checklist</h3><div class="flex gap-1.5"><button onclick="imprimirSeccaoCustom(\'Checklist\', document.getElementById(\'card-checklist\').innerHTML)" class="bg-emerald-600 text-white px-2.5 py-1 rounded-xl text-xs font-bold shadow-sm">🖨️ PDF</button><button onclick="adicionarItemChecklist()" class="bg-emerald-600 text-white px-2.5 py-1 rounded-xl text-xs font-bold shadow-sm">➕ Item</button></div></div><div class="space-y-2 text-xs">' + checklistHtml + '</div></div>';
@@ -1269,7 +1278,8 @@
                     dadosApp.vouchers.forEach(v => {
                         let corV = obterCorPorCategoria(v.categoria);
                         let pdfAct = v.pdfData ? '<button onclick="abrirLeitorPdf(\'' + v.id + '\', \'' + (v.titulo || 'Voucher').replace(/'/g, "\\'") + '\')" class="bg-indigo-600 text-white px-3 py-1 rounded-xl text-xs font-bold shadow-sm">📄 PDF</button>' : '<label class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1 rounded-xl text-xs font-bold cursor-pointer border shadow-sm">📎 PDF<input type="file" accept="application/pdf" onchange="anexarPdfVoucher(' + v.id + ', event)" class="hidden"></label>';
-                        vouchersHubHtml += '<div class="p-2.5 rounded-2xl border border-slate-200 bg-white flex items-center justify-between gap-2 shadow-sm" style="border-left: 4px solid ' + corV + ';"><span class="font-bold text-xs truncate flex-1 text-slate-800">' + (v.titulo || '') + '</span>' + pdfAct + '<button onclick="apagarVoucher(' + v.id + ')" class="text-red-500 font-bold bg-red-50 hover:bg-red-100 px-2 py-1 rounded-xl text-xs">✕</button></div>';
+                        let tituloSafe = (v.titulo || '').replace(/"/g, '&quot;');
+                        vouchersHubHtml += '<div class="p-2.5 rounded-2xl border border-slate-200 bg-white flex items-center justify-between gap-2 shadow-sm" style="border-left: 4px solid ' + corV + ';"><span class="font-bold text-xs truncate flex-1 text-slate-800">' + tituloSafe + '</span>' + pdfAct + '<button onclick="apagarVoucher(' + v.id + ')" class="text-red-500 font-bold bg-red-50 hover:bg-red-100 px-2 py-1 rounded-xl text-xs">✕</button></div>';
                     });
                 }
                 container.innerHTML += '<div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-3" id="card-vouchers"><div class="flex justify-between items-center border-b pb-2"><h3 class="font-bold text-xs uppercase text-slate-800">🎟️ Vouchers & PDFs</h3><div class="flex gap-1.5"><button onclick="imprimirSeccaoCustom(\'Vouchers\', document.getElementById(\'card-vouchers\').innerHTML)" class="bg-emerald-600 text-white px-2.5 py-1 rounded-xl text-xs font-bold shadow-sm">🖨️ PDF</button><button onclick="adicionarVoucher()" class="bg-indigo-600 text-white px-2.5 py-1 rounded-xl text-xs font-bold shadow-sm">➕ Voucher</button></div></div><div class="space-y-2 text-xs">' + vouchersHubHtml + '</div></div>';
@@ -1281,7 +1291,8 @@
                     chatHubHtml = '<p class="text-xs text-slate-400 italic text-center py-2">Nenhuma nota registada.</p>';
                 } else {
                     dadosApp.chat.forEach(ch => {
-                        chatHubHtml += '<div class="p-2.5 rounded-2xl border border-slate-200 bg-white flex items-center justify-between gap-2 shadow-sm text-xs"><input type="text" value="' + (ch.texto || '') + '" oninput="atualizarChat(' + ch.id + ', this.value)" class="flex-1 bg-transparent outline-none font-bold text-slate-800 text-xs truncate" placeholder="Escreva uma nota..."><button onclick="apagarChat(' + ch.id + ')" class="text-red-500 font-bold bg-red-50 hover:bg-red-100 px-2 py-1 rounded-xl text-xs">✕</button></div>';
+                        let textoSafe = (ch.texto || '').replace(/"/g, '&quot;');
+                        chatHubHtml += '<div class="p-2.5 rounded-2xl border border-slate-200 bg-white flex items-center justify-between gap-2 shadow-sm text-xs"><input type="text" value="' + textoSafe + '" oninput="atualizarChat(' + ch.id + ', this.value)" class="flex-1 bg-transparent outline-none font-bold text-slate-800 text-xs truncate" placeholder="Escreva uma nota..."><button onclick="apagarChat(' + ch.id + ')" class="text-red-500 font-bold bg-red-50 hover:bg-red-100 px-2 py-1 rounded-xl text-xs">✕</button></div>';
                     });
                 }
                 container.innerHTML += '<div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-3" id="card-chat"><div class="flex justify-between items-center border-b pb-2"><h3 class="font-bold text-xs uppercase text-slate-800">💬 Chat / Notas Rápidas</h3><div class="flex gap-1.5"><button onclick="imprimirSeccaoCustom(\'Chat & Notas\', document.getElementById(\'card-chat\').innerHTML)" class="bg-emerald-600 text-white px-2.5 py-1 rounded-xl text-xs font-bold shadow-sm">🖨️ PDF</button><button onclick="adicionarChat()" class="bg-indigo-600 text-white px-2.5 py-1 rounded-xl text-xs font-bold shadow-sm">➕ Nota</button></div></div><div class="space-y-2 text-xs">' + chatHubHtml + '</div></div>';
@@ -1331,6 +1342,137 @@
             dadosApp.contatos = dadosApp.contatos.filter(c => c.id !== id);
             salvarStorage();
             renderizarHubUtilidades();
+        }
+
+        function adicionarVoo() {
+            registarEstadoAnterior();
+            if(!dadosApp.voos) dadosApp.voos = [];
+            dadosApp.voos.unshift({ id: Date.now(), cia: "Latam", voo: "", pnr: "", rota: "GIG ➔ ZRH", data: "", pdfData: "", pdfNome: "" });
+            salvarStorage();
+            renderizarHubUtilidades();
+        }
+
+        function apagarVoo(id) {
+            registarEstadoAnterior();
+            dadosApp.voos = dadosApp.voos.filter(v => v.id !== id);
+            salvarStorage();
+            renderizarHubUtilidades();
+        }
+
+        function atualizarVoo(id, campo, val) {
+            let v = dadosApp.voos.find(item => item.id === id);
+            if(v) { v[campo] = val; salvarStorage(); }
+        }
+
+        function anexarPdfVoo(id, event) {
+            const file = event.target.files[0];
+            if(file) {
+                registarEstadoAnterior();
+                const reader = new FileReader();
+                reader.onload = function(evt) {
+                    const v = dadosApp.voos.find(item => item.id === id);
+                    if(v) { 
+                        v.pdfData = evt.target.result; 
+                        v.pdfNome = file.name; 
+                        salvarStorage(); 
+                        renderizarHubUtilidades(); 
+                        abrirLeitorPdf(v.id, 'Passagem ' + (v.voo || 'Voo'));
+                    }
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function adicionarTarefa() {
+            registarEstadoAnterior();
+            if(!dadosApp.tarefas) dadosApp.tarefas = [];
+            dadosApp.tarefas.unshift({ id: Date.now(), texto: "Nova tarefa...", status: "", categoria: "" });
+            salvarStorage();
+            renderizarHubUtilidades();
+        }
+
+        function apagarTarefa(id) {
+            registarEstadoAnterior();
+            dadosApp.tarefas = dadosApp.tarefas.filter(t => t.id !== id);
+            salvarStorage();
+            renderizarHubUtilidades();
+        }
+
+        function atualizarTarefaTexto(id, val) {
+            let t = dadosApp.tarefas.find(item => item.id === id);
+            if(t) { t.texto = val; salvarStorage(); }
+        }
+
+        function lidarSelecaoDestinoTarefa(id, val) {
+            registarEstadoAnterior();
+            let t = dadosApp.tarefas.find(item => item.id === id);
+            if(t) { t.categoria = val; salvarStorage(); renderizarHubUtilidades(); }
+        }
+
+        function lidarSelecaoStatusTarefa(id, val) {
+            registarEstadoAnterior();
+            let t = dadosApp.tarefas.find(item => item.id === id);
+            if(t) { t.status = val; salvarStorage(); renderizarHubUtilidades(); }
+        }
+
+        function adicionarItemChecklist() {
+            registarEstadoAnterior();
+            if(!dadosApp.checklist) dadosApp.checklist = [];
+            dadosApp.checklist.push({ id: Date.now(), item: "Novo item...", feito: false });
+            salvarStorage();
+            renderizarHubUtilidades();
+        }
+
+        function apagarItemChecklist(id) {
+            registarEstadoAnterior();
+            dadosApp.checklist = dadosApp.checklist.filter(c => c.id !== id);
+            salvarStorage();
+            renderizarHubUtilidades();
+        }
+
+        function alternarItemChecklist(id) {
+            registarEstadoAnterior();
+            let c = dadosApp.checklist.find(item => item.id === id);
+            if(c) { c.feito = !c.feito; salvarStorage(); renderizarHubUtilidades(); }
+        }
+
+        function atualizarItemChecklistText(id, val) {
+            let c = dadosApp.checklist.find(item => item.id === id);
+            if(c) { c.item = val; salvarStorage(); }
+        }
+
+        function adicionarVoucher() {
+            registarEstadoAnterior();
+            if(!dadosApp.vouchers) dadosApp.vouchers = [];
+            dadosApp.vouchers.unshift({ id: Date.now(), titulo: "Hotel / Reserva", categoria: "Zurique", pdfData: "", pdfNome: "" });
+            salvarStorage();
+            renderizarHubUtilidades();
+        }
+
+        function apagarVoucher(id) {
+            registarEstadoAnterior();
+            dadosApp.vouchers = dadosApp.vouchers.filter(v => v.id !== id);
+            salvarStorage();
+            renderizarHubUtilidades();
+        }
+
+        function anexarPdfVoucher(id, event) {
+            const file = event.target.files[0];
+            if(file) {
+                registarEstadoAnterior();
+                const reader = new FileReader();
+                reader.onload = function(evt) {
+                    const v = dadosApp.vouchers.find(item => item.id === id);
+                    if(v) { 
+                        v.pdfData = evt.target.result; 
+                        v.pdfNome = file.name; 
+                        salvarStorage(); 
+                        renderizarHubUtilidades(); 
+                        abrirLeitorPdf(v.id, v.titulo);
+                    }
+                };
+                reader.readAsDataURL(file);
+            }
         }
 
         // ORÇAMENTO BLINDADO
