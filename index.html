@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v171.0)</title>
+    <title>Roteiro Europa - Mariana (v172.0)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Manifest Dinâmico via JavaScript -->
@@ -38,7 +38,7 @@
         <div class="flex items-center gap-2">
             <button onclick="window.location.reload()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-2.5 py-1 rounded-lg font-bold text-[10px] transition shadow-sm" title="Atualizar Página">🔄 Atualizar</button>
             <button onclick="exportarPdfPrint()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2.5 py-1 rounded-lg font-bold text-[10px] transition shadow-sm">🖨️ Imprimir Tudo</button>
-            <span class="bg-indigo-800 px-2 py-1 rounded-lg font-mono font-bold text-[10px]">v171.0</span>
+            <span class="bg-indigo-800 px-2 py-1 rounded-lg font-mono font-bold text-[10px]">v172.0</span>
         </div>
     </header>
 
@@ -198,7 +198,7 @@
 
     <!-- BARRA DE FERRAMENTAS FIXA -->
     <nav class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-md text-white px-3 py-2.5 shadow-2xl border-t border-slate-800 text-xs flex items-center justify-around gap-1 overflow-x-auto no-scrollbar max-w-4xl mx-auto rounded-t-2xl">
-        <span class="bg-indigo-600 px-2 py-1 rounded font-mono font-bold text-[9px] shrink-0">v171.0</span>
+        <span class="bg-indigo-600 px-2 py-1 rounded font-mono font-bold text-[9px] shrink-0">v172.0</span>
         <button onclick="abrirGeminiModal()" class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-3 py-1.5 rounded-xl font-bold transition shrink-0 flex items-center gap-1 text-xs shadow-sm">
             <span>✨</span> Gemini
         </button>
@@ -237,7 +237,7 @@
     </div>
 
     <script>
-        const CHAVE_APP = "mariana_viagem_europa_v171";
+        const CHAVE_APP = "mariana_viagem_europa_v172";
         let destinoFiltro = 'todos';
         let tarefaFiltro = 'todas';
         let utilidadeFiltro = 'todos';
@@ -339,11 +339,11 @@
                 navigator.serviceWorker.register(URL.createObjectURL(swBlob)).catch(err => {});
             }
 
-            if (!sessionStorage.getItem('sessao_ativa_v171')) {
+            if (!sessionStorage.getItem('sessao_ativa_v172')) {
                 document.getElementById('tela-bloqueio').classList.remove('hidden');
             }
 
-            const temaSalvo = localStorage.getItem('tema_v171');
+            const temaSalvo = localStorage.getItem('tema_v172');
             if (temaSalvo === 'dark') {
                 document.body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 document.body.classList.remove('bg-slate-100', 'text-slate-800');
@@ -376,7 +376,7 @@
 
             try {
                 atualizarTudo();
-                let tabSalva = localStorage.getItem('tab_ativa_v171') || 'leitura';
+                let tabSalva = localStorage.getItem('tab_ativa_v172') || 'leitura';
                 mudarTab(tabSalva);
             } catch(e) {
                 console.error("Erro ao iniciar:", e);
@@ -400,10 +400,10 @@
         }
 
         function desbloquearComPin() {
-            let pinSalvo = localStorage.getItem('app_pin_v171') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v172') || '1510';
             let digitado = document.getElementById('input-pin').value;
             if(digitado === pinSalvo) {
-                sessionStorage.setItem('sessao_ativa_v171', 'true');
+                sessionStorage.setItem('sessao_ativa_v172', 'true');
                 document.getElementById('tela-bloqueio').classList.add('hidden');
                 document.getElementById('erro-pin').classList.add('hidden');
             } else {
@@ -412,17 +412,17 @@
         }
 
         async function desbloquearComBiometria() {
-            sessionStorage.setItem('sessao_ativa_v171', 'true');
+            sessionStorage.setItem('sessao_ativa_v172', 'true');
             document.getElementById('tela-bloqueio').classList.add('hidden');
         }
 
         function alterarSenhaPin() {
             let atual = prompt("Digite a senha atual (Padrão: 1510):");
-            let pinSalvo = localStorage.getItem('app_pin_v171') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v172') || '1510';
             if(atual === pinSalvo) {
                 let nova = prompt("Digite a nova senha PIN:");
                 if(nova && nova.trim() !== '') {
-                    localStorage.setItem('app_pin_v171', nova.trim());
+                    localStorage.setItem('app_pin_v172', nova.trim());
                     alert("🔑 Senha alterada com sucesso!");
                 }
             } else {
@@ -435,11 +435,11 @@
             if(body.classList.contains('dark')) {
                 body.classList.remove('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.add('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v171', 'light');
+                localStorage.setItem('tema_v172', 'light');
             } else {
                 body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.remove('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v171', 'dark');
+                localStorage.setItem('tema_v172', 'dark');
             }
         }
 
@@ -607,7 +607,7 @@
         }
 
         function mudarTab(tab) {
-            localStorage.setItem('tab_ativa_v171', tab);
+            localStorage.setItem('tab_ativa_v172', tab);
             if(tab === 'itinerario' || tab === 'leitura') {
                 destinoFiltro = 'todos';
             }
@@ -792,7 +792,7 @@
             renderizarHubUtilidades();
         }
 
-        // ROTEIRO (COM RISCAR E DESCER)
+        // ROTEIRO (COM RISCAR E DESCER UNIVERSAL)
         function renderizarModoLeitura() {
             const container = document.getElementById('lista-leitura-html');
             const progressoEl = document.getElementById('progresso-viagem');
