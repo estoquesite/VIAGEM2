@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v159.0)</title>
+    <title>Roteiro Europa - Mariana (v160.0)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Manifest Dinâmico via JavaScript -->
@@ -38,7 +38,7 @@
         <div class="flex items-center gap-2">
             <button onclick="window.location.reload()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-2.5 py-1 rounded-lg font-bold text-[10px] transition shadow-sm" title="Atualizar Página">🔄 Atualizar</button>
             <button onclick="exportarPdfPrint()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2.5 py-1 rounded-lg font-bold text-[10px] transition shadow-sm">🖨️ Imprimir Tudo</button>
-            <span class="bg-indigo-800 px-2 py-1 rounded-lg font-mono font-bold text-[10px]">v159.0</span>
+            <span class="bg-indigo-800 px-2 py-1 rounded-lg font-mono font-bold text-[10px]">v160.0</span>
         </div>
     </header>
 
@@ -112,18 +112,18 @@
             <div id="hub-utilidades-grid" class="grid grid-cols-1 gap-3"></div>
         </div>
 
-        <!-- TAB 4: ORÇAMENTO COM CARD DE TOTAL GERAL NO TOPO -->
+        <!-- TAB 4: ORÇAMENTO COM CARD GLOBAL NO TOPO E SUB-ABAS -->
         <div id="tab-orcamento" class="space-y-3 hidden">
             <div class="bg-white p-3.5 sm:p-5 rounded-2xl shadow-sm border border-slate-200 space-y-4 text-xs">
                 <div class="flex justify-between items-center border-b pb-3 flex-wrap gap-2">
                     <div>
                         <h2 class="text-xs font-extrabold uppercase text-slate-800 tracking-wider">💰 Orçamento & Câmbio</h2>
-                        <p class="text-[11px] text-slate-500 font-semibold">Resumo geral no topo e gestão detalhada abaixo</p>
+                        <p class="text-[11px] text-slate-500 font-semibold">Resumo global no topo e gestão detalhada nas abas abaixo</p>
                     </div>
                     <button onclick="imprimirSeccaoCustom('Orçamento & Câmbio', document.getElementById('tab-orcamento').innerHTML)" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-xl font-bold text-xs transition shadow-sm">🖨️ PDF Orçamento</button>
                 </div>
 
-                <!-- 1. CARD DE DESTAQUE: TOTAL GASTO GERAL EM REAIS NO TOPO -->
+                <!-- CARD DE DESTAQUE: TOTAL GASTO GERAL EM REAIS NO TOPO -->
                 <div class="bg-emerald-50/80 p-4 rounded-2xl border-2 border-emerald-300 shadow-md text-center space-y-1">
                     <span class="font-black text-xs text-emerald-900 uppercase tracking-wide block">📊 Total Gasto Geral em Reais (R$)</span>
                     <div id="resumo-total-gasto-brl" class="text-2xl font-black text-emerald-700">R$ 0.00</div>
@@ -147,84 +147,15 @@
                     </div>
                 </div>
 
-                <!-- GRID DE CARDS ABAIXO -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
-                    
-                    <!-- CARD EUROS (€) -->
-                    <div class="bg-amber-50/60 p-3.5 rounded-2xl border border-amber-200 space-y-2.5 shadow-sm">
-                        <h3 class="font-black text-amber-900 text-xs uppercase border-b border-amber-200 pb-1">💶 Euros (€)</h3>
-                        <div>
-                            <label class="block font-bold text-[10px] text-amber-800 mb-0.5">Disponível (€)</label>
-                            <div class="flex gap-1">
-                                <input type="number" id="input-saldo-eur" class="flex-1 p-1.5 bg-white border border-amber-300 rounded-xl font-black text-amber-900 text-xs outline-none" placeholder="0">
-                                <button onclick="salvarSaldo('EUR', document.getElementById('input-saldo-eur').value)" class="bg-emerald-600 text-white px-2.5 py-1 rounded-xl font-bold text-xs">OK</button>
-                            </div>
-                        </div>
-                        <div class="flex justify-between items-center bg-white p-2 rounded-xl border border-amber-100 text-[11px]">
-                            <span class="font-semibold text-slate-600">Restante:</span>
-                            <span id="restante-eur" class="font-black text-amber-900">0.00 €</span>
-                        </div>
-                        <div class="flex justify-between items-center bg-white p-2 rounded-xl border border-amber-100 text-[11px]">
-                            <span class="font-semibold text-slate-600">Em R$:</span>
-                            <span id="restante-eur-brl" class="font-black text-emerald-700">R$ 0.00</span>
-                        </div>
-                        <div class="space-y-1 pt-1">
-                            <span class="font-bold text-[10px] text-amber-900 uppercase block">Despesas €:</span>
-                            <div id="lista-despesas-eur-html" class="space-y-1.5 max-h-36 overflow-y-auto pr-1"></div>
-                        </div>
-                        <button onclick="adicionarDespesa('EUR')" class="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold py-1.5 rounded-xl text-xs transition shadow-sm">➕ Despesa EUR</button>
-                    </div>
-
-                    <!-- CARD FRANCOS (CHF) -->
-                    <div class="bg-blue-50/60 p-3.5 rounded-2xl border border-blue-200 space-y-2.5 shadow-sm">
-                        <h3 class="font-black text-blue-900 text-xs uppercase border-b border-blue-200 pb-1">🇨🇭 Francos (CHF)</h3>
-                        <div>
-                            <label class="block font-bold text-[10px] text-blue-800 mb-0.5">Disponível (CHF)</label>
-                            <div class="flex gap-1">
-                                <input type="number" id="input-saldo-chf" class="flex-1 p-1.5 bg-white border border-blue-300 rounded-xl font-black text-blue-900 text-xs outline-none" placeholder="0">
-                                <button onclick="salvarSaldo('CHF', document.getElementById('input-saldo-chf').value)" class="bg-emerald-600 text-white px-2.5 py-1 rounded-xl font-bold text-xs">OK</button>
-                            </div>
-                        </div>
-                        <div class="flex justify-between items-center bg-white p-2 rounded-xl border border-blue-100 text-[11px]">
-                            <span class="font-semibold text-slate-600">Restante:</span>
-                            <span id="restante-chf" class="font-black text-blue-900">0.00 CHF</span>
-                        </div>
-                        <div class="flex justify-between items-center bg-white p-2 rounded-xl border border-blue-100 text-[11px]">
-                            <span class="font-semibold text-slate-600">Em R$:</span>
-                            <span id="restante-chf-brl" class="font-black text-emerald-700">R$ 0.00</span>
-                        </div>
-                        <div class="space-y-1 pt-1">
-                            <span class="font-bold text-[10px] text-blue-900 uppercase block">Despesas CHF:</span>
-                            <div id="lista-despesas-chf-html" class="space-y-1.5 max-h-36 overflow-y-auto pr-1"></div>
-                        </div>
-                        <button onclick="adicionarDespesa('CHF')" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-1.5 rounded-xl text-xs transition shadow-sm">➕ Despesa CHF</button>
-                    </div>
-
-                    <!-- CARD CONVERSOR RÁPIDO -->
-                    <div class="bg-indigo-50/60 p-3.5 rounded-2xl border border-indigo-200 space-y-2.5 shadow-sm flex flex-col justify-between">
-                        <div class="space-y-2">
-                            <h3 class="font-black text-indigo-900 text-xs uppercase border-b border-indigo-200 pb-1">🧮 Conversor Rápido</h3>
-                            <div>
-                                <label class="block font-bold text-[10px] text-indigo-800 mb-0.5">Valor Estrangeiro</label>
-                                <input type="number" id="conv-valor" class="w-full p-1.5 bg-white border border-indigo-200 rounded-xl font-black text-xs text-indigo-950 outline-none" placeholder="0.00">
-                            </div>
-                            <div>
-                                <label class="block font-bold text-[10px] text-indigo-800 mb-0.5">Moeda</label>
-                                <select id="conv-moeda" class="w-full p-1.5 bg-white border border-indigo-200 rounded-xl font-bold text-xs text-indigo-950 outline-none">
-                                    <option value="EUR">Euros (€)</option>
-                                    <option value="CHF">Francos (CHF)</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="space-y-1.5 pt-2">
-                            <button onclick="calcularConversaoRapida()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-1.5 rounded-xl text-xs transition shadow-sm">Converter</button>
-                            <div class="bg-white p-2 rounded-xl border border-indigo-200 text-xs font-black text-emerald-700 text-center shadow-inner" id="conv-resultado">
-                                R$ 0.00
-                            </div>
-                        </div>
-                    </div>
-
+                <!-- SUB-MENU DE ORÇAMENTO (EUROS, FRANCOS, CONVERSOR) -->
+                <div class="flex gap-1.5 bg-slate-100 p-1.5 rounded-2xl text-xs font-bold border border-slate-200">
+                    <button onclick="mudarOrcamentoSubTab('eur')" id="subtab-eur" class="flex-1 py-2 rounded-xl bg-amber-600 text-white shadow-sm transition text-center">💶 Euros (€)</button>
+                    <button onclick="mudarOrcamentoSubTab('chf')" id="subtab-chf" class="flex-1 py-2 rounded-xl text-slate-600 hover:bg-slate-200 transition text-center">🇨🇭 Francos (CHF)</button>
+                    <button onclick="mudarOrcamentoSubTab('conversor')" id="subtab-conversor" class="flex-1 py-2 rounded-xl text-slate-600 hover:bg-slate-200 transition text-center">🧮 Conversor</button>
                 </div>
+
+                <!-- CONTEÚDO DAS SUB-ABAS DE ORÇAMENTO -->
+                <div id="orcamento-conteudo" class="space-y-3 pt-1"></div>
             </div>
         </div>
 
@@ -267,7 +198,7 @@
 
     <!-- BARRA DE FERRAMENTAS FIXA -->
     <nav class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-md text-white px-3 py-2.5 shadow-2xl border-t border-slate-800 text-xs flex items-center justify-around gap-1 overflow-x-auto no-scrollbar max-w-4xl mx-auto rounded-t-2xl">
-        <span class="bg-indigo-600 px-2 py-1 rounded font-mono font-bold text-[9px] shrink-0">v158.0</span>
+        <span class="bg-indigo-600 px-2 py-1 rounded font-mono font-bold text-[9px] shrink-0">v160.0</span>
         <button onclick="abrirGeminiModal()" class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-3 py-1.5 rounded-xl font-bold transition shrink-0 flex items-center gap-1 text-xs shadow-sm">
             <span>✨</span> Gemini
         </button>
@@ -306,10 +237,11 @@
     </div>
 
     <script>
-        const CHAVE_APP = "mariana_viagem_europa_v158";
+        const CHAVE_APP = "mariana_viagem_europa_v160";
         let destinoFiltro = 'todos';
         let tarefaFiltro = 'todas';
         let utilidadeFiltro = 'todos';
+        let orcamentoSubTab = 'eur'; // Sub-aba inicial do orçamento
         let campoFocoAtual = null;
         let deferredPrompt = null;
         let historicoAcoes = [];
@@ -399,11 +331,11 @@
                 navigator.serviceWorker.register(URL.createObjectURL(swBlob)).catch(err => {});
             }
 
-            if (!sessionStorage.getItem('sessao_ativa_v158')) {
+            if (!sessionStorage.getItem('sessao_ativa_v160')) {
                 document.getElementById('tela-bloqueio').classList.remove('hidden');
             }
 
-            const temaSalvo = localStorage.getItem('tema_v158');
+            const temaSalvo = localStorage.getItem('tema_v160');
             if (temaSalvo === 'dark') {
                 document.body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 document.body.classList.remove('bg-slate-100', 'text-slate-800');
@@ -434,7 +366,7 @@
 
             try {
                 atualizarTudo();
-                let tabSalva = localStorage.getItem('tab_ativa_v158') || 'leitura';
+                let tabSalva = localStorage.getItem('tab_ativa_v160') || 'leitura';
                 mudarTab(tabSalva);
             } catch(e) {
                 console.error("Erro ao iniciar:", e);
@@ -458,10 +390,10 @@
         }
 
         function desbloquearComPin() {
-            let pinSalvo = localStorage.getItem('app_pin_v158') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v160') || '1510';
             let digitado = document.getElementById('input-pin').value;
             if(digitado === pinSalvo) {
-                sessionStorage.setItem('sessao_ativa_v158', 'true');
+                sessionStorage.setItem('sessao_ativa_v160', 'true');
                 document.getElementById('tela-bloqueio').classList.add('hidden');
                 document.getElementById('erro-pin').classList.add('hidden');
             } else {
@@ -470,17 +402,17 @@
         }
 
         async function desbloquearComBiometria() {
-            sessionStorage.setItem('sessao_ativa_v158', 'true');
+            sessionStorage.setItem('sessao_ativa_v160', 'true');
             document.getElementById('tela-bloqueio').classList.add('hidden');
         }
 
         function alterarSenhaPin() {
             let atual = prompt("Digite a senha atual (Padrão: 1510):");
-            let pinSalvo = localStorage.getItem('app_pin_v158') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v160') || '1510';
             if(atual === pinSalvo) {
                 let nova = prompt("Digite a nova senha PIN:");
                 if(nova && nova.trim() !== '') {
-                    localStorage.setItem('app_pin_v158', nova.trim());
+                    localStorage.setItem('app_pin_v160', nova.trim());
                     alert("🔑 Senha alterada com sucesso!");
                 }
             } else {
@@ -493,11 +425,11 @@
             if(body.classList.contains('dark')) {
                 body.classList.remove('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.add('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v158', 'light');
+                localStorage.setItem('tema_v160', 'light');
             } else {
                 body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.remove('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v158', 'dark');
+                localStorage.setItem('tema_v160', 'dark');
             }
         }
 
@@ -665,7 +597,7 @@
         }
 
         function mudarTab(tab) {
-            localStorage.setItem('tab_ativa_v158', tab);
+            localStorage.setItem('tab_ativa_v160', tab);
             if(tab === 'itinerario' || tab === 'leitura') {
                 destinoFiltro = 'todos';
             }
@@ -691,6 +623,23 @@
             if(tab === 'utilidades') { renderizarHubUtilidades(); }
             if(tab === 'orcamento') { renderizarOrcamentoTab(); }
             if(tab === 'itinerario') { renderizarBlocos(); }
+        }
+
+        function mudarOrcamentoSubTab(sub) {
+            orcamentoSubTab = sub;
+            ['eur', 'chf', 'conversor'].forEach(s => {
+                let btn = document.getElementById('subtab-' + s);
+                if(btn) {
+                    if(s === sub) {
+                        if(s === 'eur') btn.className = "flex-1 py-2 rounded-xl bg-amber-600 text-white shadow-sm transition text-center";
+                        else if(s === 'chf') btn.className = "flex-1 py-2 rounded-xl bg-blue-600 text-white shadow-sm transition text-center";
+                        else btn.className = "flex-1 py-2 rounded-xl bg-indigo-600 text-white shadow-sm transition text-center";
+                    } else {
+                        btn.className = "flex-1 py-2 rounded-xl text-slate-600 hover:bg-slate-200 transition text-center";
+                    }
+                }
+            });
+            renderizarOrcamentoTab();
         }
 
         function obterCorPorCategoria(cat) {
@@ -1514,7 +1463,7 @@
         function lidarSelecaoDestinoVoucher(id, valor) {
             registarEstadoAnterior();
             if(valor === 'novo_destino') {
-                let novo = prompt("Novo destino:");
+                let novo = prompt("Nome do destino:");
                 if(novo && novo.trim() !== '') {
                     let limpo = novo.trim();
                     if(!dadosApp.destinosCadastrados.includes(limpo)) dadosApp.destinosCadastrados.push(limpo);
@@ -1523,34 +1472,18 @@
             } else { atualizarVoucherCampo(id, 'categoria', valor); }
         }
 
-        // ORÇAMENTO (COM 4 CARDS E BOTÕES OK)
+        // ORÇAMENTO (COM SUB-ABAS E CARD TOTAL NO TOPO)
         function renderizarOrcamentoTab() {
-            const containerEur = document.getElementById('lista-despesas-eur-html');
-            const containerChf = document.getElementById('lista-despesas-chf-html');
-            const inputEur = document.getElementById('input-saldo-eur');
-            const inputChf = document.getElementById('input-saldo-chf');
-            const inputCotacaoEur = document.getElementById('input-cotacao-eur');
-            const inputCotacaoChf = document.getElementById('input-cotacao-chf');
-            
-            const restanteEurEl = document.getElementById('restante-eur');
-            const restanteChfEl = document.getElementById('restante-chf');
-            const restanteEurBrlEl = document.getElementById('restante-eur-brl');
-            const restanteChfBrlEl = document.getElementById('restante-chf-brl');
+            const container = document.getElementById('orcamento-conteudo');
             const resumoTotalGastoBrl = document.getElementById('resumo-total-gasto-brl');
+            if(!container) return;
+            container.innerHTML = '';
 
-            if(!containerEur || !containerChf) return;
-            containerEur.innerHTML = '';
-            containerChf.innerHTML = '';
-
-            if(inputEur) inputEur.value = dadosApp.saldoEur || 0;
-            if(inputChf) inputChf.value = dadosApp.saldoChf || 0;
-            if(inputCotacaoEur) inputCotacaoEur.value = dadosApp.cotacaoEur || 6.20;
-            if(inputCotacaoChf) inputCotacaoChf.value = dadosApp.cotacaoChf || 6.50;
+            let cotEur = parseFloat(dadosApp.cotacaoEur) || 6.20;
+            let cotChf = parseFloat(dadosApp.cotacaoChf) || 6.50;
 
             let gastoEur = 0;
             let gastoChf = 0;
-            let cotEur = parseFloat(dadosApp.cotacaoEur) || 6.20;
-            let cotChf = parseFloat(dadosApp.cotacaoChf) || 6.50;
 
             dadosApp.itinerario.forEach(item => {
                 if(item.trechos && item.trechos.length > 0) {
@@ -1568,118 +1501,150 @@
             if(dadosApp.orcamento && dadosApp.orcamento.length > 0) {
                 dadosApp.orcamento.forEach(d => {
                     let val = parseFloat(d.valor) || 0;
-                    let moeda = d.moeda || 'EUR';
-                    let valBrl = moeda === 'EUR' ? val * cotEur : val * cotChf;
-                    let htmlDespesa = '<div class="p-2 rounded-xl bg-white border border-slate-200 flex items-center justify-between gap-2 text-xs shadow-sm">' +
-                        '<input type="text" value="' + d.descricao + '" onchange="atualizarOrcamentoDescricao(' + d.id + ', this.value)" class="flex-1 min-w-0 bg-transparent outline-none font-bold text-slate-800 text-xs" placeholder="Descrição...">' +
-                        '<div class="text-right shrink-0"><input type="number" value="' + d.valor + '" onchange="atualizarOrcamentoValor(' + d.id + ', this.value)" class="w-20 p-1 bg-slate-50 border border-slate-300 rounded-xl font-black text-right text-xs" placeholder="0"><span class="block text-[10px] text-emerald-700 font-bold">R$ ' + valBrl.toFixed(2) + '</span></div>' +
-                        '<button onclick="apagarDespesa(' + d.id + ')" class="text-red-500 font-bold px-2 py-1 rounded-xl bg-red-50 hover:bg-red-100 text-xs">✕</button>' +
-                    '</div>';
-
-                    if(moeda === 'EUR') containerEur.innerHTML += htmlDespesa;
-                    else if(moeda === 'CHF') containerChf.innerHTML += htmlDespesa;
+                    if(val > 0) {
+                        if(d.moeda === 'EUR') gastoEur += val;
+                        else if(d.moeda === 'CHF') gastoChf += val;
+                    }
                 });
             }
 
-            if(containerEur.innerHTML === '') containerEur.innerHTML = '<p class="text-xs text-slate-400 italic">Sem despesas em Euros.</p>';
-            if(containerChf.innerHTML === '') containerChf.innerHTML = '<p class="text-xs text-slate-400 italic">Sem despesas em Francos.</p>';
-
-            let sobraEur = (parseFloat(dadosApp.saldoEur) || 0) - gastoEur;
-            let sobraChf = (parseFloat(dadosApp.saldoChf) || 0) - gastoChf;
             let totalGastoBrl = (gastoEur * cotEur) + (gastoChf * cotChf);
-
-            if(restanteEurEl) restanteEurEl.innerText = sobraEur.toFixed(2) + ' €';
-            if(restanteChfEl) restanteChfEl.innerText = sobraChf.toFixed(2) + ' CHF';
-            if(restanteEurBrlEl) restanteEurBrlEl.innerText = 'R$ ' + (sobraEur * cotEur).toFixed(2);
-            if(restanteChfBrlEl) restanteChfBrlEl.innerText = 'R$ ' + (sobraChf * cotChf).toFixed(2);
             if(resumoTotalGastoBrl) resumoTotalGastoBrl.innerText = 'R$ ' + totalGastoBrl.toFixed(2);
 
-            calcularConversaoRapida();
-        }
+            if (orcamentoSubTab === 'eur') {
+                let despesasEurHtml = '';
+                dadosApp.itinerario.forEach(item => {
+                    if(item.trechos) {
+                        item.trechos.forEach(tr => {
+                            let val = parseFloat(tr.valor) || 0;
+                            if(val > 0 && tr.moeda === 'EUR') {
+                                let valBrl = val * cotEur;
+                                despesasEurHtml += '<div class="p-2.5 rounded-xl bg-white border border-slate-200 flex justify-between items-center text-xs shadow-sm"><span class="font-bold truncate text-slate-800">🚄 ' + (tr.origem||'?') + '➔' + (tr.destino||'?') + '</span><div class="text-right"><span class="font-black text-amber-900 block">' + val.toFixed(2) + ' €</span><span class="text-emerald-700 font-bold text-[10px]">R$ ' + valBrl.toFixed(2) + '</span></div></div>';
+                            }
+                        });
+                    }
+                });
 
-        function salvarSaldo(moeda, val) {
-            registarEstadoAnterior();
-            if(moeda === 'EUR') dadosApp.saldoEur = parseFloat(val) || 0;
-            if(moeda === 'CHF') dadosApp.saldoChf = parseFloat(val) || 0;
-            salvarStorage();
-            renderizarOrcamentoTab();
-            alert("💾 Saldo guardado com sucesso!");
-        }
+                if(dadosApp.orcamento) {
+                    dadosApp.orcamento.forEach(d => {
+                        if(d.moeda === 'EUR') {
+                            let val = parseFloat(d.valor) || 0;
+                            let valBrl = val * cotEur;
+                            despesasEurHtml += '<div class="p-2.5 rounded-xl bg-white border border-slate-200 flex items-center justify-between gap-2 text-xs shadow-sm">' +
+                                '<input type="text" value="' + d.descricao + '" onchange="atualizarOrcamentoDescricao(' + d.id + ', this.value)" class="flex-1 min-w-0 bg-transparent outline-none font-bold text-slate-800 text-xs" placeholder="Descrição...">' +
+                                '<div class="text-right shrink-0"><input type="number" value="' + d.valor + '" onchange="atualizarOrcamentoValor(' + d.id + ', this.value)" class="w-20 p-1 bg-slate-50 border border-slate-300 rounded-xl font-black text-right text-xs" placeholder="0"><span class="block text-[10px] text-emerald-700 font-bold">R$ ' + valBrl.toFixed(2) + '</span></div>' +
+                                '<button onclick="apagarDespesa(' + d.id + ')" class="text-red-500 font-bold px-2 py-1 rounded-xl bg-red-50 hover:bg-red-100 text-xs">✕</button>' +
+                            '</div>';
+                        }
+                    });
+                }
+                if(despesasEurHtml === '') despesasEurHtml = '<p class="text-xs text-slate-400 italic">Sem despesas em Euros registadas.</p>';
 
-        function salvarCotacao(moeda, val) {
-            registarEstadoAnterior();
-            if(moeda === 'EUR') dadosApp.cotacaoEur = parseFloat(val) || 6.20;
-            if(moeda === 'CHF') dadosApp.cotacaoChf = parseFloat(val) || 6.50;
-            salvarStorage();
-            renderizarOrcamentoTab();
-            alert("💾 Cotação guardada com sucesso!");
-        }
+                let sobraEur = (parseFloat(dadosApp.saldoEur) || 0) - gastoEur;
+                container.innerHTML = `
+                    <div class="bg-amber-50/50 p-4 rounded-2xl border border-amber-200 space-y-3 shadow-sm">
+                        <h3 class="font-black text-amber-900 text-xs uppercase border-b border-amber-200 pb-1.5">💶 Gestão de Euros (€)</h3>
+                        <div>
+                            <label class="block font-bold text-xs text-amber-800 mb-1">Disponível (€)</label>
+                            <div class="flex gap-1">
+                                <input type="number" id="input-saldo-eur" value="${dadosApp.saldoEur || 0}" class="flex-1 p-2 bg-white border border-amber-300 rounded-xl font-black text-amber-900 text-sm shadow-inner outline-none" placeholder="0">
+                                <button onclick="salvarSaldo('EUR', document.getElementById('input-saldo-eur').value)" class="bg-emerald-600 text-white px-3 py-2 rounded-xl font-bold text-xs">OK</button>
+                            </div>
+                        </div>
+                        <div class="flex justify-between items-center bg-white p-2.5 rounded-xl border border-amber-100 text-xs shadow-sm">
+                            <span class="font-semibold text-slate-600">Restante:</span>
+                            <span class="font-black text-amber-900 text-sm">${sobraEur.toFixed(2)} €</span>
+                        </div>
+                        <div class="flex justify-between items-center bg-white p-2.5 rounded-xl border border-amber-100 text-xs shadow-sm">
+                            <span class="font-semibold text-slate-600">Em Reais (R$):</span>
+                            <span class="font-black text-emerald-700 text-sm">R$ ${(sobraEur * cotEur).toFixed(2)}</span>
+                        </div>
+                        <div class="space-y-2 pt-2">
+                            <span class="font-bold text-xs text-amber-900 uppercase block">Despesas em Euros (€):</span>
+                            <div class="space-y-2">${despesasEurHtml}</div>
+                        </div>
+                        <button onclick="adicionarDespesa('EUR')" class="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold py-2.5 rounded-xl text-xs transition shadow-sm mt-3">➕ Nova Despesa EUR</button>
+                    </div>
+                `;
 
-        function calcularConversaoRapida() {
-            let elVal = document.getElementById('conv-valor');
-            let elMoeda = document.getElementById('conv-moeda');
-            let elRes = document.getElementById('conv-resultado');
-            if(!elVal || !elMoeda || !elRes) return;
-            let val = parseFloat(elVal.value) || 0;
-            let moeda = elMoeda.value;
-            let cotEur = parseFloat(dadosApp.cotacaoEur) || 6.20;
-            let cotChf = parseFloat(dadosApp.cotacaoChf) || 6.50;
-            let resultado = moeda === 'EUR' ? val * cotEur : val * cotChf;
-            elRes.innerText = 'R$ ' + resultado.toFixed(2);
-        }
+            } else if (orcamentoSubTab === 'chf') {
+                let despesasChfHtml = '';
+                dadosApp.itinerario.forEach(item => {
+                    if(item.trechos) {
+                        item.trechos.forEach(tr => {
+                            let val = parseFloat(tr.valor) || 0;
+                            if(val > 0 && tr.moeda === 'CHF') {
+                                let valBrl = val * cotChf;
+                                despesasChfHtml += '<div class="p-2.5 rounded-xl bg-white border border-slate-200 flex justify-between items-center text-xs shadow-sm"><span class="font-bold truncate text-slate-800">🚄 ' + (tr.origem||'?') + '➔' + (tr.destino||'?') + '</span><div class="text-right"><span class="font-black text-blue-900 block">' + val.toFixed(2) + ' CHF</span><span class="text-emerald-700 font-bold text-[10px]">R$ ' + valBrl.toFixed(2) + '</span></div></div>';
+                            }
+                        });
+                    }
+                });
 
-        function atualizarSaldoInicial(moeda, val) {
-            if(moeda === 'EUR') dadosApp.saldoEur = parseFloat(val) || 0;
-            if(moeda === 'CHF') dadosApp.saldoChf = parseFloat(val) || 0;
-            salvarStorage();
-            renderizarOrcamentoTab();
-        }
+                if(dadosApp.orcamento) {
+                    dadosApp.orcamento.forEach(d => {
+                        if(d.moeda === 'CHF') {
+                            let val = parseFloat(d.valor) || 0;
+                            let valBrl = val * cotChf;
+                            despesasChfHtml += '<div class="p-2.5 rounded-xl bg-white border border-slate-200 flex items-center justify-between gap-2 text-xs shadow-sm">' +
+                                '<input type="text" value="' + d.descricao + '" onchange="atualizarOrcamentoDescricao(' + d.id + ', this.value)" class="flex-1 min-w-0 bg-transparent outline-none font-bold text-slate-800 text-xs" placeholder="Descrição...">' +
+                                '<div class="text-right shrink-0"><input type="number" value="' + d.valor + '" onchange="atualizarOrcamentoValor(' + d.id + ', this.value)" class="w-20 p-1 bg-slate-50 border border-slate-300 rounded-xl font-black text-right text-xs" placeholder="0"><span class="block text-[10px] text-emerald-700 font-bold">R$ ' + valBrl.toFixed(2) + '</span></div>' +
+                                '<button onclick="apagarDespesa(' + d.id + ')" class="text-red-500 font-bold px-2 py-1 rounded-xl bg-red-50 hover:bg-red-100 text-xs">✕</button>' +
+                            '</div>';
+                        }
+                    });
+                }
+                if(despesasChfHtml === '') despesasChfHtml = '<p class="text-xs text-slate-400 italic">Sem despesas em Francos registadas.</p>';
 
-        function atualizarCotacao(moeda, val) {
-            if(moeda === 'EUR') dadosApp.cotacaoEur = parseFloat(val) || 6.20;
-            if(moeda === 'CHF') dadosApp.cotacaoChf = parseFloat(val) || 6.50;
-            salvarStorage();
-            renderizarOrcamentoTab();
-        }
+                let sobraChf = (parseFloat(dadosApp.saldoChf) || 0) - gastoChf;
+                container.innerHTML = `
+                    <div class="bg-blue-50/50 p-4 rounded-2xl border border-blue-200 space-y-3 shadow-sm">
+                        <h3 class="font-black text-blue-900 text-xs uppercase border-b border-blue-200 pb-1.5">🇨🇭 Gestão de Francos (CHF)</h3>
+                        <div>
+                            <label class="block font-bold text-xs text-blue-800 mb-1">Disponível (CHF)</label>
+                            <div class="flex gap-1">
+                                <input type="number" id="input-saldo-chf" value="${dadosApp.saldoChf || 0}" class="flex-1 p-2.5 bg-white border border-blue-300 rounded-xl font-black text-blue-900 text-sm shadow-inner outline-none" placeholder="0">
+                                <button onclick="salvarSaldo('CHF', document.getElementById('input-saldo-chf').value)" class="bg-emerald-600 text-white px-3 py-2 rounded-xl font-bold text-xs">OK</button>
+                            </div>
+                        </div>
+                        <div class="flex justify-between items-center bg-white p-2.5 rounded-xl border border-blue-100 text-xs shadow-sm">
+                            <span class="font-semibold text-slate-600">Restante:</span>
+                            <span class="font-black text-blue-900 text-sm">${sobraChf.toFixed(2)} CHF</span>
+                        </div>
+                        <div class="flex justify-between items-center bg-white p-2.5 rounded-xl border border-blue-100 text-xs shadow-sm">
+                            <span class="font-semibold text-slate-600">Em Reais (R$):</span>
+                            <span class="font-black text-emerald-700 text-sm">R$ ${(sobraChf * cotChf).toFixed(2)}</span>
+                        </div>
+                        <div class="space-y-2 pt-2">
+                            <span class="font-bold text-xs text-blue-900 uppercase block">Despesas em Francos (CHF):</span>
+                            <div class="space-y-2">${despesasChfHtml}</div>
+                        </div>
+                        <button onclick="adicionarDespesa('CHF')" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 rounded-xl text-xs transition shadow-sm mt-3">➕ Nova Despesa CHF</button>
+                    </div>
+                `;
 
-        function adicionarDespesa(moedaForcada) {
-            registarEstadoAnterior();
-            if(!dadosApp.orcamento) dadosApp.orcamento = [];
-            dadosApp.orcamento.unshift({ id: Date.now(), descricao: "Despesa", valor: 0, moeda: moedaForcada });
-            salvarStorage();
-            renderizarOrcamentoTab();
-        }
-
-        function apagarDespesa(id) {
-            registarEstadoAnterior();
-            dadosApp.orcamento = dadosApp.orcamento.filter(d => d.id !== id);
-            salvarStorage();
-            renderizarOrcamentoTab();
-        }
-
-        function atualizarOrcamentoDescricao(id, val) {
-            let d = dadosApp.orcamento.find(item => item.id === id);
-            if(d) { d.descricao = val; localStorage.setItem(CHAVE_APP, JSON.stringify(dadosApp)); }
-        }
-
-        function atualizarOrcamentoValor(id, val) {
-            let d = dadosApp.orcamento.find(item => item.id === id);
-            if(d) { d.valor = val; salvarStorage(); renderizarOrcamentoTab(); }
-        }
-
-        async function abrirMapaRuta(origem, destinoLocal) {
-            window.open('https://www.google.com/maps/dir/?api=1&origin=' + encodeURIComponent(origem) + '&destination=' + encodeURIComponent(destinoLocal) + '&travelmode=transit', '_blank');
-        }
-
-        function ativarMicrofone() {
-            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-            if (!SpeechRecognition) { alert("Sem suporte a voz."); return; }
-            const recognition = new SpeechRecognition();
-            recognition.lang = 'pt-BR';
-            recognition.onresult = function(event) {
-                if (campoFocoAtual) { campoFocoAtual.value = event.results[0][0].transcript; campoFocoAtual.dispatchEvent(new Event('input')); }
-            };
-            recognition.start();
+            } else if (orcamentoSubTab === 'conversor') {
+                container.innerHTML = `
+                    <div class="bg-indigo-50/70 p-4 rounded-2xl border border-indigo-200 space-y-3 shadow-sm">
+                        <h3 class="font-black text-indigo-900 text-xs uppercase border-b border-indigo-200 pb-1.5">🧮 Conversor Rápido de Moeda</h3>
+                        <div>
+                            <label class="block font-bold text-xs text-indigo-800 mb-1">Valor Estrangeiro</label>
+                            <input type="number" id="conv-valor" class="w-full p-2.5 bg-white border border-indigo-200 rounded-xl font-black text-xs text-indigo-950 outline-none" placeholder="0.00">
+                        </div>
+                        <div>
+                            <label class="block font-bold text-xs text-indigo-800 mb-1">Moeda</label>
+                            <select id="conv-moeda" class="w-full p-2.5 bg-white border border-indigo-200 rounded-xl font-bold text-xs text-indigo-950 outline-none">
+                                <option value="EUR">Euros (€)</option>
+                                <option value="CHF">Francos (CHF)</option>
+                            </select>
+                        </div>
+                        <button onclick="calcularConversaoRapida()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2.5 rounded-xl text-xs transition shadow-sm">Converter</button>
+                        <div class="bg-white p-3 rounded-xl border border-indigo-200 text-sm font-black text-emerald-700 text-center shadow-inner" id="conv-resultado">
+                            R$ 0.00
+                        </div>
+                    </div>
+                `;
+            }
         }
     </script>
 </body>
