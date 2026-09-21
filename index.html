@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v164.0)</title>
+    <title>Roteiro Europa - Mariana (v166.0)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Manifest Dinâmico via JavaScript -->
@@ -38,7 +38,7 @@
         <div class="flex items-center gap-2">
             <button onclick="window.location.reload()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-2.5 py-1 rounded-lg font-bold text-[10px] transition shadow-sm" title="Atualizar Página">🔄 Atualizar</button>
             <button onclick="exportarPdfPrint()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2.5 py-1 rounded-lg font-bold text-[10px] transition shadow-sm">🖨️ Imprimir Tudo</button>
-            <span class="bg-indigo-800 px-2 py-1 rounded-lg font-mono font-bold text-[10px]">v164.0</span>
+            <span class="bg-indigo-800 px-2 py-1 rounded-lg font-mono font-bold text-[10px]">v166.0</span>
         </div>
     </header>
 
@@ -137,12 +137,12 @@
                         <div class="flex items-center gap-1.5 bg-white p-2 border border-slate-200 rounded-xl shadow-sm">
                             <span class="font-bold text-xs text-amber-800">1€=R$</span>
                             <input type="text" id="input-cotacao-eur" class="w-full font-black text-xs outline-none text-slate-900" placeholder="6.20">
-                            <button onclick="salvarCotacao('EUR', document.getElementById('input-cotacao-eur').value)" class="bg-emerald-600 text-white px-2.5 py-1 rounded-lg font-bold text-[10px]">OK</button>
+                            <button onclick="salvarCotacao('EUR', this.previousElementSibling.value)" class="bg-emerald-600 text-white px-2.5 py-1 rounded-lg font-bold text-[10px]">OK</button>
                         </div>
                         <div class="flex items-center gap-1.5 bg-white p-2 border border-slate-200 rounded-xl shadow-sm">
                             <span class="font-bold text-xs text-blue-800">1CHF=R$</span>
                             <input type="text" id="input-cotacao-chf" class="w-full font-black text-xs outline-none text-slate-900" placeholder="6.50">
-                            <button onclick="salvarCotacao('CHF', document.getElementById('input-cotacao-chf').value)" class="bg-emerald-600 text-white px-2.5 py-1 rounded-lg font-bold text-[10px]">OK</button>
+                            <button onclick="salvarCotacao('CHF', this.previousElementSibling.value)" class="bg-emerald-600 text-white px-2.5 py-1 rounded-lg font-bold text-[10px]">OK</button>
                         </div>
                     </div>
                 </div>
@@ -198,7 +198,7 @@
 
     <!-- BARRA DE FERRAMENTAS FIXA -->
     <nav class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-md text-white px-3 py-2.5 shadow-2xl border-t border-slate-800 text-xs flex items-center justify-around gap-1 overflow-x-auto no-scrollbar max-w-4xl mx-auto rounded-t-2xl">
-        <span class="bg-indigo-600 px-2 py-1 rounded font-mono font-bold text-[9px] shrink-0">v164.0</span>
+        <span class="bg-indigo-600 px-2 py-1 rounded font-mono font-bold text-[9px] shrink-0">v166.0</span>
         <button onclick="abrirGeminiModal()" class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-3 py-1.5 rounded-xl font-bold transition shrink-0 flex items-center gap-1 text-xs shadow-sm">
             <span>✨</span> Gemini
         </button>
@@ -237,7 +237,7 @@
     </div>
 
     <script>
-        const CHAVE_APP = "mariana_viagem_europa_v164";
+        const CHAVE_APP = "mariana_viagem_europa_v166";
         let destinoFiltro = 'todos';
         let tarefaFiltro = 'todas';
         let utilidadeFiltro = 'todos';
@@ -305,7 +305,7 @@
         }
 
         function limparNumero(val) {
-            if (!val) return 0;
+            if (val === undefined || val === null || val === "") return 0;
             let str = String(val).trim().replace(/\./g, '').replace(',', '.');
             let num = parseFloat(str);
             return isNaN(num) ? 0 : num;
@@ -338,11 +338,11 @@
                 navigator.serviceWorker.register(URL.createObjectURL(swBlob)).catch(err => {});
             }
 
-            if (!sessionStorage.getItem('sessao_ativa_v164')) {
-                document.getElementById('tela-bloqueio').classList.add('hidden'); // fallback se necessário, mas mantemos o check
+            if (!sessionStorage.getItem('sessao_ativa_v166')) {
+                document.getElementById('tela-bloqueio').classList.remove('hidden');
             }
 
-            const temaSalvo = localStorage.getItem('tema_v164');
+            const temaSalvo = localStorage.getItem('tema_v166');
             if (temaSalvo === 'dark') {
                 document.body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 document.body.classList.remove('bg-slate-100', 'text-slate-800');
@@ -375,7 +375,7 @@
 
             try {
                 atualizarTudo();
-                let tabSalva = localStorage.getItem('tab_ativa_v164') || 'leitura';
+                let tabSalva = localStorage.getItem('tab_ativa_v166') || 'leitura';
                 mudarTab(tabSalva);
             } catch(e) {
                 console.error("Erro ao iniciar:", e);
@@ -394,15 +394,15 @@
                     deferredPrompt = null;
                 });
             } else {
-                alert("📱 Para instalar no celular:\n\n• No Android (Chrome): Toque nos 3 pontinhos e selecione 'Adicionar à tela inicial'.\n• No iPhone (Safari): Touch Compartilhar e escolha 'Adicionar à Tela de Início'.");
+                alert("📱 Para instalar no celular:\n\n• No Android (Chrome): Toque nos 3 pontinhos e selecione 'Adicionar à tela inicial'.\n• No iPhone (Safari): Toque em Compartilhar e escolha 'Adicionar à Tela de Início'.");
             }
         }
 
         function desbloquearComPin() {
-            let pinSalvo = localStorage.getItem('app_pin_v164') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v166') || '1510';
             let digitado = document.getElementById('input-pin').value;
             if(digitado === pinSalvo) {
-                sessionStorage.setItem('sessao_ativa_v164', 'true');
+                sessionStorage.setItem('sessao_ativa_v166', 'true');
                 document.getElementById('tela-bloqueio').classList.add('hidden');
                 document.getElementById('erro-pin').classList.add('hidden');
             } else {
@@ -411,17 +411,17 @@
         }
 
         async function desbloquearComBiometria() {
-            sessionStorage.setItem('sessao_ativa_v164', 'true');
+            sessionStorage.setItem('sessao_ativa_v166', 'true');
             document.getElementById('tela-bloqueio').classList.add('hidden');
         }
 
         function alterarSenhaPin() {
             let atual = prompt("Digite a senha atual (Padrão: 1510):");
-            let pinSalvo = localStorage.getItem('app_pin_v164') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v166') || '1510';
             if(atual === pinSalvo) {
                 let nova = prompt("Digite a nova senha PIN:");
                 if(nova && nova.trim() !== '') {
-                    localStorage.setItem('app_pin_v164', nova.trim());
+                    localStorage.setItem('app_pin_v166', nova.trim());
                     alert("🔑 Senha alterada com sucesso!");
                 }
             } else {
@@ -434,11 +434,11 @@
             if(body.classList.contains('dark')) {
                 body.classList.remove('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.add('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v164', 'light');
+                localStorage.setItem('tema_v166', 'light');
             } else {
                 body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.remove('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v164', 'dark');
+                localStorage.setItem('tema_v166', 'dark');
             }
         }
 
@@ -606,7 +606,7 @@
         }
 
         function mudarTab(tab) {
-            localStorage.setItem('tab_ativa_v164', tab);
+            localStorage.setItem('tab_ativa_v166', tab);
             if(tab === 'itinerario' || tab === 'leitura') {
                 destinoFiltro = 'todos';
             }
@@ -802,7 +802,6 @@
                 blocosAprovados = blocosAprovados.filter(i => (i.categoria || "").toLowerCase().includes(destinoFiltro.toLowerCase()));
             }
 
-            // Faz os concluídos descerem para o fim da lista
             blocosAprovados.sort((a, b) => (a.concluido === b.concluido) ? 0 : a.concluido ? 1 : -1);
 
             let total = blocosAprovados.length;
@@ -960,7 +959,7 @@
                         '<div class="flex items-center gap-1.5 bg-white px-2.5 py-1.5 rounded-xl border border-slate-300 text-xs font-bold shadow-sm">' +
                             '<input type="color" id="input-cor-' + item.id + '" value="' + corHex + '" class="w-5 h-5 rounded-lg cursor-pointer border-0 bg-transparent">' +
                             '<span>Cor Master</span>' +
-                            '<button onclick="atualizarCorBlocoLocal(\'' + item.id + '\', document.getElementById(\'input-cor-' + item.id + '\').value)" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2 py-1 rounded-lg text-[10px] font-bold transition">OK</button>' +
+                            '<button onclick="atualizarCorBlocoLocal(\'' + item.id + '\', this.previousElementSibling.previousElementSibling.value)" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2 py-1 rounded-lg text-[10px] font-bold transition">OK</button>' +
                         '</div>' +
                         '<div class="flex items-center gap-1.5">' +
                             '<button onclick="alternarBloqueio(\'' + item.id + '\')" class="' + lockBg + ' px-3 py-1.5 rounded-xl font-bold text-xs shadow-sm transition">' + lockIcon + '</button>' +
@@ -1468,7 +1467,7 @@
             } else { atualizarVoucherCampo(id, 'categoria', valor); }
         }
 
-        // ORÇAMENTO (COM SUPORTE A PONTOS/VÍRGULAS E VISUAL LIMPO)
+        // ORÇAMENTO (COM LAYOUT ELEGANTE PARA DESPESAS DE TRECHOS)
         function renderizarOrcamentoTab() {
             const container = document.getElementById('orcamento-conteudo');
             const resumoTotalGastoBrl = document.getElementById('resumo-total-gasto-brl');
@@ -1515,7 +1514,7 @@
                             let val = limparNumero(tr.valor);
                             if(val > 0 && tr.moeda === 'EUR') {
                                 let valBrl = val * cotEur;
-                                despesasEurHtml += '<div class="p-3 rounded-xl bg-white border border-slate-200 flex justify-between items-center text-xs shadow-sm"><span class="font-bold truncate text-slate-800">🚄 ' + (tr.origem||'?') + ' ➔ ' + (tr.destino||'?') + '</span><div class="text-right"><span class="font-black text-amber-900 block text-sm">' + val.toFixed(2) + ' €</span><span class="text-emerald-700 font-bold text-[11px]">R$ ' + valBrl.toFixed(2) + '</span></div></div>';
+                                despesasEurHtml += '<div class="p-3 rounded-xl bg-white border border-slate-200 flex justify-between items-center text-xs shadow-sm gap-2"><span class="font-bold truncate text-slate-800 flex-1 min-w-0">🚄 ' + (tr.origem||'?') + ' ➔ ' + (tr.destino||'?') + '</span><div class="text-right shrink-0 whitespace-nowrap"><span class="font-black text-amber-900 block text-sm">' + val.toFixed(2) + ' €</span><span class="text-emerald-700 font-bold text-[11px]">R$ ' + valBrl.toFixed(2) + '</span></div></div>';
                             }
                         });
                     }
@@ -1572,7 +1571,7 @@
                             let val = limparNumero(tr.valor);
                             if(val > 0 && tr.moeda === 'CHF') {
                                 let valBrl = val * cotChf;
-                                despesasChfHtml += '<div class="p-3 rounded-xl bg-white border border-slate-200 flex justify-between items-center text-xs shadow-sm"><span class="font-bold truncate text-slate-800">🚄 ' + (tr.origem||'?') + ' ➔ ' + (tr.destino||'?') + '</span><div class="text-right"><span class="font-black text-blue-900 block text-sm">' + val.toFixed(2) + ' CHF</span><span class="text-emerald-700 font-bold text-[11px]">R$ ' + valBrl.toFixed(2) + '</span></div></div>';
+                                despesasChfHtml += '<div class="p-3 rounded-xl bg-white border border-slate-200 flex justify-between items-center text-xs shadow-sm gap-2"><span class="font-bold truncate text-slate-800 flex-1 min-w-0">🚄 ' + (tr.origem||'?') + ' ➔ ' + (tr.destino||'?') + '</span><div class="text-right shrink-0 whitespace-nowrap"><span class="font-black text-blue-900 block text-sm">' + val.toFixed(2) + ' CHF</span><span class="text-emerald-700 font-bold text-[11px]">R$ ' + valBrl.toFixed(2) + '</span></div></div>';
                             }
                         });
                     }
@@ -1667,7 +1666,7 @@
 
         function salvarDespesaValor(id, val) {
             registarEstadoAnterior();
-            let d = dadosApp.orcamento.find(item => item.id === id);
+            let d = dadosApp.orcamento.find(item => String(item.id) === String(id));
             if(d) {
                 d.valor = val !== "" ? limparNumero(val) : 0;
                 salvarStorage();
@@ -1698,13 +1697,13 @@
 
         function apagarDespesa(id) {
             registarEstadoAnterior();
-            dadosApp.orcamento = dadosApp.orcamento.filter(d => d.id !== id);
+            dadosApp.orcamento = dadosApp.orcamento.filter(d => String(d.id) !== String(id));
             salvarStorage();
             renderizarOrcamentoTab();
         }
 
         function atualizarOrcamentoDescricao(id, val) {
-            let d = dadosApp.orcamento.find(item => item.id === id);
+            let d = dadosApp.orcamento.find(item => String(item.id) === String(id));
             if(d) { d.descricao = val; localStorage.setItem(CHAVE_APP, JSON.stringify(dadosApp)); }
         }
 
