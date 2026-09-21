@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v160.0)</title>
+    <title>Roteiro Europa - Mariana (v161.0)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Manifest Dinâmico via JavaScript -->
@@ -38,7 +38,7 @@
         <div class="flex items-center gap-2">
             <button onclick="window.location.reload()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-2.5 py-1 rounded-lg font-bold text-[10px] transition shadow-sm" title="Atualizar Página">🔄 Atualizar</button>
             <button onclick="exportarPdfPrint()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2.5 py-1 rounded-lg font-bold text-[10px] transition shadow-sm">🖨️ Imprimir Tudo</button>
-            <span class="bg-indigo-800 px-2 py-1 rounded-lg font-mono font-bold text-[10px]">v160.0</span>
+            <span class="bg-indigo-800 px-2 py-1 rounded-lg font-mono font-bold text-[10px]">v161.0</span>
         </div>
     </header>
 
@@ -112,7 +112,7 @@
             <div id="hub-utilidades-grid" class="grid grid-cols-1 gap-3"></div>
         </div>
 
-        <!-- TAB 4: ORÇAMENTO COM CARD GLOBAL NO TOPO E SUB-ABAS -->
+        <!-- TAB 4: ORÇAMENTO COM CARD GLOBAL NO TOPO E SUB-ABAS NÍTIDAS -->
         <div id="tab-orcamento" class="space-y-3 hidden">
             <div class="bg-white p-3.5 sm:p-5 rounded-2xl shadow-sm border border-slate-200 space-y-4 text-xs">
                 <div class="flex justify-between items-center border-b pb-3 flex-wrap gap-2">
@@ -137,21 +137,21 @@
                         <div class="flex items-center gap-1.5 bg-white p-2 border border-slate-200 rounded-xl shadow-sm">
                             <span class="font-bold text-xs text-amber-800">1€=R$</span>
                             <input type="number" id="input-cotacao-eur" step="0.01" class="w-full font-black text-xs outline-none text-slate-900" placeholder="6.20">
-                            <button onclick="salvarCotacao('EUR', document.getElementById('input-cotacao-eur').value)" class="bg-emerald-600 text-white px-2 py-1 rounded-lg font-bold text-[10px]">OK</button>
+                            <button onclick="salvarCotacao('EUR', document.getElementById('input-cotacao-eur').value)" class="bg-emerald-600 text-white px-2.5 py-1 rounded-lg font-bold text-[10px]">OK</button>
                         </div>
                         <div class="flex items-center gap-1.5 bg-white p-2 border border-slate-200 rounded-xl shadow-sm">
                             <span class="font-bold text-xs text-blue-800">1CHF=R$</span>
                             <input type="number" id="input-cotacao-chf" step="0.01" class="w-full font-black text-xs outline-none text-slate-900" placeholder="6.50">
-                            <button onclick="salvarCotacao('CHF', document.getElementById('input-cotacao-chf').value)" class="bg-emerald-600 text-white px-2 py-1 rounded-lg font-bold text-[10px]">OK</button>
+                            <button onclick="salvarCotacao('CHF', document.getElementById('input-cotacao-chf').value)" class="bg-emerald-600 text-white px-2.5 py-1 rounded-lg font-bold text-[10px]">OK</button>
                         </div>
                     </div>
                 </div>
 
-                <!-- SUB-MENU DE ORÇAMENTO (EUROS, FRANCOS, CONVERSOR) -->
-                <div class="flex gap-1.5 bg-slate-100 p-1.5 rounded-2xl text-xs font-bold border border-slate-200">
-                    <button onclick="mudarOrcamentoSubTab('eur')" id="subtab-eur" class="flex-1 py-2 rounded-xl bg-amber-600 text-white shadow-sm transition text-center">💶 Euros (€)</button>
-                    <button onclick="mudarOrcamentoSubTab('chf')" id="subtab-chf" class="flex-1 py-2 rounded-xl text-slate-600 hover:bg-slate-200 transition text-center">🇨🇭 Francos (CHF)</button>
-                    <button onclick="mudarOrcamentoSubTab('conversor')" id="subtab-conversor" class="flex-1 py-2 rounded-xl text-slate-600 hover:bg-slate-200 transition text-center">🧮 Conversor</button>
+                <!-- SUB-MENU DE ORÇAMENTO COM ESTILO NÍTIDO E CLARO -->
+                <div class="flex gap-1.5 bg-slate-100 p-1.5 rounded-2xl text-xs font-bold border border-slate-200 shadow-inner">
+                    <button onclick="mudarOrcamentoSubTab('eur')" id="subtab-eur" class="flex-1 py-2.5 rounded-xl bg-amber-600 text-white shadow-sm transition text-center font-bold">💶 Euros (€)</button>
+                    <button onclick="mudarOrcamentoSubTab('chf')" id="subtab-chf" class="flex-1 py-2.5 rounded-xl bg-white text-slate-700 border border-slate-200 shadow-sm transition text-center font-bold hover:bg-slate-50">🇨🇭 Francos (CHF)</button>
+                    <button onclick="mudarOrcamentoSubTab('conversor')" id="subtab-conversor" class="flex-1 py-2.5 rounded-xl bg-white text-slate-700 border border-slate-200 shadow-sm transition text-center font-bold hover:bg-slate-50">🧮 Conversor</button>
                 </div>
 
                 <!-- CONTEÚDO DAS SUB-ABAS DE ORÇAMENTO -->
@@ -198,7 +198,7 @@
 
     <!-- BARRA DE FERRAMENTAS FIXA -->
     <nav class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-md text-white px-3 py-2.5 shadow-2xl border-t border-slate-800 text-xs flex items-center justify-around gap-1 overflow-x-auto no-scrollbar max-w-4xl mx-auto rounded-t-2xl">
-        <span class="bg-indigo-600 px-2 py-1 rounded font-mono font-bold text-[9px] shrink-0">v160.0</span>
+        <span class="bg-indigo-600 px-2 py-1 rounded font-mono font-bold text-[9px] shrink-0">v161.0</span>
         <button onclick="abrirGeminiModal()" class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-3 py-1.5 rounded-xl font-bold transition shrink-0 flex items-center gap-1 text-xs shadow-sm">
             <span>✨</span> Gemini
         </button>
@@ -237,11 +237,11 @@
     </div>
 
     <script>
-        const CHAVE_APP = "mariana_viagem_europa_v160";
+        const CHAVE_APP = "mariana_viagem_europa_v161";
         let destinoFiltro = 'todos';
         let tarefaFiltro = 'todas';
         let utilidadeFiltro = 'todos';
-        let orcamentoSubTab = 'eur'; // Sub-aba inicial do orçamento
+        let orcamentoSubTab = 'eur'; 
         let campoFocoAtual = null;
         let deferredPrompt = null;
         let historicoAcoes = [];
@@ -331,11 +331,11 @@
                 navigator.serviceWorker.register(URL.createObjectURL(swBlob)).catch(err => {});
             }
 
-            if (!sessionStorage.getItem('sessao_ativa_v160')) {
+            if (!sessionStorage.getItem('sessao_ativa_v161')) {
                 document.getElementById('tela-bloqueio').classList.remove('hidden');
             }
 
-            const temaSalvo = localStorage.getItem('tema_v160');
+            const temaSalvo = localStorage.getItem('tema_v161');
             if (temaSalvo === 'dark') {
                 document.body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 document.body.classList.remove('bg-slate-100', 'text-slate-800');
@@ -366,7 +366,7 @@
 
             try {
                 atualizarTudo();
-                let tabSalva = localStorage.getItem('tab_ativa_v160') || 'leitura';
+                let tabSalva = localStorage.getItem('tab_ativa_v161') || 'leitura';
                 mudarTab(tabSalva);
             } catch(e) {
                 console.error("Erro ao iniciar:", e);
@@ -390,10 +390,10 @@
         }
 
         function desbloquearComPin() {
-            let pinSalvo = localStorage.getItem('app_pin_v160') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v161') || '1510';
             let digitado = document.getElementById('input-pin').value;
             if(digitado === pinSalvo) {
-                sessionStorage.setItem('sessao_ativa_v160', 'true');
+                sessionStorage.setItem('sessao_ativa_v161', 'true');
                 document.getElementById('tela-bloqueio').classList.add('hidden');
                 document.getElementById('erro-pin').classList.add('hidden');
             } else {
@@ -402,17 +402,17 @@
         }
 
         async function desbloquearComBiometria() {
-            sessionStorage.setItem('sessao_ativa_v160', 'true');
+            sessionStorage.setItem('sessao_ativa_v161', 'true');
             document.getElementById('tela-bloqueio').classList.add('hidden');
         }
 
         function alterarSenhaPin() {
             let atual = prompt("Digite a senha atual (Padrão: 1510):");
-            let pinSalvo = localStorage.getItem('app_pin_v160') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v161') || '1510';
             if(atual === pinSalvo) {
                 let nova = prompt("Digite a nova senha PIN:");
                 if(nova && nova.trim() !== '') {
-                    localStorage.setItem('app_pin_v160', nova.trim());
+                    localStorage.setItem('app_pin_v161', nova.trim());
                     alert("🔑 Senha alterada com sucesso!");
                 }
             } else {
@@ -425,11 +425,11 @@
             if(body.classList.contains('dark')) {
                 body.classList.remove('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.add('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v160', 'light');
+                localStorage.setItem('tema_v161', 'light');
             } else {
                 body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.remove('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v160', 'dark');
+                localStorage.setItem('tema_v161', 'dark');
             }
         }
 
@@ -597,7 +597,7 @@
         }
 
         function mudarTab(tab) {
-            localStorage.setItem('tab_ativa_v160', tab);
+            localStorage.setItem('tab_ativa_v161', tab);
             if(tab === 'itinerario' || tab === 'leitura') {
                 destinoFiltro = 'todos';
             }
@@ -631,11 +631,11 @@
                 let btn = document.getElementById('subtab-' + s);
                 if(btn) {
                     if(s === sub) {
-                        if(s === 'eur') btn.className = "flex-1 py-2 rounded-xl bg-amber-600 text-white shadow-sm transition text-center";
-                        else if(s === 'chf') btn.className = "flex-1 py-2 rounded-xl bg-blue-600 text-white shadow-sm transition text-center";
-                        else btn.className = "flex-1 py-2 rounded-xl bg-indigo-600 text-white shadow-sm transition text-center";
+                        if(s === 'eur') btn.className = "flex-1 py-2.5 rounded-xl bg-amber-600 text-white shadow-sm transition text-center font-bold";
+                        else if(s === 'chf') btn.className = "flex-1 py-2.5 rounded-xl bg-blue-600 text-white shadow-sm transition text-center font-bold";
+                        else btn.className = "flex-1 py-2.5 rounded-xl bg-indigo-600 text-white shadow-sm transition text-center font-bold";
                     } else {
-                        btn.className = "flex-1 py-2 rounded-xl text-slate-600 hover:bg-slate-200 transition text-center";
+                        btn.className = "flex-1 py-2.5 rounded-xl bg-white text-slate-700 border border-slate-200 shadow-sm transition text-center font-bold hover:bg-slate-50";
                     }
                 }
             });
@@ -1472,7 +1472,7 @@
             } else { atualizarVoucherCampo(id, 'categoria', valor); }
         }
 
-        // ORÇAMENTO (COM SUB-ABAS E CARD TOTAL NO TOPO)
+        // ORÇAMENTO (COM SUB-ABAS NÍDITAS E TOTAL NO TOPO)
         function renderizarOrcamentoTab() {
             const container = document.getElementById('orcamento-conteudo');
             const resumoTotalGastoBrl = document.getElementById('resumo-total-gasto-brl');
@@ -1645,6 +1645,77 @@
                     </div>
                 `;
             }
+        }
+
+        function salvarSaldo(moeda, val) {
+            registarEstadoAnterior();
+            if(moeda === 'EUR') dadosApp.saldoEur = parseFloat(val) || 0;
+            if(moeda === 'CHF') dadosApp.saldoChf = parseFloat(val) || 0;
+            salvarStorage();
+            renderizarOrcamentoTab();
+            alert("💾 Saldo guardado com sucesso!");
+        }
+
+        function salvarCotacao(moeda, val) {
+            registarEstadoAnterior();
+            if(moeda === 'EUR') dadosApp.cotacaoEur = parseFloat(val) || 6.20;
+            if(moeda === 'CHF') dadosApp.cotacaoChf = parseFloat(val) || 6.50;
+            salvarStorage();
+            renderizarOrcamentoTab();
+            alert("💾 Cotação guardada com sucesso!");
+        }
+
+        function calcularConversaoRapida() {
+            let elVal = document.getElementById('conv-valor');
+            let elMoeda = document.getElementById('conv-moeda');
+            let elRes = document.getElementById('conv-resultado');
+            if(!elVal || !elMoeda || !elRes) return;
+            let val = parseFloat(elVal.value) || 0;
+            let moeda = elMoeda.value;
+            let cotEur = parseFloat(dadosApp.cotacaoEur) || 6.20;
+            let cotChf = parseFloat(dadosApp.cotacaoChf) || 6.50;
+            let resultado = moeda === 'EUR' ? val * cotEur : val * cotChf;
+            elRes.innerText = 'R$ ' + resultado.toFixed(2);
+        }
+
+        function adicionarDespesa(moedaForcada) {
+            registarEstadoAnterior();
+            if(!dadosApp.orcamento) dadosApp.orcamento = [];
+            dadosApp.orcamento.unshift({ id: Date.now(), descricao: "Despesa", valor: 0, moeda: moedaForcada });
+            salvarStorage();
+            renderizarOrcamentoTab();
+        }
+
+        function apagarDespesa(id) {
+            registarEstadoAnterior();
+            dadosApp.orcamento = dadosApp.orcamento.filter(d => d.id !== id);
+            salvarStorage();
+            renderizarOrcamentoTab();
+        }
+
+        function atualizarOrcamentoDescricao(id, val) {
+            let d = dadosApp.orcamento.find(item => item.id === id);
+            if(d) { d.descricao = val; localStorage.setItem(CHAVE_APP, JSON.stringify(dadosApp)); }
+        }
+
+        function atualizarOrcamentoValor(id, val) {
+            let d = dadosApp.orcamento.find(item => item.id === id);
+            if(d) { d.valor = val; salvarStorage(); renderizarOrcamentoTab(); }
+        }
+
+        async function abrirMapaRuta(origem, destinoLocal) {
+            window.open('https://www.google.com/maps/dir/?api=1&origin=' + encodeURIComponent(origem) + '&destination=' + encodeURIComponent(destinoLocal) + '&travelmode=transit', '_blank');
+        }
+
+        function ativarMicrofone() {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (!SpeechRecognition) { alert("Sem suporte a voz."); return; }
+            const recognition = new SpeechRecognition();
+            recognition.lang = 'pt-BR';
+            recognition.onresult = function(event) {
+                if (campoFocoAtual) { campoFocoAtual.value = event.results[0][0].transcript; campoFocoAtual.dispatchEvent(new Event('input')); }
+            };
+            recognition.start();
         }
     </script>
 </body>
