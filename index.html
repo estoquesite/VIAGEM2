@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v203.0)</title>
+    <title>Roteiro Europa - Mariana (v205.0)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Manifest Dinâmico via JavaScript -->
@@ -39,7 +39,7 @@
             <a href="https://translate.google.com/?hl=pt&sl=auto&tl=pt&op=images" target="_blank" class="bg-indigo-600 hover:bg-indigo-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm flex items-center gap-1" title="Google Tradutor & Câmara">🌐 Tradutor</a>
             <button onclick="window.location.reload()" class="bg-slate-800 hover:bg-slate-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm border border-slate-700" title="Atualizar Página">🔄</button>
             <button onclick="exportarPdfPrint()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm" title="Imprimir Tudo">🖨️</button>
-            <span class="bg-indigo-950 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v203.0</span>
+            <span class="bg-indigo-950 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v205.0</span>
         </div>
     </header>
 
@@ -160,17 +160,25 @@
             </div>
         </div>
 
-        <!-- TAB 5: COMPRAS (QUADRO POR COMPRA COM ADULTOS E CRIANÇAS DENTRO) -->
+        <!-- TAB 5: COMPRAS (BLOCOS INDIVIDUAIS POR COMPRA) -->
         <div id="tab-compras" class="space-y-3 hidden">
             <div class="bg-white p-3.5 sm:p-5 rounded-2xl shadow-sm border border-slate-200 space-y-4 text-xs" id="compras-conteudo-main">
                 <div class="flex justify-between items-center border-b pb-3 flex-wrap gap-2">
                     <div>
-                        <h2 class="text-xs font-extrabold uppercase text-slate-800 tracking-wider">🛍️ Gestão de Compras por Loja / Local</h2>
-                        <p class="text-[11px] text-slate-500 font-semibold">Cada compra é um quadro com adultos e crianças separados</p>
+                        <h2 class="text-xs font-extrabold uppercase text-slate-800 tracking-wider">🛍️ Gestão de Compras por Bloco</h2>
+                        <p class="text-[11px] text-slate-500 font-semibold">Adicione blocos individuais de compras com Adultos e Crianças</p>
                     </div>
-                    <button onclick="imprimirSeccaoCustom('Gestão de Compras', document.getElementById('compras-conteudo-main').innerHTML)" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-xl font-bold text-xs transition shadow-sm">🖨️ PDF Compras</button>
+                    <div class="flex gap-1.5">
+                        <button onclick="adicionarBlocoCompra()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1.5 rounded-xl font-bold text-xs transition shadow-sm">➕ Novo Bloco de Compra</button>
+                        <button onclick="imprimirSeccaoCustom('Gestão de Compras', document.getElementById('compras-conteudo-main').innerHTML)" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-xl font-bold text-xs transition shadow-sm">🖨️ PDF</button>
+                    </div>
                 </div>
-                <div id="compras-tab-corpo" class="space-y-3"></div>
+
+                <!-- RESUMO GERAL DAS COMPRAS NO TOPO -->
+                <div id="compras-resumo-topo" class="grid grid-cols-2 gap-2"></div>
+
+                <!-- LISTA DE BLOCOS DE COMPRAS -->
+                <div id="compras-lista-blocos" class="space-y-3 pt-1"></div>
             </div>
         </div>
 
@@ -213,7 +221,7 @@
 
     <!-- BARRA DE FERRAMENTAS FIXA -->
     <nav class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-md text-white px-3 py-2.5 shadow-2xl border-t border-slate-800 text-xs flex items-center justify-around gap-1 overflow-x-auto no-scrollbar max-w-4xl mx-auto rounded-t-2xl">
-        <span class="bg-indigo-600 px-2 py-1 rounded font-mono font-bold text-[9px] shrink-0">v203.0</span>
+        <span class="bg-indigo-600 px-2 py-1 rounded font-mono font-bold text-[9px] shrink-0">v205.0</span>
         <button onclick="abrirGeminiModal()" class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-3 py-1.5 rounded-xl font-bold transition shrink-0 flex items-center gap-1 text-xs shadow-sm">
             <span>✨</span> Gemini
         </button>
@@ -253,7 +261,7 @@
 
     <script>
         // CHAVE PERMANENTE FIXA: Os teus dados nunca mais se vão perder ao atualizar as versões!
-        const CHAVE_APP = "mariana_viagem_europa_dados_fixos_v203";
+        const CHAVE_APP = "mariana_viagem_europa_dados_fixos_definitiva";
         let destinoFiltro = 'todos';
         let tarefaFiltro = 'todas';
         let utilidadeFiltro = 'todos';
@@ -328,7 +336,6 @@
             return diffDays > 0 ? diffDays : 1;
         }
 
-        // FUNÇÃO DE LIMPEZA DE NÚMEROS CORRIGIDA PARA DECIMAIS (PONTO E VÍRGULA)
         function limparNumero(val) {
             if (val === undefined || val === null || val === "") return 0;
             if (typeof val === 'number') return isNaN(val) ? 0 : val;
@@ -343,6 +350,28 @@
         }
 
         window.addEventListener('DOMContentLoaded', () => {
+            // MIGRAR DADOS ANTIGOS AUTOMATICAMENTE PARA A CHAVE DEFINITIVA
+            let salvo = localStorage.getItem(CHAVE_APP);
+            if (!salvo) {
+                for (let k of [
+                    "mariana_viagem_europa_dados_fixos",
+                    "mariana_viagem_europa_dados_fixos_v197",
+                    "mariana_viagem_europa_dados_fixos_v198",
+                    "mariana_viagem_europa_dados_fixos_v199",
+                    "mariana_viagem_europa_dados_fixos_v200",
+                    "mariana_viagem_europa_dados_fixos_v201",
+                    "mariana_viagem_europa_dados_fixos_v202",
+                    "mariana_viagem_europa_dados_fixos_v203"
+                ]) {
+                    let oldVal = localStorage.getItem(k);
+                    if (oldVal) {
+                        salvo = oldVal;
+                        localStorage.setItem(CHAVE_APP, salvo);
+                        break;
+                    }
+                }
+            }
+
             const manifestObj = {
                 "name": "Roteiro Europa - Mariana",
                 "short_name": "Viagem Europa",
@@ -369,18 +398,17 @@
                 navigator.serviceWorker.register(URL.createObjectURL(swBlob)).catch(err => {});
             }
 
-            if (!sessionStorage.getItem('sessao_ativa_v203')) {
+            if (!sessionStorage.getItem('sessao_ativa_v205')) {
                 document.getElementById('tela-bloqueio').classList.add('hidden');
             }
 
-            const temaSalvo = localStorage.getItem('tema_v203');
+            const temaSalvo = localStorage.getItem('tema_v205');
             if (temaSalvo === 'dark') {
                 document.body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 document.body.classList.remove('bg-slate-100', 'text-slate-800');
             }
 
             try {
-                let salvo = localStorage.getItem(CHAVE_APP);
                 if (salvo) {
                     let parsed = JSON.parse(salvo);
                     if (parsed && parsed.itinerario) {
@@ -405,7 +433,7 @@
                 }
             } catch(e) {}
 
-            // Migração automática de formato antigo de compras para quadros, se necessário
+            // Migração automática se vier de formato antigo plano
             if(dadosApp.compras && dadosApp.compras.length > 0 && dadosApp.compras[0].valor !== undefined && !dadosApp.compras[0].itens) {
                 let novoHubCompras = [{
                     id: Date.now(),
@@ -433,7 +461,7 @@
                 if(inputChf) inputChf.value = dadosApp.cotacaoChf;
 
                 atualizarTudo();
-                let tabSalva = localStorage.getItem('tab_ativa_v203') || 'leitura';
+                let tabSalva = localStorage.getItem('tab_ativa_v205') || 'leitura';
                 mudarTab(tabSalva);
             } catch(e) {
                 console.error("Erro ao iniciar:", e);
@@ -457,10 +485,10 @@
         }
 
         function desbloquearComPin() {
-            let pinSalvo = localStorage.getItem('app_pin_v203') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v205') || '1510';
             let digitado = document.getElementById('input-pin').value;
             if(digitado === pinSalvo) {
-                sessionStorage.setItem('sessao_ativa_v203', 'true');
+                sessionStorage.setItem('sessao_ativa_v205', 'true');
                 document.getElementById('tela-bloqueio').classList.add('hidden');
                 document.getElementById('erro-pin').classList.add('hidden');
             } else {
@@ -469,17 +497,17 @@
         }
 
         async function desbloquearComBiometria() {
-            sessionStorage.setItem('sessao_ativa_v203', 'true');
+            sessionStorage.setItem('sessao_ativa_v205', 'true');
             document.getElementById('tela-bloqueio').classList.add('hidden');
         }
 
         function alterarSenhaPin() {
             let atual = prompt("Digite a senha atual (Padrão: 1510):");
-            let pinSalvo = localStorage.getItem('app_pin_v203') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v205') || '1510';
             if(atual === pinSalvo) {
                 let nova = prompt("Digite a nova senha PIN:");
                 if(nova && nova.trim() !== '') {
-                    localStorage.setItem('app_pin_v203', nova.trim());
+                    localStorage.setItem('app_pin_v205', nova.trim());
                     alert("🔑 Senha alterada com sucesso!");
                 }
             } else {
@@ -492,11 +520,11 @@
             if(body.classList.contains('dark')) {
                 body.classList.remove('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.add('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v203', 'light');
+                localStorage.setItem('tema_v205', 'light');
             } else {
                 body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.remove('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v203', 'dark');
+                localStorage.setItem('tema_v205', 'dark');
             }
         }
 
@@ -702,7 +730,7 @@
         }
 
         function mudarTab(tab) {
-            localStorage.setItem('tab_ativa_v203', tab);
+            localStorage.setItem('tab_ativa_v205', tab);
             if(tab === 'itinerario' || tab === 'leitura') {
                 destinoFiltro = 'todos';
             }
@@ -1256,7 +1284,7 @@
                     voosHtml = '<p class="text-xs text-slate-400 italic text-center py-2">Nenhum voo registado.</p>';
                 } else {
                     dadosApp.voos.forEach(v => {
-                        let pdfAction = v.pdfData ? '<button onclick="abrirLeitorPdf(\'' + v.id + '\', \'Passagem ' + (v.voo || 'Voo') + '\')" class="bg-indigo-600 text-white px-2.5 py-1 rounded-xl text-xs font-bold shadow-sm">📄 PDF</button>' : '<label class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-2.5 py-1 rounded-xl text-xs font-bold cursor-pointer border shadow-sm">📎 PDF<input type="file" accept="application/pdf" onchange="anexarPdfVoo(' + v.id + ', event)" class="hidden"></label>';
+                        let pdfAction = v.pdfData ? '<button onclick="abrirLeitorPdf(\'' + v.id + '\', \'Passagem ' + (v.voo || 'Voo') + '\')" class="bg-indigo-600 text-white px-2 py-1 rounded-xl text-xs font-bold shadow-sm">📄 PDF</button>' : '<label class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-2 py-1 rounded-xl text-xs font-bold cursor-pointer border shadow-sm">📎 PDF<input type="file" accept="application/pdf" onchange="anexarPdfVoo(' + v.id + ', event)" class="hidden"></label>';
                         let ciaSafe = (v.cia || '').replace(/"/g, '&quot;');
                         let vooSafe = (v.voo || '').replace(/"/g, '&quot;');
                         let pnrSafe = (v.pnr || '').replace(/"/g, '&quot;');
@@ -1771,11 +1799,11 @@
             }
         }
 
-        // RENDERIZAR ABA DE COMPRAS (QUADROS POR COMPRA COM ADULTOS E CRIANÇAS DENTRO)
+        // RENDERIZAR ABA DE COMPRAS (NOVO FORMATO: CADA COMPRA É UM BLOCO/CARTÃO COM ADULTOS E CRIANÇAS)
         function renderizarComprasTab() {
-            const container = document.getElementById('compras-tab-corpo');
-            if(!container) return;
-            container.innerHTML = '';
+            const containerResumo = document.getElementById('compras-resumo-topo');
+            const containerLista = document.getElementById('compras-lista-blocos');
+            if(!containerResumo || !containerLista) return;
 
             try {
                 let cotEur = parseFloat(dadosApp.cotacaoEur) || 6.20;
@@ -1801,7 +1829,7 @@
                                     }
                                 }
                             });
-                            // Ordena itens do quadro para que os concluídos fiquem em baixo
+                            // Ordena itens para que os concluídos fiquem em baixo
                             compra.itens.sort((a, b) => (a.concluido === b.concluido) ? 0 : a.concluido ? 1 : -1);
                         }
                     });
@@ -1810,15 +1838,26 @@
                 let totalAdultosBrl = (totalAdultosEur * cotEur) + (totalAdultosChf * cotChf);
                 let totalCriancasBrl = (totalCriancasEur * cotEur) + (totalCriancasChf * cotChf);
 
+                containerResumo.innerHTML = `
+                    <div class="bg-purple-50 p-3 rounded-xl border border-purple-200 shadow-sm text-center space-y-0.5">
+                        <span class="font-bold text-[10px] text-purple-900 uppercase block">👤 Total Adultos (Geral)</span>
+                        <div class="font-black text-[11px] text-slate-800 truncate">${totalAdultosEur.toFixed(2)}€ | ${totalAdultosChf.toFixed(2)}CHF</div>
+                        <div class="font-bold text-[11px] text-emerald-700">R$ ${totalAdultosBrl.toFixed(2)}</div>
+                    </div>
+                    <div class="bg-purple-50 p-3 rounded-xl border border-purple-200 shadow-sm text-center space-y-0.5">
+                        <span class="font-bold text-[10px] text-purple-900 uppercase">👧 Total Crianças (Geral)</span>
+                        <div class="font-black text-[11px] text-slate-800 truncate">${totalCriancasEur.toFixed(2)}€ | ${totalCriancasChf.toFixed(2)}CHF</div>
+                        <div class="font-bold text-[11px] text-emerald-700">R$ ${totalCriancasBrl.toFixed(2)}</div>
+                    </div>
+                `;
+
                 let quadrosHtml = '';
                 if(!dadosApp.compras || dadosApp.compras.length === 0) {
-                    quadrosHtml = '<p class="text-xs text-slate-400 italic text-center py-4">Nenhum quadro de compra criado. Clique em "➕ Nova Compra" abaixo.</p>';
+                    quadrosHtml = '<p class="text-xs text-slate-400 italic text-center py-6">Nenhum bloco de compra criado. Clique em "➕ Novo Bloco de Compra" acima.</p>';
                 } else {
                     dadosApp.compras.forEach((compra) => {
                         let nomeCompraSafe = (compra.local || '').replace(/"/g, '&quot;');
-                        
-                        let itensAdultosHtml = '';
-                        let itensCriancasHtml = '';
+                        let itensHtml = '';
 
                         if(compra.itens && compra.itens.length > 0) {
                             compra.itens.forEach(it => {
@@ -1827,119 +1866,86 @@
                                 let pub = it.publico || 'Adulto';
                                 let valBrl = moeda === 'EUR' ? val * cotEur : val * cotChf;
                                 let descSafe = (it.descricao || '').replace(/"/g, '&quot;');
-                                let concluidoClass = it.concluido ? 'bg-emerald-50 opacity-75 border-emerald-300' : 'bg-white border-slate-200';
+                                let concluidoClass = it.concluido ? 'bg-emerald-50 opacity-75 border-emerald-300' : 'bg-slate-50 border-slate-200';
                                 let textClass = it.concluido ? 'line-through text-slate-400' : 'text-slate-900';
 
-                                let itemHtml = `
+                                itensHtml += `
                                     <div class="p-2.5 rounded-xl border ${concluidoClass} flex flex-col gap-1.5 text-xs shadow-sm">
                                         <div class="flex justify-between items-center gap-1.5">
-                                            <input type="text" value="${descSafe}" oninput="atualizarItemCompraCampo('${compra.id}', '${it.id}', 'descricao', this.value)" class="flex-1 bg-transparent outline-none font-bold ${textClass} text-xs truncate" placeholder="O que vai comprar...">
-                                            <label class="flex items-center gap-1 cursor-pointer font-bold bg-white px-2 py-0.5 rounded-lg border text-[10px] shrink-0 shadow-sm">
+                                            <input type="text" value="${descSafe}" oninput="atualizarItemCompraCampo('${compra.id}', '${it.id}', 'descricao', this.value)" class="flex-1 bg-transparent outline-none font-bold ${textClass} text-xs truncate" placeholder="Nome do item (ex: Iogurte Papá)...">
+                                            
+                                            <select onchange="atualizarItemCompraCampo('${compra.id}', '${it.id}', 'publico', this.value)" class="p-1 bg-white border border-slate-300 rounded-lg font-bold text-[11px] shrink-0">
+                                                <option value="Adulto" ${pub==='Adulto'?'selected':''}>👤 Adulto</option>
+                                                <option value="Criança (Sofia)" ${pub==='Criança (Sofia)'?'selected':''}>👧 Criança</option>
+                                            </select>
+
+                                            <label class="flex items-center gap-1 cursor-pointer font-bold bg-white px-2 py-1 rounded-lg border text-[11px] shrink-0 shadow-sm">
                                                 <input type="checkbox" ${it.concluido ? 'checked' : ''} onchange="alternarConcluidoItemCompra('${compra.id}', '${it.id}')" class="w-3.5 h-3.5 accent-emerald-600 rounded cursor-pointer">
                                                 <span>Feito</span>
                                             </label>
-                                            <button onclick="apagarItemCompra('${compra.id}', '${it.id}')" class="text-red-500 font-bold px-2 py-0.5 rounded-lg bg-red-50 hover:bg-red-100 text-xs shrink-0">✕</button>
+
+                                            <button onclick="apagarItemCompra('${compra.id}', '${it.id}')" class="text-red-500 font-bold px-2 py-1 rounded-lg bg-red-50 hover:bg-red-100 text-xs shrink-0">✕</button>
                                         </div>
-                                        <div class="flex gap-1.5 items-center justify-between border-t border-slate-100 pt-1.5">
+
+                                        <div class="flex gap-1.5 items-center justify-between border-t border-slate-200 pt-1.5">
                                             <div class="flex items-center gap-1.5">
-                                                <input type="text" value="${val !== 0 ? val : ''}" id="item-val-${it.id}" class="w-16 p-1 bg-slate-50 border border-slate-300 rounded-xl font-black text-right text-xs outline-none" placeholder="0">
-                                                <select onchange="atualizarItemCompraCampo('${compra.id}', '${it.id}', 'moeda', this.value)" class="p-1 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs">
-                                                    <option value="EUR" ${moeda==='EUR'?'selected':''}>€</option>
+                                                <span class="text-slate-500 font-bold">Valor:</span>
+                                                <input type="text" value="${val !== 0 ? val : ''}" id="item-val-${it.id}" class="w-20 p-1 bg-white border border-slate-300 rounded-xl font-black text-right text-xs outline-none" placeholder="0">
+                                                <select onchange="atualizarItemCompraCampo('${compra.id}', '${it.id}', 'moeda', this.value)" class="p-1 bg-white border border-slate-300 rounded-xl font-bold text-xs">
+                                                    <option value="EUR" ${moeda==='EUR'?'selected':''}>€ (EUR)</option>
                                                     <option value="CHF" ${moeda==='CHF'?'selected':''}>CHF</option>
                                                 </select>
-                                                <button onclick="salvarItemCompraValor('${compra.id}', '${it.id}', document.getElementById('item-val-${it.id}').value)" class="bg-emerald-600 text-white px-2 py-1 rounded-lg font-bold text-[10px]">OK</button>
+                                                <button onclick="salvarItemCompraValor('${compra.id}', '${it.id}', document.getElementById('item-val-${it.id}').value)" class="bg-emerald-600 text-white px-2.5 py-1 rounded-lg font-bold text-[10px]">OK</button>
                                             </div>
                                             <div class="text-right text-[11px] font-bold text-emerald-700">R$ ${valBrl.toFixed(2)}</div>
                                         </div>
                                     </div>
                                 `;
-
-                                if(pub === 'Adulto') {
-                                    itensAdultosHtml += itemHtml;
-                                } else {
-                                    itensCriancasHtml += itemHtml;
-                                }
                             });
                         }
 
-                        if(itensAdultosHtml === '') itensAdultosHtml = '<p class="text-[11px] text-slate-400 italic">Nenhum item de adulto.</p>';
-                        if(itensCriancasHtml === '') itensCriancasHtml = '<p class="text-[11px] text-slate-400 italic">Nenhum item de criança.</p>';
+                        if(itensHtml === '') itensHtml = '<p class="text-xs text-slate-400 italic">Nenhum item adicionado neste bloco.</p>';
 
                         quadrosHtml += `
-                            <div class="bg-purple-50/40 p-3.5 rounded-2xl border-2 border-purple-200 shadow-sm space-y-3">
-                                <!-- CABEÇALHO DO QUADRO (NOME DA LOJA/COMPRA + BOTÕES DE MOVER/APAGAR) -->
+                            <div class="bg-purple-50/30 p-3.5 rounded-2xl border-2 border-purple-200 shadow-sm space-y-3">
+                                <!-- CABEÇALHO DO BLOCO DE COMPRA -->
                                 <div class="flex justify-between items-center gap-2 border-b border-purple-200 pb-2">
-                                    <input type="text" value="${nomeCompraSafe}" oninput="atualizarNomeCompra('${compra.id}', this.value)" class="flex-1 bg-white px-3 py-1.5 rounded-xl border border-purple-300 font-black text-purple-950 text-xs shadow-sm truncate" placeholder="Nome da Loja / Local...">
-                                    <div class="flex gap-1 shrink-0">
+                                    <input type="text" value="${nomeCompraSafe}" oninput="atualizarNomeCompra('${compra.id}', this.value)" class="flex-1 bg-white px-3 py-1.5 rounded-xl border border-purple-300 font-black text-purple-950 text-xs shadow-sm truncate" placeholder="Nome do Bloco (Ex: Torre Eiffel, Supermercado)...">
+                                    <div class="flex items-center gap-1 shrink-0">
                                         <button onclick="moverQuadroCompra('${compra.id}', -1)" class="bg-slate-200 px-2 py-1 rounded-lg font-bold text-xs">⬆️</button>
                                         <button onclick="moverQuadroCompra('${compra.id}', 1)" class="bg-slate-200 px-2 py-1 rounded-lg font-bold text-xs">⬇️</button>
-                                        <button onclick="apagarQuadroCompra('${compra.id}')" class="bg-red-100 text-red-600 px-2.5 py-1 rounded-xl font-bold text-xs">Excluir ✕</button>
+                                        <button onclick="apagarQuadroCompra('${compra.id}')" class="bg-red-100 text-red-600 px-2 py-1 rounded-xl font-bold text-xs">Excluir ✕</button>
                                     </div>
                                 </div>
 
-                                <!-- CONTEÚDO DO QUADRO: ADULTOS E CRIANÇAS -->
-                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
-                                    <!-- COLUNA ADULTOS -->
-                                    <div class="bg-white p-3 rounded-xl border border-purple-100 space-y-2 shadow-inner">
-                                        <div class="flex justify-between items-center border-b border-slate-100 pb-1">
-                                            <span class="font-bold text-[11px] text-purple-900 uppercase">👤 Adultos</span>
-                                            <button onclick="adicionarItemNaCompra('${compra.id}', 'Adulto')" class="bg-purple-600 hover:bg-purple-700 text-white px-2 py-0.5 rounded-lg text-[10px] font-bold transition">➕ Adicionar</button>
-                                        </div>
-                                        <div class="space-y-2">${itensAdultosHtml}</div>
+                                <!-- LISTA DE ITENS DENTRO DO BLOCO -->
+                                <div class="space-y-2">
+                                    <div class="flex justify-between items-center">
+                                        <span class="font-bold text-[11px] text-purple-900 uppercase">📦 Itens deste Bloco</span>
+                                        <button onclick="adicionarItemNaCompra('${compra.id}', 'Adulto')" class="bg-purple-600 hover:bg-purple-700 text-white px-2.5 py-1 rounded-lg text-[10px] font-bold transition shadow-sm">➕ Adicionar Item</button>
                                     </div>
-
-                                    <!-- COLUNA CRIANÇAS -->
-                                    <div class="bg-white p-3 rounded-xl border border-purple-100 space-y-2 shadow-inner">
-                                        <div class="flex justify-between items-center border-b border-slate-100 pb-1">
-                                            <span class="font-bold text-[11px] text-purple-900 uppercase">👧 Crianças (Sofia)</span>
-                                            <button onclick="adicionarItemNaCompra('${compra.id}', 'Criança (Sofia)')" class="bg-purple-600 hover:bg-purple-700 text-white px-2 py-0.5 rounded-lg text-[10px] font-bold transition">➕ Adicionar</button>
-                                        </div>
-                                        <div class="space-y-2">${itensCriancasHtml}</div>
-                                    </div>
+                                    <div class="space-y-2">${itensHtml}</div>
                                 </div>
                             </div>
                         `;
                     });
                 }
 
-                container.innerHTML = `
-                    <div class="space-y-4">
-                        <!-- RESUMO GERAL NO TOPO -->
-                        <div class="grid grid-cols-2 gap-2">
-                            <div class="bg-purple-50 p-3 rounded-xl border border-purple-200 shadow-sm text-center space-y-0.5">
-                                <span class="font-bold text-[10px] text-purple-900 uppercase block">👤 Total Adultos (Geral)</span>
-                                <div class="font-black text-[11px] text-slate-800 truncate">${totalAdultosEur.toFixed(2)}€ | ${totalAdultosChf.toFixed(2)}CHF</div>
-                                <div class="font-bold text-[11px] text-emerald-700">R$ ${totalAdultosBrl.toFixed(2)}</div>
-                            </div>
-                            <div class="bg-purple-50 p-3 rounded-xl border border-purple-200 shadow-sm text-center space-y-0.5">
-                                <span class="font-bold text-[10px] text-purple-900 uppercase">👧 Total Crianças (Geral)</span>
-                                <div class="font-black text-[11px] text-slate-800 truncate">${totalCriancasEur.toFixed(2)}€ | ${totalCriancasChf.toFixed(2)}CHF</div>
-                                <div class="font-bold text-[11px] text-emerald-700">R$ ${totalCriancasBrl.toFixed(2)}</div>
-                            </div>
-                        </div>
-
-                        <div class="flex justify-between items-center pt-2">
-                            <h3 class="font-black text-xs text-slate-700 uppercase">🛍️ Quadros por Compra / Loja</h3>
-                            <button onclick="adicionarQuadroCompra()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-2 rounded-xl text-xs font-bold transition shadow-sm">➕ Nova Compra</button>
-                        </div>
-
-                        <div class="space-y-3">${quadrosHtml}</div>
-                    </div>
-                `;
+                containerLista.innerHTML = quadrosHtml;
             } catch(err) {
                 console.error("Erro nas compras:", err);
             }
         }
 
-        // FUNÇÕES DE GESTÃO DE COMPRAS POR QUADRO
-        function adicionarQuadroCompra() {
+        // FUNÇÕES DE GESTÃO DE COMPRAS POR BLOCO
+        function adicionarBlocoCompra() {
             registarEstadoAnterior();
             if(!dadosApp.compras) dadosApp.compras = [];
             dadosApp.compras.unshift({
                 id: Date.now(),
-                local: "Nova Loja / Outlet",
+                local: "Novo Bloco de Compra",
                 itens: [
-                    { id: Date.now() + 1, descricao: "Item Adulto", publico: "Adulto", valor: 0, moeda: "EUR", concluido: false }
+                    { id: Date.now() + 1, descricao: "Item Exemplo", publico: "Adulto", valor: 0, moeda: "EUR", concluido: false }
                 ]
             });
             salvarStorage();
