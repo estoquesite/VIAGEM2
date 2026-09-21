@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v190.0)</title>
+    <title>Roteiro Europa - Mariana (v191.0)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Manifest Dinâmico via JavaScript -->
@@ -39,7 +39,7 @@
             <a href="https://translate.google.com/?hl=pt&sl=auto&tl=pt&op=images" target="_blank" class="bg-indigo-600 hover:bg-indigo-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm flex items-center gap-1" title="Google Tradutor & Câmara">🌐 Tradutor</a>
             <button onclick="window.location.reload()" class="bg-slate-800 hover:bg-slate-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm border border-slate-700" title="Atualizar Página">🔄</button>
             <button onclick="exportarPdfPrint()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm" title="Imprimir Tudo">🖨️</button>
-            <span class="bg-indigo-950 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v190.0</span>
+            <span class="bg-indigo-950 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v191.0</span>
         </div>
     </header>
 
@@ -199,7 +199,7 @@
 
     <!-- BARRA DE FERRAMENTAS FIXA -->
     <nav class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-md text-white px-3 py-2.5 shadow-2xl border-t border-slate-800 text-xs flex items-center justify-around gap-1 overflow-x-auto no-scrollbar max-w-4xl mx-auto rounded-t-2xl">
-        <span class="bg-indigo-600 px-2 py-1 rounded font-mono font-bold text-[9px] shrink-0">v190.0</span>
+        <span class="bg-indigo-600 px-2 py-1 rounded font-mono font-bold text-[9px] shrink-0">v191.0</span>
         <button onclick="abrirGeminiModal()" class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-3 py-1.5 rounded-xl font-bold transition shrink-0 flex items-center gap-1 text-xs shadow-sm">
             <span>✨</span> Gemini
         </button>
@@ -238,7 +238,7 @@
     </div>
 
     <script>
-        const CHAVE_APP = "mariana_viagem_europa_v190";
+        const CHAVE_APP = "mariana_viagem_europa_v191";
         let destinoFiltro = 'todos';
         let tarefaFiltro = 'todas';
         let utilidadeFiltro = 'todos';
@@ -346,11 +346,11 @@
                 navigator.serviceWorker.register(URL.createObjectURL(swBlob)).catch(err => {});
             }
 
-            if (!sessionStorage.getItem('sessao_ativa_v190')) {
+            if (!sessionStorage.getItem('sessao_ativa_v191')) {
                 document.getElementById('tela-bloqueio').classList.remove('hidden');
             }
 
-            const temaSalvo = localStorage.getItem('tema_v190');
+            const temaSalvo = localStorage.getItem('tema_v191');
             if (temaSalvo === 'dark') {
                 document.body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 document.body.classList.remove('bg-slate-100', 'text-slate-800');
@@ -388,7 +388,7 @@
                 if(inputChf) inputChf.value = dadosApp.cotacaoChf;
 
                 atualizarTudo();
-                let tabSalva = localStorage.getItem('tab_ativa_v190') || 'leitura';
+                let tabSalva = localStorage.getItem('tab_ativa_v191') || 'leitura';
                 mudarTab(tabSalva);
             } catch(e) {
                 console.error("Erro ao iniciar:", e);
@@ -412,10 +412,10 @@
         }
 
         function desbloquearComPin() {
-            let pinSalvo = localStorage.getItem('app_pin_v190') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v191') || '1510';
             let digitado = document.getElementById('input-pin').value;
             if(digitado === pinSalvo) {
-                sessionStorage.setItem('sessao_ativa_v190', 'true');
+                sessionStorage.setItem('sessao_ativa_v191', 'true');
                 document.getElementById('tela-bloqueio').classList.add('hidden');
                 document.getElementById('erro-pin').classList.add('hidden');
             } else {
@@ -424,17 +424,17 @@
         }
 
         async function desbloquearComBiometria() {
-            sessionStorage.setItem('sessao_ativa_v190', 'true');
+            sessionStorage.setItem('sessao_ativa_v191', 'true');
             document.getElementById('tela-bloqueio').classList.add('hidden');
         }
 
         function alterarSenhaPin() {
             let atual = prompt("Digite a senha atual (Padrão: 1510):");
-            let pinSalvo = localStorage.getItem('app_pin_v190') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v191') || '1510';
             if(atual === pinSalvo) {
                 let nova = prompt("Digite a nova senha PIN:");
                 if(nova && nova.trim() !== '') {
-                    localStorage.setItem('app_pin_v190', nova.trim());
+                    localStorage.setItem('app_pin_v191', nova.trim());
                     alert("🔑 Senha alterada com sucesso!");
                 }
             } else {
@@ -447,11 +447,11 @@
             if(body.classList.contains('dark')) {
                 body.classList.remove('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.add('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v190', 'light');
+                localStorage.setItem('tema_v191', 'light');
             } else {
                 body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.remove('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v190', 'dark');
+                localStorage.setItem('tema_v191', 'dark');
             }
         }
 
@@ -568,13 +568,16 @@
             }
         }
 
-        function alternarConcluidoBloco(id) {
+        function alternarConcluidoTrecho(itemId, trechoId) {
             registarEstadoAnterior();
-            const item = dadosApp.itinerario.find(i => String(i.id) === String(id));
-            if(item) {
-                item.concluido = !item.concluido;
-                salvarStorage();
-                renderizarModoLeitura();
+            let item = dadosApp.itinerario.find(i => String(i.id) === String(itemId));
+            if(item && item.trechos) {
+                let tr = item.trechos.find(t => String(t.id) === String(trechoId));
+                if(tr) {
+                    tr.concluido = !tr.concluido;
+                    salvarStorage();
+                    renderizarModoLeitura();
+                }
             }
         }
 
@@ -638,7 +641,7 @@
         }
 
         function mudarTab(tab) {
-            localStorage.setItem('tab_ativa_v190', tab);
+            localStorage.setItem('tab_ativa_v191', tab);
             if(tab === 'itinerario' || tab === 'leitura') {
                 destinoFiltro = 'todos';
             }
@@ -823,7 +826,7 @@
             renderizarHubUtilidades();
         }
 
-        // ROTEIRO (RISCAR E DESCER UNIVERSAL)
+        // ROTEIRO (CONCLUÍDO POR LINHA / TRECHO)
         function renderizarModoLeitura() {
             const container = document.getElementById('lista-leitura-html');
             const progressoEl = document.getElementById('progresso-viagem');
@@ -835,10 +838,8 @@
                 blocosAprovados = blocosAprovados.filter(i => (i.categoria || "").toLowerCase().includes(destinoFiltro.toLowerCase()));
             }
 
-            blocosAprovados.sort((a, b) => (a.concluido === b.concluido) ? 0 : a.concluido ? 1 : -1);
-
             let total = blocosAprovados.length;
-            let concluidos = blocosAprovados.filter(b => b.concluido).length;
+            let concluidos = blocosAprovados.filter(b => b.trechos && b.trechos.length > 0 && b.trechos.every(t => t.concluido)).length;
             if(progressoEl) progressoEl.innerText = concluidos + ' / ' + total + ' Aprovados';
 
             if(total === 0) {
@@ -848,16 +849,36 @@
 
             blocosAprovados.forEach(item => {
                 let corMaster = item.cor || obterCorPorCategoria(item.categoria);
-                let bgStyle = item.concluido ? 'bg-emerald-50/70 border-emerald-300 opacity-75' : 'bg-white border-slate-200';
-                let textStyle = item.concluido ? 'line-through text-slate-400' : 'text-slate-700';
                 let dIni = item.dataInicio ? item.dataInicio.split('-').reverse().join('/') : '?';
                 let dFim = item.dataFim ? item.dataFim.split('-').reverse().join('/') : '?';
 
                 let trechosTexto = '';
                 if(item.trechos && item.trechos.length > 0) {
                     item.trechos.forEach(tr => {
+                        let trConcluido = tr.concluido ? true : false;
+                        let trBg = trConcluido ? 'bg-emerald-50/80 opacity-75 border-emerald-300' : 'bg-slate-50 border-slate-200';
+                        let trText = trConcluido ? 'line-through text-slate-400' : 'text-slate-900';
                         let mapsUrl = 'https://www.google.com/maps/dir/?api=1&origin=' + encodeURIComponent(tr.origem || '') + '&destination=' + encodeURIComponent(tr.destino || '') + '&travelmode=transit';
-                        trechosTexto += '<div class="text-xs ' + textStyle + ' bg-slate-50 p-2.5 rounded-xl border border-slate-200 flex flex-col gap-2 my-1.5 shadow-sm"><div class="flex justify-between items-start gap-2"><div class="flex-1 min-w-0 break-words"><span class="font-bold text-xs ' + (item.concluido ? 'line-through text-slate-400' : 'text-slate-900') + '">🚄 ' + (tr.origem || '?') + ' ➔ ' + (tr.destino || '?') + '</span> <span class="font-medium">(' + (tr.transporte || 'Trem') + ')</span>' + (tr.valor ? ' • <span class="font-black ' + (item.concluido ? 'line-through text-slate-400' : 'text-amber-900') + '">' + tr.valor + ' ' + (tr.moeda || 'EUR') + '</span>' : '') + (tr.notas ? '<div class="text-[11px] italic mt-1 whitespace-pre-wrap break-words">📝 ' + tr.notas + '</div>' : '') + '</div></div><div class="flex gap-1.5 flex-wrap border-t border-slate-200 pt-2"><a href="' + mapsUrl + '" target="_blank" class="bg-sky-100 text-sky-800 hover:bg-sky-200 px-2.5 py-1 rounded-lg font-bold text-[10px] transition inline-block text-center">🗺️ Mapa</a><button onclick="abrirWebcam(\'' + (tr.destino || item.categoria) + '\')" class="bg-purple-100 text-purple-800 hover:bg-purple-200 px-2.5 py-1 rounded-lg font-bold text-[10px] transition">📹 Câmera</button><button onclick="mostrarClimaModal(\'' + (tr.destino || item.categoria) + '\')" class="bg-amber-100 text-amber-800 hover:bg-amber-200 px-2.5 py-1 rounded-lg font-bold text-[10px] transition">🌤️ Clima</button></div></div>';
+                        
+                        trechosTexto += '<div class="text-xs ' + trBg + ' p-2.5 rounded-xl border flex flex-col gap-2 my-1.5 shadow-sm">' +
+                            '<div class="flex justify-between items-start gap-2">' +
+                                '<div class="flex-1 min-w-0 break-words">' +
+                                    '<span class="font-bold text-xs ' + trText + '">🚄 ' + (tr.origem || '?') + ' ➔ ' + (tr.destino || '?') + '</span> ' +
+                                    '<span class="font-medium ' + trText + '">(' + (tr.transporte || 'Trem') + ')</span>' +
+                                    (tr.valor ? ' • <span class="font-black ' + trText + '">' + tr.valor + ' ' + (tr.moeda || 'EUR') + '</span>' : '') +
+                                    (tr.notas ? '<div class="text-[11px] italic mt-1 whitespace-pre-wrap break-words ' + trText + '">📝 ' + tr.notas + '</div>' : '') +
+                                '</div>' +
+                                '<label class="flex items-center gap-1 cursor-pointer font-bold bg-white px-2 py-1 rounded-lg border text-[11px] shrink-0 shadow-sm">' +
+                                    '<input type="checkbox" ' + (trConcluido ? 'checked' : '') + ' onchange="alternarConcluidoTrecho(\'' + item.id + '\', \'' + tr.id + '\')" class="w-3.5 h-3.5 accent-emerald-600 rounded cursor-pointer">' +
+                                    '<span>Feito</span>' +
+                                '</label>' +
+                            '</div>' +
+                            '<div class="flex gap-1.5 flex-wrap border-t border-slate-200 pt-2">' +
+                                '<a href="' + mapsUrl + '" target="_blank" class="bg-sky-100 text-sky-800 hover:bg-sky-200 px-2.5 py-1 rounded-lg font-bold text-[10px] transition inline-block text-center">🗺️ Mapa</a>' +
+                                '<button onclick="abrirWebcam(\'' + (tr.destino || item.categoria) + '\')" class="bg-purple-100 text-purple-800 hover:bg-purple-200 px-2.5 py-1 rounded-lg font-bold text-[10px] transition">📹 Câmera</button>' +
+                                '<button onclick="mostrarClimaModal(\'' + (tr.destino || item.categoria) + '\')" class="bg-amber-100 text-amber-800 hover:bg-amber-200 px-2.5 py-1 rounded-lg font-bold text-[10px] transition">🌤️ Clima</button>' +
+                            '</div>' +
+                        '</div>';
                     });
                 }
 
@@ -865,16 +886,16 @@
                 if(item.itens && item.itens.length > 0) {
                     item.itens.forEach(it => {
                         if(it.texto && it.texto.trim() !== '') {
-                            itensTexto += '<div class="text-xs bg-slate-50 p-2 rounded-xl border border-slate-200 my-1 ' + (item.concluido ? 'line-through text-slate-400' : 'text-slate-800 font-medium') + '">• ' + it.texto + '</div>';
+                            itensTexto += '<div class="text-xs bg-slate-50 p-2 rounded-xl border border-slate-200 my-1 text-slate-800 font-medium">• ' + it.texto + '</div>';
                         }
                     });
                 }
 
                 let card = document.createElement('div');
-                card.className = 'p-3.5 rounded-2xl border shadow-sm space-y-2.5 transition flex flex-col justify-between ' + bgStyle;
+                card.className = 'p-3.5 rounded-2xl border shadow-sm space-y-2.5 transition flex flex-col justify-between bg-white border-slate-200';
                 card.style.borderLeft = '6px solid ' + corMaster;
 
-                card.innerHTML = '<div class="space-y-1.5"><div class="flex justify-between items-center gap-2 flex-wrap border-b border-slate-100 pb-2"><div class="flex items-center gap-1.5"><span class="font-black px-2 py-0.5 rounded-lg text-[10px] text-white shadow-sm" style="background-color: ' + corMaster + ';">' + (item.categoria || 'Geral') + '</span><span class="font-bold text-xs ' + (item.concluido ? 'line-through text-slate-400' : 'text-slate-600') + '">📅 ' + dIni + ' ➔ ' + dFim + '</span></div><div class="flex items-center gap-1.5"><label class="flex items-center gap-1 cursor-pointer font-bold bg-slate-100 hover:bg-slate-200 px-2 py-1 rounded-xl transition text-xs"><input type="checkbox" ' + (item.concluido ? 'checked' : '') + ' onchange="alternarConcluidoBloco(\'' + item.id + '\')" class="w-3.5 h-3.5 accent-emerald-600 rounded cursor-pointer"><span>Feito</span></label><button onclick="removerDoRoteiro(\'' + item.id + '\')" class="bg-amber-50 hover:bg-amber-100 text-amber-700 px-2 py-1 rounded-xl font-bold text-xs" title="Retirar do Roteiro">✕</button></div></div><div class="space-y-1.5 pt-0.5">' + (trechosTexto || '<span class="text-xs text-slate-400 italic">Nenhum trecho adicionado.</span>') + (itensTexto ? '<div class="mt-2 pt-2 border-t border-slate-200 space-y-1"><span class="text-[11px] font-extrabold uppercase text-slate-600">📌 Notas / Textos:</span>' + itensTexto + '</div>' : '') + '</div></div>';
+                card.innerHTML = '<div class="space-y-1.5"><div class="flex justify-between items-center gap-2 flex-wrap border-b border-slate-100 pb-2"><div class="flex items-center gap-1.5"><span class="font-black px-2 py-0.5 rounded-lg text-[10px] text-white shadow-sm" style="background-color: ' + corMaster + ';">' + (item.categoria || 'Geral') + '</span><span class="font-bold text-xs text-slate-600">📅 ' + dIni + ' ➔ ' + dFim + '</span></div><button onclick="removerDoRoteiro(\'' + item.id + '\')" class="bg-amber-50 hover:bg-amber-100 text-amber-700 px-2 py-1 rounded-xl font-bold text-xs" title="Retirar do Roteiro">✕</button></div><div class="space-y-1.5 pt-0.5">' + (trechosTexto || '<span class="text-xs text-slate-400 italic">Nenhum trecho adicionado.</span>') + (itensTexto ? '<div class="mt-2 pt-2 border-t border-slate-200 space-y-1"><span class="text-[11px] font-extrabold uppercase text-slate-600">📌 Notas / Textos:</span>' + itensTexto + '</div>' : '') + '</div></div>';
                 container.appendChild(card);
             });
         }
@@ -1074,7 +1095,7 @@
             let item = dadosApp.itinerario.find(i => String(i.id) === String(itemId));
             if(item) {
                 if(!item.trechos) item.trechos = [];
-                item.trechos.push({ id: Date.now(), origem: "", destino: "", transporte: "Trem", valor: 0, moeda: "EUR", notas: "" });
+                item.trechos.push({ id: Date.now(), origem: "", destino: "", transporte: "Trem", valor: 0, moeda: "EUR", notas: "", concluido: false });
                 salvarStorage();
                 atualizarTudo();
             }
@@ -1153,7 +1174,7 @@
             }
         }
 
-        // RENDERIZAR HUB DE UTILIDADES COM FUNÇÕES DE ADIÇÃO ROBUSTAS
+        // RENDERIZAR HUB DE UTILIDADES
         function renderizarHubUtilidades() {
             const container = document.getElementById('hub-utilidades-grid');
             if(!container) return;
@@ -1310,137 +1331,6 @@
             dadosApp.contatos = dadosApp.contatos.filter(c => c.id !== id);
             salvarStorage();
             renderizarHubUtilidades();
-        }
-
-        function adicionarVoo() {
-            registarEstadoAnterior();
-            if(!dadosApp.voos) dadosApp.voos = [];
-            dadosApp.voos.unshift({ id: Date.now(), cia: "Latam", voo: "", pnr: "", rota: "GIG ➔ ZRH", data: "", pdfData: "", pdfNome: "" });
-            salvarStorage();
-            renderizarHubUtilidades();
-        }
-
-        function apagarVoo(id) {
-            registarEstadoAnterior();
-            dadosApp.voos = dadosApp.voos.filter(v => v.id !== id);
-            salvarStorage();
-            renderizarHubUtilidades();
-        }
-
-        function atualizarVoo(id, campo, val) {
-            let v = dadosApp.voos.find(item => item.id === id);
-            if(v) { v[campo] = val; salvarStorage(); }
-        }
-
-        function anexarPdfVoo(id, event) {
-            const file = event.target.files[0];
-            if(file) {
-                registarEstadoAnterior();
-                const reader = new FileReader();
-                reader.onload = function(evt) {
-                    const v = dadosApp.voos.find(item => item.id === id);
-                    if(v) { 
-                        v.pdfData = evt.target.result; 
-                        v.pdfNome = file.name; 
-                        salvarStorage(); 
-                        renderizarHubUtilidades(); 
-                        abrirLeitorPdf(v.id, 'Passagem ' + (v.voo || 'Voo'));
-                    }
-                };
-                reader.readAsDataURL(file);
-            }
-        }
-
-        function adicionarTarefa() {
-            registarEstadoAnterior();
-            if(!dadosApp.tarefas) dadosApp.tarefas = [];
-            dadosApp.tarefas.unshift({ id: Date.now(), texto: "Nova tarefa...", status: "", categoria: "" });
-            salvarStorage();
-            renderizarHubUtilidades();
-        }
-
-        function apagarTarefa(id) {
-            registarEstadoAnterior();
-            dadosApp.tarefas = dadosApp.tarefas.filter(t => t.id !== id);
-            salvarStorage();
-            renderizarHubUtilidades();
-        }
-
-        function atualizarTarefaTexto(id, val) {
-            let t = dadosApp.tarefas.find(item => item.id === id);
-            if(t) { t.texto = val; salvarStorage(); }
-        }
-
-        function lidarSelecaoDestinoTarefa(id, val) {
-            registarEstadoAnterior();
-            let t = dadosApp.tarefas.find(item => item.id === id);
-            if(t) { t.categoria = val; salvarStorage(); renderizarHubUtilidades(); }
-        }
-
-        function lidarSelecaoStatusTarefa(id, val) {
-            registarEstadoAnterior();
-            let t = dadosApp.tarefas.find(item => item.id === id);
-            if(t) { t.status = val; salvarStorage(); renderizarHubUtilidades(); }
-        }
-
-        function adicionarItemChecklist() {
-            registarEstadoAnterior();
-            if(!dadosApp.checklist) dadosApp.checklist = [];
-            dadosApp.checklist.push({ id: Date.now(), item: "Novo item...", feito: false });
-            salvarStorage();
-            renderizarHubUtilidades();
-        }
-
-        function apagarItemChecklist(id) {
-            registarEstadoAnterior();
-            dadosApp.checklist = dadosApp.checklist.filter(c => c.id !== id);
-            salvarStorage();
-            renderizarHubUtilidades();
-        }
-
-        function alternarItemChecklist(id) {
-            registarEstadoAnterior();
-            let c = dadosApp.checklist.find(item => item.id === id);
-            if(c) { c.feito = !c.feito; salvarStorage(); renderizarHubUtilidades(); }
-        }
-
-        function atualizarItemChecklistText(id, val) {
-            let c = dadosApp.checklist.find(item => item.id === id);
-            if(c) { c.item = val; salvarStorage(); }
-        }
-
-        function adicionarVoucher() {
-            registarEstadoAnterior();
-            if(!dadosApp.vouchers) dadosApp.vouchers = [];
-            dadosApp.vouchers.unshift({ id: Date.now(), titulo: "Hotel / Reserva", categoria: "Zurique", pdfData: "", pdfNome: "" });
-            salvarStorage();
-            renderizarHubUtilidades();
-        }
-
-        function apagarVoucher(id) {
-            registarEstadoAnterior();
-            dadosApp.vouchers = dadosApp.vouchers.filter(v => v.id !== id);
-            salvarStorage();
-            renderizarHubUtilidades();
-        }
-
-        function anexarPdfVoucher(id, event) {
-            const file = event.target.files[0];
-            if(file) {
-                registarEstadoAnterior();
-                const reader = new FileReader();
-                reader.onload = function(evt) {
-                    const v = dadosApp.vouchers.find(item => item.id === id);
-                    if(v) { 
-                        v.pdfData = evt.target.result; 
-                        v.pdfNome = file.name; 
-                        salvarStorage(); 
-                        renderizarHubUtilidades(); 
-                        abrirLeitorPdf(v.id, v.titulo);
-                    }
-                };
-                reader.readAsDataURL(file);
-            }
         }
 
         // ORÇAMENTO BLINDADO
