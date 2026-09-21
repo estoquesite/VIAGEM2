@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v197.0)</title>
+    <title>Roteiro Europa - Mariana (v199.0)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Manifest Dinâmico via JavaScript -->
@@ -39,19 +39,20 @@
             <a href="https://translate.google.com/?hl=pt&sl=auto&tl=pt&op=images" target="_blank" class="bg-indigo-600 hover:bg-indigo-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm flex items-center gap-1" title="Google Tradutor & Câmara">🌐 Tradutor</a>
             <button onclick="window.location.reload()" class="bg-slate-800 hover:bg-slate-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm border border-slate-700" title="Atualizar Página">🔄</button>
             <button onclick="exportarPdfPrint()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm" title="Imprimir Tudo">🖨️</button>
-            <span class="bg-indigo-950 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v197.0</span>
+            <span class="bg-indigo-950 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v199.0</span>
         </div>
     </header>
 
     <!-- CONTEÚDO PRINCIPAL -->
     <div class="max-w-4xl mx-auto p-3 sm:p-6 space-y-4 pt-4">
 
-        <!-- SEPARADORES (TABS) - OS 4 QUADRADOS / CARTÕES PRINCIPAIS -->
-        <div class="grid grid-cols-4 gap-2 bg-slate-200 p-1.5 rounded-2xl shadow-inner">
-            <button onclick="mudarTab('leitura')" id="tab-btn-leitura" class="py-3 rounded-xl bg-indigo-600 text-white font-extrabold shadow-sm transition text-center text-sm flex flex-col items-center gap-0.5"><span>✈️</span><span class="text-[10px] uppercase">Roteiro</span></button>
-            <button onclick="mudarTab('itinerario')" id="tab-btn-itinerario" class="py-3 rounded-xl bg-white text-slate-700 font-extrabold shadow-sm transition text-center text-sm flex flex-col items-center gap-0.5 hover:bg-slate-50"><span>📅</span><span class="text-[10px] uppercase">Editar</span></button>
-            <button onclick="mudarTab('utilidades')" id="tab-btn-utilidades" class="py-3 rounded-xl bg-white text-slate-700 font-extrabold shadow-sm transition text-center text-sm flex flex-col items-center gap-0.5 hover:bg-slate-50"><span>📋</span><span class="text-[10px] uppercase">Hub</span></button>
-            <button onclick="mudarTab('orcamento')" id="tab-btn-orcamento" class="py-3 rounded-xl bg-white text-slate-700 font-extrabold shadow-sm transition text-center text-sm flex flex-col items-center gap-0.5 hover:bg-slate-50"><span>💰</span><span class="text-[10px] uppercase">Orçamento</span></button>
+        <!-- SEPARADORES (TABS) - OS 5 CARTÕES PRINCIPAIS -->
+        <div class="grid grid-cols-5 gap-1 bg-slate-200 p-1 rounded-2xl shadow-inner text-center">
+            <button onclick="mudarTab('leitura')" id="tab-btn-leitura" class="py-2.5 rounded-xl bg-indigo-600 text-white font-extrabold shadow-sm transition text-[11px] flex flex-col items-center gap-0.5"><span>✈️</span><span class="text-[9px] uppercase">Roteiro</span></button>
+            <button onclick="mudarTab('itinerario')" id="tab-btn-itinerario" class="py-2.5 rounded-xl bg-white text-slate-700 font-extrabold shadow-sm transition text-[11px] flex flex-col items-center gap-0.5 hover:bg-slate-50"><span>📅</span><span class="text-[9px] uppercase">Editar</span></button>
+            <button onclick="mudarTab('utilidades')" id="tab-btn-utilidades" class="py-2.5 rounded-xl bg-white text-slate-700 font-extrabold shadow-sm transition text-[11px] flex flex-col items-center gap-0.5 hover:bg-slate-50"><span>📋</span><span class="text-[9px] uppercase">Hub</span></button>
+            <button onclick="mudarTab('orcamento')" id="tab-btn-orcamento" class="py-2.5 rounded-xl bg-white text-slate-700 font-extrabold shadow-sm transition text-[11px] flex flex-col items-center gap-0.5 hover:bg-slate-50"><span>💰</span><span class="text-[9px] uppercase">Orçamen</span></button>
+            <button onclick="mudarTab('compras')" id="tab-btn-compras" class="py-2.5 rounded-xl bg-white text-slate-700 font-extrabold shadow-sm transition text-[11px] flex flex-col items-center gap-0.5 hover:bg-slate-50"><span>🛍️</span><span class="text-[9px] uppercase">Compras</span></button>
         </div>
 
         <!-- TAB 1: ROTEIRO -->
@@ -106,14 +107,13 @@
                     <button onclick="filtrarUtilidade('checklist')" id="filt-util-checklist" class="px-3 py-1.5 rounded-xl bg-indigo-800 text-white font-bold text-xs shrink-0 transition">🎒 Checklist</button>
                     <button onclick="filtrarUtilidade('vouchers')" id="filt-util-vouchers" class="px-3 py-1.5 rounded-xl bg-indigo-800 text-white font-bold text-xs shrink-0 transition">🎟️ Vouchers</button>
                     <button onclick="filtrarUtilidade('chat')" id="filt-util-chat" class="px-3 py-1.5 rounded-xl bg-indigo-800 text-white font-bold text-xs shrink-0 transition">💬 Chat</button>
-                    <button onclick="adicionarItemOutroPrompt()" class="px-3 py-1.5 rounded-xl bg-emerald-600 text-white font-bold text-xs shrink-0 transition">➕ Outros</button>
                 </div>
             </div>
 
             <div id="hub-utilidades-grid" class="grid grid-cols-1 gap-3"></div>
         </div>
 
-        <!-- TAB 4: ORÇAMENTO COM CAIXAS DE EUROS, FRANCOS, CONVERSOR E COMPRAS -->
+        <!-- TAB 4: ORÇAMENTO -->
         <div id="tab-orcamento" class="space-y-3 hidden">
             <div class="bg-white p-3.5 sm:p-5 rounded-2xl shadow-sm border border-slate-200 space-y-4 text-xs">
                 <div class="flex justify-between items-center border-b pb-3 flex-wrap gap-2">
@@ -148,16 +148,29 @@
                     </div>
                 </div>
 
-                <!-- SUB-MENU DE ORÇAMENTO COM ESTILO NÍTIDO E CLARO -->
+                <!-- SUB-MENU DE ORÇAMENTO -->
                 <div class="flex gap-1.5 bg-slate-100 p-1.5 rounded-2xl text-xs font-bold border border-slate-200 shadow-inner overflow-x-auto no-scrollbar">
                     <button onclick="mudarOrcamentoSubTab('eur')" id="subtab-eur" class="flex-1 py-2.5 px-3 rounded-xl bg-amber-600 text-white shadow-sm transition text-center font-bold shrink-0">💶 Euros (€)</button>
                     <button onclick="mudarOrcamentoSubTab('chf')" id="subtab-chf" class="flex-1 py-2.5 px-3 rounded-xl bg-white text-slate-700 border border-slate-200 shadow-sm transition text-center font-bold hover:bg-slate-50 shrink-0">🇨🇭 Francos (CHF)</button>
                     <button onclick="mudarOrcamentoSubTab('conversor')" id="subtab-conversor" class="flex-1 py-2.5 px-3 rounded-xl bg-white text-slate-700 border border-slate-200 shadow-sm transition text-center font-bold hover:bg-slate-50 shrink-0">🧮 Conversor</button>
-                    <button onclick="mudarOrcamentoSubTab('compras')" id="subtab-compras" class="flex-1 py-2.5 px-3 rounded-xl bg-white text-slate-700 border border-slate-200 shadow-sm transition text-center font-bold hover:bg-slate-50 shrink-0">🛍️ Compras</button>
                 </div>
 
                 <!-- CONTEÚDO DAS SUB-ABAS DE ORÇAMENTO -->
                 <div id="orcamento-conteudo" class="space-y-3 pt-1"></div>
+            </div>
+        </div>
+
+        <!-- TAB 5: COMPRAS -->
+        <div id="tab-compras" class="space-y-3 hidden">
+            <div class="bg-white p-3.5 sm:p-5 rounded-2xl shadow-sm border border-slate-200 space-y-4 text-xs" id="compras-conteudo-main">
+                <div class="flex justify-between items-center border-b pb-3 flex-wrap gap-2">
+                    <div>
+                        <h2 class="text-xs font-extrabold uppercase text-slate-800 tracking-wider">🛍️ Gestão de Compras (Adultos vs Crianças)</h2>
+                        <p class="text-[11px] text-slate-500 font-semibold">Locais de compra separados por público com valores somados no orçamento</p>
+                    </div>
+                    <button onclick="imprimirSeccaoCustom('Gestão de Compras', document.getElementById('compras-conteudo-main').innerHTML)" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-xl font-bold text-xs transition shadow-sm">🖨️ PDF Compras</button>
+                </div>
+                <div id="compras-tab-corpo" class="space-y-3"></div>
             </div>
         </div>
 
@@ -200,7 +213,7 @@
 
     <!-- BARRA DE FERRAMENTAS FIXA -->
     <nav class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-md text-white px-3 py-2.5 shadow-2xl border-t border-slate-800 text-xs flex items-center justify-around gap-1 overflow-x-auto no-scrollbar max-w-4xl mx-auto rounded-t-2xl">
-        <span class="bg-indigo-600 px-2 py-1 rounded font-mono font-bold text-[9px] shrink-0">v197.0</span>
+        <span class="bg-indigo-600 px-2 py-1 rounded font-mono font-bold text-[9px] shrink-0">v199.0</span>
         <button onclick="abrirGeminiModal()" class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-3 py-1.5 rounded-xl font-bold transition shrink-0 flex items-center gap-1 text-xs shadow-sm">
             <span>✨</span> Gemini
         </button>
@@ -240,7 +253,7 @@
 
     <script>
         // CHAVE PERMANENTE FIXA: Os teus dados nunca mais se vão perder ao atualizar as versões!
-        const CHAVE_APP = "mariana_viagem_europa_dados_fixos";
+        const CHAVE_APP = "mariana_viagem_europa_dados_fixos_v199";
         let destinoFiltro = 'todos';
         let tarefaFiltro = 'todas';
         let utilidadeFiltro = 'todos';
@@ -356,11 +369,11 @@
                 navigator.serviceWorker.register(URL.createObjectURL(swBlob)).catch(err => {});
             }
 
-            if (!sessionStorage.getItem('sessao_ativa_v197')) {
+            if (!sessionStorage.getItem('sessao_ativa_v199')) {
                 document.getElementById('tela-bloqueio').classList.add('hidden');
             }
 
-            const temaSalvo = localStorage.getItem('tema_v197');
+            const temaSalvo = localStorage.getItem('tema_v199');
             if (temaSalvo === 'dark') {
                 document.body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 document.body.classList.remove('bg-slate-100', 'text-slate-800');
@@ -399,7 +412,7 @@
                 if(inputChf) inputChf.value = dadosApp.cotacaoChf;
 
                 atualizarTudo();
-                let tabSalva = localStorage.getItem('tab_ativa_v197') || 'leitura';
+                let tabSalva = localStorage.getItem('tab_ativa_v199') || 'leitura';
                 mudarTab(tabSalva);
             } catch(e) {
                 console.error("Erro ao iniciar:", e);
@@ -418,15 +431,15 @@
                     deferredPrompt = null;
                 });
             } else {
-                alert("📱 Para instalar no celular:\n\n• No Android (Chrome): Toque nos 3 pontinhos e selecione 'Adicionar à tela inicial'.\n• No iPhone (Safari): Toque em Compartilhar e escolha 'Adicionar à Tela de Início'.");
+                alert("📱 Para instalar no celular:\n\n• No Android (Chrome): Toque nos 3 pontinhos e selecione 'Adicionar à tela inicial'.\n• No iPhone (Safari): Touch Compartilhar e escolha 'Adicionar à Tela de Início'.");
             }
         }
 
         function desbloquearComPin() {
-            let pinSalvo = localStorage.getItem('app_pin_v197') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v199') || '1510';
             let digitado = document.getElementById('input-pin').value;
             if(digitado === pinSalvo) {
-                sessionStorage.setItem('sessao_ativa_v197', 'true');
+                sessionStorage.setItem('sessao_ativa_v199', 'true');
                 document.getElementById('tela-bloqueio').classList.add('hidden');
                 document.getElementById('erro-pin').classList.add('hidden');
             } else {
@@ -435,17 +448,17 @@
         }
 
         async function desbloquearComBiometria() {
-            sessionStorage.setItem('sessao_ativa_v197', 'true');
+            sessionStorage.setItem('sessao_ativa_v199', 'true');
             document.getElementById('tela-bloqueio').classList.add('hidden');
         }
 
         function alterarSenhaPin() {
             let atual = prompt("Digite a senha atual (Padrão: 1510):");
-            let pinSalvo = localStorage.getItem('app_pin_v197') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v199') || '1510';
             if(atual === pinSalvo) {
                 let nova = prompt("Digite a nova senha PIN:");
                 if(nova && nova.trim() !== '') {
-                    localStorage.setItem('app_pin_v197', nova.trim());
+                    localStorage.setItem('app_pin_v199', nova.trim());
                     alert("🔑 Senha alterada com sucesso!");
                 }
             } else {
@@ -458,11 +471,11 @@
             if(body.classList.contains('dark')) {
                 body.classList.remove('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.add('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v197', 'light');
+                localStorage.setItem('tema_v199', 'light');
             } else {
                 body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.remove('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v197', 'dark');
+                localStorage.setItem('tema_v199', 'dark');
             }
         }
 
@@ -638,6 +651,21 @@
             atualizarTudo();
         }
 
+        function moverItemArray(arrayName, id, direcao) {
+            registarEstadoAnterior();
+            let arr = dadosApp[arrayName];
+            if(!arr) return;
+            let idx = arr.findIndex(item => String(item.id) === String(id));
+            if(idx < 0) return;
+            let targetIdx = idx + direcao;
+            if(targetIdx < 0 || targetIdx >= arr.length) return;
+            let temp = arr[idx];
+            arr[idx] = arr[targetIdx];
+            arr[targetIdx] = temp;
+            salvarStorage();
+            renderizarHubUtilidades();
+        }
+
         function atualizarTudo() {
             try {
                 renderizarFiltros();
@@ -645,6 +673,7 @@
                 renderizarBlocos();
                 renderizarHubUtilidades();
                 renderizarOrcamentoTab();
+                renderizarComprasTab();
                 renderizarModoLeitura();
             } catch(e) {
                 console.error("Erro no render:", e);
@@ -652,24 +681,24 @@
         }
 
         function mudarTab(tab) {
-            localStorage.setItem('tab_ativa_v197', tab);
+            localStorage.setItem('tab_ativa_v199', tab);
             if(tab === 'itinerario' || tab === 'leitura') {
                 destinoFiltro = 'todos';
             }
-            ['leitura', 'itinerario', 'utilidades', 'orcamento'].forEach(t => {
+            ['leitura', 'itinerario', 'utilidades', 'orcamento', 'compras'].forEach(t => {
                 let el = document.getElementById('tab-' + t);
                 if(el) el.classList.add('hidden');
             });
             let target = document.getElementById('tab-' + tab);
             if(target) target.classList.remove('hidden');
             
-            ['leitura', 'itinerario', 'utilidades', 'orcamento'].forEach(t => {
+            ['leitura', 'itinerario', 'utilidades', 'orcamento', 'compras'].forEach(t => {
                 let btn = document.getElementById('tab-btn-' + t);
                 if(btn) {
                     if(t === tab) {
-                        btn.className = "py-3 rounded-xl bg-indigo-600 text-white font-extrabold shadow-sm transition text-center text-sm flex flex-col items-center gap-0.5 flex-1";
+                        btn.className = "py-2.5 rounded-xl bg-indigo-600 text-white font-extrabold shadow-sm transition text-[11px] flex flex-col items-center gap-0.5 flex-1";
                     } else {
-                        btn.className = "py-3 rounded-xl bg-white text-slate-700 font-extrabold shadow-sm transition text-center text-sm flex flex-col items-center gap-0.5 flex-1 hover:bg-slate-50";
+                        btn.className = "py-2.5 rounded-xl bg-white text-slate-700 font-extrabold shadow-sm transition text-[11px] flex flex-col items-center gap-0.5 flex-1 hover:bg-slate-50";
                     }
                 }
             });
@@ -677,19 +706,19 @@
             if(tab === 'leitura') { renderizarModoLeitura(); }
             if(tab === 'utilidades') { renderizarHubUtilidades(); }
             if(tab === 'orcamento') { renderizarOrcamentoTab(); }
+            if(tab === 'compras') { renderizarComprasTab(); }
             if(tab === 'itinerario') { renderizarBlocos(); }
         }
 
         function mudarOrcamentoSubTab(sub) {
             orcamentoSubTab = sub;
-            ['eur', 'chf', 'conversor', 'compras'].forEach(s => {
+            ['eur', 'chf', 'conversor'].forEach(s => {
                 let btn = document.getElementById('subtab-' + s);
                 if(btn) {
                     if(s === sub) {
                         if(s === 'eur') btn.className = "flex-1 py-2.5 px-3 rounded-xl bg-amber-600 text-white shadow-sm transition text-center font-bold shrink-0";
                         else if(s === 'chf') btn.className = "flex-1 py-2.5 px-3 rounded-xl bg-blue-600 text-white shadow-sm transition text-center font-bold shrink-0";
-                        else if(s === 'conversor') btn.className = "flex-1 py-2.5 px-3 rounded-xl bg-indigo-600 text-white shadow-sm transition text-center font-bold shrink-0";
-                        else btn.className = "flex-1 py-2.5 px-3 rounded-xl bg-purple-600 text-white shadow-sm transition text-center font-bold shrink-0";
+                        else btn.className = "flex-1 py-2.5 px-3 rounded-xl bg-indigo-600 text-white shadow-sm transition text-center font-bold shrink-0";
                     } else {
                         btn.className = "flex-1 py-2.5 px-3 rounded-xl bg-white text-slate-700 border border-slate-200 shadow-sm transition text-center font-bold hover:bg-slate-50 shrink-0";
                     }
@@ -825,7 +854,7 @@
 
         function filtrarUtilidade(tipo) {
             utilidadeFiltro = tipo;
-            ['todos', 'voos', 'contatos', 'tarefas', 'checklist', 'vouchers', 'chat', 'outros'].forEach(t => {
+            ['todos', 'voos', 'contatos', 'tarefas', 'checklist', 'vouchers', 'chat'].forEach(t => {
                 let btn = document.getElementById('filt-util-' + t);
                 if(btn) {
                     if(t === tipo) {
@@ -1187,7 +1216,7 @@
             }
         }
 
-        // RENDERIZAR HUB DE UTILIDADES COM SEGURANÇA TOTAL PARA VOUCHERS E PDFS
+        // RENDERIZAR HUB DE UTILIDADES COM BOTÕES DE MOVER E APAGAR LIVRES
         function renderizarHubUtilidades() {
             const container = document.getElementById('hub-utilidades-grid');
             if(!container) return;
@@ -1199,7 +1228,6 @@
             let mostrarChecklist = (utilidadeFiltro === 'todos' || utilidadeFiltro === 'checklist');
             let mostrarVouchers = (utilidadeFiltro === 'todos' || utilidadeFiltro === 'vouchers');
             let mostrarChat = (utilidadeFiltro === 'todos' || utilidadeFiltro === 'chat');
-            let mostrarOutros = (utilidadeFiltro === 'todos' || utilidadeFiltro === 'outros');
 
             if(mostrarVoos) {
                 let voosHtml = '';
@@ -1207,15 +1235,15 @@
                     voosHtml = '<p class="text-xs text-slate-400 italic text-center py-2">Nenhum voo registado.</p>';
                 } else {
                     dadosApp.voos.forEach(v => {
-                        let pdfAction = v.pdfData ? '<button onclick="abrirLeitorPdf(\'' + v.id + '\', \'Passagem ' + (v.voo || 'Voo') + '\')" class="bg-indigo-600 text-white px-2.5 py-1 rounded-xl text-xs font-bold shadow-sm">📄 PDF</button>' : '<label class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-2.5 py-1 rounded-xl text-xs font-bold cursor-pointer border shadow-sm">📎 PDF<input type="file" accept="application/pdf" onchange="anexarPdfVoo(' + v.id + ', event)" class="hidden"></label>';
+                        let pdfAction = v.pdfData ? '<button onclick="abrirLeitorPdf(\'' + v.id + '\', \'Passagem ' + (v.voo || 'Voo') + '\')" class="bg-indigo-600 text-white px-2 py-1 rounded-xl text-xs font-bold shadow-sm">📄 PDF</button>' : '<label class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-2 py-1 rounded-xl text-xs font-bold cursor-pointer border shadow-sm">📎 PDF<input type="file" accept="application/pdf" onchange="anexarPdfVoo(' + v.id + ', event)" class="hidden"></label>';
                         let ciaSafe = (v.cia || '').replace(/"/g, '&quot;');
                         let vooSafe = (v.voo || '').replace(/"/g, '&quot;');
                         let pnrSafe = (v.pnr || '').replace(/"/g, '&quot;');
                         let rotaSafe = (v.rota || '').replace(/"/g, '&quot;');
-                        voosHtml += '<div class="p-2.5 rounded-2xl border border-slate-200 bg-white space-y-2 shadow-sm text-xs min-w-0"><div class="flex gap-1.5 items-center min-w-0"><input type="text" value="' + ciaSafe + '" oninput="atualizarVoo(' + v.id + ', \'cia\', this.value)" class="w-16 shrink-0 p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs" placeholder="Cia"><input type="text" value="' + vooSafe + '" oninput="atualizarVoo(' + v.id + ', \'voo\', this.value)" class="w-14 shrink-0 p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs" placeholder="Voo"><input type="text" value="' + pnrSafe + '" oninput="atualizarVoo(' + v.id + ', \'pnr\', this.value)" class="flex-1 min-w-0 p-1.5 bg-amber-50 border border-amber-300 rounded-xl font-black text-amber-900 text-xs truncate" placeholder="PNR"></div><div class="flex gap-1.5 items-center min-w-0"><input type="text" value="' + rotaSafe + '" oninput="atualizarVoo(' + v.id + ', \'rota\', this.value)" class="flex-1 min-w-0 p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs truncate" placeholder="Rota"><input type="date" value="' + (v.data || '') + '" onchange="atualizarVoo(' + v.id + ', \'data\', this.value)" class="w-28 shrink-0 p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs"><div class="shrink-0 flex items-center gap-1">' + pdfAction + '<button onclick="apagarVoo(' + v.id + ')" class="text-red-500 font-bold px-2 py-1.5 rounded-xl bg-red-50 hover:bg-red-100 text-xs shrink-0">✕</button></div></div></div>';
+                        voosHtml += '<div class="p-2.5 rounded-2xl border border-slate-200 bg-white space-y-2 shadow-sm text-xs min-w-0"><div class="flex gap-1.5 items-center min-w-0"><input type="text" value="' + ciaSafe + '" oninput="atualizarVoo(' + v.id + ', \'cia\', this.value)" class="w-16 shrink-0 p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs" placeholder="Cia"><input type="text" value="' + vooSafe + '" oninput="atualizarVoo(' + v.id + ', \'voo\', this.value)" class="w-14 shrink-0 p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs" placeholder="Voo"><input type="text" value="' + pnrSafe + '" oninput="atualizarVoo(' + v.id + ', \'pnr\', this.value)" class="flex-1 min-w-0 p-1.5 bg-amber-50 border border-amber-300 rounded-xl font-black text-amber-900 text-xs truncate" placeholder="PNR"></div><div class="flex gap-1.5 items-center min-w-0"><input type="text" value="' + rotaSafe + '" oninput="atualizarVoo(' + v.id + ', \'rota\', this.value)" class="flex-1 min-w-0 p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs truncate" placeholder="Rota"><input type="date" value="' + (v.data || '') + '" onchange="atualizarVoo(' + v.id + ', \'data\', this.value)" class="w-28 shrink-0 p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs"><div class="shrink-0 flex items-center gap-1">' + pdfAction + '<button onclick="moverItemArray(\'voos\', ' + v.id + ', -1)" class="bg-slate-200 px-2 py-1 rounded-lg font-bold">⬆️</button><button onclick="moverItemArray(\'voos\', ' + v.id + ', 1)" class="bg-slate-200 px-2 py-1 rounded-lg font-bold">⬇️</button><button onclick="apagarVoo(' + v.id + ')" class="text-red-500 font-bold px-2 py-1 rounded-xl bg-red-50 hover:bg-red-100 text-xs">✕</button></div></div></div>';
                     });
                 }
-                container.innerHTML += '<div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-3 min-w-0" id="card-voos"><div class="flex justify-between items-center border-b pb-2"><h3 class="font-bold text-xs uppercase text-slate-800">✈️ Voos & Passagens</h3><div class="flex gap-1.5"><button onclick="imprimirSeccaoCustom(\'Voos & Passagens\', document.getElementById(\'card-voos\').innerHTML)" class="bg-emerald-600 text-white px-2.5 py-1 rounded-xl text-xs font-bold shadow-sm">🖨️ PDF</button><button onclick="adicionarVoo()" class="bg-indigo-600 text-white px-2.5 py-1 rounded-xl text-xs font-bold shadow-sm">➕ Voo</button></div></div><div class="space-y-2 min-w-0">' + voosHtml + '</div></div>';
+                container.innerHTML += '<div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-3 min-w-0" id="card-voos"><div class="flex justify-between items-center border-b pb-2"><h3 class="font-bold text-xs uppercase text-slate-800">✈️ Voos & Passagens</h3><button onclick="adicionarVoo()" class="bg-indigo-600 text-white px-2.5 py-1 rounded-xl text-xs font-bold shadow-sm">➕ Voo</button></div><div class="space-y-2 min-w-0">' + voosHtml + '</div></div>';
             }
 
             if(mostrarContatos) {
@@ -1231,12 +1259,14 @@
                         contatosHtml += '<div class="p-2.5 rounded-2xl border border-slate-200 bg-white flex items-center gap-1.5 shadow-sm text-xs min-w-0">' +
                             '<input type="text" value="' + nomeSafe + '" oninput="atualizarContatoNome(' + ct.id + ', this.value)" class="flex-1 min-w-0 bg-transparent outline-none font-bold text-slate-800 text-xs truncate" placeholder="Nome...">' +
                             '<input type="text" value="' + numSafe + '" oninput="atualizarContatoNumero(' + ct.id + ', this.value)" class="w-24 shrink-0 p-1 bg-slate-50 border border-slate-300 rounded-xl font-black text-xs text-center" placeholder="Número...">' +
-                            '<a href="' + telHref + '" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2 py-1 rounded-xl font-bold text-[10px] transition shrink-0 flex items-center gap-1 shadow-sm" title="Ligar">📞 Ligar</a>' +
-                            '<button onclick="apagarContato(' + ct.id + ')" class="text-red-500 font-bold bg-red-50 hover:bg-red-100 px-2 py-1 rounded-xl text-xs shrink-0">✕</button>' +
+                            '<a href="' + telHref + '" class="bg-emerald-600 text-white px-2 py-1 rounded-xl font-bold text-[10px] shrink-0" title="Ligar">📞</a>' +
+                            '<button onclick="moverItemArray(\'contatos\', ' + ct.id + ', -1)" class="bg-slate-200 px-1.5 py-1 rounded-lg font-bold">⬆️</button>' +
+                            '<button onclick="moverItemArray(\'contatos\', ' + ct.id + ', 1)" class="bg-slate-200 px-1.5 py-1 rounded-lg font-bold">⬇️</button>' +
+                            '<button onclick="apagarContato(' + ct.id + ')" class="text-red-500 font-bold bg-red-50 hover:bg-red-100 px-2 py-1 rounded-xl text-xs">✕</button>' +
                         '</div>';
                     });
                 }
-                container.innerHTML += '<div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-3 min-w-0" id="card-contatos"><div class="flex justify-between items-center border-b pb-2"><h3 class="font-bold text-xs uppercase text-slate-800">📞 Contatos Úteis</h3><div class="flex gap-1.5"><button onclick="imprimirSeccaoCustom(\'Contatos Úteis\', document.getElementById(\'card-contatos\').innerHTML)" class="bg-emerald-600 text-white px-2.5 py-1 rounded-xl text-xs font-bold shadow-sm">🖨️ PDF</button><button onclick="adicionarContato()" class="bg-indigo-600 text-white px-2.5 py-1 rounded-xl text-xs font-bold shadow-sm">➕ Contato</button></div></div><div class="space-y-2 min-w-0">' + contatosHtml + '</div></div>';
+                container.innerHTML += '<div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-3 min-w-0" id="card-contatos"><div class="flex justify-between items-center border-b pb-2"><h3 class="font-bold text-xs uppercase text-slate-800">📞 Contatos Úteis</h3><button onclick="adicionarContato()" class="bg-indigo-600 text-white px-2.5 py-1 rounded-xl text-xs font-bold shadow-sm">➕ Contato</button></div><div class="space-y-2 min-w-0">' + contatosHtml + '</div></div>';
             }
 
             if(mostrarTarefas) {
@@ -1263,10 +1293,10 @@
                         });
 
                         let textoSafe = (t.texto || '').replace(/"/g, '&quot;');
-                        tarefasHtml += '<div class="p-3 rounded-2xl border border-slate-200 bg-white flex flex-col gap-2 shadow-sm" style="border-left: 4px solid ' + (t.categoria ? corDestino : '#94a3b8') + ';"><div class="flex items-center gap-2"><button onclick="abrirModalTarefa(' + t.id + ')" class="bg-slate-100 hover:bg-slate-200 p-1.5 rounded-xl text-xs shrink-0" title="Editar">✏️</button><input type="text" value="' + textoSafe + '" oninput="atualizarTarefaTexto(' + t.id + ', this.value)" class="flex-1 min-w-0 p-1 bg-transparent outline-none ' + textStyle + ' text-xs" placeholder="Tarefa..."><button onclick="apagarTarefa(' + t.id + ')" class="text-red-500 font-bold text-xs bg-red-50 hover:bg-red-100 px-2 py-1 rounded-xl">✕</button></div><div class="flex gap-2 items-center"><select onchange="lidarSelecaoDestinoTarefa(' + t.id + ', this.value)" class="flex-1 border border-slate-300 rounded-xl px-2.5 py-1 text-xs font-bold text-white shadow-sm" style="background-color: ' + (t.categoria ? corDestino : '#64748b') + ';">' + opcoesDestinoT + '</select><select onchange="lidarSelecaoStatusTarefa(' + t.id + ', this.value)" class="flex-1 border border-slate-300 rounded-xl px-2.5 py-1 text-xs font-bold text-white shadow-sm" style="background-color: ' + (statusAtual ? corStatus : '#64748b') + ';">' + opcoesStatus + '</select></div></div>';
+                        tarefasHtml += '<div class="p-3 rounded-2xl border border-slate-200 bg-white flex flex-col gap-2 shadow-sm" style="border-left: 4px solid ' + (t.categoria ? corDestino : '#94a3b8') + ';"><div class="flex items-center gap-2"><input type="text" value="' + textoSafe + '" oninput="atualizarTarefaTexto(' + t.id + ', this.value)" class="flex-1 min-w-0 p-1 bg-transparent outline-none ' + textStyle + ' text-xs" placeholder="Tarefa..."><button onclick="moverItemArray(\'tarefas\', ' + t.id + ', -1)" class="bg-slate-200 px-1.5 py-1 rounded-lg font-bold">⬆️</button><button onclick="moverItemArray(\'tarefas\', ' + t.id + ', 1)" class="bg-slate-200 px-1.5 py-1 rounded-lg font-bold">⬇️</button><button onclick="apagarTarefa(' + t.id + ')" class="text-red-500 font-bold text-xs bg-red-50 hover:bg-red-100 px-2 py-1 rounded-xl">✕</button></div><div class="flex gap-2 items-center"><select onchange="lidarSelecaoDestinoTarefa(' + t.id + ', this.value)" class="flex-1 border border-slate-300 rounded-xl px-2.5 py-1 text-xs font-bold text-white shadow-sm" style="background-color: ' + (t.categoria ? corDestino : '#64748b') + ';">' + opcoesDestinoT + '</select><select onchange="lidarSelecaoStatusTarefa(' + t.id + ', this.value)" class="flex-1 border border-slate-300 rounded-xl px-2.5 py-1 text-xs font-bold text-white shadow-sm" style="background-color: ' + (statusAtual ? corStatus : '#64748b') + ';">' + opcoesStatus + '</select></div></div>';
                     });
                 }
-                container.innerHTML += '<div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-3" id="card-tarefas"><div class="flex justify-between items-center border-b pb-2"><h3 class="font-bold text-xs uppercase text-slate-800">📋 Tarefas</h3><div class="flex gap-1.5"><button onclick="imprimirSeccaoCustom(\'Tarefas\', document.getElementById(\'card-tarefas\').innerHTML)" class="bg-emerald-600 text-white px-2.5 py-1 rounded-xl text-xs font-bold shadow-sm">🖨️ PDF</button><button onclick="adicionarTarefa()" class="bg-indigo-600 text-white px-2.5 py-1 rounded-xl text-xs font-bold shadow-sm">➕ Tarefa</button></div></div><div class="space-y-2.5 text-xs">' + tarefasHtml + '</div></div>';
+                container.innerHTML += '<div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-3" id="card-tarefas"><div class="flex justify-between items-center border-b pb-2"><h3 class="font-bold text-xs uppercase text-slate-800">📋 Tarefas</h3><button onclick="adicionarTarefa()" class="bg-indigo-600 text-white px-2.5 py-1 rounded-xl text-xs font-bold shadow-sm">➕ Tarefa</button></div><div class="space-y-2.5 text-xs">' + tarefasHtml + '</div></div>';
             }
 
             if(mostrarChecklist) {
@@ -1276,10 +1306,10 @@
                 } else {
                     dadosApp.checklist.forEach(c => {
                         let itemSafe = (c.item || '').replace(/"/g, '&quot;');
-                        checklistHtml += '<div class="p-2.5 rounded-2xl border border-slate-200 bg-white flex items-center justify-between gap-2 shadow-sm text-xs"><label class="flex items-center gap-2 flex-1 cursor-pointer min-w-0"><input type="checkbox" ' + (c.feito ? 'checked' : '') + ' onchange="alternarItemChecklist(' + c.id + ')" class="w-4 h-4 accent-indigo-600 rounded cursor-pointer shrink-0"><input type="text" value="' + itemSafe + '" oninput="atualizarItemChecklistText(' + c.id + ', this.value)" class="flex-1 bg-transparent outline-none font-bold ' + (c.feito ? 'line-through text-slate-400' : 'text-slate-800') + ' truncate text-xs" placeholder="Item..."></label><button onclick="apagarItemChecklist(' + c.id + ')" class="text-red-500 font-bold bg-red-50 hover:bg-red-100 px-2 py-1 rounded-xl transition shrink-0 text-xs">✕</button></div>';
+                        checklistHtml += '<div class="p-2.5 rounded-2xl border border-slate-200 bg-white flex items-center justify-between gap-2 shadow-sm text-xs"><label class="flex items-center gap-2 flex-1 cursor-pointer min-w-0"><input type="checkbox" ' + (c.feito ? 'checked' : '') + ' onchange="alternarItemChecklist(' + c.id + ')" class="w-4 h-4 accent-indigo-600 rounded cursor-pointer shrink-0"><input type="text" value="' + itemSafe + '" oninput="atualizarItemChecklistText(' + c.id + ', this.value)" class="flex-1 bg-transparent outline-none font-bold ' + (c.feito ? 'line-through text-slate-400' : 'text-slate-800') + ' truncate text-xs" placeholder="Item..."></label><div class="flex gap-1 shrink-0"><button onclick="moverItemArray(\'checklist\', ' + c.id + ', -1)" class="bg-slate-200 px-1.5 py-1 rounded-lg font-bold">⬆️</button><button onclick="moverItemArray(\'checklist\', ' + c.id + ', 1)" class="bg-slate-200 px-1.5 py-1 rounded-lg font-bold">⬇️</button><button onclick="apagarItemChecklist(' + c.id + ')" class="text-red-500 font-bold bg-red-50 hover:bg-red-100 px-2 py-1 rounded-xl text-xs">✕</button></div></div>';
                     });
                 }
-                container.innerHTML += '<div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-3" id="card-checklist"><div class="flex justify-between items-center border-b pb-2"><h3 class="font-bold text-xs uppercase text-slate-800">🎒 Checklist</h3><div class="flex gap-1.5"><button onclick="imprimirSeccaoCustom(\'Checklist\', document.getElementById(\'card-checklist\').innerHTML)" class="bg-emerald-600 text-white px-2.5 py-1 rounded-xl text-xs font-bold shadow-sm">🖨️ PDF</button><button onclick="adicionarItemChecklist()" class="bg-emerald-600 text-white px-2.5 py-1 rounded-xl text-xs font-bold shadow-sm">➕ Item</button></div></div><div class="space-y-2 text-xs">' + checklistHtml + '</div></div>';
+                container.innerHTML += '<div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-3" id="card-checklist"><div class="flex justify-between items-center border-b pb-2"><h3 class="font-bold text-xs uppercase text-slate-800">🎒 Checklist</h3><button onclick="adicionarItemChecklist()" class="bg-emerald-600 text-white px-2.5 py-1 rounded-xl text-xs font-bold shadow-sm">➕ Item</button></div><div class="space-y-2 text-xs">' + checklistHtml + '</div></div>';
             }
 
             if(mostrarVouchers) {
@@ -1288,12 +1318,12 @@
                     vouchersHubHtml = '<p class="text-xs text-slate-400 italic text-center py-2">Nenhum voucher registado.</p>';
                 } else {
                     dadosApp.vouchers.forEach(v => {
-                        let pdfAct = v.pdfData ? '<button onclick="abrirLeitorPdf(\'' + v.id + '\', \'' + (v.titulo || 'Voucher').replace(/'/g, "\\'") + '\')" class="bg-indigo-600 text-white px-3 py-1 rounded-xl text-xs font-bold shadow-sm">📄 PDF</button>' : '<label class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1 rounded-xl text-xs font-bold cursor-pointer border shadow-sm">📎 PDF<input type="file" accept="application/pdf" onchange="anexarPdfVoucher(' + v.id + ', event)" class="hidden"></label>';
+                        let pdfAct = v.pdfData ? '<button onclick="abrirLeitorPdf(\'' + v.id + '\', \'' + (v.titulo || 'Voucher').replace(/'/g, "\\'") + '\')" class="bg-indigo-600 text-white px-2.5 py-1 rounded-xl text-xs font-bold shadow-sm">📄 PDF</button>' : '<label class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-2.5 py-1 rounded-xl text-xs font-bold cursor-pointer border shadow-sm">📎 PDF<input type="file" accept="application/pdf" onchange="anexarPdfVoucher(' + v.id + ', event)" class="hidden"></label>';
                         let tituloSafe = (v.titulo || '').replace(/"/g, '&quot;');
-                        vouchersHubHtml += '<div class="p-2.5 rounded-2xl border border-slate-200 bg-white flex items-center justify-between gap-2 shadow-sm"><input type="text" value="' + tituloSafe + '" oninput="atualizarVoucherTitulo(' + v.id + ', this.value)" class="flex-1 bg-transparent outline-none font-bold text-slate-800 text-xs truncate" placeholder="Título...">' + pdfAct + '<button onclick="apagarVoucher(' + v.id + ')" class="text-red-500 font-bold bg-red-50 hover:bg-red-100 px-2 py-1 rounded-xl text-xs">✕</button></div>';
+                        vouchersHubHtml += '<div class="p-2.5 rounded-2xl border border-slate-200 bg-white flex items-center justify-between gap-2 shadow-sm"><input type="text" value="' + tituloSafe + '" oninput="atualizarVoucherTitulo(' + v.id + ', this.value)" class="flex-1 bg-transparent outline-none font-bold text-slate-800 text-xs truncate" placeholder="Título...">' + pdfAct + '<div class="flex gap-1 shrink-0"><button onclick="moverItemArray(\'vouchers\', ' + v.id + ', -1)" class="bg-slate-200 px-1.5 py-1 rounded-lg font-bold">⬆️</button><button onclick="moverItemArray(\'vouchers\', ' + v.id + ', 1)" class="bg-slate-200 px-1.5 py-1 rounded-lg font-bold">⬇️</button><button onclick="apagarVoucher(' + v.id + ')" class="text-red-500 font-bold bg-red-50 hover:bg-red-100 px-2 py-1 rounded-xl text-xs">✕</button></div></div>';
                     });
                 }
-                container.innerHTML += '<div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-3" id="card-vouchers"><div class="flex justify-between items-center border-b pb-2"><h3 class="font-bold text-xs uppercase text-slate-800">🎟️ Vouchers & PDFs</h3><div class="flex gap-1.5"><button onclick="imprimirSeccaoCustom(\'Vouchers\', document.getElementById(\'card-vouchers\').innerHTML)" class="bg-emerald-600 text-white px-2.5 py-1 rounded-xl text-xs font-bold shadow-sm">🖨️ PDF</button><button onclick="adicionarVoucher()" class="bg-indigo-600 text-white px-2.5 py-1 rounded-xl text-xs font-bold shadow-sm">➕ Voucher</button></div></div><div class="space-y-2 text-xs">' + vouchersHubHtml + '</div></div>';
+                container.innerHTML += '<div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-3" id="card-vouchers"><div class="flex justify-between items-center border-b pb-2"><h3 class="font-bold text-xs uppercase text-slate-800">🎟️ Vouchers & PDFs</h3><button onclick="adicionarVoucher()" class="bg-indigo-600 text-white px-2.5 py-1 rounded-xl text-xs font-bold shadow-sm">➕ Voucher</button></div><div class="space-y-2 text-xs">' + vouchersHubHtml + '</div></div>';
             }
 
             if(mostrarChat) {
@@ -1303,10 +1333,10 @@
                 } else {
                     dadosApp.chat.forEach(ch => {
                         let textoSafe = (ch.texto || '').replace(/"/g, '&quot;');
-                        chatHubHtml += '<div class="p-2.5 rounded-2xl border border-slate-200 bg-white flex items-center justify-between gap-2 shadow-sm text-xs"><input type="text" value="' + textoSafe + '" oninput="atualizarChat(' + ch.id + ', this.value)" class="flex-1 bg-transparent outline-none font-bold text-slate-800 text-xs truncate" placeholder="Escreva uma nota..."><button onclick="apagarChat(' + ch.id + ')" class="text-red-500 font-bold bg-red-50 hover:bg-red-100 px-2 py-1 rounded-xl text-xs">✕</button></div>';
+                        chatHubHtml += '<div class="p-2.5 rounded-2xl border border-slate-200 bg-white flex items-center justify-between gap-2 shadow-sm text-xs"><input type="text" value="' + textoSafe + '" oninput="atualizarChat(' + ch.id + ', this.value)" class="flex-1 bg-transparent outline-none font-bold text-slate-800 text-xs truncate" placeholder="Escreva uma nota..."><div class="flex gap-1 shrink-0"><button onclick="moverItemArray(\'chat\', ' + ch.id + ', -1)" class="bg-slate-200 px-1.5 py-1 rounded-lg font-bold">⬆️</button><button onclick="moverItemArray(\'chat\', ' + ch.id + ', 1)" class="bg-slate-200 px-1.5 py-1 rounded-lg font-bold">⬇️</button><button onclick="apagarChat(' + ch.id + ')" class="text-red-500 font-bold bg-red-50 hover:bg-red-100 px-2 py-1 rounded-xl text-xs">✕</button></div></div>';
                     });
                 }
-                container.innerHTML += '<div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-3" id="card-chat"><div class="flex justify-between items-center border-b pb-2"><h3 class="font-bold text-xs uppercase text-slate-800">💬 Chat / Notas Rápidas</h3><div class="flex gap-1.5"><button onclick="imprimirSeccaoCustom(\'Chat & Notas\', document.getElementById(\'card-chat\').innerHTML)" class="bg-emerald-600 text-white px-2.5 py-1 rounded-xl text-xs font-bold shadow-sm">🖨️ PDF</button><button onclick="adicionarChat()" class="bg-indigo-600 text-white px-2.5 py-1 rounded-xl text-xs font-bold shadow-sm">➕ Nota</button></div></div><div class="space-y-2 text-xs">' + chatHubHtml + '</div></div>';
+                container.innerHTML += '<div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-3" id="card-chat"><div class="flex justify-between items-center border-b pb-2"><h3 class="font-bold text-xs uppercase text-slate-800">💬 Chat / Notas Rápidas</h3><button onclick="adicionarChat()" class="bg-indigo-600 text-white px-2.5 py-1 rounded-xl text-xs font-bold shadow-sm">➕ Nota</button></div><div class="space-y-2 text-xs">' + chatHubHtml + '</div></div>';
             }
         }
 
@@ -1507,7 +1537,7 @@
             document.getElementById('pdf-iframe-view').src = '';
         }
 
-        // ORÇAMENTO BLINDADO
+        // ORÇAMENTO & GERAL
         function renderizarOrcamentoTab() {
             const container = document.getElementById('orcamento-conteudo');
             const resumoTotalGastoBrl = document.getElementById('resumo-total-gasto-brl');
@@ -1709,112 +1739,127 @@
                             </div>
                         </div>
                     `;
-
-                } else if (orcamentoSubTab === 'compras') {
-                    let comprasAdultosEur = 0, comprasAdultosChf = 0;
-                    let comprasCriancasEur = 0, comprasCriancasChf = 0;
-                    let comprasAdultosHtml = '';
-                    let comprasCriancasHtml = '';
-
-                    if(dadosApp.compras) {
-                        dadosApp.compras.forEach(c => {
-                            let val = limparNumero(c.valor);
-                            let moeda = c.moeda || 'EUR';
-                            let pub = c.publico || 'Adulto';
-                            
-                            let valBrl = moeda === 'EUR' ? val * cotEur : val * cotChf;
-                            let localSafe = (c.local || '').replace(/"/g, '&quot;');
-                            let concluidoClass = c.concluido ? 'bg-emerald-50 opacity-75 border-emerald-300' : 'bg-white border-slate-200';
-                            let textClass = c.concluido ? 'line-through text-slate-400' : 'text-slate-800';
-
-                            let itemHtml = `
-                                <div class="p-3 rounded-xl border ${concluidoClass} flex flex-col gap-2 text-xs shadow-sm">
-                                    <div class="flex justify-between items-center gap-2">
-                                        <input type="text" value="${localSafe}" oninput="atualizarCompra(${c.id}, 'local', this.value)" class="flex-1 bg-transparent outline-none font-bold ${textClass} text-xs truncate" placeholder="Local de Compra (Ex: Outlet, Loja...)">
-                                        <label class="flex items-center gap-1 cursor-pointer font-bold bg-slate-50 px-2 py-1 rounded-lg border text-[11px] shrink-0 shadow-sm">
-                                            <input type="checkbox" ${c.concluido ? 'checked' : ''} onchange="alternarConcluidoCompra(${c.id})" class="w-3.5 h-3.5 accent-emerald-600 rounded cursor-pointer">
-                                            <span>Feito</span>
-                                        </label>
-                                        <button onclick="apagarCompra(${c.id})" class="text-red-500 font-bold px-2 py-1 rounded-xl bg-red-50 hover:bg-red-100 text-xs shrink-0">✕</button>
-                                    </div>
-                                    <div class="flex gap-2 items-center justify-between border-t border-slate-100 pt-2">
-                                        <span class="font-bold text-slate-600 text-[11px]">${pub === 'Adulto' ? '👤 Adulto' : '👧 Criança (Sofia)'}</span>
-                                        <div class="flex items-center gap-1.5">
-                                            <input type="text" value="${val !== 0 ? val : ''}" id="compra-val-${c.id}" class="w-20 p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-black text-right text-xs outline-none" placeholder="0">
-                                            <select onchange="atualizarCompraMoeda(${c.id}, this.value)" class="p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs">
-                                                <option value="EUR" ${moeda==='EUR'?'selected':''}>EUR (€)</option>
-                                                <option value="CHF" ${moeda==='CHF'?'selected':''}>CHF</option>
-                                            </select>
-                                            <button onclick="salvarCompraValor(${c.id}, document.getElementById('compra-val-${c.id}').value)" class="bg-emerald-600 text-white px-2.5 py-1.5 rounded-lg font-bold text-[10px]">OK</button>
-                                        </div>
-                                    </div>
-                                    <div class="text-right text-[11px] font-bold text-emerald-700">R$ ${valBrl.toFixed(2)}</div>
-                                </div>
-                            `;
-
-                            if(pub === 'Adulto') {
-                                if(val > 0) {
-                                    if(moeda === 'EUR') comprasAdultosEur += val;
-                                    else if(moeda === 'CHF') comprasAdultosChf += val;
-                                }
-                                comprasAdultosHtml += itemHtml;
-                            } else {
-                                if(val > 0) {
-                                    if(moeda === 'EUR') comprasCriancasEur += val;
-                                    else if(moeda === 'CHF') comprasCriancasChf += val;
-                                }
-                                comprasCriancasHtml += itemHtml;
-                            }
-                        });
-                    }
-
-                    if(comprasAdultosHtml === '') comprasAdultosHtml = '<p class="text-xs text-slate-400 italic">Nenhuma compra de adulto registada.</p>';
-                    if(comprasCriancasHtml === '') comprasCriancasHtml = '<p class="text-xs text-slate-400 italic">Nenhuma compra de criança registada.</p>';
-
-                    let totalAdultosBrl = (comprasAdultosEur * cotEur) + (comprasAdultosChf * cotChf);
-                    let totalCriancasBrl = (comprasCriancasEur * cotEur) + (comprasCriancasChf * cotChf);
-
-                    container.innerHTML = `
-                        <div class="bg-purple-50/50 p-4 rounded-2xl border border-purple-200 space-y-4 shadow-sm">
-                            <h3 class="font-black text-purple-900 text-xs uppercase border-b border-purple-200 pb-1.5">🛍️ Gestão de Compras (Adultos vs Crianças)</h3>
-                            
-                            <!-- CAIXINHA EM CIMA COM OS VALORES SOMANDO NO ORÇAMENTO -->
-                            <div class="grid grid-cols-2 gap-2">
-                                <div class="bg-white p-3 rounded-xl border border-purple-200 shadow-sm text-center space-y-1">
-                                    <span class="font-bold text-[10px] text-purple-900 uppercase">👤 Adultos</span>
-                                    <div class="font-black text-xs text-slate-800">${comprasAdultosEur.toFixed(2)} € | ${comprasAdultosChf.toFixed(2)} CHF</div>
-                                    <div class="font-bold text-[11px] text-emerald-700">R$ ${totalAdultosBrl.toFixed(2)}</div>
-                                </div>
-                                <div class="bg-white p-3 rounded-xl border border-purple-200 shadow-sm text-center space-y-1">
-                                    <span class="font-bold text-[10px] text-purple-900 uppercase">👧 Crianças (Sofia)</span>
-                                    <div class="font-black text-xs text-slate-800">${comprasCriancasEur.toFixed(2)} € | ${comprasCriancasChf.toFixed(2)} CHF</div>
-                                    <div class="font-bold text-[11px] text-emerald-700">R$ ${totalCriancasBrl.toFixed(2)}</div>
-                                </div>
-                            </div>
-
-                            <!-- SEÇÃO ADULTOS -->
-                            <div class="space-y-2 bg-white/60 p-3 rounded-xl border border-purple-100">
-                                <div class="flex justify-between items-center border-b border-purple-100 pb-1.5">
-                                    <span class="font-bold text-xs text-purple-900 uppercase">👤 Compras - Adultos</span>
-                                    <button onclick="adicionarCompraEspecifica('Adulto')" class="bg-purple-600 hover:bg-purple-700 text-white px-2.5 py-1 rounded-lg text-[11px] font-bold transition shadow-sm">➕ Adicionar</button>
-                                </div>
-                                <div class="space-y-2.5 pt-1">${comprasAdultosHtml}</div>
-                            </div>
-
-                            <!-- SEÇÃO CRIANÇAS -->
-                            <div class="space-y-2 bg-white/60 p-3 rounded-xl border border-purple-100">
-                                <div class="flex justify-between items-center border-b border-purple-100 pb-1.5">
-                                    <span class="font-bold text-xs text-purple-900 uppercase">👧 Compras - Crianças (Sofia)</span>
-                                    <button onclick="adicionarCompraEspecifica('Criança (Sofia)')" class="bg-purple-600 hover:bg-purple-700 text-white px-2.5 py-1 rounded-lg text-[11px] font-bold transition shadow-sm">➕ Adicionar</button>
-                                </div>
-                                <div class="space-y-2.5 pt-1">${comprasCriancasHtml}</div>
-                            </div>
-                        </div>
-                    `;
                 }
             } catch(err) {
                 console.error("Erro no orçamento:", err);
                 container.innerHTML = '<div class="p-3 bg-red-50 text-red-600 rounded-xl text-xs">Erro ao carregar orçamento. Tente atualizar a página.</div>';
+            }
+        }
+
+        // RENDERIZAR ABA DE COMPRAS (PRINCIPAL)
+        function renderizarComprasTab() {
+            const container = document.getElementById('compras-tab-corpo');
+            if(!container) return;
+            container.innerHTML = '';
+
+            try {
+                let cotEur = parseFloat(dadosApp.cotacaoEur) || 6.20;
+                let cotChf = parseFloat(dadosApp.cotacaoChf) || 6.50;
+
+                let comprasAdultosEur = 0, comprasAdultosChf = 0;
+                let comprasCriancasEur = 0, comprasCriancasChf = 0;
+                let comprasAdultosHtml = '';
+                let comprasCriancasHtml = '';
+
+                if(dadosApp.compras) {
+                    dadosApp.compras.forEach(c => {
+                        let val = limparNumero(c.valor);
+                        let moeda = c.moeda || 'EUR';
+                        let pub = c.publico || 'Adulto';
+                        
+                        let valBrl = moeda === 'EUR' ? val * cotEur : val * cotChf;
+                        let localSafe = (c.local || '').replace(/"/g, '&quot;');
+                        let concluidoClass = c.concluido ? 'bg-emerald-50 opacity-75 border-emerald-300' : 'bg-white border-slate-200';
+                        let textClass = c.concluido ? 'line-through text-slate-400' : 'text-slate-800';
+
+                        let itemHtml = `
+                            <div class="p-3 rounded-xl border ${concluidoClass} flex flex-col gap-2 text-xs shadow-sm">
+                                <div class="flex justify-between items-center gap-2">
+                                    <input type="text" value="${localSafe}" oninput="atualizarCompra(${c.id}, 'local', this.value)" class="flex-1 bg-transparent outline-none font-bold ${textClass} text-xs truncate" placeholder="Local de Compra (Ex: Outlet, Loja...)">
+                                    <label class="flex items-center gap-1 cursor-pointer font-bold bg-slate-50 px-2 py-1 rounded-lg border text-[11px] shrink-0 shadow-sm">
+                                        <input type="checkbox" ${c.concluido ? 'checked' : ''} onchange="alternarConcluidoCompra(${c.id})" class="w-3.5 h-3.5 accent-emerald-600 rounded cursor-pointer">
+                                        <span>Feito</span>
+                                    </label>
+                                    <div class="flex gap-1 shrink-0">
+                                        <button onclick="moverItemArray('compras', ${c.id}, -1)" class="bg-slate-200 px-1.5 py-1 rounded-lg font-bold">⬆️</button>
+                                        <button onclick="moverItemArray('compras', ${c.id}, 1)" class="bg-slate-200 px-1.5 py-1 rounded-lg font-bold">⬇️</button>
+                                        <button onclick="apagarCompra(${c.id})" class="text-red-500 font-bold px-2 py-1 rounded-xl bg-red-50 hover:bg-red-100 text-xs">✕</button>
+                                    </div>
+                                </div>
+                                <div class="flex gap-2 items-center justify-between border-t border-slate-100 pt-2">
+                                    <span class="font-bold text-slate-600 text-[11px]">${pub === 'Adulto' ? '👤 Adulto' : '👧 Criança (Sofia)'}</span>
+                                    <div class="flex items-center gap-1.5">
+                                        <input type="text" value="${val !== 0 ? val : ''}" id="compra-val-${c.id}" class="w-20 p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-black text-right text-xs outline-none" placeholder="0">
+                                        <select onchange="atualizarCompraMoeda(${c.id}, this.value)" class="p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs">
+                                            <option value="EUR" ${moeda==='EUR'?'selected':''}>EUR (€)</option>
+                                            <option value="CHF" ${moeda==='CHF'?'selected':''}>CHF</option>
+                                        </select>
+                                        <button onclick="salvarCompraValor(${c.id}, document.getElementById('compra-val-${c.id}').value)" class="bg-emerald-600 text-white px-2.5 py-1.5 rounded-lg font-bold text-[10px]">OK</button>
+                                    </div>
+                                </div>
+                                <div class="text-right text-[11px] font-bold text-emerald-700">R$ ${valBrl.toFixed(2)}</div>
+                            </div>
+                        `;
+
+                        if(pub === 'Adulto') {
+                            if(val > 0) {
+                                if(moeda === 'EUR') comprasAdultosEur += val;
+                                else if(moeda === 'CHF') comprasAdultosChf += val;
+                            }
+                            comprasAdultosHtml += itemHtml;
+                        } else {
+                            if(val > 0) {
+                                if(moeda === 'EUR') comprasCriancasEur += val;
+                                else if(moeda === 'CHF') comprasCriancasChf += val;
+                            }
+                            comprasCriancasHtml += itemHtml;
+                        }
+                    });
+                }
+
+                if(comprasAdultosHtml === '') comprasAdultosHtml = '<p class="text-xs text-slate-400 italic">Nenhuma compra de adulto registada.</p>';
+                if(comprasCriancasHtml === '') comprasCriancasHtml = '<p class="text-xs text-slate-400 italic">Nenhuma compra de criança registada.</p>';
+
+                let totalAdultosBrl = (comprasAdultosEur * cotEur) + (comprasAdultosChf * cotChf);
+                let totalCriancasBrl = (comprasCriancasEur * cotEur) + (comprasCriancasChf * cotChf);
+
+                container.innerHTML = `
+                    <div class="bg-purple-50/50 p-4 rounded-2xl border border-purple-200 space-y-4 shadow-sm">
+                        <!-- CAIXINHA EM CIMA COM OS VALORES SOMANDO NO ORÇAMENTO -->
+                        <div class="grid grid-cols-2 gap-2">
+                            <div class="bg-white p-3 rounded-xl border border-purple-200 shadow-sm text-center space-y-1">
+                                <span class="font-bold text-[10px] text-purple-900 uppercase">👤 Adultos</span>
+                                <div class="font-black text-xs text-slate-800">${comprasAdultosEur.toFixed(2)} € | ${comprasAdultosChf.toFixed(2)} CHF</div>
+                                <div class="font-bold text-[11px] text-emerald-700">R$ ${totalAdultosBrl.toFixed(2)}</div>
+                            </div>
+                            <div class="bg-white p-3 rounded-xl border border-purple-200 shadow-sm text-center space-y-1">
+                                <span class="font-bold text-[10px] text-purple-900 uppercase">👧 Crianças (Sofia)</span>
+                                <div class="font-black text-xs text-slate-800">${comprasCriancasEur.toFixed(2)} € | ${comprasCriancasChf.toFixed(2)} CHF</div>
+                                <div class="font-bold text-[11px] text-emerald-700">R$ ${totalCriancasBrl.toFixed(2)}</div>
+                            </div>
+                        </div>
+
+                        <!-- SEÇÃO ADULTOS -->
+                        <div class="space-y-2 bg-white/60 p-3 rounded-xl border border-purple-100">
+                            <div class="flex justify-between items-center border-b border-purple-100 pb-1.5">
+                                <span class="font-bold text-xs text-purple-900 uppercase">👤 Compras - Adultos</span>
+                                <button onclick="adicionarCompraEspecifica('Adulto')" class="bg-purple-600 hover:bg-purple-700 text-white px-2.5 py-1 rounded-lg text-[11px] font-bold transition shadow-sm">➕ Adicionar</button>
+                            </div>
+                            <div class="space-y-2.5 pt-1">${comprasAdultosHtml}</div>
+                        </div>
+
+                        <!-- SEÇÃO CRIANÇAS -->
+                        <div class="space-y-2 bg-white/60 p-3 rounded-xl border border-purple-100">
+                            <div class="flex justify-between items-center border-b border-purple-100 pb-1.5">
+                                <span class="font-bold text-xs text-purple-900 uppercase">👧 Compras - Crianças (Sofia)</span>
+                                <button onclick="adicionarCompraEspecifica('Criança (Sofia)')" class="bg-purple-600 hover:bg-purple-700 text-white px-2.5 py-1 rounded-lg text-[11px] font-bold transition shadow-sm">➕ Adicionar</button>
+                            </div>
+                            <div class="space-y-2.5 pt-1">${comprasCriancasHtml}</div>
+                        </div>
+                    </div>
+                `;
+            } catch(err) {
+                console.error("Erro nas compras:", err);
             }
         }
 
@@ -1835,6 +1880,7 @@
             if(moeda === 'CHF') dadosApp.cotacaoChf = num > 0 ? num : 6.50;
             salvarStorage();
             renderizarOrcamentoTab();
+            renderizarComprasTab();
             alert("💾 Cotação guardada com sucesso!");
         }
 
@@ -1886,17 +1932,15 @@
             if(!dadosApp.compras) dadosApp.compras = [];
             dadosApp.compras.unshift({ id: Date.now(), local: "Loja / Outlet", valor: 0, moeda: "EUR", publico: publico, concluido: false });
             salvarStorage();
+            renderizarComprasTab();
             renderizarOrcamentoTab();
-        }
-
-        function adicionarCompra() {
-            adicionarCompraEspecifica('Adulto');
         }
 
         function apagarCompra(id) {
             registarEstadoAnterior();
             dadosApp.compras = dadosApp.compras.filter(c => String(c.id) !== String(id));
             salvarStorage();
+            renderizarComprasTab();
             renderizarOrcamentoTab();
         }
 
@@ -1905,7 +1949,6 @@
             if(c) {
                 c[campo] = val;
                 salvarStorage();
-                if(campo === 'publico' || campo === 'moeda') renderizarOrcamentoTab();
             }
         }
 
@@ -1914,6 +1957,7 @@
             if(c) {
                 c.moeda = val;
                 salvarStorage();
+                renderizarComprasTab();
                 renderizarOrcamentoTab();
             }
         }
@@ -1924,6 +1968,7 @@
             if(c) {
                 c.valor = val !== "" ? limparNumero(val) : 0;
                 salvarStorage();
+                renderizarComprasTab();
                 renderizarOrcamentoTab();
             }
         }
@@ -1934,7 +1979,7 @@
             if(c) {
                 c.concluido = !c.concluido;
                 salvarStorage();
-                renderizarOrcamentoTab();
+                renderizarComprasTab();
             }
         }
 
