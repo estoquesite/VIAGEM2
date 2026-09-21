@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v202.0)</title>
+    <title>Roteiro Europa - Mariana (v203.0)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Manifest Dinâmico via JavaScript -->
@@ -39,7 +39,7 @@
             <a href="https://translate.google.com/?hl=pt&sl=auto&tl=pt&op=images" target="_blank" class="bg-indigo-600 hover:bg-indigo-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm flex items-center gap-1" title="Google Tradutor & Câmara">🌐 Tradutor</a>
             <button onclick="window.location.reload()" class="bg-slate-800 hover:bg-slate-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm border border-slate-700" title="Atualizar Página">🔄</button>
             <button onclick="exportarPdfPrint()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm" title="Imprimir Tudo">🖨️</button>
-            <span class="bg-indigo-950 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v202.0</span>
+            <span class="bg-indigo-950 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v203.0</span>
         </div>
     </header>
 
@@ -213,7 +213,7 @@
 
     <!-- BARRA DE FERRAMENTAS FIXA -->
     <nav class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-md text-white px-3 py-2.5 shadow-2xl border-t border-slate-800 text-xs flex items-center justify-around gap-1 overflow-x-auto no-scrollbar max-w-4xl mx-auto rounded-t-2xl">
-        <span class="bg-indigo-600 px-2 py-1 rounded font-mono font-bold text-[9px] shrink-0">v202.0</span>
+        <span class="bg-indigo-600 px-2 py-1 rounded font-mono font-bold text-[9px] shrink-0">v203.0</span>
         <button onclick="abrirGeminiModal()" class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-3 py-1.5 rounded-xl font-bold transition shrink-0 flex items-center gap-1 text-xs shadow-sm">
             <span>✨</span> Gemini
         </button>
@@ -253,7 +253,7 @@
 
     <script>
         // CHAVE PERMANENTE FIXA: Os teus dados nunca mais se vão perder ao atualizar as versões!
-        const CHAVE_APP = "mariana_viagem_europa_dados_fixos_v202";
+        const CHAVE_APP = "mariana_viagem_europa_dados_fixos_v203";
         let destinoFiltro = 'todos';
         let tarefaFiltro = 'todas';
         let utilidadeFiltro = 'todos';
@@ -369,11 +369,11 @@
                 navigator.serviceWorker.register(URL.createObjectURL(swBlob)).catch(err => {});
             }
 
-            if (!sessionStorage.getItem('sessao_ativa_v202')) {
+            if (!sessionStorage.getItem('sessao_ativa_v203')) {
                 document.getElementById('tela-bloqueio').classList.add('hidden');
             }
 
-            const temaSalvo = localStorage.getItem('tema_v202');
+            const temaSalvo = localStorage.getItem('tema_v203');
             if (temaSalvo === 'dark') {
                 document.body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 document.body.classList.remove('bg-slate-100', 'text-slate-800');
@@ -433,7 +433,7 @@
                 if(inputChf) inputChf.value = dadosApp.cotacaoChf;
 
                 atualizarTudo();
-                let tabSalva = localStorage.getItem('tab_ativa_v202') || 'leitura';
+                let tabSalva = localStorage.getItem('tab_ativa_v203') || 'leitura';
                 mudarTab(tabSalva);
             } catch(e) {
                 console.error("Erro ao iniciar:", e);
@@ -457,10 +457,10 @@
         }
 
         function desbloquearComPin() {
-            let pinSalvo = localStorage.getItem('app_pin_v202') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v203') || '1510';
             let digitado = document.getElementById('input-pin').value;
             if(digitado === pinSalvo) {
-                sessionStorage.setItem('sessao_ativa_v202', 'true');
+                sessionStorage.setItem('sessao_ativa_v203', 'true');
                 document.getElementById('tela-bloqueio').classList.add('hidden');
                 document.getElementById('erro-pin').classList.add('hidden');
             } else {
@@ -469,17 +469,17 @@
         }
 
         async function desbloquearComBiometria() {
-            sessionStorage.setItem('sessao_ativa_v202', 'true');
+            sessionStorage.setItem('sessao_ativa_v203', 'true');
             document.getElementById('tela-bloqueio').classList.add('hidden');
         }
 
         function alterarSenhaPin() {
             let atual = prompt("Digite a senha atual (Padrão: 1510):");
-            let pinSalvo = localStorage.getItem('app_pin_v202') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v203') || '1510';
             if(atual === pinSalvo) {
                 let nova = prompt("Digite a nova senha PIN:");
                 if(nova && nova.trim() !== '') {
-                    localStorage.setItem('app_pin_v202', nova.trim());
+                    localStorage.setItem('app_pin_v203', nova.trim());
                     alert("🔑 Senha alterada com sucesso!");
                 }
             } else {
@@ -492,11 +492,11 @@
             if(body.classList.contains('dark')) {
                 body.classList.remove('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.add('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v202', 'light');
+                localStorage.setItem('tema_v203', 'light');
             } else {
                 body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.remove('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v202', 'dark');
+                localStorage.setItem('tema_v203', 'dark');
             }
         }
 
@@ -702,7 +702,7 @@
         }
 
         function mudarTab(tab) {
-            localStorage.setItem('tab_ativa_v202', tab);
+            localStorage.setItem('tab_ativa_v203', tab);
             if(tab === 'itinerario' || tab === 'leitura') {
                 destinoFiltro = 'todos';
             }
@@ -1256,7 +1256,7 @@
                     voosHtml = '<p class="text-xs text-slate-400 italic text-center py-2">Nenhum voo registado.</p>';
                 } else {
                     dadosApp.voos.forEach(v => {
-                        let pdfAction = v.pdfData ? '<button onclick="abrirLeitorPdf(\'' + v.id + '\', \'Passagem ' + (v.voo || 'Voo') + '\')" class="bg-indigo-600 text-white px-2 py-1 rounded-xl text-xs font-bold shadow-sm">📄 PDF</button>' : '<label class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-2 py-1 rounded-xl text-xs font-bold cursor-pointer border shadow-sm">📎 PDF<input type="file" accept="application/pdf" onchange="anexarPdfVoo(' + v.id + ', event)" class="hidden"></label>';
+                        let pdfAction = v.pdfData ? '<button onclick="abrirLeitorPdf(\'' + v.id + '\', \'Passagem ' + (v.voo || 'Voo') + '\')" class="bg-indigo-600 text-white px-2.5 py-1 rounded-xl text-xs font-bold shadow-sm">📄 PDF</button>' : '<label class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-2.5 py-1 rounded-xl text-xs font-bold cursor-pointer border shadow-sm">📎 PDF<input type="file" accept="application/pdf" onchange="anexarPdfVoo(' + v.id + ', event)" class="hidden"></label>';
                         let ciaSafe = (v.cia || '').replace(/"/g, '&quot;');
                         let vooSafe = (v.voo || '').replace(/"/g, '&quot;');
                         let pnrSafe = (v.pnr || '').replace(/"/g, '&quot;');
@@ -1591,8 +1591,8 @@
                     dadosApp.orcamento.forEach(d => {
                         let val = limparNumero(d.valor);
                         if(val > 0) {
-                            if(d.moeda === 'EUR') gastoEur += val;
-                            else if(d.moeda === 'CHF') gastoChf += val;
+                            if(moeda === 'EUR') gastoEur += val;
+                            else if(moeda === 'CHF') gastoChf += val;
                         }
                     });
                 }
