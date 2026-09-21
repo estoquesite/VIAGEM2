@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v169.0)</title>
+    <title>Roteiro Europa - Mariana (v162.0)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Manifest Dinâmico via JavaScript -->
@@ -38,7 +38,7 @@
         <div class="flex items-center gap-2">
             <button onclick="window.location.reload()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-2.5 py-1 rounded-lg font-bold text-[10px] transition shadow-sm" title="Atualizar Página">🔄 Atualizar</button>
             <button onclick="exportarPdfPrint()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2.5 py-1 rounded-lg font-bold text-[10px] transition shadow-sm">🖨️ Imprimir Tudo</button>
-            <span class="bg-indigo-800 px-2 py-1 rounded-lg font-mono font-bold text-[10px]">v169.0</span>
+            <span class="bg-indigo-800 px-2 py-1 rounded-lg font-mono font-bold text-[10px]">v162.0</span>
         </div>
     </header>
 
@@ -125,9 +125,9 @@
 
                 <!-- CARD DE DESTAQUE: TOTAL GASTO GERAL EM REAIS NO TOPO -->
                 <div class="bg-emerald-50/80 p-4 rounded-2xl border-2 border-emerald-300 shadow-md text-center space-y-1">
-                    <span class="font-black text-xs text-emerald-900 uppercase tracking-wide block">📊 Total Gasto Geral em Reais (R$)[span_2](start_span)[span_2](end_span)</span>
+                    <span class="font-black text-xs text-emerald-900 uppercase tracking-wide block">📊 Total Gasto Geral em Reais (R$)[span_3](start_span)[span_3](end_span)</span>
                     <div id="resumo-total-gasto-brl" class="text-2xl font-black text-emerald-700">R$ 0.00</div>
-                    <p class="text-[10px] text-slate-600">Soma acumulada de todas as despesas e trechos (Euros + Francos)[span_3](start_span)[span_3](end_span).</p>
+                    <p class="text-[10px] text-slate-600">Soma acumulada de todas as despesas e trechos (Euros + Francos)[span_4](start_span)[span_4](end_span).</p>
                 </div>
 
                 <!-- COTAÇÃO GERAL -->
@@ -136,13 +136,13 @@
                     <div class="grid grid-cols-2 gap-2">
                         <div class="flex items-center gap-1.5 bg-white p-2 border border-slate-200 rounded-xl shadow-sm">
                             <span class="font-bold text-xs text-amber-800">1€=R$</span>
-                            <input type="text" id="input-cotacao-eur" class="w-full font-black text-xs outline-none text-slate-900" placeholder="6.20">
-                            <button onclick="salvarCotacao('EUR', this.previousElementSibling.value)" class="bg-emerald-600 text-white px-2.5 py-1 rounded-lg font-bold text-[10px]">OK</button>
+                            <input type="number" id="input-cotacao-eur" step="0.01" class="w-full font-black text-xs outline-none text-slate-900" placeholder="6.20">
+                            <button onclick="salvarCotacao('EUR', document.getElementById('input-cotacao-eur').value)" class="bg-emerald-600 text-white px-2.5 py-1 rounded-lg font-bold text-[10px]">OK</button>
                         </div>
                         <div class="flex items-center gap-1.5 bg-white p-2 border border-slate-200 rounded-xl shadow-sm">
                             <span class="font-bold text-xs text-blue-800">1CHF=R$</span>
-                            <input type="text" id="input-cotacao-chf" class="w-full font-black text-xs outline-none text-slate-900" placeholder="6.50">
-                            <button onclick="salvarCotacao('CHF', this.previousElementSibling.value)" class="bg-emerald-600 text-white px-2.5 py-1 rounded-lg font-bold text-[10px]">OK</button>
+                            <input type="number" id="input-cotacao-chf" step="0.01" class="w-full font-black text-xs outline-none text-slate-900" placeholder="6.50">
+                            <button onclick="salvarCotacao('CHF', document.getElementById('input-cotacao-chf').value)" class="bg-emerald-600 text-white px-2.5 py-1 rounded-lg font-bold text-[10px]">OK</button>
                         </div>
                     </div>
                 </div>
@@ -198,7 +198,7 @@
 
     <!-- BARRA DE FERRAMENTAS FIXA -->
     <nav class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-md text-white px-3 py-2.5 shadow-2xl border-t border-slate-800 text-xs flex items-center justify-around gap-1 overflow-x-auto no-scrollbar max-w-4xl mx-auto rounded-t-2xl">
-        <span class="bg-indigo-600 px-2 py-1 rounded font-mono font-bold text-[9px] shrink-0">v169.0</span>
+        <span class="bg-indigo-600 px-2 py-1 rounded font-mono font-bold text-[9px] shrink-0">v162.0</span>
         <button onclick="abrirGeminiModal()" class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-3 py-1.5 rounded-xl font-bold transition shrink-0 flex items-center gap-1 text-xs shadow-sm">
             <span>✨</span> Gemini
         </button>
@@ -237,7 +237,7 @@
     </div>
 
     <script>
-        const CHAVE_APP = "mariana_viagem_europa_v169";
+        const CHAVE_APP = "mariana_viagem_europa_v162";
         let destinoFiltro = 'todos';
         let tarefaFiltro = 'todas';
         let utilidadeFiltro = 'todos';
@@ -304,13 +304,6 @@
             return diffDays > 0 ? diffDays : 1;
         }
 
-        function limparNumero(val) {
-            if (val === undefined || val === null || val === "") return 0;
-            let str = String(val).trim().replace(/\./g, '').replace(',', '.');
-            let num = parseFloat(str);
-            return isNaN(num) ? 0 : num;
-        }
-
         window.addEventListener('DOMContentLoaded', () => {
             const manifestObj = {
                 "name": "Roteiro Europa - Mariana",
@@ -338,11 +331,11 @@
                 navigator.serviceWorker.register(URL.createObjectURL(swBlob)).catch(err => {});
             }
 
-            if (!sessionStorage.getItem('sessao_ativa_v169')) {
+            if (!sessionStorage.getItem('sessao_ativa_v162')) {
                 document.getElementById('tela-bloqueio').classList.remove('hidden');
             }
 
-            const temaSalvo = localStorage.getItem('tema_v169');
+            const temaSalvo = localStorage.getItem('tema_v162');
             if (temaSalvo === 'dark') {
                 document.body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 document.body.classList.remove('bg-slate-100', 'text-slate-800');
@@ -375,7 +368,7 @@
 
             try {
                 atualizarTudo();
-                let tabSalva = localStorage.getItem('tab_ativa_v169') || 'leitura';
+                let tabSalva = localStorage.getItem('tab_ativa_v162') || 'leitura';
                 mudarTab(tabSalva);
             } catch(e) {
                 console.error("Erro ao iniciar:", e);
@@ -399,10 +392,10 @@
         }
 
         function desbloquearComPin() {
-            let pinSalvo = localStorage.getItem('app_pin_v169') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v162') || '1510';
             let digitado = document.getElementById('input-pin').value;
             if(digitado === pinSalvo) {
-                sessionStorage.setItem('sessao_ativa_v169', 'true');
+                sessionStorage.setItem('sessao_ativa_v162', 'true');
                 document.getElementById('tela-bloqueio').classList.add('hidden');
                 document.getElementById('erro-pin').classList.add('hidden');
             } else {
@@ -411,17 +404,17 @@
         }
 
         async function desbloquearComBiometria() {
-            sessionStorage.setItem('sessao_ativa_v169', 'true');
+            sessionStorage.setItem('sessao_ativa_v162', 'true');
             document.getElementById('tela-bloqueio').classList.add('hidden');
         }
 
         function alterarSenhaPin() {
             let atual = prompt("Digite a senha atual (Padrão: 1510):");
-            let pinSalvo = localStorage.getItem('app_pin_v169') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v162') || '1510';
             if(atual === pinSalvo) {
                 let nova = prompt("Digite a nova senha PIN:");
                 if(nova && nova.trim() !== '') {
-                    localStorage.setItem('app_pin_v169', nova.trim());
+                    localStorage.setItem('app_pin_v162', nova.trim());
                     alert("🔑 Senha alterada com sucesso!");
                 }
             } else {
@@ -434,11 +427,11 @@
             if(body.classList.contains('dark')) {
                 body.classList.remove('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.add('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v169', 'light');
+                localStorage.setItem('tema_v162', 'light');
             } else {
                 body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.remove('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v169', 'dark');
+                localStorage.setItem('tema_v162', 'dark');
             }
         }
 
@@ -546,18 +539,17 @@
             }
         }
 
-        function atualizarCorBlocoLocal(id, corHex) {
+        function atualizarCorBlocoLocal(id, cor) {
             registarEstadoAnterior();
             let item = dadosApp.itinerario.find(i => String(i.id) === String(id));
             if(item) {
-                item.cor = corHex;
+                item.cor = cor;
                 if(item.categoria) {
                     if(!dadosApp.coresDestinos) dadosApp.coresDestinos = {};
-                    dadosApp.coresDestinos[item.categoria] = corHex;
+                    dadosApp.coresDestinos[item.categoria] = cor;
                 }
                 salvarStorage();
                 atualizarTudo();
-                alert("🎨 Cor Master atualizada com sucesso!");
             }
         }
 
@@ -607,7 +599,7 @@
         }
 
         function mudarTab(tab) {
-            localStorage.setItem('tab_ativa_v169', tab);
+            localStorage.setItem('tab_ativa_v162', tab);
             if(tab === 'itinerario' || tab === 'leitura') {
                 destinoFiltro = 'todos';
             }
@@ -791,7 +783,7 @@
             renderizarHubUtilidades();
         }
 
-        // ROTEIRO (COM RISCAR E DESCER)
+        // ROTEIRO
         function renderizarModoLeitura() {
             const container = document.getElementById('lista-leitura-html');
             const progressoEl = document.getElementById('progresso-viagem');
@@ -802,8 +794,6 @@
             if(destinoFiltro !== 'todos') {
                 blocosAprovados = blocosAprovados.filter(i => (i.categoria || "").toLowerCase().includes(destinoFiltro.toLowerCase()));
             }
-
-            blocosAprovados.sort((a, b) => (a.concluido === b.concluido) ? 0 : a.concluido ? 1 : -1);
 
             let total = blocosAprovados.length;
             let concluidos = blocosAprovados.filter(b => b.concluido).length;
@@ -816,15 +806,14 @@
 
             blocosAprovados.forEach(item => {
                 let corMaster = item.cor || obterCorPorCategoria(item.categoria);
-                let bgStyle = item.concluido ? 'bg-emerald-50/70 border-emerald-300 opacity-75' : 'bg-white border-slate-200';
-                let textStyle = item.concluido ? 'line-through text-slate-400' : 'text-slate-700';
+                let bgStyle = item.concluido ? 'bg-emerald-50/70 border-emerald-300 opacity-80' : 'bg-white border-slate-200';
                 let dIni = item.dataInicio ? item.dataInicio.split('-').reverse().join('/') : '?';
                 let dFim = item.dataFim ? item.dataFim.split('-').reverse().join('/') : '?';
 
                 let trechosTexto = '';
                 if(item.trechos && item.trechos.length > 0) {
                     item.trechos.forEach(tr => {
-                        trechosTexto += '<div class="text-xs ' + textStyle + ' bg-slate-50 p-2.5 rounded-xl border border-slate-200 flex flex-col gap-2 my-1.5 shadow-sm"><div class="flex justify-between items-start gap-2"><div class="flex-1 min-w-0 break-words"><span class="font-bold text-xs ' + (item.concluido ? 'line-through text-slate-400' : 'text-slate-900') + '">🚄 ' + (tr.origem || '?') + ' ➔ ' + (tr.destino || '?') + '</span> <span class="font-medium">(' + (tr.transporte || 'Trem') + ')</span>' + (tr.valor ? ' • <span class="font-black ' + (item.concluido ? 'line-through text-slate-400' : 'text-amber-900') + '">' + tr.valor + ' ' + (tr.moeda || 'EUR') + '</span>' : '') + (tr.notas ? '<div class="text-[11px] italic mt-1 whitespace-pre-wrap break-words">📝 ' + tr.notas + '</div>' : '') + '</div></div><div class="flex gap-1.5 flex-wrap border-t border-slate-200 pt-2"><button onclick="abrirMapaRuta(\'' + (tr.origem || '') + '\', \'' + (tr.destino || '') + '\')" class="bg-sky-100 text-sky-800 hover:bg-sky-200 px-2.5 py-1 rounded-lg font-bold text-[10px] transition">🗺️ Mapa</button><button onclick="abrirWebcam(\'' + (tr.destino || item.categoria) + '\')" class="bg-purple-100 text-purple-800 hover:bg-purple-200 px-2.5 py-1 rounded-lg font-bold text-[10px] transition">📹 Câmera</button><button onclick="mostrarClimaModal(\'' + (tr.destino || item.categoria) + '\')" class="bg-amber-100 text-amber-800 hover:bg-amber-200 px-2.5 py-1 rounded-lg font-bold text-[10px] transition">🌤️ Clima</button></div></div>';
+                        trechosTexto += '<div class="text-xs text-slate-700 bg-slate-50 p-2.5 rounded-xl border border-slate-200 flex flex-col gap-2 my-1.5 shadow-sm"><div class="flex justify-between items-start gap-2"><div class="flex-1 min-w-0 break-words"><span class="font-bold text-xs text-slate-900">🚄 ' + (tr.origem || '?') + ' ➔ ' + (tr.destino || '?') + '</span> <span class="text-slate-500 font-medium">(' + (tr.transporte || 'Trem') + ')</span>' + (tr.valor ? ' • <span class="font-black text-amber-900">' + tr.valor + ' ' + (tr.moeda || 'EUR') + '</span>' : '') + (tr.notas ? '<div class="text-[11px] text-slate-600 italic mt-1 whitespace-pre-wrap break-words">📝 ' + tr.notas + '</div>' : '') + '</div></div><div class="flex gap-1.5 flex-wrap border-t border-slate-200 pt-2"><button onclick="abrirMapaRuta(\'' + (tr.origem || '') + '\', \'' + (tr.destino || '') + '\')" class="bg-sky-100 text-sky-800 hover:bg-sky-200 px-2.5 py-1 rounded-lg font-bold text-[10px] transition">🗺️ Mapa</button><button onclick="abrirWebcam(\'' + (tr.destino || item.categoria) + '\')" class="bg-purple-100 text-purple-800 hover:bg-purple-200 px-2.5 py-1 rounded-lg font-bold text-[10px] transition">📹 Câmera</button><button onclick="mostrarClimaModal(\'' + (tr.destino || item.categoria) + '\')" class="bg-amber-100 text-amber-800 hover:bg-amber-200 px-2.5 py-1 rounded-lg font-bold text-[10px] transition">🌤️ Clima</button></div></div>';
                     });
                 }
 
@@ -832,7 +821,7 @@
                 if(item.itens && item.itens.length > 0) {
                     item.itens.forEach(it => {
                         if(it.texto && it.texto.trim() !== '') {
-                            itensTexto += '<div class="text-xs bg-slate-50 p-2 rounded-xl border border-slate-200 my-1 ' + (item.concluido ? 'line-through text-slate-400' : 'text-slate-800 font-medium') + '">• ' + it.texto + '</div>';
+                            itensTexto += '<div class="text-xs bg-slate-50 p-2 rounded-xl border border-slate-200 my-1 text-slate-800 font-medium">• ' + it.texto + '</div>';
                         }
                     });
                 }
@@ -841,12 +830,12 @@
                 card.className = 'p-3.5 rounded-2xl border shadow-sm space-y-2.5 transition flex flex-col justify-between ' + bgStyle;
                 card.style.borderLeft = '6px solid ' + corMaster;
 
-                card.innerHTML = '<div class="space-y-1.5"><div class="flex justify-between items-center gap-2 flex-wrap border-b border-slate-100 pb-2"><div class="flex items-center gap-1.5"><span class="font-black px-2 py-0.5 rounded-lg text-[10px] text-white shadow-sm" style="background-color: ' + corMaster + ';">' + (item.categoria || 'Geral') + '</span><span class="font-bold text-xs ' + (item.concluido ? 'line-through text-slate-400' : 'text-slate-600') + '">📅 ' + dIni + ' ➔ ' + dFim + '</span></div><div class="flex items-center gap-1.5"><label class="flex items-center gap-1 cursor-pointer font-bold bg-slate-100 hover:bg-slate-200 px-2 py-1 rounded-xl transition text-xs"><input type="checkbox" ' + (item.concluido ? 'checked' : '') + ' onchange="alternarConcluidoBloco(\'' + item.id + '\')" class="w-3.5 h-3.5 accent-emerald-600 rounded cursor-pointer"><span>Feito</span></label><button onclick="removerDoRoteiro(\'' + item.id + '\')" class="bg-amber-50 hover:bg-amber-100 text-amber-700 px-2 py-1 rounded-xl font-bold text-xs" title="Retirar do Roteiro">✕</button></div></div><div class="space-y-1.5 pt-0.5">' + (trechosTexto || '<span class="text-xs text-slate-400 italic">Nenhum trecho adicionado.</span>') + (itensTexto ? '<div class="mt-2 pt-2 border-t border-slate-200 space-y-1"><span class="text-[11px] font-extrabold uppercase text-slate-600">📌 Notas / Textos:</span>' + itensTexto + '</div>' : '') + '</div></div>';
+                card.innerHTML = '<div class="space-y-1.5"><div class="flex justify-between items-center gap-2 flex-wrap border-b border-slate-100 pb-2"><div class="flex items-center gap-1.5"><span class="font-black px-2 py-0.5 rounded-lg text-[10px] text-white shadow-sm" style="background-color: ' + corMaster + ';">' + (item.categoria || 'Geral') + '</span><span class="text-slate-600 font-bold text-xs">📅 ' + dIni + ' ➔ ' + dFim + '</span></div><div class="flex items-center gap-1.5"><label class="flex items-center gap-1 cursor-pointer font-bold bg-slate-100 hover:bg-slate-200 px-2 py-1 rounded-xl transition text-xs"><input type="checkbox" ' + (item.concluido ? 'checked' : '') + ' onchange="alternarConcluidoBloco(\'' + item.id + '\')" class="w-3.5 h-3.5 accent-emerald-600 rounded cursor-pointer"><span>Feito</span></label><button onclick="removerDoRoteiro(\'' + item.id + '\')" class="bg-amber-50 hover:bg-amber-100 text-amber-700 px-2 py-1 rounded-xl font-bold text-xs" title="Retirar do Roteiro">✕</button></div></div><div class="space-y-1.5 pt-0.5">' + (trechosTexto || '<span class="text-xs text-slate-400 italic">Nenhum trecho adicionado.</span>') + (itensTexto ? '<div class="mt-2 pt-2 border-t border-slate-200 space-y-1"><span class="text-[11px] font-extrabold uppercase text-slate-600">📌 Notas / Textos:</span>' + itensTexto + '</div>' : '') + '</div></div>';
                 container.appendChild(card);
             });
         }
 
-        // RENDERIZAR EDITAR (COM PALETA DE CORES RÁPIDAS E BLINDADAS)
+        // RENDERIZAR EDITAR
         function renderizarBlocos() {
             const container = document.getElementById('lista-blocos');
             if(!container) return;
@@ -907,7 +896,7 @@
                                     '<option value="Carro" ' + (tr.transporte==='Carro'?'selected':'') + '>Carro</option>' +
                                     '<option value="Outro" ' + (tr.transporte==='Outro'?'selected':'') + '>Outro</option>' +
                                 '</select>' +
-                                '<input type="text" value="' + (tr.valor || 0) + '" onchange="atualizarTrecho(\'' + item.id + '\', \'' + tr.id + '\', \'valor\', limparNumero(this.value)); atualizarTudo();" class="w-20 shrink-0 p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs" placeholder="0">' +
+                                '<input type="number" value="' + (tr.valor || 0) + '" onchange="atualizarTrecho(\'' + item.id + '\', \'' + tr.id + '\', \'valor\', this.value); atualizarTudo();" class="w-20 shrink-0 p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs" placeholder="0">' +
                                 '<select onchange="atualizarTrecho(\'' + item.id + '\', \'' + tr.id + '\', \'moeda\', this.value); atualizarTudo();" class="w-20 shrink-0 p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs">' +
                                     '<option value="EUR" ' + (tr.moeda==='EUR'?'selected':'') + '>EUR</option>' +
                                     '<option value="CHF" ' + (tr.moeda==='CHF'?'selected':'') + '>CHF</option>' +
@@ -931,15 +920,6 @@
                 let card = document.createElement('div');
                 card.className = 'p-4 rounded-2xl border border-slate-300 space-y-3 transition shadow-sm min-w-0';
                 card.style.backgroundColor = corHex;
-
-                // PALETA DE CORES RÁPIDAS (Bolinhas de cores clicáveis para garantir funcionamento 100%)
-                let coresPaleta = ["#3b82f6", "#f59e0b", "#ec4899", "#10b981", "#8b5cf6", "#ef4444", "#06b6d4", "#64748b"];
-                let paletaHtml = '<div class="flex items-center gap-1.5 bg-white px-2.5 py-1.5 rounded-xl border border-slate-300 shadow-sm flex-wrap"><span class="font-bold text-[11px] text-slate-700 mr-1">Cor:</span>';
-                coresPaleta.forEach(col => {
-                    let ring = corHex === col ? 'ring-2 ring-slate-900 scale-110' : '';
-                    paletaHtml += '<button onclick="atualizarCorBlocoLocal(\'' + item.id + '\', \'' + col + '\')" style="background-color: ' + col + ';" class="w-5 h-5 rounded-full shadow-sm transition transform hover:scale-110 ' + ring + '"></button>';
-                });
-                paletaHtml += '</div>';
 
                 card.innerHTML = '<div class="flex flex-col gap-2 border-b border-black/10 pb-2.5">' +
                     '<div class="flex justify-between items-center gap-2 flex-wrap">' +
@@ -966,12 +946,16 @@
                         '</div>' +
                     '</div>' +
                     '<div class="flex justify-between items-center pt-2 border-t border-black/10 flex-wrap gap-2">' +
-                        paletaHtml +
+                        '<div class="flex items-center gap-1.5 bg-white px-2.5 py-1.5 rounded-xl border border-slate-300 text-xs font-bold shadow-sm">' +
+                            '<input type="color" id="input-cor-' + item.id + '" value="' + corHex + '" class="w-5 h-5 rounded-lg cursor-pointer border-0 bg-transparent">' +
+                            '<span>Cor Master</span>' +
+                            '<button onclick="atualizarCorBlocoLocal(\'' + item.id + '\', document.getElementById(\'input-cor-' + item.id + '\').value)" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2 py-1 rounded-lg text-[10px] font-bold transition">OK</button>' +
+                        '</div>' +
                         '<div class="flex items-center gap-1.5">' +
                             '<button onclick="alternarBloqueio(\'' + item.id + '\')" class="' + lockBg + ' px-3 py-1.5 rounded-xl font-bold text-xs shadow-sm transition">' + lockIcon + '</button>' +
-                            '<button onclick="moverBloco(\'' + item.id + '\', -1)" class="bg-slate-200 hover:bg-slate-300 px-2 py-1.5 rounded-xl text-xs font-bold transition">⬆️</button>' +
-                            '<button onclick="moverBloco(\'' + item.id + '\', 1)" class="bg-slate-200 hover:bg-slate-300 px-2 py-1.5 rounded-xl text-xs font-bold transition">⬇️</button>' +
-                            '<button onclick="apagarBloco(\'' + item.id + '\')" class="bg-red-50 hover:bg-red-100 text-red-600 px-3 py-1.5 rounded-xl text-xs font-bold transition">Excluir ✕</button>' +
+                            '<button onclick="moverBloco(\'' + item.id + '\', -1)" class="bg-slate-200 hover:bg-slate-300 px-2 py-1.5 rounded-xl font-bold transition">⬆️</button>' +
+                            '<button onclick="moverBloco(\'' + item.id + '\', 1)" class="bg-slate-200 hover:bg-slate-300 px-2 py-1.5 rounded-xl font-bold transition">⬇️</button>' +
+                            '<button onclick="apagarBloco(\'' + item.id + '\')" class="bg-red-50 hover:bg-red-100 text-red-600 px-3 py-1.5 rounded-xl font-bold transition">Excluir ✕</button>' +
                         '</div>' +
                     '</div>';
                 container.appendChild(card);
@@ -1094,13 +1078,30 @@
         function lidarSelecaoDestino(id, valor) {
             registarEstadoAnterior();
             if(valor === 'novo_destino') {
-                let novo = prompt("Nome do destino:");
+                let novo = prompt("Nome do novo destino:");
                 if(novo && novo.trim() !== '') {
                     let limpo = novo.trim();
+                    let corNova = prompt("Escolha a cor HEX para este destino (ex: #8b5cf6):", "#8b5cf6");
                     if(!dadosApp.destinosCadastrados.includes(limpo)) dadosApp.destinosCadastrados.push(limpo);
-                    atualizarVoucherCampo(id, 'categoria', limpo);
-                } else { renderizarHubUtilidades(); }
-            } else { atualizarVoucherCampo(id, 'categoria', valor); }
+                    if(!dadosApp.coresDestinos) dadosApp.coresDestinos = {};
+                    dadosApp.coresDestinos[limpo] = corNova || "#3b82f6";
+                    let item = dadosApp.itinerario.find(i => String(i.id) === String(id));
+                    if(item) {
+                        item.categoria = limpo;
+                        item.cor = dadosApp.coresDestinos[limpo];
+                    }
+                    salvarStorage();
+                    atualizarTudo();
+                } else { renderizarBlocos(); }
+            } else {
+                let item = dadosApp.itinerario.find(i => String(i.id) === String(id));
+                if(item) {
+                    item.categoria = valor;
+                    item.cor = obterCorPorCategoria(valor);
+                }
+                salvarStorage();
+                atualizarTudo();
+            }
         }
 
         // RENDERIZAR HUB DE UTILIDADES
@@ -1473,7 +1474,7 @@
             } else { atualizarVoucherCampo(id, 'categoria', valor); }
         }
 
-        // ORÇAMENTO (COM LAYOUT ELEGANTE PARA DESPESAS DE TRECHOS)
+        // ORÇAMENTO (COM ABAS NÍTIDAS E TOTAL NO TOPO)
         function renderizarOrcamentoTab() {
             const container = document.getElementById('orcamento-conteudo');
             const resumoTotalGastoBrl = document.getElementById('resumo-total-gasto-brl');
@@ -1489,7 +1490,7 @@
             dadosApp.itinerario.forEach(item => {
                 if(item.trechos && item.trechos.length > 0) {
                     item.trechos.forEach(tr => {
-                        let val = limparNumero(tr.valor);
+                        let val = parseFloat(tr.valor) || 0;
                         let moeda = tr.moeda || 'EUR';
                         if(val > 0) {
                             if(moeda === 'EUR') gastoEur += val;
@@ -1501,7 +1502,7 @@
 
             if(dadosApp.orcamento && dadosApp.orcamento.length > 0) {
                 dadosApp.orcamento.forEach(d => {
-                    let val = limparNumero(d.valor);
+                    let val = parseFloat(d.valor) || 0;
                     if(val > 0) {
                         if(d.moeda === 'EUR') gastoEur += val;
                         else if(d.moeda === 'CHF') gastoChf += val;
@@ -1517,16 +1518,10 @@
                 dadosApp.itinerario.forEach(item => {
                     if(item.trechos) {
                         item.trechos.forEach(tr => {
-                            let val = limparNumero(tr.valor);
+                            let val = parseFloat(tr.valor) || 0;
                             if(val > 0 && tr.moeda === 'EUR') {
                                 let valBrl = val * cotEur;
-                                despesasEurHtml += '<div class="p-3 rounded-xl bg-white border border-slate-200 flex flex-col gap-1.5 text-xs shadow-sm">' +
-                                    '<span class="font-bold text-slate-800 truncate">🚄 ' + (tr.origem||'?') + ' ➔ ' + (tr.destino||'?') + '</span>' +
-                                    '<div class="flex justify-between items-center border-t border-slate-100 pt-1.5">' +
-                                        '<span class="text-slate-500 font-medium">Trecho Oficial</span>' +
-                                        '<div class="text-right whitespace-nowrap"><span class="font-black text-amber-900 text-sm">' + val.toFixed(2) + ' €</span><span class="text-emerald-700 font-bold text-[11px] block">R$ ' + valBrl.toFixed(2) + '</span></div>' +
-                                    '</div>' +
-                                '</div>';
+                                despesasEurHtml += '<div class="p-2.5 rounded-xl bg-white border border-slate-200 flex justify-between items-center text-xs shadow-sm"><span class="font-bold truncate text-slate-800">🚄 ' + (tr.origem||'?') + '➔' + (tr.destino||'?') + '</span><div class="text-right"><span class="font-black text-amber-900 block">' + val.toFixed(2) + ' €</span><span class="text-emerald-700 font-bold text-[10px]">R$ ' + valBrl.toFixed(2) + '</span></div></div>';
                             }
                         });
                     }
@@ -1535,29 +1530,27 @@
                 if(dadosApp.orcamento) {
                     dadosApp.orcamento.forEach(d => {
                         if(d.moeda === 'EUR') {
-                            let val = limparNumero(d.valor);
+                            let val = parseFloat(d.valor) || 0;
                             let valBrl = val * cotEur;
-                            despesasEurHtml += '<div class="p-3 rounded-xl bg-white border border-slate-200 flex flex-col gap-2 text-xs shadow-sm">' +
-                                '<input type="text" value="' + d.descricao + '" onchange="atualizarOrcamentoDescricao(' + d.id + ', this.value)" class="w-full bg-transparent outline-none font-bold text-slate-800 text-xs border-b pb-1" placeholder="Descrição...">' +
-                                '<div class="flex items-center justify-between gap-2">' +
-                                    '<span class="text-slate-500 font-medium">Valor (€):</span>' +
-                                    '<div class="flex items-center gap-1.5"><input type="text" value="' + (val !== 0 ? val : '') + '" id="despesa-val-' + d.id + '" class="w-20 p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-black text-right text-xs outline-none" placeholder="0">' +
-                                    '<button onclick="salvarDespesaValor(' + d.id + ', document.getElementById(\'despesa-val-' + d.id + '\').value)" class="bg-emerald-600 text-white px-2.5 py-1.5 rounded-lg font-bold text-[10px]">OK</button></div>' +
-                                    '<button onclick="apagarDespesa(' + d.id + ')" class="text-red-500 font-bold px-2 py-1.5 rounded-xl bg-red-50 hover:bg-red-100 text-xs">✕</button></div>' +
-                                '</div>';
+                            despesasEurHtml += '<div class="p-2.5 rounded-xl bg-white border border-slate-200 flex items-center justify-between gap-2 text-xs shadow-sm">' +
+                                '<input type="text" value="' + d.descricao + '" onchange="atualizarOrcamentoDescricao(' + d.id + ', this.value)" class="flex-1 min-w-0 bg-transparent outline-none font-bold text-slate-800 text-xs" placeholder="Descrição...">' +
+                                '<div class="text-right shrink-0"><input type="number" value="' + (d.valor !== 0 ? d.valor : '') + '" id="despesa-val-' + d.id + '" class="w-20 p-1 bg-slate-50 border border-slate-300 rounded-xl font-black text-right text-xs outline-none" placeholder="0">' +
+                                '<button onclick="salvarDespesaValor(' + d.id + ', document.getElementById(\'despesa-val-' + d.id + '\').value)" class="bg-emerald-600 text-white px-2 py-1 rounded-lg font-bold text-[10px] ml-1">OK</button></div>' +
+                                '<button onclick="apagarDespesa(' + d.id + ')" class="text-red-500 font-bold px-2 py-1 rounded-xl bg-red-50 hover:bg-red-100 text-xs">✕</button>' +
+                            '</div>';
                         }
                     });
                 }
                 if(despesasEurHtml === '') despesasEurHtml = '<p class="text-xs text-slate-400 italic">Sem despesas em Euros registadas.</p>';
 
-                let sobraEur = (limparNumero(dadosApp.saldoEur)) - gastoEur;
+                let sobraEur = (parseFloat(dadosApp.saldoEur) || 0) - gastoEur;
                 container.innerHTML = `
                     <div class="bg-amber-50/50 p-4 rounded-2xl border border-amber-200 space-y-3 shadow-sm">
                         <h3 class="font-black text-amber-900 text-xs uppercase border-b border-amber-200 pb-1.5">💶 Gestão de Euros (€)</h3>
                         <div>
                             <label class="block font-bold text-xs text-amber-800 mb-1">Disponível (€)</label>
-                            <div class="flex gap-1.5">
-                                <input type="text" id="input-saldo-eur" value="${dadosApp.saldoEur !== "" ? dadosApp.saldoEur : ''}" class="flex-1 p-2.5 bg-white border border-amber-300 rounded-xl font-black text-amber-900 text-sm shadow-inner outline-none" placeholder="0">
+                            <div class="flex gap-1">
+                                <input type="number" id="input-saldo-eur" value="${dadosApp.saldoEur !== "" ? dadosApp.saldoEur : ''}" class="flex-1 p-2 bg-white border border-amber-300 rounded-xl font-black text-amber-900 text-sm shadow-inner outline-none" placeholder="0">
                                 <button onclick="salvarSaldo('EUR', document.getElementById('input-saldo-eur').value)" class="bg-emerald-600 text-white px-3 py-2 rounded-xl font-bold text-xs">OK</button>
                             </div>
                         </div>
@@ -1571,7 +1564,7 @@
                         </div>
                         <div class="space-y-2 pt-2">
                             <span class="font-bold text-xs text-amber-900 uppercase block">Despesas em Euros (€):</span>
-                            <div class="space-y-2.5">${despesasEurHtml}</div>
+                            <div class="space-y-2">${despesasEurHtml}</div>
                         </div>
                         <button onclick="adicionarDespesa('EUR')" class="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold py-2.5 rounded-xl text-xs transition shadow-sm mt-3">➕ Nova Despesa EUR</button>
                     </div>
@@ -1582,16 +1575,10 @@
                 dadosApp.itinerario.forEach(item => {
                     if(item.trechos) {
                         item.trechos.forEach(tr => {
-                            let val = limparNumero(tr.valor);
+                            let val = parseFloat(tr.valor) || 0;
                             if(val > 0 && tr.moeda === 'CHF') {
                                 let valBrl = val * cotChf;
-                                despesasChfHtml += '<div class="p-3 rounded-xl bg-white border border-slate-200 flex flex-col gap-1.5 text-xs shadow-sm">' +
-                                    '<span class="font-bold text-slate-800 truncate">🚄 ' + (tr.origem||'?') + ' ➔ ' + (tr.destino||'?') + '</span>' +
-                                    '<div class="flex justify-between items-center border-t border-slate-100 pt-1.5">' +
-                                        '<span class="text-slate-500 font-medium">Trecho Oficial</span>' +
-                                        '<div class="text-right whitespace-nowrap"><span class="font-black text-blue-900 text-sm">' + val.toFixed(2) + ' CHF</span><span class="text-emerald-700 font-bold text-[11px] block">R$ ' + valBrl.toFixed(2) + '</span></div>' +
-                                    '</div>' +
-                                '</div>';
+                                despesasChfHtml += '<div class="p-2.5 rounded-xl bg-white border border-slate-200 flex justify-between items-center text-xs shadow-sm"><span class="font-bold truncate text-slate-800">🚄 ' + (tr.origem||'?') + '➔' + (tr.destino||'?') + '</span><div class="text-right"><span class="font-black text-blue-900 block">' + val.toFixed(2) + ' CHF</span><span class="text-emerald-700 font-bold text-[10px]">R$ ' + valBrl.toFixed(2) + '</span></div></div>';
                             }
                         });
                     }
@@ -1600,29 +1587,27 @@
                 if(dadosApp.orcamento) {
                     dadosApp.orcamento.forEach(d => {
                         if(d.moeda === 'CHF') {
-                            let val = limparNumero(d.valor);
+                            let val = parseFloat(d.valor) || 0;
                             let valBrl = val * cotChf;
-                            despesasChfHtml += '<div class="p-3 rounded-xl bg-white border border-slate-200 flex flex-col gap-2 text-xs shadow-sm">' +
-                                '<input type="text" value="' + d.descricao + '" onchange="atualizarOrcamentoDescricao(' + d.id + ', this.value)" class="w-full bg-transparent outline-none font-bold text-slate-800 text-xs border-b pb-1" placeholder="Descrição...">' +
-                                '<div class="flex items-center justify-between gap-2">' +
-                                    '<span class="text-slate-500 font-medium">Valor (CHF):</span>' +
-                                    '<div class="flex items-center gap-1.5"><input type="text" value="' + (val !== 0 ? val : '') + '" id="despesa-val-' + d.id + '" class="w-20 p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-black text-right text-xs outline-none" placeholder="0">' +
-                                    '<button onclick="salvarDespesaValor(' + d.id + ', document.getElementById(\'despesa-val-' + d.id + '\').value)" class="bg-emerald-600 text-white px-2.5 py-1.5 rounded-lg font-bold text-[10px]">OK</button></div>' +
-                                    '<button onclick="apagarDespesa(' + d.id + ')" class="text-red-500 font-bold px-2 py-1.5 rounded-xl bg-red-50 hover:bg-red-100 text-xs">✕</button></div>' +
-                                '</div>';
+                            despesasChfHtml += '<div class="p-2.5 rounded-xl bg-white border border-slate-200 flex items-center justify-between gap-2 text-xs shadow-sm">' +
+                                '<input type="text" value="' + d.descricao + '" onchange="atualizarOrcamentoDescricao(' + d.id + ', this.value)" class="flex-1 min-w-0 bg-transparent outline-none font-bold text-slate-800 text-xs" placeholder="Descrição...">' +
+                                '<div class="text-right shrink-0"><input type="number" value="' + (d.valor !== 0 ? d.valor : '') + '" id="despesa-val-' + d.id + '" class="w-20 p-1 bg-slate-50 border border-slate-300 rounded-xl font-black text-right text-xs outline-none" placeholder="0">' +
+                                '<button onclick="salvarDespesaValor(' + d.id + ', document.getElementById(\'despesa-val-' + d.id + '\').value)" class="bg-emerald-600 text-white px-2 py-1 rounded-lg font-bold text-[10px] ml-1">OK</button></div>' +
+                                '<button onclick="apagarDespesa(' + d.id + ')" class="text-red-500 font-bold px-2 py-1 rounded-xl bg-red-50 hover:bg-red-100 text-xs">✕</button>' +
+                            '</div>';
                         }
                     });
                 }
                 if(despesasChfHtml === '') despesasChfHtml = '<p class="text-xs text-slate-400 italic">Sem despesas em Francos registadas.</p>';
 
-                let sobraChf = (limparNumero(dadosApp.saldoChf)) - gastoChf;
+                let sobraChf = (parseFloat(dadosApp.saldoChf) || 0) - gastoChf;
                 container.innerHTML = `
                     <div class="bg-blue-50/50 p-4 rounded-2xl border border-blue-200 space-y-3 shadow-sm">
                         <h3 class="font-black text-blue-900 text-xs uppercase border-b border-blue-200 pb-1.5">🇨🇭 Gestão de Francos (CHF)</h3>
                         <div>
                             <label class="block font-bold text-xs text-blue-800 mb-1">Disponível (CHF)</label>
                             <div class="flex gap-1">
-                                <input type="text" id="input-saldo-chf" value="${dadosApp.saldoChf !== "" ? dadosApp.saldoChf : ''}" class="flex-1 p-2.5 bg-white border border-blue-300 rounded-xl font-black text-blue-900 text-sm shadow-inner outline-none" placeholder="0">
+                                <input type="number" id="input-saldo-chf" value="${dadosApp.saldoChf !== "" ? dadosApp.saldoChf : ''}" class="flex-1 p-2.5 bg-white border border-blue-300 rounded-xl font-black text-blue-900 text-sm shadow-inner outline-none" placeholder="0">
                                 <button onclick="salvarSaldo('CHF', document.getElementById('input-saldo-chf').value)" class="bg-emerald-600 text-white px-3 py-2 rounded-xl font-bold text-xs">OK</button>
                             </div>
                         </div>
@@ -1636,7 +1621,7 @@
                         </div>
                         <div class="space-y-2 pt-2">
                             <span class="font-bold text-xs text-blue-900 uppercase block">Despesas em Francos (CHF):</span>
-                            <div class="space-y-2.5">${despesasChfHtml}</div>
+                            <div class="space-y-2">${despesasChfHtml}</div>
                         </div>
                         <button onclick="adicionarDespesa('CHF')" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 rounded-xl text-xs transition shadow-sm mt-3">➕ Nova Despesa CHF</button>
                     </div>
@@ -1648,7 +1633,7 @@
                         <h3 class="font-black text-indigo-900 text-xs uppercase border-b border-indigo-200 pb-1.5">🧮 Conversor Rápido de Moeda</h3>
                         <div>
                             <label class="block font-bold text-xs text-indigo-800 mb-1">Valor Estrangeiro</label>
-                            <input type="text" id="conv-valor" class="w-full p-2.5 bg-white border border-indigo-200 rounded-xl font-black text-xs text-indigo-950 outline-none" placeholder="0.00">
+                            <input type="number" id="conv-valor" class="w-full p-2.5 bg-white border border-indigo-200 rounded-xl font-black text-xs text-indigo-950 outline-none" placeholder="0.00">
                         </div>
                         <div>
                             <label class="block font-bold text-xs text-indigo-800 mb-1">Moeda</label>
@@ -1668,9 +1653,8 @@
 
         function salvarSaldo(moeda, val) {
             registarEstadoAnterior();
-            let num = limparNumero(val);
-            if(moeda === 'EUR') dadosApp.saldoEur = val !== "" ? num : "";
-            if(moeda === 'CHF') dadosApp.saldoChf = val !== "" ? num : "";
+            if(moeda === 'EUR') dadosApp.saldoEur = val !== "" ? parseFloat(val) : "";
+            if(moeda === 'CHF') dadosApp.saldoChf = val !== "" ? parseFloat(val) : "";
             salvarStorage();
             renderizarOrcamentoTab();
             alert("💾 Saldo guardado com sucesso!");
@@ -1678,9 +1662,8 @@
 
         function salvarCotacao(moeda, val) {
             registarEstadoAnterior();
-            let num = limparNumero(val);
-            if(moeda === 'EUR') dadosApp.cotacaoEur = num > 0 ? num : 6.20;
-            if(moeda === 'CHF') dadosApp.cotacaoChf = num > 0 ? num : 6.50;
+            if(moeda === 'EUR') dadosApp.cotacaoEur = parseFloat(val) || 6.20;
+            if(moeda === 'CHF') dadosApp.cotacaoChf = parseFloat(val) || 6.50;
             salvarStorage();
             renderizarOrcamentoTab();
             alert("💾 Cotação guardada com sucesso!");
@@ -1688,9 +1671,9 @@
 
         function salvarDespesaValor(id, val) {
             registarEstadoAnterior();
-            let d = dadosApp.orcamento.find(item => String(item.id) === String(id));
+            let d = dadosApp.orcamento.find(item => item.id === id);
             if(d) {
-                d.valor = val !== "" ? limparNumero(val) : 0;
+                d.valor = val !== "" ? parseFloat(val) : 0;
                 salvarStorage();
                 renderizarOrcamentoTab();
             }
@@ -1701,7 +1684,7 @@
             let elMoeda = document.getElementById('conv-moeda');
             let elRes = document.getElementById('conv-resultado');
             if(!elVal || !elMoeda || !elRes) return;
-            let val = limparNumero(elVal.value);
+            let val = parseFloat(elVal.value) || 0;
             let moeda = elMoeda.value;
             let cotEur = parseFloat(dadosApp.cotacaoEur) || 6.20;
             let cotChf = parseFloat(dadosApp.cotacaoChf) || 6.50;
@@ -1719,13 +1702,13 @@
 
         function apagarDespesa(id) {
             registarEstadoAnterior();
-            dadosApp.orcamento = dadosApp.orcamento.filter(d => String(d.id) !== String(id));
+            dadosApp.orcamento = dadosApp.orcamento.filter(d => d.id !== id);
             salvarStorage();
             renderizarOrcamentoTab();
         }
 
         function atualizarOrcamentoDescricao(id, val) {
-            let d = dadosApp.orcamento.find(item => String(item.id) === String(id));
+            let d = dadosApp.orcamento.find(item => item.id === id);
             if(d) { d.descricao = val; localStorage.setItem(CHAVE_APP, JSON.stringify(dadosApp)); }
         }
 
