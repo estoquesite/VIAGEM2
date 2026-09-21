@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v183.0)</title>
+    <title>Roteiro Europa - Mariana (v185.0)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Manifest Dinâmico via JavaScript -->
@@ -34,24 +34,24 @@
 
     <!-- CABEÇALHO SUPERIOR COMPACTO COM TRADUTOR E ATUALIZAR -->
     <header class="bg-slate-900 text-white px-3 py-2 shadow-md border-b border-slate-800 text-xs flex justify-between items-center z-50 relative gap-1 flex-wrap">
-        <span class="font-bold tracking-wide truncate">🚄 Roteiro Europa</span>
+        <span class="font-bold tracking-wide">🚄 Roteiro Europa - Mariana</span>
         <div class="flex items-center gap-1.5 flex-wrap">
             <a href="https://translate.google.com/?hl=pt&sl=auto&tl=pt&op=images" target="_blank" class="bg-indigo-600 hover:bg-indigo-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm flex items-center gap-1" title="Google Tradutor & Câmara">🌐 Tradutor</a>
             <button onclick="window.location.reload()" class="bg-slate-800 hover:bg-slate-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm border border-slate-700" title="Atualizar Página">🔄</button>
             <button onclick="exportarPdfPrint()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm" title="Imprimir Tudo">🖨️</button>
-            <span class="bg-indigo-950 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v183.0</span>
+            <span class="bg-indigo-950 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v185.0</span>
         </div>
     </header>
 
     <!-- CONTEÚDO PRINCIPAL -->
     <div class="max-w-4xl mx-auto p-3 sm:p-6 space-y-4 pt-4">
 
-        <!-- SEPARADORES (TABS) - 4 ÍCONES ORIGINAIS EMBAIXO -->
-        <div class="flex gap-2 bg-slate-200 p-1.5 rounded-2xl shadow-inner overflow-x-auto no-scrollbar justify-around">
-            <button onclick="mudarTab('leitura')" id="tab-btn-leitura" class="flex-1 py-2.5 rounded-xl bg-indigo-600 text-white shadow-sm transition text-center text-base" title="Roteiro">✈️</button>
-            <button onclick="mudarTab('itinerario')" id="tab-btn-itinerario" class="flex-1 py-2.5 rounded-xl text-slate-600 hover:bg-white/50 transition text-center text-base" title="Editar Itinerário">📅</button>
-            <button onclick="mudarTab('utilidades')" id="tab-btn-utilidades" class="flex-1 py-2.5 rounded-xl text-slate-600 hover:bg-white/50 transition text-center text-base" title="Utilidades e Vouchers">📋</button>
-            <button onclick="mudarTab('orcamento')" id="tab-btn-orcamento" class="flex-1 py-2.5 rounded-xl text-slate-600 hover:bg-white/50 transition text-center text-base" title="Orçamento e Câmbio">💰</button>
+        <!-- SEPARADORES (TABS) - OS 4 QUADRADOS / CARTÕES PRINCIPAIS -->
+        <div class="grid grid-cols-4 gap-2 bg-slate-200 p-1.5 rounded-2xl shadow-inner">
+            <button onclick="mudarTab('leitura')" id="tab-btn-leitura" class="py-3 rounded-xl bg-indigo-600 text-white font-extrabold shadow-sm transition text-center text-sm flex flex-col items-center gap-0.5"><span>✈️</span><span class="text-[10px] uppercase">Roteiro</span></button>
+            <button onclick="mudarTab('itinerario')" id="tab-btn-itinerario" class="py-3 rounded-xl bg-white text-slate-700 font-extrabold shadow-sm transition text-center text-sm flex flex-col items-center gap-0.5 hover:bg-slate-50"><span>📅</span><span class="text-[10px] uppercase">Editar</span></button>
+            <button onclick="mudarTab('utilidades')" id="tab-btn-utilidades" class="py-3 rounded-xl bg-white text-slate-700 font-extrabold shadow-sm transition text-center text-sm flex flex-col items-center gap-0.5 hover:bg-slate-50"><span>📋</span><span class="text-[10px] uppercase">Hub</span></button>
+            <button onclick="mudarTab('orcamento')" id="tab-btn-orcamento" class="py-3 rounded-xl bg-white text-slate-700 font-extrabold shadow-sm transition text-center text-sm flex flex-col items-center gap-0.5 hover:bg-slate-50"><span>💰</span><span class="text-[10px] uppercase">Orçamento</span></button>
         </div>
 
         <!-- TAB 1: ROTEIRO -->
@@ -199,7 +199,7 @@
 
     <!-- BARRA DE FERRAMENTAS FIXA -->
     <nav class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-md text-white px-3 py-2.5 shadow-2xl border-t border-slate-800 text-xs flex items-center justify-around gap-1 overflow-x-auto no-scrollbar max-w-4xl mx-auto rounded-t-2xl">
-        <span class="bg-indigo-600 px-2 py-1 rounded font-mono font-bold text-[9px] shrink-0">v183.0</span>
+        <span class="bg-indigo-600 px-2 py-1 rounded font-mono font-bold text-[9px] shrink-0">v185.0</span>
         <button onclick="abrirGeminiModal()" class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-3 py-1.5 rounded-xl font-bold transition shrink-0 flex items-center gap-1 text-xs shadow-sm">
             <span>✨</span> Gemini
         </button>
@@ -238,7 +238,7 @@
     </div>
 
     <script>
-        const CHAVE_APP = "mariana_viagem_europa_v183";
+        const CHAVE_APP = "mariana_viagem_europa_v185";
         let destinoFiltro = 'todos';
         let tarefaFiltro = 'todas';
         let utilidadeFiltro = 'todos';
@@ -346,11 +346,11 @@
                 navigator.serviceWorker.register(URL.createObjectURL(swBlob)).catch(err => {});
             }
 
-            if (!sessionStorage.getItem('sessao_ativa_v183')) {
+            if (!sessionStorage.getItem('sessao_ativa_v185')) {
                 document.getElementById('tela-bloqueio').classList.remove('hidden');
             }
 
-            const temaSalvo = localStorage.getItem('tema_v183');
+            const temaSalvo = localStorage.getItem('tema_v185');
             if (temaSalvo === 'dark') {
                 document.body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 document.body.classList.remove('bg-slate-100', 'text-slate-800');
@@ -383,7 +383,7 @@
 
             try {
                 atualizarTudo();
-                let tabSalva = localStorage.getItem('tab_ativa_v183') || 'leitura';
+                let tabSalva = localStorage.getItem('tab_ativa_v185') || 'leitura';
                 mudarTab(tabSalva);
             } catch(e) {
                 console.error("Erro ao iniciar:", e);
@@ -407,10 +407,10 @@
         }
 
         function desbloquearComPin() {
-            let pinSalvo = localStorage.getItem('app_pin_v183') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v185') || '1510';
             let digitado = document.getElementById('input-pin').value;
             if(digitado === pinSalvo) {
-                sessionStorage.setItem('sessao_ativa_v183', 'true');
+                sessionStorage.setItem('sessao_ativa_v185', 'true');
                 document.getElementById('tela-bloqueio').classList.add('hidden');
                 document.getElementById('erro-pin').classList.add('hidden');
             } else {
@@ -419,17 +419,17 @@
         }
 
         async function desbloquearComBiometria() {
-            sessionStorage.setItem('sessao_ativa_v183', 'true');
+            sessionStorage.setItem('sessao_ativa_v185', 'true');
             document.getElementById('tela-bloqueio').classList.add('hidden');
         }
 
         function alterarSenhaPin() {
             let atual = prompt("Digite a senha atual (Padrão: 1510):");
-            let pinSalvo = localStorage.getItem('app_pin_v183') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v185') || '1510';
             if(atual === pinSalvo) {
                 let nova = prompt("Digite a nova senha PIN:");
                 if(nova && nova.trim() !== '') {
-                    localStorage.setItem('app_pin_v183', nova.trim());
+                    localStorage.setItem('app_pin_v185', nova.trim());
                     alert("🔑 Senha alterada com sucesso!");
                 }
             } else {
@@ -442,11 +442,11 @@
             if(body.classList.contains('dark')) {
                 body.classList.remove('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.add('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v183', 'light');
+                localStorage.setItem('tema_v185', 'light');
             } else {
                 body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.remove('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v183', 'dark');
+                localStorage.setItem('tema_v185', 'dark');
             }
         }
 
@@ -633,11 +633,11 @@
         }
 
         function mudarTab(tab) {
-            localStorage.setItem('tab_ativa_v183', tab);
+            localStorage.setItem('tab_ativa_v185', tab);
             if(tab === 'itinerario' || tab === 'leitura') {
                 destinoFiltro = 'todos';
             }
-            ['itinerario', 'leitura', 'utilidades', 'orcamento'].forEach(t => {
+            ['leitura', 'itinerario', 'utilidades', 'orcamento'].forEach(t => {
                 let el = document.getElementById('tab-' + t);
                 if(el) el.classList.add('hidden');
             });
@@ -648,9 +648,9 @@
                 let btn = document.getElementById('tab-btn-' + t);
                 if(btn) {
                     if(t === tab) {
-                        btn.className = "flex-1 py-2.5 rounded-xl bg-indigo-600 text-white shadow-sm transition text-center text-base";
+                        btn.className = "py-3 rounded-xl bg-indigo-600 text-white font-extrabold shadow-sm transition text-center text-sm flex flex-col items-center gap-0.5 flex-1";
                     } else {
-                        btn.className = "flex-1 py-2.5 rounded-xl text-slate-600 hover:bg-white/50 transition text-center text-base";
+                        btn.className = "py-3 rounded-xl bg-white text-slate-700 font-extrabold shadow-sm transition text-center text-sm flex flex-col items-center gap-0.5 flex-1 hover:bg-slate-50";
                     }
                 }
             });
@@ -997,7 +997,7 @@
                             '<button onclick="alternarBloqueio(\'' + item.id + '\')" class="' + lockBg + ' px-3 py-1.5 rounded-xl font-bold text-xs shadow-sm transition">' + lockIcon + '</button>' +
                             '<button onclick="moverBloco(\'' + item.id + '\', -1)" class="bg-slate-200 hover:bg-slate-300 px-2 py-1.5 rounded-xl text-xs font-bold transition">⬆️</button>' +
                             '<button onclick="moverBloco(\'' + item.id + '\', 1)" class="bg-slate-200 hover:bg-slate-300 px-2 py-1.5 rounded-xl text-xs font-bold transition">⬇️</button>' +
-                            '<button onclick="apagarBloco(\'' + item.id + '\')" class="bg-red-50 hover:bg-red-100 text-red-600 px-3 py-1.5 rounded-xl text-xs font-bold transition">Excluir ✕</button>' +
+                            '<button onclick="apagarBloco(\'' + item.id + '\')" class="bg-red-50 hover:bg-red-100 text-red-600 px-3 py-1.5 rounded-xl font-bold transition">Excluir ✕</button>' +
                         '</div>' +
                     '</div>';
                 container.appendChild(card);
@@ -1147,7 +1147,7 @@
             }
         }
 
-        // RENDERIZAR HUB DE UTILIDADES (COM CONTACTOS SEGUROS E RESPONSIVOS)
+        // RENDERIZAR HUB DE UTILIDADES
         function renderizarHubUtilidades() {
             const container = document.getElementById('hub-utilidades-grid');
             if(!container) return;
