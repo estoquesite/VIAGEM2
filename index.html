@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v199.0)</title>
+    <title>Roteiro Europa - Mariana (v200.0)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Manifest Dinâmico via JavaScript -->
@@ -39,7 +39,7 @@
             <a href="https://translate.google.com/?hl=pt&sl=auto&tl=pt&op=images" target="_blank" class="bg-indigo-600 hover:bg-indigo-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm flex items-center gap-1" title="Google Tradutor & Câmara">🌐 Tradutor</a>
             <button onclick="window.location.reload()" class="bg-slate-800 hover:bg-slate-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm border border-slate-700" title="Atualizar Página">🔄</button>
             <button onclick="exportarPdfPrint()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm" title="Imprimir Tudo">🖨️</button>
-            <span class="bg-indigo-950 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v199.0</span>
+            <span class="bg-indigo-950 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v200.0</span>
         </div>
     </header>
 
@@ -160,13 +160,13 @@
             </div>
         </div>
 
-        <!-- TAB 5: COMPRAS -->
+        <!-- TAB 5: COMPRAS (ADULTOS E CRIANÇAS NO MESMO QUADRADO COM ITENS FEITOS INDO PARA BAIXO) -->
         <div id="tab-compras" class="space-y-3 hidden">
             <div class="bg-white p-3.5 sm:p-5 rounded-2xl shadow-sm border border-slate-200 space-y-4 text-xs" id="compras-conteudo-main">
                 <div class="flex justify-between items-center border-b pb-3 flex-wrap gap-2">
                     <div>
-                        <h2 class="text-xs font-extrabold uppercase text-slate-800 tracking-wider">🛍️ Gestão de Compras (Adultos vs Crianças)</h2>
-                        <p class="text-[11px] text-slate-500 font-semibold">Locais de compra separados por público com valores somados no orçamento</p>
+                        <h2 class="text-xs font-extrabold uppercase text-slate-800 tracking-wider">🛍️ Gestão de Compras</h2>
+                        <p class="text-[11px] text-slate-500 font-semibold">Adultos e Crianças no mesmo painel com soma no orçamento</p>
                     </div>
                     <button onclick="imprimirSeccaoCustom('Gestão de Compras', document.getElementById('compras-conteudo-main').innerHTML)" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-xl font-bold text-xs transition shadow-sm">🖨️ PDF Compras</button>
                 </div>
@@ -213,7 +213,7 @@
 
     <!-- BARRA DE FERRAMENTAS FIXA -->
     <nav class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-md text-white px-3 py-2.5 shadow-2xl border-t border-slate-800 text-xs flex items-center justify-around gap-1 overflow-x-auto no-scrollbar max-w-4xl mx-auto rounded-t-2xl">
-        <span class="bg-indigo-600 px-2 py-1 rounded font-mono font-bold text-[9px] shrink-0">v199.0</span>
+        <span class="bg-indigo-600 px-2 py-1 rounded font-mono font-bold text-[9px] shrink-0">v200.0</span>
         <button onclick="abrirGeminiModal()" class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-3 py-1.5 rounded-xl font-bold transition shrink-0 flex items-center gap-1 text-xs shadow-sm">
             <span>✨</span> Gemini
         </button>
@@ -253,7 +253,7 @@
 
     <script>
         // CHAVE PERMANENTE FIXA: Os teus dados nunca mais se vão perder ao atualizar as versões!
-        const CHAVE_APP = "mariana_viagem_europa_dados_fixos_v199";
+        const CHAVE_APP = "mariana_viagem_europa_dados_fixos_v200";
         let destinoFiltro = 'todos';
         let tarefaFiltro = 'todas';
         let utilidadeFiltro = 'todos';
@@ -369,11 +369,11 @@
                 navigator.serviceWorker.register(URL.createObjectURL(swBlob)).catch(err => {});
             }
 
-            if (!sessionStorage.getItem('sessao_ativa_v199')) {
+            if (!sessionStorage.getItem('sessao_ativa_v200')) {
                 document.getElementById('tela-bloqueio').classList.add('hidden');
             }
 
-            const temaSalvo = localStorage.getItem('tema_v199');
+            const temaSalvo = localStorage.getItem('tema_v200');
             if (temaSalvo === 'dark') {
                 document.body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 document.body.classList.remove('bg-slate-100', 'text-slate-800');
@@ -412,7 +412,7 @@
                 if(inputChf) inputChf.value = dadosApp.cotacaoChf;
 
                 atualizarTudo();
-                let tabSalva = localStorage.getItem('tab_ativa_v199') || 'leitura';
+                let tabSalva = localStorage.getItem('tab_ativa_v200') || 'leitura';
                 mudarTab(tabSalva);
             } catch(e) {
                 console.error("Erro ao iniciar:", e);
@@ -431,34 +431,34 @@
                     deferredPrompt = null;
                 });
             } else {
-                alert("📱 Para instalar no celular:\n\n• No Android (Chrome): Toque nos 3 pontinhos e selecione 'Adicionar à tela inicial'.\n• No iPhone (Safari): Touch Compartilhar e escolha 'Adicionar à Tela de Início'.");
+                alert("📱 Para instalar no celular:\n\n• No Android (Chrome): Toque nos 3 pontinhos e selecione 'Adicionar à tela inicial'.\n• No iPhone (Safari): Toque em Compartilhar e escolha 'Adicionar à Tela de Início'.");
             }
         }
 
         function desbloquearComPin() {
-            let pinSalvo = localStorage.getItem('app_pin_v199') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v200') || '1510';
             let digitado = document.getElementById('input-pin').value;
             if(digitado === pinSalvo) {
-                sessionStorage.setItem('sessao_ativa_v199', 'true');
+                sessionStorage.setItem('sessao_ativa_v200', 'true');
                 document.getElementById('tela-bloqueio').classList.add('hidden');
                 document.getElementById('erro-pin').classList.add('hidden');
             } else {
-                document.getElementById('erro-pin').classList.remove('hidden');
+                document.getElementById('erro-pin').classList.add('hidden');
             }
         }
 
         async function desbloquearComBiometria() {
-            sessionStorage.setItem('sessao_ativa_v199', 'true');
+            sessionStorage.setItem('sessao_ativa_v200', 'true');
             document.getElementById('tela-bloqueio').classList.add('hidden');
         }
 
         function alterarSenhaPin() {
             let atual = prompt("Digite a senha atual (Padrão: 1510):");
-            let pinSalvo = localStorage.getItem('app_pin_v199') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v200') || '1510';
             if(atual === pinSalvo) {
                 let nova = prompt("Digite a nova senha PIN:");
                 if(nova && nova.trim() !== '') {
-                    localStorage.setItem('app_pin_v199', nova.trim());
+                    localStorage.setItem('app_pin_v200', nova.trim());
                     alert("🔑 Senha alterada com sucesso!");
                 }
             } else {
@@ -471,11 +471,11 @@
             if(body.classList.contains('dark')) {
                 body.classList.remove('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.add('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v199', 'light');
+                localStorage.setItem('tema_v200', 'light');
             } else {
                 body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.remove('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v199', 'dark');
+                localStorage.setItem('tema_v200', 'dark');
             }
         }
 
@@ -509,7 +509,7 @@
                     let saldoC = parseFloat(dadosApp.saldoChf) || 0;
                     resposta = `💰 Estado atual do orçamento:\n• Disponível: ${saldoE} € | ${saldoC} CHF\n• Cotações: 1€ = R$ ${cotEur} | 1CHF = R$ ${cotChf}`;
                 } else {
-                    resposta = `Compreendi, Mariana! Podes pedir-me para anotar algo escrevendo "anotar [o teu texto]" ou consultar o saldo.`;
+                    resposta = `Compreendi, Mariana! Podes pedir-me para anotar algo escrevendo "anotar [o teu texto]" ou consultar el saldo.`;
                 }
 
                 log.innerHTML += '<div class="bg-indigo-50 text-indigo-900 p-2.5 rounded-xl mr-6 font-medium whitespace-pre-line"><b>Gemini IA:</b> ' + resposta + '</div>';
@@ -681,7 +681,7 @@
         }
 
         function mudarTab(tab) {
-            localStorage.setItem('tab_ativa_v199', tab);
+            localStorage.setItem('tab_ativa_v200', tab);
             if(tab === 'itinerario' || tab === 'leitura') {
                 destinoFiltro = 'todos';
             }
@@ -1746,7 +1746,7 @@
             }
         }
 
-        // RENDERIZAR ABA DE COMPRAS (PRINCIPAL)
+        // RENDERIZAR ABA DE COMPRAS (ADULTOS E CRIANÇAS NO MESMO QUADRADO + ITENS FEITOS VÃO PARA BAIXO)
         function renderizarComprasTab() {
             const container = document.getElementById('compras-tab-corpo');
             if(!container) return;
@@ -1758,8 +1758,8 @@
 
                 let comprasAdultosEur = 0, comprasAdultosChf = 0;
                 let comprasCriancasEur = 0, comprasCriancasChf = 0;
-                let comprasAdultosHtml = '';
-                let comprasCriancasHtml = '';
+                let listAdultos = [];
+                let listCriancas = [];
 
                 if(dadosApp.compras) {
                     dadosApp.compras.forEach(c => {
@@ -1767,94 +1767,102 @@
                         let moeda = c.moeda || 'EUR';
                         let pub = c.publico || 'Adulto';
                         
-                        let valBrl = moeda === 'EUR' ? val * cotEur : val * cotChf;
-                        let localSafe = (c.local || '').replace(/"/g, '&quot;');
-                        let concluidoClass = c.concluido ? 'bg-emerald-50 opacity-75 border-emerald-300' : 'bg-white border-slate-200';
-                        let textClass = c.concluido ? 'line-through text-slate-400' : 'text-slate-800';
-
-                        let itemHtml = `
-                            <div class="p-3 rounded-xl border ${concluidoClass} flex flex-col gap-2 text-xs shadow-sm">
-                                <div class="flex justify-between items-center gap-2">
-                                    <input type="text" value="${localSafe}" oninput="atualizarCompra(${c.id}, 'local', this.value)" class="flex-1 bg-transparent outline-none font-bold ${textClass} text-xs truncate" placeholder="Local de Compra (Ex: Outlet, Loja...)">
-                                    <label class="flex items-center gap-1 cursor-pointer font-bold bg-slate-50 px-2 py-1 rounded-lg border text-[11px] shrink-0 shadow-sm">
-                                        <input type="checkbox" ${c.concluido ? 'checked' : ''} onchange="alternarConcluidoCompra(${c.id})" class="w-3.5 h-3.5 accent-emerald-600 rounded cursor-pointer">
-                                        <span>Feito</span>
-                                    </label>
-                                    <div class="flex gap-1 shrink-0">
-                                        <button onclick="moverItemArray('compras', ${c.id}, -1)" class="bg-slate-200 px-1.5 py-1 rounded-lg font-bold">⬆️</button>
-                                        <button onclick="moverItemArray('compras', ${c.id}, 1)" class="bg-slate-200 px-1.5 py-1 rounded-lg font-bold">⬇️</button>
-                                        <button onclick="apagarCompra(${c.id})" class="text-red-500 font-bold px-2 py-1 rounded-xl bg-red-50 hover:bg-red-100 text-xs">✕</button>
-                                    </div>
-                                </div>
-                                <div class="flex gap-2 items-center justify-between border-t border-slate-100 pt-2">
-                                    <span class="font-bold text-slate-600 text-[11px]">${pub === 'Adulto' ? '👤 Adulto' : '👧 Criança (Sofia)'}</span>
-                                    <div class="flex items-center gap-1.5">
-                                        <input type="text" value="${val !== 0 ? val : ''}" id="compra-val-${c.id}" class="w-20 p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-black text-right text-xs outline-none" placeholder="0">
-                                        <select onchange="atualizarCompraMoeda(${c.id}, this.value)" class="p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs">
-                                            <option value="EUR" ${moeda==='EUR'?'selected':''}>EUR (€)</option>
-                                            <option value="CHF" ${moeda==='CHF'?'selected':''}>CHF</option>
-                                        </select>
-                                        <button onclick="salvarCompraValor(${c.id}, document.getElementById('compra-val-${c.id}').value)" class="bg-emerald-600 text-white px-2.5 py-1.5 rounded-lg font-bold text-[10px]">OK</button>
-                                    </div>
-                                </div>
-                                <div class="text-right text-[11px] font-bold text-emerald-700">R$ ${valBrl.toFixed(2)}</div>
-                            </div>
-                        `;
-
                         if(pub === 'Adulto') {
                             if(val > 0) {
                                 if(moeda === 'EUR') comprasAdultosEur += val;
                                 else if(moeda === 'CHF') comprasAdultosChf += val;
                             }
-                            comprasAdultosHtml += itemHtml;
+                            listAdultos.push(c);
                         } else {
                             if(val > 0) {
                                 if(moeda === 'EUR') comprasCriancasEur += val;
                                 else if(moeda === 'CHF') comprasCriancasChf += val;
                             }
-                            comprasCriancasHtml += itemHtml;
+                            listCriancas.push(c);
                         }
                     });
                 }
 
-                if(comprasAdultosHtml === '') comprasAdultosHtml = '<p class="text-xs text-slate-400 italic">Nenhuma compra de adulto registada.</p>';
-                if(comprasCriancasHtml === '') comprasCriancasHtml = '<p class="text-xs text-slate-400 italic">Nenhuma compra de criança registada.</p>';
+                // Ordenar para que os concluídos fiquem em baixo
+                listAdultos.sort((a, b) => (a.concluido === b.concluido)? 0 : a.concluido ? 1 : -1);
+                listCriancas.sort((a, b) => (a.concluido === b.concluido)? 0 : a.concluido ? 1 : -1);
+
+                let renderizarItensHtml = (arr) => {
+                    if(!arr || arr.length === 0) return '<p class="text-xs text-slate-400 italic">Nenhum registo.</p>';
+                    let html = '';
+                    arr.forEach(c => {
+                        let val = limparNumero(c.valor);
+                        let moeda = c.moeda || 'EUR';
+                        let valBrl = moeda === 'EUR' ? val * cotEur : val * cotChf;
+                        let localSafe = (c.local || '').replace(/"/g, '&quot;');
+                        let concluidoClass = c.concluido ? 'bg-emerald-50 opacity-75 border-emerald-300' : 'bg-white border-slate-200';
+                        let textClass = c.concluido ? 'line-through text-slate-400' : 'text-slate-800';
+
+                        html += `
+                            <div class="p-2.5 rounded-xl border ${concluidoClass} flex flex-col gap-1.5 text-xs shadow-sm">
+                                <div class="flex justify-between items-center gap-1.5">
+                                    <input type="text" value="${localSafe}" oninput="atualizarCompra(${c.id}, 'local', this.value)" class="flex-1 bg-transparent outline-none font-bold ${textClass} text-xs truncate" placeholder="Local de Compra...">
+                                    <label class="flex items-center gap-1 cursor-pointer font-bold bg-slate-50 px-2 py-1 rounded-lg border text-[11px] shrink-0 shadow-sm">
+                                        <input type="checkbox" ${c.concluido ? 'checked' : ''} onchange="alternarConcluidoCompra(${c.id})" class="w-3.5 h-3.5 accent-emerald-600 rounded cursor-pointer">
+                                        <span>Feito</span>
+                                    </label>
+                                    <button onclick="apagarCompra(${c.id})" class="text-red-500 font-bold px-2 py-1 rounded-xl bg-red-50 hover:bg-red-100 text-xs shrink-0">✕</button>
+                                </div>
+                                <div class="flex gap-1.5 items-center justify-between border-t border-slate-100 pt-1.5">
+                                    <div class="flex items-center gap-1.5">
+                                        <input type="text" value="${val !== 0 ? val : ''}" id="compra-val-${c.id}" class="w-16 p-1 bg-slate-50 border border-slate-300 rounded-xl font-black text-right text-xs outline-none" placeholder="0">
+                                        <select onchange="atualizarCompraMoeda(${c.id}, this.value)" class="p-1 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs">
+                                            <option value="EUR" ${moeda==='EUR'?'selected':''}>€</option>
+                                            <option value="CHF" ${moeda==='CHF'?'selected':''}>CHF</option>
+                                        </select>
+                                        <button onclick="salvarCompraValor(${c.id}, document.getElementById('compra-val-${c.id}').value)" class="bg-emerald-600 text-white px-2 py-1 rounded-lg font-bold text-[10px]">OK</button>
+                                    </div>
+                                    <div class="text-right text-[11px] font-bold text-emerald-700">R$ ${valBrl.toFixed(2)}</div>
+                                </div>
+                            </div>
+                        `;
+                    });
+                    return html;
+                };
 
                 let totalAdultosBrl = (comprasAdultosEur * cotEur) + (comprasAdultosChf * cotChf);
                 let totalCriancasBrl = (comprasCriancasEur * cotEur) + (comprasCriancasChf * cotChf);
 
                 container.innerHTML = `
-                    <div class="bg-purple-50/50 p-4 rounded-2xl border border-purple-200 space-y-4 shadow-sm">
-                        <!-- CAIXINHA EM CIMA COM OS VALORES SOMANDO NO ORÇAMENTO -->
+                    <div class="bg-purple-50/50 p-3 sm:p-4 rounded-2xl border border-purple-200 space-y-3 shadow-sm">
+                        <!-- CAIXA DE RESUMO NO TOPO -->
                         <div class="grid grid-cols-2 gap-2">
-                            <div class="bg-white p-3 rounded-xl border border-purple-200 shadow-sm text-center space-y-1">
-                                <span class="font-bold text-[10px] text-purple-900 uppercase">👤 Adultos</span>
-                                <div class="font-black text-xs text-slate-800">${comprasAdultosEur.toFixed(2)} € | ${comprasAdultosChf.toFixed(2)} CHF</div>
+                            <div class="bg-white p-2.5 rounded-xl border border-purple-200 shadow-sm text-center space-y-0.5">
+                                <span class="font-bold text-[10px] text-purple-900 uppercase block">👤 Adultos</span>
+                                <div class="font-black text-[11px] text-slate-800 truncate">${comprasAdultosEur.toFixed(2)}€ | ${comprasAdultosChf.toFixed(2)}CHF</div>
                                 <div class="font-bold text-[11px] text-emerald-700">R$ ${totalAdultosBrl.toFixed(2)}</div>
                             </div>
-                            <div class="bg-white p-3 rounded-xl border border-purple-200 shadow-sm text-center space-y-1">
+                            <div class="bg-white p-2.5 rounded-xl border border-purple-200 shadow-sm text-center space-y-0.5">
                                 <span class="font-bold text-[10px] text-purple-900 uppercase">👧 Crianças (Sofia)</span>
-                                <div class="font-black text-xs text-slate-800">${comprasCriancasEur.toFixed(2)} € | ${comprasCriancasChf.toFixed(2)} CHF</div>
+                                <div class="font-black text-[11px] text-slate-800 truncate">${comprasCriancasEur.toFixed(2)}€ | ${comprasCriancasChf.toFixed(2)}CHF</div>
                                 <div class="font-bold text-[11px] text-emerald-700">R$ ${totalCriancasBrl.toFixed(2)}</div>
                             </div>
                         </div>
 
-                        <!-- SEÇÃO ADULTOS -->
-                        <div class="space-y-2 bg-white/60 p-3 rounded-xl border border-purple-100">
-                            <div class="flex justify-between items-center border-b border-purple-100 pb-1.5">
-                                <span class="font-bold text-xs text-purple-900 uppercase">👤 Compras - Adultos</span>
-                                <button onclick="adicionarCompraEspecifica('Adulto')" class="bg-purple-600 hover:bg-purple-700 text-white px-2.5 py-1 rounded-lg text-[11px] font-bold transition shadow-sm">➕ Adicionar</button>
+                        <!-- O MESMO QUADRADO GRANDE PARA ADULTOS E CRIANÇAS -->
+                        <div class="bg-white p-3 rounded-2xl border border-purple-200 shadow-sm space-y-4">
+                            <!-- ADULTOS -->
+                            <div class="space-y-2">
+                                <div class="flex justify-between items-center border-b border-purple-100 pb-1.5">
+                                    <span class="font-bold text-xs text-purple-900 uppercase">👤 Compras - Adultos</span>
+                                    <button onclick="adicionarCompraEspecifica('Adulto')" class="bg-purple-600 hover:bg-purple-700 text-white px-2.5 py-1 rounded-lg text-[11px] font-bold transition shadow-sm">➕ Adicionar</button>
+                                </div>
+                                <div class="space-y-2">${renderizarItensHtml(listAdultos)}</div>
                             </div>
-                            <div class="space-y-2.5 pt-1">${comprasAdultosHtml}</div>
-                        </div>
 
-                        <!-- SEÇÃO CRIANÇAS -->
-                        <div class="space-y-2 bg-white/60 p-3 rounded-xl border border-purple-100">
-                            <div class="flex justify-between items-center border-b border-purple-100 pb-1.5">
-                                <span class="font-bold text-xs text-purple-900 uppercase">👧 Compras - Crianças (Sofia)</span>
-                                <button onclick="adicionarCompraEspecifica('Criança (Sofia)')" class="bg-purple-600 hover:bg-purple-700 text-white px-2.5 py-1 rounded-lg text-[11px] font-bold transition shadow-sm">➕ Adicionar</button>
+                            <!-- CRIANÇAS -->
+                            <div class="space-y-2 pt-2 border-t border-purple-100">
+                                <div class="flex justify-between items-center border-b border-purple-100 pb-1.5">
+                                    <span class="font-bold text-xs text-purple-900 uppercase">👧 Compras - Crianças (Sofia)</span>
+                                    <button onclick="adicionarCompraEspecifica('Criança (Sofia)')" class="bg-purple-600 hover:bg-purple-700 text-white px-2.5 py-1 rounded-lg text-[11px] font-bold transition shadow-sm">➕ Adicionar</button>
+                                </div>
+                                <div class="space-y-2">${renderizarItensHtml(listCriancas)}</div>
                             </div>
-                            <div class="space-y-2.5 pt-1">${comprasCriancasHtml}</div>
                         </div>
                     </div>
                 `;
