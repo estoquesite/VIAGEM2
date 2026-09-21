@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v192.0)</title>
+    <title>Roteiro Europa - Mariana (v193.0)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Manifest Dinâmico via JavaScript -->
@@ -39,7 +39,7 @@
             <a href="https://translate.google.com/?hl=pt&sl=auto&tl=pt&op=images" target="_blank" class="bg-indigo-600 hover:bg-indigo-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm flex items-center gap-1" title="Google Tradutor & Câmara">🌐 Tradutor</a>
             <button onclick="window.location.reload()" class="bg-slate-800 hover:bg-slate-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm border border-slate-700" title="Atualizar Página">🔄</button>
             <button onclick="exportarPdfPrint()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm" title="Imprimir Tudo">🖨️</button>
-            <span class="bg-indigo-950 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v192.0</span>
+            <span class="bg-indigo-950 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v193.0</span>
         </div>
     </header>
 
@@ -199,7 +199,7 @@
 
     <!-- BARRA DE FERRAMENTAS FIXA -->
     <nav class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-md text-white px-3 py-2.5 shadow-2xl border-t border-slate-800 text-xs flex items-center justify-around gap-1 overflow-x-auto no-scrollbar max-w-4xl mx-auto rounded-t-2xl">
-        <span class="bg-indigo-600 px-2 py-1 rounded font-mono font-bold text-[9px] shrink-0">v192.0</span>
+        <span class="bg-indigo-600 px-2 py-1 rounded font-mono font-bold text-[9px] shrink-0">v193.0</span>
         <button onclick="abrirGeminiModal()" class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-3 py-1.5 rounded-xl font-bold transition shrink-0 flex items-center gap-1 text-xs shadow-sm">
             <span>✨</span> Gemini
         </button>
@@ -238,7 +238,7 @@
     </div>
 
     <script>
-        const CHAVE_APP = "mariana_viagem_europa_v192";
+        const CHAVE_APP = "mariana_viagem_europa_v193";
         let destinoFiltro = 'todos';
         let tarefaFiltro = 'todas';
         let utilidadeFiltro = 'todos';
@@ -346,11 +346,11 @@
                 navigator.serviceWorker.register(URL.createObjectURL(swBlob)).catch(err => {});
             }
 
-            if (!sessionStorage.getItem('sessao_ativa_v192')) {
+            if (!sessionStorage.getItem('sessao_ativa_v193')) {
                 document.getElementById('tela-bloqueio').classList.remove('hidden');
             }
 
-            const temaSalvo = localStorage.getItem('tema_v192');
+            const temaSalvo = localStorage.getItem('tema_v193');
             if (temaSalvo === 'dark') {
                 document.body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 document.body.classList.remove('bg-slate-100', 'text-slate-800');
@@ -388,7 +388,7 @@
                 if(inputChf) inputChf.value = dadosApp.cotacaoChf;
 
                 atualizarTudo();
-                let tabSalva = localStorage.getItem('tab_ativa_v192') || 'leitura';
+                let tabSalva = localStorage.getItem('tab_ativa_v193') || 'leitura';
                 mudarTab(tabSalva);
             } catch(e) {
                 console.error("Erro ao iniciar:", e);
@@ -412,10 +412,10 @@
         }
 
         function desbloquearComPin() {
-            let pinSalvo = localStorage.getItem('app_pin_v192') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v193') || '1510';
             let digitado = document.getElementById('input-pin').value;
             if(digitado === pinSalvo) {
-                sessionStorage.setItem('sessao_ativa_v192', 'true');
+                sessionStorage.setItem('sessao_ativa_v193', 'true');
                 document.getElementById('tela-bloqueio').classList.add('hidden');
                 document.getElementById('erro-pin').classList.add('hidden');
             } else {
@@ -424,17 +424,17 @@
         }
 
         async function desbloquearComBiometria() {
-            sessionStorage.setItem('sessao_ativa_v192', 'true');
+            sessionStorage.setItem('sessao_ativa_v193', 'true');
             document.getElementById('tela-bloqueio').classList.add('hidden');
         }
 
         function alterarSenhaPin() {
             let atual = prompt("Digite a senha atual (Padrão: 1510):");
-            let pinSalvo = localStorage.getItem('app_pin_v192') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v193') || '1510';
             if(atual === pinSalvo) {
                 let nova = prompt("Digite a nova senha PIN:");
                 if(nova && nova.trim() !== '') {
-                    localStorage.setItem('app_pin_v192', nova.trim());
+                    localStorage.setItem('app_pin_v193', nova.trim());
                     alert("🔑 Senha alterada com sucesso!");
                 }
             } else {
@@ -447,11 +447,11 @@
             if(body.classList.contains('dark')) {
                 body.classList.remove('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.add('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v192', 'light');
+                localStorage.setItem('tema_v193', 'light');
             } else {
                 body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.remove('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v192', 'dark');
+                localStorage.setItem('tema_v193', 'dark');
             }
         }
 
@@ -641,7 +641,7 @@
         }
 
         function mudarTab(tab) {
-            localStorage.setItem('tab_ativa_v192', tab);
+            localStorage.setItem('tab_ativa_v193', tab);
             if(tab === 'itinerario' || tab === 'leitura') {
                 destinoFiltro = 'todos';
             }
@@ -1175,7 +1175,7 @@
             }
         }
 
-        // RENDERIZAR HUB DE UTILIDADES COM SEGURANÇA TOTAL
+        // RENDERIZAR HUB DE UTILIDADES COM SEGURANÇA TOTAL PARA VOUCHERS E PDFS
         function renderizarHubUtilidades() {
             const container = document.getElementById('hub-utilidades-grid');
             if(!container) return;
@@ -1276,10 +1276,9 @@
                     vouchersHubHtml = '<p class="text-xs text-slate-400 italic text-center py-2">Nenhum voucher registado.</p>';
                 } else {
                     dadosApp.vouchers.forEach(v => {
-                        let corV = obterCorPorCategoria(v.categoria);
                         let pdfAct = v.pdfData ? '<button onclick="abrirLeitorPdf(\'' + v.id + '\', \'' + (v.titulo || 'Voucher').replace(/'/g, "\\'") + '\')" class="bg-indigo-600 text-white px-3 py-1 rounded-xl text-xs font-bold shadow-sm">📄 PDF</button>' : '<label class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1 rounded-xl text-xs font-bold cursor-pointer border shadow-sm">📎 PDF<input type="file" accept="application/pdf" onchange="anexarPdfVoucher(' + v.id + ', event)" class="hidden"></label>';
                         let tituloSafe = (v.titulo || '').replace(/"/g, '&quot;');
-                        vouchersHubHtml += '<div class="p-2.5 rounded-2xl border border-slate-200 bg-white flex items-center justify-between gap-2 shadow-sm" style="border-left: 4px solid ' + corV + ';"><span class="font-bold text-xs truncate flex-1 text-slate-800">' + tituloSafe + '</span>' + pdfAct + '<button onclick="apagarVoucher(' + v.id + ')" class="text-red-500 font-bold bg-red-50 hover:bg-red-100 px-2 py-1 rounded-xl text-xs">✕</button></div>';
+                        vouchersHubHtml += '<div class="p-2.5 rounded-2xl border border-slate-200 bg-white flex items-center justify-between gap-2 shadow-sm"><input type="text" value="' + tituloSafe + '" oninput="atualizarVoucherTitulo(' + v.id + ', this.value)" class="flex-1 bg-transparent outline-none font-bold text-slate-800 text-xs truncate" placeholder="Título...">' + pdfAct + '<button onclick="apagarVoucher(' + v.id + ')" class="text-red-500 font-bold bg-red-50 hover:bg-red-100 px-2 py-1 rounded-xl text-xs">✕</button></div>';
                     });
                 }
                 container.innerHTML += '<div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-3" id="card-vouchers"><div class="flex justify-between items-center border-b pb-2"><h3 class="font-bold text-xs uppercase text-slate-800">🎟️ Vouchers & PDFs</h3><div class="flex gap-1.5"><button onclick="imprimirSeccaoCustom(\'Vouchers\', document.getElementById(\'card-vouchers\').innerHTML)" class="bg-emerald-600 text-white px-2.5 py-1 rounded-xl text-xs font-bold shadow-sm">🖨️ PDF</button><button onclick="adicionarVoucher()" class="bg-indigo-600 text-white px-2.5 py-1 rounded-xl text-xs font-bold shadow-sm">➕ Voucher</button></div></div><div class="space-y-2 text-xs">' + vouchersHubHtml + '</div></div>';
@@ -1444,7 +1443,7 @@
         function adicionarVoucher() {
             registarEstadoAnterior();
             if(!dadosApp.vouchers) dadosApp.vouchers = [];
-            dadosApp.vouchers.unshift({ id: Date.now(), titulo: "Hotel / Reserva", categoria: "Zurique", pdfData: "", pdfNome: "" });
+            dadosApp.vouchers.unshift({ id: Date.now(), titulo: "Hotel / Reserva", pdfData: "", pdfNome: "" });
             salvarStorage();
             renderizarHubUtilidades();
         }
@@ -1454,6 +1453,11 @@
             dadosApp.vouchers = dadosApp.vouchers.filter(v => v.id !== id);
             salvarStorage();
             renderizarHubUtilidades();
+        }
+
+        function atualizarVoucherTitulo(id, val) {
+            let v = dadosApp.vouchers.find(item => item.id === id);
+            if(v) { v.titulo = val; salvarStorage(); }
         }
 
         function anexarPdfVoucher(id, event) {
@@ -1473,6 +1477,22 @@
                 };
                 reader.readAsDataURL(file);
             }
+        }
+
+        function abrirLeitorPdf(id, titulo) {
+            const v = dadosApp.vouchers.find(item => String(item.id) === String(id)) || dadosApp.voos.find(item => String(item.id) === String(id));
+            if(v && v.pdfData) {
+                document.getElementById('pdf-titulo-modal').innerText = '📄 ' + titulo + ' (' + (v.pdfNome || 'documento.pdf') + ')';
+                document.getElementById('pdf-iframe-view').src = v.pdfData;
+                document.getElementById('pdf-btn-download').href = v.pdfData;
+                document.getElementById('pdf-btn-download').download = v.pdfNome || 'documento.pdf';
+                document.getElementById('modal-leitor-pdf').classList.remove('hidden');
+            }
+        }
+
+        function fecharLeitorPdf() {
+            document.getElementById('modal-leitor-pdf').classList.add('hidden');
+            document.getElementById('pdf-iframe-view').src = '';
         }
 
         // ORÇAMENTO BLINDADO
