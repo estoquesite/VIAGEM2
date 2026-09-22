@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v255.0)</title>
+    <title>Roteiro Europa - Mariana (v256.0)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Manifest Dinâmico via JavaScript -->
@@ -39,7 +39,7 @@
             <a href="https://translate.google.com/?hl=pt&sl=auto&tl=pt&op=images" target="_blank" class="bg-indigo-600 hover:bg-indigo-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm flex items-center gap-1" title="Google Tradutor & Câmara">🌐 Tradutor</a>
             <button onclick="window.location.reload()" class="bg-slate-800 hover:bg-slate-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm border border-slate-700" title="Atualizar Página">🔄</button>
             <button onclick="exportarPdfPrint()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm" title="Imprimir Tudo">🖨️</button>
-            <span class="bg-indigo-950 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v255.0</span>
+            <span class="bg-indigo-950 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v256.0</span>
         </div>
     </header>
 
@@ -263,7 +263,7 @@
 
     <!-- BARRA DE FERRAMENTAS FIXA -->
     <nav class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-md text-white px-3 py-2.5 shadow-2xl border-t border-slate-800 text-xs flex items-center justify-around gap-1 overflow-x-auto no-scrollbar max-w-4xl mx-auto rounded-t-2xl">
-        <span class="bg-indigo-600 px-2 py-1 rounded font-mono font-bold text-[9px] shrink-0">v255.0</span>
+        <span class="bg-indigo-600 px-2 py-1 rounded font-mono font-bold text-[9px] shrink-0">v256.0</span>
         <button onclick="abrirGeminiModal()" class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-3 py-1.5 rounded-xl font-bold transition shrink-0 flex items-center gap-1 text-xs shadow-sm">
             <span>✨</span> Gemini
         </button>
@@ -465,11 +465,11 @@
                 navigator.serviceWorker.register(URL.createObjectURL(swBlob)).catch(err => {});
             }
 
-            if (!sessionStorage.getItem('sessao_ativa_v255')) {
+            if (!sessionStorage.getItem('sessao_ativa_v256')) {
                 document.getElementById('tela-bloqueio').classList.add('hidden');
             }
 
-            const temaSalvo = localStorage.getItem('tema_v255');
+            const temaSalvo = localStorage.getItem('tema_v256');
             if (temaSalvo === 'dark') {
                 document.body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 document.body.classList.remove('bg-slate-100', 'text-slate-800');
@@ -485,7 +485,7 @@
                 if(selOrd && dadosApp.comprasOrdenacao) selOrd.value = dadosApp.comprasOrdenacao;
 
                 atualizarTudo();
-                let tabSalva = localStorage.getItem('tab_ativa_v255') || 'leitura';
+                let tabSalva = localStorage.getItem('tab_ativa_v256') || 'leitura';
                 mudarTab(tabSalva);
             } catch(e) {
                 console.error("Erro ao iniciar:", e);
@@ -509,29 +509,29 @@
         }
 
         function desbloquearComPin() {
-            let pinSalvo = localStorage.getItem('app_pin_v255') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v256') || '1510';
             let digitado = document.getElementById('input-pin').value;
             if(digitado === pinSalvo) {
-                sessionStorage.setItem('sessao_ativa_v255', 'true');
+                sessionStorage.setItem('sessao_ativa_v256', 'true');
                 document.getElementById('tela-bloqueio').classList.add('hidden');
                 document.getElementById('erro-pin').classList.add('hidden');
             } else {
-                document.getElementById('erro-pin').classList.remove('hidden');
+                document.getElementById('erro-pin').classList.add('hidden');
             }
         }
 
         async function desbloquearComBiometria() {
-            sessionStorage.setItem('sessao_ativa_v255', 'true');
+            sessionStorage.setItem('sessao_ativa_v256', 'true');
             document.getElementById('tela-bloqueio').classList.add('hidden');
         }
 
         function alterarSenhaPin() {
             let atual = prompt("Digite a senha atual (Padrão: 1510):");
-            let pinSalvo = localStorage.getItem('app_pin_v255') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v256') || '1510';
             if(atual === pinSalvo) {
                 let nova = prompt("Digite a nova senha PIN:");
                 if(nova && nova.trim() !== '') {
-                    localStorage.setItem('app_pin_v255', nova.trim());
+                    localStorage.setItem('app_pin_v256', nova.trim());
                     alert("🔑 Senha alterada com sucesso!");
                 }
             } else {
@@ -544,11 +544,11 @@
             if(body.classList.contains('dark')) {
                 body.classList.remove('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.add('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v255', 'light');
+                localStorage.setItem('tema_v256', 'light');
             } else {
                 body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.remove('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v255', 'dark');
+                localStorage.setItem('tema_v256', 'dark');
             }
         }
 
@@ -801,7 +801,7 @@
         }
 
         function mudarTab(tab) {
-            localStorage.setItem('tab_ativa_v255', tab);
+            localStorage.setItem('tab_ativa_v256', tab);
             if(tab === 'itinerario' || tab === 'leitura') {
                 destinoFiltro = 'todos';
             }
@@ -1085,7 +1085,11 @@
                     cor: dadosApp.coresDestinos[limpo],
                     bloqueado: false,
                     concluido: false,
-                    trechos: [],
+                    trechos: [
+                        { id: Date.now() + 1, origem: "", destino: "", transporte: "Trem", valor: 0, moeda: "EUR", notas: "", concluido: false, fotoData: "", fotoNome: "", fotosExtras: [] },
+                        { id: Date.now() + 2, origem: "", destino: "", transporte: "Ônibus", valor: 0, moeda: "EUR", notas: "", concluido: false, fotoData: "", fotoNome: "", fotosExtras: [] },
+                        { id: Date.now() + 3, origem: "", destino: "", transporte: "Metrô", valor: 0, moeda: "EUR", notas: "", concluido: false, fotoData: "", fotoNome: "", fotosExtras: [] }
+                    ],
                     itens: []
                 };
                 if(!dadosApp.itinerario) dadosApp.itinerario = [];
@@ -1490,7 +1494,11 @@
                 cor: obterCorPorCategoria(destinoInicial), 
                 bloqueado: false, 
                 concluido: false, 
-                trechos: [], 
+                trechos: [
+                    { id: Date.now() + 1, origem: "", destino: "", transporte: "Trem", valor: 0, moeda: "EUR", notas: "", concluido: false, fotoData: "", fotoNome: "", fotosExtras: [] },
+                    { id: Date.now() + 2, origem: "", destino: "", transporte: "Ônibus", valor: 0, moeda: "EUR", notas: "", concluido: false, fotoData: "", fotoNome: "", fotosExtras: [] },
+                    { id: Date.now() + 3, origem: "", destino: "", transporte: "Metrô", valor: 0, moeda: "EUR", notas: "", concluido: false, fotoData: "", fotoNome: "", fotosExtras: [] }
+                ], 
                 itens: []
             };
             if(!dadosApp.itinerario) dadosApp.itinerario = [];
@@ -2007,7 +2015,7 @@
                                         '<span class="text-slate-500 font-medium">Valor (CHF):</span>' +
                                         '<div class="flex items-center gap-1.5"><input type="text" value="' + (val !== 0 ? val : '') + '" id="despesa-val-' + d.id + '" class="w-20 p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-black text-right text-xs outline-none" placeholder="0">' +
                                         '<button onclick="salvarDespesaValor(' + d.id + ', document.getElementById(\'despesa-val-' + d.id + '\').value)" class="bg-emerald-600 text-white px-2.5 py-1.5 rounded-lg font-bold text-[10px]">OK</button></div>' +
-                                        '<button onclick="apagarDespesa(' + d.id + ')" class="text-red-500 font-bold px-2 py-1.5 rounded-xl bg-red-50 hover:bg-red-100 text-xs">✕</button></div>' +
+                                        '<button onclick="apagarDespesa(' + d.id + ')" class="text-red-500 font-bold px-2.5 py-1.5 rounded-xl bg-red-50 hover:bg-red-100 text-xs">✕</button></div>' +
                                     '</div>';
                             }
                         });
