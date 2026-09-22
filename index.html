@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v259.0)</title>
+    <title>Roteiro Europa - Mariana (v261.0)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Manifest Dinâmico via JavaScript -->
@@ -38,8 +38,8 @@
         <div class="flex items-center gap-1.5 flex-wrap">
             <a href="https://translate.google.com/?hl=pt&sl=auto&tl=pt&op=images" target="_blank" class="bg-indigo-600 hover:bg-indigo-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm flex items-center gap-1" title="Google Tradutor & Câmara">🌐 Tradutor</a>
             <button onclick="window.location.reload()" class="bg-slate-800 hover:bg-slate-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm border border-slate-700" title="Atualizar Página">🔄</button>
-            <button onclick="exportarPdfPrint()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-xl font-bold text-[10px] transition shadow-sm" title="Imprimir Tudo">🖨️</button>
-            <span class="bg-indigo-950 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v259.0</span>
+            <button onclick="exportarPdfPrint()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm" title="Imprimir Tudo">🖨️</button>
+            <span class="bg-indigo-950 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v261.0</span>
         </div>
     </header>
 
@@ -82,6 +82,16 @@
                     <button onclick="desfazerUltimaAcao()" class="bg-amber-600 hover:bg-amber-700 text-white px-3 py-1.5 rounded-xl font-bold text-xs transition shadow-sm">↩️ Voltar</button>
                     <button onclick="adicionarBloco()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1.5 rounded-xl font-bold text-xs transition shadow-sm">➕ Novo Bloco</button>
                 </div>
+            </div>
+
+            <!-- BARRA DE FILTRO / ORDENAÇÃO DOS BLOCOS (COLOCADA EXATAMENTE NA COLUNA SOLICITADA) -->
+            <div class="flex justify-between items-center bg-white px-3 py-2 rounded-2xl border border-slate-200 shadow-sm text-xs">
+                <span class="font-extrabold uppercase text-slate-600 tracking-wider">🗂️ Agrupar / Filtrar Blocos:</span>
+                <select id="select-ordenacao-blocos" onchange="mudarOrdenacaoBlocos(this.value)" class="p-1.5 bg-slate-100 border border-slate-300 rounded-xl font-bold text-xs outline-none text-slate-700 shadow-sm">
+                    <option value="original">📌 Ordem Original</option>
+                    <option value="alfabetica">🔤 Por Destino (Alfabética)</option>
+                    <option value="cor">🎨 Por Cor</option>
+                </select>
             </div>
             
             <div id="lista-blocos" class="space-y-3"></div>
@@ -263,7 +273,7 @@
 
     <!-- BARRA DE FERRAMENTAS FIXA -->
     <nav class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-md text-white px-3 py-2.5 shadow-2xl border-t border-slate-800 text-xs flex items-center justify-around gap-1 overflow-x-auto no-scrollbar max-w-4xl mx-auto rounded-t-2xl">
-        <span class="bg-indigo-600 px-2 py-1 rounded font-mono font-bold text-[9px] shrink-0">v259.0</span>
+        <span class="bg-indigo-600 px-2 py-1 rounded font-mono font-bold text-[9px] shrink-0">v260.0</span>
         <button onclick="abrirGeminiModal()" class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-3 py-1.5 rounded-xl font-bold transition shrink-0 flex items-center gap-1 text-xs shadow-sm">
             <span>✨</span> Gemini
         </button>
@@ -308,6 +318,7 @@
         let utilidadeFiltro = 'todos';
         let comprasFiltroTitulo = 'todos';
         let comprasOrdenacao = 'alfabetica';
+        let blocoOrdenacao = 'original';
         let orcamentoSubTab = 'eur'; 
         let campoFocoAtual = null;
         let deferredPrompt = null;
@@ -342,6 +353,7 @@
             chat: [],
             compras: [],
             comprasOrdenacao: 'alfabetica',
+            blocoOrdenacao: 'original',
             ordemHub: ['voos', 'contatos', 'tarefas', 'checklist', 'vouchers', 'chat']
         };
 
@@ -438,27 +450,8 @@
             if(!dadosApp.origensCadastrados) dadosApp.origensCadastrados = ["Zurich HB", "Zurich Bus Station (Sihlquai)", "Freiburg Hbf (Estação Central)", "Gare de Lyon (Paris)", "Interlaken Ost"];
             if(!dadosApp.destinosCadastradosLocais) dadosApp.destinosCadastradosLocais = ["ibis budget Zurich City West", "Premier Inn Freiburg City Süd", "Europa-Park Rust", "Disney Hotel Santa Fe", "Grindelwald", "Jungfraujoch"];
             
-            // Migração de dados para garantir estrutura de conduções
-            if(dadosApp.itinerario) {
-                dadosApp.itinerario.forEach(item => {
-                    if(item.trechos) {
-                        item.trechos.forEach(tr => {
-                            if(!tr.conducoes) {
-                                tr.conducoes = [{
-                                    id: Date.now() + Math.random(),
-                                    transporte: tr.transporte || 'Trem',
-                                    valor: tr.valor || 0,
-                                    moeda: tr.moeda || 'EUR',
-                                    notas: tr.notas || '',
-                                    fotosExtras: tr.fotosExtras || (tr.fotoData ? [tr.fotoData] : [])
-                                }];
-                            }
-                        });
-                    }
-                });
-            }
-
             if(dadosApp.comprasOrdenacao) comprasOrdenacao = dadosApp.comprasOrdenacao;
+            if(dadosApp.blocoOrdenacao) blocoOrdenacao = dadosApp.blocoOrdenacao;
 
             const manifestObj = {
                 "name": "Roteiro Europa - Mariana",
@@ -486,11 +479,11 @@
                 navigator.serviceWorker.register(URL.createObjectURL(swBlob)).catch(err => {});
             }
 
-            if (!sessionStorage.getItem('sessao_ativa_v259')) {
+            if (!sessionStorage.getItem('sessao_ativa_v260')) {
                 document.getElementById('tela-bloqueio').classList.add('hidden');
             }
 
-            const temaSalvo = localStorage.getItem('tema_v259');
+            const temaSalvo = localStorage.getItem('tema_v260');
             if (temaSalvo === 'dark') {
                 document.body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 document.body.classList.remove('bg-slate-100', 'text-slate-800');
@@ -505,8 +498,11 @@
                 let selOrd = document.getElementById('select-ordenacao-compras');
                 if(selOrd && dadosApp.comprasOrdenacao) selOrd.value = dadosApp.comprasOrdenacao;
 
+                let selOrdBlocos = document.getElementById('select-ordenacao-blocos');
+                if(selOrdBlocos && dadosApp.blocoOrdenacao) selOrdBlocos.value = dadosApp.blocoOrdenacao;
+
                 atualizarTudo();
-                let tabSalva = localStorage.getItem('tab_ativa_v259') || 'leitura';
+                let tabSalva = localStorage.getItem('tab_ativa_v260') || 'leitura';
                 mudarTab(tabSalva);
             } catch(e) {
                 console.error("Erro ao iniciar:", e);
@@ -530,29 +526,29 @@
         }
 
         function desbloquearComPin() {
-            let pinSalvo = localStorage.getItem('app_pin_v259') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v260') || '1510';
             let digitado = document.getElementById('input-pin').value;
             if(digitado === pinSalvo) {
-                sessionStorage.setItem('sessao_ativa_v259', 'true');
+                sessionStorage.setItem('sessao_ativa_v260', 'true');
                 document.getElementById('tela-bloqueio').classList.add('hidden');
                 document.getElementById('erro-pin').classList.add('hidden');
             } else {
-                document.getElementById('erro-pin').classList.remove('hidden');
+                document.getElementById('erro-pin').classList.add('hidden');
             }
         }
 
         async function desbloquearComBiometria() {
-            sessionStorage.setItem('sessao_ativa_v259', 'true');
+            sessionStorage.setItem('sessao_ativa_v260', 'true');
             document.getElementById('tela-bloqueio').classList.add('hidden');
         }
 
         function alterarSenhaPin() {
             let atual = prompt("Digite a senha atual (Padrão: 1510):");
-            let pinSalvo = localStorage.getItem('app_pin_v259') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v260') || '1510';
             if(atual === pinSalvo) {
                 let nova = prompt("Digite a nova senha PIN:");
                 if(nova && nova.trim() !== '') {
-                    localStorage.setItem('app_pin_v259', nova.trim());
+                    localStorage.setItem('app_pin_v260', nova.trim());
                     alert("🔑 Senha alterada com sucesso!");
                 }
             } else {
@@ -565,11 +561,11 @@
             if(body.classList.contains('dark')) {
                 body.classList.remove('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.add('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v259', 'light');
+                localStorage.setItem('tema_v260', 'light');
             } else {
                 body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.remove('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v259', 'dark');
+                localStorage.setItem('tema_v260', 'dark');
             }
         }
 
@@ -819,6 +815,14 @@
             renderizarHubUtilidades();
         }
 
+        function mudarOrdenacaoBlocos(val) {
+            registarEstadoAnterior();
+            blocoOrdenacao = val;
+            dadosApp.blocoOrdenacao = val;
+            salvarStorage();
+            renderizarBlocos();
+        }
+
         function atualizarTudo() {
             try {
                 renderizarFiltros();
@@ -834,7 +838,7 @@
         }
 
         function mudarTab(tab) {
-            localStorage.setItem('tab_ativa_v259', tab);
+            localStorage.setItem('tab_ativa_v260', tab);
             if(tab === 'itinerario' || tab === 'leitura') {
                 destinoFiltro = 'todos';
             }
@@ -1230,7 +1234,7 @@
                                 if(cond.fotosExtras && cond.fotosExtras.length > 0) {
                                     fotosCondRead += '<div class="flex gap-1.5 flex-wrap mt-1">';
                                     cond.fotosExtras.forEach(fUrl => {
-                                        fotosCondRead += `<img src="${fUrl}" class="w-12 h-12 object-cover rounded-lg border cursor-pointer shadow-sm hover:opacity-90 transition" onclick="abrirLeitorArquivo('${fUrl}', 'Foto')" title="Clique para ver maior">`;
+                                        fotosCondRead += `<img src="${fUrl}" class="w-12 h-12 object-cover rounded-lg border cursor-pointer shadow-sm hover:opacity-90 transition" onclick="abrirLeitorArquivo('${fUrl}', 'Foto da Condução')" title="Clique para ver maior">`;
                                     });
                                     fotosCondRead += '</div>';
                                 }
@@ -1288,10 +1292,20 @@
             if(!container) return;
             container.innerHTML = '';
             
-            let filtrados = dadosApp.itinerario;
+            let filtrados = [...dadosApp.itinerario];
             if(destinoFiltro !== 'todos') {
-                filtrados = dadosApp.itinerario.filter(i => (i.categoria || "").toLowerCase().includes(destinoFiltro.toLowerCase()));
+                filtrados = filtrados.filter(i => (i.categoria || "").toLowerCase().includes(destinoFiltro.toLowerCase()));
             }
+
+            // Aplicar ordenação dos blocos (Solicitado pela Mariana)
+            filtrados.sort((a, b) => {
+                if (blocoOrdenacao === 'alfabetica') {
+                    return (a.categoria || '').localeCompare(b.categoria || '');
+                } else if (blocoOrdenacao === 'cor') {
+                    return (a.cor || '').localeCompare(b.cor || '');
+                }
+                return 0; // original
+            });
 
             if(filtrados.length === 0) {
                 container.innerHTML = '<div class="bg-white p-5 rounded-2xl text-center text-xs text-slate-400 border border-slate-200 shadow-sm space-y-2"><p class="font-bold text-slate-700">Nenhum bloco encontrado.</p><button onclick="destinoFiltro=\'todos\'; atualizarTudo();" class="bg-indigo-600 text-white px-3 py-1.5 rounded-xl font-bold text-xs">Mostrar Todos</button></div>';
