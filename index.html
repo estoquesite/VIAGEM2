@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v222.0)</title>
+    <title>Roteiro Europa - Mariana (v223.0)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Manifest Dinâmico via JavaScript -->
@@ -39,7 +39,7 @@
             <a href="https://translate.google.com/?hl=pt&sl=auto&tl=pt&op=images" target="_blank" class="bg-indigo-600 hover:bg-indigo-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm flex items-center gap-1" title="Google Tradutor & Câmara">🌐 Tradutor</a>
             <button onclick="window.location.reload()" class="bg-slate-800 hover:bg-slate-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm border border-slate-700" title="Atualizar Página">🔄</button>
             <button onclick="exportarPdfPrint()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm" title="Imprimir Tudo">🖨️</button>
-            <span class="bg-indigo-950 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v222.0</span>
+            <span class="bg-indigo-950 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v223.0</span>
         </div>
     </header>
 
@@ -160,25 +160,49 @@
             </div>
         </div>
 
-        <!-- TAB 5: COMPRAS -->
+        <!-- TAB 5: COMPRAS (CAIXA ÚNICA FIXA NO TOPO + LINHAS ADICIONADAS ABAIXO) -->
         <div id="tab-compras" class="space-y-3 hidden">
             <div class="bg-white p-3.5 sm:p-5 rounded-2xl shadow-sm border border-slate-200 space-y-4 text-xs" id="compras-conteudo-main">
                 <div class="flex justify-between items-center border-b pb-3 flex-wrap gap-2">
                     <div>
                         <h2 class="text-xs font-extrabold uppercase text-slate-800 tracking-wider">🛍️ Lista de Compras</h2>
-                        <p class="text-[11px] text-slate-500 font-semibold">Adicione e controle os seus itens de compras para adultos e crianças</p>
+                        <p class="text-[11px] text-slate-500 font-semibold">Preencha a caixa abaixo e clique em OK para adicionar à lista</p>
                     </div>
-                    <div class="flex gap-1.5">
-                        <button type="button" onclick="adicionarItemCompraDireto()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1.5 rounded-xl font-bold text-xs transition shadow-sm">➕ Adicionar Item</button>
-                        <button type="button" onclick="imprimirSeccaoCustom('Lista de Compras', document.getElementById('tab-compras').innerHTML)" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-xl font-bold text-xs transition shadow-sm">🖨️ PDF</button>
-                    </div>
+                    <button type="button" onclick="imprimirSeccaoCustom('Lista de Compras', document.getElementById('tab-compras').innerHTML)" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-xl font-bold text-xs transition shadow-sm">🖨️ PDF</button>
                 </div>
 
                 <!-- RESUMO GERAL DAS COMPRAS NO TOPO -->
                 <div id="compras-resumo-topo" class="grid grid-cols-2 gap-2"></div>
 
-                <!-- LISTA DIRETA DE ITENS DE COMPRAS -->
-                <div id="compras-lista-itens" class="space-y-2.5 pt-1"></div>
+                <!-- CAIXA ÚNICA FIXA PARA DIGITAÇÃO (ADICIONAR NOVO ITEM) -->
+                <div class="p-3.5 rounded-2xl border-2 border-indigo-200 bg-indigo-50/40 space-y-3 shadow-sm">
+                    <span class="font-black text-indigo-950 uppercase text-[10px] block">➕ Adicionar Novo Item</span>
+                    <div class="flex items-center gap-1.5 min-w-0">
+                        <input type="text" id="input-nova-desc" class="flex-1 min-w-0 p-2 bg-white border border-slate-300 rounded-xl font-bold text-xs outline-none focus:border-indigo-600" placeholder="Nome do item (ex: Iogurte Papá)...">
+                        <select id="input-novo-pub" class="p-2 bg-white border border-slate-300 rounded-xl font-bold text-xs shrink-0">
+                            <option value="Adulto">👤 Adulto</option>
+                            <option value="Criança (Sofia)">👧 Criança</option>
+                        </select>
+                    </div>
+                    <div class="flex items-center justify-between gap-2 flex-wrap border-t border-slate-200 pt-2">
+                        <div class="flex items-center gap-1.5">
+                            <span class="text-slate-600 font-bold">Valor:</span>
+                            <input type="text" id="input-novo-val" class="w-20 p-2 bg-white border border-slate-300 rounded-xl font-black text-right text-xs outline-none" placeholder="0">
+                            <select id="input-nova-moeda" class="p-2 bg-white border border-slate-300 rounded-xl font-bold text-xs">
+                                <option value="EUR">€ (EUR)</option>
+                                <option value="CHF">CHF</option>
+                                <option value="BRL">R$ (BRL)</option>
+                            </select>
+                        </div>
+                        <button type="button" onclick="adicionarItemUnicoForm()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-xl font-bold text-xs transition shadow-sm">✓ OK (Adicionar Linha)</button>
+                    </div>
+                </div>
+
+                <!-- LISTA DE ITENS JÁ ADICIONADOS (ABAIXO) -->
+                <div class="space-y-2 pt-2">
+                    <span class="font-black text-slate-700 uppercase text-[10px] block">📋 Itens Registados</span>
+                    <div id="compras-lista-itens" class="space-y-2 pt-1"></div>
+                </div>
             </div>
         </div>
 
@@ -1781,7 +1805,7 @@
             }
         }
 
-        // RENDERIZAR ABA DE COMPRAS COM CONTROLO ESTÁVEL DE BOTÕES
+        // RENDERIZAR ABA DE COMPRAS (COM CAIXA FIXA NO TOPO E LISTA ABAIXO)
         function renderizarComprasTab() {
             const containerResumo = document.getElementById('compras-resumo-topo');
             const containerLista = document.getElementById('compras-lista-itens');
@@ -1837,7 +1861,7 @@
 
                 let itensHtml = '';
                 if(dadosApp.compras.length === 0) {
-                    itensHtml = '<p class="text-xs text-slate-400 italic text-center py-6">Nenhum item adicionado. Clique em "➕ Adicionar Item" acima.</p>';
+                    itensHtml = '<p class="text-xs text-slate-400 italic text-center py-4">Nenhum item registado na lista.</p>';
                 } else {
                     dadosApp.compras.forEach(it => {
                         let val = limparNumero(it.valor);
@@ -1904,18 +1928,37 @@
             }
         }
 
-        function adicionarItemCompraDireto() {
+        // ADICIONAR ITEM DIRETAMENTE DA CAIXA FIXA DO TOPO
+        function adicionarItemUnicoForm() {
+            let descInput = document.getElementById('input-nova-desc');
+            let pubInput = document.getElementById('input-novo-pub');
+            let valInput = document.getElementById('input-novo-val');
+            let moedaInput = document.getElementById('input-nova-moeda');
+
+            let desc = descInput ? descInput.value.trim() : "";
+            if (!desc) {
+                alert("Por favor, digite o nome do item.");
+                if(descInput) descInput.focus();
+                return;
+            }
+
             registarEstadoAnterior();
             if(!Array.isArray(dadosApp.compras)) dadosApp.compras = [];
+
             dadosApp.compras.unshift({
                 id: 'item_' + Date.now(),
-                descricao: "",
-                publico: "Adulto",
-                valor: 0,
-                moeda: "EUR",
+                descricao: desc,
+                publico: pubInput ? pubInput.value : "Adulto",
+                valor: valInput ? limparNumero(valInput.value) : 0,
+                moeda: moedaInput ? moedaInput.value : "EUR",
                 concluido: false,
-                editando: true
+                editando: false // Já nasce fechado/trancado na linha abaixo
             });
+
+            // Limpar os campos da caixa do topo
+            if(descInput) descInput.value = "";
+            if(valInput) valInput.value = "";
+
             salvarStorage();
             setTimeout(atualizarTudo, 50);
         }
