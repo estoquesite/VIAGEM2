@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v245.0)</title>
+    <title>Roteiro Europa - Mariana (v246.0)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Manifest Dinâmico via JavaScript -->
@@ -39,7 +39,7 @@
             <a href="https://translate.google.com/?hl=pt&sl=auto&tl=pt&op=images" target="_blank" class="bg-indigo-600 hover:bg-indigo-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm flex items-center gap-1" title="Google Tradutor & Câmara">🌐 Tradutor</a>
             <button onclick="window.location.reload()" class="bg-slate-800 hover:bg-slate-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm border border-slate-700" title="Atualizar Página">🔄</button>
             <button onclick="exportarPdfPrint()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm" title="Imprimir Tudo">🖨️</button>
-            <span class="bg-indigo-950 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v245.0</span>
+            <span class="bg-indigo-950 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v246.0</span>
         </div>
     </header>
 
@@ -174,6 +174,9 @@
                 <!-- RESUMO GERAL DAS COMPRAS NO TOPO -->
                 <div id="compras-resumo-topo" class="grid grid-cols-2 gap-2"></div>
 
+                <!-- CARTÕES DE FILTRAGEM COLORIDOS POR TÍTULO -->
+                <div id="compras-filtros-titulo" class="bg-slate-200 p-2 rounded-xl overflow-x-auto flex gap-1.5 text-xs items-center no-scrollbar shadow-inner"></div>
+
                 <!-- CAIXA ÚNICA FIXA PARA DIGITAÇÃO -->
                 <div class="p-3.5 rounded-2xl border-2 border-indigo-200 bg-indigo-50/40 space-y-3 shadow-sm">
                     <span class="font-black text-indigo-950 uppercase text-[10px] block">➕ ADICIONAR NOVO ITEM</span>
@@ -260,7 +263,7 @@
 
     <!-- BARRA DE FERRAMENTAS FIXA -->
     <nav class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-md text-white px-3 py-2.5 shadow-2xl border-t border-slate-800 text-xs flex items-center justify-around gap-1 overflow-x-auto no-scrollbar max-w-4xl mx-auto rounded-t-2xl">
-        <span class="bg-indigo-600 px-2 py-1 rounded font-mono font-bold text-[9px] shrink-0">v245.0</span>
+        <span class="bg-indigo-600 px-2 py-1 rounded font-mono font-bold text-[9px] shrink-0">v246.0</span>
         <button onclick="abrirGeminiModal()" class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-3 py-1.5 rounded-xl font-bold transition shrink-0 flex items-center gap-1 text-xs shadow-sm">
             <span>✨</span> Gemini
         </button>
@@ -392,23 +395,14 @@
             return isNaN(num) ? 0 : num;
         }
 
-        // Paleta de cores vibrantes e neon alargada para evitar repetições
+        // Paleta neon alargada
         function obterCorPorTituloCompra(titulo) {
             if (!titulo) return '#ff007f';
             let t = titulo.trim().toLowerCase().replace(/[^a-z0-9]/g, '');
             let paletaNeon = [
-                "#ff007f", // Rosa Neon Shock
-                "#00ff66", // Verde Neon Brilhante
-                "#00ffff", // Cyan Neon
-                "#ccff00", // Amarelo Limão Neon
-                "#ff3300", // Laranja/Vermelho Neon
-                "#a855f7", // Roxo Elétrico
-                "#3b82f6", // Azul Vivo
-                "#f59e0b", // Amarelo Ouro
-                "#ec4899", // Rosa Pink
-                "#10b981", // Verde Esmeralda
-                "#6366f1", // Índigo
-                "#06b6d4"  // Azul Turquesa
+                "#ff007f", "#00ff66", "#00ffff", "#ccff00", "#ff3300", 
+                "#a855f7", "#3b82f6", "#f59e0b", "#ec4899", "#10b981", 
+                "#6366f1", "#06b6d4"
             ];
             let hash = 0;
             for (let i = 0; i < t.length; i++) {
@@ -475,11 +469,11 @@
                 navigator.serviceWorker.register(URL.createObjectURL(swBlob)).catch(err => {});
             }
 
-            if (!sessionStorage.getItem('sessao_ativa_v245')) {
+            if (!sessionStorage.getItem('sessao_ativa_v246')) {
                 document.getElementById('tela-bloqueio').classList.add('hidden');
             }
 
-            const temaSalvo = localStorage.getItem('tema_v245');
+            const temaSalvo = localStorage.getItem('tema_v246');
             if (temaSalvo === 'dark') {
                 document.body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 document.body.classList.remove('bg-slate-100', 'text-slate-800');
@@ -495,7 +489,7 @@
                 if(selOrd && dadosApp.comprasOrdenacao) selOrd.value = dadosApp.comprasOrdenacao;
 
                 atualizarTudo();
-                let tabSalva = localStorage.getItem('tab_ativa_v245') || 'leitura';
+                let tabSalva = localStorage.getItem('tab_ativa_v246') || 'leitura';
                 mudarTab(tabSalva);
             } catch(e) {
                 console.error("Erro ao iniciar:", e);
@@ -519,10 +513,10 @@
         }
 
         function desbloquearComPin() {
-            let pinSalvo = localStorage.getItem('app_pin_v245') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v246') || '1510';
             let digitado = document.getElementById('input-pin').value;
             if(digitado === pinSalvo) {
-                sessionStorage.setItem('sessao_ativa_v245', 'true');
+                sessionStorage.setItem('sessao_ativa_v246', 'true');
                 document.getElementById('tela-bloqueio').classList.add('hidden');
                 document.getElementById('erro-pin').classList.add('hidden');
             } else {
@@ -531,17 +525,17 @@
         }
 
         async function desbloquearComBiometria() {
-            sessionStorage.setItem('sessao_ativa_v245', 'true');
+            sessionStorage.setItem('sessao_ativa_v246', 'true');
             document.getElementById('tela-bloqueio').classList.add('hidden');
         }
 
         function alterarSenhaPin() {
             let atual = prompt("Digite a senha atual (Padrão: 1510):");
-            let pinSalvo = localStorage.getItem('app_pin_v245') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v246') || '1510';
             if(atual === pinSalvo) {
                 let nova = prompt("Digite a nova senha PIN:");
                 if(nova && nova.trim() !== '') {
-                    localStorage.setItem('app_pin_v245', nova.trim());
+                    localStorage.setItem('app_pin_v246', nova.trim());
                     alert("🔑 Senha alterada com sucesso!");
                 }
             } else {
@@ -554,11 +548,11 @@
             if(body.classList.contains('dark')) {
                 body.classList.remove('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.add('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v245', 'light');
+                localStorage.setItem('tema_v246', 'light');
             } else {
                 body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.remove('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v245', 'dark');
+                localStorage.setItem('tema_v246', 'dark');
             }
         }
 
@@ -764,7 +758,7 @@
         }
 
         function mudarTab(tab) {
-            localStorage.setItem('tab_ativa_v245', tab);
+            localStorage.setItem('tab_ativa_v246', tab);
             if(tab === 'itinerario' || tab === 'leitura') {
                 destinoFiltro = 'todos';
             }
@@ -1175,6 +1169,8 @@
                     let ring = corHex === col ? 'ring-2 ring-slate-900 scale-110' : '';
                     paletaHtml += '<button onclick="atualizarCorBlocoLocal(\'' + item.id + '\', \'' + col + '\')" style="background-color: ' + col + ';" class="w-5 h-5 rounded-full shadow-sm transition transform hover:scale-110 ' + ring + '"></button>';
                 });
+                // Adicionando o Catálogo de Cores Personalizado (Color Picker) no final dos botões de cor
+                paletaHtml += '<label class="flex items-center gap-1 bg-slate-100 hover:bg-slate-200 px-2 py-0.5 rounded-lg border border-slate-300 cursor-pointer text-[10px] font-bold text-slate-700 ml-1" title="Escolher qualquer cor do catálogo">🎨 Outra <input type="color" value="' + corHex + '" onchange="atualizarCorBlocoLocal(\'' + item.id + '\', this.value)" class="w-4 h-4 rounded cursor-pointer border-0 p-0 bg-transparent"></label>';
                 paletaHtml += '</div>';
 
                 card.innerHTML = '<div class="flex flex-col gap-2 border-b border-black/10 pb-2.5">' +
@@ -1205,8 +1201,8 @@
                         paletaHtml +
                         '<div class="flex items-center gap-1.5">' +
                             '<button onclick="alternarBloqueio(\'' + item.id + '\')" class="' + lockBg + ' px-3 py-1.5 rounded-xl font-bold text-xs shadow-sm transition">' + lockIcon + '</button>' +
-                            '<button onclick="moverBloco(\'' + item.id + '\', -1)" class="bg-slate-200 hover:bg-slate-300 px-2 py-1.5 rounded-xl font-bold transition">⬆️</button>' +
-                            '<button onclick="moverBloco(\'' + item.id + '\', 1)" class="bg-slate-200 hover:bg-slate-300 px-2 py-1.5 rounded-xl font-bold transition">⬇️</button>' +
+                            '<button onclick="moverBloco(\'' + item.id + '\', -1)" class="bg-slate-200 hover:bg-slate-300 px-2.5 py-1.5 rounded-xl font-bold transition">⬆️</button>' +
+                            '<button onclick="moverBloco(\'' + item.id + '\', 1)" class="bg-slate-200 hover:bg-slate-300 px-2.5 py-1.5 rounded-xl font-bold transition">⬇️</button>' +
                             '<button onclick="apagarBloco(\'' + item.id + '\')" class="bg-red-50 hover:bg-red-100 text-red-600 px-3 py-1.5 rounded-xl font-bold transition">Excluir ✕</button>' +
                         '</div>' +
                     '</div>';
