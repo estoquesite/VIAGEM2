@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v248.0)</title>
+    <title>Roteiro Europa - Mariana (v249.0)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Manifest Dinâmico via JavaScript -->
@@ -39,7 +39,7 @@
             <a href="https://translate.google.com/?hl=pt&sl=auto&tl=pt&op=images" target="_blank" class="bg-indigo-600 hover:bg-indigo-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm flex items-center gap-1" title="Google Tradutor & Câmara">🌐 Tradutor</a>
             <button onclick="window.location.reload()" class="bg-slate-800 hover:bg-slate-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm border border-slate-700" title="Atualizar Página">🔄</button>
             <button onclick="exportarPdfPrint()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm" title="Imprimir Tudo">🖨️</button>
-            <span class="bg-indigo-950 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v248.0</span>
+            <span class="bg-indigo-950 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v249.0</span>
         </div>
     </header>
 
@@ -263,7 +263,7 @@
 
     <!-- BARRA DE FERRAMENTAS FIXA -->
     <nav class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-md text-white px-3 py-2.5 shadow-2xl border-t border-slate-800 text-xs flex items-center justify-around gap-1 overflow-x-auto no-scrollbar max-w-4xl mx-auto rounded-t-2xl">
-        <span class="bg-indigo-600 px-2 py-1 rounded font-mono font-bold text-[9px] shrink-0">v248.0</span>
+        <span class="bg-indigo-600 px-2 py-1 rounded font-mono font-bold text-[9px] shrink-0">v249.0</span>
         <button onclick="abrirGeminiModal()" class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-3 py-1.5 rounded-xl font-bold transition shrink-0 flex items-center gap-1 text-xs shadow-sm">
             <span>✨</span> Gemini
         </button>
@@ -323,13 +323,8 @@
                 "Interlaken": "#10b981",
                 "Disney": "#8b5cf6"
             },
-            locaisCadastrados: [
-                "Zurich HB", "Zurich Bus Station (Sihlquai)", "ibis budget Zurich City West",
-                "Freiburg Hbf (Estação Central)", "Premier Inn Freiburg City Süd", "Europa-Park Rust",
-                "Disney Hotel Santa Fe", "Marne-la-Vallée Chessy (Disney)", "Val d'Europe (Outlet)",
-                "CAMPOSANILE PARIS 12 - Bercy Village", "Gare de Lyon (Paris)", "Interlaken Ost",
-                "Hotel Weisses Kreuz", "Grindelwald", "Jungfraujoch"
-            ],
+            origensCadastrados: ["Zurich HB", "Zurich Bus Station (Sihlquai)", "Freiburg Hbf (Estação Central)", "Gare de Lyon (Paris)", "Interlaken Ost"],
+            destinosCadastradosLocais: ["ibis budget Zurich City West", "Premier Inn Freiburg City Süd", "Europa-Park Rust", "Disney Hotel Santa Fe", "Grindelwald", "Jungfraujoch"],
             diasConcluidos: {},
             statusPersonalizados: { "Concluído": "#22c55e", "Aguardando": "#f59e0b" },
             saldoEur: "",
@@ -440,7 +435,15 @@
             if(!dadosApp.outros) dadosApp.outros = [];
             if(!dadosApp.chat) dadosApp.chat = [];
             if(!dadosApp.compras) dadosApp.compras = [];
-            if(!dadosApp.locaisCadastrados) dadosApp.locaisCadastrados = ["Zurich HB", "Zurich Bus Station (Sihlquai)", "ibis budget Zurich City West", "Freiburg Hbf (Estação Central)", "Premier Inn Freiburg City Süd", "Europa-Park Rust", "Disney Hotel Santa Fe", "Marne-la-Vallée Chessy (Disney)", "Val d'Europe (Outlet)", "CAMPOSANILE PARIS 12 - Bercy Village", "Gare de Lyon (Paris)", "Interlaken Ost", "Hotel Weisses Kreuz", "Grindelwald", "Jungfraujoch"];
+            
+            // Garantir listas separadas para origens e destinos de trechos
+            if(!dadosApp.origensCadastrados) {
+                dadosApp.origensCadastrados = dadosApp.locaisCadastrados || ["Zurich HB", "Zurich Bus Station (Sihlquai)", "Freiburg Hbf (Estação Central)", "Gare de Lyon (Paris)", "Interlaken Ost"];
+            }
+            if(!dadosApp.destinosCadastradosLocais) {
+                dadosApp.destinosCadastradosLocais = dadosApp.locaisCadastrados || ["ibis budget Zurich City West", "Premier Inn Freiburg City Süd", "Europa-Park Rust", "Disney Hotel Santa Fe", "Grindelwald", "Jungfraujoch"];
+            }
+
             if(dadosApp.comprasOrdenacao) comprasOrdenacao = dadosApp.comprasOrdenacao;
 
             const manifestObj = {
@@ -469,11 +472,11 @@
                 navigator.serviceWorker.register(URL.createObjectURL(swBlob)).catch(err => {});
             }
 
-            if (!sessionStorage.getItem('sessao_ativa_v248')) {
+            if (!sessionStorage.getItem('sessao_ativa_v249')) {
                 document.getElementById('tela-bloqueio').classList.add('hidden');
             }
 
-            const temaSalvo = localStorage.getItem('tema_v248');
+            const temaSalvo = localStorage.getItem('tema_v249');
             if (temaSalvo === 'dark') {
                 document.body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 document.body.classList.remove('bg-slate-100', 'text-slate-800');
@@ -489,7 +492,7 @@
                 if(selOrd && dadosApp.comprasOrdenacao) selOrd.value = dadosApp.comprasOrdenacao;
 
                 atualizarTudo();
-                let tabSalva = localStorage.getItem('tab_ativa_v248') || 'leitura';
+                let tabSalva = localStorage.getItem('tab_ativa_v249') || 'leitura';
                 mudarTab(tabSalva);
             } catch(e) {
                 console.error("Erro ao iniciar:", e);
@@ -513,10 +516,10 @@
         }
 
         function desbloquearComPin() {
-            let pinSalvo = localStorage.getItem('app_pin_v248') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v249') || '1510';
             let digitado = document.getElementById('input-pin').value;
             if(digitado === pinSalvo) {
-                sessionStorage.setItem('sessao_ativa_v248', 'true');
+                sessionStorage.setItem('sessao_ativa_v249', 'true');
                 document.getElementById('tela-bloqueio').classList.add('hidden');
                 document.getElementById('erro-pin').classList.add('hidden');
             } else {
@@ -525,17 +528,17 @@
         }
 
         async function desbloquearComBiometria() {
-            sessionStorage.setItem('sessao_ativa_v248', 'true');
+            sessionStorage.setItem('sessao_ativa_v249', 'true');
             document.getElementById('tela-bloqueio').classList.add('hidden');
         }
 
         function alterarSenhaPin() {
             let atual = prompt("Digite a senha atual (Padrão: 1510):");
-            let pinSalvo = localStorage.getItem('app_pin_v248') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v249') || '1510';
             if(atual === pinSalvo) {
                 let nova = prompt("Digite a nova senha PIN:");
                 if(nova && nova.trim() !== '') {
-                    localStorage.setItem('app_pin_v248', nova.trim());
+                    localStorage.setItem('app_pin_v249', nova.trim());
                     alert("🔑 Senha alterada com sucesso!");
                 }
             } else {
@@ -548,11 +551,11 @@
             if(body.classList.contains('dark')) {
                 body.classList.remove('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.add('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v248', 'light');
+                localStorage.setItem('tema_v249', 'light');
             } else {
                 body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.remove('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v248', 'dark');
+                localStorage.setItem('tema_v249', 'dark');
             }
         }
 
@@ -758,7 +761,7 @@
         }
 
         function mudarTab(tab) {
-            localStorage.setItem('tab_ativa_v248', tab);
+            localStorage.setItem('tab_ativa_v249', tab);
             if(tab === 'itinerario' || tab === 'leitura') {
                 destinoFiltro = 'todos';
             }
@@ -909,54 +912,102 @@
             }
         }
 
-        // GERIR LOCAIS (ORIGENS E DESTINOS DOS TRECHOS)
-        function gerenciarLocaisTrechos() {
-            if (!dadosApp.locaisCadastrados || dadosApp.locaisCadastrados.length === 0) {
-                alert("Não há locais/origens/destinos registados.");
+        // GESTÃO SEPARADA DE ORIGENS
+        function gerenciarOrigens() {
+            if (!dadosApp.origensCadastrados || dadosApp.origensCadastrados.length === 0) {
+                alert("Não há origens registadas.");
                 return;
             }
-            let lista = dadosApp.locaisCadastrados.join(', ');
-            let escolha = prompt("Locais de Origem/Destino atuais:\n[" + lista + "]\n\nDigite exatamente o nome do local que deseja APAGAR ou RENOMEAR:");
+            let lista = dadosApp.origensCadastrados.join(', ');
+            let escolha = prompt("Origens atuais:\n[" + lista + "]\n\nDigite exatamente o nome da origem que deseja APAGAR ou RENOMEAR:");
             if (!escolha || escolha.trim() === '') return;
-            let localEncontrado = dadosApp.locaisCadastrados.find(l => l.toLowerCase() === escolha.trim().toLowerCase());
-            if (!localEncontrado) {
-                alert("Local não encontrado.");
+            let encontrada = dadosApp.origensCadastrados.find(o => o.toLowerCase() === escolha.trim().toLowerCase());
+            if (!encontrada) {
+                alert("Origem não encontrada.");
                 return;
             }
-            let acao = prompt(`O que deseja fazer com o local "${localEncontrado}"?\n\n1 - Renomear\n2 - Apagar\n\nDigite 1 ou 2:`);
+            let acao = prompt(`O que deseja fazer com a origem "${encontrada}"?\n\n1 - Renomear\n2 - Apagar\n\nDigite 1 ou 2:`);
             if (acao === '1') {
-                let novoNome = prompt("Digite o novo nome para o local:", localEncontrado);
+                let novoNome = prompt("Digite o novo nome para a origem:", encontrada);
                 if (novoNome && novoNome.trim() !== '') {
                     registarEstadoAnterior();
                     let novoLimpo = novoNome.trim();
-                    dadosApp.locaisCadastrados = dadosApp.locaisCadastrados.map(l => l === localEncontrado ? novoLimpo : l);
+                    dadosApp.origensCadastrados = dadosApp.origensCadastrados.map(o => o === encontrada ? novoLimpo : o);
                     dadosApp.itinerario.forEach(b => {
                         if (b.trechos) {
                             b.trechos.forEach(tr => {
-                                if (tr.origem === localEncontrado) tr.origem = novoLimpo;
-                                if (tr.destino === localEncontrado) tr.destino = novoLimpo;
+                                if (tr.origem === encontrada) tr.origem = novoLimpo;
                             });
                         }
                     });
                     salvarStorage();
                     atualizarTudo();
-                    alert("✅ Local renomeado com sucesso!");
+                    alert("✅ Origem renomeada com sucesso!");
                 }
             } else if (acao === '2') {
-                if (confirm(`Deseja realmente apagar o local "${localEncontrado}"?`)) {
+                if (confirm(`Deseja realmente apagar a origem "${encontrada}"?`)) {
                     registarEstadoAnterior();
-                    dadosApp.locaisCadastrados = dadosApp.locaisCadastrados.filter(l => l !== localEncontrado);
+                    dadosApp.origensCadastrados = dadosApp.origensCadastrados.filter(o => o !== encontrada);
                     dadosApp.itinerario.forEach(b => {
                         if (b.trechos) {
                             b.trechos.forEach(tr => {
-                                if (tr.origem === localEncontrado) tr.origem = '';
-                                if (tr.destino === localEncontrado) tr.destino = '';
+                                if (tr.origem === encontrada) tr.origem = '';
                             });
                         }
                     });
                     salvarStorage();
                     atualizarTudo();
-                    alert("🗑️ Local apagado com sucesso!");
+                    alert("🗑️ Origem apagada com sucesso!");
+                }
+            }
+        }
+
+        // GESTÃO SEPARADA DE DESTINOS DE TRECHO
+        function gerenciarDestinosLocais() {
+            if (!dadosApp.destinosCadastradosLocais || dadosApp.destinosCadastradosLocais.length === 0) {
+                alert("Não há destinos de trecho registados.");
+                return;
+            }
+            let lista = dadosApp.destinosCadastradosLocais.join(', ');
+            let escolha = prompt("Destinos de Trecho atuais:\n[" + lista + "]\n\nDigite exatamente o nome do destino que deseja APAGAR ou RENOMEAR:");
+            if (!escolha || escolha.trim() === '') return;
+            let encontrada = dadosApp.destinosCadastradosLocais.find(d => d.toLowerCase() === escolha.trim().toLowerCase());
+            if (!encontrada) {
+                alert("Destino não encontrado.");
+                return;
+            }
+            let acao = prompt(`O que deseja fazer com o destino "${encontrada}"?\n\n1 - Renomear\n2 - Apagar\n\nDigite 1 ou 2:`);
+            if (acao === '1') {
+                let novoNome = prompt("Digite o novo nome para o destino:", encontrada);
+                if (novoNome && novoNome.trim() !== '') {
+                    registarEstadoAnterior();
+                    let novoLimpo = novoNome.trim();
+                    dadosApp.destinosCadastradosLocais = dadosApp.destinosCadastradosLocais.map(d => d === encontrada ? novoLimpo : d);
+                    dadosApp.itinerario.forEach(b => {
+                        if (b.trechos) {
+                            b.trechos.forEach(tr => {
+                                if (tr.destino === encontrada) tr.destino = novoLimpo;
+                            });
+                        }
+                    });
+                    salvarStorage();
+                    atualizarTudo();
+                    alert("✅ Destino renomeado com sucesso!");
+                }
+            } else if (acao === '2') {
+                if (confirm(`Deseja realmente apagar o destino "${encontrada}"?`)) {
+                    registarEstadoAnterior();
+                    dadosApp.destinosCadastradosLocais = dadosApp.destinosCadastradosLocais.filter(d => d !== encontrada);
+                    dadosApp.itinerario.forEach(b => {
+                        if (b.trechos) {
+                            b.trechos.forEach(tr => {
+                                if (tr.destino === encontrada) tr.destino = '';
+                            });
+                        }
+                    });
+                    salvarStorage();
+                    atualizarTudo();
+                    alert("🗑️ Destino apagado com sucesso!");
                 }
             }
         }
@@ -1162,22 +1213,24 @@
                 if(item.trechos && item.trechos.length > 0) {
                     item.trechos.forEach(tr => {
                         let opcoesOrigem = '';
-                        dadosApp.locaisCadastrados.forEach(l => {
+                        if(!dadosApp.origensCadastrados) dadosApp.origensCadastrados = [];
+                        dadosApp.origensCadastrados.forEach(l => {
                             opcoesOrigem += '<option value="' + l + '" ' + (tr.origem === l ? 'selected' : '') + '>' + l + '</option>';
                         });
-                        opcoesOrigem += '<option value="outro_local">➕ Outro...</option>';
+                        opcoesOrigem += '<option value="outra_origem">➕ Outra Origem...</option>';
 
                         let opcoesDest = '';
-                        dadosApp.locaisCadastrados.forEach(l => {
+                        if(!dadosApp.destinosCadastradosLocais) dadosApp.destinosCadastradosLocais = [];
+                        dadosApp.destinosCadastradosLocais.forEach(l => {
                             opcoesDest += '<option value="' + l + '" ' + (tr.destino === l ? 'selected' : '') + '>' + l + '</option>';
                         });
-                        opcoesDest += '<option value="outro_local">➕ Outro...</option>';
+                        opcoesDest += '<option value="outro_destino_local">➕ Outro Destino...</option>';
 
                         trechosHtml += '<div class="bg-white p-2.5 rounded-xl border border-slate-200 flex flex-col gap-2 text-xs mb-2 shadow-sm min-w-0">' +
                             '<div class="flex items-center gap-1.5 min-w-0">' +
-                                '<select onchange="lidarSelecaoLocalTrecho(\'' + item.id + '\', \'' + tr.id + '\', \'origem\', this.value)" class="flex-1 min-w-0 p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs truncate"><option value="">Origem...</option>' + opcoesOrigem + '</select>' +
+                                '<select onchange="lidarSelecaoOrigemTrecho(\'' + item.id + '\', \'' + tr.id + '\', this.value)" class="flex-1 min-w-0 p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs truncate"><option value="">Origem...</option>' + opcoesOrigem + '</select>' +
                                 '<span class="shrink-0 font-bold text-slate-400">➔</span>' +
-                                '<select onchange="lidarSelecaoLocalTrecho(\'' + item.id + '\', \'' + tr.id + '\', \'destino\', this.value)" class="flex-1 min-w-0 p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs truncate"><option value="">Destino...</option>' + opcoesDest + '</select>' +
+                                '<select onchange="lidarSelecaoDestinoTrecho(\'' + item.id + '\', \'' + tr.id + '\', this.value)" class="flex-1 min-w-0 p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs truncate"><option value="">Destino...</option>' + opcoesDest + '</select>' +
                                 '<button onclick="removerTrecho(\'' + item.id + '\', \'' + tr.id + '\')" class="text-red-500 font-bold px-2.5 py-1.5 rounded-xl bg-red-50 text-xs shrink-0 hover:bg-red-100 transition">✕</button>' +
                             '</div>' +
                             '<div class="flex items-center gap-1.5 min-w-0">' +
@@ -1240,7 +1293,7 @@
                 '</div>' +
                     '<div class="bg-white/95 p-3 rounded-2xl border border-slate-200 space-y-3 text-xs min-w-0 shadow-inner">' +
                         '<div class="space-y-1.5">' +
-                            '<div class="flex justify-between items-center"><span class="font-bold text-slate-700 uppercase text-[10px]">🚄 Trechos</span><div class="flex gap-1"><button onclick="gerenciarLocaisTrechos()" class="bg-slate-700 hover:bg-slate-600 text-white px-2 py-0.5 rounded-lg text-[10px] font-bold" title="Gerir Locais/Origens/Destinos">⚙️ Gerir Locais</button><button onclick="adicionarTrecho(\'' + item.id + '\')" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2.5 py-1 rounded-xl text-[11px] font-bold transition shadow-sm">➕ Trecho</button></div></div>' +
+                            '<div class="flex justify-between items-center flex-wrap gap-1"><span class="font-bold text-slate-700 uppercase text-[10px]">🚄 Trechos</span><div class="flex gap-1"><button onclick="gerenciarOrigens()" class="bg-slate-700 hover:bg-slate-600 text-white px-2 py-0.5 rounded-lg text-[10px] font-bold" title="Gerir Origens">⚙️ Gerir Origens</button><button onclick="gerenciarDestinosLocais()" class="bg-slate-700 hover:bg-slate-600 text-white px-2 py-0.5 rounded-lg text-[10px] font-bold" title="Gerir Destinos">⚙️ Gerir Destinos</button><button onclick="adicionarTrecho(\'' + item.id + '\')" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2.5 py-1 rounded-xl text-[11px] font-bold transition shadow-sm">➕ Trecho</button></div></div>' +
                             '<div class="space-y-1.5 min-w-0">' + (trechosHtml || '<p class="text-xs text-slate-400 italic">Nenhum trecho adicionado.</p>') + '</div>' +
                         '</div>' +
                         '<div class="space-y-1.5 pt-2.5 border-t border-slate-200">' +
@@ -1252,13 +1305,41 @@
                         paletaHtml +
                         '<div class="flex items-center gap-1.5">' +
                             '<button onclick="alternarBloqueio(\'' + item.id + '\')" class="' + lockBg + ' px-3 py-1.5 rounded-xl font-bold text-xs shadow-sm transition">' + lockIcon + '</button>' +
-                            '<button onclick="moverBloco(\'' + item.id + '\', -1)" class="bg-slate-200 hover:bg-slate-300 px-2 py-1.5 rounded-xl text-xs font-bold transition">⬆️</button>' +
+                            '<button onclick="moverBloco(\'' + item.id + '\', -1)" class="bg-slate-200 hover:bg-slate-300 px-2 py-1.5 rounded-xl font-bold transition">⬆️</button>' +
                             '<button onclick="moverBloco(\'' + item.id + '\', 1)" class="bg-slate-200 hover:bg-slate-300 px-2 py-1.5 rounded-xl font-bold transition">⬇️</button>' +
                             '<button onclick="apagarBloco(\'' + item.id + '\')" class="bg-red-50 hover:bg-red-100 text-red-600 px-3 py-1.5 rounded-xl font-bold transition">Excluir ✕</button>' +
                         '</div>' +
                     '</div>';
                 container.appendChild(card);
             });
+        }
+
+        function lidarSelecaoOrigemTrecho(itemId, trechoId, valor) {
+            registarEstadoAnterior();
+            if(valor === 'outra_origem') {
+                let novo = prompt("Nova origem:");
+                if(novo && novo.trim() !== '') {
+                    let limpo = novo.trim();
+                    if(!dadosApp.origensCadastrados.includes(limpo)) dadosApp.origensCadastrados.push(limpo);
+                    atualizarTrecho(itemId, trechoId, 'origem', limpo);
+                } else { renderizarBlocos(); }
+            } else {
+                atualizarTrecho(itemId, trechoId, 'origem', valor);
+            }
+        }
+
+        function lidarSelecaoDestinoTrecho(itemId, trechoId, valor) {
+            registarEstadoAnterior();
+            if(valor === 'outro_destino_local') {
+                let novo = prompt("Novo destino:");
+                if(novo && novo.trim() !== '') {
+                    let limpo = novo.trim();
+                    if(!dadosApp.destinosCadastradosLocais.includes(limpo)) dadosApp.destinosCadastradosLocais.push(limpo);
+                    atualizarTrecho(itemId, trechoId, 'destino', limpo);
+                } else { renderizarBlocos(); }
+            } else {
+                atualizarTrecho(itemId, trechoId, 'destino', valor);
+            }
         }
 
         function adicionarItemBloco(itemId) {
@@ -1303,20 +1384,6 @@
                 }
                 salvarStorage();
                 atualizarTudo();
-            }
-        }
-
-        function lidarSelecaoLocalTrecho(itemId, trechoId, campo, valor) {
-            registarEstadoAnterior();
-            if(valor === 'outro_local') {
-                let novo = prompt("Novo local:");
-                if(novo && novo.trim() !== '') {
-                    let limpo = novo.trim();
-                    if(!dadosApp.locaisCadastrados.includes(limpo)) dadosApp.locaisCadastrados.push(limpo);
-                    atualizarTrecho(itemId, trechoId, campo, limpo);
-                } else { renderizarBlocos(); }
-            } else {
-                atualizarTrecho(itemId, trechoId, campo, valor);
             }
         }
 
