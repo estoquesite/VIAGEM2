@@ -95,7 +95,7 @@
                         <h2 class="text-xs font-black uppercase tracking-wider text-indigo-200">📋 Hub de Listas & Vouchers</h2>
                         <p id="stat-utilidades" class="text-[11px] font-bold text-slate-200">Use as setas (⬆️ ⬇️) para reorganizar as caixas</p>
                     </div>
-                    <button onclick="desfazerUltimaAcao()" class="bg-amber-600 hover:bg-amber-700 text-white px-3 py-1.5 rounded-xl text-xs font-bold transition shadow-sm">↩️ Voltar</button>
+                    <button onclick="desfazerUltimaAcao()" class="bg-amber-600 hover:bg-amber-700 text-white px-3 py-1.5 rounded-xl font-bold transition shadow-sm">↩️ Voltar</button>
                 </div>
 
                 <!-- Filtros Hub -->
@@ -247,7 +247,7 @@
 
     <!-- BARRA DE FERRAMENTAS FIXA -->
     <nav class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-md text-white px-3 py-2.5 shadow-2xl border-t border-slate-800 text-xs flex items-center justify-around gap-1 overflow-x-auto no-scrollbar max-w-4xl mx-auto rounded-t-2xl">
-        <span class="bg-indigo-600 px-2 py-1 rounded font-mono font-bold text-[9px] shrink-0">v228.0</span>
+        <span class="bg-indigo-600 px-2 py-1 rounded font-mono font-bold text-[9px] shrink-0">v229.0</span>
         <button onclick="abrirGeminiModal()" class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-3 py-1.5 rounded-xl font-bold transition shrink-0 flex items-center gap-1 text-xs shadow-sm">
             <span>✨</span> Gemini
         </button>
@@ -432,11 +432,11 @@
                 navigator.serviceWorker.register(URL.createObjectURL(swBlob)).catch(err => {});
             }
 
-            if (!sessionStorage.getItem('sessao_ativa_v228')) {
+            if (!sessionStorage.getItem('sessao_ativa_v229')) {
                 document.getElementById('tela-bloqueio').classList.add('hidden');
             }
 
-            const temaSalvo = localStorage.getItem('tema_v228');
+            const temaSalvo = localStorage.getItem('tema_v229');
             if (temaSalvo === 'dark') {
                 document.body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 document.body.classList.remove('bg-slate-100', 'text-slate-800');
@@ -449,7 +449,7 @@
                 if(inputChf) inputChf.value = dadosApp.cotacaoChf;
 
                 atualizarTudo();
-                let tabSalva = localStorage.getItem('tab_ativa_v228') || 'leitura';
+                let tabSalva = localStorage.getItem('tab_ativa_v229') || 'leitura';
                 mudarTab(tabSalva);
             } catch(e) {
                 console.error("Erro ao iniciar:", e);
@@ -473,10 +473,10 @@
         }
 
         function desbloquearComPin() {
-            let pinSalvo = localStorage.getItem('app_pin_v228') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v229') || '1510';
             let digitado = document.getElementById('input-pin').value;
             if(digitado === pinSalvo) {
-                sessionStorage.setItem('sessao_ativa_v228', 'true');
+                sessionStorage.setItem('sessao_ativa_v229', 'true');
                 document.getElementById('tela-bloqueio').classList.add('hidden');
                 document.getElementById('erro-pin').classList.add('hidden');
             } else {
@@ -485,17 +485,17 @@
         }
 
         async function desbloquearComBiometria() {
-            sessionStorage.setItem('sessao_ativa_v228', 'true');
+            sessionStorage.setItem('sessao_ativa_v229', 'true');
             document.getElementById('tela-bloqueio').classList.add('hidden');
         }
 
         function alterarSenhaPin() {
             let atual = prompt("Digite a senha atual (Padrão: 1510):");
-            let pinSalvo = localStorage.getItem('app_pin_v228') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v229') || '1510';
             if(atual === pinSalvo) {
                 let nova = prompt("Digite a nova senha PIN:");
                 if(nova && nova.trim() !== '') {
-                    localStorage.setItem('app_pin_v228', nova.trim());
+                    localStorage.setItem('app_pin_v229', nova.trim());
                     alert("🔑 Senha alterada com sucesso!");
                 }
             } else {
@@ -508,11 +508,11 @@
             if(body.classList.contains('dark')) {
                 body.classList.remove('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.add('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v228', 'light');
+                localStorage.setItem('tema_v229', 'light');
             } else {
                 body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.remove('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v228', 'dark');
+                localStorage.setItem('tema_v229', 'dark');
             }
         }
 
@@ -732,7 +732,7 @@
         }
 
         function mudarTab(tab) {
-            localStorage.setItem('tab_ativa_v228', tab);
+            localStorage.setItem('tab_ativa_v229', tab);
             if(tab === 'itinerario' || tab === 'leitura') {
                 destinoFiltro = 'todos';
             }
@@ -1122,150 +1122,6 @@
                     '</div>';
                 container.appendChild(card);
             });
-        }
-
-        function adicionarItemBloco(itemId) {
-            registarEstadoAnterior();
-            let item = dadosApp.itinerario.find(i => String(i.id) === String(itemId));
-            if(item) {
-                if(!item.itens) item.itens = [];
-                item.itens.push({ id: Date.now(), texto: "" });
-                salvarStorage();
-                renderizarBlocos();
-            }
-        }
-
-        function removerItemBloco(itemId, subId) {
-            registarEstadoAnterior();
-            let item = dadosApp.itinerario.find(i => String(i.id) === String(itemId));
-            if(item && item.itens) {
-                item.itens = item.itens.filter(i => String(i.id) !== String(subId));
-                salvarStorage();
-                renderizarBlocos();
-            }
-        }
-
-        function atualizarTextoItemBloco(itemId, subId, val) {
-            let item = dadosApp.itinerario.find(i => String(i.id) === String(itemId));
-            if(item && item.itens) {
-                let it = item.itens.find(i => String(i.id) === String(subId));
-                if(it) {
-                    it.texto = val;
-                    localStorage.setItem(CHAVE_APP, JSON.stringify(dadosApp));
-                }
-            }
-        }
-
-        function atualizarDataInicio(id, val) {
-            registarEstadoAnterior();
-            let item = dadosApp.itinerario.find(i => String(i.id) === String(id));
-            if(item) {
-                item.dataInicio = val;
-                if(!item.dataFim || item.dataFim < val) {
-                    item.dataFim = val;
-                }
-                salvarStorage();
-                atualizarTudo();
-            }
-        }
-
-        function lidarSelecaoLocalTrecho(itemId, trechoId, campo, valor) {
-            registarEstadoAnterior();
-            if(valor === 'outro_local') {
-                let novo = prompt("Novo local:");
-                if(novo && novo.trim() !== '') {
-                    let limpo = novo.trim();
-                    if(!dadosApp.locaisCadastrados.includes(limpo)) dadosApp.locaisCadastrados.push(limpo);
-                    atualizarTrecho(itemId, trechoId, campo, limpo);
-                } else { renderizarBlocos(); }
-            } else {
-                atualizarTrecho(itemId, trechoId, campo, valor);
-            }
-        }
-
-        function adicionarTrecho(itemId) {
-            registarEstadoAnterior();
-            let item = dadosApp.itinerario.find(i => String(i.id) === String(itemId));
-            if(item) {
-                if(!item.trechos) item.trechos = [];
-                item.trechos.push({ id: Date.now(), origem: "", destino: "", transporte: "Trem", valor: 0, moeda: "EUR", notas: "", concluido: false });
-                salvarStorage();
-                atualizarTudo();
-            }
-        }
-
-        function removerTrecho(itemId, trechoId) {
-            registarEstadoAnterior();
-            let item = dadosApp.itinerario.find(i => String(i.id) === String(itemId));
-            if(item && item.trechos) {
-                item.trechos = item.trechos.filter(t => String(t.id) !== String(trechoId));
-                salvarStorage();
-                atualizarTudo();
-            }
-        }
-
-        function atualizarTrecho(itemId, trechoId, campo, val) {
-            let item = dadosApp.itinerario.find(i => String(i.id) === String(itemId));
-            if(item && item.trechos) {
-                let tr = item.trechos.find(t => String(t.id) === String(trechoId));
-                if(tr) {
-                    tr[campo] = val;
-                    salvarStorage();
-                    atualizarTudo();
-                }
-            }
-        }
-
-        function adicionarBloco() {
-            registarEstadoAnterior();
-            let destinoInicial = (destinoFiltro !== 'todos') ? destinoFiltro : ((dadosApp.destinosCadastrados && dadosApp.destinosCadastrados.length > 0) ? dadosApp.destinosCadastrados[0] : "Zurique");
-            
-            let novoItem = {
-                id: Date.now(), 
-                categoria: destinoInicial, 
-                dataInicio: "", 
-                dataFim: "", 
-                cor: obterCorPorCategoria(destinoInicial), 
-                bloqueado: false, 
-                concluido: false, 
-                trechos: [], 
-                itens: []
-            };
-            if(!dadosApp.itinerario) dadosApp.itinerario = [];
-            dadosApp.itinerario.unshift(novoItem);
-            salvarStorage();
-            mudarTab('itinerario');
-            atualizarTudo();
-        }
-
-        function lidarSelecaoDestino(id, valor) {
-            registarEstadoAnterior();
-            if(valor === 'novo_destino') {
-                let novo = prompt("Nome do destino:");
-                if(novo && novo.trim() !== '') {
-                    let limpo = novo.trim();
-                    if(!dadosApp.destinosCadastrados.includes(limpo)) dadosApp.destinosCadastrados.push(limpo);
-                    let corNova = prompt("Escolha a cor HEX para este destino (ex: #8b5cf6):", "#8b5cf6");
-                    if(!dadosApp.coresDestinos) dadosApp.coresDestinos = {};
-                    dadosApp.coresDestinos[limpo] = corNova || "#3b82f6";
-                    
-                    let item = dadosApp.itinerario.find(i => String(i.id) === String(id));
-                    if(item) {
-                        item.categoria = limpo;
-                        item.cor = dadosApp.coresDestinos[limpo];
-                    }
-                    salvarStorage();
-                    atualizarTudo();
-                } else { renderizarBlocos(); }
-            } else {
-                let item = dadosApp.itinerario.find(i => String(i.id) === String(id));
-                if(item) {
-                    item.categoria = valor;
-                    item.cor = obterCorPorCategoria(valor);
-                }
-                salvarStorage();
-                atualizarTudo();
-            }
         }
 
         // ORÇAMENTO & GERAL
