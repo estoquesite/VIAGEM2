@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v240.0)</title>
+    <title>Roteiro Europa - Mariana (v241.0)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Manifest Dinâmico via JavaScript -->
@@ -39,7 +39,7 @@
             <a href="https://translate.google.com/?hl=pt&sl=auto&tl=pt&op=images" target="_blank" class="bg-indigo-600 hover:bg-indigo-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm flex items-center gap-1" title="Google Tradutor & Câmara">🌐 Tradutor</a>
             <button onclick="window.location.reload()" class="bg-slate-800 hover:bg-slate-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm border border-slate-700" title="Atualizar Página">🔄</button>
             <button onclick="exportarPdfPrint()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm" title="Imprimir Tudo">🖨️</button>
-            <span class="bg-indigo-950 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v240.0</span>
+            <span class="bg-indigo-950 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v241.0</span>
         </div>
     </header>
 
@@ -160,13 +160,13 @@
             </div>
         </div>
 
-        <!-- TAB 5: COMPRAS (COM FILTROS COLORIDOS POR TÍTULO) -->
+        <!-- TAB 5: COMPRAS (AGRUPADO POR TÍTULO COM CARDS COLORIDOS) -->
         <div id="tab-compras" class="space-y-3 hidden">
             <div class="bg-white p-3.5 sm:p-5 rounded-2xl shadow-sm border border-slate-200 space-y-4 text-xs" id="compras-conteudo-main">
                 <div class="flex justify-between items-center border-b pb-3 flex-wrap gap-2">
                     <div>
                         <h2 class="text-xs font-extrabold uppercase text-slate-800 tracking-wider">🛍️ Lista de Compras</h2>
-                        <p class="text-[11px] text-slate-500 font-semibold">Filtre por título colorido ou adicione novos itens</p>
+                        <p class="text-[11px] text-slate-500 font-semibold">Itens com o mesmo título agrupados em blocos</p>
                     </div>
                     <button type="button" onclick="imprimirSeccaoCustom('Lista de Compras', document.getElementById('tab-compras').innerHTML)" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-xl font-bold text-xs transition shadow-sm">🖨️ PDF</button>
                 </div>
@@ -174,7 +174,7 @@
                 <!-- RESUMO GERAL DAS COMPRAS NO TOPO -->
                 <div id="compras-resumo-topo" class="grid grid-cols-2 gap-2"></div>
 
-                <!-- CARTÕES DE FILTRAGEM COLORIDOS POR TÍTULO -->
+                <!-- CARTÕES DE FILTRAGEM POR TÍTULO -->
                 <div id="compras-filtros-titulo" class="bg-slate-200 p-2 rounded-xl overflow-x-auto flex gap-1.5 text-xs items-center no-scrollbar shadow-inner"></div>
 
                 <!-- CAIXA ÚNICA FIXA PARA DIGITAÇÃO -->
@@ -206,10 +206,10 @@
                     </div>
                 </div>
 
-                <!-- LISTA DE ITENS REGISTADOS -->
+                <!-- LISTA DE ITENS AGRUPADOS -->
                 <div class="space-y-2 pt-2">
-                    <span class="font-black text-slate-700 uppercase text-[10px] block">📋 ITENS REGISTADOS</span>
-                    <div id="compras-lista-itens" class="space-y-2.5 pt-1"></div>
+                    <span class="font-black text-slate-700 uppercase text-[10px] block">📋 ITENS AGRUPADOS POR TÍTULO</span>
+                    <div id="compras-lista-itens" class="space-y-3 pt-1"></div>
                 </div>
             </div>
         </div>
@@ -253,7 +253,7 @@
 
     <!-- BARRA DE FERRAMENTAS FIXA -->
     <nav class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-md text-white px-3 py-2.5 shadow-2xl border-t border-slate-800 text-xs flex items-center justify-around gap-1 overflow-x-auto no-scrollbar max-w-4xl mx-auto rounded-t-2xl">
-        <span class="bg-indigo-600 px-2 py-1 rounded font-mono font-bold text-[9px] shrink-0">v240.0</span>
+        <span class="bg-indigo-600 px-2 py-1 rounded font-mono font-bold text-[9px] shrink-0">v241.0</span>
         <button onclick="abrirGeminiModal()" class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-3 py-1.5 rounded-xl font-bold transition shrink-0 flex items-center gap-1 text-xs shadow-sm">
             <span>✨</span> Gemini
         </button>
@@ -386,7 +386,7 @@
 
         function obterCorPorTituloCompra(titulo) {
             if (!titulo) return '#3b82f6';
-            let t = titulo.trim().toLowerCase();
+            let t = titulo.trim().toLowerCase().replace(/[^a-z0-9]/g, '');
             if (!dadosApp.coresTitulosCompras) dadosApp.coresTitulosCompras = {};
             if (dadosApp.coresTitulosCompras[t]) {
                 return dadosApp.coresTitulosCompras[t];
@@ -459,11 +459,11 @@
                 navigator.serviceWorker.register(URL.createObjectURL(swBlob)).catch(err => {});
             }
 
-            if (!sessionStorage.getItem('sessao_ativa_v240')) {
+            if (!sessionStorage.getItem('sessao_ativa_v241')) {
                 document.getElementById('tela-bloqueio').classList.add('hidden');
             }
 
-            const temaSalvo = localStorage.getItem('tema_v240');
+            const temaSalvo = localStorage.getItem('tema_v241');
             if (temaSalvo === 'dark') {
                 document.body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 document.body.classList.remove('bg-slate-100', 'text-slate-800');
@@ -476,7 +476,7 @@
                 if(inputChf) inputChf.value = dadosApp.cotacaoChf;
 
                 atualizarTudo();
-                let tabSalva = localStorage.getItem('tab_ativa_v240') || 'leitura';
+                let tabSalva = localStorage.getItem('tab_ativa_v241') || 'leitura';
                 mudarTab(tabSalva);
             } catch(e) {
                 console.error("Erro ao iniciar:", e);
@@ -500,10 +500,10 @@
         }
 
         function desbloquearComPin() {
-            let pinSalvo = localStorage.getItem('app_pin_v240') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v241') || '1510';
             let digitado = document.getElementById('input-pin').value;
             if(digitado === pinSalvo) {
-                sessionStorage.setItem('sessao_ativa_v240', 'true');
+                sessionStorage.setItem('sessao_ativa_v241', 'true');
                 document.getElementById('tela-bloqueio').classList.add('hidden');
                 document.getElementById('erro-pin').classList.add('hidden');
             } else {
@@ -512,17 +512,17 @@
         }
 
         async function desbloquearComBiometria() {
-            sessionStorage.setItem('sessao_ativa_v240', 'true');
+            sessionStorage.setItem('sessao_ativa_v241', 'true');
             document.getElementById('tela-bloqueio').classList.add('hidden');
         }
 
         function alterarSenhaPin() {
             let atual = prompt("Digite a senha atual (Padrão: 1510):");
-            let pinSalvo = localStorage.getItem('app_pin_v240') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v241') || '1510';
             if(atual === pinSalvo) {
                 let nova = prompt("Digite a nova senha PIN:");
                 if(nova && nova.trim() !== '') {
-                    localStorage.setItem('app_pin_v240', nova.trim());
+                    localStorage.setItem('app_pin_v241', nova.trim());
                     alert("🔑 Senha alterada com sucesso!");
                 }
             } else {
@@ -535,11 +535,11 @@
             if(body.classList.contains('dark')) {
                 body.classList.remove('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.add('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v240', 'light');
+                localStorage.setItem('tema_v241', 'light');
             } else {
                 body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.remove('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v240', 'dark');
+                localStorage.setItem('tema_v241', 'dark');
             }
         }
 
@@ -745,7 +745,7 @@
         }
 
         function mudarTab(tab) {
-            localStorage.setItem('tab_ativa_v240', tab);
+            localStorage.setItem('tab_ativa_v241', tab);
             if(tab === 'itinerario' || tab === 'leitura') {
                 destinoFiltro = 'todos';
             }
@@ -1825,7 +1825,7 @@
             }
         }
 
-        // RENDERIZAR ABA DE COMPRAS ESTÁVEL
+        // RENDERIZAR ABA DE COMPRAS COM LINHAS CORRETAS E LÁPIS/X NO TOPO
         function renderizarComprasTab() {
             const containerResumo = document.getElementById('compras-resumo-topo');
             const containerFiltros = document.getElementById('compras-filtros-titulo');
@@ -1962,7 +1962,7 @@
                             let linhaRiscada = concluido ? 'line-through text-slate-400 bg-emerald-50/60 border-emerald-300' : 'text-slate-900 bg-slate-50 border-slate-200';
                             itensHtml += `
                                 <div class="p-3 rounded-xl border ${linhaRiscada} space-y-2 text-xs shadow-sm min-w-0" style="border-left: 6px solid ${corDoItem};">
-                                    <!-- LINHA SUPERIOR: Checkbox + Nome do Item + Lápis e X (para maior conforto) -->
+                                    <!-- LINHA SUPERIOR: Checkbox + Nome do Item + Lápis e X -->
                                     <div class="flex items-center gap-2 min-w-0 justify-between">
                                         <div class="flex items-center gap-2 min-w-0 flex-1">
                                             <input type="checkbox" ${concluido ? 'checked' : ''} onchange="alternarConcluidoItemDireto('${itemIdStr}')" class="w-4 h-4 accent-emerald-600 rounded cursor-pointer shrink-0" title="Marcar como feito">
