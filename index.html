@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v263.0)</title>
+    <title>Roteiro Europa - Mariana (v264.0)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Manifest Dinâmico via JavaScript -->
@@ -39,7 +39,7 @@
             <a href="https://translate.google.com/?hl=pt&sl=auto&tl=pt&op=images" target="_blank" class="bg-indigo-600 hover:bg-indigo-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm flex items-center gap-1" title="Google Tradutor & Câmara">🌐 Tradutor</a>
             <button onclick="window.location.reload()" class="bg-slate-800 hover:bg-slate-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm border border-slate-700" title="Atualizar Página">🔄</button>
             <button onclick="exportarPdfPrint()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm" title="Imprimir Tudo">🖨️</button>
-            <span class="bg-indigo-950 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v263.0</span>
+            <span class="bg-indigo-950 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v264.0</span>
         </div>
     </header>
 
@@ -1418,7 +1418,10 @@
                 if(item.itens && item.itens.length > 0) {
                     item.itens.forEach(it => {
                         if(it.texto && it.texto.trim() !== '') {
-                            itensHtml += '<div class="text-xs bg-slate-50 p-2 rounded-xl border border-slate-200 my-1 text-slate-800 font-medium">• ' + it.texto + '</div>';
+                            itensHtml += '<div class="flex items-center gap-1.5 bg-white p-2 rounded-xl border border-slate-200 text-xs min-w-0 mb-1.5 shadow-sm">' +
+                                '<input type="text" value="' + it.texto.replace(/"/g, '&quot;') + '" onchange="atualizarTextoItemBloco(\'' + item.id + '\', \'' + it.id + '\', this.value)" class="flex-1 min-w-0 bg-transparent outline-none font-bold text-slate-800 text-xs" placeholder="Escreva um texto livre...">' +
+                                '<button onclick="removerItemBloco(\'' + item.id + '\', \'' + it.id + '\')" class="text-red-500 font-bold px-2.5 py-1.5 rounded-xl bg-red-50 text-xs shrink-0 hover:bg-red-100 transition">✕</button>' +
+                            '</div>';
                         }
                     });
                 }
@@ -1509,6 +1512,8 @@
                 item.itens.push({ id: Date.now(), texto: "" });
                 salvarStorage();
                 renderizarBlocos();
+            } else {
+                alert("Erro ao localizar o bloco.");
             }
         }
 
@@ -2173,30 +2178,12 @@
                         dadosApp.itinerario.forEach(item => {
                             if(item.trechos) {
                                 item.trechos.forEach(tr => {
-                                    if(tr.conducoes) {
-                                        tr.conducoes.forEach(cond => {
-                                            let val = limparNumero(cond.valor);
-                                            if(val > 0 && cond.moeda === 'CHF') {
-                                                let valBrl = val * cotChf;
-                                                let origemStr = (tr.origem || '?').replace(/"/g, '&quot;');
-                                                let destinoStr = (tr.destino || '?').replace(/"/g, '&quot;');
-                                                despesasChfHtml += `
-                                                    <div class="p-3 rounded-xl bg-white border border-slate-200 flex flex-col gap-1.5 text-xs shadow-sm">
-                                                        <div class="flex justify-between items-center">
-                                                            <span class="font-bold text-slate-800 truncate">🚄 ${origemStr} ➔ ${destinoStr} (${cond.transporte})</span>
-                                                            <button onclick="apagarConducaoOrcamento('${item.id}', '${tr.id}', '${cond.id}')" class="text-red-500 font-bold px-2 py-1 bg-red-50 hover:bg-red-100 rounded-lg text-xs" title="Remover esta despesa fantasma">✕ Apagar</button>
-                                                        </div>
-                                                        <div class="flex justify-between items-center border-t border-slate-100 pt-1.5">
-                                                            <span class="text-slate-500 font-medium">Condução</span>
-                                                            <div class="text-right whitespace-nowrap">
-                                                                <span class="font-black text-blue-900 text-sm">${val.toFixed(2)} CHF</span>
-                                                                <span class="text-emerald-700 font-bold text-[11px] block">R$ ${valBrl.toFixed(2)}</span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                `;
-                                            }
-                                        });
+                                    let val = limparNumero(tr.valor);
+                                    if(val > 0 && tr.moeda === 'CHF') {
+                                        let valBrl = val * cotChf;
+                                        let origemStr = (tr.origem || '?').replace(/"/g, '&quot;');
+                                        let destinoStr = (tr.destino || '?').replace(/"/g, '&quot;');
+                                        despesasChfHtml += '<div class="p-3 rounded-xl bg-white border border-slate-200 flex flex-col gap-1.5 text-xs shadow-sm"><span class="font-bold text-slate-800 truncate">🚄 ' + origemStr + ' ➔ ' + destinoStr + '</span><div class="flex justify-between items-center border-t border-slate-100 pt-1.5"><span class="text-slate-500 font-medium">Trecho Oficial</span><div class="text-right whitespace-nowrap"><span class="font-black text-blue-900 text-sm">' + val.toFixed(2) + ' CHF</span><span class="text-emerald-700 font-bold text-[11px] block">R$ ' + valBrl.toFixed(2) + '</span></div></div></div>';
                                     }
                                 });
                             }
