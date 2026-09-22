@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v264.0)</title>
+    <title>Roteiro Europa - Mariana (v265.0)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Manifest Dinâmico via JavaScript -->
@@ -39,7 +39,7 @@
             <a href="https://translate.google.com/?hl=pt&sl=auto&tl=pt&op=images" target="_blank" class="bg-indigo-600 hover:bg-indigo-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm flex items-center gap-1" title="Google Tradutor & Câmara">🌐 Tradutor</a>
             <button onclick="window.location.reload()" class="bg-slate-800 hover:bg-slate-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm border border-slate-700" title="Atualizar Página">🔄</button>
             <button onclick="exportarPdfPrint()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm" title="Imprimir Tudo">🖨️</button>
-            <span class="bg-indigo-950 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v264.0</span>
+            <span class="bg-indigo-950 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v265.0</span>
         </div>
     </header>
 
@@ -236,8 +236,8 @@
 
     </div>
 
-    <!-- MODAL DO LEITOR DE PDF / FOTOS -->
-    <div id="modal-leitor-pdf" class="fixed inset-0 z-[200] bg-slate-900/80 backdrop-blur-sm hidden flex flex-col p-3 sm:p-6">
+    <!-- MODAL DO LEITOR DE PDF / FOTOS OTIMIZADO COM ZOOM -->
+    <div id="modal-leitor-pdf" class="fixed inset-0 z-[200] bg-slate-900/90 backdrop-blur-sm hidden flex flex-col p-2 sm:p-6">
         <div class="bg-white rounded-3xl shadow-2xl flex-1 flex flex-col overflow-hidden border border-slate-300 max-w-4xl mx-auto w-full">
             <div class="bg-slate-900 text-white px-4 py-3 flex justify-between items-center text-xs">
                 <span id="pdf-titulo-modal" class="font-bold truncate">📄 Visualizador</span>
@@ -246,8 +246,8 @@
                     <button onclick="fecharLeitorPdf()" class="bg-slate-800 hover:bg-slate-700 text-white font-bold px-3 py-1.5 rounded-xl text-xs">✕ Fechar</button>
                 </div>
             </div>
-            <div class="flex-1 bg-slate-100 p-2 flex items-center justify-center">
-                <iframe id="pdf-iframe-view" class="w-full h-full rounded-2xl border bg-white shadow-inner" src=""></iframe>
+            <div id="visualizador-conteudo-area" class="flex-1 bg-slate-100 p-2 flex items-center justify-center overflow-auto">
+                <iframe id="pdf-iframe-view" class="w-full h-full rounded-2xl border bg-white shadow-inner hidden" src=""></iframe>
             </div>
         </div>
     </div>
@@ -273,7 +273,7 @@
 
     <!-- BARRA DE FERRAMENTAS FIXA -->
     <nav class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-md text-white px-3 py-2.5 shadow-2xl border-t border-slate-800 text-xs flex items-center justify-around gap-1 overflow-x-auto no-scrollbar max-w-4xl mx-auto rounded-t-2xl">
-        <span class="bg-indigo-600 px-2 py-1 rounded font-mono font-bold text-[9px] shrink-0">v263.0</span>
+        <span class="bg-indigo-600 px-2 py-1 rounded font-mono font-bold text-[9px] shrink-0">v265.0</span>
         <button onclick="abrirGeminiModal()" class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-3 py-1.5 rounded-xl font-bold transition shrink-0 flex items-center gap-1 text-xs shadow-sm">
             <span>✨</span> Gemini
         </button>
@@ -479,11 +479,11 @@
                 navigator.serviceWorker.register(URL.createObjectURL(swBlob)).catch(err => {});
             }
 
-            if (!sessionStorage.getItem('sessao_ativa_v263')) {
+            if (!sessionStorage.getItem('sessao_ativa_v265')) {
                 document.getElementById('tela-bloqueio').classList.add('hidden');
             }
 
-            const temaSalvo = localStorage.getItem('tema_v263');
+            const temaSalvo = localStorage.getItem('tema_v265');
             if (temaSalvo === 'dark') {
                 document.body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 document.body.classList.remove('bg-slate-100', 'text-slate-800');
@@ -502,7 +502,7 @@
                 if(selOrdBlocos && dadosApp.blocoOrdenacao) selOrdBlocos.value = dadosApp.blocoOrdenacao;
 
                 atualizarTudo();
-                let tabSalva = localStorage.getItem('tab_ativa_v263') || 'leitura';
+                let tabSalva = localStorage.getItem('tab_ativa_v265') || 'leitura';
                 mudarTab(tabSalva);
             } catch(e) {
                 console.error("Erro ao iniciar:", e);
@@ -526,10 +526,10 @@
         }
 
         function desbloquearComPin() {
-            let pinSalvo = localStorage.getItem('app_pin_v263') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v265') || '1510';
             let digitado = document.getElementById('input-pin').value;
             if(digitado === pinSalvo) {
-                sessionStorage.setItem('sessao_ativa_v263', 'true');
+                sessionStorage.setItem('sessao_ativa_v265', 'true');
                 document.getElementById('tela-bloqueio').classList.add('hidden');
                 document.getElementById('erro-pin').classList.add('hidden');
             } else {
@@ -538,17 +538,17 @@
         }
 
         async function desbloquearComBiometria() {
-            sessionStorage.setItem('sessao_ativa_v263', 'true');
+            sessionStorage.setItem('sessao_ativa_v265', 'true');
             document.getElementById('tela-bloqueio').classList.add('hidden');
         }
 
         function alterarSenhaPin() {
             let atual = prompt("Digite a senha atual (Padrão: 1510):");
-            let pinSalvo = localStorage.getItem('app_pin_v263') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v265') || '1510';
             if(atual === pinSalvo) {
                 let nova = prompt("Digite a nova senha PIN:");
                 if(nova && nova.trim() !== '') {
-                    localStorage.setItem('app_pin_v263', nova.trim());
+                    localStorage.setItem('app_pin_v265', nova.trim());
                     alert("🔑 Senha alterada com sucesso!");
                 }
             } else {
@@ -561,11 +561,11 @@
             if(body.classList.contains('dark')) {
                 body.classList.remove('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.add('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v263', 'light');
+                localStorage.setItem('tema_v265', 'light');
             } else {
                 body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.remove('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v263', 'dark');
+                localStorage.setItem('tema_v265', 'dark');
             }
         }
 
@@ -617,14 +617,25 @@
 
         function abrirLeitorArquivo(dadosUrl, titulo) {
             document.getElementById('pdf-titulo-modal').innerText = "📄 " + (titulo || 'Visualizador');
-            document.getElementById('pdf-iframe-view').src = dadosUrl;
             document.getElementById('pdf-btn-download').href = dadosUrl;
+            
+            let containerArea = document.getElementById('visualizador-conteudo-area');
+            if (dadosUrl.startsWith('data:image/') || dadosUrl.match(/\.(jpeg|jpg|png|gif|webp)$/i)) {
+                containerArea.innerHTML = `
+                    <div class="w-full h-full flex items-center justify-center overflow-auto p-2">
+                        <img src="${dadosUrl}" class="max-w-full max-h-full object-contain rounded-2xl shadow-lg transition-transform duration-200 cursor-zoom-in" onclick="this.classList.toggle('scale-150'); this.classList.toggle('cursor-zoom-in'); this.classList.toggle('cursor-zoom-out');" title="Clique para dar zoom na foto">
+                    </div>
+                `;
+            } else {
+                containerArea.innerHTML = `<iframe id="pdf-iframe-view" class="w-full h-full rounded-2xl border bg-white shadow-inner" src="${dadosUrl}"></iframe>`;
+            }
+
             document.getElementById('modal-leitor-pdf').classList.remove('hidden');
         }
 
         function fecharLeitorPdf() {
             document.getElementById('modal-leitor-pdf').classList.add('hidden');
-            document.getElementById('pdf-iframe-view').src = '';
+            document.getElementById('visualizador-conteudo-area').innerHTML = '';
         }
 
         function adicionarFotoExtraTrecho(itemId, trechoId, condId, event) {
@@ -855,7 +866,7 @@
         }
 
         function mudarTab(tab) {
-            localStorage.setItem('tab_ativa_v263', tab);
+            localStorage.setItem('tab_ativa_v265', tab);
             if(tab === 'itinerario' || tab === 'leitura') {
                 destinoFiltro = 'todos';
             }
@@ -1314,14 +1325,14 @@
                 filtrados = filtrados.filter(i => (i.categoria || "").toLowerCase().includes(destinoFiltro.toLowerCase()));
             }
 
-            // Aplicar ordenação dos blocos (Solicitado pela Mariana)
+            // Aplicar ordenação dos blocos
             filtrados.sort((a, b) => {
                 if (blocoOrdenacao === 'alfabetica') {
                     return (a.categoria || '').localeCompare(b.categoria || '');
                 } else if (blocoOrdenacao === 'cor') {
                     return (a.cor || '').localeCompare(b.cor || '');
                 }
-                return 0; // original
+                return 0;
             });
 
             if(filtrados.length === 0) {
@@ -1419,7 +1430,7 @@
                     item.itens.forEach(it => {
                         if(it.texto && it.texto.trim() !== '') {
                             itensHtml += '<div class="flex items-center gap-1.5 bg-white p-2 rounded-xl border border-slate-200 text-xs min-w-0 mb-1.5 shadow-sm">' +
-                                '<input type="text" value="' + it.texto.replace(/"/g, '&quot;') + '" onchange="atualizarTextoItemBloco(\'' + item.id + '\', \'' + it.id + '\', this.value)" class="flex-1 min-w-0 bg-transparent outline-none font-bold text-slate-800 text-xs" placeholder="Escreva um texto livre...">' +
+                                '<input type="text" value="' + (it.texto || '').replace(/"/g, '&quot;') + '" onchange="atualizarTextoItemBloco(\'' + item.id + '\', \'' + it.id + '\', this.value)" class="flex-1 min-w-0 bg-transparent outline-none font-bold text-slate-800 text-xs" placeholder="Escreva um texto livre...">' +
                                 '<button onclick="removerItemBloco(\'' + item.id + '\', \'' + it.id + '\')" class="text-red-500 font-bold px-2.5 py-1.5 rounded-xl bg-red-50 text-xs shrink-0 hover:bg-red-100 transition">✕</button>' +
                             '</div>';
                         }
@@ -2096,30 +2107,12 @@
                         dadosApp.itinerario.forEach(item => {
                             if(item.trechos) {
                                 item.trechos.forEach(tr => {
-                                    if(tr.conducoes) {
-                                        tr.conducoes.forEach(cond => {
-                                            let val = limparNumero(cond.valor);
-                                            if(val > 0 && cond.moeda === 'EUR') {
-                                                let valBrl = val * cotEur;
-                                                let origemStr = (tr.origem || '?').replace(/"/g, '&quot;');
-                                                let destinoStr = (tr.destino || '?').replace(/"/g, '&quot;');
-                                                despesasEurHtml += `
-                                                    <div class="p-3 rounded-xl bg-white border border-slate-200 flex flex-col gap-1.5 text-xs shadow-sm">
-                                                        <div class="flex justify-between items-center">
-                                                            <span class="font-bold text-slate-800 truncate">🚄 ${origemStr} ➔ ${destinoStr} (${cond.transporte})</span>
-                                                            <button onclick="apagarConducaoOrcamento('${item.id}', '${tr.id}', '${cond.id}')" class="text-red-500 font-bold px-2 py-1 bg-red-50 hover:bg-red-100 rounded-lg text-xs" title="Remover esta despesa fantasma">✕ Apagar</button>
-                                                        </div>
-                                                        <div class="flex justify-between items-center border-t border-slate-100 pt-1.5">
-                                                            <span class="text-slate-500 font-medium">Condução</span>
-                                                            <div class="text-right whitespace-nowrap">
-                                                                <span class="font-black text-amber-900 text-sm">${val.toFixed(2)} €</span>
-                                                                <span class="text-emerald-700 font-bold text-[11px] block">R$ ${valBrl.toFixed(2)}</span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                `;
-                                            }
-                                        });
+                                    let val = limparNumero(tr.valor);
+                                    if(val > 0 && tr.moeda === 'EUR') {
+                                        let valBrl = val * cotEur;
+                                        let origemStr = (tr.origem || '?').replace(/"/g, '&quot;');
+                                        let destinoStr = (tr.destino || '?').replace(/"/g, '&quot;');
+                                        despesasEurHtml += '<div class="p-3 rounded-xl bg-white border border-slate-200 flex flex-col gap-1.5 text-xs shadow-sm"><span class="font-bold text-slate-800 truncate">🚄 ' + origemStr + ' ➔ ' + destinoStr + '</span><div class="flex justify-between items-center border-t border-slate-100 pt-1.5"><span class="text-slate-500 font-medium">Trecho Oficial</span><div class="text-right whitespace-nowrap"><span class="font-black text-amber-900 text-sm">' + val.toFixed(2) + ' €</span><span class="text-emerald-700 font-bold text-[11px] block">R$ ' + valBrl.toFixed(2) + '</span></div></div></div>';
                                     }
                                 });
                             }
