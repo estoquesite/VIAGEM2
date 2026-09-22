@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v227.0)</title>
+    <title>Roteiro Europa - Mariana (v228.0)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Manifest Dinâmico via JavaScript -->
@@ -39,7 +39,7 @@
             <a href="https://translate.google.com/?hl=pt&sl=auto&tl=pt&op=images" target="_blank" class="bg-indigo-600 hover:bg-indigo-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm flex items-center gap-1" title="Google Tradutor & Câmara">🌐 Tradutor</a>
             <button onclick="window.location.reload()" class="bg-slate-800 hover:bg-slate-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm border border-slate-700" title="Atualizar Página">🔄</button>
             <button onclick="exportarPdfPrint()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm" title="Imprimir Tudo">🖨️</button>
-            <span class="bg-indigo-950 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v227.0</span>
+            <span class="bg-indigo-950 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v228.0</span>
         </div>
     </header>
 
@@ -174,7 +174,7 @@
                 <!-- RESUMO GERAL DAS COMPRAS NO TOPO -->
                 <div id="compras-resumo-topo" class="grid grid-cols-2 gap-2"></div>
 
-                <!-- CAIXA ÚNICA FIXA PARA DIGITAÇÃO -->
+                <!-- CAIXA ÚNICA FIXA PARA DIGITAÇÃO (COM CAMPO DE LINK) -->
                 <div class="p-3.5 rounded-2xl border-2 border-indigo-200 bg-indigo-50/40 space-y-3 shadow-sm">
                     <span class="font-black text-indigo-950 uppercase text-[10px] block">➕ ADICIONAR NOVO ITEM</span>
                     <div class="flex items-center gap-1.5 min-w-0">
@@ -185,6 +185,9 @@
                             <option value="Glória">👵 Glória</option>
                             <option value="Outros">📦 Outros</option>
                         </select>
+                    </div>
+                    <div class="flex items-center gap-1.5 min-w-0">
+                        <input type="url" id="input-novo-link" class="flex-1 min-w-0 p-2 bg-white border border-slate-300 rounded-xl font-medium text-xs outline-none focus:border-indigo-600" placeholder="🔗 Link da compra (opcional)...">
                     </div>
                     <div class="flex items-center justify-between gap-2 flex-wrap border-t border-slate-200 pt-2">
                         <div class="flex items-center gap-1.5">
@@ -247,7 +250,7 @@
 
     <!-- BARRA DE FERRAMENTAS FIXA -->
     <nav class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-md text-white px-3 py-2.5 shadow-2xl border-t border-slate-800 text-xs flex items-center justify-around gap-1 overflow-x-auto no-scrollbar max-w-4xl mx-auto rounded-t-2xl">
-        <span class="bg-indigo-600 px-2 py-1 rounded font-mono font-bold text-[9px] shrink-0">v227.0</span>
+        <span class="bg-indigo-600 px-2 py-1 rounded font-mono font-bold text-[9px] shrink-0">v228.0</span>
         <button onclick="abrirGeminiModal()" class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-3 py-1.5 rounded-xl font-bold transition shrink-0 flex items-center gap-1 text-xs shadow-sm">
             <span>✨</span> Gemini
         </button>
@@ -433,11 +436,11 @@
                 navigator.serviceWorker.register(URL.createObjectURL(swBlob)).catch(err => {});
             }
 
-            if (!sessionStorage.getItem('sessao_ativa_v227')) {
+            if (!sessionStorage.getItem('sessao_ativa_v228')) {
                 document.getElementById('tela-bloqueio').classList.add('hidden');
             }
 
-            const temaSalvo = localStorage.getItem('tema_v227');
+            const temaSalvo = localStorage.getItem('tema_v228');
             if (temaSalvo === 'dark') {
                 document.body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 document.body.classList.remove('bg-slate-100', 'text-slate-800');
@@ -450,7 +453,7 @@
                 if(inputChf) inputChf.value = dadosApp.cotacaoChf;
 
                 atualizarTudo();
-                let tabSalva = localStorage.getItem('tab_ativa_v227') || 'leitura';
+                let tabSalva = localStorage.getItem('tab_ativa_v228') || 'leitura';
                 mudarTab(tabSalva);
             } catch(e) {
                 console.error("Erro ao iniciar:", e);
@@ -474,10 +477,10 @@
         }
 
         function desbloquearComPin() {
-            let pinSalvo = localStorage.getItem('app_pin_v227') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v228') || '1510';
             let digitado = document.getElementById('input-pin').value;
             if(digitado === pinSalvo) {
-                sessionStorage.setItem('sessao_ativa_v227', 'true');
+                sessionStorage.setItem('sessao_ativa_v228', 'true');
                 document.getElementById('tela-bloqueio').classList.add('hidden');
                 document.getElementById('erro-pin').classList.add('hidden');
             } else {
@@ -486,17 +489,17 @@
         }
 
         async function desbloquearComBiometria() {
-            sessionStorage.setItem('sessao_ativa_v227', 'true');
+            sessionStorage.setItem('sessao_ativa_v228', 'true');
             document.getElementById('tela-bloqueio').classList.add('hidden');
         }
 
         function alterarSenhaPin() {
             let atual = prompt("Digite a senha atual (Padrão: 1510):");
-            let pinSalvo = localStorage.getItem('app_pin_v227') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v228') || '1510';
             if(atual === pinSalvo) {
                 let nova = prompt("Digite a nova senha PIN:");
                 if(nova && nova.trim() !== '') {
-                    localStorage.setItem('app_pin_v227', nova.trim());
+                    localStorage.setItem('app_pin_v228', nova.trim());
                     alert("🔑 Senha alterada com sucesso!");
                 }
             } else {
@@ -509,11 +512,11 @@
             if(body.classList.contains('dark')) {
                 body.classList.remove('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.add('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v227', 'light');
+                localStorage.setItem('tema_v228', 'light');
             } else {
                 body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.remove('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v227', 'dark');
+                localStorage.setItem('tema_v228', 'dark');
             }
         }
 
@@ -719,7 +722,7 @@
         }
 
         function mudarTab(tab) {
-            localStorage.setItem('tab_ativa_v227', tab);
+            localStorage.setItem('tab_ativa_v228', tab);
             if(tab === 'itinerario' || tab === 'leitura') {
                 destinoFiltro = 'todos';
             }
@@ -1102,8 +1105,8 @@
                         paletaHtml +
                         '<div class="flex items-center gap-1.5">' +
                             '<button onclick="alternarBloqueio(\'' + item.id + '\')" class="' + lockBg + ' px-3 py-1.5 rounded-xl font-bold text-xs shadow-sm transition">' + lockIcon + '</button>' +
-                            '<button onclick="moverBloco(\'' + item.id + '\', -1)" class="bg-slate-200 hover:bg-slate-300 px-2 py-1.5 rounded-xl font-bold transition">⬆️</button>' +
-                            '<button onclick="moverBloco(\'' + item.id + '\', 1)" class="bg-slate-200 hover:bg-slate-300 px-2 py-1.5 rounded-xl font-bold transition">⬇️</button>' +
+                            '<button onclick="moverBloco(\'' + item.id + '\', -1)" class="bg-slate-200 hover:bg-slate-300 px-2 py-1.5 rounded-xl text-xs font-bold transition">⬆️</button>' +
+                            '<button onclick="moverBloco(\'' + item.id + '\', 1)" class="bg-slate-200 hover:bg-slate-300 px-2 py-1.5 rounded-xl text-xs font-bold transition">⬇️</button>' +
                             '<button onclick="apagarBloco(\'' + item.id + '\')" class="bg-red-50 hover:bg-red-100 text-red-600 px-3 py-1.5 rounded-xl font-bold transition">Excluir ✕</button>' +
                         '</div>' +
                     '</div>';
@@ -1111,150 +1114,7 @@
             });
         }
 
-        function adicionarItemBloco(itemId) {
-            registarEstadoAnterior();
-            let item = dadosApp.itinerario.find(i => String(i.id) === String(itemId));
-            if(item) {
-                if(!item.itens) item.itens = [];
-                item.itens.push({ id: Date.now(), texto: "" });
-                salvarStorage();
-                renderizarBlocos();
-            }
-        }
-
-        function removerItemBloco(itemId, subId) {
-            registarEstadoAnterior();
-            let item = dadosApp.itinerario.find(i => String(i.id) === String(itemId));
-            if(item && item.itens) {
-                item.itens = item.itens.filter(i => String(i.id) !== String(subId));
-                salvarStorage();
-                renderizarBlocos();
-            }
-        }
-
-        function atualizarTextoItemBloco(itemId, subId, val) {
-            let item = dadosApp.itinerario.find(i => String(i.id) === String(itemId));
-            if(item && item.itens) {
-                let it = item.itens.find(i => String(i.id) === String(subId));
-                if(it) {
-                    it.texto = val;
-                    localStorage.setItem(CHAVE_APP, JSON.stringify(dadosApp));
-                }
-            }
-        }
-
-        function atualizarDataInicio(id, val) {
-            registarEstadoAnterior();
-            let item = dadosApp.itinerario.find(i => String(i.id) === String(id));
-            if(item) {
-                item.dataInicio = val;
-                if(!item.dataFim || item.dataFim < val) {
-                    item.dataFim = val;
-                }
-                salvarStorage();
-                atualizarTudo();
-            }
-        }
-
-        function lidarSelecaoLocalTrecho(itemId, trechoId, campo, valor) {
-            registarEstadoAnterior();
-            if(valor === 'outro_local') {
-                let novo = prompt("Novo local:");
-                if(novo && novo.trim() !== '') {
-                    let limpo = novo.trim();
-                    if(!dadosApp.locaisCadastrados.includes(limpo)) dadosApp.locaisCadastrados.push(limpo);
-                    atualizarTrecho(itemId, trechoId, campo, limpo);
-                } else { renderizarBlocos(); }
-            } else {
-                atualizarTrecho(itemId, trechoId, campo, valor);
-            }
-        }
-
-        function adicionarTrecho(itemId) {
-            registarEstadoAnterior();
-            let item = dadosApp.itinerario.find(i => String(i.id) === String(itemId));
-            if(item) {
-                if(!item.trechos) item.trechos = [];
-                item.trechos.push({ id: Date.now(), origem: "", destino: "", transporte: "Trem", valor: 0, moeda: "EUR", notas: "", concluido: false });
-                salvarStorage();
-                atualizarTudo();
-            }
-        }
-
-        function removerTrecho(itemId, trechoId) {
-            registarEstadoAnterior();
-            let item = dadosApp.itinerario.find(i => String(i.id) === String(itemId));
-            if(item && item.trechos) {
-                item.trechos = item.trechos.filter(t => String(t.id) !== String(trechoId));
-                salvarStorage();
-                atualizarTudo();
-            }
-        }
-
-        function atualizarTrecho(itemId, trechoId, campo, val) {
-            let item = dadosApp.itinerario.find(i => String(i.id) === String(itemId));
-            if(item && item.trechos) {
-                let tr = item.trechos.find(t => String(t.id) === String(trechoId));
-                if(tr) {
-                    tr[campo] = val;
-                    salvarStorage();
-                    atualizarTudo();
-                }
-            }
-        }
-
-        function adicionarBloco() {
-            registarEstadoAnterior();
-            let destinoInicial = (destinoFiltro !== 'todos') ? destinoFiltro : ((dadosApp.destinosCadastrados && dadosApp.destinosCadastrados.length > 0) ? dadosApp.destinosCadastrados[0] : "Zurique");
-            
-            let novoItem = {
-                id: Date.now(), 
-                categoria: destinoInicial, 
-                dataInicio: "", 
-                dataFim: "", 
-                cor: obterCorPorCategoria(destinoInicial), 
-                bloqueado: false, 
-                concluido: false, 
-                trechos: [], 
-                itens: []
-            };
-            if(!dadosApp.itinerario) dadosApp.itinerario = [];
-            dadosApp.itinerario.unshift(novoItem);
-            salvarStorage();
-            mudarTab('itinerario');
-            atualizarTudo();
-        }
-
-        function lidarSelecaoDestino(id, valor) {
-            registarEstadoAnterior();
-            if(valor === 'novo_destino') {
-                let novo = prompt("Nome do destino:");
-                if(novo && novo.trim() !== '') {
-                    let limpo = novo.trim();
-                    if(!dadosApp.destinosCadastrados.includes(limpo)) dadosApp.destinosCadastrados.push(limpo);
-                    let corNova = prompt("Escolha a cor HEX para este destino (ex: #8b5cf6):", "#8b5cf6");
-                    if(!dadosApp.coresDestinos) dadosApp.coresDestinos = {};
-                    dadosApp.coresDestinos[limpo] = corNova || "#3b82f6";
-                    
-                    let item = dadosApp.itinerario.find(i => String(i.id) === String(id));
-                    if(item) {
-                        item.categoria = limpo;
-                        item.cor = dadosApp.coresDestinos[limpo];
-                    }
-                    salvarStorage();
-                    atualizarTudo();
-                } else { renderizarBlocos(); }
-            } else {
-                let item = dadosApp.itinerario.find(i => String(i.id) === String(id));
-                if(item) {
-                    item.categoria = valor;
-                    item.cor = obterCorPorCategoria(valor);
-                }
-                salvarStorage();
-                atualizarTudo();
-            }
-        }
-
+        // RENDERIZAR HUB DE UTILIDADES COM ARRASTAR E SOLTAR
         function renderizarHubUtilidades() {
             const container = document.getElementById('hub-utilidades-grid');
             if(!container) return;
@@ -1580,22 +1440,6 @@
             }
         }
 
-        function abrirLeitorPdf(id, titulo) {
-            const v = dadosApp.vouchers.find(item => String(item.id) === String(id)) || dadosApp.voos.find(item => String(item.id) === String(id));
-            if(v && v.pdfData) {
-                document.getElementById('pdf-titulo-modal').innerText = '📄 ' + titulo + ' (' + (v.pdfNome || 'documento.pdf') + ')';
-                document.getElementById('pdf-iframe-view').src = v.pdfData;
-                document.getElementById('pdf-btn-download').href = v.pdfData;
-                document.getElementById('pdf-btn-download').download = v.pdfNome || 'documento.pdf';
-                document.getElementById('modal-leitor-pdf').classList.add('hidden');
-            }
-        }
-
-        function fecharLeitorPdf() {
-            document.getElementById('modal-leitor-pdf').classList.add('hidden');
-            document.getElementById('pdf-iframe-view').src = '';
-        }
-
         // ORÇAMENTO & GERAL
         function renderizarOrcamentoTab() {
             const container = document.getElementById('orcamento-conteudo');
@@ -1810,7 +1654,7 @@
             }
         }
 
-        // RENDERIZAR ABA DE COMPRAS COM NOMES CORRETOS
+        // RENDERIZAR ABA DE COMPRAS COM LINK DA COMPRA
         function renderizarComprasTab() {
             const containerResumo = document.getElementById('compras-resumo-topo');
             const containerLista = document.getElementById('compras-lista-itens');
@@ -1836,7 +1680,6 @@
                     }
                 });
 
-                // Ordenar para que os concluídos fiquem em baixo
                 dadosApp.compras.sort((a, b) => {
                     if (a.editando !== b.editando) return a.editando ? -1 : 1;
                     return (a.concluido === b.concluido) ? 0 : a.concluido ? 1 : -1;
@@ -1878,13 +1721,17 @@
                         let val = limparNumero(it.valor);
                         let moeda = it.moeda || 'EUR';
                         let pub = it.publico || 'Mariana';
+                        let linkItem = it.link || '';
                         let valBrl = moeda === 'EUR' ? val * cotEur : (moeda === 'CHF' ? val * cotChf : val);
                         let descSafe = (it.descricao || '').replace(/"/g, '&quot;');
+                        let linkSafe = (linkItem || '').replace(/"/g, '&quot;');
                         let editando = it.editando !== undefined ? it.editando : false;
                         let concluido = it.concluido ? true : false;
                         let emojiCarinha = pub === 'Mariana' ? '👤' : (pub === 'Sophia' ? '👧' : (pub === 'Glória' ? '👵' : '📦'));
                         let moedaSimbolo = moeda === 'EUR' ? '€' : (moeda === 'CHF' ? 'CHF' : 'R$');
                         let itemIdStr = String(it.id);
+
+                        let linkBtn = linkItem ? `<a href="${linkItem}" target="_blank" class="bg-sky-100 hover:bg-sky-200 text-sky-800 px-2 py-0.5 rounded-lg font-bold text-[10px] inline-flex items-center gap-0.5 shrink-0" title="Abrir link da compra">🔗 Link</a>` : '';
 
                         if(editando) {
                             itensHtml += `
@@ -1898,6 +1745,9 @@
                                             <option value="Outros" ${pub==='Outros'?'selected':''}>📦 Outros</option>
                                         </select>
                                         <button type="button" onclick="apagarItemDireto('${itemIdStr}')" class="text-red-500 font-bold px-2 py-1.5 rounded-xl bg-red-50 text-xs shrink-0">✕</button>
+                                    </div>
+                                    <div class="flex items-center gap-1.5 min-w-0">
+                                        <input type="url" id="link-${itemIdStr}" value="${linkSafe}" class="w-full p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-medium text-xs" placeholder="🔗 Link da compra (opcional)...">
                                     </div>
                                     <div class="flex items-center justify-between gap-1.5 flex-wrap border-t border-slate-100 pt-1.5">
                                         <div class="flex items-center gap-1.5">
@@ -1921,6 +1771,7 @@
                                     <div class="flex items-center gap-2 min-w-0 flex-1">
                                         <input type="checkbox" ${concluido ? 'checked' : ''} onchange="alternarConcluidoItemDireto('${itemIdStr}')" class="w-4 h-4 accent-emerald-600 rounded cursor-pointer shrink-0" title="Marcar como feito">
                                         <span class="font-bold truncate ${concluido ? 'line-through text-slate-400' : 'text-slate-900'}">${descSafe}</span>
+                                        ${linkBtn}
                                         <span class="text-sm shrink-0 font-medium" title="${pub}">${emojiCarinha} ${pub}</span>
                                     </div>
                                     <div class="flex items-center gap-2 shrink-0">
@@ -1945,6 +1796,7 @@
         function adicionarItemUnicoForm() {
             let descInput = document.getElementById('input-nova-desc');
             let pubInput = document.getElementById('input-novo-pub');
+            let linkInput = document.getElementById('input-novo-link');
             let valInput = document.getElementById('input-novo-val');
             let moedaInput = document.getElementById('input-nova-moeda');
 
@@ -1962,6 +1814,7 @@
                 id: 'item_' + Date.now(),
                 descricao: desc,
                 publico: pubInput ? pubInput.value : "Mariana",
+                link: linkInput ? linkInput.value.trim() : "",
                 valor: valInput ? limparNumero(valInput.value) : 0,
                 moeda: moedaInput ? moedaInput.value : "EUR",
                 concluido: false,
@@ -1970,6 +1823,7 @@
 
             // Limpar os campos da caixa do topo
             if(descInput) descInput.value = "";
+            if(linkInput) linkInput.value = "";
             if(valInput) valInput.value = "";
 
             salvarStorage();
@@ -1982,11 +1836,13 @@
             if(it) {
                 let descInput = document.getElementById('desc-' + itemId);
                 let pubInput = document.getElementById('pub-' + itemId);
+                let linkInput = document.getElementById('link-' + itemId);
                 let valInput = document.getElementById('val-' + itemId);
                 let moedaInput = document.getElementById('moeda-' + itemId);
 
                 if(descInput) it.descricao = descInput.value ? descInput.value.trim() : "Item";
                 if(pubInput) it.publico = pubInput.value;
+                if(linkInput) it.link = linkInput.value ? linkInput.value.trim() : "";
                 if(valInput) it.valor = valInput.value !== "" ? limparNumero(valInput.value) : 0;
                 if(moedaInput) it.moeda = moedaInput.value;
                 
