@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-PT">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v216.0)</title>
+    <title>Roteiro Europa - Mariana (v217.0)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Manifest Dinâmico via JavaScript -->
@@ -39,7 +39,7 @@
             <a href="https://translate.google.com/?hl=pt&sl=auto&tl=pt&op=images" target="_blank" class="bg-indigo-600 hover:bg-indigo-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm flex items-center gap-1" title="Google Tradutor & Câmara">🌐 Tradutor</a>
             <button onclick="window.location.reload()" class="bg-slate-800 hover:bg-slate-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm border border-slate-700" title="Atualizar Página">🔄</button>
             <button onclick="exportarPdfPrint()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm" title="Imprimir Tudo">🖨️</button>
-            <span class="bg-indigo-950 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v216.0</span>
+            <span class="bg-indigo-950 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v217.0</span>
         </div>
     </header>
 
@@ -221,7 +221,7 @@
 
     <!-- BARRA DE FERRAMENTAS FIXA -->
     <nav class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-md text-white px-3 py-2.5 shadow-2xl border-t border-slate-800 text-xs flex items-center justify-around gap-1 overflow-x-auto no-scrollbar max-w-4xl mx-auto rounded-t-2xl">
-        <span class="bg-indigo-600 px-2 py-1 rounded font-mono font-bold text-[9px] shrink-0">v216.0</span>
+        <span class="bg-indigo-600 px-2 py-1 rounded font-mono font-bold text-[9px] shrink-0">v217.0</span>
         <button onclick="abrirGeminiModal()" class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-3 py-1.5 rounded-xl font-bold transition shrink-0 flex items-center gap-1 text-xs shadow-sm">
             <span>✨</span> Gemini
         </button>
@@ -260,7 +260,6 @@
     </div>
 
     <script>
-        // CHAVE PERMANENTE FIXA: Os teus dados nunca mais se vão perder ao atualizar as versões!
         const CHAVE_APP = "mariana_viagem_europa_dados_fixos_definitiva";
         let destinoFiltro = 'todos';
         let tarefaFiltro = 'todas';
@@ -351,28 +350,56 @@
 
         window.addEventListener('DOMContentLoaded', () => {
             let salvo = localStorage.getItem(CHAVE_APP);
-            if (!salvo) {
-                for (let k of [
-                    "mariana_viagem_europa_dados_fixos",
-                    "mariana_viagem_europa_dados_fixos_v197",
-                    "mariana_viagem_europa_dados_fixos_v198",
-                    "mariana_viagem_europa_dados_fixos_v199",
-                    "mariana_viagem_europa_dados_fixos_v200",
-                    "mariana_viagem_europa_dados_fixos_v201",
-                    "mariana_viagem_europa_dados_fixos_v202",
-                    "mariana_viagem_europa_dados_fixos_v203",
-                    "mariana_viagem_europa_dados_fixos_v204",
-                    "mariana_viagem_europa_dados_fixos_v207",
-                    "mariana_viagem_europa_dados_fixos_v209"
-                ]) {
-                    let oldVal = localStorage.getItem(k);
-                    if (oldVal) {
-                        salvo = oldVal;
-                        localStorage.setItem(CHAVE_APP, salvo);
-                        break;
+            if (salvo) {
+                try {
+                    let parsed = JSON.parse(salvo);
+                    if (parsed && parsed.itinerario) {
+                        dadosApp = parsed;
                     }
+                } catch(e) {
+                    console.error("Erro ao carregar dados:", e);
                 }
             }
+
+            // Normalização e limpeza de dados de compras antigos para o formato de lista direta unificada
+            if (!Array.isArray(dadosApp.compras)) {
+                dadosApp.compras = [];
+            } else if (dadosApp.compras.length > 0 && dadosApp.compras[0].local !== undefined && dadosApp.compras[0].itens) {
+                let listaUnificada = [];
+                dadosApp.compras.forEach(bloco => {
+                    if (bloco.itens && Array.isArray(bloco.itens)) {
+                        bloco.itens.forEach(it => {
+                            listaUnificada.push({
+                                id: it.id || Date.now() + Math.random(),
+                                descricao: it.descricao || bloco.local || "Item",
+                                publico: it.publico || "Adulto",
+                                valor: it.valor || 0,
+                                moeda: it.moeda || "EUR",
+                                concluido: it.concluido || false,
+                                editando: false
+                            });
+                        });
+                    }
+                });
+                dadosApp.compras = listaUnificada;
+                salvarStorage();
+            }
+
+            if(!dadosApp.diasConcluidos) dadosApp.diasConcluidos = {};
+            if(!dadosApp.coresDestinos) dadosApp.coresDestinos = { "Zurique": "#3b82f6", "Freiburg": "#f59e0b", "França": "#ec4899", "Interlaken": "#10b981", "Disney": "#8b5cf6" };
+            if(!dadosApp.statusPersonalizados) dadosApp.statusPersonalizados = { "Concluído": "#22c55e", "Aguardando": "#f59e0b" };
+            if(!dadosApp.cotacaoEur) dadosApp.cotacaoEur = 6.20;
+            if(!dadosApp.cotacaoChf) dadosApp.cotacaoChf = 6.50;
+            if(dadosApp.saldoEur === undefined) dadosApp.saldoEur = "";
+            if(dadosApp.saldoChf === undefined) dadosApp.saldoChf = "";
+            if(!dadosApp.voos) dadosApp.voos = [];
+            if(!dadosApp.tarefas) dadosApp.tarefas = [];
+            if(!dadosApp.vouchers) dadosApp.vouchers = [];
+            if(!dadosApp.orcamento) dadosApp.orcamento = [];
+            if(!dadosApp.checklist) dadosApp.checklist = [];
+            if(!dadosApp.contatos) dadosApp.contatos = [];
+            if(!dadosApp.outros) dadosApp.outros = [];
+            if(!dadosApp.chat) dadosApp.chat = [];
 
             const manifestObj = {
                 "name": "Roteiro Europa - Mariana",
@@ -400,63 +427,14 @@
                 navigator.serviceWorker.register(URL.createObjectURL(swBlob)).catch(err => {});
             }
 
-            if (!sessionStorage.getItem('sessao_ativa_v216')) {
+            if (!sessionStorage.getItem('sessao_ativa_v217')) {
                 document.getElementById('tela-bloqueio').classList.add('hidden');
             }
 
-            const temaSalvo = localStorage.getItem('tema_v216');
+            const temaSalvo = localStorage.getItem('tema_v217');
             if (temaSalvo === 'dark') {
                 document.body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 document.body.classList.remove('bg-slate-100', 'text-slate-800');
-            }
-
-            try {
-                if (salvo) {
-                    let parsed = JSON.parse(salvo);
-                    if (parsed && parsed.itinerario) {
-                        dadosApp = parsed;
-                        if(!dadosApp.diasConcluidos) dadosApp.diasConcluidos = {};
-                        if(!dadosApp.coresDestinos) dadosApp.coresDestinos = { "Zurique": "#3b82f6", "Freiburg": "#f59e0b", "França": "#ec4899", "Interlaken": "#10b981", "Disney": "#8b5cf6" };
-                        if(!dadosApp.statusPersonalizados) dadosApp.statusPersonalizados = { "Concluído": "#22c55e", "Aguardando": "#f59e0b" };
-                        if(!dadosApp.cotacaoEur) dadosApp.cotacaoEur = 6.20;
-                        if(!dadosApp.cotacaoChf) dadosApp.cotacaoChf = 6.50;
-                        if(dadosApp.saldoEur === undefined) dadosApp.saldoEur = "";
-                        if(dadosApp.saldoChf === undefined) dadosApp.saldoChf = "";
-                        if(!dadosApp.voos) dadosApp.voos = [];
-                        if(!dadosApp.tarefas) dadosApp.tarefas = [];
-                        if(!dadosApp.vouchers) dadosApp.vouchers = [];
-                        if(!dadosApp.orcamento) dadosApp.orcamento = [];
-                        if(!dadosApp.checklist) dadosApp.checklist = [];
-                        if(!dadosApp.contatos) dadosApp.contatos = [];
-                        if(!dadosApp.outros) dadosApp.outros = [];
-                        if(!dadosApp.chat) dadosApp.chat = [];
-                        if(!dadosApp.compras) dadosApp.compras = [];
-                    }
-                }
-            } catch(e) {}
-
-            // Migrar formato antigo de blocos de compras, se necessário
-            if(dadosApp.compras && dadosApp.compras.length > 0 && dadosApp.compras[0].local !== undefined && dadosApp.compras[0].itens) {
-                let listaUnificada = [];
-                dadosApp.compras.forEach(bloco => {
-                    if(bloco.itens) {
-                        bloco.itens.forEach(it => {
-                            listaUnificada.push({
-                                id: it.id || Date.now() + Math.random(),
-                                descricao: it.descricao || bloco.local || "Item",
-                                publico: it.publico || "Adulto",
-                                valor: it.valor || 0,
-                                moeda: it.moeda || "EUR",
-                                concluido: it.concluido || false,
-                                editando: false
-                            });
-                        });
-                    }
-                });
-                dadosApp.compras = listaUnificada;
-                salvarStorage();
-            } else if(!Array.isArray(dadosApp.compras)) {
-                dadosApp.compras = [];
             }
 
             try {
@@ -466,7 +444,7 @@
                 if(inputChf) inputChf.value = dadosApp.cotacaoChf;
 
                 atualizarTudo();
-                let tabSalva = localStorage.getItem('tab_ativa_v216') || 'leitura';
+                let tabSalva = localStorage.getItem('tab_ativa_v217') || 'leitura';
                 mudarTab(tabSalva);
             } catch(e) {
                 console.error("Erro ao iniciar:", e);
@@ -485,15 +463,15 @@
                     deferredPrompt = null;
                 });
             } else {
-                alert("📱 Para instalar no celular:\n\n• No Android (Chrome): Toque nos 3 pontinhos e selecione 'Adicionar à tela inicial'.\n• No iPhone (Safari): Toque em Compartilhar e escolha 'Adicionar à Tela de Início'.");
+                alert("📱 Para instalar no telemóvel:\n\n• No Android (Chrome): Toque nos 3 pontinhos e selecione 'Adicionar ao ecrã principal'.\n• No iPhone (Safari): Toque em Partilhar e escolha 'Adicionar ao Ecrã Principal'.");
             }
         }
 
         function desbloquearComPin() {
-            let pinSalvo = localStorage.getItem('app_pin_v216') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v217') || '1510';
             let digitado = document.getElementById('input-pin').value;
             if(digitado === pinSalvo) {
-                sessionStorage.setItem('sessao_ativa_v216', 'true');
+                sessionStorage.setItem('sessao_ativa_v217', 'true');
                 document.getElementById('tela-bloqueio').classList.add('hidden');
                 document.getElementById('erro-pin').classList.add('hidden');
             } else {
@@ -502,17 +480,17 @@
         }
 
         async function desbloquearComBiometria() {
-            sessionStorage.setItem('sessao_ativa_v216', 'true');
+            sessionStorage.setItem('sessao_ativa_v217', 'true');
             document.getElementById('tela-bloqueio').classList.add('hidden');
         }
 
         function alterarSenhaPin() {
             let atual = prompt("Digite a senha atual (Padrão: 1510):");
-            let pinSalvo = localStorage.getItem('app_pin_v216') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v217') || '1510';
             if(atual === pinSalvo) {
                 let nova = prompt("Digite a nova senha PIN:");
                 if(nova && nova.trim() !== '') {
-                    localStorage.setItem('app_pin_v216', nova.trim());
+                    localStorage.setItem('app_pin_v217', nova.trim());
                     alert("🔑 Senha alterada com sucesso!");
                 }
             } else {
@@ -525,11 +503,11 @@
             if(body.classList.contains('dark')) {
                 body.classList.remove('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.add('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v216', 'light');
+                localStorage.setItem('tema_v217', 'light');
             } else {
                 body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.remove('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v216', 'dark');
+                localStorage.setItem('tema_v217', 'dark');
             }
         }
 
@@ -735,7 +713,7 @@
         }
 
         function mudarTab(tab) {
-            localStorage.setItem('tab_ativa_v216', tab);
+            localStorage.setItem('tab_ativa_v217', tab);
             if(tab === 'itinerario' || tab === 'leitura') {
                 destinoFiltro = 'todos';
             }
@@ -1270,7 +1248,6 @@
             }
         }
 
-        // RENDERIZAR HUB DE UTILIDADES COM SEGURANÇA TOTAL PARA VOUCHERS E PDFS
         function renderizarHubUtilidades() {
             const container = document.getElementById('hub-utilidades-grid');
             if(!container) return;
@@ -1582,7 +1559,7 @@
                 document.getElementById('pdf-iframe-view').src = v.pdfData;
                 document.getElementById('pdf-btn-download').href = v.pdfData;
                 document.getElementById('pdf-btn-download').download = v.pdfNome || 'documento.pdf';
-                document.getElementById('modal-leitor-pdf').classList.remove('hidden');
+                document.getElementById('modal-leitor-pdf').classList.add('hidden');
             }
         }
 
@@ -1803,6 +1780,272 @@
                 console.error("Erro no orçamento:", err);
                 container.innerHTML = '<div class="p-3 bg-red-50 text-red-600 rounded-xl text-xs">Erro ao carregar orçamento. Tente atualizar a página.</div>';
             }
+        }
+
+        // RENDERIZAR ABA DE COMPRAS (LISTA DIRETA UNIFICADA)
+        function renderizarComprasTab() {
+            const containerResumo = document.getElementById('compras-resumo-topo');
+            const containerLista = document.getElementById('compras-lista-itens');
+            if(!containerResumo || !containerLista) return;
+
+            try {
+                let cotEur = parseFloat(dadosApp.cotacaoEur) || 6.20;
+                let cotChf = parseFloat(dadosApp.cotacaoChf) || 6.50;
+
+                let totalAdultosEur = 0, totalAdultosChf = 0, totalAdultosBrl = 0;
+                let totalCriancasEur = 0, totalCriancasChf = 0, totalCriancasBrl = 0;
+
+                if(!Array.isArray(dadosApp.compras)) dadosApp.compras = [];
+
+                dadosApp.compras.forEach(it => {
+                    let val = limparNumero(it.valor);
+                    let moeda = it.moeda || 'EUR';
+                    let pub = it.publico || 'Adulto';
+                    if(val > 0) {
+                        if(pub === 'Adulto') {
+                            if(moeda === 'EUR') totalAdultosEur += val;
+                            else if(moeda === 'CHF') totalAdultosChf += val;
+                            else if(moeda === 'BRL') totalAdultosBrl += val;
+                        } else {
+                            if(moeda === 'EUR') totalCriancasEur += val;
+                            else if(moeda === 'CHF') totalCriancasChf += val;
+                            else if(moeda === 'BRL') totalCriancasBrl += val;
+                        }
+                    }
+                });
+
+                // Ordenar para que os concluídos fiquem em baixo
+                dadosApp.compras.sort((a, b) => {
+                    if (a.editando !== b.editando) return a.editando ? -1 : 1;
+                    return (a.concluido === b.concluido) ? 0 : a.concluido ? 1 : -1;
+                });
+
+                let finalAdultosBrl = (totalAdultosEur * cotEur) + (totalAdultosChf * cotChf) + totalAdultosBrl;
+                let finalCriancasBrl = (totalCriancasEur * cotEur) + (totalCriancasChf * cotChf) + totalCriancasBrl;
+
+                containerResumo.innerHTML = `
+                    <div class="bg-purple-50 p-3 rounded-xl border border-purple-200 shadow-sm text-center space-y-0.5 min-w-0">
+                        <span class="font-bold text-[10px] text-purple-900 uppercase block truncate">👤 Total Adultos</span>
+                        <div class="font-black text-[11px] text-slate-800 truncate">${totalAdultosEur.toFixed(2)}€ | ${totalAdultosChf.toFixed(2)}CHF</div>
+                        <div class="font-bold text-[11px] text-emerald-700 truncate">R$ ${finalAdultosBrl.toFixed(2)}</div>
+                    </div>
+                    <div class="bg-purple-50 p-3 rounded-xl border border-purple-200 shadow-sm text-center space-y-0.5 min-w-0">
+                        <span class="font-bold text-[10px] text-purple-900 uppercase block truncate">👧 Total Crianças</span>
+                        <div class="font-black text-[11px] text-slate-800 truncate">${totalCriancasEur.toFixed(2)}€ | ${totalCriancasChf.toFixed(2)}CHF</div>
+                        <div class="font-bold text-[11px] text-emerald-700 truncate">R$ ${finalCriancasBrl.toFixed(2)}</div>
+                    </div>
+                `;
+
+                let itensHtml = '';
+                if(dadosApp.compras.length === 0) {
+                    itensHtml = '<p class="text-xs text-slate-400 italic text-center py-6">Nenhum item adicionado. Clique em "➕ Adicionar Item" acima.</p>';
+                } else {
+                    dadosApp.compras.forEach(it => {
+                        let val = limparNumero(it.valor);
+                        let moeda = it.moeda || 'EUR';
+                        let pub = it.publico || 'Adulto';
+                        let valBrl = moeda === 'EUR' ? val * cotEur : (moeda === 'CHF' ? val * cotChf : val);
+                        let descSafe = (it.descricao || '').replace(/"/g, '&quot;');
+                        let editando = it.editando !== undefined ? it.editando : false;
+                        let concluido = it.concluido ? true : false;
+                        let emojiCarinha = pub === 'Adulto' ? '👤' : '👧';
+                        let moedaSimbolo = moeda === 'EUR' ? '€' : (moeda === 'CHF' ? 'CHF' : 'R$');
+
+                        if(editando) {
+                            itensHtml += `
+                                <div class="p-3 rounded-xl border bg-white border-indigo-300 space-y-2 text-xs shadow-sm min-w-0">
+                                    <div class="flex items-center gap-1.5 min-w-0">
+                                        <input type="text" id="desc-${it.id}" value="${descSafe}" class="flex-1 min-w-0 p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs" placeholder="Nome do item...">
+                                        <select id="pub-${it.id}" class="p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs shrink-0">
+                                            <option value="Adulto" ${pub==='Adulto'?'selected':''}>👤 Adulto</option>
+                                            <option value="Criança (Sofia)" ${pub==='Criança (Sofia)'?'selected':''}>👧 Criança</option>
+                                        </select>
+                                        <button onclick="apagarItemDireto('${it.id}')" class="text-red-500 font-bold px-2 py-1.5 rounded-xl bg-red-50 text-xs shrink-0">✕</button>
+                                    </div>
+                                    <div class="flex items-center justify-between gap-1.5 flex-wrap border-t border-slate-100 pt-1.5">
+                                        <div class="flex items-center gap-1.5">
+                                            <span class="text-slate-500 font-bold">Valor:</span>
+                                            <input type="text" value="${val !== 0 ? val : ''}" id="val-${it.id}" class="w-20 p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-black text-right text-xs" placeholder="0">
+                                            <select id="moeda-${it.id}" class="p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs">
+                                                <option value="EUR" ${moeda==='EUR'?'selected':''}>€</option>
+                                                <option value="CHF" ${moeda==='CHF'?'selected':''}>CHF</option>
+                                                <option value="BRL" ${moeda==='BRL'?'selected':''}>R$</option>
+                                            </select>
+                                            <button onclick="salvarEFecharItemDireto('${it.id}')" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-xl font-bold text-xs shadow-sm">✓ OK (Salvar)</button>
+                                        </div>
+                                        <div class="text-right text-[11px] font-bold text-emerald-700">R$ ${valBrl.toFixed(2)}</div>
+                                    </div>
+                                </div>
+                            `;
+                        } else {
+                            let linhaRiscada = concluido ? 'line-through text-slate-400 bg-emerald-50/60 border-emerald-300' : 'text-slate-900 bg-slate-50 border-slate-200';
+                            itensHtml += `
+                                <div class="p-2.5 rounded-xl border ${linhaRiscada} flex items-center justify-between gap-2 text-xs shadow-sm min-w-0">
+                                    <div class="flex items-center gap-2 min-w-0 flex-1">
+                                        <input type="checkbox" ${concluido ? 'checked' : ''} onchange="alternarConcluidoItemDireto('${it.id}')" class="w-4 h-4 accent-emerald-600 rounded cursor-pointer shrink-0" title="Marcar como feito">
+                                        <span class="font-bold truncate ${concluido ? 'line-through text-slate-400' : 'text-slate-900'}">${descSafe}</span>
+                                        <span class="text-sm shrink-0" title="${pub}">${emojiCarinha}</span>
+                                    </div>
+                                    <div class="flex items-center gap-2 shrink-0">
+                                        <span class="font-black text-indigo-900 ${concluido ? 'line-through text-slate-400' : ''}">${val > 0 ? val + ' ' + moedaSimbolo : 'Grátis'}</span>
+                                        <span class="text-emerald-700 font-bold ${concluido ? 'line-through text-slate-400' : ''}">R$ ${valBrl.toFixed(2)}</span>
+                                        <button onclick="abrirEdicaoItemDireto('${it.id}')" class="bg-slate-200 hover:bg-slate-300 text-slate-800 px-2.5 py-1 rounded-lg font-bold text-[11px]" title="Editar com Lápis">✏️</button>
+                                        <button onclick="apagarItemDireto('${it.id}')" class="text-red-500 font-bold px-1.5 py-1 rounded-lg bg-red-50 hover:bg-red-100 text-xs">✕</button>
+                                    </div>
+                                </div>
+                            `;
+                        }
+                    });
+                }
+
+                containerLista.innerHTML = itensHtml;
+            } catch(err) {
+                console.error("Erro nas compras:", err);
+            }
+        }
+
+        function adicionarItemCompraDireto() {
+            registarEstadoAnterior();
+            if(!Array.isArray(dadosApp.compras)) dadosApp.compras = [];
+            dadosApp.compras.unshift({
+                id: Date.now(),
+                descricao: "",
+                publico: "Adulto",
+                valor: 0,
+                moeda: "EUR",
+                concluido: false,
+                editando: true
+            });
+            salvarStorage();
+            atualizarTudo();
+        }
+
+        function salvarEFecharItemDireto(itemId) {
+            registarEstadoAnterior();
+            let it = dadosApp.compras.find(i => String(i.id) === String(itemId));
+            if(it) {
+                let desc = document.getElementById('desc-' + itemId).value;
+                let pub = document.getElementById('pub-' + itemId).value;
+                let val = document.getElementById('val-' + itemId).value;
+                let moeda = document.getElementById('moeda-' + itemId).value;
+
+                it.descricao = desc ? desc.trim() : "Item";
+                it.publico = pub;
+                it.valor = val !== "" ? limparNumero(val) : 0;
+                it.moeda = moeda;
+                it.editando = false;
+
+                salvarStorage();
+                atualizarTudo();
+            }
+        }
+
+        function abrirEdicaoItemDireto(itemId) {
+            registarEstadoAnterior();
+            let it = dadosApp.compras.find(i => String(i.id) === String(itemId));
+            if(it) {
+                it.editando = true;
+                salvarStorage();
+                atualizarTudo();
+            }
+        }
+
+        function alternarConcluidoItemDireto(itemId) {
+            registarEstadoAnterior();
+            let it = dadosApp.compras.find(i => String(i.id) === String(itemId));
+            if(it) {
+                it.concluido = !it.concluido;
+                salvarStorage();
+                atualizarTudo();
+            }
+        }
+
+        function apagarItemDireto(itemId) {
+            registarEstadoAnterior();
+            dadosApp.compras = dadosApp.compras.filter(i => String(i.id) !== String(itemId));
+            salvarStorage();
+            atualizarTudo();
+        }
+
+        function salvarSaldo(moeda, val) {
+            registarEstadoAnterior();
+            let num = limparNumero(val);
+            if(moeda === 'EUR') dadosApp.saldoEur = val !== "" ? num : "";
+            if(moeda === 'CHF') dadosApp.saldoChf = val !== "" ? num : "";
+            salvarStorage();
+            renderizarOrcamentoTab();
+            alert("💾 Saldo guardado com sucesso!");
+        }
+
+        function salvarCotacao(moeda, val) {
+            registarEstadoAnterior();
+            let num = limparNumero(val);
+            if(moeda === 'EUR') dadosApp.cotacaoEur = num > 0 ? num : 6.20;
+            if(moeda === 'CHF') dadosApp.cotacaoChf = num > 0 ? num : 6.50;
+            salvarStorage();
+            renderizarOrcamentoTab();
+            renderizarComprasTab();
+            alert("💾 Cotação guardada com sucesso!");
+        }
+
+        function salvarDespesaValor(id, val) {
+            registarEstadoAnterior();
+            let d = dadosApp.orcamento.find(item => String(item.id) === String(id));
+            if(d) {
+                d.valor = val !== "" ? limparNumero(val) : 0;
+                salvarStorage();
+                renderizarOrcamentoTab();
+            }
+        }
+
+        function calcularConversaoRapida() {
+            let elVal = document.getElementById('conv-valor');
+            let elMoeda = document.getElementById('conv-moeda');
+            let elRes = document.getElementById('conv-resultado');
+            if(!elVal || !elMoeda || !elRes) return;
+            let val = limparNumero(elVal.value);
+            let moeda = elMoeda.value;
+            let cotEur = parseFloat(dadosApp.cotacaoEur) || 6.20;
+            let cotChf = parseFloat(dadosApp.cotacaoChf) || 6.50;
+            let resultado = moeda === 'EUR' ? val * cotEur : (moeda === 'CHF' ? val * cotChf : val);
+            elRes.innerText = 'R$ ' + resultado.toFixed(2);
+        }
+
+        function adicionarDespesa(moedaForcada) {
+            registarEstadoAnterior();
+            if(!dadosApp.orcamento) dadosApp.orcamento = [];
+            dadosApp.orcamento.unshift({ id: Date.now(), descricao: "Despesa", valor: 0, moeda: moedaForcada });
+            salvarStorage();
+            renderizarOrcamentoTab();
+        }
+
+        function apagarDespesa(id) {
+            registarEstadoAnterior();
+            dadosApp.orcamento = dadosApp.orcamento.filter(d => String(d.id) !== String(id));
+            salvarStorage();
+            renderizarOrcamentoTab();
+        }
+
+        function atualizarOrcamentoDescricao(id, val) {
+            let d = dadosApp.orcamento.find(item => String(item.id) === String(id));
+            if(d) { d.descricao = val; localStorage.setItem(CHAVE_APP, JSON.stringify(dadosApp)); }
+        }
+
+        function ativarMicrofone() {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (!SpeechRecognition) { alert("Sem suporte a voz."); return; }
+            if (!campoFocoAtual) {
+                alert("Por favor, clique primeiro num campo de texto onde deseja ditar.");
+                return;
+            }
+            const recognition = new SpeechRecognition();
+            recognition.lang = 'pt-BR';
+            recognition.onresult = function(event) {
+                campoFocoAtual.value = event.results[0][0].transcript;
+                campoFocoAtual.dispatchEvent(new Event('input'));
+                campoFocoAtual.dispatchEvent(new Event('change'));
+            };
+            recognition.start();
         }
     </script>
 </body>
