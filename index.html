@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v233.0)</title>
+    <title>Roteiro Europa - Mariana (v235.0)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Manifest Dinâmico via JavaScript -->
@@ -39,7 +39,7 @@
             <a href="https://translate.google.com/?hl=pt&sl=auto&tl=pt&op=images" target="_blank" class="bg-indigo-600 hover:bg-indigo-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm flex items-center gap-1" title="Google Tradutor & Câmara">🌐 Tradutor</a>
             <button onclick="window.location.reload()" class="bg-slate-800 hover:bg-slate-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm border border-slate-700" title="Atualizar Página">🔄</button>
             <button onclick="exportarPdfPrint()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm" title="Imprimir Tudo">🖨️</button>
-            <span class="bg-indigo-950 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v233.0</span>
+            <span class="bg-indigo-950 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v235.0</span>
         </div>
     </header>
 
@@ -160,13 +160,13 @@
             </div>
         </div>
 
-        <!-- TAB 5: COMPRAS (COM FILTROS POR TÍTULO) -->
+        <!-- TAB 5: COMPRAS -->
         <div id="tab-compras" class="space-y-3 hidden">
             <div class="bg-white p-3.5 sm:p-5 rounded-2xl shadow-sm border border-slate-200 space-y-4 text-xs" id="compras-conteudo-main">
                 <div class="flex justify-between items-center border-b pb-3 flex-wrap gap-2">
                     <div>
                         <h2 class="text-xs font-extrabold uppercase text-slate-800 tracking-wider">🛍️ Lista de Compras</h2>
-                        <p class="text-[11px] text-slate-500 font-semibold">Filtre por título ou adicione novos itens</p>
+                        <p class="text-[11px] text-slate-500 font-semibold">Preencha a caixa abaixo e clique em OK para adicionar à lista</p>
                     </div>
                     <button type="button" onclick="imprimirSeccaoCustom('Lista de Compras', document.getElementById('tab-compras').innerHTML)" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-xl font-bold text-xs transition shadow-sm">🖨️ PDF</button>
                 </div>
@@ -174,14 +174,11 @@
                 <!-- RESUMO GERAL DAS COMPRAS NO TOPO -->
                 <div id="compras-resumo-topo" class="grid grid-cols-2 gap-2"></div>
 
-                <!-- CARTÕES DE FILTRAGEM POR TÍTULO -->
-                <div id="compras-filtros-titulo" class="bg-slate-200 p-2 rounded-xl overflow-x-auto flex gap-1.5 text-xs items-center no-scrollbar shadow-inner"></div>
-
                 <!-- CAIXA ÚNICA FIXA PARA DIGITAÇÃO -->
                 <div class="p-3.5 rounded-2xl border-2 border-indigo-200 bg-indigo-50/40 space-y-3 shadow-sm">
                     <span class="font-black text-indigo-950 uppercase text-[10px] block">➕ ADICIONAR NOVO ITEM</span>
                     <div class="flex items-center gap-1.5 min-w-0">
-                        <input type="text" id="input-nova-desc" class="flex-1 min-w-0 p-2 bg-white border border-slate-300 rounded-xl font-bold text-xs outline-none focus:border-indigo-600" placeholder="Nome do item (ex: Torre Eiffel)...">
+                        <input type="text" id="input-nova-desc" class="flex-1 min-w-0 p-2 bg-white border border-slate-300 rounded-xl font-bold text-xs outline-none focus:border-indigo-600" placeholder="Nome do item (ex: Iogurte)...">
                         <select id="input-novo-pub" class="p-2 bg-white border border-slate-300 rounded-xl font-bold text-xs shrink-0">
                             <option value="Mariana">👤 Mariana</option>
                             <option value="Sophia">👧 Sophia</option>
@@ -206,10 +203,10 @@
                     </div>
                 </div>
 
-                <!-- LISTA DE ITENS AGRUPADOS -->
+                <!-- LISTA DE ITENS REGISTADOS -->
                 <div class="space-y-2 pt-2">
-                    <span class="font-black text-slate-700 uppercase text-[10px] block">📋 ITENS AGRUPADOS POR TÍTULO</span>
-                    <div id="compras-lista-itens" class="space-y-3 pt-1"></div>
+                    <span class="font-black text-slate-700 uppercase text-[10px] block">📋 ITENS REGISTADOS</span>
+                    <div id="compras-lista-itens" class="space-y-2.5 pt-1"></div>
                 </div>
             </div>
         </div>
@@ -253,7 +250,7 @@
 
     <!-- BARRA DE FERRAMENTAS FIXA -->
     <nav class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-md text-white px-3 py-2.5 shadow-2xl border-t border-slate-800 text-xs flex items-center justify-around gap-1 overflow-x-auto no-scrollbar max-w-4xl mx-auto rounded-t-2xl">
-        <span class="bg-indigo-600 px-2 py-1 rounded font-mono font-bold text-[9px] shrink-0">v233.0</span>
+        <span class="bg-indigo-600 px-2 py-1 rounded font-mono font-bold text-[9px] shrink-0">v235.0</span>
         <button onclick="abrirGeminiModal()" class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-3 py-1.5 rounded-xl font-bold transition shrink-0 flex items-center gap-1 text-xs shadow-sm">
             <span>✨</span> Gemini
         </button>
@@ -296,7 +293,6 @@
         let destinoFiltro = 'todos';
         let tarefaFiltro = 'todas';
         let utilidadeFiltro = 'todos';
-        let comprasFiltroTitulo = 'todos';
         let orcamentoSubTab = 'eur'; 
         let campoFocoAtual = null;
         let deferredPrompt = null;
@@ -440,11 +436,11 @@
                 navigator.serviceWorker.register(URL.createObjectURL(swBlob)).catch(err => {});
             }
 
-            if (!sessionStorage.getItem('sessao_ativa_v233')) {
+            if (!sessionStorage.getItem('sessao_ativa_v235')) {
                 document.getElementById('tela-bloqueio').classList.add('hidden');
             }
 
-            const temaSalvo = localStorage.getItem('tema_v233');
+            const temaSalvo = localStorage.getItem('tema_v235');
             if (temaSalvo === 'dark') {
                 document.body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 document.body.classList.remove('bg-slate-100', 'text-slate-800');
@@ -457,7 +453,7 @@
                 if(inputChf) inputChf.value = dadosApp.cotacaoChf;
 
                 atualizarTudo();
-                let tabSalva = localStorage.getItem('tab_ativa_v233') || 'leitura';
+                let tabSalva = localStorage.getItem('tab_ativa_v235') || 'leitura';
                 mudarTab(tabSalva);
             } catch(e) {
                 console.error("Erro ao iniciar:", e);
@@ -481,10 +477,10 @@
         }
 
         function desbloquearComPin() {
-            let pinSalvo = localStorage.getItem('app_pin_v233') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v235') || '1510';
             let digitado = document.getElementById('input-pin').value;
             if(digitado === pinSalvo) {
-                sessionStorage.setItem('sessao_ativa_v233', 'true');
+                sessionStorage.setItem('sessao_ativa_v235', 'true');
                 document.getElementById('tela-bloqueio').classList.add('hidden');
                 document.getElementById('erro-pin').classList.add('hidden');
             } else {
@@ -493,17 +489,17 @@
         }
 
         async function desbloquearComBiometria() {
-            sessionStorage.setItem('sessao_ativa_v233', 'true');
+            sessionStorage.setItem('sessao_ativa_v235', 'true');
             document.getElementById('tela-bloqueio').classList.add('hidden');
         }
 
         function alterarSenhaPin() {
             let atual = prompt("Digite a senha atual (Padrão: 1510):");
-            let pinSalvo = localStorage.getItem('app_pin_v233') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v235') || '1510';
             if(atual === pinSalvo) {
                 let nova = prompt("Digite a nova senha PIN:");
                 if(nova && nova.trim() !== '') {
-                    localStorage.setItem('app_pin_v233', nova.trim());
+                    localStorage.setItem('app_pin_v235', nova.trim());
                     alert("🔑 Senha alterada com sucesso!");
                 }
             } else {
@@ -516,11 +512,11 @@
             if(body.classList.contains('dark')) {
                 body.classList.remove('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.add('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v233', 'light');
+                localStorage.setItem('tema_v235', 'light');
             } else {
                 body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.remove('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v233', 'dark');
+                localStorage.setItem('tema_v235', 'dark');
             }
         }
 
@@ -726,7 +722,7 @@
         }
 
         function mudarTab(tab) {
-            localStorage.setItem('tab_ativa_v233', tab);
+            localStorage.setItem('tab_ativa_v235', tab);
             if(tab === 'itinerario' || tab === 'leitura') {
                 destinoFiltro = 'todos';
             }
@@ -912,11 +908,6 @@
             renderizarHubUtilidades();
         }
 
-        function filtrarComprasTitulo(titulo) {
-            comprasFiltroTitulo = titulo;
-            renderizarComprasTab();
-        }
-
         // ROTEIRO (CONCLUÍDO POR LINHA / TRECHO)
         function renderizarModoLeitura() {
             const container = document.getElementById('lista-leitura-html');
@@ -991,7 +982,7 @@
             });
         }
 
-        // RENDERIZAR EDITAR (RESTAURADO)
+        // RENDERIZAR EDITAR
         function renderizarBlocos() {
             const container = document.getElementById('lista-blocos');
             if(!container) return;
@@ -1114,7 +1105,7 @@
                         paletaHtml +
                         '<div class="flex items-center gap-1.5">' +
                             '<button onclick="alternarBloqueio(\'' + item.id + '\')" class="' + lockBg + ' px-3 py-1.5 rounded-xl font-bold text-xs shadow-sm transition">' + lockIcon + '</button>' +
-                            '<button onclick="moverBloco(\'' + item.id + '\', -1)" class="bg-slate-200 hover:bg-slate-300 px-2 py-1.5 rounded-xl text-xs font-bold transition">⬆️</button>' +
+                            '<button onclick="moverBloco(\'' + item.id + '\', -1)" class="bg-slate-200 hover:bg-slate-300 px-2 py-1.5 rounded-xl font-bold transition">⬆️</button>' +
                             '<button onclick="moverBloco(\'' + item.id + '\', 1)" class="bg-slate-200 hover:bg-slate-300 px-2 py-1.5 rounded-xl font-bold transition">⬇️</button>' +
                             '<button onclick="apagarBloco(\'' + item.id + '\')" class="bg-red-50 hover:bg-red-100 text-red-600 px-3 py-1.5 rounded-xl font-bold transition">Excluir ✕</button>' +
                         '</div>' +
@@ -1803,6 +1794,149 @@
             } catch(err) {
                 console.error("Erro no orçamento:", err);
                 container.innerHTML = '<div class="p-3 bg-red-50 text-red-600 rounded-xl text-xs">Erro ao carregar orçamento. Tente atualizar a página.</div>';
+            }
+        }
+
+        // RENDERIZAR ABA DE COMPRAS ESTÁVEL
+        function renderizarComprasTab() {
+            const containerResumo = document.getElementById('compras-resumo-topo');
+            const containerLista = document.getElementById('compras-lista-itens');
+            if(!containerResumo || !containerLista) return;
+
+            try {
+                let cotEur = parseFloat(dadosApp.cotacaoEur) || 6.20;
+                let cotChf = parseFloat(dadosApp.cotacaoChf) || 6.50;
+
+                let totals = { "Mariana": {eur:0, chf:0, brl:0}, "Sophia": {eur:0, chf:0, brl:0}, "Glória": {eur:0, chf:0, brl:0}, "Outros": {eur:0, chf:0, brl:0} };
+
+                if(!Array.isArray(dadosApp.compras)) dadosApp.compras = [];
+
+                dadosApp.compras.forEach(it => {
+                    let val = limparNumero(it.valor);
+                    let moeda = it.moeda || 'EUR';
+                    let pub = it.publico || 'Mariana';
+                    if(!totals[pub]) totals[pub] = {eur:0, chf:0, brl:0};
+                    if(val > 0) {
+                        if(moeda === 'EUR') totals[pub].eur += val;
+                        else if(moeda === 'CHF') totals[pub].chf += val;
+                        else if(moeda === 'BRL') totals[pub].brl += val;
+                    }
+                });
+
+                dadosApp.compras.sort((a, b) => {
+                    if (a.editando !== b.editando) return a.editando ? -1 : 1;
+                    return (a.concluido === b.concluido) ? 0 : a.concluido ? 1 : -1;
+                });
+
+                let finalMarianaBrl = (totals["Mariana"].eur * cotEur) + (totals["Mariana"].chf * cotChf) + totals["Mariana"].brl;
+                let finalSophiaBrl = (totals["Sophia"].eur * cotEur) + (totals["Sophia"].chf * cotChf) + totals["Sophia"].brl;
+                let finalGloriaBrl = (totals["Glória"].eur * cotEur) + (totals["Glória"].chf * cotChf) + totals["Glória"].brl;
+                let finalOutrosBrl = (totals["Outros"].eur * cotEur) + (totals["Outros"].chf * cotChf) + totals["Outros"].brl;
+
+                containerResumo.innerHTML = `
+                    <div class="bg-purple-50 p-2.5 rounded-xl border border-purple-200 shadow-sm text-center space-y-0.5 min-w-0">
+                        <span class="font-bold text-[10px] text-purple-900 uppercase block truncate">👤 Mariana</span>
+                        <div class="font-black text-[10px] text-slate-800 truncate">${totals["Mariana"].eur.toFixed(2)}€ | ${totals["Mariana"].chf.toFixed(2)}CHF</div>
+                        <div class="font-bold text-[10px] text-emerald-700 truncate">R$ ${finalMarianaBrl.toFixed(2)}</div>
+                    </div>
+                    <div class="bg-purple-50 p-2.5 rounded-xl border border-purple-200 shadow-sm text-center space-y-0.5 min-w-0">
+                        <span class="font-bold text-[10px] text-purple-900 uppercase block truncate">👧 Sophia</span>
+                        <div class="font-black text-[10px] text-slate-800 truncate">${totals["Sophia"].eur.toFixed(2)}€ | ${totals["Sophia"].chf.toFixed(2)}CHF</div>
+                        <div class="font-bold text-[10px] text-emerald-700 truncate">R$ ${finalSophiaBrl.toFixed(2)}</div>
+                    </div>
+                    <div class="bg-purple-50 p-2.5 rounded-xl border border-purple-200 shadow-sm text-center space-y-0.5 min-w-0">
+                        <span class="font-bold text-[10px] text-purple-900 uppercase block truncate">👵 Glória</span>
+                        <div class="font-black text-[10px] text-slate-800 truncate">${totals["Glória"].eur.toFixed(2)}€ | ${totals["Glória"].chf.toFixed(2)}CHF</div>
+                        <div class="font-bold text-[10px] text-emerald-700 truncate">R$ ${finalGloriaBrl.toFixed(2)}</div>
+                    </div>
+                    <div class="bg-purple-50 p-2.5 rounded-xl border border-purple-200 shadow-sm text-center space-y-0.5 min-w-0">
+                        <span class="font-bold text-[10px] text-purple-900 uppercase block truncate">📦 Outros</span>
+                        <div class="font-black text-[10px] text-slate-800 truncate">${totals["Outros"].eur.toFixed(2)}€ | ${totals["Outros"].chf.toFixed(2)}CHF</div>
+                        <div class="font-bold text-[10px] text-emerald-700 truncate">R$ ${finalOutrosBrl.toFixed(2)}</div>
+                    </div>
+                `;
+
+                let itensHtml = '';
+                if(dadosApp.compras.length === 0) {
+                    itensHtml = '<p class="text-xs text-slate-400 italic text-center py-4">Nenhum item registado na lista.</p>';
+                } else {
+                    dadosApp.compras.forEach(it => {
+                        let val = limparNumero(it.valor);
+                        let moeda = it.moeda || 'EUR';
+                        let pub = it.publico || 'Mariana';
+                        let linkItem = it.link || '';
+                        let valBrl = moeda === 'EUR' ? val * cotEur : (moeda === 'CHF' ? val * cotChf : val);
+                        let descSafe = (it.descricao || '').replace(/"/g, '&quot;');
+                        let linkSafe = (linkItem || '').replace(/"/g, '&quot;');
+                        let editando = it.editando !== undefined ? it.editando : false;
+                        let concluido = it.concluido ? true : false;
+                        let emojiCarinha = pub === 'Mariana' ? '👤' : (pub === 'Sophia' ? '👧' : (pub === 'Glória' ? '👵' : '📦'));
+                        let moedaSimbolo = moeda === 'EUR' ? '€' : (moeda === 'CHF' ? 'CHF' : 'R$');
+                        let itemIdStr = String(it.id);
+
+                        let linkBtn = linkItem ? `<a href="${linkItem}" target="_blank" class="bg-sky-100 hover:bg-sky-200 text-sky-800 px-2 py-0.5 rounded-lg font-bold text-[10px] inline-flex items-center gap-0.5 shrink-0" title="Abrir link">🔗 Link</a>` : '';
+
+                        if(editando) {
+                            itensHtml += `
+                                <div class="p-3 rounded-xl border bg-white border-indigo-300 space-y-2 text-xs shadow-sm min-w-0">
+                                    <div class="flex items-center gap-1.5 min-w-0">
+                                        <input type="checkbox" ${concluido ? 'checked' : ''} onchange="alternarConcluidoItemDireto('${itemIdStr}')" class="w-4 h-4 accent-emerald-600 rounded cursor-pointer shrink-0" title="Marcar como feito">
+                                        <input type="text" id="desc-${itemIdStr}" value="${descSafe}" class="flex-1 min-w-0 p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs" placeholder="Nome do item...">
+                                        <select id="pub-${itemIdStr}" class="p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs shrink-0">
+                                            <option value="Mariana" ${pub==='Mariana'?'selected':''}>👤 Mariana</option>
+                                            <option value="Sophia" ${pub==='Sophia'?'selected':''}>👧 Sophia</option>
+                                            <option value="Glória" ${pub==='Glória'?'selected':''}>👵 Glória</option>
+                                            <option value="Outros" ${pub==='Outros'?'selected':''}>📦 Outros</option>
+                                        </select>
+                                        <button type="button" onclick="apagarItemDireto('${itemIdStr}')" class="text-red-500 font-bold px-2 py-1.5 rounded-xl bg-red-50 text-xs shrink-0">✕</button>
+                                    </div>
+                                    <div class="flex items-center gap-1.5 min-w-0">
+                                        <input type="url" id="link-${itemIdStr}" value="${linkSafe}" class="w-full p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-medium text-xs" placeholder="🔗 Link da compra (opcional)...">
+                                    </div>
+                                    <div class="flex items-center justify-between gap-1.5 flex-wrap border-t border-slate-100 pt-1.5">
+                                        <div class="flex items-center gap-1.5">
+                                            <span class="text-slate-500 font-bold">Valor:</span>
+                                            <input type="text" value="${val !== 0 ? val : ''}" id="val-${itemIdStr}" class="w-20 p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-black text-right text-xs" placeholder="0">
+                                            <select id="moeda-${itemIdStr}" class="p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs">
+                                                <option value="EUR" ${moeda==='EUR'?'selected':''}>€</option>
+                                                <option value="CHF" ${moeda==='CHF'?'selected':''}>CHF</option>
+                                                <option value="BRL" ${moeda==='BRL'?'selected':''}>R$</option>
+                                            </select>
+                                            <button type="button" onclick="salvarEFecharItemDireto('${itemIdStr}')" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-xl font-bold text-xs shadow-sm">✓ OK (Salvar)</button>
+                                        </div>
+                                        <div class="text-right text-[11px] font-bold text-emerald-700">R$ ${valBrl.toFixed(2)}</div>
+                                    </div>
+                                </div>
+                            `;
+                        } else {
+                            let linhaRiscada = concluido ? 'line-through text-slate-400 bg-emerald-50/60 border-emerald-300' : 'text-slate-900 bg-slate-50 border-slate-200';
+                            itensHtml += `
+                                <div class="p-3 rounded-xl border ${linhaRiscada} space-y-2 text-xs shadow-sm min-w-0">
+                                    <div class="flex items-center gap-2 min-w-0">
+                                        <input type="checkbox" ${concluido ? 'checked' : ''} onchange="alternarConcluidoItemDireto('${itemIdStr}')" class="w-4 h-4 accent-emerald-600 rounded cursor-pointer shrink-0" title="Marcar como feito">
+                                        <span class="font-bold flex-1 min-w-0 break-words ${concluido ? 'line-through text-slate-400' : 'text-slate-900'}">${descSafe}</span>
+                                    </div>
+                                    <div class="flex items-center justify-between gap-2 border-t border-slate-200/60 pt-2 flex-wrap">
+                                        <div class="flex items-center gap-2 flex-wrap">
+                                            <span class="bg-white px-2 py-0.5 rounded-lg border text-[11px] font-bold shadow-sm">${emojiCarinha} ${pub}</span>
+                                            ${linkBtn}
+                                            <span class="font-black text-indigo-900 ${concluido ? 'line-through text-slate-400' : ''}">${val > 0 ? val + ' ' + moedaSimbolo : 'Grátis'}</span>
+                                            <span class="text-emerald-700 font-bold ${concluido ? 'line-through text-slate-400' : ''}">R$ ${valBrl.toFixed(2)}</span>
+                                        </div>
+                                        <div class="flex items-center gap-1 shrink-0">
+                                            <button type="button" onclick="abrirEdicaoItemDireto('${itemIdStr}')" class="bg-slate-200 hover:bg-slate-300 text-slate-800 px-2.5 py-1 rounded-lg font-bold text-[11px]" title="Editar com Lápis">✏️</button>
+                                            <button type="button" onclick="apagarItemDireto('${itemIdStr}')" class="text-red-500 font-bold px-1.5 py-1 rounded-lg bg-red-50 hover:bg-red-100 text-xs">✕</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+                        }
+                    });
+                }
+
+                containerLista.innerHTML = itensHtml;
+            } catch(err) {
+                console.error("Erro nas compras:", err);
             }
         }
 
