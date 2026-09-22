@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v261.0)</title>
+    <title>Roteiro Europa - Mariana (v263.0)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Manifest Dinâmico via JavaScript -->
@@ -39,7 +39,7 @@
             <a href="https://translate.google.com/?hl=pt&sl=auto&tl=pt&op=images" target="_blank" class="bg-indigo-600 hover:bg-indigo-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm flex items-center gap-1" title="Google Tradutor & Câmara">🌐 Tradutor</a>
             <button onclick="window.location.reload()" class="bg-slate-800 hover:bg-slate-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm border border-slate-700" title="Atualizar Página">🔄</button>
             <button onclick="exportarPdfPrint()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm" title="Imprimir Tudo">🖨️</button>
-            <span class="bg-indigo-950 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v261.0</span>
+            <span class="bg-indigo-950 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v263.0</span>
         </div>
     </header>
 
@@ -84,7 +84,7 @@
                 </div>
             </div>
 
-            <!-- BARRA DE FILTRO / ORDENAÇÃO DOS BLOCOS (COLOCADA EXATAMENTE NA COLUNA SOLICITADA) -->
+            <!-- BARRA DE FILTRO / ORDENAÇÃO DOS BLOCOS -->
             <div class="flex justify-between items-center bg-white px-3 py-2 rounded-2xl border border-slate-200 shadow-sm text-xs">
                 <span class="font-extrabold uppercase text-slate-600 tracking-wider">🗂️ Agrupar / Filtrar Blocos:</span>
                 <select id="select-ordenacao-blocos" onchange="mudarOrdenacaoBlocos(this.value)" class="p-1.5 bg-slate-100 border border-slate-300 rounded-xl font-bold text-xs outline-none text-slate-700 shadow-sm">
@@ -273,7 +273,7 @@
 
     <!-- BARRA DE FERRAMENTAS FIXA -->
     <nav class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-md text-white px-3 py-2.5 shadow-2xl border-t border-slate-800 text-xs flex items-center justify-around gap-1 overflow-x-auto no-scrollbar max-w-4xl mx-auto rounded-t-2xl">
-        <span class="bg-indigo-600 px-2 py-1 rounded font-mono font-bold text-[9px] shrink-0">v260.0</span>
+        <span class="bg-indigo-600 px-2 py-1 rounded font-mono font-bold text-[9px] shrink-0">v263.0</span>
         <button onclick="abrirGeminiModal()" class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-3 py-1.5 rounded-xl font-bold transition shrink-0 flex items-center gap-1 text-xs shadow-sm">
             <span>✨</span> Gemini
         </button>
@@ -479,11 +479,11 @@
                 navigator.serviceWorker.register(URL.createObjectURL(swBlob)).catch(err => {});
             }
 
-            if (!sessionStorage.getItem('sessao_ativa_v260')) {
+            if (!sessionStorage.getItem('sessao_ativa_v263')) {
                 document.getElementById('tela-bloqueio').classList.add('hidden');
             }
 
-            const temaSalvo = localStorage.getItem('tema_v260');
+            const temaSalvo = localStorage.getItem('tema_v263');
             if (temaSalvo === 'dark') {
                 document.body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 document.body.classList.remove('bg-slate-100', 'text-slate-800');
@@ -502,7 +502,7 @@
                 if(selOrdBlocos && dadosApp.blocoOrdenacao) selOrdBlocos.value = dadosApp.blocoOrdenacao;
 
                 atualizarTudo();
-                let tabSalva = localStorage.getItem('tab_ativa_v260') || 'leitura';
+                let tabSalva = localStorage.getItem('tab_ativa_v263') || 'leitura';
                 mudarTab(tabSalva);
             } catch(e) {
                 console.error("Erro ao iniciar:", e);
@@ -526,10 +526,10 @@
         }
 
         function desbloquearComPin() {
-            let pinSalvo = localStorage.getItem('app_pin_v260') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v263') || '1510';
             let digitado = document.getElementById('input-pin').value;
             if(digitado === pinSalvo) {
-                sessionStorage.setItem('sessao_ativa_v260', 'true');
+                sessionStorage.setItem('sessao_ativa_v263', 'true');
                 document.getElementById('tela-bloqueio').classList.add('hidden');
                 document.getElementById('erro-pin').classList.add('hidden');
             } else {
@@ -538,17 +538,17 @@
         }
 
         async function desbloquearComBiometria() {
-            sessionStorage.setItem('sessao_ativa_v260', 'true');
+            sessionStorage.setItem('sessao_ativa_v263', 'true');
             document.getElementById('tela-bloqueio').classList.add('hidden');
         }
 
         function alterarSenhaPin() {
             let atual = prompt("Digite a senha atual (Padrão: 1510):");
-            let pinSalvo = localStorage.getItem('app_pin_v260') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v263') || '1510';
             if(atual === pinSalvo) {
                 let nova = prompt("Digite a nova senha PIN:");
                 if(nova && nova.trim() !== '') {
-                    localStorage.setItem('app_pin_v260', nova.trim());
+                    localStorage.setItem('app_pin_v263', nova.trim());
                     alert("🔑 Senha alterada com sucesso!");
                 }
             } else {
@@ -561,11 +561,11 @@
             if(body.classList.contains('dark')) {
                 body.classList.remove('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.add('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v260', 'light');
+                localStorage.setItem('tema_v263', 'light');
             } else {
                 body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.remove('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v260', 'dark');
+                localStorage.setItem('tema_v263', 'dark');
             }
         }
 
@@ -663,6 +663,23 @@
                         cond.fotosExtras.splice(fotoIndex, 1);
                         salvarStorage();
                         renderizarBlocos();
+                    }
+                }
+            }
+        }
+
+        function apagarConducaoOrcamento(itemId, trechoId, condId) {
+            registarEstadoAnterior();
+            let item = dadosApp.itinerario.find(i => String(i.id) === String(itemId));
+            if(item && item.trechos) {
+                let tr = item.trechos.find(t => String(t.id) === String(trechoId));
+                if(tr && tr.conducoes) {
+                    let cond = tr.conducoes.find(c => String(c.id) === String(condId));
+                    if(cond) {
+                        cond.valor = 0; 
+                        salvarStorage();
+                        renderizarOrcamentoTab();
+                        alert("🗑️ Despesa removida do orçamento com sucesso!");
                     }
                 }
             }
@@ -838,7 +855,7 @@
         }
 
         function mudarTab(tab) {
-            localStorage.setItem('tab_ativa_v260', tab);
+            localStorage.setItem('tab_ativa_v263', tab);
             if(tab === 'itinerario' || tab === 'leitura') {
                 destinoFiltro = 'todos';
             }
@@ -1384,7 +1401,7 @@
                                 '<select onchange="lidarSelecaoOrigemTrecho(\'' + item.id + '\', \'' + tr.id + '\', this.value)" class="flex-1 min-w-0 p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs truncate"><option value="">Origem...</option>' + opcoesOrigem + '</select>' +
                                 '<span class="shrink-0 font-bold text-slate-400">➔</span>' +
                                 '<select onchange="lidarSelecaoDestinoTrecho(\'' + item.id + '\', \'' + tr.id + '\', this.value)" class="flex-1 min-w-0 p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs truncate"><option value="">Destino...</option>' + opcoesDest + '</select>' +
-                                '<button onclick="removerTrecho(\'' + item.id + '\', \'' + tr.id + '\')" class="text-red-500 font-bold px-2.5 py-1.5 rounded-xl bg-red-50 text-xs shrink-0 hover:bg-red-100 transition" title="Apagar Rota">✕</button>' +
+                                '<button onclick="removerTrecho(\'' + item.id + '\', \'' + tr.id + '\')" class="text-red-500 font-bold px-2.5 py-1.5 rounded-xl bg-red-50 hover:bg-red-100 transition" title="Apagar Rota">✕</button>' +
                             '</div>' +
                             '<div class="space-y-1.5">' +
                                 '<span class="font-bold text-[10px] uppercase text-slate-500 block">Ônibus e Conduções desta Rota:</span>' +
@@ -2081,7 +2098,21 @@
                                                 let valBrl = val * cotEur;
                                                 let origemStr = (tr.origem || '?').replace(/"/g, '&quot;');
                                                 let destinoStr = (tr.destino || '?').replace(/"/g, '&quot;');
-                                                despesasEurHtml += '<div class="p-3 rounded-xl bg-white border border-slate-200 flex flex-col gap-1.5 text-xs shadow-sm"><span class="font-bold text-slate-800 truncate">🚄 ' + origemStr + ' ➔ ' + destinoStr + ' (' + cond.transporte + ')</span><div class="flex justify-between items-center border-t border-slate-100 pt-1.5"><span class="text-slate-500 font-medium">Condução</span><div class="text-right whitespace-nowrap"><span class="font-black text-amber-900 text-sm">' + val.toFixed(2) + ' €</span><span class="text-emerald-700 font-bold text-[11px] block">R$ ' + valBrl.toFixed(2) + '</span></div></div></div>';
+                                                despesasEurHtml += `
+                                                    <div class="p-3 rounded-xl bg-white border border-slate-200 flex flex-col gap-1.5 text-xs shadow-sm">
+                                                        <div class="flex justify-between items-center">
+                                                            <span class="font-bold text-slate-800 truncate">🚄 ${origemStr} ➔ ${destinoStr} (${cond.transporte})</span>
+                                                            <button onclick="apagarConducaoOrcamento('${item.id}', '${tr.id}', '${cond.id}')" class="text-red-500 font-bold px-2 py-1 bg-red-50 hover:bg-red-100 rounded-lg text-xs" title="Remover esta despesa fantasma">✕ Apagar</button>
+                                                        </div>
+                                                        <div class="flex justify-between items-center border-t border-slate-100 pt-1.5">
+                                                            <span class="text-slate-500 font-medium">Condução</span>
+                                                            <div class="text-right whitespace-nowrap">
+                                                                <span class="font-black text-amber-900 text-sm">${val.toFixed(2)} €</span>
+                                                                <span class="text-emerald-700 font-bold text-[11px] block">R$ ${valBrl.toFixed(2)}</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                `;
                                             }
                                         });
                                     }
@@ -2149,7 +2180,21 @@
                                                 let valBrl = val * cotChf;
                                                 let origemStr = (tr.origem || '?').replace(/"/g, '&quot;');
                                                 let destinoStr = (tr.destino || '?').replace(/"/g, '&quot;');
-                                                despesasChfHtml += '<div class="p-3 rounded-xl bg-white border border-slate-200 flex flex-col gap-1.5 text-xs shadow-sm"><span class="font-bold text-slate-800 truncate">🚄 ' + origemStr + ' ➔ ' + destinoStr + ' (' + cond.transporte + ')</span><div class="flex justify-between items-center border-t border-slate-100 pt-1.5"><span class="text-slate-500 font-medium">Condução</span><div class="text-right whitespace-nowrap"><span class="font-black text-blue-900 text-sm">' + val.toFixed(2) + ' CHF</span><span class="text-emerald-700 font-bold text-[11px] block">R$ ' + valBrl.toFixed(2) + '</span></div></div></div>';
+                                                despesasChfHtml += `
+                                                    <div class="p-3 rounded-xl bg-white border border-slate-200 flex flex-col gap-1.5 text-xs shadow-sm">
+                                                        <div class="flex justify-between items-center">
+                                                            <span class="font-bold text-slate-800 truncate">🚄 ${origemStr} ➔ ${destinoStr} (${cond.transporte})</span>
+                                                            <button onclick="apagarConducaoOrcamento('${item.id}', '${tr.id}', '${cond.id}')" class="text-red-500 font-bold px-2 py-1 bg-red-50 hover:bg-red-100 rounded-lg text-xs" title="Remover esta despesa fantasma">✕ Apagar</button>
+                                                        </div>
+                                                        <div class="flex justify-between items-center border-t border-slate-100 pt-1.5">
+                                                            <span class="text-slate-500 font-medium">Condução</span>
+                                                            <div class="text-right whitespace-nowrap">
+                                                                <span class="font-black text-blue-900 text-sm">${val.toFixed(2)} CHF</span>
+                                                                <span class="text-emerald-700 font-bold text-[11px] block">R$ ${valBrl.toFixed(2)}</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                `;
                                             }
                                         });
                                     }
