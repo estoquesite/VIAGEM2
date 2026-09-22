@@ -260,7 +260,6 @@
     </div>
 
     <script>
-        // CHAVE PERMANENTE FIXA: Os teus dados nunca mais se vão perder ao atualizar as versões!
         const CHAVE_APP = "mariana_viagem_europa_dados_fixos_definitiva";
         let destinoFiltro = 'todos';
         let tarefaFiltro = 'todas';
@@ -435,7 +434,6 @@
                 }
             } catch(e) {}
 
-            // Migrar formato antigo de blocos de compras para lista unificada de itens direta, se necessário
             if(dadosApp.compras && dadosApp.compras.length > 0 && dadosApp.compras[0].local !== undefined && dadosApp.compras[0].itens) {
                 let listaUnificada = [];
                 dadosApp.compras.forEach(bloco => {
@@ -921,7 +919,6 @@
             renderizarHubUtilidades();
         }
 
-        // ROTEIRO (CONCLUÍDO POR LINHA / TRECHO)
         function renderizarModoLeitura() {
             const container = document.getElementById('lista-leitura-html');
             const progressoEl = document.getElementById('progresso-viagem');
@@ -995,7 +992,6 @@
             });
         }
 
-        // RENDERIZAR EDITAR
         function renderizarBlocos() {
             const container = document.getElementById('lista-blocos');
             if(!container) return;
@@ -1270,7 +1266,6 @@
             }
         }
 
-        // RENDERIZAR HUB DE UTILIDADES COM SEGURANÇA TOTAL PARA VOUCHERS E PDFS
         function renderizarHubUtilidades() {
             const container = document.getElementById('hub-utilidades-grid');
             if(!container) return;
@@ -1591,7 +1586,6 @@
             document.getElementById('pdf-iframe-view').src = '';
         }
 
-        // ORÇAMENTO & GERAL
         function renderizarOrcamentoTab() {
             const container = document.getElementById('orcamento-conteudo');
             const resumoTotalGastoBrl = document.getElementById('resumo-total-gasto-brl');
@@ -1805,7 +1799,7 @@
             }
         }
 
-        // RENDERIZAR ABA DE COMPRAS (LISTA DIRETA UNIFICADA)
+        // RENDERIZAR ABA DE COMPRAS - LAYOUT EM DUAS LINHAS OTIMIZADO
         function renderizarComprasTab() {
             const containerResumo = document.getElementById('compras-resumo-topo');
             const containerLista = document.getElementById('compras-lista-itens');
@@ -1837,7 +1831,6 @@
                     }
                 });
 
-                // Ordenar para que os concluídos fiquem em baixo
                 dadosApp.compras.sort((a, b) => {
                     if (a.editando !== b.editando) return a.editando ? -1 : 1;
                     return (a.concluido === b.concluido) ? 0 : a.concluido ? 1 : -1;
@@ -1876,17 +1869,17 @@
 
                         if(editando) {
                             itensHtml += `
-                                <div class="p-3 rounded-xl border bg-white border-indigo-300 space-y-2 text-xs shadow-sm min-w-0">
+                                <div class="p-3 rounded-xl border bg-white border-indigo-300 space-y-2.5 text-xs shadow-sm min-w-0">
                                     <div class="flex items-center gap-1.5 min-w-0">
-                                        <input type="text" id="desc-${it.id}" value="${descSafe}" class="flex-1 min-w-0 p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs" placeholder="Nome do item...">
-                                        <select id="pub-${it.id}" class="p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs shrink-0">
+                                        <input type="text" id="desc-${it.id}" value="${descSafe}" class="flex-1 min-w-0 p-2 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs" placeholder="Nome do item...">
+                                        <select id="pub-${it.id}" class="p-2 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs shrink-0">
                                             <option value="Adulto" ${pub==='Adulto'?'selected':''}>👤 Adulto</option>
                                             <option value="Criança (Sofia)" ${pub==='Criança (Sofia)'?'selected':''}>👧 Criança</option>
                                         </select>
-                                        <button onclick="apagarItemDireto('${it.id}')" class="text-red-500 font-bold px-2 py-1.5 rounded-xl bg-red-50 text-xs shrink-0">✕</button>
+                                        <button onclick="apagarItemDireto('${it.id}')" class="text-red-500 font-bold px-2.5 py-2 rounded-xl bg-red-50 text-xs shrink-0">✕</button>
                                     </div>
-                                    <div class="flex items-center justify-between gap-1.5 flex-wrap border-t border-slate-100 pt-1.5">
-                                        <div class="flex items-center gap-1.5">
+                                    <div class="flex items-center justify-between gap-2 flex-wrap border-t border-slate-100 pt-2">
+                                        <div class="flex items-center gap-1.5 flex-wrap">
                                             <span class="text-slate-500 font-bold">Valor:</span>
                                             <input type="text" value="${val !== 0 ? val : ''}" id="val-${it.id}" class="w-20 p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-black text-right text-xs" placeholder="0">
                                             <select id="moeda-${it.id}" class="p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs">
@@ -1903,17 +1896,23 @@
                         } else {
                             let linhaRiscada = concluido ? 'line-through text-slate-400 bg-emerald-50/60 border-emerald-300' : 'text-slate-900 bg-slate-50 border-slate-200';
                             itensHtml += `
-                                <div class="p-2.5 rounded-xl border ${linhaRiscada} flex items-center justify-between gap-2 text-xs shadow-sm min-w-0">
-                                    <div class="flex items-center gap-2 min-w-0 flex-1">
+                                <div class="p-3 rounded-xl border ${linhaRiscada} space-y-2 text-xs shadow-sm min-w-0">
+                                    <!-- LINHA SUPERIOR: Checkbox + Nome do Item (Largura Completa) -->
+                                    <div class="flex items-center gap-2 min-w-0">
                                         <input type="checkbox" ${concluido ? 'checked' : ''} onchange="alternarConcluidoItemDireto('${it.id}')" class="w-4 h-4 accent-emerald-600 rounded cursor-pointer shrink-0" title="Marcar como feito">
-                                        <span class="font-bold truncate ${concluido ? 'line-through text-slate-400' : 'text-slate-900'}">${descSafe}</span>
-                                        <span class="text-sm shrink-0" title="${pub}">${emojiCarinha}</span>
+                                        <span class="font-bold flex-1 min-w-0 break-words ${concluido ? 'line-through text-slate-400' : 'text-slate-900'}">${descSafe}</span>
                                     </div>
-                                    <div class="flex items-center gap-2 shrink-0">
-                                        <span class="font-black text-indigo-900 ${concluido ? 'line-through text-slate-400' : ''}">${val > 0 ? val + ' ' + moedaSimbolo : 'Grátis'}</span>
-                                        <span class="text-emerald-700 font-bold ${concluido ? 'line-through text-slate-400' : ''}">R$ ${valBrl.toFixed(2)}</span>
-                                        <button onclick="abrirEdicaoItemDireto('${it.id}')" class="bg-slate-200 hover:bg-slate-300 text-slate-800 px-2.5 py-1 rounded-lg font-bold text-[11px]" title="Editar com Lápis">✏️</button>
-                                        <button onclick="apagarItemDireto('${it.id}')" class="text-red-500 font-bold px-1.5 py-1 rounded-lg bg-red-50 hover:bg-red-100 text-xs">✕</button>
+                                    <!-- LINHA INFERIOR: Ícone/Público, Valores e Botões -->
+                                    <div class="flex items-center justify-between gap-2 border-t border-slate-200/60 pt-2 flex-wrap">
+                                        <div class="flex items-center gap-2">
+                                            <span class="bg-white px-2 py-0.5 rounded-lg border text-[11px] font-bold shadow-sm" title="${pub}">${emojiCarinha} ${pub}</span>
+                                            <span class="font-black text-indigo-900 ${concluido ? 'line-through text-slate-400' : ''}">${val > 0 ? val + ' ' + moedaSimbolo : 'Grátis'}</span>
+                                            <span class="text-emerald-700 font-bold ${concluido ? 'line-through text-slate-400' : ''}">R$ ${valBrl.toFixed(2)}</span>
+                                        </div>
+                                        <div class="flex items-center gap-1">
+                                            <button onclick="abrirEdicaoItemDireto('${it.id}')" class="bg-slate-200 hover:bg-slate-300 text-slate-800 px-2.5 py-1 rounded-lg font-bold text-[11px]" title="Editar com Lápis">✏️</button>
+                                            <button onclick="apagarItemDireto('${it.id}')" class="text-red-500 font-bold px-2 py-1 rounded-lg bg-red-50 hover:bg-red-100 text-xs">✕</button>
+                                        </div>
                                     </div>
                                 </div>
                             `;
