@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v224.0)</title>
+    <title>Roteiro Europa - Mariana (v225.0)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Manifest Dinâmico via JavaScript -->
@@ -39,7 +39,7 @@
             <a href="https://translate.google.com/?hl=pt&sl=auto&tl=pt&op=images" target="_blank" class="bg-indigo-600 hover:bg-indigo-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm flex items-center gap-1" title="Google Tradutor & Câmara">🌐 Tradutor</a>
             <button onclick="window.location.reload()" class="bg-slate-800 hover:bg-slate-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm border border-slate-700" title="Atualizar Página">🔄</button>
             <button onclick="exportarPdfPrint()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm" title="Imprimir Tudo">🖨️</button>
-            <span class="bg-indigo-950 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v224.0</span>
+            <span class="bg-indigo-950 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v225.0</span>
         </div>
     </header>
 
@@ -174,7 +174,7 @@
                 <!-- RESUMO GERAL DAS COMPRAS NO TOPO -->
                 <div id="compras-resumo-topo" class="grid grid-cols-2 gap-2"></div>
 
-                <!-- CAIXA ÚNICA FIXA PARA DIGITAÇÃO (ADICIONAR NOVO ITEM COM NOME Mariana / Sophia) -->
+                <!-- CAIXA ÚNICA FIXA PARA DIGITAÇÃO -->
                 <div class="p-3.5 rounded-2xl border-2 border-indigo-200 bg-indigo-50/40 space-y-3 shadow-sm">
                     <span class="font-black text-indigo-950 uppercase text-[10px] block">➕ ADICIONAR NOVO ITEM</span>
                     <div class="flex items-center gap-1.5 min-w-0">
@@ -182,6 +182,8 @@
                         <select id="input-novo-pub" class="p-2 bg-white border border-slate-300 rounded-xl font-bold text-xs shrink-0">
                             <option value="Mariana">👤 Mariana</option>
                             <option value="Sophia">👧 Sophia</option>
+                            <option value="Glória">👵 Glória</option>
+                            <option value="Outros">📦 Outros</option>
                         </select>
                     </div>
                     <div class="flex items-center justify-between gap-2 flex-wrap border-t border-slate-200 pt-2">
@@ -198,7 +200,7 @@
                     </div>
                 </div>
 
-                <!-- LISTA DE ITENS JÁ ADICIONADOS (ABAIXO) -->
+                <!-- LISTA DE ITENS JÁ ADICIONADOS -->
                 <div class="space-y-2 pt-2">
                     <span class="font-black text-slate-700 uppercase text-[10px] block">📋 ITENS REGISTADOS</span>
                     <div id="compras-lista-itens" class="space-y-2 pt-1"></div>
@@ -498,7 +500,7 @@
                 document.getElementById('tela-bloqueio').classList.add('hidden');
                 document.getElementById('erro-pin').classList.add('hidden');
             } else {
-                document.getElementById('erro-pin').classList.add('hidden');
+                document.getElementById('erro-pin').classList.remove('hidden');
             }
         }
 
@@ -1372,7 +1374,7 @@
                     vouchersHubHtml = '<p class="text-xs text-slate-400 italic text-center py-2">Nenhum voucher registado.</p>';
                 } else {
                     dadosApp.vouchers.forEach(v => {
-                        let pdfAct = v.pdfData ? '<button onclick="abrirLeitorPdf(\'' + v.id + '\', \'' + (v.titulo || 'Voucher').replace(/'/g, "\\'") + '\')" class="bg-indigo-600 text-white px-2.5 py-1 rounded-xl text-xs font-bold shadow-sm">📄 PDF</button>' : '<label class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-2.5 py-1 rounded-xl text-xs font-bold cursor-pointer border shadow-sm">📎 PDF<input type="file" accept="application/pdf" onchange="anexarPdfVoucher(' + v.id + ', event)" class="hidden"></label>';
+                        let pdfAct = v.pdfData ? '<button onclick="abrirLeitorPdf(\'' + v.id + '\', \'' + (v.titulo || 'Voucher').replace(/'/g, "\\'") + '\')" class="bg-indigo-600 text-white px-2.5 py-1 rounded-xl text-xs font-bold shadow-sm">📄 PDF</button>' : '<label class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-2 py-1 rounded-xl text-xs font-bold cursor-pointer border shadow-sm">📎 PDF<input type="file" accept="application/pdf" onchange="anexarPdfVoucher(' + v.id + ', event)" class="hidden"></label>';
                         let tituloSafe = (v.titulo || '').replace(/"/g, '&quot;');
                         vouchersHubHtml += '<div class="p-2.5 rounded-2xl border border-slate-200 bg-white flex items-center justify-between gap-2 shadow-sm"><input type="text" value="' + tituloSafe + '" oninput="atualizarVoucherTitulo(' + v.id + ', this.value)" class="flex-1 bg-transparent outline-none font-bold text-slate-800 text-xs truncate" placeholder="Título...">' + pdfAct + '<div class="flex gap-1 shrink-0"><button onclick="moverItemArray(\'vouchers\', ' + v.id + ', -1)" class="bg-slate-200 px-1.5 py-1 rounded-lg font-bold">⬆️</button><button onclick="moverItemArray(\'vouchers\', ' + v.id + ', 1)" class="bg-slate-200 px-1.5 py-1 rounded-lg font-bold">⬇️</button><button onclick="apagarVoucher(' + v.id + ')" class="text-red-500 font-bold bg-red-50 hover:bg-red-100 px-2 py-1 rounded-xl text-xs">✕</button></div></div>';
                     });
@@ -1805,7 +1807,7 @@
             }
         }
 
-        // RENDERIZAR ABA DE COMPRAS COM CAIXA FIXA NO TOPO E LISTA ABAIXO
+        // RENDERIZAR ABA DE COMPRAS COM NOMES CORRETOS (Mariana e Sophia)
         function renderizarComprasTab() {
             const containerResumo = document.getElementById('compras-resumo-topo');
             const containerLista = document.getElementById('compras-lista-itens');
@@ -1871,7 +1873,7 @@
                         let descSafe = (it.descricao || '').replace(/"/g, '&quot;');
                         let editando = it.editando !== undefined ? it.editando : false;
                         let concluido = it.concluido ? true : false;
-                        let emojiCarinha = pub === 'Mariana' ? '👤' : '👧';
+                        let emojiCarinha = pub === 'Mariana' ? '👤' : (pub === 'Sophia' ? '👧' : '📦');
                         let moedaSimbolo = moeda === 'EUR' ? '€' : (moeda === 'CHF' ? 'CHF' : 'R$');
                         let itemIdStr = String(it.id);
 
@@ -1883,6 +1885,8 @@
                                         <select id="pub-${itemIdStr}" class="p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs shrink-0">
                                             <option value="Mariana" ${pub==='Mariana'?'selected':''}>👤 Mariana</option>
                                             <option value="Sophia" ${pub==='Sophia'?'selected':''}>👧 Sophia</option>
+                                            <option value="Glória" ${pub==='Glória'?'selected':''}>👵 Glória</option>
+                                            <option value="Outros" ${pub==='Outros'?'selected':''}>📦 Outros</option>
                                         </select>
                                         <button type="button" onclick="apagarItemDireto('${itemIdStr}')" class="text-red-500 font-bold px-2 py-1.5 rounded-xl bg-red-50 text-xs shrink-0">✕</button>
                                     </div>
@@ -1908,7 +1912,7 @@
                                     <div class="flex items-center gap-2 min-w-0 flex-1">
                                         <input type="checkbox" ${concluido ? 'checked' : ''} onchange="alternarConcluidoItemDireto('${itemIdStr}')" class="w-4 h-4 accent-emerald-600 rounded cursor-pointer shrink-0" title="Marcar como feito">
                                         <span class="font-bold truncate ${concluido ? 'line-through text-slate-400' : 'text-slate-900'}">${descSafe}</span>
-                                        <span class="text-sm shrink-0" title="${pub}">${emojiCarinha} ${pub}</span>
+                                        <span class="text-sm shrink-0 font-medium" title="${pub}">${emojiCarinha} ${pub}</span>
                                     </div>
                                     <div class="flex items-center gap-2 shrink-0">
                                         <span class="font-black text-indigo-900 ${concluido ? 'line-through text-slate-400' : ''}">${val > 0 ? val + ' ' + moedaSimbolo : 'Grátis'}</span>
