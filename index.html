@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v236.0)</title>
+    <title>Roteiro Europa - Mariana (v237.0)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Manifest Dinâmico via JavaScript -->
@@ -39,7 +39,7 @@
             <a href="https://translate.google.com/?hl=pt&sl=auto&tl=pt&op=images" target="_blank" class="bg-indigo-600 hover:bg-indigo-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm flex items-center gap-1" title="Google Tradutor & Câmara">🌐 Tradutor</a>
             <button onclick="window.location.reload()" class="bg-slate-800 hover:bg-slate-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm border border-slate-700" title="Atualizar Página">🔄</button>
             <button onclick="exportarPdfPrint()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm" title="Imprimir Tudo">🖨️</button>
-            <span class="bg-indigo-950 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v236.0</span>
+            <span class="bg-indigo-950 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v237.0</span>
         </div>
     </header>
 
@@ -160,7 +160,7 @@
             </div>
         </div>
 
-        <!-- TAB 5: COMPRAS (COM AGRUPAMENTO E FILTROS POR TÍTULO) -->
+        <!-- TAB 5: COMPRAS (COM FILTROS POR TÍTULO E AGRUPAMENTO) -->
         <div id="tab-compras" class="space-y-3 hidden">
             <div class="bg-white p-3.5 sm:p-5 rounded-2xl shadow-sm border border-slate-200 space-y-4 text-xs" id="compras-conteudo-main">
                 <div class="flex justify-between items-center border-b pb-3 flex-wrap gap-2">
@@ -253,7 +253,7 @@
 
     <!-- BARRA DE FERRAMENTAS FIXA -->
     <nav class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-md text-white px-3 py-2.5 shadow-2xl border-t border-slate-800 text-xs flex items-center justify-around gap-1 overflow-x-auto no-scrollbar max-w-4xl mx-auto rounded-t-2xl">
-        <span class="bg-indigo-600 px-2 py-1 rounded font-mono font-bold text-[9px] shrink-0">v236.0</span>
+        <span class="bg-indigo-600 px-2 py-1 rounded font-mono font-bold text-[9px] shrink-0">v237.0</span>
         <button onclick="abrirGeminiModal()" class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-3 py-1.5 rounded-xl font-bold transition shrink-0 flex items-center gap-1 text-xs shadow-sm">
             <span>✨</span> Gemini
         </button>
@@ -440,11 +440,11 @@
                 navigator.serviceWorker.register(URL.createObjectURL(swBlob)).catch(err => {});
             }
 
-            if (!sessionStorage.getItem('sessao_ativa_v236')) {
+            if (!sessionStorage.getItem('sessao_ativa_v237')) {
                 document.getElementById('tela-bloqueio').classList.add('hidden');
             }
 
-            const temaSalvo = localStorage.getItem('tema_v236');
+            const temaSalvo = localStorage.getItem('tema_v237');
             if (temaSalvo === 'dark') {
                 document.body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 document.body.classList.remove('bg-slate-100', 'text-slate-800');
@@ -457,7 +457,7 @@
                 if(inputChf) inputChf.value = dadosApp.cotacaoChf;
 
                 atualizarTudo();
-                let tabSalva = localStorage.getItem('tab_ativa_v236') || 'leitura';
+                let tabSalva = localStorage.getItem('tab_ativa_v237') || 'leitura';
                 mudarTab(tabSalva);
             } catch(e) {
                 console.error("Erro ao iniciar:", e);
@@ -481,10 +481,10 @@
         }
 
         function desbloquearComPin() {
-            let pinSalvo = localStorage.getItem('app_pin_v236') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v237') || '1510';
             let digitado = document.getElementById('input-pin').value;
             if(digitado === pinSalvo) {
-                sessionStorage.setItem('sessao_ativa_v236', 'true');
+                sessionStorage.setItem('sessao_ativa_v237', 'true');
                 document.getElementById('tela-bloqueio').classList.add('hidden');
                 document.getElementById('erro-pin').classList.add('hidden');
             } else {
@@ -493,17 +493,17 @@
         }
 
         async function desbloquearComBiometria() {
-            sessionStorage.setItem('sessao_ativa_v236', 'true');
+            sessionStorage.setItem('sessao_ativa_v237', 'true');
             document.getElementById('tela-bloqueio').classList.add('hidden');
         }
 
         function alterarSenhaPin() {
             let atual = prompt("Digite a senha atual (Padrão: 1510):");
-            let pinSalvo = localStorage.getItem('app_pin_v236') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v237') || '1510';
             if(atual === pinSalvo) {
                 let nova = prompt("Digite a nova senha PIN:");
                 if(nova && nova.trim() !== '') {
-                    localStorage.setItem('app_pin_v236', nova.trim());
+                    localStorage.setItem('app_pin_v237', nova.trim());
                     alert("🔑 Senha alterada com sucesso!");
                 }
             } else {
@@ -516,11 +516,11 @@
             if(body.classList.contains('dark')) {
                 body.classList.remove('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.add('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v236', 'light');
+                localStorage.setItem('tema_v237', 'light');
             } else {
                 body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.remove('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v236', 'dark');
+                localStorage.setItem('tema_v237', 'dark');
             }
         }
 
@@ -726,7 +726,7 @@
         }
 
         function mudarTab(tab) {
-            localStorage.setItem('tab_ativa_v236', tab);
+            localStorage.setItem('tab_ativa_v237', tab);
             if(tab === 'itinerario' || tab === 'leitura') {
                 destinoFiltro = 'todos';
             }
@@ -1806,11 +1806,12 @@
             }
         }
 
-        // RENDERIZAR ABA DE COMPRAS LIMPA E ESTÁVEL
+        // RENDERIZAR ABA DE COMPRAS LIMPA (SEM ERROS DE AGRUPAMENTO)
         function renderizarComprasTab() {
             const containerResumo = document.getElementById('compras-resumo-topo');
+            const containerFiltros = document.getElementById('compras-filtros-titulo');
             const containerLista = document.getElementById('compras-lista-itens');
-            if(!containerResumo || !containerLista) return;
+            if(!containerResumo || !containerLista || !containerFiltros) return;
 
             try {
                 let cotEur = parseFloat(dadosApp.cotacaoEur) || 6.20;
@@ -1820,7 +1821,11 @@
 
                 if(!Array.isArray(dadosApp.compras)) dadosApp.compras = [];
 
+                let titulosUnicos = [];
                 dadosApp.compras.forEach(it => {
+                    let t = (it.descricao || 'Item').trim();
+                    if(t && !titulosUnicos.includes(t)) titulosUnicos.push(t);
+
                     let val = limparNumero(it.valor);
                     let moeda = it.moeda || 'EUR';
                     let pub = it.publico || 'Mariana';
@@ -1831,6 +1836,15 @@
                         else if(moeda === 'BRL') totals[pub].brl += val;
                     }
                 });
+
+                // Renderizar botões de filtro por título
+                let filtrosHtml = `<button type="button" onclick="filtrarComprasTitulo('todos')" class="px-3 py-1.5 ${comprasFiltroTitulo === 'todos' ? 'bg-indigo-600 text-white font-bold shadow-sm' : 'bg-white border border-slate-200 text-slate-700 font-semibold'} rounded-xl text-xs shrink-0 transition">🔍 Todos</button>`;
+                titulosUnicos.forEach(t => {
+                    let ativo = comprasFiltroTitulo.toLowerCase() === t.toLowerCase();
+                    let classeFiltro = ativo ? 'bg-indigo-600 text-white font-bold shadow-sm' : 'bg-white border border-slate-200 text-slate-700 font-semibold';
+                    filtrosHtml += `<button type="button" onclick="filtrarComprasTitulo('${t.replace(/'/g, "\\'")}')" class="px-3 py-1.5 rounded-xl text-xs shrink-0 transition ${classeFiltro}">${t}</button>`;
+                });
+                containerFiltros.innerHTML = filtrosHtml;
 
                 dadosApp.compras.sort((a, b) => {
                     if (a.editando !== b.editando) return a.editando ? -1 : 1;
@@ -1865,11 +1879,16 @@
                     </div>
                 `;
 
+                let itensFiltrados = dadosApp.compras;
+                if(comprasFiltroTitulo !== 'todos') {
+                    itensFiltrados = dadosApp.compras.filter(it => (it.descricao || '').trim().toLowerCase() === comprasFiltroTitulo.trim().toLowerCase());
+                }
+
                 let itensHtml = '';
-                if(dadosApp.compras.length === 0) {
-                    itensHtml = '<p class="text-xs text-slate-400 italic text-center py-4">Nenhum item registado na lista.</p>';
+                if(itensFiltrados.length === 0) {
+                    itensHtml = '<p class="text-xs text-slate-400 italic text-center py-4">Nenhum item registado com este filtro.</p>';
                 } else {
-                    dadosApp.compras.forEach(it => {
+                    itensFiltrados.forEach(it => {
                         let val = limparNumero(it.valor);
                         let moeda = it.moeda || 'EUR';
                         let pub = it.publico || 'Mariana';
