@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v211.0)</title>
+    <title>Roteiro Europa - Mariana (v212.0)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Manifest Dinâmico via JavaScript -->
@@ -39,7 +39,7 @@
             <a href="https://translate.google.com/?hl=pt&sl=auto&tl=pt&op=images" target="_blank" class="bg-indigo-600 hover:bg-indigo-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm flex items-center gap-1" title="Google Tradutor & Câmara">🌐 Tradutor</a>
             <button onclick="window.location.reload()" class="bg-slate-800 hover:bg-slate-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm border border-slate-700" title="Atualizar Página">🔄</button>
             <button onclick="exportarPdfPrint()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm" title="Imprimir Tudo">🖨️</button>
-            <span class="bg-indigo-950 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v211.0</span>
+            <span class="bg-indigo-950 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v212.0</span>
         </div>
     </header>
 
@@ -221,7 +221,7 @@
 
     <!-- BARRA DE FERRAMENTAS FIXA -->
     <nav class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-md text-white px-3 py-2.5 shadow-2xl border-t border-slate-800 text-xs flex items-center justify-around gap-1 overflow-x-auto no-scrollbar max-w-4xl mx-auto rounded-t-2xl">
-        <span class="bg-indigo-600 px-2 py-1 rounded font-mono font-bold text-[9px] shrink-0">v211.0</span>
+        <span class="bg-indigo-600 px-2 py-1 rounded font-mono font-bold text-[9px] shrink-0">v212.0</span>
         <button onclick="abrirGeminiModal()" class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-3 py-1.5 rounded-xl font-bold transition shrink-0 flex items-center gap-1 text-xs shadow-sm">
             <span>✨</span> Gemini
         </button>
@@ -400,11 +400,11 @@
                 navigator.serviceWorker.register(URL.createObjectURL(swBlob)).catch(err => {});
             }
 
-            if (!sessionStorage.getItem('sessao_ativa_v211')) {
+            if (!sessionStorage.getItem('sessao_ativa_v212')) {
                 document.getElementById('tela-bloqueio').classList.add('hidden');
             }
 
-            const temaSalvo = localStorage.getItem('tema_v211');
+            const temaSalvo = localStorage.getItem('tema_v212');
             if (temaSalvo === 'dark') {
                 document.body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 document.body.classList.remove('bg-slate-100', 'text-slate-800');
@@ -442,7 +442,7 @@
                 if(inputChf) inputChf.value = dadosApp.cotacaoChf;
 
                 atualizarTudo();
-                let tabSalva = localStorage.getItem('tab_ativa_v211') || 'leitura';
+                let tabSalva = localStorage.getItem('tab_ativa_v212') || 'leitura';
                 mudarTab(tabSalva);
             } catch(e) {
                 console.error("Erro ao iniciar:", e);
@@ -466,10 +466,10 @@
         }
 
         function desbloquearComPin() {
-            let pinSalvo = localStorage.getItem('app_pin_v211') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v212') || '1510';
             let digitado = document.getElementById('input-pin').value;
             if(digitado === pinSalvo) {
-                sessionStorage.setItem('sessao_ativa_v211', 'true');
+                sessionStorage.setItem('sessao_ativa_v212', 'true');
                 document.getElementById('tela-bloqueio').classList.add('hidden');
                 document.getElementById('erro-pin').classList.add('hidden');
             } else {
@@ -478,17 +478,17 @@
         }
 
         async function desbloquearComBiometria() {
-            sessionStorage.setItem('sessao_ativa_v211', 'true');
+            sessionStorage.setItem('sessao_ativa_v212', 'true');
             document.getElementById('tela-bloqueio').classList.add('hidden');
         }
 
         function alterarSenhaPin() {
             let atual = prompt("Digite a senha atual (Padrão: 1510):");
-            let pinSalvo = localStorage.getItem('app_pin_v211') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v212') || '1510';
             if(atual === pinSalvo) {
                 let nova = prompt("Digite a nova senha PIN:");
                 if(nova && nova.trim() !== '') {
-                    localStorage.setItem('app_pin_v211', nova.trim());
+                    localStorage.setItem('app_pin_v212', nova.trim());
                     alert("🔑 Senha alterada com sucesso!");
                 }
             } else {
@@ -501,11 +501,11 @@
             if(body.classList.contains('dark')) {
                 body.classList.remove('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.add('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v211', 'light');
+                localStorage.setItem('tema_v212', 'light');
             } else {
                 body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.remove('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v211', 'dark');
+                localStorage.setItem('tema_v212', 'dark');
             }
         }
 
@@ -711,7 +711,7 @@
         }
 
         function mudarTab(tab) {
-            localStorage.setItem('tab_ativa_v211', tab);
+            localStorage.setItem('tab_ativa_v212', tab);
             if(tab === 'itinerario' || tab === 'leitura') {
                 destinoFiltro = 'todos';
             }
@@ -1785,7 +1785,7 @@
             }
         }
 
-        // RENDERIZAR ABA DE COMPRAS COM MODO EDITÁVEL / FECHADO POR OK E LÁPIS
+        // RENDERIZAR ABA DE COMPRAS COM LINHAS COMPACTAS (APENAS CARINHAS E CAIXINHA DE FEITO)
         function renderizarComprasTab() {
             const containerResumo = document.getElementById('compras-resumo-topo');
             const containerLista = document.getElementById('compras-lista-blocos');
@@ -1817,7 +1817,7 @@
                                     }
                                 }
                             });
-                            compra.itens.sort((a, b) => (a.editando === b.editando) ? 0 : a.editando ? -1 : 1);
+                            compra.itens.sort((a, b) => (a.concluido === b.concluido) ? 0 : a.concluido ? 1 : -1);
                         }
                     });
                 }
@@ -1854,13 +1854,14 @@
                                 let valBrl = moeda === 'EUR' ? val * cotEur : (moeda === 'CHF' ? val * cotChf : val);
                                 let descSafe = (it.descricao || '').replace(/"/g, '&quot;');
                                 let editando = it.editando !== undefined ? it.editando : true;
+                                let concluido = it.concluido ? true : false;
 
                                 if(editando) {
-                                    // MODO ABERTO / EDITÁVEL
+                                    // MODO EDIÇÃO
                                     itensHtml += `
                                         <div class="p-3 rounded-xl border bg-white border-indigo-300 space-y-2 text-xs shadow-sm min-w-0">
                                             <div class="flex items-center gap-1.5 min-w-0">
-                                                <input type="text" id="desc-${it.id}" value="${descSafe}" class="flex-1 min-w-0 p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs" placeholder="O que vai comprar...">
+                                                <input type="text" id="desc-${it.id}" value="${descSafe}" class="flex-1 min-w-0 p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs" placeholder="Nome do item...">
                                                 <select id="pub-${it.id}" class="p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs shrink-0">
                                                     <option value="Adulto" ${pub==='Adulto'?'selected':''}>👤 Adulto</option>
                                                     <option value="Criança (Sofia)" ${pub==='Criança (Sofia)'?'selected':''}>👧 Criança</option>
@@ -1883,20 +1884,23 @@
                                         </div>
                                     `;
                                 } else {
-                                    // MODO FECHADO / TRANCADO (LINHA RESUMO COM LÁPIS)
-                                    let badgePub = pub === 'Adulto' ? '👤 Adulto' : '👧 Criança';
+                                    // MODO LINHA COMPACTA (COM CARINHAS, CAIXINHA DE FEITO E LÁPIS)
+                                    let emojiCarinha = pub === 'Adulto' ? '👤' : '👧';
                                     let moedaSimbolo = moeda === 'EUR' ? '€' : (moeda === 'CHF' ? 'CHF' : 'R$');
+                                    let linhaRiscada = concluido ? 'line-through text-slate-400 bg-emerald-50/60 border-emerald-300' : 'text-slate-900 bg-slate-50 border-slate-200';
+
                                     itensHtml += `
-                                        <div class="p-2.5 rounded-xl border bg-slate-50 border-slate-200 flex items-center justify-between gap-2 text-xs shadow-sm min-w-0">
+                                        <div class="p-2 rounded-xl border ${linhaRiscada} flex items-center justify-between gap-2 text-xs shadow-sm min-w-0">
                                             <div class="flex items-center gap-2 min-w-0 flex-1">
-                                                <span class="font-bold text-slate-900 truncate">${descSafe}</span>
-                                                <span class="bg-purple-100 text-purple-900 px-2 py-0.5 rounded-lg font-bold text-[10px] shrink-0">${badgePub}</span>
+                                                <input type="checkbox" ${concluido ? 'checked' : ''} onchange="alternarConcluidoItemCompra('${compra.id}', '${it.id}')" class="w-4 h-4 accent-emerald-600 rounded cursor-pointer shrink-0" title="Marcar como feito">
+                                                <span class="font-bold truncate ${concluido ? 'line-through text-slate-400' : 'text-slate-900'}">${descSafe}</span>
+                                                <span class="text-sm shrink-0" title="${pub}">${emojiCarinha}</span>
                                             </div>
                                             <div class="flex items-center gap-2 shrink-0">
-                                                <span class="font-black text-indigo-900">${val > 0 ? val + ' ' + moedaSimbolo : 'Grátis'}</span>
-                                                <span class="text-emerald-700 font-bold">R$ ${valBrl.toFixed(2)}</span>
-                                                <button onclick="abrirEdicaoItemCompra('${compra.id}', '${it.id}')" class="bg-slate-200 hover:bg-slate-300 text-slate-800 px-2.5 py-1 rounded-lg font-bold text-[11px]" title="Editar com Lápis">✏️</button>
-                                                <button onclick="apagarItemCompra('${compra.id}', '${it.id}')" class="text-red-500 font-bold px-1.5 py-1 rounded-lg bg-red-50 hover:bg-red-100 text-xs">✕</button>
+                                                <span class="font-black text-indigo-900 ${concluido ? 'line-through text-slate-400' : ''}">${val > 0 ? val + ' ' + moedaSimbolo : 'Grátis'}</span>
+                                                <span class="text-emerald-700 font-bold ${concluido ? 'line-through text-slate-400' : ''}">R$ ${valBrl.toFixed(2)}</span>
+                                                <button onclick="abrirEdicaoItemCompra('${compra.id}', '${it.id}')" class="bg-slate-200 hover:bg-slate-300 text-slate-800 px-2 py-0.5 rounded-lg font-bold text-[11px]" title="Editar com Lápis">✏️</button>
+                                                <button onclick="apagarItemCompra('${compra.id}', '${it.id}')" class="text-red-500 font-bold px-1 py-0.5 rounded-lg bg-red-50 hover:bg-red-100 text-xs">✕</button>
                                             </div>
                                         </div>
                                     `;
@@ -1952,7 +1956,7 @@
                     it.publico = pub;
                     it.valor = val !== "" ? limparNumero(val) : 0;
                     it.moeda = moeda;
-                    it.editando = false; // Tranca/fecha o bloco em formato resumo
+                    it.editando = false; // Tranca/fecha o bloco em formato de linha compacta
 
                     salvarStorage();
                     atualizarTudo();
@@ -1973,6 +1977,19 @@
             }
         }
 
+        function alternarConcluidoItemCompra(compraId, itemId) {
+            registarEstadoAnterior();
+            let c = dadosApp.compras.find(item => String(item.id) === String(compraId));
+            if(c && c.itens) {
+                let it = c.itens.find(i => String(i.id) === String(itemId));
+                if(it) {
+                    it.concluido = !it.concluido;
+                    salvarStorage();
+                    atualizarTudo();
+                }
+            }
+        }
+
         function adicionarBlocoCompra() {
             registarEstadoAnterior();
             if(!dadosApp.compras) dadosApp.compras = [];
@@ -1980,7 +1997,7 @@
                 id: Date.now(),
                 local: "Novo Bloco de Compra",
                 itens: [
-                    { id: Date.now() + 1, descricao: "Item Exemplo", publico: "Adulto", valor: 0, moeda: "EUR", editando: true }
+                    { id: Date.now() + 1, descricao: "Item Exemplo", publico: "Adulto", valor: 0, moeda: "EUR", editando: true, concluido: false }
                 ]
             });
             salvarStorage();
@@ -2028,7 +2045,8 @@
                     publico: publico,
                     valor: 0,
                     moeda: "EUR",
-                    editando: true // Novo item já nasce aberto para digitação
+                    editando: true,
+                    concluido: false
                 });
                 salvarStorage();
                 atualizarTudo();
