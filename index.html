@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v238.0)</title>
+    <title>Roteiro Europa - Mariana (v240.0)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Manifest Dinâmico via JavaScript -->
@@ -39,7 +39,7 @@
             <a href="https://translate.google.com/?hl=pt&sl=auto&tl=pt&op=images" target="_blank" class="bg-indigo-600 hover:bg-indigo-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm flex items-center gap-1" title="Google Tradutor & Câmara">🌐 Tradutor</a>
             <button onclick="window.location.reload()" class="bg-slate-800 hover:bg-slate-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm border border-slate-700" title="Atualizar Página">🔄</button>
             <button onclick="exportarPdfPrint()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm" title="Imprimir Tudo">🖨️</button>
-            <span class="bg-indigo-950 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v238.0</span>
+            <span class="bg-indigo-950 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v240.0</span>
         </div>
     </header>
 
@@ -160,7 +160,7 @@
             </div>
         </div>
 
-        <!-- TAB 5: COMPRAS (COM CARDS DE FILTRO COLORIDOS POR TÍTULO) -->
+        <!-- TAB 5: COMPRAS (COM FILTROS COLORIDOS POR TÍTULO) -->
         <div id="tab-compras" class="space-y-3 hidden">
             <div class="bg-white p-3.5 sm:p-5 rounded-2xl shadow-sm border border-slate-200 space-y-4 text-xs" id="compras-conteudo-main">
                 <div class="flex justify-between items-center border-b pb-3 flex-wrap gap-2">
@@ -253,7 +253,7 @@
 
     <!-- BARRA DE FERRAMENTAS FIXA -->
     <nav class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-md text-white px-3 py-2.5 shadow-2xl border-t border-slate-800 text-xs flex items-center justify-around gap-1 overflow-x-auto no-scrollbar max-w-4xl mx-auto rounded-t-2xl">
-        <span class="bg-indigo-600 px-2 py-1 rounded font-mono font-bold text-[9px] shrink-0">v237.0</span>
+        <span class="bg-indigo-600 px-2 py-1 rounded font-mono font-bold text-[9px] shrink-0">v240.0</span>
         <button onclick="abrirGeminiModal()" class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-3 py-1.5 rounded-xl font-bold transition shrink-0 flex items-center gap-1 text-xs shadow-sm">
             <span>✨</span> Gemini
         </button>
@@ -459,11 +459,11 @@
                 navigator.serviceWorker.register(URL.createObjectURL(swBlob)).catch(err => {});
             }
 
-            if (!sessionStorage.getItem('sessao_ativa_v237')) {
+            if (!sessionStorage.getItem('sessao_ativa_v240')) {
                 document.getElementById('tela-bloqueio').classList.add('hidden');
             }
 
-            const temaSalvo = localStorage.getItem('tema_v237');
+            const temaSalvo = localStorage.getItem('tema_v240');
             if (temaSalvo === 'dark') {
                 document.body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 document.body.classList.remove('bg-slate-100', 'text-slate-800');
@@ -476,7 +476,7 @@
                 if(inputChf) inputChf.value = dadosApp.cotacaoChf;
 
                 atualizarTudo();
-                let tabSalva = localStorage.getItem('tab_ativa_v237') || 'leitura';
+                let tabSalva = localStorage.getItem('tab_ativa_v240') || 'leitura';
                 mudarTab(tabSalva);
             } catch(e) {
                 console.error("Erro ao iniciar:", e);
@@ -500,10 +500,10 @@
         }
 
         function desbloquearComPin() {
-            let pinSalvo = localStorage.getItem('app_pin_v237') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v240') || '1510';
             let digitado = document.getElementById('input-pin').value;
             if(digitado === pinSalvo) {
-                sessionStorage.setItem('sessao_ativa_v237', 'true');
+                sessionStorage.setItem('sessao_ativa_v240', 'true');
                 document.getElementById('tela-bloqueio').classList.add('hidden');
                 document.getElementById('erro-pin').classList.add('hidden');
             } else {
@@ -512,17 +512,17 @@
         }
 
         async function desbloquearComBiometria() {
-            sessionStorage.setItem('sessao_ativa_v237', 'true');
+            sessionStorage.setItem('sessao_ativa_v240', 'true');
             document.getElementById('tela-bloqueio').classList.add('hidden');
         }
 
         function alterarSenhaPin() {
             let atual = prompt("Digite a senha atual (Padrão: 1510):");
-            let pinSalvo = localStorage.getItem('app_pin_v237') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v240') || '1510';
             if(atual === pinSalvo) {
                 let nova = prompt("Digite a nova senha PIN:");
                 if(nova && nova.trim() !== '') {
-                    localStorage.setItem('app_pin_v237', nova.trim());
+                    localStorage.setItem('app_pin_v240', nova.trim());
                     alert("🔑 Senha alterada com sucesso!");
                 }
             } else {
@@ -535,11 +535,11 @@
             if(body.classList.contains('dark')) {
                 body.classList.remove('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.add('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v237', 'light');
+                localStorage.setItem('tema_v240', 'light');
             } else {
                 body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.remove('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v237', 'dark');
+                localStorage.setItem('tema_v240', 'dark');
             }
         }
 
@@ -745,7 +745,7 @@
         }
 
         function mudarTab(tab) {
-            localStorage.setItem('tab_ativa_v237', tab);
+            localStorage.setItem('tab_ativa_v240', tab);
             if(tab === 'itinerario' || tab === 'leitura') {
                 destinoFiltro = 'todos';
             }
@@ -1825,7 +1825,7 @@
             }
         }
 
-        // RENDERIZAR ABA DE COMPRAS COM FILTROS DE TÍTULO COLORIDOS
+        // RENDERIZAR ABA DE COMPRAS ESTÁVEL
         function renderizarComprasTab() {
             const containerResumo = document.getElementById('compras-resumo-topo');
             const containerFiltros = document.getElementById('compras-filtros-titulo');
@@ -1856,12 +1856,12 @@
                     }
                 });
 
-                // Renderizar cartões de filtro com cores por título
+                // Renderizar botões de filtro com cores por título
                 let filtrosHtml = `<button type="button" onclick="filtrarComprasTitulo('todos')" class="px-3 py-1.5 ${comprasFiltroTitulo === 'todos' ? 'bg-indigo-600 text-white font-bold shadow-sm' : 'bg-white border border-slate-200 text-slate-700 font-semibold'} rounded-xl text-xs shrink-0 transition">🔍 Todos</button>`;
                 titulosUnicos.forEach(t => {
                     let ativo = comprasFiltroTitulo.toLowerCase() === t.toLowerCase();
                     let corTitulo = obterCorPorTituloCompra(t);
-                    let estiloBtn = ativo ? `background-color: ${corTitulo}; color: #ffffff; font-weight: bold; ring: 2px solid #0f172a;` : `background-color: #ffffff; color: #334155; border: 1px solid #cbd5e1; font-semibold`;
+                    let estiloBtn = ativo ? `background-color: ${corTitulo}; color: #ffffff; font-weight: bold;` : `background-color: #ffffff; color: #334155; border: 1px solid #cbd5e1;`;
                     let classeAtivo = ativo ? 'shadow-md ring-2 ring-slate-900 scale-105' : 'hover:bg-slate-50';
                     filtrosHtml += `<button type="button" onclick="filtrarComprasTitulo('${t.replace(/'/g, "\\'")}')" style="${estiloBtn}" class="px-3 py-1.5 rounded-xl text-xs shrink-0 transition ${classeAtivo}">${t}</button>`;
                 });
@@ -1962,21 +1962,23 @@
                             let linhaRiscada = concluido ? 'line-through text-slate-400 bg-emerald-50/60 border-emerald-300' : 'text-slate-900 bg-slate-50 border-slate-200';
                             itensHtml += `
                                 <div class="p-3 rounded-xl border ${linhaRiscada} space-y-2 text-xs shadow-sm min-w-0" style="border-left: 6px solid ${corDoItem};">
-                                    <div class="flex items-center gap-2 min-w-0">
-                                        <input type="checkbox" ${concluido ? 'checked' : ''} onchange="alternarConcluidoItemDireto('${itemIdStr}')" class="w-4 h-4 accent-emerald-600 rounded cursor-pointer shrink-0" title="Marcar como feito">
-                                        <span class="font-bold flex-1 min-w-0 break-words ${concluido ? 'line-through text-slate-400' : 'text-slate-900'}">${descSafe}</span>
-                                    </div>
-                                    <div class="flex items-center justify-between gap-2 border-t border-slate-200/60 pt-2 flex-wrap">
-                                        <div class="flex items-center gap-2 flex-wrap">
-                                            <span class="bg-white px-2 py-0.5 rounded-lg border text-[11px] font-bold shadow-sm">${emojiCarinha} ${pub}</span>
-                                            ${linkBtn}
-                                            <span class="font-black text-indigo-900 ${concluido ? 'line-through text-slate-400' : ''}">${val > 0 ? val + ' ' + moedaSimbolo : 'Grátis'}</span>
-                                            <span class="text-emerald-700 font-bold ${concluido ? 'line-through text-slate-400' : ''}">R$ ${valBrl.toFixed(2)}</span>
+                                    <!-- LINHA SUPERIOR: Checkbox + Nome do Item + Lápis e X (para maior conforto) -->
+                                    <div class="flex items-center gap-2 min-w-0 justify-between">
+                                        <div class="flex items-center gap-2 min-w-0 flex-1">
+                                            <input type="checkbox" ${concluido ? 'checked' : ''} onchange="alternarConcluidoItemDireto('${itemIdStr}')" class="w-4 h-4 accent-emerald-600 rounded cursor-pointer shrink-0" title="Marcar como feito">
+                                            <span class="font-bold flex-1 min-w-0 break-words ${concluido ? 'line-through text-slate-400' : 'text-slate-900'}">${descSafe}</span>
                                         </div>
                                         <div class="flex items-center gap-1 shrink-0">
                                             <button type="button" onclick="abrirEdicaoItemDireto('${itemIdStr}')" class="bg-slate-200 hover:bg-slate-300 text-slate-800 px-2.5 py-1 rounded-lg font-bold text-[11px]" title="Editar com Lápis">✏️</button>
                                             <button type="button" onclick="apagarItemDireto('${itemIdStr}')" class="text-red-500 font-bold px-1.5 py-1 rounded-lg bg-red-50 hover:bg-red-100 text-xs">✕</button>
                                         </div>
+                                    </div>
+                                    <!-- LINHA INFERIOR: Participante, Link e Valores -->
+                                    <div class="flex items-center gap-2 border-t border-slate-200/60 pt-2 flex-wrap">
+                                        <span class="bg-white px-2 py-0.5 rounded-lg border text-[11px] font-bold shadow-sm">${emojiCarinha} ${pub}</span>
+                                        ${linkBtn}
+                                        <span class="font-black text-indigo-900 ${concluido ? 'line-through text-slate-400' : ''}">${val > 0 ? val + ' ' + moedaSimbolo : 'Grátis'}</span>
+                                        <span class="text-emerald-700 font-bold ${concluido ? 'line-through text-slate-400' : ''}">R$ ${valBrl.toFixed(2)}</span>
                                     </div>
                                 </div>
                             `;
