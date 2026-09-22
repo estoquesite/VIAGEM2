@@ -65,10 +65,7 @@
                 <div id="progresso-viagem" class="bg-indigo-600 px-3 py-1.5 rounded-xl text-xs font-black shadow-inner">0 / 0 Aprovados</div>
             </div>
 
-            <!-- Filtros por Destino -->
             <div id="filtros-leitura-container" class="bg-slate-200 p-2 rounded-xl overflow-x-auto flex gap-1.5 text-xs items-center no-scrollbar shadow-inner"></div>
-
-            <!-- GRELHA DE ROTEIRO -->
             <div id="lista-leitura-html" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
         </div>
 
@@ -98,7 +95,6 @@
                     <button onclick="desfazerUltimaAcao()" class="bg-amber-600 hover:bg-amber-700 text-white px-3 py-1.5 rounded-xl text-xs font-bold transition shadow-sm">↩️ Voltar</button>
                 </div>
 
-                <!-- Filtros Hub -->
                 <div class="flex gap-1.5 overflow-x-auto no-scrollbar pt-1">
                     <button onclick="filtrarUtilidade('todos')" id="filt-util-todos" class="px-3 py-1.5 rounded-xl bg-white text-indigo-950 font-bold text-xs shrink-0 transition shadow-sm">🔍 Todos</button>
                     <button onclick="filtrarUtilidade('voos')" id="filt-util-voos" class="px-3 py-1.5 rounded-xl bg-indigo-800 text-white font-bold text-xs shrink-0 transition">✈️ Voos</button>
@@ -124,14 +120,12 @@
                     <button onclick="imprimirSeccaoCustom('Orçamento & Câmbio', document.getElementById('tab-orcamento').innerHTML)" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-xl font-bold text-xs transition shadow-sm">🖨️ PDF Orçamento</button>
                 </div>
 
-                <!-- CARD DE DESTAQUE: TOTAL GASTO GERAL EM REAIS NO TOPO -->
                 <div class="bg-emerald-50/80 p-4 rounded-2xl border-2 border-emerald-300 shadow-md text-center space-y-1">
                     <span class="font-black text-xs text-emerald-900 uppercase tracking-wide block">📊 Total Gasto Geral em Reais (R$)</span>
                     <div id="resumo-total-gasto-brl" class="text-2xl font-black text-emerald-700">R$ 0.00</div>
                     <p class="text-[10px] text-slate-600">Soma acumulada de todas as despesas, trechos e compras (Euros + Francos + Reais).</p>
                 </div>
 
-                <!-- COTAÇÃO GERAL -->
                 <div class="bg-slate-50 p-3 rounded-2xl border border-slate-200 space-y-1.5">
                     <span class="font-bold text-xs text-slate-700 block">💱 Cotação Atual em Reais (R$)</span>
                     <div class="grid grid-cols-2 gap-2">
@@ -148,14 +142,12 @@
                     </div>
                 </div>
 
-                <!-- SUB-MENU DE ORÇAMENTO -->
                 <div class="flex gap-1.5 bg-slate-100 p-1.5 rounded-2xl text-xs font-bold border border-slate-200 shadow-inner overflow-x-auto no-scrollbar">
                     <button onclick="mudarOrcamentoSubTab('eur')" id="subtab-eur" class="flex-1 py-2.5 px-3 rounded-xl bg-amber-600 text-white shadow-sm transition text-center font-bold shrink-0">💶 Euros (€)</button>
                     <button onclick="mudarOrcamentoSubTab('chf')" id="subtab-chf" class="flex-1 py-2.5 px-3 rounded-xl bg-white text-slate-700 border border-slate-200 shadow-sm transition text-center font-bold hover:bg-slate-50 shrink-0">🇨🇭 Francos (CHF)</button>
                     <button onclick="mudarOrcamentoSubTab('conversor')" id="subtab-conversor" class="flex-1 py-2.5 px-3 rounded-xl bg-white text-slate-700 border border-slate-200 shadow-sm transition text-center font-bold hover:bg-slate-50 shrink-0">🧮 Conversor</button>
                 </div>
 
-                <!-- CONTEÚDO DAS SUB-ABAS DE ORÇAMENTO -->
                 <div id="orcamento-conteudo" class="space-y-3 pt-1"></div>
             </div>
         </div>
@@ -174,10 +166,7 @@
                     </div>
                 </div>
 
-                <!-- RESUMO GERAL DAS COMPRAS NO TOPO (DINÂMICO) -->
                 <div id="compras-resumo-topo" class="grid grid-cols-2 gap-2"></div>
-
-                <!-- LISTA DIRETA DE ITENS DE COMPRAS -->
                 <div id="compras-lista-itens" class="space-y-2.5 pt-1"></div>
             </div>
         </div>
@@ -417,7 +406,6 @@
                 }
             } catch(e) {}
 
-            // Migrar nomes antigos de público se necessário
             if(dadosApp.compras && dadosApp.compras.length > 0) {
                 dadosApp.compras.forEach(it => {
                     if(it.publico === "Adulto") it.publico = "Mariana";
@@ -739,7 +727,7 @@
             // Mantém estruturado
         }
 
-        // RENDERIZAR ABA DE COMPRAS COM PARTICIPANTES DINÂMICOS (MARIANA, GLORIA, ETC.)
+        // RENDERIZAR ABA DE COMPRAS COM PARTICIPANTES DINÂMICOS E CAIXINHA NO MODO EDIÇÃO
         function renderizarComprasTab() {
             const containerResumo = document.getElementById('compras-resumo-topo');
             const containerLista = document.getElementById('compras-lista-itens');
@@ -754,7 +742,6 @@
                 }
 
                 let totaisPart = {};
-                dadosApp.participantesCadastroredos = dadosApp.participantesCadastrados || ["Mariana", "Gloria"];
                 dadosApp.participantesCadastrados.forEach(p => {
                     totaisPart[p] = { eur: 0, chf: 0, brl: 0 };
                 });
@@ -783,7 +770,6 @@
                     return (a.concluido === b.concluido) ? 0 : a.concluido ? 1 : -1;
                 });
 
-                // Gerar cards de resumo dinâmicos no topo
                 let resumoHtml = '';
                 dadosApp.participantesCadastrados.forEach(p => {
                     let t = totaisPart[p] || { eur: 0, chf: 0, brl: 0 };
@@ -823,6 +809,7 @@
                             itensHtml += `
                                 <div class="p-3 rounded-xl border bg-white border-indigo-300 space-y-2.5 text-xs shadow-sm min-w-0">
                                     <div class="flex items-center gap-1.5 min-w-0">
+                                        <input type="checkbox" ${concluido ? 'checked' : ''} onchange="alternarConcluidoItemDireto('${it.id}')" class="w-4 h-4 accent-emerald-600 rounded cursor-pointer shrink-0" title="Marcar como feito">
                                         <input type="text" id="desc-${it.id}" value="${descSafe}" class="flex-1 min-w-0 p-2 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs" placeholder="Nome do item...">
                                         <select id="pub-${it.id}" onchange="verificarNovoParticipante('${it.id}', this.value)" class="p-2 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs shrink-0">
                                             ${opcoesParticipantes}
