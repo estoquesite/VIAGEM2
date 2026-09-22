@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v244.0)</title>
+    <title>Roteiro Europa - Mariana (v245.0)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Manifest Dinâmico via JavaScript -->
@@ -39,7 +39,7 @@
             <a href="https://translate.google.com/?hl=pt&sl=auto&tl=pt&op=images" target="_blank" class="bg-indigo-600 hover:bg-indigo-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm flex items-center gap-1" title="Google Tradutor & Câmara">🌐 Tradutor</a>
             <button onclick="window.location.reload()" class="bg-slate-800 hover:bg-slate-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm border border-slate-700" title="Atualizar Página">🔄</button>
             <button onclick="exportarPdfPrint()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm" title="Imprimir Tudo">🖨️</button>
-            <span class="bg-indigo-950 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v244.0</span>
+            <span class="bg-indigo-950 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v245.0</span>
         </div>
     </header>
 
@@ -260,7 +260,7 @@
 
     <!-- BARRA DE FERRAMENTAS FIXA -->
     <nav class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-md text-white px-3 py-2.5 shadow-2xl border-t border-slate-800 text-xs flex items-center justify-around gap-1 overflow-x-auto no-scrollbar max-w-4xl mx-auto rounded-t-2xl">
-        <span class="bg-indigo-600 px-2 py-1 rounded font-mono font-bold text-[9px] shrink-0">v244.0</span>
+        <span class="bg-indigo-600 px-2 py-1 rounded font-mono font-bold text-[9px] shrink-0">v245.0</span>
         <button onclick="abrirGeminiModal()" class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-3 py-1.5 rounded-xl font-bold transition shrink-0 flex items-center gap-1 text-xs shadow-sm">
             <span>✨</span> Gemini
         </button>
@@ -392,6 +392,31 @@
             return isNaN(num) ? 0 : num;
         }
 
+        // Paleta de cores vibrantes e neon alargada para evitar repetições
+        function obterCorPorTituloCompra(titulo) {
+            if (!titulo) return '#ff007f';
+            let t = titulo.trim().toLowerCase().replace(/[^a-z0-9]/g, '');
+            let paletaNeon = [
+                "#ff007f", // Rosa Neon Shock
+                "#00ff66", // Verde Neon Brilhante
+                "#00ffff", // Cyan Neon
+                "#ccff00", // Amarelo Limão Neon
+                "#ff3300", // Laranja/Vermelho Neon
+                "#a855f7", // Roxo Elétrico
+                "#3b82f6", // Azul Vivo
+                "#f59e0b", // Amarelo Ouro
+                "#ec4899", // Rosa Pink
+                "#10b981", // Verde Esmeralda
+                "#6366f1", // Índigo
+                "#06b6d4"  // Azul Turquesa
+            ];
+            let hash = 0;
+            for (let i = 0; i < t.length; i++) {
+                hash = t.charCodeAt(i) + ((hash << 5) - hash);
+            }
+            return paletaNeon[Math.abs(hash) % paletaNeon.length];
+        }
+
         window.addEventListener('DOMContentLoaded', () => {
             let salvo = localStorage.getItem(CHAVE_APP);
             if (salvo) {
@@ -450,11 +475,11 @@
                 navigator.serviceWorker.register(URL.createObjectURL(swBlob)).catch(err => {});
             }
 
-            if (!sessionStorage.getItem('sessao_ativa_v244')) {
+            if (!sessionStorage.getItem('sessao_ativa_v245')) {
                 document.getElementById('tela-bloqueio').classList.add('hidden');
             }
 
-            const temaSalvo = localStorage.getItem('tema_v244');
+            const temaSalvo = localStorage.getItem('tema_v245');
             if (temaSalvo === 'dark') {
                 document.body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 document.body.classList.remove('bg-slate-100', 'text-slate-800');
@@ -470,7 +495,7 @@
                 if(selOrd && dadosApp.comprasOrdenacao) selOrd.value = dadosApp.comprasOrdenacao;
 
                 atualizarTudo();
-                let tabSalva = localStorage.getItem('tab_ativa_v244') || 'leitura';
+                let tabSalva = localStorage.getItem('tab_ativa_v245') || 'leitura';
                 mudarTab(tabSalva);
             } catch(e) {
                 console.error("Erro ao iniciar:", e);
@@ -494,10 +519,10 @@
         }
 
         function desbloquearComPin() {
-            let pinSalvo = localStorage.getItem('app_pin_v244') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v245') || '1510';
             let digitado = document.getElementById('input-pin').value;
             if(digitado === pinSalvo) {
-                sessionStorage.setItem('sessao_ativa_v244', 'true');
+                sessionStorage.setItem('sessao_ativa_v245', 'true');
                 document.getElementById('tela-bloqueio').classList.add('hidden');
                 document.getElementById('erro-pin').classList.add('hidden');
             } else {
@@ -506,17 +531,17 @@
         }
 
         async function desbloquearComBiometria() {
-            sessionStorage.setItem('sessao_ativa_v244', 'true');
+            sessionStorage.setItem('sessao_ativa_v245', 'true');
             document.getElementById('tela-bloqueio').classList.add('hidden');
         }
 
         function alterarSenhaPin() {
             let atual = prompt("Digite a senha atual (Padrão: 1510):");
-            let pinSalvo = localStorage.getItem('app_pin_v244') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v245') || '1510';
             if(atual === pinSalvo) {
                 let nova = prompt("Digite a nova senha PIN:");
                 if(nova && nova.trim() !== '') {
-                    localStorage.setItem('app_pin_v244', nova.trim());
+                    localStorage.setItem('app_pin_v245', nova.trim());
                     alert("🔑 Senha alterada com sucesso!");
                 }
             } else {
@@ -529,11 +554,11 @@
             if(body.classList.contains('dark')) {
                 body.classList.remove('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.add('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v244', 'light');
+                localStorage.setItem('tema_v245', 'light');
             } else {
                 body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.remove('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v244', 'dark');
+                localStorage.setItem('tema_v245', 'dark');
             }
         }
 
@@ -739,7 +764,7 @@
         }
 
         function mudarTab(tab) {
-            localStorage.setItem('tab_ativa_v244', tab);
+            localStorage.setItem('tab_ativa_v245', tab);
             if(tab === 'itinerario' || tab === 'leitura') {
                 destinoFiltro = 'todos';
             }
@@ -786,7 +811,7 @@
         }
 
         function obterCorPorCategoria(cat) {
-            if(!cat) return '#3b82f6';
+            if(!cat) return '#ff007f';
             if(dadosApp.coresDestinos && dadosApp.coresDestinos[cat]) {
                 return dadosApp.coresDestinos[cat];
             }
@@ -797,7 +822,7 @@
             if(c.includes('interlaken')) return '#10b981';
             if(c.includes('disney')) return '#8b5cf6';
             
-            return '#3b82f6';
+            return '#ff007f';
         }
 
         function obterInfoClima(cat) {
@@ -835,7 +860,7 @@
             dadosApp.destinosCadastrados.forEach(dest => {
                 let ativo = destinoFiltro === dest;
                 let corDest = obterCorPorCategoria(dest);
-                let classeBtn = ativo ? 'bg-indigo-600 text-white font-bold shadow-sm ring-2 ring-white' : 'text-white font-semibold border border-black/20 shadow-sm';
+                let classeBtn = ativo ? 'text-white font-bold shadow-md ring-2 ring-white scale-105' : 'text-white font-semibold border border-black/20 shadow-sm';
                 let estiloBtn = 'background-color: ' + corDest + ';';
                 html += '<button onclick="filtrarDestino(\'' + dest + '\')" style="' + estiloBtn + '" class="px-3 py-1.5 rounded-xl text-xs shrink-0 transition ' + classeBtn + '">' + dest + '</button>';
             });
@@ -909,10 +934,10 @@
             let novo = prompt("Nome do novo destino:");
             if(novo && novo.trim() !== '') {
                 let limpo = novo.trim();
-                let corNova = prompt("Escolha a cor HEX para este destino (ex: #8b5cf6):", "#8b5cf6");
+                let corNova = prompt("Escolha a cor HEX para este destino (ex: #ff007f neon pink):", "#ff007f");
                 if(!dadosApp.destinosCadastrados.includes(limpo)) dadosApp.destinosCadastrados.push(limpo);
                 if(!dadosApp.coresDestinos) dadosApp.coresDestinos = {};
-                dadosApp.coresDestinos[limpo] = corNova || "#3b82f6";
+                dadosApp.coresDestinos[limpo] = corNova || "#ff007f";
                 
                 registarEstadoAnterior();
                 let novoBloco = {
@@ -939,9 +964,9 @@
             registarEstadoAnterior();
             let nomeNovo = prompt("Nome do novo status:");
             if(nomeNovo && nomeNovo.trim() !== '') {
-                let corNova = prompt("Cor HEX do status:", "#3b82f6");
+                let corNova = prompt("Cor HEX do status:", "#ff007f");
                 if(!dadosApp.statusPersonalizados) dadosApp.statusPersonalizados = {};
-                dadosApp.statusPersonalizados[nomeNovo.trim()] = corNova || "#3b82f6";
+                dadosApp.statusPersonalizados[nomeNovo.trim()] = corNova || "#ff007f";
                 salvarStorage();
                 atualizarTudo();
             }
@@ -1144,7 +1169,7 @@
                 card.className = 'p-4 rounded-2xl border border-slate-300 space-y-3 transition shadow-sm min-w-0';
                 card.style.backgroundColor = corHex;
 
-                let coresPaleta = ["#3b82f6", "#f59e0b", "#ec4899", "#10b981", "#8b5cf6", "#ef4444", "#06b6d4", "#64748b"];
+                let coresPaleta = ["#ff007f", "#00ff66", "#00ffff", "#ccff00", "#ff3300", "#a855f7", "#3b82f6", "#f59e0b", "#ec4899", "#10b981", "#8b5cf6", "#64748b"];
                 let paletaHtml = '<div class="flex items-center gap-1.5 bg-white px-2.5 py-1.5 rounded-xl border border-slate-300 shadow-sm flex-wrap"><span class="font-bold text-[11px] text-slate-700 mr-1">Cor:</span>';
                 coresPaleta.forEach(col => {
                     let ring = corHex === col ? 'ring-2 ring-slate-900 scale-110' : '';
@@ -1180,7 +1205,7 @@
                         paletaHtml +
                         '<div class="flex items-center gap-1.5">' +
                             '<button onclick="alternarBloqueio(\'' + item.id + '\')" class="' + lockBg + ' px-3 py-1.5 rounded-xl font-bold text-xs shadow-sm transition">' + lockIcon + '</button>' +
-                            '<button onclick="moverBloco(\'' + item.id + '\', -1)" class="bg-slate-200 hover:bg-slate-300 px-2 py-1.5 rounded-xl text-xs font-bold transition">⬆️</button>' +
+                            '<button onclick="moverBloco(\'' + item.id + '\', -1)" class="bg-slate-200 hover:bg-slate-300 px-2 py-1.5 rounded-xl font-bold transition">⬆️</button>' +
                             '<button onclick="moverBloco(\'' + item.id + '\', 1)" class="bg-slate-200 hover:bg-slate-300 px-2 py-1.5 rounded-xl font-bold transition">⬇️</button>' +
                             '<button onclick="apagarBloco(\'' + item.id + '\')" class="bg-red-50 hover:bg-red-100 text-red-600 px-3 py-1.5 rounded-xl font-bold transition">Excluir ✕</button>' +
                         '</div>' +
@@ -1309,9 +1334,9 @@
                 if(novo && novo.trim() !== '') {
                     let limpo = novo.trim();
                     if(!dadosApp.destinosCadastrados.includes(limpo)) dadosApp.destinosCadastrados.push(limpo);
-                    let corNova = prompt("Escolha a cor HEX para este destino (ex: #8b5cf6):", "#8b5cf6");
+                    let corNova = prompt("Escolha a cor HEX para este destino (ex: #ff007f):", "#ff007f");
                     if(!dadosApp.coresDestinos) dadosApp.coresDestinos = {};
-                    dadosApp.coresDestinos[limpo] = corNova || "#3b82f6";
+                    dadosApp.coresDestinos[limpo] = corNova || "#ff007f";
                     
                     let item = dadosApp.itinerario.find(i => String(i.id) === String(id));
                     if(item) {
@@ -1870,6 +1895,350 @@
                 console.error("Erro no orçamento:", err);
                 container.innerHTML = '<div class="p-3 bg-red-50 text-red-600 rounded-xl text-xs">Erro ao carregar orçamento. Tente atualizar a página.</div>';
             }
+        }
+
+        // RENDERIZAR ABA DE COMPRAS COM ORDENAÇÃO E FILTROS COLORIDOS
+        function renderizarComprasTab() {
+            const containerResumo = document.getElementById('compras-resumo-topo');
+            const containerFiltros = document.getElementById('compras-filtros-titulo');
+            const containerLista = document.getElementById('compras-lista-itens');
+            if(!containerResumo || !containerLista || !containerFiltros) return;
+
+            try {
+                let cotEur = parseFloat(dadosApp.cotacaoEur) || 6.20;
+                let cotChf = parseFloat(dadosApp.cotacaoChf) || 6.50;
+
+                let totals = { "Mariana": {eur:0, chf:0, brl:0}, "Sophia": {eur:0, chf:0, brl:0}, "Glória": {eur:0, chf:0, brl:0}, "Outros": {eur:0, chf:0, brl:0} };
+
+                if(!Array.isArray(dadosApp.compras)) dadosApp.compras = [];
+
+                let titulosUnicos = [];
+                dadosApp.compras.forEach(it => {
+                    let t = (it.descricao || 'Item').trim();
+                    if(t && !titulosUnicos.includes(t)) titulosUnicos.push(t);
+
+                    let val = limparNumero(it.valor);
+                    let moeda = it.moeda || 'EUR';
+                    let pub = it.publico || 'Mariana';
+                    if(!totals[pub]) totals[pub] = {eur:0, chf:0, brl:0};
+                    if(val > 0) {
+                        if(moeda === 'EUR') totals[pub].eur += val;
+                        else if(moeda === 'CHF') totals[pub].chf += val;
+                        else if(moeda === 'BRL') totals[pub].brl += val;
+                    }
+                });
+
+                // Renderizar botões de filtro com cores por título
+                let filtrosHtml = `<button type="button" onclick="filtrarComprasTitulo('todos')" class="px-3 py-1.5 ${comprasFiltroTitulo === 'todos' ? 'bg-indigo-600 text-white font-bold shadow-sm' : 'bg-white border border-slate-200 text-slate-700 font-semibold'} rounded-xl text-xs shrink-0 transition">🔍 Todos</button>`;
+                titulosUnicos.forEach(t => {
+                    let ativo = comprasFiltroTitulo.toLowerCase() === t.toLowerCase();
+                    let corTitulo = obterCorPorTituloCompra(t);
+                    let estiloBtn = ativo ? `background-color: ${corTitulo}; color: #ffffff; font-weight: bold;` : `background-color: #ffffff; color: #334155; border: 1px solid #cbd5e1;`;
+                    let classeAtivo = ativo ? 'shadow-md ring-2 ring-slate-900 scale-105' : 'hover:bg-slate-50';
+                    filtrosHtml += `<button type="button" onclick="filtrarComprasTitulo('${t.replace(/'/g, "\\'")}')" style="${estiloBtn}" class="px-3 py-1.5 rounded-xl text-xs shrink-0 transition ${classeAtivo}">${t}</button>`;
+                });
+                containerFiltros.innerHTML = filtrosHtml;
+
+                // Ordenação dos itens conforme escolhido no menu
+                dadosApp.compras.sort((a, b) => {
+                    if (a.editando !== b.editando) return a.editando ? -1 : 1;
+                    if (a.concluido !== b.concluido) return a.concluido ? 1 : -1;
+
+                    let valA = limparNumero(a.valor);
+                    let valB = limparNumero(b.valor);
+                    let nomeA = (a.descricao || '').toLowerCase();
+                    let nomeB = (b.descricao || '').toLowerCase();
+
+                    if (comprasOrdenacao === 'menor_valor') return valA - valB;
+                    if (comprasOrdenacao === 'maior_valor') return valB - valA;
+                    return nomeA.localeCompare(nomeB);
+                });
+
+                let finalMarianaBrl = (totals["Mariana"].eur * cotEur) + (totals["Mariana"].chf * cotChf) + totals["Mariana"].brl;
+                let finalSophiaBrl = (totals["Sophia"].eur * cotEur) + (totals["Sophia"].chf * cotChf) + totals["Sophia"].brl;
+                let finalGloriaBrl = (totals["Glória"].eur * cotEur) + (totals["Glória"].chf * cotChf) + totals["Glória"].brl;
+                let finalOutrosBrl = (totals["Outros"].eur * cotEur) + (totals["Outros"].chf * cotChf) + totals["Outros"].brl;
+
+                containerResumo.innerHTML = `
+                    <div class="bg-purple-50 p-2.5 rounded-xl border border-purple-200 shadow-sm text-center space-y-0.5 min-w-0">
+                        <span class="font-bold text-[10px] text-purple-900 uppercase block truncate">👤 Mariana</span>
+                        <div class="font-black text-[10px] text-slate-800 truncate">${totals["Mariana"].eur.toFixed(2)}€ | ${totals["Mariana"].chf.toFixed(2)}CHF</div>
+                        <div class="font-bold text-[10px] text-emerald-700 truncate">R$ ${finalMarianaBrl.toFixed(2)}</div>
+                    </div>
+                    <div class="bg-purple-50 p-2.5 rounded-xl border border-purple-200 shadow-sm text-center space-y-0.5 min-w-0">
+                        <span class="font-bold text-[10px] text-purple-900 uppercase block truncate">👧 Sophia</span>
+                        <div class="font-black text-[10px] text-slate-800 truncate">${totals["Sophia"].eur.toFixed(2)}€ | ${totals["Sophia"].chf.toFixed(2)}CHF</div>
+                        <div class="font-bold text-[10px] text-emerald-700 truncate">R$ ${finalSophiaBrl.toFixed(2)}</div>
+                    </div>
+                    <div class="bg-purple-50 p-2.5 rounded-xl border border-purple-200 shadow-sm text-center space-y-0.5 min-w-0">
+                        <span class="font-bold text-[10px] text-purple-900 uppercase block truncate">👵 Glória</span>
+                        <div class="font-black text-[10px] text-slate-800 truncate">${totals["Glória"].eur.toFixed(2)}€ | ${totals["Glória"].chf.toFixed(2)}CHF</div>
+                        <div class="font-bold text-[10px] text-emerald-700 truncate">R$ ${finalGloriaBrl.toFixed(2)}</div>
+                    </div>
+                    <div class="bg-purple-50 p-2.5 rounded-xl border border-purple-200 shadow-sm text-center space-y-0.5 min-w-0">
+                        <span class="font-bold text-[10px] text-purple-900 uppercase block truncate">📦 Outros</span>
+                        <div class="font-black text-[10px] text-slate-800 truncate">${totals["Outros"].eur.toFixed(2)}€ | ${totals["Outros"].chf.toFixed(2)}CHF</div>
+                        <div class="font-bold text-[10px] text-emerald-700 truncate">R$ ${finalOutrosBrl.toFixed(2)}</div>
+                    </div>
+                `;
+
+                let itensFiltrados = dadosApp.compras;
+                if(comprasFiltroTitulo !== 'todos') {
+                    itensFiltrados = dadosApp.compras.filter(it => (it.descricao || '').trim().toLowerCase() === comprasFiltroTitulo.trim().toLowerCase());
+                }
+
+                let itensHtml = '';
+                if(itensFiltrados.length === 0) {
+                    itensHtml = '<p class="text-xs text-slate-400 italic text-center py-4">Nenhum item registado com este filtro.</p>';
+                } else {
+                    itensFiltrados.forEach(it => {
+                        let val = limparNumero(it.valor);
+                        let moeda = it.moeda || 'EUR';
+                        let pub = it.publico || 'Mariana';
+                        let linkItem = it.link || '';
+                        let valBrl = moeda === 'EUR' ? val * cotEur : (moeda === 'CHF' ? val * cotChf : val);
+                        let descSafe = (it.descricao || '').replace(/"/g, '&quot;');
+                        let linkSafe = (linkItem || '').replace(/"/g, '&quot;');
+                        let editando = it.editando !== undefined ? it.editando : false;
+                        let concluido = it.concluido ? true : false;
+                        let emojiCarinha = pub === 'Mariana' ? '👤' : (pub === 'Sophia' ? '👧' : (pub === 'Glória' ? '👵' : '📦'));
+                        let moedaSimbolo = moeda === 'EUR' ? '€' : (moeda === 'CHF' ? 'CHF' : 'R$');
+                        let itemIdStr = String(it.id);
+                        let corDoItem = obterCorPorTituloCompra(it.descricao);
+
+                        let linkBtn = linkItem ? `<a href="${linkItem}" target="_blank" class="bg-sky-100 hover:bg-sky-200 text-sky-800 px-2 py-0.5 rounded-lg font-bold text-[10px] inline-flex items-center gap-0.5 shrink-0" title="Abrir link">🔗 Link</a>` : '';
+
+                        if(editando) {
+                            itensHtml += `
+                                <div class="p-3 rounded-xl border bg-white border-indigo-300 space-y-2 text-xs shadow-sm min-w-0" style="border-left: 6px solid ${corDoItem};">
+                                    <div class="flex items-center gap-1.5 min-w-0">
+                                        <input type="checkbox" ${concluido ? 'checked' : ''} onchange="alternarConcluidoItemDireto('${itemIdStr}')" class="w-4 h-4 accent-emerald-600 rounded cursor-pointer shrink-0" title="Marcar como feito">
+                                        <input type="text" id="desc-${itemIdStr}" value="${descSafe}" class="flex-1 min-w-0 p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs" placeholder="Nome do item...">
+                                        <select id="pub-${itemIdStr}" class="p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs shrink-0">
+                                            <option value="Mariana" ${pub==='Mariana'?'selected':''}>👤 Mariana</option>
+                                            <option value="Sophia" ${pub==='Sophia'?'selected':''}>👧 Sophia</option>
+                                            <option value="Glória" ${pub==='Glória'?'selected':''}>👵 Glória</option>
+                                            <option value="Outros" ${pub==='Outros'?'selected':''}>📦 Outros</option>
+                                        </select>
+                                        <button type="button" onclick="apagarItemDireto('${itemIdStr}')" class="text-red-500 font-bold px-2 py-1.5 rounded-xl bg-red-50 text-xs shrink-0">✕</button>
+                                    </div>
+                                    <div class="flex items-center gap-1.5 min-w-0">
+                                        <input type="url" id="link-${itemIdStr}" value="${linkSafe}" class="w-full p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-medium text-xs" placeholder="🔗 Link da compra (opcional)...">
+                                    </div>
+                                    <div class="flex items-center justify-between gap-1.5 flex-wrap border-t border-slate-100 pt-1.5">
+                                        <div class="flex items-center gap-1.5">
+                                            <span class="text-slate-500 font-bold">Valor:</span>
+                                            <input type="text" value="${val !== 0 ? val : ''}" id="val-${itemIdStr}" class="w-20 p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-black text-right text-xs" placeholder="0">
+                                            <select id="moeda-${itemIdStr}" class="p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs">
+                                                <option value="EUR" ${moeda==='EUR'?'selected':''}>€</option>
+                                                <option value="CHF" ${moeda==='CHF'?'selected':''}>CHF</option>
+                                                <option value="BRL" ${moeda==='BRL'?'selected':''}>R$</option>
+                                            </select>
+                                            <button type="button" onclick="salvarEFecharItemDireto('${itemIdStr}')" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-xl font-bold text-xs shadow-sm">✓ OK (Salvar)</button>
+                                        </div>
+                                        <div class="text-right text-[11px] font-bold text-emerald-700">R$ ${valBrl.toFixed(2)}</div>
+                                    </div>
+                                </div>
+                            `;
+                        } else {
+                            let linhaRiscada = concluido ? 'line-through text-slate-400 bg-emerald-50/60 border-emerald-300' : 'text-slate-900 bg-slate-50 border-slate-200';
+                            itensHtml += `
+                                <div class="p-3 rounded-xl border ${linhaRiscada} space-y-2 text-xs shadow-sm min-w-0" style="border-left: 6px solid ${corDoItem};">
+                                    <div class="flex items-center gap-2 min-w-0 justify-between">
+                                        <div class="flex items-center gap-2 min-w-0 flex-1">
+                                            <input type="checkbox" ${concluido ? 'checked' : ''} onchange="alternarConcluidoItemDireto('${itemIdStr}')" class="w-4 h-4 accent-emerald-600 rounded cursor-pointer shrink-0" title="Marcar como feito">
+                                            <span class="font-bold flex-1 min-w-0 break-words ${concluido ? 'line-through text-slate-400' : 'text-slate-900'}">${descSafe}</span>
+                                        </div>
+                                        <div class="flex items-center gap-1 shrink-0">
+                                            <button type="button" onclick="abrirEdicaoItemDireto('${itemIdStr}')" class="bg-slate-200 hover:bg-slate-300 text-slate-800 px-2.5 py-1 rounded-lg font-bold text-[11px]" title="Editar com Lápis">✏️</button>
+                                            <button type="button" onclick="apagarItemDireto('${itemIdStr}')" class="text-red-500 font-bold px-1.5 py-1 rounded-lg bg-red-50 hover:bg-red-100 text-xs">✕</button>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center gap-2 border-t border-slate-200/60 pt-2 flex-wrap">
+                                        <span class="bg-white px-2 py-0.5 rounded-lg border text-[11px] font-bold shadow-sm">${emojiCarinha} ${pub}</span>
+                                        ${linkBtn}
+                                        <span class="font-black text-indigo-900 ${concluido ? 'line-through text-slate-400' : ''}">${val > 0 ? val + ' ' + moedaSimbolo : 'Grátis'}</span>
+                                        <span class="text-emerald-700 font-bold ${concluido ? 'line-through text-slate-400' : ''}">R$ ${valBrl.toFixed(2)}</span>
+                                    </div>
+                                </div>
+                            `;
+                        }
+                    });
+                }
+
+                containerLista.innerHTML = itensHtml;
+            } catch(err) {
+                console.error("Erro nas compras:", err);
+            }
+        }
+
+        // ADICIONAR ITEM DIRETAMENTE DA CAIXA FIXA DO TOPO
+        function adicionarItemUnicoForm() {
+            let descInput = document.getElementById('input-nova-desc');
+            let pubInput = document.getElementById('input-novo-pub');
+            let linkInput = document.getElementById('input-novo-link');
+            let valInput = document.getElementById('input-novo-val');
+            let moedaInput = document.getElementById('input-nova-moeda');
+
+            let desc = descInput ? descInput.value.trim() : "";
+            if (!desc) {
+                alert("Por favor, digite o nome do item.");
+                if(descInput) descInput.focus();
+                return;
+            }
+
+            registarEstadoAnterior();
+            if(!Array.isArray(dadosApp.compras)) dadosApp.compras = [];
+
+            dadosApp.compras.unshift({
+                id: 'item_' + Date.now(),
+                descricao: desc,
+                publico: pubInput ? pubInput.value : "Mariana",
+                link: linkInput ? linkInput.value.trim() : "",
+                valor: valInput ? limparNumero(valInput.value) : 0,
+                moeda: moedaInput ? moedaInput.value : "EUR",
+                concluido: false,
+                editando: false
+            });
+
+            // Limpar os campos da caixa do topo
+            if(descInput) descInput.value = "";
+            if(linkInput) linkInput.value = "";
+            if(valInput) valInput.value = "";
+
+            salvarStorage();
+            setTimeout(atualizarTudo, 50);
+        }
+
+        function salvarEFecharItemDireto(itemId) {
+            registarEstadoAnterior();
+            let it = dadosApp.compras.find(i => String(i.id) === String(itemId));
+            if(it) {
+                let descInput = document.getElementById('desc-' + itemId);
+                let pubInput = document.getElementById('pub-' + itemId);
+                let linkInput = document.getElementById('link-' + itemId);
+                let valInput = document.getElementById('val-' + itemId);
+                let moedaInput = document.getElementById('moeda-' + itemId);
+
+                if(descInput) it.descricao = descInput.value ? descInput.value.trim() : "Item";
+                if(pubInput) it.publico = pubInput.value;
+                if(linkInput) it.link = linkInput.value ? linkInput.value.trim() : "";
+                if(valInput) it.valor = valInput.value !== "" ? limparNumero(valInput.value) : 0;
+                if(moedaInput) it.moeda = moedaInput.value;
+                
+                it.editando = false;
+
+                salvarStorage();
+                setTimeout(atualizarTudo, 50);
+            }
+        }
+
+        function abrirEdicaoItemDireto(itemId) {
+            registarEstadoAnterior();
+            let it = dadosApp.compras.find(i => String(i.id) === String(itemId));
+            if(it) {
+                it.editando = true;
+                salvarStorage();
+                setTimeout(atualizarTudo, 50);
+            }
+        }
+
+        function alternarConcluidoItemDireto(itemId) {
+            registarEstadoAnterior();
+            let it = dadosApp.compras.find(i => String(i.id) === String(itemId));
+            if(it) {
+                it.concluido = !it.concluido;
+                salvarStorage();
+                setTimeout(atualizarTudo, 50);
+            }
+        }
+
+        function apagarItemDireto(itemId) {
+            registarEstadoAnterior();
+            dadosApp.compras = dadosApp.compras.filter(i => String(i.id) !== String(itemId));
+            salvarStorage();
+            setTimeout(atualizarTudo, 50);
+        }
+
+        function salvarSaldo(moeda, val) {
+            registarEstadoAnterior();
+            let num = limparNumero(val);
+            if(moeda === 'EUR') dadosApp.saldoEur = val !== "" ? num : "";
+            if(moeda === 'CHF') dadosApp.saldoChf = val !== "" ? num : "";
+            salvarStorage();
+            renderizarOrcamentoTab();
+            alert("💾 Saldo guardado com sucesso!");
+        }
+
+        function salvarCotacao(moeda, val) {
+            registarEstadoAnterior();
+            let num = limparNumero(val);
+            if(moeda === 'EUR') dadosApp.cotacaoEur = num > 0 ? num : 6.20;
+            if(moeda === 'CHF') dadosApp.cotacaoChf = num > 0 ? num : 6.50;
+            salvarStorage();
+            renderizarOrcamentoTab();
+            renderizarComprasTab();
+            alert("💾 Cotação guardada com sucesso!");
+        }
+
+        function salvarDespesaValor(id, val) {
+            registarEstadoAnterior();
+            let d = dadosApp.orcamento.find(item => String(item.id) === String(id));
+            if(d) {
+                d.valor = val !== "" ? limparNumero(val) : 0;
+                salvarStorage();
+                renderizarOrcamentoTab();
+            }
+        }
+
+        function calcularConversaoRapida() {
+            let elVal = document.getElementById('conv-valor');
+            let elMoeda = document.getElementById('conv-moeda');
+            let elRes = document.getElementById('conv-resultado');
+            if(!elVal || !elMoeda || !elRes) return;
+            let val = limparNumero(elVal.value);
+            let moeda = elMoeda.value;
+            let cotEur = parseFloat(dadosApp.cotacaoEur) || 6.20;
+            let cotChf = parseFloat(dadosApp.cotacaoChf) || 6.50;
+            let resultado = moeda === 'EUR' ? val * cotEur : (moeda === 'CHF' ? val * cotChf : val);
+            elRes.innerText = 'R$ ' + resultado.toFixed(2);
+        }
+
+        function adicionarDespesa(moedaForcada) {
+            registarEstadoAnterior();
+            if(!dadosApp.orcamento) dadosApp.orcamento = [];
+            dadosApp.orcamento.unshift({ id: Date.now(), descricao: "Despesa", valor: 0, moeda: moedaForcada });
+            salvarStorage();
+            renderizarOrcamentoTab();
+        }
+
+        function apagarDespesa(id) {
+            registarEstadoAnterior();
+            dadosApp.orcamento = dadosApp.orcamento.filter(d => String(d.id) !== String(id));
+            salvarStorage();
+            renderizarOrcamentoTab();
+        }
+
+        function atualizarOrcamentoDescricao(id, val) {
+            let d = dadosApp.orcamento.find(item => String(item.id) === String(id));
+            if(d) { d.descricao = val; localStorage.setItem(CHAVE_APP, JSON.stringify(dadosApp)); }
+        }
+
+        function ativarMicrofone() {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (!SpeechRecognition) { alert("Sem suporte a voz."); return; }
+            if (!campoFocoAtual) {
+                alert("Por favor, clique primeiro num campo de texto onde deseja ditar.");
+                return;
+            }
+            const recognition = new SpeechRecognition();
+            recognition.lang = 'pt-PT';
+            recognition.onresult = function(event) {
+                campoFocoAtual.value = event.results[0][0].transcript;
+                campoFocoAtual.dispatchEvent(new Event('input'));
+                campoFocoAtual.dispatchEvent(new Event('change'));
+            };
+            recognition.start();
         }
     </script>
 </body>
