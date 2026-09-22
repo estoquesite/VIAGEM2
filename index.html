@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v265.0)</title>
+    <title>Roteiro Europa - Mariana (v264.0)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Manifest Dinâmico via JavaScript -->
@@ -39,7 +39,7 @@
             <a href="https://translate.google.com/?hl=pt&sl=auto&tl=pt&op=images" target="_blank" class="bg-indigo-600 hover:bg-indigo-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm flex items-center gap-1" title="Google Tradutor & Câmara">🌐 Tradutor</a>
             <button onclick="window.location.reload()" class="bg-slate-800 hover:bg-slate-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm border border-slate-700" title="Atualizar Página">🔄</button>
             <button onclick="exportarPdfPrint()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm" title="Imprimir Tudo">🖨️</button>
-            <span class="bg-indigo-950 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v265.0</span>
+            <span class="bg-indigo-950 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v264.0</span>
         </div>
     </header>
 
@@ -273,7 +273,7 @@
 
     <!-- BARRA DE FERRAMENTAS FIXA -->
     <nav class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-md text-white px-3 py-2.5 shadow-2xl border-t border-slate-800 text-xs flex items-center justify-around gap-1 overflow-x-auto no-scrollbar max-w-4xl mx-auto rounded-t-2xl">
-        <span class="bg-indigo-600 px-2 py-1 rounded font-mono font-bold text-[9px] shrink-0">v265.0</span>
+        <span class="bg-indigo-600 px-2 py-1 rounded font-mono font-bold text-[9px] shrink-0">v264.0</span>
         <button onclick="abrirGeminiModal()" class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-3 py-1.5 rounded-xl font-bold transition shrink-0 flex items-center gap-1 text-xs shadow-sm">
             <span>✨</span> Gemini
         </button>
@@ -479,11 +479,11 @@
                 navigator.serviceWorker.register(URL.createObjectURL(swBlob)).catch(err => {});
             }
 
-            if (!sessionStorage.getItem('sessao_ativa_v265')) {
+            if (!sessionStorage.getItem('sessao_ativa_v264')) {
                 document.getElementById('tela-bloqueio').classList.add('hidden');
             }
 
-            const temaSalvo = localStorage.getItem('tema_v265');
+            const temaSalvo = localStorage.getItem('tema_v264');
             if (temaSalvo === 'dark') {
                 document.body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 document.body.classList.remove('bg-slate-100', 'text-slate-800');
@@ -502,7 +502,7 @@
                 if(selOrdBlocos && dadosApp.blocoOrdenacao) selOrdBlocos.value = dadosApp.blocoOrdenacao;
 
                 atualizarTudo();
-                let tabSalva = localStorage.getItem('tab_ativa_v265') || 'leitura';
+                let tabSalva = localStorage.getItem('tab_ativa_v264') || 'leitura';
                 mudarTab(tabSalva);
             } catch(e) {
                 console.error("Erro ao iniciar:", e);
@@ -526,10 +526,10 @@
         }
 
         function desbloquearComPin() {
-            let pinSalvo = localStorage.getItem('app_pin_v265') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v264') || '1510';
             let digitado = document.getElementById('input-pin').value;
             if(digitado === pinSalvo) {
-                sessionStorage.setItem('sessao_ativa_v265', 'true');
+                sessionStorage.setItem('sessao_ativa_v264', 'true');
                 document.getElementById('tela-bloqueio').classList.add('hidden');
                 document.getElementById('erro-pin').classList.add('hidden');
             } else {
@@ -538,17 +538,17 @@
         }
 
         async function desbloquearComBiometria() {
-            sessionStorage.setItem('sessao_ativa_v265', 'true');
+            sessionStorage.setItem('sessao_ativa_v264', 'true');
             document.getElementById('tela-bloqueio').classList.add('hidden');
         }
 
         function alterarSenhaPin() {
             let atual = prompt("Digite a senha atual (Padrão: 1510):");
-            let pinSalvo = localStorage.getItem('app_pin_v265') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v264') || '1510';
             if(atual === pinSalvo) {
                 let nova = prompt("Digite a nova senha PIN:");
                 if(nova && nova.trim() !== '') {
-                    localStorage.setItem('app_pin_v265', nova.trim());
+                    localStorage.setItem('app_pin_v264', nova.trim());
                     alert("🔑 Senha alterada com sucesso!");
                 }
             } else {
@@ -561,11 +561,11 @@
             if(body.classList.contains('dark')) {
                 body.classList.remove('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.add('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v265', 'light');
+                localStorage.setItem('tema_v264', 'light');
             } else {
                 body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.remove('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v265', 'dark');
+                localStorage.setItem('tema_v264', 'dark');
             }
         }
 
@@ -617,25 +617,22 @@
 
         function abrirLeitorArquivo(dadosUrl, titulo) {
             document.getElementById('pdf-titulo-modal').innerText = "📄 " + (titulo || 'Visualizador');
-            document.getElementById('pdf-btn-download').href = dadosUrl;
-            
             let containerArea = document.getElementById('visualizador-conteudo-area');
             if (dadosUrl.startsWith('data:image/') || dadosUrl.match(/\.(jpeg|jpg|png|gif|webp)$/i)) {
                 containerArea.innerHTML = `
                     <div class="w-full h-full flex items-center justify-center overflow-auto p-2">
-                        <img src="${dadosUrl}" class="max-w-full max-h-full object-contain rounded-2xl shadow-lg transition-transform duration-200 cursor-zoom-in" onclick="this.classList.toggle('scale-150'); this.classList.toggle('cursor-zoom-in'); this.classList.toggle('cursor-zoom-out');" title="Clique para dar zoom na foto">
+                        <img src="${dadosUrl}" class="max-w-full max-h-full object-contain rounded-2xl shadow-lg transition-transform duration-200 cursor-zoom-in" onclick="this.classList.toggle('scale-150'); this.classList.toggle('cursor-zoom-in'); this.classList.toggle('cursor-zoom-out');" title="Clique para dar zoom">
                     </div>
                 `;
             } else {
                 containerArea.innerHTML = `<iframe id="pdf-iframe-view" class="w-full h-full rounded-2xl border bg-white shadow-inner" src="${dadosUrl}"></iframe>`;
             }
-
             document.getElementById('modal-leitor-pdf').classList.remove('hidden');
         }
 
         function fecharLeitorPdf() {
             document.getElementById('modal-leitor-pdf').classList.add('hidden');
-            document.getElementById('visualizador-conteudo-area').innerHTML = '';
+            document.getElementById('visualizador-conteudo-area').innerHTML = '<iframe id="pdf-iframe-view" class="w-full h-full rounded-2xl border bg-white shadow-inner hidden" src=""></iframe>';
         }
 
         function adicionarFotoExtraTrecho(itemId, trechoId, condId, event) {
@@ -866,7 +863,7 @@
         }
 
         function mudarTab(tab) {
-            localStorage.setItem('tab_ativa_v265', tab);
+            localStorage.setItem('tab_ativa_v264', tab);
             if(tab === 'itinerario' || tab === 'leitura') {
                 destinoFiltro = 'todos';
             }
@@ -1150,18 +1147,7 @@
                     cor: dadosApp.coresDestinos[limpo],
                     bloqueado: false,
                     concluido: false,
-                    trechos: [
-                        { 
-                            id: Date.now() + 1, 
-                            origem: "", 
-                            destino: "", 
-                            concluido: false,
-                            conducoes: [
-                                { id: Date.now() + 11, transporte: "Trem", valor: 0, moeda: "EUR", notas: "", fotosExtras: [] },
-                                { id: Date.now() + 12, transporte: "Ônibus", valor: 0, moeda: "EUR", notas: "", fotosExtras: [] }
-                            ]
-                        }
-                    ],
+                    trechos: [],
                     itens: []
                 };
                 if(!dadosApp.itinerario) dadosApp.itinerario = [];
@@ -1255,32 +1241,23 @@
                         let trText = trConcluido ? 'line-through text-slate-400' : 'text-slate-900';
                         let mapsUrl = 'https://www.google.com/maps/dir/?api=1&origin=' + encodeURIComponent(tr.origem || '') + '&destination=' + encodeURIComponent(tr.destino || '') + '&travelmode=transit';
                         
-                        let conducoesReadHtml = '';
-                        if(tr.conducoes && tr.conducoes.length > 0) {
-                            tr.conducoes.forEach(cond => {
-                                let fotosCondRead = '';
-                                if(cond.fotosExtras && cond.fotosExtras.length > 0) {
-                                    fotosCondRead += '<div class="flex gap-1.5 flex-wrap mt-1">';
-                                    cond.fotosExtras.forEach(fUrl => {
-                                        fotosCondRead += `<img src="${fUrl}" class="w-12 h-12 object-cover rounded-lg border cursor-pointer shadow-sm hover:opacity-90 transition" onclick="abrirLeitorArquivo('${fUrl}', 'Foto da Condução')" title="Clique para ver maior">`;
-                                    });
-                                    fotosCondRead += '</div>';
-                                }
-                                conducoesReadHtml += `
-                                    <div class="ml-3 mt-1.5 p-2 bg-white rounded-xl border border-slate-200 shadow-2xs space-y-1">
-                                        <div class="font-bold text-slate-800">🚌 <b>${cond.transporte}</b> ${cond.valor ? '• <b>' + cond.valor + ' ' + cond.moeda + '</b>' : ''}</div>
-                                        ${cond.notas ? '<div class="text-[11px] italic text-slate-600">📝 ' + cond.notas + '</div>' : ''}
-                                        ${fotosCondRead}
-                                    </div>
-                                `;
+                        let fotosExtrasHtml = '';
+                        if(tr.fotosExtras && tr.fotosExtras.length > 0) {
+                            fotosExtrasHtml += '<div class="flex gap-1.5 flex-wrap mt-1.5">';
+                            tr.fotosExtras.forEach((fUrl, fIdx) => {
+                                fotosExtrasHtml += `<img src="${fUrl}" class="w-12 h-12 object-cover rounded-lg border cursor-pointer shadow-sm hover:opacity-90 transition" onclick="abrirLeitorArquivo('${fUrl}', 'Foto da Condução')" title="Clique para ver maior">`;
                             });
+                            fotosExtrasHtml += '</div>';
                         }
                         
                         trechosTexto += '<div class="text-xs ' + trBg + ' p-2.5 rounded-xl border flex flex-col gap-2 my-1.5 shadow-sm">' +
                             '<div class="flex justify-between items-start gap-2">' +
                                 '<div class="flex-1 min-w-0 break-words">' +
-                                    '<span class="font-black text-xs ' + trText + '">📍 Rota: ' + (tr.origem || '?') + ' ➔ ' + (tr.destino || '?') + '</span>' +
-                                    conducoesReadHtml +
+                                    '<span class="font-bold text-xs ' + trText + '">🚄 ' + (tr.origem || '?') + ' ➔ ' + (tr.destino || '?') + '</span> ' +
+                                    '<span class="font-medium ' + trText + '">(' + (tr.transporte || 'Trem') + ')</span>' +
+                                    (tr.valor ? ' • <span class="font-black ' + trText + '">' + tr.valor + ' ' + (tr.moeda || 'EUR') + '</span>' : '') +
+                                    (tr.notas ? '<div class="text-[11px] italic mt-1 whitespace-pre-wrap break-words ' + trText + '">📝 ' + tr.notas + '</div>' : '') +
+                                    fotosExtrasHtml +
                                 '</div>' +
                                 '<label class="flex items-center gap-1 cursor-pointer font-bold bg-white px-2 py-1 rounded-lg border text-[11px] shrink-0 shadow-sm">' +
                                     '<input type="checkbox" ' + (trConcluido ? 'checked' : '') + ' onchange="alternarConcluidoTrecho(\'' + item.id + '\', \'' + tr.id + '\')" class="w-3.5 h-3.5 accent-emerald-600 rounded cursor-pointer">' +
@@ -1325,7 +1302,6 @@
                 filtrados = filtrados.filter(i => (i.categoria || "").toLowerCase().includes(destinoFiltro.toLowerCase()));
             }
 
-            // Aplicar ordenação dos blocos
             filtrados.sort((a, b) => {
                 if (blocoOrdenacao === 'alfabetica') {
                     return (a.categoria || '').localeCompare(b.categoria || '');
@@ -1371,56 +1347,30 @@
                         });
                         opcoesDest += '<option value="outro_destino_local">➕ Outro Destino...</option>';
 
-                        if(!tr.conducoes) tr.conducoes = [{ id: Date.now(), transporte: "Trem", valor: 0, moeda: "EUR", notas: "", fotosExtras: [] }];
-
-                        let conducoesEditHtml = '';
-                        tr.conducoes.forEach((cond, condIdx) => {
-                            let listaFotosExtrasEdit = '';
-                            if(cond.fotosExtras && cond.fotosExtras.length > 0) {
-                                cond.fotosExtras.forEach((fUrl, fIdx) => {
-                                    listaFotosExtrasEdit += `<div class="flex items-center gap-1 bg-purple-50 p-1 rounded-lg border border-purple-200"><img src="${fUrl}" class="w-7 h-7 object-cover rounded cursor-pointer" onclick="abrirLeitorArquivo('${fUrl}', 'Foto')" title="Ver foto"><button onclick="removerFotoExtraTrecho('${item.id}', '${tr.id}', '${cond.id}', ${fIdx})" class="text-red-600 font-bold text-[10px] px-1">✕</button></div>`;
-                                });
-                            }
-
-                            conducoesEditHtml += `
-                                <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-200 space-y-2 mt-2">
-                                    <div class="flex items-center gap-1.5 flex-wrap">
-                                        <select onchange="atualizarConducaoItem('${item.id}', '${tr.id}', '${cond.id}', 'transporte', this.value)" class="w-28 shrink-0 p-1.5 bg-white border border-slate-300 rounded-xl font-bold text-xs outline-none">
-                                            <option value="Trem" ${cond.transporte==='Trem'?'selected':''}>🚂 Trem</option>
-                                            <option value="Ônibus" ${cond.transporte==='Ônibus'?'selected':''}>🚌 Ônibus</option>
-                                            <option value="Avião" ${cond.transporte==='Avião'?'selected':''}>✈️ Avião</option>
-                                            <option value="Metrô" ${cond.transporte==='Metrô'?'selected':''}>🚇 Metrô</option>
-                                            <option value="Carro" ${cond.transporte==='Carro'?'selected':''}>🚗 Carro</option>
-                                            <option value="Outro" ${cond.transporte==='Outro'?'selected':''}>📦 Outro</option>
-                                        </select>
-                                        <input type="text" value="${cond.valor || 0}" onchange="atualizarConducaoItem('${item.id}', '${tr.id}', '${cond.id}', 'valor', limparNumero(this.value)); atualizarTudo();" class="w-16 shrink-0 p-1.5 bg-white border border-slate-300 rounded-xl font-bold text-xs text-right outline-none" placeholder="0">
-                                        <select onchange="atualizarConducaoItem('${item.id}', '${tr.id}', '${cond.id}', 'moeda', this.value); atualizarTudo();" class="w-16 shrink-0 p-1.5 bg-white border border-slate-300 rounded-xl font-bold text-xs outline-none">
-                                            <option value="EUR" ${cond.moeda==='EUR'?'selected':''}>EUR</option>
-                                            <option value="CHF" ${cond.moeda==='CHF'?'selected':''}>CHF</option>
-                                        </select>
-                                        <label class="bg-purple-100 hover:bg-purple-200 text-purple-800 px-2.5 py-1.5 rounded-xl font-bold text-[11px] cursor-pointer border border-purple-300 inline-flex items-center gap-1 shadow-sm shrink-0" title="Adicionar foto">➕ Foto<input type="file" accept="image/*" onchange="adicionarFotoExtraTrecho('${item.id}', '${tr.id}', '${cond.id}', event)" class="hidden"></label>
-                                        ${tr.conducoes.length > 1 ? `<button onclick="removerConducaoItem('${item.id}', '${tr.id}', '${cond.id}')" class="text-red-500 font-bold px-2.5 py-1.5 rounded-xl bg-red-50 hover:bg-red-100 text-xs">✕</button>` : ''}
-                                    </div>
-                                    ${listaFotosExtrasEdit ? '<div class="flex gap-1.5 flex-wrap items-center pt-1">' + listaFotosExtrasEdit + '</div>' : ''}
-                                    <input type="text" value="${cond.notas || ''}" onchange="atualizarConducaoItem('${item.id}', '${tr.id}', '${cond.id}', 'notas', this.value)" class="w-full p-1.5 bg-white border border-slate-300 rounded-xl font-medium text-xs outline-none" placeholder="Detalhes desta condução (ex: Linha 8)...">
-                                </div>
-                            `;
-                        });
-
-                        trechosHtml += '<div class="bg-white p-3 rounded-2xl border border-slate-200 space-y-2.5 mb-3 shadow-sm">' +
-                            '<div class="flex items-center gap-1.5 min-w-0 border-b border-slate-100 pb-2">' +
+                        trechosHtml += '<div class="bg-white p-2.5 rounded-xl border border-slate-200 flex flex-col gap-2 text-xs mb-2 shadow-sm min-w-0">' +
+                            '<div class="flex items-center gap-1.5 min-w-0">' +
                                 '<select onchange="lidarSelecaoOrigemTrecho(\'' + item.id + '\', \'' + tr.id + '\', this.value)" class="flex-1 min-w-0 p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs truncate"><option value="">Origem...</option>' + opcoesOrigem + '</select>' +
                                 '<span class="shrink-0 font-bold text-slate-400">➔</span>' +
                                 '<select onchange="lidarSelecaoDestinoTrecho(\'' + item.id + '\', \'' + tr.id + '\', this.value)" class="flex-1 min-w-0 p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs truncate"><option value="">Destino...</option>' + opcoesDest + '</select>' +
-                                '<button onclick="removerTrecho(\'' + item.id + '\', \'' + tr.id + '\')" class="text-red-500 font-bold px-2.5 py-1.5 rounded-xl bg-red-50 hover:bg-red-100 transition" title="Apagar Rota">✕</button>' +
+                                '<button onclick="removerTrecho(\'' + item.id + '\', \'' + tr.id + '\')" class="text-red-500 font-bold px-2.5 py-1.5 rounded-xl bg-red-50 text-xs shrink-0 hover:bg-red-100 transition">✕</button>' +
                             '</div>' +
-                            '<div class="space-y-1.5">' +
-                                '<span class="font-bold text-[10px] uppercase text-slate-500 block">Ônibus e Conduções desta Rota:</span>' +
-                                conducoesEditHtml +
-                                '<button onclick="adicionarConducaoVazia(\'' + item.id + '\', \'' + tr.id + '\')" class="w-full mt-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 rounded-xl text-xs transition shadow-sm flex items-center justify-center gap-1">' +
-                                    '<span>➕</span> Adicionar mais um Ônibus / Condução (<b>+</b>)' +
-                                '</button>' +
+                            '<div class="flex items-center gap-1.5 min-w-0 flex-wrap">' +
+                                '<select onchange="atualizarTrecho(\'' + item.id + '\', \'' + tr.id + '\', \'transporte\', this.value)" class="w-28 shrink-0 p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs outline-none">' +
+                                    '<option value="Trem" ' + (tr.transporte==='Trem'?'selected':'') + '>🚂 Trem</option>' +
+                                    '<option value="Ônibus" ' + (tr.transporte==='Ônibus'?'selected':'') + '>🚌 Ônibus</option>' +
+                                    '<option value="Avião" ' + (tr.transporte==='Avião'?'selected':'') + '>✈️ Avião</option>' +
+                                    '<option value="Metrô" ' + (tr.transporte==='Metrô'?'selected':'') + '>🚇 Metrô</option>' +
+                                    '<option value="Carro" ' + (tr.transporte==='Carro'?'selected':'') + '>🚗 Carro</option>' +
+                                    '<option value="Outro" ' + (tr.transporte==='Outro'?'selected':'') + '>📦 Outro</option>' +
+                                '</select>' +
+                                '<input type="text" value="' + (tr.valor || 0) + '" onchange="atualizarTrecho(\'' + item.id + '\', \'' + tr.id + '\', \'valor\', limparNumero(this.value)); atualizarTudo();" class="w-16 shrink-0 p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs text-right outline-none" placeholder="0">' +
+                                '<select onchange="atualizarTrecho(\'' + item.id + '\', \'' + tr.id + '\', \'moeda\', this.value); atualizarTudo();" class="w-16 shrink-0 p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs outline-none">' +
+                                    '<option value="EUR" ' + (tr.moeda==='EUR'?'selected':'') + '>EUR</option>' +
+                                    '<option value="CHF" ' + (tr.moeda==='CHF'?'selected':'') + '>CHF</option>' +
+                                '</select>' +
+                                '<label class="bg-purple-100 hover:bg-purple-200 text-purple-800 px-2.5 py-1.5 rounded-xl font-bold text-[11px] cursor-pointer border border-purple-300 inline-flex items-center gap-1 shadow-sm shrink-0" title="Adicionar foto">📷 Foto<input type="file" accept="image/*" onchange="anexarFotoTrecho(\'' + item.id + '\', \'' + tr.id + '\', event)" class="hidden"></label>' +
                             '</div>' +
+                            '<input type="text" value="' + (tr.notas || '') + '" onchange="atualizarTrecho(\'' + item.id + '\', \'' + tr.id + '\', \'notas\', this.value)" class="w-full p-2 bg-slate-50 border border-slate-300 rounded-xl font-medium text-xs outline-none" placeholder="Informações adicionais...">' +
                         '</div>';
                     });
                 }
@@ -1428,12 +1378,11 @@
                 let itensHtml = '';
                 if(item.itens && item.itens.length > 0) {
                     item.itens.forEach(it => {
-                        if(it.texto && it.texto.trim() !== '') {
-                            itensHtml += '<div class="flex items-center gap-1.5 bg-white p-2 rounded-xl border border-slate-200 text-xs min-w-0 mb-1.5 shadow-sm">' +
-                                '<input type="text" value="' + (it.texto || '').replace(/"/g, '&quot;') + '" onchange="atualizarTextoItemBloco(\'' + item.id + '\', \'' + it.id + '\', this.value)" class="flex-1 min-w-0 bg-transparent outline-none font-bold text-slate-800 text-xs" placeholder="Escreva um texto livre...">' +
-                                '<button onclick="removerItemBloco(\'' + item.id + '\', \'' + it.id + '\')" class="text-red-500 font-bold px-2.5 py-1.5 rounded-xl bg-red-50 text-xs shrink-0 hover:bg-red-100 transition">✕</button>' +
-                            '</div>';
-                        }
+                        let itTextoSafe = (it.texto || '').replace(/"/g, '&quot;');
+                        itensHtml += '<div class="flex items-center gap-1.5 bg-white p-2 rounded-xl border border-slate-200 text-xs min-w-0 mb-1.5 shadow-sm">' +
+                            '<input type="text" value="' + itTextoSafe + '" onchange="atualizarTextoItemBloco(\'' + item.id + '\', \'' + it.id + '\', this.value)" class="flex-1 min-w-0 bg-transparent outline-none font-bold text-slate-800 text-xs" placeholder="Escreva um texto livre...">' +
+                            '<button onclick="removerItemBloco(\'' + item.id + '\', \'' + it.id + '\')" class="text-red-500 font-bold px-2.5 py-1.5 rounded-xl bg-red-50 text-xs shrink-0 hover:bg-red-100 transition">✕</button>' +
+                        '</div>';
                     });
                 }
 
@@ -1447,7 +1396,7 @@
                     let ring = corHex === col ? 'ring-2 ring-slate-900 scale-110' : '';
                     paletaHtml += '<button onclick="atualizarCorBlocoLocal(\'' + item.id + '\', \'' + col + '\')" style="background-color: ' + col + ';" class="w-5 h-5 rounded-full shadow-sm transition transform hover:scale-110 ' + ring + '"></button>';
                 });
-                paletaHtml += '<label class="flex items-center gap-1 bg-slate-100 hover:bg-slate-200 px-2 py-0.5 rounded-lg border border-slate-300 cursor-pointer text-[10px] font-bold text-slate-700 ml-1" title="Escolher qualquer cor do catálogo">🎨 Outra <input type="color" value="' + corHex + '" onchange="atualizarCorBlocoLocal(\'' + item.id + '\', this.value)" class="w-4 h-4 rounded cursor-pointer border-0 p-0 bg-transparent"></label>';
+                paletaHtml += '<label class="flex items-center gap-1 bg-slate-100 hover:bg-slate-200 px-2 py-0.5 rounded-lg border border-slate-300 cursor-pointer text-[10px] font-bold text-slate-700 ml-1" title="Escolher cor">🎨 Outra <input type="color" value="' + corHex + '" onchange="atualizarCorBlocoLocal(\'' + item.id + '\', this.value)" class="w-4 h-4 rounded cursor-pointer border-0 p-0 bg-transparent"></label>';
                 paletaHtml += '</div>';
 
                 card.innerHTML = '<div class="flex flex-col gap-2 border-b border-black/10 pb-2.5">' +
@@ -1466,8 +1415,8 @@
                 '</div>' +
                     '<div class="bg-white/95 p-3 rounded-2xl border border-slate-200 space-y-3 text-xs min-w-0 shadow-inner">' +
                         '<div class="space-y-1.5">' +
-                            '<div class="flex justify-between items-center flex-wrap gap-1"><span class="font-bold text-slate-700 uppercase text-[10px]">🚄 Rotas & Conduções</span><div class="flex gap-1"><button onclick="gerenciarOrigens()" class="bg-slate-700 hover:bg-slate-600 text-white px-2 py-0.5 rounded-lg text-[10px] font-bold" title="Gerir Origens">⚙️ Origens</button><button onclick="gerenciarDestinosLocais()" class="bg-slate-700 hover:bg-slate-600 text-white px-2 py-0.5 rounded-lg text-[10px] font-bold" title="Gerir Destinos">⚙️ Destinos</button><button onclick="adicionarTrecho(\'' + item.id + '\')" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2.5 py-1 rounded-xl text-[11px] font-bold transition shadow-sm">➕ Nova Rota</button></div></div>' +
-                            '<div class="space-y-1.5 min-w-0">' + (trechosHtml || '<p class="text-xs text-slate-400 italic">Nenhuma rota adicionada.</p>') + '</div>' +
+                            '<div class="flex justify-between items-center flex-wrap gap-1"><span class="font-bold text-slate-700 uppercase text-[10px]">🚄 Trechos / Conduções</span><div class="flex gap-1"><button onclick="gerenciarOrigens()" class="bg-slate-700 hover:bg-slate-600 text-white px-2 py-0.5 rounded-lg text-[10px] font-bold" title="Gerir Origens">⚙️ Origens</button><button onclick="gerenciarDestinosLocais()" class="bg-slate-700 hover:bg-slate-600 text-white px-2 py-0.5 rounded-lg text-[10px] font-bold" title="Gerir Destinos">⚙️ Destinos</button><button onclick="adicionarTrecho(\'' + item.id + '\')" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2.5 py-1 rounded-xl text-[11px] font-bold transition shadow-sm">➕ Trecho</button></div></div>' +
+                            '<div class="space-y-1.5 min-w-0">' + (trechosHtml || '<p class="text-xs text-slate-400 italic">Nenhum trecho adicionado.</p>') + '</div>' +
                         '</div>' +
                         '<div class="space-y-1.5 pt-2.5 border-t border-slate-200">' +
                             '<div class="flex justify-between items-center"><span class="font-bold text-slate-700 uppercase text-[10px]">📌 Notas</span><button onclick="adicionarItemBloco(\'' + item.id + '\')" class="bg-indigo-600 hover:bg-indigo-700 text-white px-2.5 py-1 rounded-xl text-[11px] font-bold transition shadow-sm">➕ Texto</button></div>' +
@@ -1523,8 +1472,6 @@
                 item.itens.push({ id: Date.now(), texto: "" });
                 salvarStorage();
                 renderizarBlocos();
-            } else {
-                alert("Erro ao localizar o bloco.");
             }
         }
 
@@ -1567,15 +1514,7 @@
             let item = dadosApp.itinerario.find(i => String(i.id) === String(itemId));
             if(item) {
                 if(!item.trechos) item.trechos = [];
-                item.trechos.push({ 
-                    id: Date.now(), 
-                    origem: "", 
-                    destino: "", 
-                    concluido: false, 
-                    conducoes: [
-                        { id: Date.now() + 1, transporte: "Trem", valor: 0, moeda: "EUR", notas: "", fotosExtras: [] }
-                    ] 
-                });
+                item.trechos.push({ id: Date.now(), origem: "", destino: "", transporte: "Trem", valor: 0, moeda: "EUR", notas: "", concluido: false, fotoData: "", fotoNome: "" });
                 salvarStorage();
                 atualizarTudo();
             }
@@ -1602,54 +1541,6 @@
             }
         }
 
-        function adicionarConducaoVazia(itemId, trechoId) {
-            registarEstadoAnterior();
-            let item = dadosApp.itinerario.find(i => String(i.id) === String(itemId));
-            if(item && item.trechos) {
-                let tr = item.trechos.find(t => String(t.id) === String(trechoId));
-                if(tr) {
-                    if(!tr.conducoes) tr.conducoes = [];
-                    tr.conducoes.push({
-                        id: Date.now() + Math.random(),
-                        transporte: "Ônibus",
-                        valor: 0,
-                        moeda: "EUR",
-                        notas: "",
-                        fotosExtras: []
-                    });
-                    salvarStorage();
-                    renderizarBlocos();
-                }
-            }
-        }
-
-        function removerConducaoItem(itemId, trechoId, condId) {
-            registarEstadoAnterior();
-            let item = dadosApp.itinerario.find(i => String(i.id) === String(itemId));
-            if(item && item.trechos) {
-                let tr = item.trechos.find(t => String(t.id) === String(trechoId));
-                if(tr && tr.conducoes) {
-                    tr.conducoes = tr.conducoes.filter(c => String(c.id) !== String(condId));
-                    salvarStorage();
-                    renderizarBlocos();
-                }
-            }
-        }
-
-        function atualizarConducaoItem(itemId, trechoId, condId, campo, valor) {
-            let item = dadosApp.itinerario.find(i => String(i.id) === String(itemId));
-            if(item && item.trechos) {
-                let tr = item.trechos.find(t => String(t.id) === String(trechoId));
-                if(tr && tr.conducoes) {
-                    let cond = tr.conducoes.find(c => String(c.id) === String(condId));
-                    if(cond) {
-                        cond[campo] = valor;
-                        salvarStorage();
-                    }
-                }
-            }
-        }
-
         function adicionarBloco() {
             registarEstadoAnterior();
             let destinoInicial = (destinoFiltro !== 'todos') ? destinoFiltro : ((dadosApp.destinosCadastrados && dadosApp.destinosCadastrados.length > 0) ? dadosApp.destinosCadastrados[0] : "Zurique");
@@ -1662,18 +1553,7 @@
                 cor: obterCorPorCategoria(destinoInicial), 
                 bloqueado: false, 
                 concluido: false, 
-                trechos: [
-                    { 
-                        id: Date.now() + 1, 
-                        origem: "", 
-                        destino: "", 
-                        concluido: false, 
-                        conducoes: [
-                            { id: Date.now() + 11, transporte: "Trem", valor: 0, moeda: "EUR", notas: "", fotosExtras: [] },
-                            { id: Date.now() + 12, transporte: "Ônibus", valor: 0, moeda: "EUR", notas: "", fotosExtras: [] }
-                        ] 
-                    }
-                ], 
+                trechos: [], 
                 itens: []
             };
             if(!dadosApp.itinerario) dadosApp.itinerario = [];
@@ -2058,16 +1938,12 @@
                     dadosApp.itinerario.forEach(item => {
                         if(item.trechos && item.trechos.length > 0) {
                             item.trechos.forEach(tr => {
-                                if(tr.conducoes) {
-                                    tr.conducoes.forEach(cond => {
-                                        let val = limparNumero(cond.valor);
-                                        let moeda = cond.moeda || 'EUR';
-                                        if(val > 0) {
-                                            if(moeda === 'EUR') gastoEur += val;
-                                            else if(moeda === 'CHF') gastoChf += val;
-                                            else if(moeda === 'BRL') gastoBrl += val;
-                                        }
-                                    });
+                                let val = limparNumero(tr.valor);
+                                let moeda = tr.moeda || 'EUR';
+                                if(val > 0) {
+                                    if(moeda === 'EUR') gastoEur += val;
+                                    else if(moeda === 'CHF') gastoChf += val;
+                                    else if(moeda === 'BRL') gastoBrl += val;
                                 }
                             });
                         }
