@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v249.0)</title>
+    <title>Roteiro Europa - Mariana (v251.0)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Manifest Dinâmico via JavaScript -->
@@ -39,7 +39,7 @@
             <a href="https://translate.google.com/?hl=pt&sl=auto&tl=pt&op=images" target="_blank" class="bg-indigo-600 hover:bg-indigo-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm flex items-center gap-1" title="Google Tradutor & Câmara">🌐 Tradutor</a>
             <button onclick="window.location.reload()" class="bg-slate-800 hover:bg-slate-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm border border-slate-700" title="Atualizar Página">🔄</button>
             <button onclick="exportarPdfPrint()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm" title="Imprimir Tudo">🖨️</button>
-            <span class="bg-indigo-950 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v249.0</span>
+            <span class="bg-indigo-950 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v251.0</span>
         </div>
     </header>
 
@@ -226,13 +226,13 @@
 
     </div>
 
-    <!-- MODAL DO LEITOR DE PDF -->
+    <!-- MODAL DO LEITOR DE PDF / FOTOS -->
     <div id="modal-leitor-pdf" class="fixed inset-0 z-[200] bg-slate-900/80 backdrop-blur-sm hidden flex flex-col p-3 sm:p-6">
         <div class="bg-white rounded-3xl shadow-2xl flex-1 flex flex-col overflow-hidden border border-slate-300 max-w-4xl mx-auto w-full">
             <div class="bg-slate-900 text-white px-4 py-3 flex justify-between items-center text-xs">
-                <span id="pdf-titulo-modal" class="font-bold truncate">📄 Leitor de PDF</span>
+                <span id="pdf-titulo-modal" class="font-bold truncate">📄 Visualizador</span>
                 <div class="flex items-center gap-2">
-                    <a id="pdf-btn-download" href="#" download="documento.pdf" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-xl font-bold text-xs">📥 Baixar</a>
+                    <a id="pdf-btn-download" href="#" download="ficheiro" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-xl font-bold text-xs">📥 Baixar</a>
                     <button onclick="fecharLeitorPdf()" class="bg-slate-800 hover:bg-slate-700 text-white font-bold px-3 py-1.5 rounded-xl text-xs">✕ Fechar</button>
                 </div>
             </div>
@@ -263,7 +263,7 @@
 
     <!-- BARRA DE FERRAMENTAS FIXA -->
     <nav class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-md text-white px-3 py-2.5 shadow-2xl border-t border-slate-800 text-xs flex items-center justify-around gap-1 overflow-x-auto no-scrollbar max-w-4xl mx-auto rounded-t-2xl">
-        <span class="bg-indigo-600 px-2 py-1 rounded font-mono font-bold text-[9px] shrink-0">v249.0</span>
+        <span class="bg-indigo-600 px-2 py-1 rounded font-mono font-bold text-[9px] shrink-0">v251.0</span>
         <button onclick="abrirGeminiModal()" class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-3 py-1.5 rounded-xl font-bold transition shrink-0 flex items-center gap-1 text-xs shadow-sm">
             <span>✨</span> Gemini
         </button>
@@ -435,15 +435,8 @@
             if(!dadosApp.outros) dadosApp.outros = [];
             if(!dadosApp.chat) dadosApp.chat = [];
             if(!dadosApp.compras) dadosApp.compras = [];
-            
-            // Garantir listas separadas para origens e destinos de trechos
-            if(!dadosApp.origensCadastrados) {
-                dadosApp.origensCadastrados = dadosApp.locaisCadastrados || ["Zurich HB", "Zurich Bus Station (Sihlquai)", "Freiburg Hbf (Estação Central)", "Gare de Lyon (Paris)", "Interlaken Ost"];
-            }
-            if(!dadosApp.destinosCadastradosLocais) {
-                dadosApp.destinosCadastradosLocais = dadosApp.locaisCadastrados || ["ibis budget Zurich City West", "Premier Inn Freiburg City Süd", "Europa-Park Rust", "Disney Hotel Santa Fe", "Grindelwald", "Jungfraujoch"];
-            }
-
+            if(!dadosApp.origensCadastrados) dadosApp.origensCadastrados = ["Zurich HB", "Zurich Bus Station (Sihlquai)", "Freiburg Hbf (Estação Central)", "Gare de Lyon (Paris)", "Interlaken Ost"];
+            if(!dadosApp.destinosCadastradosLocais) dadosApp.destinosCadastradosLocais = ["ibis budget Zurich City West", "Premier Inn Freiburg City Süd", "Europa-Park Rust", "Disney Hotel Santa Fe", "Grindelwald", "Jungfraujoch"];
             if(dadosApp.comprasOrdenacao) comprasOrdenacao = dadosApp.comprasOrdenacao;
 
             const manifestObj = {
@@ -472,11 +465,11 @@
                 navigator.serviceWorker.register(URL.createObjectURL(swBlob)).catch(err => {});
             }
 
-            if (!sessionStorage.getItem('sessao_ativa_v249')) {
+            if (!sessionStorage.getItem('sessao_ativa_v251')) {
                 document.getElementById('tela-bloqueio').classList.add('hidden');
             }
 
-            const temaSalvo = localStorage.getItem('tema_v249');
+            const temaSalvo = localStorage.getItem('tema_v251');
             if (temaSalvo === 'dark') {
                 document.body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 document.body.classList.remove('bg-slate-100', 'text-slate-800');
@@ -492,7 +485,7 @@
                 if(selOrd && dadosApp.comprasOrdenacao) selOrd.value = dadosApp.comprasOrdenacao;
 
                 atualizarTudo();
-                let tabSalva = localStorage.getItem('tab_ativa_v249') || 'leitura';
+                let tabSalva = localStorage.getItem('tab_ativa_v251') || 'leitura';
                 mudarTab(tabSalva);
             } catch(e) {
                 console.error("Erro ao iniciar:", e);
@@ -511,15 +504,15 @@
                     deferredPrompt = null;
                 });
             } else {
-                alert("📱 Para instalar no telemóvel:\n\n• No Android (Chrome): Toque nos 3 pontinhos e selecione 'Adicionar ao ecrã principal'.\n• No iPhone (Safari): Toque em Partilhar e escolha 'Adicionar à Ecrã Principal'.");
+                alert("📱 Para instalar no telemóvel:\n\n• No Android (Chrome): Toque nos 3 pontinhos e selecione 'Adicionar ao ecrã principal'.\n• No iPhone (Safari): Touch em Partilhar e escolha 'Adicionar à Ecrã Principal'.");
             }
         }
 
         function desbloquearComPin() {
-            let pinSalvo = localStorage.getItem('app_pin_v249') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v251') || '1510';
             let digitado = document.getElementById('input-pin').value;
             if(digitado === pinSalvo) {
-                sessionStorage.setItem('sessao_ativa_v249', 'true');
+                sessionStorage.setItem('sessao_ativa_v251', 'true');
                 document.getElementById('tela-bloqueio').classList.add('hidden');
                 document.getElementById('erro-pin').classList.add('hidden');
             } else {
@@ -528,17 +521,17 @@
         }
 
         async function desbloquearComBiometria() {
-            sessionStorage.setItem('sessao_ativa_v249', 'true');
+            sessionStorage.setItem('sessao_ativa_v251', 'true');
             document.getElementById('tela-bloqueio').classList.add('hidden');
         }
 
         function alterarSenhaPin() {
             let atual = prompt("Digite a senha atual (Padrão: 1510):");
-            let pinSalvo = localStorage.getItem('app_pin_v249') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v251') || '1510';
             if(atual === pinSalvo) {
                 let nova = prompt("Digite a nova senha PIN:");
                 if(nova && nova.trim() !== '') {
-                    localStorage.setItem('app_pin_v249', nova.trim());
+                    localStorage.setItem('app_pin_v251', nova.trim());
                     alert("🔑 Senha alterada com sucesso!");
                 }
             } else {
@@ -551,11 +544,11 @@
             if(body.classList.contains('dark')) {
                 body.classList.remove('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.add('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v249', 'light');
+                localStorage.setItem('tema_v251', 'light');
             } else {
                 body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.remove('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v249', 'dark');
+                localStorage.setItem('tema_v251', 'dark');
             }
         }
 
@@ -603,6 +596,40 @@
 
         function exportarPdfPrint() {
             window.print();
+        }
+
+        function abrirLeitorArquivo(dadosUrl, titulo) {
+            document.getElementById('pdf-titulo-modal').innerText = "📄 " + (titulo || 'Visualizador');
+            document.getElementById('pdf-iframe-view').src = dadosUrl;
+            document.getElementById('pdf-btn-download').href = dadosUrl;
+            document.getElementById('modal-leitor-pdf').classList.remove('hidden');
+        }
+
+        function fecharLeitorPdf() {
+            document.getElementById('modal-leitor-pdf').classList.add('hidden');
+            document.getElementById('pdf-iframe-view').src = '';
+        }
+
+        function anexarFotoTrecho(itemId, trechoId, event) {
+            const file = event.target.files[0];
+            if(file) {
+                registarEstadoAnterior();
+                const reader = new FileReader();
+                reader.onload = function(evt) {
+                    let item = dadosApp.itinerario.find(i => String(i.id) === String(itemId));
+                    if(item && item.trechos) {
+                        let tr = item.trechos.find(t => String(t.id) === String(trechoId));
+                        if(tr) {
+                            tr.fotoData = evt.target.result;
+                            tr.fotoNome = file.name;
+                            salvarStorage();
+                            renderizarBlocos();
+                            abrirLeitorArquivo(tr.fotoData, 'Foto do Local');
+                        }
+                    }
+                };
+                reader.readAsDataURL(file);
+            }
         }
 
         function imprimirSeccaoCustom(titulo, htmlConteudo) {
@@ -761,7 +788,7 @@
         }
 
         function mudarTab(tab) {
-            localStorage.setItem('tab_ativa_v249', tab);
+            localStorage.setItem('tab_ativa_v251', tab);
             if(tab === 'itinerario' || tab === 'leitura') {
                 destinoFiltro = 'todos';
             }
@@ -912,7 +939,7 @@
             }
         }
 
-        // GESTÃO SEPARADA DE ORIGENS
+        // GESTÃO DE ORIGENS (LISTA CENTRALIZADA)
         function gerenciarOrigens() {
             if (!dadosApp.origensCadastrados || dadosApp.origensCadastrados.length === 0) {
                 alert("Não há origens registadas.");
@@ -942,7 +969,7 @@
                     });
                     salvarStorage();
                     atualizarTudo();
-                    alert("✅ Origem renomeada com sucesso!");
+                    alert("✅ Origem renomeada com sucesso em todo o aplicativo!");
                 }
             } else if (acao === '2') {
                 if (confirm(`Deseja realmente apagar a origem "${encontrada}"?`)) {
@@ -957,19 +984,19 @@
                     });
                     salvarStorage();
                     atualizarTudo();
-                    alert("🗑️ Origem apagada com sucesso!");
+                    alert("🗑️ Origem apagada com sucesso em todo o aplicativo!");
                 }
             }
         }
 
-        // GESTÃO SEPARADA DE DESTINOS DE TRECHO
+        // GESTÃO DE DESTINOS DE TRECHO (LISTA CENTRALIZADA)
         function gerenciarDestinosLocais() {
             if (!dadosApp.destinosCadastradosLocais || dadosApp.destinosCadastradosLocais.length === 0) {
-                alert("Não há destinos de trecho registados.");
+                alert("Não há destinos registados.");
                 return;
             }
             let lista = dadosApp.destinosCadastradosLocais.join(', ');
-            let escolha = prompt("Destinos de Trecho atuais:\n[" + lista + "]\n\nDigite exatamente o nome do destino que deseja APAGAR ou RENOMEAR:");
+            let escolha = prompt("Destinos atuais:\n[" + lista + "]\n\nDigite exatamente o nome do destino que deseja APAGAR ou RENOMEAR:");
             if (!escolha || escolha.trim() === '') return;
             let encontrada = dadosApp.destinosCadastradosLocais.find(d => d.toLowerCase() === escolha.trim().toLowerCase());
             if (!encontrada) {
@@ -992,7 +1019,7 @@
                     });
                     salvarStorage();
                     atualizarTudo();
-                    alert("✅ Destino renomeado com sucesso!");
+                    alert("✅ Destino renomeado com sucesso em todo o aplicativo!");
                 }
             } else if (acao === '2') {
                 if (confirm(`Deseja realmente apagar o destino "${encontrada}"?`)) {
@@ -1007,7 +1034,7 @@
                     });
                     salvarStorage();
                     atualizarTudo();
-                    alert("🗑️ Destino apagado com sucesso!");
+                    alert("🗑️ Destino apagado com sucesso em todo o aplicativo!");
                 }
             }
         }
@@ -1138,6 +1165,7 @@
                         let trBg = trConcluido ? 'bg-emerald-50/80 opacity-75 border-emerald-300' : 'bg-slate-50 border-slate-200';
                         let trText = trConcluido ? 'line-through text-slate-400' : 'text-slate-900';
                         let mapsUrl = 'https://www.google.com/maps/dir/?api=1&origin=' + encodeURIComponent(tr.origem || '') + '&destination=' + encodeURIComponent(tr.destino || '') + '&travelmode=transit';
+                        let fotoTrechoBtn = tr.fotoData ? `<button onclick="abrirLeitorArquivo('${tr.fotoData}', 'Foto do Local')" class="bg-purple-600 text-white px-2.5 py-1 rounded-lg font-bold text-[10px] transition">🖼️ Ver Foto</button>` : '';
                         
                         trechosTexto += '<div class="text-xs ' + trBg + ' p-2.5 rounded-xl border flex flex-col gap-2 my-1.5 shadow-sm">' +
                             '<div class="flex justify-between items-start gap-2">' +
@@ -1152,10 +1180,11 @@
                                     '<span>Feito</span>' +
                                 '</label>' +
                             '</div>' +
-                            '<div class="flex gap-1.5 flex-wrap border-t border-slate-200 pt-2">' +
+                            '<div class="flex gap-1.5 flex-wrap border-t border-slate-200 pt-2 items-center">' +
                                 '<a href="' + mapsUrl + '" target="_blank" class="bg-sky-100 text-sky-800 hover:bg-sky-200 px-2.5 py-1 rounded-lg font-bold text-[10px] transition inline-block text-center">🗺️ Mapa</a>' +
                                 '<button onclick="abrirWebcam(\'' + (tr.destino || item.categoria) + '\')" class="bg-purple-100 text-purple-800 hover:bg-purple-200 px-2.5 py-1 rounded-lg font-bold text-[10px] transition">📹 Câmera</button>' +
                                 '<button onclick="mostrarClimaModal(\'' + (tr.destino || item.categoria) + '\')" class="bg-amber-100 text-amber-800 hover:bg-amber-200 px-2.5 py-1 rounded-lg font-bold text-[10px] transition">🌤️ Clima</button>' +
+                                fotoTrechoBtn +
                             '</div>' +
                         '</div>';
                     });
@@ -1226,6 +1255,10 @@
                         });
                         opcoesDest += '<option value="outro_destino_local">➕ Outro Destino...</option>';
 
+                        let fotoTrechoEdit = tr.fotoData ? 
+                            `<button onclick="abrirLeitorArquivo('${tr.fotoData}', 'Foto do Local')" class="bg-purple-600 text-white px-2 py-1 rounded-lg font-bold text-[10px]">🖼️ Ver Foto</button>` : 
+                            `<label class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-2 py-1 rounded-lg font-bold text-[10px] cursor-pointer border">📷 Foto<input type="file" accept="image/*" onchange="anexarFotoTrecho('${item.id}', '${tr.id}', event)" class="hidden"></label>`;
+
                         trechosHtml += '<div class="bg-white p-2.5 rounded-xl border border-slate-200 flex flex-col gap-2 text-xs mb-2 shadow-sm min-w-0">' +
                             '<div class="flex items-center gap-1.5 min-w-0">' +
                                 '<select onchange="lidarSelecaoOrigemTrecho(\'' + item.id + '\', \'' + tr.id + '\', this.value)" class="flex-1 min-w-0 p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs truncate"><option value="">Origem...</option>' + opcoesOrigem + '</select>' +
@@ -1233,7 +1266,7 @@
                                 '<select onchange="lidarSelecaoDestinoTrecho(\'' + item.id + '\', \'' + tr.id + '\', this.value)" class="flex-1 min-w-0 p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs truncate"><option value="">Destino...</option>' + opcoesDest + '</select>' +
                                 '<button onclick="removerTrecho(\'' + item.id + '\', \'' + tr.id + '\')" class="text-red-500 font-bold px-2.5 py-1.5 rounded-xl bg-red-50 text-xs shrink-0 hover:bg-red-100 transition">✕</button>' +
                             '</div>' +
-                            '<div class="flex items-center gap-1.5 min-w-0">' +
+                            '<div class="flex items-center gap-1.5 min-w-0 flex-wrap">' +
                                 '<select onchange="atualizarTrecho(\'' + item.id + '\', \'' + tr.id + '\', \'transporte\', this.value)" class="flex-1 min-w-0 p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs">' +
                                     '<option value="Trem" ' + (tr.transporte==='Trem'?'selected':'') + '>Trem</option>' +
                                     '<option value="Ônibus" ' + (tr.transporte==='Ônibus'?'selected':'') + '>Ônibus</option>' +
@@ -1247,8 +1280,9 @@
                                     '<option value="EUR" ' + (tr.moeda==='EUR'?'selected':'') + '>EUR</option>' +
                                     '<option value="CHF" ' + (tr.moeda==='CHF'?'selected':'') + '>CHF</option>' +
                                 '</select>' +
+                                fotoTrechoEdit +
                             '</div>' +
-                            '<input type="text" value="' + (tr.notas || '') + '" onchange="atualizarTrecho(\'' + item.id + '\', \'' + tr.id + '\', \'notas\', this.value)" class="w-full p-2 bg-slate-50 border border-slate-300 rounded-xl font-medium text-xs" placeholder="Informações adicionais para este trecho...">' +
+                            '<input type="text" value="' + (tr.notas || '') + '" onchange="atualizarTrecho(\'' + item.id + '\', \'' + tr.id + '\', \'notas\', this.value)" class="w-full p-2 bg-slate-50 border border-slate-300 rounded-xl font-medium text-xs" placeholder="Informações adicionais (ex: Linha do autocarro 8)...">' +
                         '</div>';
                     });
                 }
@@ -1293,7 +1327,7 @@
                 '</div>' +
                     '<div class="bg-white/95 p-3 rounded-2xl border border-slate-200 space-y-3 text-xs min-w-0 shadow-inner">' +
                         '<div class="space-y-1.5">' +
-                            '<div class="flex justify-between items-center flex-wrap gap-1"><span class="font-bold text-slate-700 uppercase text-[10px]">🚄 Trechos</span><div class="flex gap-1"><button onclick="gerenciarOrigens()" class="bg-slate-700 hover:bg-slate-600 text-white px-2 py-0.5 rounded-lg text-[10px] font-bold" title="Gerir Origens">⚙️ Gerir Origens</button><button onclick="gerenciarDestinosLocais()" class="bg-slate-700 hover:bg-slate-600 text-white px-2 py-0.5 rounded-lg text-[10px] font-bold" title="Gerir Destinos">⚙️ Gerir Destinos</button><button onclick="adicionarTrecho(\'' + item.id + '\')" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2.5 py-1 rounded-xl text-[11px] font-bold transition shadow-sm">➕ Trecho</button></div></div>' +
+                            '<div class="flex justify-between items-center flex-wrap gap-1"><span class="font-bold text-slate-700 uppercase text-[10px]">🚄 Trechos / Conduções</span><div class="flex gap-1"><button onclick="gerenciarOrigens()" class="bg-slate-700 hover:bg-slate-600 text-white px-2 py-0.5 rounded-lg text-[10px] font-bold" title="Gerir Origens">⚙️ Gerir Origens</button><button onclick="gerenciarDestinosLocais()" class="bg-slate-700 hover:bg-slate-600 text-white px-2 py-0.5 rounded-lg text-[10px] font-bold" title="Gerir Destinos">⚙️ Gerir Destinos</button><button onclick="adicionarTrecho(\'' + item.id + '\')" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2.5 py-1 rounded-xl text-[11px] font-bold transition shadow-sm">➕ Adicionar Condução</button></div></div>' +
                             '<div class="space-y-1.5 min-w-0">' + (trechosHtml || '<p class="text-xs text-slate-400 italic">Nenhum trecho adicionado.</p>') + '</div>' +
                         '</div>' +
                         '<div class="space-y-1.5 pt-2.5 border-t border-slate-200">' +
@@ -1392,7 +1426,7 @@
             let item = dadosApp.itinerario.find(i => String(i.id) === String(itemId));
             if(item) {
                 if(!item.trechos) item.trechos = [];
-                item.trechos.push({ id: Date.now(), origem: "", destino: "", transporte: "Trem", valor: 0, moeda: "EUR", notas: "", concluido: false });
+                item.trechos.push({ id: Date.now(), origem: "", destino: "", transporte: "Trem", valor: 0, moeda: "EUR", notas: "", concluido: false, fotoData: "", fotoNome: "" });
                 salvarStorage();
                 atualizarTudo();
             }
@@ -1495,7 +1529,7 @@
                         voosHtml = '<p class="text-xs text-slate-400 italic text-center py-2">Nenhum voo registado.</p>';
                     } else {
                         dadosApp.voos.forEach(v => {
-                            let pdfAction = v.pdfData ? '<button onclick="abrirLeitorPdf(\'' + v.id + '\', \'Passagem ' + (v.voo || 'Voo') + '\')" class="bg-indigo-600 text-white px-2 py-1 rounded-xl text-xs font-bold shadow-sm">📄 PDF</button>' : '<label class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-2 py-1 rounded-xl text-xs font-bold cursor-pointer border shadow-sm">📎 PDF<input type="file" accept="application/pdf" onchange="anexarPdfVoo(' + v.id + ', event)" class="hidden"></label>';
+                            let pdfAction = v.pdfData ? '<button onclick="abrirLeitorArquivo(\'' + v.pdfData + '\', \'Passagem ' + (v.voo || 'Voo') + '\')" class="bg-indigo-600 text-white px-2 py-1 rounded-xl text-xs font-bold shadow-sm">📄 PDF</button>' : '<label class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-2 py-1 rounded-xl text-xs font-bold cursor-pointer border shadow-sm">📎 PDF<input type="file" accept="application/pdf" onchange="anexarPdfVoo(' + v.id + ', event)" class="hidden"></label>';
                             let ciaSafe = (v.cia || '').replace(/"/g, '&quot;');
                             let vooSafe = (v.voo || '').replace(/"/g, '&quot;');
                             let pnrSafe = (v.pnr || '').replace(/"/g, '&quot;');
@@ -1570,12 +1604,12 @@
                         vouchersHubHtml = '<p class="text-xs text-slate-400 italic text-center py-2">Nenhum voucher registado.</p>';
                     } else {
                         dadosApp.vouchers.forEach(v => {
-                            let pdfAct = v.pdfData ? '<button onclick="abrirLeitorPdf(\'' + v.id + '\', \'' + (v.titulo || 'Voucher').replace(/'/g, "\\'") + '\')" class="bg-indigo-600 text-white px-2.5 py-1 rounded-xl text-xs font-bold shadow-sm">📄 PDF</button>' : '<label class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-2.5 py-1 rounded-xl text-xs font-bold cursor-pointer border shadow-sm">📎 PDF<input type="file" accept="application/pdf" onchange="anexarPdfVoucher(' + v.id + ', event)" class="hidden"></label>';
+                            let pdfAct = v.pdfData ? '<button onclick="abrirLeitorArquivo(\'' + v.pdfData + '\', \'' + (v.titulo || 'Voucher').replace(/'/g, "\\'") + '\')" class="bg-indigo-600 text-white px-2.5 py-1 rounded-xl text-xs font-bold shadow-sm">📄 Ficheiro</button>' : '<label class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-2.5 py-1 rounded-xl text-xs font-bold cursor-pointer border shadow-sm">📎 Anexar<input type="file" accept="application/pdf,image/*" onchange="anexarPdfVoucher(' + v.id + ', event)" class="hidden"></label>';
                             let tituloSafe = (v.titulo || '').replace(/"/g, '&quot;');
                             vouchersHubHtml += '<div class="p-2.5 rounded-2xl border border-slate-200 bg-white flex items-center justify-between gap-2 shadow-sm"><input type="text" value="' + tituloSafe + '" oninput="atualizarVoucherTitulo(' + v.id + ', this.value)" class="flex-1 bg-transparent outline-none font-bold text-slate-800 text-xs truncate" placeholder="Título...">' + pdfAct + '<div class="flex gap-1 shrink-0"><button onclick="moverItemArray(\'vouchers\', ' + v.id + ', -1)" class="bg-slate-200 px-1.5 py-1 rounded-lg font-bold">⬆️</button><button onclick="moverItemArray(\'vouchers\', ' + v.id + ', 1)" class="bg-slate-200 px-1.5 py-1 rounded-lg font-bold">⬇️</button><button onclick="apagarVoucher(' + v.id + ')" class="text-red-500 font-bold bg-red-50 hover:bg-red-100 px-2 py-1 rounded-xl text-xs">✕</button></div></div>';
                         });
                     }
-                    container.innerHTML += `<div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-3" id="card-vouchers" ondragover="permitirDropHub(event)" ondrop="soltarHub(event, 'vouchers')"><div class="flex justify-between items-center border-b pb-2 gap-2"><h3 class="font-bold text-xs uppercase text-slate-800 flex items-center gap-2">🎟️ Vouchers & PDFs</h3><div class="flex items-center gap-2">${moveBtns}<button onclick="adicionarVoucher()" class="bg-indigo-600 text-white px-2.5 py-1 rounded-xl text-xs font-bold shadow-sm">➕ Voucher</button></div></div><div class="space-y-2 text-xs">${vouchersHubHtml}</div></div>`;
+                    container.innerHTML += `<div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-3" id="card-vouchers" ondragover="permitirDropHub(event)" ondrop="soltarHub(event, 'vouchers')"><div class="flex justify-between items-center border-b pb-2 gap-2"><h3 class="font-bold text-xs uppercase text-slate-800 flex items-center gap-2">🎟️ Vouchers & Ficheiros</h3><div class="flex items-center gap-2">${moveBtns}<button onclick="adicionarVoucher()" class="bg-indigo-600 text-white px-2.5 py-1 rounded-xl text-xs font-bold shadow-sm">➕ Voucher</button></div></div><div class="space-y-2 text-xs">${vouchersHubHtml}</div></div>`;
                 } else if(tipo === 'chat') {
                     let chatHubHtml = '';
                     if(!dadosApp.chat || dadosApp.chat.length === 0) {
@@ -1693,7 +1727,7 @@
                         v.pdfNome = file.name; 
                         salvarStorage(); 
                         renderizarHubUtilidades(); 
-                        abrirLeitorPdf(v.id, 'Passagem ' + (v.voo || 'Voo'));
+                        abrirLeitorArquivo(v.pdfData, 'Passagem ' + (v.voo || 'Voo'));
                     }
                 };
                 reader.readAsDataURL(file);
@@ -1776,25 +1810,6 @@
         function atualizarVoucherTitulo(id, val) {
             let v = dadosApp.vouchers.find(item => item.id === id);
             if(v) { v.titulo = val; salvarStorage(); }
-        }
-
-        function anexarPdfVoucher(id, event) {
-            const file = event.target.files[0];
-            if(file) {
-                registarEstadoAnterior();
-                const reader = new FileReader();
-                reader.onload = function(evt) {
-                    const v = dadosApp.vouchers.find(item => item.id === id);
-                    if(v) { 
-                        v.pdfData = evt.target.result; 
-                        v.pdfNome = file.name; 
-                        salvarStorage(); 
-                        renderizarHubUtilidades(); 
-                        abrirLeitorPdf(v.id, v.titulo);
-                    }
-                };
-                reader.readAsDataURL(file);
-            }
         }
 
         // ORÇAMENTO & GERAL
