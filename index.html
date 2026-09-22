@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v242.0)</title>
+    <title>Roteiro Europa - Mariana (v243.0)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Manifest Dinâmico via JavaScript -->
@@ -39,7 +39,7 @@
             <a href="https://translate.google.com/?hl=pt&sl=auto&tl=pt&op=images" target="_blank" class="bg-indigo-600 hover:bg-indigo-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm flex items-center gap-1" title="Google Tradutor & Câmara">🌐 Tradutor</a>
             <button onclick="window.location.reload()" class="bg-slate-800 hover:bg-slate-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm border border-slate-700" title="Atualizar Página">🔄</button>
             <button onclick="exportarPdfPrint()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm" title="Imprimir Tudo">🖨️</button>
-            <span class="bg-indigo-950 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v242.0</span>
+            <span class="bg-indigo-950 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v243.0</span>
         </div>
     </header>
 
@@ -160,22 +160,15 @@
             </div>
         </div>
 
-        <!-- TAB 5: COMPRAS (COM ORDENAÇÃO E FILTROS COLORIDOS) -->
+        <!-- TAB 5: COMPRAS (COM ORDENAÇÃO JUNTO À LISTA) -->
         <div id="tab-compras" class="space-y-3 hidden">
             <div class="bg-white p-3.5 sm:p-5 rounded-2xl shadow-sm border border-slate-200 space-y-4 text-xs" id="compras-conteudo-main">
                 <div class="flex justify-between items-center border-b pb-3 flex-wrap gap-2">
                     <div>
                         <h2 class="text-xs font-extrabold uppercase text-slate-800 tracking-wider">🛍️ Lista de Compras</h2>
-                        <p class="text-[11px] text-slate-500 font-semibold">Organize por valor ou ordem alfabética</p>
+                        <p class="text-[11px] text-slate-500 font-semibold">Filtre por título ou adicione novos itens</p>
                     </div>
-                    <div class="flex items-center gap-1.5">
-                        <select id="select-ordenacao-compras" onchange="mudarOrdenacaoCompras(this.value)" class="p-1.5 bg-slate-100 border border-slate-300 rounded-xl font-bold text-xs outline-none">
-                            <option value="alfabetica">🔤 Ordem Alfabética</option>
-                            <option value="menor_valor">📉 Menor Valor</option>
-                            <option value="maior_valor">📈 Maior Valor</option>
-                        </select>
-                        <button type="button" onclick="imprimirSeccaoCustom('Lista de Compras', document.getElementById('tab-compras').innerHTML)" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-xl font-bold text-xs transition shadow-sm">🖨️ PDF</button>
-                    </div>
+                    <button type="button" onclick="imprimirSeccaoCustom('Lista de Compras', document.getElementById('tab-compras').innerHTML)" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-xl font-bold text-xs transition shadow-sm">🖨️ PDF</button>
                 </div>
 
                 <!-- RESUMO GERAL DAS COMPRAS NO TOPO -->
@@ -213,11 +206,21 @@
                     </div>
                 </div>
 
-                <!-- LISTA DE ITENS REGISTADOS -->
-                <div class="space-y-2 pt-2">
-                    <span class="font-black text-slate-700 uppercase text-[10px] block">📋 ITENS REGISTADOS</span>
-                    <div id="compras-lista-itens" class="space-y-2.5 pt-1"></div>
+                <!-- TÍTULO DA LISTA + ORDENAÇÃO MAIS PERTO -->
+                <div class="flex justify-between items-center pt-2 border-b border-slate-200 pb-2 flex-wrap gap-2">
+                    <span class="font-black text-slate-700 uppercase text-[10px]">📋 ITENS REGISTADOS</span>
+                    <div class="flex items-center gap-1">
+                        <span class="text-[10px] font-bold text-slate-500">Ordenar por:</span>
+                        <select id="select-ordenacao-compras" onchange="mudarOrdenacaoCompras(this.value)" class="p-1.5 bg-slate-100 border border-slate-300 rounded-xl font-bold text-[11px] outline-none text-slate-700 shadow-sm">
+                            <option value="alfabetica">🔤 Alfabética</option>
+                            <option value="menor_valor">📉 Menor Valor</option>
+                            <option value="maior_valor">📈 Maior Valor</option>
+                        </select>
+                    </div>
                 </div>
+
+                <!-- LISTA DE ITENS -->
+                <div id="compras-lista-itens" class="space-y-2.5 pt-1"></div>
             </div>
         </div>
 
@@ -260,7 +263,7 @@
 
     <!-- BARRA DE FERRAMENTAS FIXA -->
     <nav class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-md text-white px-3 py-2.5 shadow-2xl border-t border-slate-800 text-xs flex items-center justify-around gap-1 overflow-x-auto no-scrollbar max-w-4xl mx-auto rounded-t-2xl">
-        <span class="bg-indigo-600 px-2 py-1 rounded font-mono font-bold text-[9px] shrink-0">v242.0</span>
+        <span class="bg-indigo-600 px-2 py-1 rounded font-mono font-bold text-[9px] shrink-0">v243.0</span>
         <button onclick="abrirGeminiModal()" class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-3 py-1.5 rounded-xl font-bold transition shrink-0 flex items-center gap-1 text-xs shadow-sm">
             <span>✨</span> Gemini
         </button>
@@ -440,6 +443,7 @@
             if(!dadosApp.outros) dadosApp.outros = [];
             if(!dadosApp.chat) dadosApp.chat = [];
             if(!dadosApp.compras) dadosApp.compras = [];
+            if(dadosApp.comprasOrdenacao) comprasOrdenacao = dadosApp.comprasOrdenacao;
 
             const manifestObj = {
                 "name": "Roteiro Europa - Mariana",
@@ -467,11 +471,11 @@
                 navigator.serviceWorker.register(URL.createObjectURL(swBlob)).catch(err => {});
             }
 
-            if (!sessionStorage.getItem('sessao_ativa_v242')) {
+            if (!sessionStorage.getItem('sessao_ativa_v243')) {
                 document.getElementById('tela-bloqueio').classList.add('hidden');
             }
 
-            const temaSalvo = localStorage.getItem('tema_v242');
+            const temaSalvo = localStorage.getItem('tema_v243');
             if (temaSalvo === 'dark') {
                 document.body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 document.body.classList.remove('bg-slate-100', 'text-slate-800');
@@ -483,8 +487,11 @@
                 if(inputEur) inputEur.value = dadosApp.cotacaoEur;
                 if(inputChf) inputChf.value = dadosApp.cotacaoChf;
 
+                let selOrd = document.getElementById('select-ordenacao-compras');
+                if(selOrd && dadosApp.comprasOrdenacao) selOrd.value = dadosApp.comprasOrdenacao;
+
                 atualizarTudo();
-                let tabSalva = localStorage.getItem('tab_ativa_v242') || 'leitura';
+                let tabSalva = localStorage.getItem('tab_ativa_v243') || 'leitura';
                 mudarTab(tabSalva);
             } catch(e) {
                 console.error("Erro ao iniciar:", e);
@@ -508,10 +515,10 @@
         }
 
         function desbloquearComPin() {
-            let pinSalvo = localStorage.getItem('app_pin_v242') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v243') || '1510';
             let digitado = document.getElementById('input-pin').value;
             if(digitado === pinSalvo) {
-                sessionStorage.setItem('sessao_ativa_v242', 'true');
+                sessionStorage.setItem('sessao_ativa_v243', 'true');
                 document.getElementById('tela-bloqueio').classList.add('hidden');
                 document.getElementById('erro-pin').classList.add('hidden');
             } else {
@@ -520,17 +527,17 @@
         }
 
         async function desbloquearComBiometria() {
-            sessionStorage.setItem('sessao_ativa_v242', 'true');
+            sessionStorage.setItem('sessao_ativa_v243', 'true');
             document.getElementById('tela-bloqueio').classList.add('hidden');
         }
 
         function alterarSenhaPin() {
             let atual = prompt("Digite a senha atual (Padrão: 1510):");
-            let pinSalvo = localStorage.getItem('app_pin_v242') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v243') || '1510';
             if(atual === pinSalvo) {
                 let nova = prompt("Digite a nova senha PIN:");
                 if(nova && nova.trim() !== '') {
-                    localStorage.setItem('app_pin_v242', nova.trim());
+                    localStorage.setItem('app_pin_v243', nova.trim());
                     alert("🔑 Senha alterada com sucesso!");
                 }
             } else {
@@ -543,11 +550,11 @@
             if(body.classList.contains('dark')) {
                 body.classList.remove('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.add('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v242', 'light');
+                localStorage.setItem('tema_v243', 'light');
             } else {
                 body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.remove('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v242', 'dark');
+                localStorage.setItem('tema_v243', 'dark');
             }
         }
 
@@ -753,7 +760,7 @@
         }
 
         function mudarTab(tab) {
-            localStorage.setItem('tab_ativa_v242', tab);
+            localStorage.setItem('tab_ativa_v243', tab);
             if(tab === 'itinerario' || tab === 'leitura') {
                 destinoFiltro = 'todos';
             }
@@ -945,7 +952,10 @@
         }
 
         function mudarOrdenacaoCompras(val) {
+            registarEstadoAnterior();
             comprasOrdenacao = val;
+            dadosApp.comprasOrdenacao = val;
+            salvarStorage();
             renderizarComprasTab();
         }
 
@@ -1838,7 +1848,7 @@
             }
         }
 
-        // RENDERIZAR ABA DE COMPRAS COM ORDENAÇÃO E FILTROS COLORIDOS
+        // RENDERIZAR ABA DE COMPRAS COM ORDENAÇÃO E FILTROS FUNCIONAIS
         function renderizarComprasTab() {
             const containerResumo = document.getElementById('compras-resumo-topo');
             const containerFiltros = document.getElementById('compras-filtros-titulo');
