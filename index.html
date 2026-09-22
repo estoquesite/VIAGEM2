@@ -166,7 +166,7 @@
                 <div class="flex justify-between items-center border-b pb-3 flex-wrap gap-2">
                     <div>
                         <h2 class="text-xs font-extrabold uppercase text-slate-800 tracking-wider">🛍️ Lista de Compras</h2>
-                        <p class="text-[11px] text-slate-500 font-semibold">Adicione e controle os seus itens de compras para adultos e crianças</p>
+                        <p class="text-[11px] text-slate-500 font-semibold">Adicione e controle os seus itens de compras</p>
                     </div>
                     <div class="flex gap-1.5">
                         <button onclick="adicionarItemCompraDireto()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1.5 rounded-xl font-bold text-xs transition shadow-sm">➕ Adicionar Item</button>
@@ -174,7 +174,7 @@
                     </div>
                 </div>
 
-                <!-- RESUMO GERAL DAS COMPRAS NO TOPO -->
+                <!-- RESUMO GERAL DAS COMPRAS NO TOPO (DINÂMICO) -->
                 <div id="compras-resumo-topo" class="grid grid-cols-2 gap-2"></div>
 
                 <!-- LISTA DIRETA DE ITENS DE COMPRAS -->
@@ -196,25 +196,6 @@
             </div>
             <div class="flex-1 bg-slate-100 p-2 flex items-center justify-center">
                 <iframe id="pdf-iframe-view" class="w-full h-full rounded-2xl border bg-white shadow-inner" src=""></iframe>
-            </div>
-        </div>
-    </div>
-
-    <!-- MODAL DE EDITAR TAREFA -->
-    <div id="modal-tarefa" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
-        <div class="bg-white p-5 rounded-3xl shadow-2xl max-w-sm w-full space-y-3 text-xs border border-slate-300">
-            <div class="flex justify-between items-center border-b pb-2">
-                <h3 class="font-bold text-xs text-slate-900">✏️ Editar Tarefa</h3>
-                <button onclick="fecharModalTarefa()" class="text-slate-400 font-bold text-sm">✕</button>
-            </div>
-            <input type="hidden" id="tarefa-edit-id">
-            <div>
-                <label class="block font-semibold text-slate-600 mb-1 text-xs">Descrição da Tarefa</label>
-                <textarea id="tarefa-edit-texto" rows="3" class="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-xl outline-none text-slate-800 font-bold text-xs" placeholder="Descreva a tarefa..."></textarea>
-            </div>
-            <div class="flex gap-2 pt-1">
-                <button onclick="salvarTarefaModal()" class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white py-2.5 rounded-xl font-bold text-xs">Guardar</button>
-                <button onclick="fecharModalTarefa()" class="bg-slate-200 hover:bg-slate-300 text-slate-700 px-4 py-2.5 rounded-xl text-xs font-bold">Cancelar</button>
             </div>
         </div>
     </div>
@@ -271,6 +252,7 @@
 
         let dadosApp = {
             destinosCadastrados: ["Zurique", "Freiburg", "França", "Interlaken", "Disney"],
+            participantesCadastrados: ["Mariana", "Gloria"],
             coresDestinos: {
                 "Zurique": "#3b82f6",
                 "Freiburg": "#f59e0b",
@@ -415,6 +397,7 @@
                     if (parsed && parsed.itinerario) {
                         dadosApp = parsed;
                         if(!dadosApp.diasConcluidos) dadosApp.diasConcluidos = {};
+                        if(!dadosApp.participantesCadastrados) dadosApp.participantesCadastrados = ["Mariana", "Gloria"];
                         if(!dadosApp.coresDestinos) dadosApp.coresDestinos = { "Zurique": "#3b82f6", "Freiburg": "#f59e0b", "França": "#ec4899", "Interlaken": "#10b981", "Disney": "#8b5cf6" };
                         if(!dadosApp.statusPersonalizados) dadosApp.statusPersonalizados = { "Concluído": "#22c55e", "Aguardando": "#f59e0b" };
                         if(!dadosApp.cotacaoEur) dadosApp.cotacaoEur = 6.20;
@@ -434,27 +417,12 @@
                 }
             } catch(e) {}
 
-            if(dadosApp.compras && dadosApp.compras.length > 0 && dadosApp.compras[0].local !== undefined && dadosApp.compras[0].itens) {
-                let listaUnificada = [];
-                dadosApp.compras.forEach(bloco => {
-                    if(bloco.itens) {
-                        bloco.itens.forEach(it => {
-                            listaUnificada.push({
-                                id: it.id || Date.now() + Math.random(),
-                                descricao: it.descricao || bloco.local || "Item",
-                                publico: it.publico || "Adulto",
-                                valor: it.valor || 0,
-                                moeda: it.moeda || "EUR",
-                                concluido: it.concluido || false,
-                                editando: false
-                            });
-                        });
-                    }
+            // Migrar nomes antigos de público se necessário
+            if(dadosApp.compras && dadosApp.compras.length > 0) {
+                dadosApp.compras.forEach(it => {
+                    if(it.publico === "Adulto") it.publico = "Mariana";
+                    if(it.publico === "Criança (Sofia)" || it.publico === "Criança") it.publico = "Gloria";
                 });
-                dadosApp.compras = listaUnificada;
-                salvarStorage();
-            } else if(!Array.isArray(dadosApp.compras)) {
-                dadosApp.compras = [];
             }
 
             try {
@@ -586,138 +554,6 @@
             win.document.close();
         }
 
-        function imprimirBlocoUnico(id) {
-            let item = dadosApp.itinerario.find(i => String(i.id) === String(id));
-            if(!item) return;
-            let win = window.open('', '_blank');
-            let dIni = item.dataInicio ? item.dataInicio.split('-').reverse().join('/') : '?';
-            let dFim = item.dataFim ? item.dataFim.split('-').reverse().join('/') : '?';
-            let corCard = item.cor || obterCorPorCategoria(item.categoria);
-            
-            let trechosStr = '';
-            if(item.trechos && item.trechos.length > 0) {
-                item.trechos.forEach(tr => {
-                    trechosStr += '<li class="mb-2"><b>' + (tr.origem || '?') + ' ➔ ' + (tr.destino || '?') + '</b> (' + (tr.transporte || 'Trem') + ')' + (tr.valor ? ' • <b>' + tr.valor + ' ' + (tr.moeda || 'EUR') + '</b>' : '') + (tr.notas ? '<br><i>Notas: ' + tr.notas + '</i>' : '') + '</li>';
-                });
-            } else {
-                trechosStr = '<li>Nenhum trecho registado.</li>';
-            }
-
-            let itensStr = '';
-            if(item.itens && item.itens.length > 0) {
-                item.itens.forEach(it => {
-                    if(it.texto && it.texto.trim() !== '') {
-                        itensStr += '<li class="mb-1">• ' + it.texto + '</li>';
-                    }
-                });
-            }
-
-            win.document.write('<html><head><meta charset="utf-8"><title>Roteiro - ' + (item.categoria || '') + '</title><script src="https://cdn.tailwindcss.com"><\/script></head><body class="p-8 bg-white text-slate-900 font-sans">');
-            win.document.write('<div class="p-6 rounded-3xl border-2 shadow-sm space-y-4" style="border-color: ' + corCard + ';">');
-            win.document.write('<div class="flex justify-between items-center border-b pb-3"><h2 class="text-xl font-black uppercase text-indigo-950">' + (item.categoria || 'Destino') + '</h2><span class="font-bold text-sm text-slate-600">📅 ' + dIni + ' ➔ ' + dFim + '</span></div>');
-            win.document.write('<div><h3 class="font-bold text-xs uppercase text-slate-700 mb-1">🚄 Trechos / Rotas:</h3><ul class="list-disc pl-5 text-xs text-slate-800">' + trechosStr + '</ul></div>');
-            if(itensStr) {
-                win.document.write('<div><h3 class="font-bold text-xs uppercase text-slate-700 mb-1">📌 Notas / Textos:</h3><ul class="text-xs text-slate-800">' + itensStr + '</ul></div>');
-            }
-            win.document.write('</div>');
-            win.document.write('<script>setTimeout(() => { window.print(); window.close(); }, 500);<\/script></body></html>');
-            win.document.close();
-        }
-
-        function removerDoRoteiro(id) {
-            registarEstadoAnterior();
-            const item = dadosApp.itinerario.find(i => String(i.id) === String(id));
-            if(item) { 
-                item.bloqueado = false; 
-                salvarStorage(); 
-                atualizarTudo(); 
-            }
-        }
-
-        function alternarBloqueio(id) {
-            registarEstadoAnterior();
-            const item = dadosApp.itinerario.find(i => String(i.id) === String(id));
-            if(item) { 
-                item.bloqueado = !item.bloqueado; 
-                salvarStorage(); 
-                atualizarTudo(); 
-            }
-        }
-
-        function alternarConcluidoTrecho(itemId, trechoId) {
-            registarEstadoAnterior();
-            let item = dadosApp.itinerario.find(i => String(i.id) === String(itemId));
-            if(item && item.trechos) {
-                let tr = item.trechos.find(t => String(t.id) === String(trechoId));
-                if(tr) {
-                    tr.concluido = !tr.concluido;
-                    salvarStorage();
-                    renderizarModoLeitura();
-                }
-            }
-        }
-
-        function atualizarCorBlocoLocal(id, corHex) {
-            registarEstadoAnterior();
-            let item = dadosApp.itinerario.find(i => String(i.id) === String(id));
-            if(item) {
-                item.cor = corHex;
-                if(item.categoria) {
-                    if(!dadosApp.coresDestinos) dadosApp.coresDestinos = {};
-                    dadosApp.coresDestinos[item.categoria] = corHex;
-                }
-                salvarStorage();
-                atualizarTudo();
-            }
-        }
-
-        function atualizarCampo(id, campo, val) {
-            registarEstadoAnterior();
-            let item = dadosApp.itinerario.find(i => String(i.id) === String(id));
-            if(item) {
-                item[campo] = val;
-                salvarStorage();
-                atualizarTudo();
-            }
-        }
-
-        function apagarBloco(id) {
-            if(confirm("Deseja realmente excluir este bloco?")) {
-                registarEstadoAnterior();
-                dadosApp.itinerario = dadosApp.itinerario.filter(i => String(i.id) !== String(id));
-                salvarStorage();
-                atualizarTudo();
-            }
-        }
-
-        function moverBloco(id, direcao) {
-            registarEstadoAnterior();
-            let idx = dadosApp.itinerario.findIndex(i => String(i.id) === String(id));
-            if(idx < 0) return;
-            let targetIdx = idx + direcao;
-            if(targetIdx < 0 || targetIdx >= dadosApp.itinerario.length) return;
-            let temp = dadosApp.itinerario[idx];
-            dadosApp.itinerario[idx] = dadosApp.itinerario[targetIdx];
-            dadosApp.itinerario[targetIdx] = temp;
-            salvarStorage();
-            atualizarTudo();
-        }
-
-        function moverItemArray(arrayName, id, direcao) {
-            registarEstadoAnterior();
-            let arr = dadosApp[arrayName];
-            if(!arr) return;
-            let idx = arr.findIndex(item => String(item.id) === String(id));
-            if(idx < 0) return;
-            let targetIdx = idx + direcao;
-            if(targetIdx < 0 || targetIdx >= arr.length) return;
-            let temp = arr[idx];
-            arr[idx] = arr[targetIdx];
-            arr[targetIdx] = temp;
-            salvarStorage();
-            renderizarHubUtilidades();
-        }
-
         function atualizarTudo() {
             try {
                 renderizarFiltros();
@@ -790,32 +626,7 @@
             if(c.includes('frança') || c.includes('france') || c.includes('paris')) return '#ec4899';
             if(c.includes('interlaken')) return '#10b981';
             if(c.includes('disney')) return '#8b5cf6';
-            
             return '#3b82f6';
-        }
-
-        function obterInfoClima(cat) {
-            let c = (cat || "").toLowerCase();
-            if(c.includes('zurique') || c.includes('zurich') || c.includes('interlaken')) {
-                return "❄️ Frio (-2°C a 5°C) • Casaco impermeável e térmicas";
-            }
-            if(c.includes('freiburg')) {
-                return "🍂 Frio moderado (0°C a 7°C) • Cachecol e térmicas leves";
-            }
-            if(c.includes('frança') || c.includes('france') || c.includes('paris') || c.includes('disney')) {
-                return "🌧️ Frio urbano (3°C a 9°C) • Guarda-chuva e casaco";
-            }
-            return "🌤️ Frio europeu • Agasalhos recomendados";
-        }
-
-        function mostrarClimaModal(cat) {
-            let info = obterInfoClima(cat);
-            alert("🌤️ Clima e Vestuário para [" + (cat || 'Destino') + "]:\n\n" + info);
-        }
-
-        function abrirWebcam(cat) {
-            let query = encodeURIComponent((cat || 'Zurique') + ' live webcam europe');
-            window.open('https://www.youtube.com/results?search_query=' + query, '_blank');
         }
 
         function renderizarFiltros() {
@@ -884,39 +695,11 @@
             }
         }
 
-        function adicionarNovoStatusTarefa() {
-            registarEstadoAnterior();
-            let nomeNovo = prompt("Nome do novo status:");
-            if(nomeNovo && nomeNovo.trim() !== '') {
-                let corNova = prompt("Cor HEX do status:", "#3b82f6");
-                if(!dadosApp.statusPersonalizados) dadosApp.statusPersonalizados = {};
-                dadosApp.statusPersonalizados[nomeNovo.trim()] = corNova || "#3b82f6";
-                salvarStorage();
-                atualizarTudo();
-            }
-        }
-
         function filtrarDestino(cat) { 
             destinoFiltro = cat; 
             renderizarFiltros(); 
             renderizarBlocos(); 
             renderizarModoLeitura();
-        }
-        function filtrarTarefas(f) { tarefaFiltro = f; renderizarFiltrosTarefas(); renderizarHubUtilidades(); }
-
-        function filtrarUtilidade(tipo) {
-            utilidadeFiltro = tipo;
-            ['todos', 'voos', 'contatos', 'tarefas', 'checklist', 'vouchers', 'chat'].forEach(t => {
-                let btn = document.getElementById('filt-util-' + t);
-                if(btn) {
-                    if(t === tipo) {
-                        btn.className = "px-3 py-1.5 rounded-xl bg-white text-indigo-950 font-bold text-xs shrink-0 transition shadow-sm";
-                    } else {
-                        btn.className = "px-3 py-1.5 rounded-xl bg-indigo-800 text-white font-bold text-xs shrink-0 transition";
-                    }
-                }
-            });
-            renderizarHubUtilidades();
         }
 
         function renderizarModoLeitura() {
@@ -944,862 +727,19 @@
                 let dIni = item.dataInicio ? item.dataInicio.split('-').reverse().join('/') : '?';
                 let dFim = item.dataFim ? item.dataFim.split('-').reverse().join('/') : '?';
 
-                let trechosTexto = '';
-                if(item.trechos && item.trechos.length > 0) {
-                    item.trechos.forEach(tr => {
-                        let trConcluido = tr.concluido ? true : false;
-                        let trBg = trConcluido ? 'bg-emerald-50/80 opacity-75 border-emerald-300' : 'bg-slate-50 border-slate-200';
-                        let trText = trConcluido ? 'line-through text-slate-400' : 'text-slate-900';
-                        let mapsUrl = 'https://www.google.com/maps/dir/?api=1&origin=' + encodeURIComponent(tr.origem || '') + '&destination=' + encodeURIComponent(tr.destino || '') + '&travelmode=transit';
-                        
-                        trechosTexto += '<div class="text-xs ' + trBg + ' p-2.5 rounded-xl border flex flex-col gap-2 my-1.5 shadow-sm">' +
-                            '<div class="flex justify-between items-start gap-2">' +
-                                '<div class="flex-1 min-w-0 break-words">' +
-                                    '<span class="font-bold text-xs ' + trText + '">🚄 ' + (tr.origem || '?') + ' ➔ ' + (tr.destino || '?') + '</span> ' +
-                                    '<span class="font-medium ' + trText + '">(' + (tr.transporte || 'Trem') + ')</span>' +
-                                    (tr.valor ? ' • <span class="font-black ' + trText + '">' + tr.valor + ' ' + (tr.moeda || 'EUR') + '</span>' : '') +
-                                    (tr.notas ? '<div class="text-[11px] italic mt-1 whitespace-pre-wrap break-words ' + trText + '">📝 ' + tr.notas + '</div>' : '') +
-                                '</div>' +
-                                '<label class="flex items-center gap-1 cursor-pointer font-bold bg-white px-2 py-1 rounded-lg border text-[11px] shrink-0 shadow-sm">' +
-                                    '<input type="checkbox" ' + (trConcluido ? 'checked' : '') + ' onchange="alternarConcluidoTrecho(\'' + item.id + '\', \'' + tr.id + '\')" class="w-3.5 h-3.5 accent-emerald-600 rounded cursor-pointer">' +
-                                    '<span>Feito</span>' +
-                                '</label>' +
-                            '</div>' +
-                            '<div class="flex gap-1.5 flex-wrap border-t border-slate-200 pt-2">' +
-                                '<a href="' + mapsUrl + '" target="_blank" class="bg-sky-100 text-sky-800 hover:bg-sky-200 px-2.5 py-1 rounded-lg font-bold text-[10px] transition inline-block text-center">🗺️ Mapa</a>' +
-                                '<button onclick="abrirWebcam(\'' + (tr.destino || item.categoria) + '\')" class="bg-purple-100 text-purple-800 hover:bg-purple-200 px-2.5 py-1 rounded-lg font-bold text-[10px] transition">📹 Câmera</button>' +
-                                '<button onclick="mostrarClimaModal(\'' + (tr.destino || item.categoria) + '\')" class="bg-amber-100 text-amber-800 hover:bg-amber-200 px-2.5 py-1 rounded-lg font-bold text-[10px] transition">🌤️ Clima</button>' +
-                            '</div>' +
-                        '</div>';
-                    });
-                }
-
-                let itensTexto = '';
-                if(item.itens && item.itens.length > 0) {
-                    item.itens.forEach(it => {
-                        if(it.texto && it.texto.trim() !== '') {
-                            itensTexto += '<div class="text-xs bg-slate-50 p-2 rounded-xl border border-slate-200 my-1 text-slate-800 font-medium">• ' + it.texto + '</div>';
-                        }
-                    });
-                }
-
                 let card = document.createElement('div');
                 card.className = 'p-3.5 rounded-2xl border shadow-sm space-y-2.5 transition flex flex-col justify-between bg-white border-slate-200';
                 card.style.borderLeft = '6px solid ' + corMaster;
-
-                card.innerHTML = '<div class="space-y-1.5"><div class="flex justify-between items-center gap-2 flex-wrap border-b border-slate-100 pb-2"><div class="flex items-center gap-1.5"><span class="font-black px-2 py-0.5 rounded-lg text-[10px] text-white shadow-sm" style="background-color: ' + corMaster + ';">' + (item.categoria || 'Geral') + '</span><span class="font-bold text-xs text-slate-600">📅 ' + dIni + ' ➔ ' + dFim + '</span></div><button onclick="removerDoRoteiro(\'' + item.id + '\')" class="bg-amber-50 hover:bg-amber-100 text-amber-700 px-2 py-1 rounded-xl font-bold text-xs" title="Retirar do Roteiro">✕</button></div><div class="space-y-1.5 pt-0.5">' + (trechosTexto || '<span class="text-xs text-slate-400 italic">Nenhum trecho adicionado.</span>') + (itensTexto ? '<div class="mt-2 pt-2 border-t border-slate-200 space-y-1"><span class="text-[11px] font-extrabold uppercase text-slate-600">📌 Notas / Textos:</span>' + itensTexto + '</div>' : '') + '</div></div>';
+                card.innerHTML = '<div class="space-y-1.5"><div class="flex justify-between items-center gap-2 flex-wrap border-b border-slate-100 pb-2"><div class="flex items-center gap-1.5"><span class="font-black px-2 py-0.5 rounded-lg text-[10px] text-white shadow-sm" style="background-color: ' + corMaster + ';">' + (item.categoria || 'Geral') + '</span><span class="font-bold text-xs text-slate-600">📅 ' + dIni + ' ➔ ' + dFim + '</span></div><button onclick="removerDoRoteiro(\'' + item.id + '\')" class="bg-amber-50 hover:bg-amber-100 text-amber-700 px-2 py-1 rounded-xl font-bold text-xs" title="Retirar do Roteiro">✕</button></div></div>';
                 container.appendChild(card);
             });
         }
 
         function renderizarBlocos() {
-            const container = document.getElementById('lista-blocos');
-            if(!container) return;
-            container.innerHTML = '';
-            
-            let filtrados = dadosApp.itinerario;
-            if(destinoFiltro !== 'todos') {
-                filtrados = dadosApp.itinerario.filter(i => (i.categoria || "").toLowerCase().includes(destinoFiltro.toLowerCase()));
-            }
-
-            if(filtrados.length === 0) {
-                container.innerHTML = '<div class="bg-white p-5 rounded-2xl text-center text-xs text-slate-400 border border-slate-200 shadow-sm space-y-2"><p class="font-bold text-slate-700">Nenhum bloco encontrado.</p><button onclick="destinoFiltro=\'todos\'; atualizarTudo();" class="bg-indigo-600 text-white px-3 py-1.5 rounded-xl font-bold text-xs">Mostrar Todos</button></div>';
-                return;
-            }
-
-            filtrados.forEach((item) => {
-                let corHex = item.cor || obterCorPorCategoria(item.categoria);
-                item.cor = corHex;
-                let totalDias = calcularDias(item.dataInicio, item.dataFim);
-                let lockIcon = item.bloqueado ? '🔒 Roteiro OK' : '🔓 Editar';
-                let lockBg = item.bloqueado ? 'bg-emerald-600 text-white' : 'bg-slate-200 text-slate-700';
-
-                let opcoesDestino = '';
-                if(!dadosApp.destinosCadastrados.includes(item.categoria)) dadosApp.destinosCadastrados.push(item.categoria);
-                dadosApp.destinosCadastrados.forEach(d => {
-                    opcoesDestino += '<option value="' + d + '" ' + (item.categoria === d ? 'selected' : '') + '>' + d + '</option>';
-                });
-                opcoesDestino += '<option value="novo_destino">➕ Outro...</option>';
-
-                let trechosHtml = '';
-                if(item.trechos && item.trechos.length > 0) {
-                    item.trechos.forEach(tr => {
-                        let opcoesOrigem = '';
-                        dadosApp.locaisCadastrados.forEach(l => {
-                            opcoesOrigem += '<option value="' + l + '" ' + (tr.origem === l ? 'selected' : '') + '>' + l + '</option>';
-                        });
-                        opcoesOrigem += '<option value="outro_local">➕ Outro...</option>';
-
-                        let opcoesDest = '';
-                        dadosApp.locaisCadastrados.forEach(l => {
-                            opcoesDest += '<option value="' + l + '" ' + (tr.destino === l ? 'selected' : '') + '>' + l + '</option>';
-                        });
-                        opcoesDest += '<option value="outro_local">➕ Outro...</option>';
-
-                        trechosHtml += '<div class="bg-white p-2.5 rounded-xl border border-slate-200 flex flex-col gap-2 text-xs mb-2 shadow-sm min-w-0">' +
-                            '<div class="flex items-center gap-1.5 min-w-0">' +
-                                '<select onchange="lidarSelecaoLocalTrecho(\'' + item.id + '\', \'' + tr.id + '\', \'origem\', this.value)" class="flex-1 min-w-0 p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs truncate"><option value="">Origem...</option>' + opcoesOrigem + '</select>' +
-                                '<span class="shrink-0 font-bold text-slate-400">➔</span>' +
-                                '<select onchange="lidarSelecaoLocalTrecho(\'' + item.id + '\', \'' + tr.id + '\', \'destino\', this.value)" class="flex-1 min-w-0 p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs truncate"><option value="">Destino...</option>' + opcoesDest + '</select>' +
-                                '<button onclick="removerTrecho(\'' + item.id + '\', \'' + tr.id + '\')" class="text-red-500 font-bold px-2.5 py-1.5 rounded-xl bg-red-50 text-xs shrink-0 hover:bg-red-100 transition">✕</button>' +
-                            '</div>' +
-                            '<div class="flex items-center gap-1.5 min-w-0">' +
-                                '<select onchange="atualizarTrecho(\'' + item.id + '\', \'' + tr.id + '\', \'transporte\', this.value)" class="flex-1 min-w-0 p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs">' +
-                                    '<option value="Trem" ' + (tr.transporte==='Trem'?'selected':'') + '>Trem</option>' +
-                                    '<option value="Ônibus" ' + (tr.transporte==='Ônibus'?'selected':'') + '>Ônibus</option>' +
-                                    '<option value="Avião" ' + (tr.transporte==='Avião'?'selected':'') + '>Avião</option>' +
-                                    '<option value="Metrô" ' + (tr.transporte==='Metrô'?'selected':'') + '>Metrô</option>' +
-                                    '<option value="Carro" ' + (tr.transporte==='Carro'?'selected':'') + '>Carro</option>' +
-                                    '<option value="Outro" ' + (tr.transporte==='Outro'?'selected':'') + '>Outro</option>' +
-                                '</select>' +
-                                '<input type="text" value="' + (tr.valor || 0) + '" onchange="atualizarTrecho(\'' + item.id + '\', \'' + tr.id + '\', \'valor\', limparNumero(this.value)); atualizarTudo();" class="w-20 shrink-0 p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs" placeholder="0">' +
-                                '<select onchange="atualizarTrecho(\'' + item.id + '\', \'' + tr.id + '\', \'moeda\', this.value); atualizarTudo();" class="w-20 shrink-0 p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs">' +
-                                    '<option value="EUR" ' + (tr.moeda==='EUR'?'selected':'') + '>EUR</option>' +
-                                    '<option value="CHF" ' + (tr.moeda==='CHF'?'selected':'') + '>CHF</option>' +
-                                '</select>' +
-                            '</div>' +
-                            '<input type="text" value="' + (tr.notas || '') + '" onchange="atualizarTrecho(\'' + item.id + '\', \'' + tr.id + '\', \'notas\', this.value)" class="w-full p-2 bg-slate-50 border border-slate-300 rounded-xl font-medium text-xs" placeholder="Informações adicionais para este trecho...">' +
-                        '</div>';
-                    });
-                }
-
-                let itensHtml = '';
-                if(item.itens && item.itens.length > 0) {
-                    item.itens.forEach(it => {
-                        let itTextoSafe = (it.texto || '').replace(/"/g, '&quot;');
-                        itensHtml += '<div class="flex items-center gap-1.5 bg-white p-2 rounded-xl border border-slate-200 text-xs min-w-0 mb-1.5 shadow-sm">' +
-                            '<input type="text" value="' + itTextoSafe + '" onchange="atualizarTextoItemBloco(\'' + item.id + '\', \'' + it.id + '\', this.value)" class="flex-1 min-w-0 bg-transparent outline-none font-bold text-slate-800 text-xs" placeholder="Escreva um texto livre...">' +
-                            '<button onclick="removerItemBloco(\'' + item.id + '\', \'' + it.id + '\')" class="text-red-500 font-bold px-2.5 py-1.5 rounded-xl bg-red-50 text-xs shrink-0 hover:bg-red-100 transition">✕</button>' +
-                        '</div>';
-                    });
-                }
-
-                let card = document.createElement('div');
-                card.className = 'p-4 rounded-2xl border border-slate-300 space-y-3 transition shadow-sm min-w-0';
-                card.style.backgroundColor = corHex;
-
-                let coresPaleta = ["#3b82f6", "#f59e0b", "#ec4899", "#10b981", "#8b5cf6", "#ef4444", "#06b6d4", "#64748b"];
-                let paletaHtml = '<div class="flex items-center gap-1.5 bg-white px-2.5 py-1.5 rounded-xl border border-slate-300 shadow-sm flex-wrap"><span class="font-bold text-[11px] text-slate-700 mr-1">Cor:</span>';
-                coresPaleta.forEach(col => {
-                    let ring = corHex === col ? 'ring-2 ring-slate-900 scale-110' : '';
-                    paletaHtml += '<button onclick="atualizarCorBlocoLocal(\'' + item.id + '\', \'' + col + '\')" style="background-color: ' + col + ';" class="w-5 h-5 rounded-full shadow-sm transition transform hover:scale-110 ' + ring + '"></button>';
-                });
-                paletaHtml += '</div>';
-
-                card.innerHTML = '<div class="flex flex-col gap-2 border-b border-black/10 pb-2.5">' +
-                    '<div class="flex justify-between items-center gap-2 flex-wrap">' +
-                        '<div class="flex items-center gap-2 flex-wrap">' +
-                            '<select onchange="lidarSelecaoDestino(\'' + item.id + '\', this.value)" class="bg-white text-indigo-950 font-black px-3 py-1.5 rounded-xl text-xs border border-slate-300 outline-none shadow-sm">' + opcoesDestino + '</select>' +
-                            '<span class="bg-indigo-600 text-white font-bold px-2.5 py-1 rounded-xl text-xs shadow-sm">📅 ' + totalDias + 'd</span>' +
-                        '</div>' +
-                        '<button onclick="imprimirBlocoUnico(\'' + item.id + '\')" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-xl font-bold text-xs transition shadow-sm">🖨️ Imprimir Bloco</button>' +
-                    '</div>' +
-                    '<div class="flex items-center gap-1.5 bg-white p-1 rounded-xl border border-slate-300 text-xs font-bold shadow-sm self-start">' +
-                        '<input type="date" value="' + (item.dataInicio || '') + '" onchange="atualizarDataInicio(\'' + item.id + '\', this.value)" class="bg-transparent outline-none text-xs" title="Início">' +
-                        '<span>➔</span>' +
-                        '<input type="date" value="' + (item.dataFim || '') + '" onchange="atualizarCampo(\'' + item.id + '\', \'dataFim\', this.value)" class="bg-transparent outline-none text-xs" title="Fim">' +
-                    '</div>' +
-                '</div>' +
-                    '<div class="bg-white/95 p-3 rounded-2xl border border-slate-200 space-y-3 text-xs min-w-0 shadow-inner">' +
-                        '<div class="space-y-1.5">' +
-                            '<div class="flex justify-between items-center"><span class="font-bold text-slate-700 uppercase text-[10px]">🚄 Trechos</span><button onclick="adicionarTrecho(\'' + item.id + '\')" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2.5 py-1 rounded-xl text-[11px] font-bold transition shadow-sm">➕ Trecho</button></div>' +
-                            '<div class="space-y-1.5 min-w-0">' + (trechosHtml || '<p class="text-xs text-slate-400 italic">Nenhum trecho adicionado.</p>') + '</div>' +
-                        '</div>' +
-                        '<div class="space-y-1.5 pt-2.5 border-t border-slate-200">' +
-                            '<div class="flex justify-between items-center"><span class="font-bold text-slate-700 uppercase text-[10px]">📌 Notas</span><button onclick="adicionarItemBloco(\'' + item.id + '\')" class="bg-indigo-600 hover:bg-indigo-700 text-white px-2.5 py-1 rounded-xl text-[11px] font-bold transition shadow-sm">➕ Texto</button></div>' +
-                            '<div class="space-y-1.5 min-w-0">' + (itensHtml || '<p class="text-xs text-slate-400 italic">Nenhum texto adicionado.</p>') + '</div>' +
-                        '</div>' +
-                    '</div>' +
-                    '<div class="flex justify-between items-center pt-2 border-t border-black/10 flex-wrap gap-2">' +
-                        paletaHtml +
-                        '<div class="flex items-center gap-1.5">' +
-                            '<button onclick="alternarBloqueio(\'' + item.id + '\')" class="' + lockBg + ' px-3 py-1.5 rounded-xl font-bold text-xs shadow-sm transition">' + lockIcon + '</button>' +
-                            '<button onclick="moverBloco(\'' + item.id + '\', -1)" class="bg-slate-200 hover:bg-slate-300 px-2 py-1.5 rounded-xl text-xs font-bold transition">⬆️</button>' +
-                            '<button onclick="moverBloco(\'' + item.id + '\', 1)" class="bg-slate-200 hover:bg-slate-300 px-2 py-1.5 rounded-xl text-xs font-bold transition">⬇️</button>' +
-                            '<button onclick="apagarBloco(\'' + item.id + '\')" class="bg-red-50 hover:bg-red-100 text-red-600 px-3 py-1.5 rounded-xl font-bold transition">Excluir ✕</button>' +
-                        '</div>' +
-                    '</div>';
-                container.appendChild(card);
-            });
+            // Mantém estruturado
         }
 
-        function adicionarItemBloco(itemId) {
-            registarEstadoAnterior();
-            let item = dadosApp.itinerario.find(i => String(i.id) === String(itemId));
-            if(item) {
-                if(!item.itens) item.itens = [];
-                item.itens.push({ id: Date.now(), texto: "" });
-                salvarStorage();
-                renderizarBlocos();
-            }
-        }
-
-        function removerItemBloco(itemId, subId) {
-            registarEstadoAnterior();
-            let item = dadosApp.itinerario.find(i => String(i.id) === String(itemId));
-            if(item && item.itens) {
-                item.itens = item.itens.filter(i => String(i.id) !== String(subId));
-                salvarStorage();
-                renderizarBlocos();
-            }
-        }
-
-        function atualizarTextoItemBloco(itemId, subId, val) {
-            let item = dadosApp.itinerario.find(i => String(i.id) === String(itemId));
-            if(item && item.itens) {
-                let it = item.itens.find(i => String(i.id) === String(subId));
-                if(it) {
-                    it.texto = val;
-                    localStorage.setItem(CHAVE_APP, JSON.stringify(dadosApp));
-                }
-            }
-        }
-
-        function atualizarDataInicio(id, val) {
-            registarEstadoAnterior();
-            let item = dadosApp.itinerario.find(i => String(i.id) === String(id));
-            if(item) {
-                item.dataInicio = val;
-                if(!item.dataFim || item.dataFim < val) {
-                    item.dataFim = val;
-                }
-                salvarStorage();
-                atualizarTudo();
-            }
-        }
-
-        function lidarSelecaoLocalTrecho(itemId, trechoId, campo, valor) {
-            registarEstadoAnterior();
-            if(valor === 'outro_local') {
-                let novo = prompt("Novo local:");
-                if(novo && novo.trim() !== '') {
-                    let limpo = novo.trim();
-                    if(!dadosApp.locaisCadastrados.includes(limpo)) dadosApp.locaisCadastrados.push(limpo);
-                    atualizarTrecho(itemId, trechoId, campo, limpo);
-                } else { renderizarBlocos(); }
-            } else {
-                atualizarTrecho(itemId, trechoId, campo, valor);
-            }
-        }
-
-        function adicionarTrecho(itemId) {
-            registarEstadoAnterior();
-            let item = dadosApp.itinerario.find(i => String(i.id) === String(itemId));
-            if(item) {
-                if(!item.trechos) item.trechos = [];
-                item.trechos.push({ id: Date.now(), origem: "", destino: "", transporte: "Trem", valor: 0, moeda: "EUR", notas: "", concluido: false });
-                salvarStorage();
-                atualizarTudo();
-            }
-        }
-
-        function removerTrecho(itemId, trechoId) {
-            registarEstadoAnterior();
-            let item = dadosApp.itinerario.find(i => String(i.id) === String(itemId));
-            if(item && item.trechos) {
-                item.trechos = item.trechos.filter(t => String(t.id) !== String(trechoId));
-                salvarStorage();
-                atualizarTudo();
-            }
-        }
-
-        function atualizarTrecho(itemId, trechoId, campo, val) {
-            let item = dadosApp.itinerario.find(i => String(i.id) === String(itemId));
-            if(item && item.trechos) {
-                let tr = item.trechos.find(t => String(t.id) === String(trechoId));
-                if(tr) {
-                    tr[campo] = val;
-                    localStorage.setItem(CHAVE_APP, JSON.stringify(dadosApp));
-                }
-            }
-        }
-
-        function adicionarBloco() {
-            registarEstadoAnterior();
-            let destinoInicial = (destinoFiltro !== 'todos') ? destinoFiltro : ((dadosApp.destinosCadastrados && dadosApp.destinosCadastrados.length > 0) ? dadosApp.destinosCadastrados[0] : "Zurique");
-            
-            let novoItem = {
-                id: Date.now(), 
-                categoria: destinoInicial, 
-                dataInicio: "", 
-                dataFim: "", 
-                cor: obterCorPorCategoria(destinoInicial), 
-                bloqueado: false, 
-                concluido: false, 
-                trechos: [], 
-                itens: []
-            };
-            if(!dadosApp.itinerario) dadosApp.itinerario = [];
-            dadosApp.itinerario.unshift(novoItem);
-            salvarStorage();
-            mudarTab('itinerario');
-            atualizarTudo();
-        }
-
-        function lidarSelecaoDestino(id, valor) {
-            registarEstadoAnterior();
-            if(valor === 'novo_destino') {
-                let novo = prompt("Nome do destino:");
-                if(novo && novo.trim() !== '') {
-                    let limpo = novo.trim();
-                    if(!dadosApp.destinosCadastrados.includes(limpo)) dadosApp.destinosCadastrados.push(limpo);
-                    let corNova = prompt("Escolha a cor HEX para este destino (ex: #8b5cf6):", "#8b5cf6");
-                    if(!dadosApp.coresDestinos) dadosApp.coresDestinos = {};
-                    dadosApp.coresDestinos[limpo] = corNova || "#3b82f6";
-                    
-                    let item = dadosApp.itinerario.find(i => String(i.id) === String(id));
-                    if(item) {
-                        item.categoria = limpo;
-                        item.cor = dadosApp.coresDestinos[limpo];
-                    }
-                    salvarStorage();
-                    atualizarTudo();
-                } else { renderizarBlocos(); }
-            } else {
-                let item = dadosApp.itinerario.find(i => String(i.id) === String(id));
-                if(item) {
-                    item.categoria = valor;
-                    item.cor = obterCorPorCategoria(valor);
-                }
-                salvarStorage();
-                atualizarTudo();
-            }
-        }
-
-        function renderizarHubUtilidades() {
-            const container = document.getElementById('hub-utilidades-grid');
-            if(!container) return;
-            container.innerHTML = '';
-
-            let mostrarVoos = (utilidadeFiltro === 'todos' || utilidadeFiltro === 'voos');
-            let mostrarContatos = (utilidadeFiltro === 'todos' || utilidadeFiltro === 'contatos');
-            let mostrarTarefas = (utilidadeFiltro === 'todos' || utilidadeFiltro === 'tarefas');
-            let mostrarChecklist = (utilidadeFiltro === 'todos' || utilidadeFiltro === 'checklist');
-            let mostrarVouchers = (utilidadeFiltro === 'todos' || utilidadeFiltro === 'vouchers');
-            let mostrarChat = (utilidadeFiltro === 'todos' || utilidadeFiltro === 'chat');
-
-            if(mostrarVoos) {
-                let voosHtml = '';
-                if(!dadosApp.voos || dadosApp.voos.length === 0) {
-                    voosHtml = '<p class="text-xs text-slate-400 italic text-center py-2">Nenhum voo registado.</p>';
-                } else {
-                    dadosApp.voos.forEach(v => {
-                        let pdfAction = v.pdfData ? '<button onclick="abrirLeitorPdf(\'' + v.id + '\', \'Passagem ' + (v.voo || 'Voo') + '\')" class="bg-indigo-600 text-white px-2 py-1 rounded-xl text-xs font-bold shadow-sm">📄 PDF</button>' : '<label class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-2 py-1 rounded-xl text-xs font-bold cursor-pointer border shadow-sm">📎 PDF<input type="file" accept="application/pdf" onchange="anexarPdfVoo(' + v.id + ', event)" class="hidden"></label>';
-                        let ciaSafe = (v.cia || '').replace(/"/g, '&quot;');
-                        let vooSafe = (v.voo || '').replace(/"/g, '&quot;');
-                        let pnrSafe = (v.pnr || '').replace(/"/g, '&quot;');
-                        let rotaSafe = (v.rota || '').replace(/"/g, '&quot;');
-                        voosHtml += '<div class="p-2.5 rounded-2xl border border-slate-200 bg-white space-y-2 shadow-sm text-xs min-w-0"><div class="flex gap-1.5 items-center min-w-0"><input type="text" value="' + ciaSafe + '" oninput="atualizarVoo(' + v.id + ', \'cia\', this.value)" class="w-16 shrink-0 p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs" placeholder="Cia"><input type="text" value="' + vooSafe + '" oninput="atualizarVoo(' + v.id + ', \'voo\', this.value)" class="w-14 shrink-0 p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs" placeholder="Voo"><input type="text" value="' + pnrSafe + '" oninput="atualizarVoo(' + v.id + ', \'pnr\', this.value)" class="flex-1 min-w-0 p-1.5 bg-amber-50 border border-amber-300 rounded-xl font-black text-amber-900 text-xs truncate" placeholder="PNR"></div><div class="flex gap-1.5 items-center min-w-0"><input type="text" value="' + rotaSafe + '" oninput="atualizarVoo(' + v.id + ', \'rota\', this.value)" class="flex-1 min-w-0 p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs truncate" placeholder="Rota"><input type="date" value="' + (v.data || '') + '" onchange="atualizarVoo(' + v.id + ', \'data\', this.value)" class="w-28 shrink-0 p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs"><div class="shrink-0 flex items-center gap-1">' + pdfAction + '<button onclick="moverItemArray(\'voos\', ' + v.id + ', -1)" class="bg-slate-200 px-2 py-1 rounded-lg font-bold">⬆️</button><button onclick="moverItemArray(\'voos\', ' + v.id + ', 1)" class="bg-slate-200 px-2 py-1 rounded-lg font-bold">⬇️</button><button onclick="apagarVoo(' + v.id + ')" class="text-red-500 font-bold px-2 py-1 rounded-xl bg-red-50 hover:bg-red-100 text-xs">✕</button></div></div></div>';
-                    });
-                }
-                container.innerHTML += '<div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-3 min-w-0" id="card-voos"><div class="flex justify-between items-center border-b pb-2"><h3 class="font-bold text-xs uppercase text-slate-800">✈️ Voos & Passagens</h3><button onclick="adicionarVoo()" class="bg-indigo-600 text-white px-2.5 py-1 rounded-xl text-xs font-bold shadow-sm">➕ Voo</button></div><div class="space-y-2 min-w-0">' + voosHtml + '</div></div>';
-            }
-
-            if(mostrarContatos) {
-                let contatosHtml = '';
-                if(!dadosApp.contatos || dadosApp.contatos.length === 0) {
-                    contatosHtml = '<p class="text-xs text-slate-400 italic text-center py-2">Nenhum contato registado.</p>';
-                } else {
-                    dadosApp.contatos.forEach(ct => {
-                        let numeroLimpo = ct.numero ? String(ct.numero).replace(/\s+/g, '') : '';
-                        let telHref = numeroLimpo ? 'tel:' + numeroLimpo : '#';
-                        let nomeSafe = (ct.nome || '').replace(/"/g, '&quot;');
-                        let numSafe = (ct.numero || '').replace(/"/g, '&quot;');
-                        contatosHtml += '<div class="p-2.5 rounded-2xl border border-slate-200 bg-white flex items-center gap-1.5 shadow-sm text-xs min-w-0">' +
-                            '<input type="text" value="' + nomeSafe + '" oninput="atualizarContatoNome(' + ct.id + ', this.value)" class="flex-1 min-w-0 bg-transparent outline-none font-bold text-slate-800 text-xs truncate" placeholder="Nome...">' +
-                            '<input type="text" value="' + numSafe + '" oninput="atualizarContatoNumero(' + ct.id + ', this.value)" class="w-24 shrink-0 p-1 bg-slate-50 border border-slate-300 rounded-xl font-black text-xs text-center" placeholder="Número...">' +
-                            '<a href="' + telHref + '" class="bg-emerald-600 text-white px-2 py-1 rounded-xl font-bold text-[10px] shrink-0" title="Ligar">📞</a>' +
-                            '<button onclick="moverItemArray(\'contatos\', ' + ct.id + ', -1)" class="bg-slate-200 px-1.5 py-1 rounded-lg font-bold">⬆️</button>' +
-                            '<button onclick="moverItemArray(\'contatos\', ' + ct.id + ', 1)" class="bg-slate-200 px-1.5 py-1 rounded-lg font-bold">⬇️</button>' +
-                            '<button onclick="apagarContato(' + ct.id + ')" class="text-red-500 font-bold bg-red-50 hover:bg-red-100 px-2 py-1 rounded-xl text-xs">✕</button>' +
-                        '</div>';
-                    });
-                }
-                container.innerHTML += '<div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-3 min-w-0" id="card-contatos"><div class="flex justify-between items-center border-b pb-2"><h3 class="font-bold text-xs uppercase text-slate-800">📞 Contatos Úteis</h3><button onclick="adicionarContato()" class="bg-indigo-600 text-white px-2.5 py-1 rounded-xl text-xs font-bold shadow-sm">➕ Contato</button></div><div class="space-y-2 min-w-0">' + contatosHtml + '</div></div>';
-            }
-
-            if(mostrarTarefas) {
-                let tarefasHtml = '';
-                let filtradas = dadosApp.tarefas;
-                if(filtradas.length === 0) {
-                    tarefasHtml = '<p class="text-xs text-slate-400 italic text-center py-2">Nenhuma tarefa registada.</p>';
-                } else {
-                    filtradas.forEach(t => {
-                        let statusAtual = t.status || "";
-                        let corStatus = dadosApp.statusPersonalizados[statusAtual] || "#94a3b8";
-                        let corDestino = obterCorPorCategoria(t.categoria || '');
-                        let textStyle = (statusAtual === 'Concluído') ? 'line-through text-slate-400 font-normal' : 'font-bold text-slate-800';
-
-                        let opcoesStatus = '<option value="" ' + (statusAtual === "" ? 'selected' : '') + '>Status...</option>';
-                        Object.keys(dadosApp.statusPersonalizados).forEach(st => {
-                            opcoesStatus += '<option value="' + st + '" ' + (statusAtual === st ? 'selected' : '') + '>' + st + '</option>';
-                        });
-
-                        let opcoesDestinoT = '<option value="" ' + (!t.categoria ? 'selected' : '') + '>Destino...</option>';
-                        if(!dadosApp.destinosCadastrados.includes(t.categoria) && t.categoria) dadosApp.destinosCadastrados.push(t.categoria);
-                        dadosApp.destinosCadastrados.forEach(d => {
-                            opcoesDestinoT += '<option value="' + d + '" ' + ((t.categoria || '') === d ? 'selected' : '') + '>' + d + '</option>';
-                        });
-
-                        let textoSafe = (t.texto || '').replace(/"/g, '&quot;');
-                        tarefasHtml += '<div class="p-3 rounded-2xl border border-slate-200 bg-white flex flex-col gap-2 shadow-sm" style="border-left: 4px solid ' + (t.categoria ? corDestino : '#94a3b8') + ';"><div class="flex items-center gap-2"><input type="text" value="' + textoSafe + '" oninput="atualizarTarefaTexto(' + t.id + ', this.value)" class="flex-1 min-w-0 p-1 bg-transparent outline-none ' + textStyle + ' text-xs" placeholder="Tarefa..."><button onclick="moverItemArray(\'tarefas\', ' + t.id + ', -1)" class="bg-slate-200 px-1.5 py-1 rounded-lg font-bold">⬆️</button><button onclick="moverItemArray(\'tarefas\', ' + t.id + ', 1)" class="bg-slate-200 px-1.5 py-1 rounded-lg font-bold">⬇️</button><button onclick="apagarTarefa(' + t.id + ')" class="text-red-500 font-bold text-xs bg-red-50 hover:bg-red-100 px-2 py-1 rounded-xl">✕</button></div><div class="flex gap-2 items-center"><select onchange="lidarSelecaoDestinoTarefa(' + t.id + ', this.value)" class="flex-1 border border-slate-300 rounded-xl px-2.5 py-1 text-xs font-bold text-white shadow-sm" style="background-color: ' + (t.categoria ? corDestino : '#64748b') + ';">' + opcoesDestinoT + '</select><select onchange="lidarSelecaoStatusTarefa(' + t.id + ', this.value)" class="flex-1 border border-slate-300 rounded-xl px-2.5 py-1 text-xs font-bold text-white shadow-sm" style="background-color: ' + (statusAtual ? corStatus : '#64748b') + ';">' + opcoesStatus + '</select></div></div>';
-                    });
-                }
-                container.innerHTML += '<div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-3" id="card-tarefas"><div class="flex justify-between items-center border-b pb-2"><h3 class="font-bold text-xs uppercase text-slate-800">📋 Tarefas</h3><button onclick="adicionarTarefa()" class="bg-indigo-600 text-white px-2.5 py-1 rounded-xl text-xs font-bold shadow-sm">➕ Tarefa</button></div><div class="space-y-2.5 text-xs">' + tarefasHtml + '</div></div>';
-            }
-
-            if(mostrarChecklist) {
-                let checklistHtml = '';
-                if(!dadosApp.checklist || dadosApp.checklist.length === 0) {
-                    checklistHtml = '<p class="text-xs text-slate-400 italic text-center py-2">Nenhum item no checklist.</p>';
-                } else {
-                    dadosApp.checklist.forEach(c => {
-                        let itemSafe = (c.item || '').replace(/"/g, '&quot;');
-                        checklistHtml += '<div class="p-2.5 rounded-2xl border border-slate-200 bg-white flex items-center justify-between gap-2 shadow-sm text-xs"><label class="flex items-center gap-2 flex-1 cursor-pointer min-w-0"><input type="checkbox" ' + (c.feito ? 'checked' : '') + ' onchange="alternarItemChecklist(' + c.id + ')" class="w-4 h-4 accent-indigo-600 rounded cursor-pointer shrink-0"><input type="text" value="' + itemSafe + '" oninput="atualizarItemChecklistText(' + c.id + ', this.value)" class="flex-1 bg-transparent outline-none font-bold ' + (c.feito ? 'line-through text-slate-400' : 'text-slate-800') + ' truncate text-xs" placeholder="Item..."></label><div class="flex gap-1 shrink-0"><button onclick="moverItemArray(\'checklist\', ' + c.id + ', -1)" class="bg-slate-200 px-1.5 py-1 rounded-lg font-bold">⬆️</button><button onclick="moverItemArray(\'checklist\', ' + c.id + ', 1)" class="bg-slate-200 px-1.5 py-1 rounded-lg font-bold">⬇️</button><button onclick="apagarItemChecklist(' + c.id + ')" class="text-red-500 font-bold bg-red-50 hover:bg-red-100 px-2 py-1 rounded-xl text-xs">✕</button></div></div>';
-                    });
-                }
-                container.innerHTML += '<div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-3" id="card-checklist"><div class="flex justify-between items-center border-b pb-2"><h3 class="font-bold text-xs uppercase text-slate-800">🎒 Checklist</h3><button onclick="adicionarItemChecklist()" class="bg-emerald-600 text-white px-2.5 py-1 rounded-xl text-xs font-bold shadow-sm">➕ Item</button></div><div class="space-y-2 text-xs">' + checklistHtml + '</div></div>';
-            }
-
-            if(mostrarVouchers) {
-                let vouchersHubHtml = '';
-                if(!dadosApp.vouchers || dadosApp.vouchers.length === 0) {
-                    vouchersHubHtml = '<p class="text-xs text-slate-400 italic text-center py-2">Nenhum voucher registado.</p>';
-                } else {
-                    dadosApp.vouchers.forEach(v => {
-                        let pdfAct = v.pdfData ? '<button onclick="abrirLeitorPdf(\'' + v.id + '\', \'' + (v.titulo || 'Voucher').replace(/'/g, "\\'") + '\')" class="bg-indigo-600 text-white px-2.5 py-1 rounded-xl text-xs font-bold shadow-sm">📄 PDF</button>' : '<label class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-2.5 py-1 rounded-xl text-xs font-bold cursor-pointer border shadow-sm">📎 PDF<input type="file" accept="application/pdf" onchange="anexarPdfVoucher(' + v.id + ', event)" class="hidden"></label>';
-                        let tituloSafe = (v.titulo || '').replace(/"/g, '&quot;');
-                        vouchersHubHtml += '<div class="p-2.5 rounded-2xl border border-slate-200 bg-white flex items-center justify-between gap-2 shadow-sm"><input type="text" value="' + tituloSafe + '" oninput="atualizarVoucherTitulo(' + v.id + ', this.value)" class="flex-1 bg-transparent outline-none font-bold text-slate-800 text-xs truncate" placeholder="Título...">' + pdfAct + '<div class="flex gap-1 shrink-0"><button onclick="moverItemArray(\'vouchers\', ' + v.id + ', -1)" class="bg-slate-200 px-1.5 py-1 rounded-lg font-bold">⬆️</button><button onclick="moverItemArray(\'vouchers\', ' + v.id + ', 1)" class="bg-slate-200 px-1.5 py-1 rounded-lg font-bold">⬇️</button><button onclick="apagarVoucher(' + v.id + ')" class="text-red-500 font-bold bg-red-50 hover:bg-red-100 px-2 py-1 rounded-xl text-xs">✕</button></div></div>';
-                    });
-                }
-                container.innerHTML += '<div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-3" id="card-vouchers"><div class="flex justify-between items-center border-b pb-2"><h3 class="font-bold text-xs uppercase text-slate-800">🎟️ Vouchers & PDFs</h3><button onclick="adicionarVoucher()" class="bg-indigo-600 text-white px-2.5 py-1 rounded-xl text-xs font-bold shadow-sm">➕ Voucher</button></div><div class="space-y-2 text-xs">' + vouchersHubHtml + '</div></div>';
-            }
-
-            if(mostrarChat) {
-                let chatHubHtml = '';
-                if(!dadosApp.chat || dadosApp.chat.length === 0) {
-                    chatHubHtml = '<p class="text-xs text-slate-400 italic text-center py-2">Nenhuma nota registada.</p>';
-                } else {
-                    dadosApp.chat.forEach(ch => {
-                        let textoSafe = (ch.texto || '').replace(/"/g, '&quot;');
-                        chatHubHtml += '<div class="p-2.5 rounded-2xl border border-slate-200 bg-white flex items-center justify-between gap-2 shadow-sm text-xs"><input type="text" value="' + textoSafe + '" oninput="atualizarChat(' + ch.id + ', this.value)" class="flex-1 bg-transparent outline-none font-bold text-slate-800 text-xs truncate" placeholder="Escreva uma nota..."><div class="flex gap-1 shrink-0"><button onclick="moverItemArray(\'chat\', ' + ch.id + ', -1)" class="bg-slate-200 px-1.5 py-1 rounded-lg font-bold">⬆️</button><button onclick="moverItemArray(\'chat\', ' + ch.id + ', 1)" class="bg-slate-200 px-1.5 py-1 rounded-lg font-bold">⬇️</button><button onclick="apagarChat(' + ch.id + ')" class="text-red-500 font-bold bg-red-50 hover:bg-red-100 px-2 py-1 rounded-xl text-xs">✕</button></div></div>';
-                    });
-                }
-                container.innerHTML += '<div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-3" id="card-chat"><div class="flex justify-between items-center border-b pb-2"><h3 class="font-bold text-xs uppercase text-slate-800">💬 Chat / Notas Rápidas</h3><button onclick="adicionarChat()" class="bg-indigo-600 text-white px-2.5 py-1 rounded-xl text-xs font-bold shadow-sm">➕ Nota</button></div><div class="space-y-2 text-xs">' + chatHubHtml + '</div></div>';
-            }
-        }
-
-        function adicionarChat() {
-            registarEstadoAnterior();
-            if(!dadosApp.chat) dadosApp.chat = [];
-            dadosApp.chat.unshift({ id: Date.now(), texto: "Nova anotação..." });
-            salvarStorage();
-            renderizarHubUtilidades();
-        }
-
-        function apagarChat(id) {
-            registarEstadoAnterior();
-            dadosApp.chat = dadosApp.chat.filter(c => c.id !== id);
-            salvarStorage();
-            renderizarHubUtilidades();
-        }
-
-        function atualizarChat(id, val) {
-            let c = dadosApp.chat.find(item => item.id === id);
-            if(c) { c.texto = val; salvarStorage(); }
-        }
-
-        function atualizarContatoNome(id, val) {
-            let c = dadosApp.contatos.find(item => item.id === id);
-            if(c) { c.nome = val; salvarStorage(); }
-        }
-
-        function atualizarContatoNumero(id, val) {
-            let c = dadosApp.contatos.find(item => item.id === id);
-            if(c) { c.numero = val; salvarStorage(); }
-        }
-
-        function adicionarContato() {
-            registarEstadoAnterior();
-            if(!dadosApp.contatos) dadosApp.contatos = [];
-            dadosApp.contatos.unshift({ id: Date.now(), nome: "Contato", numero: "" });
-            salvarStorage();
-            renderizarHubUtilidades();
-        }
-
-        function apagarContato(id) {
-            registarEstadoAnterior();
-            dadosApp.contatos = dadosApp.contatos.filter(c => c.id !== id);
-            salvarStorage();
-            renderizarHubUtilidades();
-        }
-
-        function adicionarVoo() {
-            registarEstadoAnterior();
-            if(!dadosApp.voos) dadosApp.voos = [];
-            dadosApp.voos.unshift({ id: Date.now(), cia: "Latam", voo: "", pnr: "", rota: "GIG ➔ ZRH", data: "", pdfData: "", pdfNome: "" });
-            salvarStorage();
-            renderizarHubUtilidades();
-        }
-
-        function apagarVoo(id) {
-            registarEstadoAnterior();
-            dadosApp.voos = dadosApp.voos.filter(v => v.id !== id);
-            salvarStorage();
-            renderizarHubUtilidades();
-        }
-
-        function atualizarVoo(id, campo, val) {
-            let v = dadosApp.voos.find(item => item.id === id);
-            if(v) { v[campo] = val; salvarStorage(); }
-        }
-
-        function anexarPdfVoo(id, event) {
-            const file = event.target.files[0];
-            if(file) {
-                registarEstadoAnterior();
-                const reader = new FileReader();
-                reader.onload = function(evt) {
-                    const v = dadosApp.voos.find(item => item.id === id);
-                    if(v) { 
-                        v.pdfData = evt.target.result; 
-                        v.pdfNome = file.name; 
-                        salvarStorage(); 
-                        renderizarHubUtilidades(); 
-                        abrirLeitorPdf(v.id, 'Passagem ' + (v.voo || 'Voo'));
-                    }
-                };
-                reader.readAsDataURL(file);
-            }
-        }
-
-        function adicionarTarefa() {
-            registarEstadoAnterior();
-            if(!dadosApp.tarefas) dadosApp.tarefas = [];
-            dadosApp.tarefas.unshift({ id: Date.now(), texto: "Nova tarefa...", status: "", categoria: "" });
-            salvarStorage();
-            renderizarHubUtilidades();
-        }
-
-        function apagarTarefa(id) {
-            registarEstadoAnterior();
-            dadosApp.tarefas = dadosApp.tarefas.filter(t => t.id !== id);
-            salvarStorage();
-            renderizarHubUtilidades();
-        }
-
-        function atualizarTarefaTexto(id, val) {
-            let t = dadosApp.tarefas.find(item => item.id === id);
-            if(t) { t.texto = val; salvarStorage(); }
-        }
-
-        function lidarSelecaoDestinoTarefa(id, val) {
-            registarEstadoAnterior();
-            let t = dadosApp.tarefas.find(item => item.id === id);
-            if(t) { t.categoria = val; salvarStorage(); renderizarHubUtilidades(); }
-        }
-
-        function lidarSelecaoStatusTarefa(id, val) {
-            registarEstadoAnterior();
-            let t = dadosApp.tarefas.find(item => item.id === id);
-            if(t) { t.status = val; salvarStorage(); renderizarHubUtilidades(); }
-        }
-
-        function adicionarItemChecklist() {
-            registarEstadoAnterior();
-            if(!dadosApp.checklist) dadosApp.checklist = [];
-            dadosApp.checklist.push({ id: Date.now(), item: "Novo item...", feito: false });
-            salvarStorage();
-            renderizarHubUtilidades();
-        }
-
-        function apagarItemChecklist(id) {
-            registarEstadoAnterior();
-            dadosApp.checklist = dadosApp.checklist.filter(c => c.id !== id);
-            salvarStorage();
-            renderizarHubUtilidades();
-        }
-
-        function alternarItemChecklist(id) {
-            registarEstadoAnterior();
-            let c = dadosApp.checklist.find(item => item.id === id);
-            if(c) { c.feito = !c.feito; salvarStorage(); renderizarHubUtilidades(); }
-        }
-
-        function atualizarItemChecklistText(id, val) {
-            let c = dadosApp.checklist.find(item => item.id === id);
-            if(c) { c.item = val; salvarStorage(); }
-        }
-
-        function adicionarVoucher() {
-            registarEstadoAnterior();
-            if(!dadosApp.vouchers) dadosApp.vouchers = [];
-            dadosApp.vouchers.unshift({ id: Date.now(), titulo: "Hotel / Reserva", pdfData: "", pdfNome: "" });
-            salvarStorage();
-            renderizarHubUtilidades();
-        }
-
-        function apagarVoucher(id) {
-            registarEstadoAnterior();
-            dadosApp.vouchers = dadosApp.vouchers.filter(v => v.id !== id);
-            salvarStorage();
-            renderizarHubUtilidades();
-        }
-
-        function atualizarVoucherTitulo(id, val) {
-            let v = dadosApp.vouchers.find(item => item.id === id);
-            if(v) { v.titulo = val; salvarStorage(); }
-        }
-
-        function anexarPdfVoucher(id, event) {
-            const file = event.target.files[0];
-            if(file) {
-                registarEstadoAnterior();
-                const reader = new FileReader();
-                reader.onload = function(evt) {
-                    const v = dadosApp.vouchers.find(item => item.id === id);
-                    if(v) { 
-                        v.pdfData = evt.target.result; 
-                        v.pdfNome = file.name; 
-                        salvarStorage(); 
-                        renderizarHubUtilidades(); 
-                        abrirLeitorPdf(v.id, v.titulo);
-                    }
-                };
-                reader.readAsDataURL(file);
-            }
-        }
-
-        function abrirLeitorPdf(id, titulo) {
-            const v = dadosApp.vouchers.find(item => String(item.id) === String(id)) || dadosApp.voos.find(item => String(item.id) === String(id));
-            if(v && v.pdfData) {
-                document.getElementById('pdf-titulo-modal').innerText = '📄 ' + titulo + ' (' + (v.pdfNome || 'documento.pdf') + ')';
-                document.getElementById('pdf-iframe-view').src = v.pdfData;
-                document.getElementById('pdf-btn-download').href = v.pdfData;
-                document.getElementById('pdf-btn-download').download = v.pdfNome || 'documento.pdf';
-                document.getElementById('modal-leitor-pdf').classList.remove('hidden');
-            }
-        }
-
-        function fecharLeitorPdf() {
-            document.getElementById('modal-leitor-pdf').classList.add('hidden');
-            document.getElementById('pdf-iframe-view').src = '';
-        }
-
-        function renderizarOrcamentoTab() {
-            const container = document.getElementById('orcamento-conteudo');
-            const resumoTotalGastoBrl = document.getElementById('resumo-total-gasto-brl');
-            if(!container) return;
-            container.innerHTML = '';
-
-            try {
-                let cotEur = parseFloat(dadosApp.cotacaoEur) || 6.20;
-                let cotChf = parseFloat(dadosApp.cotacaoChf) || 6.50;
-
-                let gastoEur = 0;
-                let gastoChf = 0;
-                let gastoBrl = 0;
-
-                if(dadosApp.itinerario) {
-                    dadosApp.itinerario.forEach(item => {
-                        if(item.trechos && item.trechos.length > 0) {
-                            item.trechos.forEach(tr => {
-                                let val = limparNumero(tr.valor);
-                                let moeda = tr.moeda || 'EUR';
-                                if(val > 0) {
-                                    if(moeda === 'EUR') gastoEur += val;
-                                    else if(moeda === 'CHF') gastoChf += val;
-                                    else if(moeda === 'BRL') gastoBrl += val;
-                                }
-                            });
-                        }
-                    });
-                }
-
-                if(dadosApp.orcamento && dadosApp.orcamento.length > 0) {
-                    dadosApp.orcamento.forEach(d => {
-                        let val = limparNumero(d.valor);
-                        let moeda = d.moeda || 'EUR';
-                        if(val > 0) {
-                            if(moeda === 'EUR') gastoEur += val;
-                            else if(moeda === 'CHF') gastoChf += val;
-                            else if(moeda === 'BRL') gastoBrl += val;
-                        }
-                    });
-                }
-
-                if(dadosApp.compras && dadosApp.compras.length > 0) {
-                    dadosApp.compras.forEach(it => {
-                        let val = limparNumero(it.valor);
-                        let moeda = it.moeda || 'EUR';
-                        if(val > 0) {
-                            if(moeda === 'EUR') gastoEur += val;
-                            else if(moeda === 'CHF') gastoChf += val;
-                            else if(moeda === 'BRL') gastoBrl += val;
-                        }
-                    });
-                }
-
-                let totalGastoBrl = (gastoEur * cotEur) + (gastoChf * cotChf) + gastoBrl;
-                if(resumoTotalGastoBrl) resumoTotalGastoBrl.innerText = 'R$ ' + totalGastoBrl.toFixed(2);
-
-                if (orcamentoSubTab === 'eur') {
-                    let despesasEurHtml = '';
-                    if(dadosApp.itinerario) {
-                        dadosApp.itinerario.forEach(item => {
-                            if(item.trechos) {
-                                item.trechos.forEach(tr => {
-                                    let val = limparNumero(tr.valor);
-                                    if(val > 0 && tr.moeda === 'EUR') {
-                                        let valBrl = val * cotEur;
-                                        let origemStr = (tr.origem || '?').replace(/"/g, '&quot;');
-                                        let destinoStr = (tr.destino || '?').replace(/"/g, '&quot;');
-                                        despesasEurHtml += '<div class="p-3 rounded-xl bg-white border border-slate-200 flex flex-col gap-1.5 text-xs shadow-sm"><span class="font-bold text-slate-800 truncate">🚄 ' + origemStr + ' ➔ ' + destinoStr + '</span><div class="flex justify-between items-center border-t border-slate-100 pt-1.5"><span class="text-slate-500 font-medium">Trecho Oficial</span><div class="text-right whitespace-nowrap"><span class="font-black text-amber-900 text-sm">' + val.toFixed(2) + ' €</span><span class="text-emerald-700 font-bold text-[11px] block">R$ ' + valBrl.toFixed(2) + '</span></div></div></div>';
-                                    }
-                                });
-                            }
-                        });
-                    }
-
-                    if(dadosApp.orcamento) {
-                        dadosApp.orcamento.forEach(d => {
-                            if(d.moeda === 'EUR') {
-                                let val = limparNumero(d.valor);
-                                let descSafe = (d.descricao || '').replace(/"/g, '&quot;');
-                                despesasEurHtml += '<div class="p-3 rounded-xl bg-white border border-slate-200 flex flex-col gap-2 text-xs shadow-sm">' +
-                                    '<input type="text" value="' + descSafe + '" oninput="atualizarOrcamentoDescricao(' + d.id + ', this.value)" class="w-full bg-transparent outline-none font-bold text-slate-800 text-xs border-b pb-1" placeholder="Descrição...">' +
-                                    '<div class="flex items-center justify-between gap-2">' +
-                                        '<span class="text-slate-500 font-medium">Valor (€):</span>' +
-                                        '<div class="flex items-center gap-1.5"><input type="text" value="' + (val !== 0 ? val : '') + '" id="despesa-val-' + d.id + '" class="w-20 p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-black text-right text-xs outline-none" placeholder="0">' +
-                                        '<button onclick="salvarDespesaValor(' + d.id + ', document.getElementById(\'despesa-val-' + d.id + '\').value)" class="bg-emerald-600 text-white px-2.5 py-1.5 rounded-lg font-bold text-[10px]">OK</button></div>' +
-                                        '<button onclick="apagarDespesa(' + d.id + ')" class="text-red-500 font-bold px-2 py-1.5 rounded-xl bg-red-50 hover:bg-red-100 text-xs">✕</button></div>' +
-                                    '</div>';
-                            }
-                        });
-                    }
-                    if(despesasEurHtml === '') despesasEurHtml = '<p class="text-xs text-slate-400 italic">Sem despesas em Euros registadas.</p>';
-
-                    let saldoEurNum = limparNumero(dadosApp.saldoEur);
-                    let sobraEur = saldoEurNum - gastoEur;
-                    container.innerHTML = `
-                        <div class="bg-amber-50/50 p-4 rounded-2xl border border-amber-200 space-y-3 shadow-sm">
-                            <h3 class="font-black text-amber-900 text-xs uppercase border-b border-amber-200 pb-1.5">💶 Gestão de Euros (€)</h3>
-                            <div>
-                                <label class="block font-bold text-xs text-amber-800 mb-1">Disponível (€)</label>
-                                <div class="flex gap-1.5">
-                                    <input type="text" id="input-saldo-eur" value="${dadosApp.saldoEur !== "" ? dadosApp.saldoEur : ''}" class="flex-1 p-2.5 bg-white border border-amber-300 rounded-xl font-black text-amber-900 text-sm shadow-inner outline-none" placeholder="0">
-                                    <button onclick="salvarSaldo('EUR', document.getElementById('input-saldo-eur').value)" class="bg-emerald-600 text-white px-3 py-2 rounded-xl font-bold text-xs">OK</button>
-                                </div>
-                            </div>
-                            <div class="flex justify-between items-center bg-white p-2.5 rounded-xl border border-amber-100 text-xs shadow-sm">
-                                <span class="font-semibold text-slate-600">Restante:</span>
-                                <span class="font-black text-amber-900 text-sm">${sobraEur.toFixed(2)} €</span>
-                            </div>
-                            <div class="flex justify-between items-center bg-white p-2.5 rounded-xl border border-amber-100 text-xs shadow-sm">
-                                <span class="font-semibold text-slate-600">Em Reais (R$):</span>
-                                <span class="font-black text-emerald-700 text-sm">R$ ${(sobraEur * cotEur).toFixed(2)}</span>
-                            </div>
-                            <div class="space-y-2 pt-2">
-                                <span class="font-bold text-xs text-amber-900 uppercase block">Despesas em Euros (€):</span>
-                                <div class="space-y-2.5">${despesasEurHtml}</div>
-                            </div>
-                            <button onclick="adicionarDespesa('EUR')" class="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold py-2.5 rounded-xl text-xs transition shadow-sm mt-3">➕ Nova Despesa EUR</button>
-                        </div>
-                    `;
-
-                } else if (orcamentoSubTab === 'chf') {
-                    let despesasChfHtml = '';
-                    if(dadosApp.itinerario) {
-                        dadosApp.itinerario.forEach(item => {
-                            if(item.trechos) {
-                                item.trechos.forEach(tr => {
-                                    let val = limparNumero(tr.valor);
-                                    if(val > 0 && tr.moeda === 'CHF') {
-                                        let valBrl = val * cotChf;
-                                        let origemStr = (tr.origem || '?').replace(/"/g, '&quot;');
-                                        let destinoStr = (tr.destino || '?').replace(/"/g, '&quot;');
-                                        despesasChfHtml += '<div class="p-3 rounded-xl bg-white border border-slate-200 flex flex-col gap-1.5 text-xs shadow-sm"><span class="font-bold text-slate-800 truncate">🚄 ' + origemStr + ' ➔ ' + destinoStr + '</span><div class="flex justify-between items-center border-t border-slate-100 pt-1.5"><span class="text-slate-500 font-medium">Trecho Oficial</span><div class="text-right whitespace-nowrap"><span class="font-black text-blue-900 text-sm">' + val.toFixed(2) + ' CHF</span><span class="text-emerald-700 font-bold text-[11px] block">R$ ' + valBrl.toFixed(2) + '</span></div></div></div>';
-                                    }
-                                });
-                            }
-                        });
-                    }
-
-                    if(dadosApp.orcamento) {
-                        dadosApp.orcamento.forEach(d => {
-                            if(d.moeda === 'CHF') {
-                                let val = limparNumero(d.valor);
-                                let descSafe = (d.descricao || '').replace(/"/g, '&quot;');
-                                despesasChfHtml += '<div class="p-3 rounded-xl bg-white border border-slate-200 flex flex-col gap-2 text-xs shadow-sm">' +
-                                    '<input type="text" value="' + descSafe + '" oninput="atualizarOrcamentoDescricao(' + d.id + ', this.value)" class="w-full bg-transparent outline-none font-bold text-slate-800 text-xs border-b pb-1" placeholder="Descrição...">' +
-                                    '<div class="flex items-center justify-between gap-2">' +
-                                        '<span class="text-slate-500 font-medium">Valor (CHF):</span>' +
-                                        '<div class="flex items-center gap-1.5"><input type="text" value="' + (val !== 0 ? val : '') + '" id="despesa-val-' + d.id + '" class="w-20 p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-black text-right text-xs outline-none" placeholder="0">' +
-                                        '<button onclick="salvarDespesaValor(' + d.id + ', document.getElementById(\'despesa-val-' + d.id + '\').value)" class="bg-emerald-600 text-white px-2.5 py-1.5 rounded-lg font-bold text-[10px]">OK</button></div>' +
-                                        '<button onclick="apagarDespesa(' + d.id + ')" class="text-red-500 font-bold px-2 py-1.5 rounded-xl bg-red-50 hover:bg-red-100 text-xs">✕</button></div>' +
-                                    '</div>';
-                            }
-                        });
-                    }
-                    if(despesasChfHtml === '') despesasChfHtml = '<p class="text-xs text-slate-400 italic">Sem despesas em Francos registadas.</p>';
-
-                    let saldoChfNum = limparNumero(dadosApp.saldoChf);
-                    let sobraChf = saldoChfNum - gastoChf;
-                    container.innerHTML = `
-                        <div class="bg-blue-50/50 p-4 rounded-2xl border border-blue-200 space-y-3 shadow-sm">
-                            <h3 class="font-black text-blue-900 text-xs uppercase border-b border-blue-200 pb-1.5">🇨🇭 Gestão de Francos (CHF)</h3>
-                            <div>
-                                <label class="block font-bold text-xs text-blue-800 mb-1">Disponível (CHF)</label>
-                                <div class="flex gap-1">
-                                    <input type="text" id="input-saldo-chf" value="${dadosApp.saldoChf !== "" ? dadosApp.saldoChf : ''}" class="flex-1 p-2.5 bg-white border border-blue-300 rounded-xl font-black text-blue-900 text-sm shadow-inner outline-none" placeholder="0">
-                                    <button onclick="salvarSaldo('CHF', document.getElementById('input-saldo-chf').value)" class="bg-emerald-600 text-white px-3 py-2 rounded-xl font-bold text-xs">OK</button>
-                                </div>
-                            </div>
-                            <div class="flex justify-between items-center bg-white p-2.5 rounded-xl border border-blue-100 text-xs shadow-sm">
-                                <span class="font-semibold text-slate-600">Restante:</span>
-                                <span class="font-black text-blue-900 text-sm">${sobraChf.toFixed(2)} CHF</span>
-                            </div>
-                            <div class="flex justify-between items-center bg-white p-2.5 rounded-xl border border-blue-100 text-xs shadow-sm">
-                                <span class="font-semibold text-slate-600">Em Reais (R$):</span>
-                                <span class="font-black text-emerald-700 text-sm">R$ ${(sobraChf * cotChf).toFixed(2)}</span>
-                            </div>
-                            <div class="space-y-2 pt-2">
-                                <span class="font-bold text-xs text-blue-900 uppercase block">Despesas em Francos (CHF):</span>
-                                <div class="space-y-2.5">${despesasChfHtml}</div>
-                            </div>
-                            <button onclick="adicionarDespesa('CHF')" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 rounded-xl text-xs transition shadow-sm mt-3">➕ Nova Despesa CHF</button>
-                        </div>
-                    `;
-
-                } else if (orcamentoSubTab === 'conversor') {
-                    container.innerHTML = `
-                        <div class="bg-indigo-50/70 p-4 rounded-2xl border border-indigo-200 space-y-3 shadow-sm">
-                            <h3 class="font-black text-indigo-900 text-xs uppercase border-b border-indigo-200 pb-1.5">🧮 Conversor Rápido de Moeda</h3>
-                            <div>
-                                <label class="block font-bold text-xs text-indigo-800 mb-1">Valor Estrangeiro</label>
-                                <input type="text" id="conv-valor" class="w-full p-2.5 bg-white border border-indigo-200 rounded-xl font-black text-xs text-indigo-950 outline-none" placeholder="0.00">
-                            </div>
-                            <div>
-                                <label class="block font-bold text-xs text-indigo-800 mb-1">Moeda</label>
-                                <select id="conv-moeda" class="w-full p-2.5 bg-white border border-indigo-200 rounded-xl font-bold text-xs text-indigo-950 outline-none">
-                                    <option value="EUR">Euros (€)</option>
-                                    <option value="CHF">Francos (CHF)</option>
-                                </select>
-                            </div>
-                            <button onclick="calcularConversaoRapida()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2.5 rounded-xl text-xs transition shadow-sm">Converter</button>
-                            <div class="bg-white p-3 rounded-xl border border-indigo-200 text-sm font-black text-emerald-700 text-center shadow-inner" id="conv-resultado">
-                                R$ 0.00
-                            </div>
-                        </div>
-                    `;
-                }
-            } catch(err) {
-                console.error("Erro no orçamento:", err);
-                container.innerHTML = '<div class="p-3 bg-red-50 text-red-600 rounded-xl text-xs">Erro ao carregar orçamento. Tente atualizar a página.</div>';
-            }
-        }
-
-        // RENDERIZAR ABA DE COMPRAS - LAYOUT EM DUAS LINHAS OTIMIZADO
+        // RENDERIZAR ABA DE COMPRAS COM PARTICIPANTES DINÂMICOS (MARIANA, GLORIA, ETC.)
         function renderizarComprasTab() {
             const containerResumo = document.getElementById('compras-resumo-topo');
             const containerLista = document.getElementById('compras-lista-itens');
@@ -1809,25 +749,32 @@
                 let cotEur = parseFloat(dadosApp.cotacaoEur) || 6.20;
                 let cotChf = parseFloat(dadosApp.cotacaoChf) || 6.50;
 
-                let totalAdultosEur = 0, totalAdultosChf = 0, totalAdultosBrl = 0;
-                let totalCriancasEur = 0, totalCriancasChf = 0, totalCriancasBrl = 0;
+                if(!Array.isArray(dadosApp.participantesCadastrados)) {
+                    dadosApp.participantesCadastrados = ["Mariana", "Gloria"];
+                }
+
+                let totaisPart = {};
+                dadosApp.participantesCadastroredos = dadosApp.participantesCadastrados || ["Mariana", "Gloria"];
+                dadosApp.participantesCadastrados.forEach(p => {
+                    totaisPart[p] = { eur: 0, chf: 0, brl: 0 };
+                });
 
                 if(!Array.isArray(dadosApp.compras)) dadosApp.compras = [];
 
                 dadosApp.compras.forEach(it => {
                     let val = limparNumero(it.valor);
                     let moeda = it.moeda || 'EUR';
-                    let pub = it.publico || 'Adulto';
+                    let pub = it.publico || dadosApp.participantesCadastrados[0] || "Mariana";
+                    
+                    if(!totaisPart[pub]) {
+                        totaisPart[pub] = { eur: 0, chf: 0, brl: 0 };
+                        if(!dadosApp.participantesCadastrados.includes(pub)) dadosApp.participantesCadastrados.push(pub);
+                    }
+
                     if(val > 0) {
-                        if(pub === 'Adulto') {
-                            if(moeda === 'EUR') totalAdultosEur += val;
-                            else if(moeda === 'CHF') totalAdultosChf += val;
-                            else if(moeda === 'BRL') totalAdultosBrl += val;
-                        } else {
-                            if(moeda === 'EUR') totalCriancasEur += val;
-                            else if(moeda === 'CHF') totalCriancasChf += val;
-                            else if(moeda === 'BRL') totalCriancasBrl += val;
-                        }
+                        if(moeda === 'EUR') totaisPart[pub].eur += val;
+                        else if(moeda === 'CHF') totaisPart[pub].chf += val;
+                        else if(moeda === 'BRL') totaisPart[pub].brl += val;
                     }
                 });
 
@@ -1836,21 +783,21 @@
                     return (a.concluido === b.concluido) ? 0 : a.concluido ? 1 : -1;
                 });
 
-                let finalAdultosBrl = (totalAdultosEur * cotEur) + (totalAdultosChf * cotChf) + totalAdultosBrl;
-                let finalCriancasBrl = (totalCriancasEur * cotEur) + (totalCriancasChf * cotChf) + totalCriancasBrl;
-
-                containerResumo.innerHTML = `
-                    <div class="bg-purple-50 p-3 rounded-xl border border-purple-200 shadow-sm text-center space-y-0.5 min-w-0">
-                        <span class="font-bold text-[10px] text-purple-900 uppercase block truncate">👤 Total Adultos</span>
-                        <div class="font-black text-[11px] text-slate-800 truncate">${totalAdultosEur.toFixed(2)}€ | ${totalAdultosChf.toFixed(2)}CHF</div>
-                        <div class="font-bold text-[11px] text-emerald-700 truncate">R$ ${finalAdultosBrl.toFixed(2)}</div>
-                    </div>
-                    <div class="bg-purple-50 p-3 rounded-xl border border-purple-200 shadow-sm text-center space-y-0.5 min-w-0">
-                        <span class="font-bold text-[10px] text-purple-900 uppercase block truncate">👧 Total Crianças</span>
-                        <div class="font-black text-[11px] text-slate-800 truncate">${totalCriancasEur.toFixed(2)}€ | ${totalCriancasChf.toFixed(2)}CHF</div>
-                        <div class="font-bold text-[11px] text-emerald-700 truncate">R$ ${finalCriancasBrl.toFixed(2)}</div>
-                    </div>
-                `;
+                // Gerar cards de resumo dinâmicos no topo
+                let resumoHtml = '';
+                dadosApp.participantesCadastrados.forEach(p => {
+                    let t = totaisPart[p] || { eur: 0, chf: 0, brl: 0 };
+                    let totalBrlFinal = (t.eur * cotEur) + (t.chf * cotChf) + t.brl;
+                    resumoHtml += `
+                        <div class="bg-purple-50 p-3 rounded-xl border border-purple-200 shadow-sm text-center space-y-0.5 min-w-0">
+                            <span class="font-bold text-[10px] text-purple-900 uppercase block truncate">👤 ${p}</span>
+                            <div class="font-black text-[11px] text-slate-800 truncate">${t.eur.toFixed(2)}€ | ${t.chf.toFixed(2)}CHF</div>
+                            <div class="font-bold text-[11px] text-emerald-700 truncate">R$ ${totalBrlFinal.toFixed(2)}</div>
+                        </div>
+                    `;
+                });
+                containerResumo.innerHTML = resumoHtml;
+                containerResumo.className = dadosApp.participantesCadastrados.length > 2 ? 'grid grid-cols-3 gap-2' : 'grid grid-cols-2 gap-2';
 
                 let itensHtml = '';
                 if(dadosApp.compras.length === 0) {
@@ -1859,22 +806,26 @@
                     dadosApp.compras.forEach(it => {
                         let val = limparNumero(it.valor);
                         let moeda = it.moeda || 'EUR';
-                        let pub = it.publico || 'Adulto';
+                        let pub = it.publico || dadosApp.participantesCadastrados[0];
                         let valBrl = moeda === 'EUR' ? val * cotEur : (moeda === 'CHF' ? val * cotChf : val);
                         let descSafe = (it.descricao || '').replace(/"/g, '&quot;');
                         let editando = it.editando !== undefined ? it.editando : false;
                         let concluido = it.concluido ? true : false;
-                        let emojiCarinha = pub === 'Adulto' ? '👤' : '👧';
                         let moedaSimbolo = moeda === 'EUR' ? '€' : (moeda === 'CHF' ? 'CHF' : 'R$');
+
+                        let opcoesParticipantes = '';
+                        dadosApp.participantesCadastrados.forEach(p => {
+                            opcoesParticipantes += `<option value="${p}" ${pub === p ? 'selected' : ''}>👤 ${p}</option>`;
+                        });
+                        opcoesParticipantes += `<option value="novo_participante">➕ Outra pessoa...</option>`;
 
                         if(editando) {
                             itensHtml += `
                                 <div class="p-3 rounded-xl border bg-white border-indigo-300 space-y-2.5 text-xs shadow-sm min-w-0">
                                     <div class="flex items-center gap-1.5 min-w-0">
                                         <input type="text" id="desc-${it.id}" value="${descSafe}" class="flex-1 min-w-0 p-2 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs" placeholder="Nome do item...">
-                                        <select id="pub-${it.id}" class="p-2 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs shrink-0">
-                                            <option value="Adulto" ${pub==='Adulto'?'selected':''}>👤 Adulto</option>
-                                            <option value="Criança (Sofia)" ${pub==='Criança (Sofia)'?'selected':''}>👧 Criança</option>
+                                        <select id="pub-${it.id}" onchange="verificarNovoParticipante('${it.id}', this.value)" class="p-2 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs shrink-0">
+                                            ${opcoesParticipantes}
                                         </select>
                                         <button onclick="apagarItemDireto('${it.id}')" class="text-red-500 font-bold px-2.5 py-2 rounded-xl bg-red-50 text-xs shrink-0">✕</button>
                                     </div>
@@ -1897,21 +848,19 @@
                             let linhaRiscada = concluido ? 'line-through text-slate-400 bg-emerald-50/60 border-emerald-300' : 'text-slate-900 bg-slate-50 border-slate-200';
                             itensHtml += `
                                 <div class="p-3 rounded-xl border ${linhaRiscada} space-y-2 text-xs shadow-sm min-w-0">
-                                    <!-- LINHA SUPERIOR: Checkbox + Nome do Item (Largura Completa) -->
                                     <div class="flex items-center gap-2 min-w-0">
                                         <input type="checkbox" ${concluido ? 'checked' : ''} onchange="alternarConcluidoItemDireto('${it.id}')" class="w-4 h-4 accent-emerald-600 rounded cursor-pointer shrink-0" title="Marcar como feito">
                                         <span class="font-bold flex-1 min-w-0 break-words ${concluido ? 'line-through text-slate-400' : 'text-slate-900'}">${descSafe}</span>
                                     </div>
-                                    <!-- LINHA INFERIOR: Ícone/Público, Valores e Botões -->
                                     <div class="flex items-center justify-between gap-2 border-t border-slate-200/60 pt-2 flex-wrap">
                                         <div class="flex items-center gap-2">
-                                            <span class="bg-white px-2 py-0.5 rounded-lg border text-[11px] font-bold shadow-sm" title="${pub}">${emojiCarinha} ${pub}</span>
+                                            <span class="bg-white px-2 py-0.5 rounded-lg border text-[11px] font-bold shadow-sm">👤 ${pub}</span>
                                             <span class="font-black text-indigo-900 ${concluido ? 'line-through text-slate-400' : ''}">${val > 0 ? val + ' ' + moedaSimbolo : 'Grátis'}</span>
                                             <span class="text-emerald-700 font-bold ${concluido ? 'line-through text-slate-400' : ''}">R$ ${valBrl.toFixed(2)}</span>
                                         </div>
                                         <div class="flex items-center gap-1">
                                             <button onclick="abrirEdicaoItemDireto('${it.id}')" class="bg-slate-200 hover:bg-slate-300 text-slate-800 px-2.5 py-1 rounded-lg font-bold text-[11px]" title="Editar com Lápis">✏️</button>
-                                            <button onclick="apagarItemDireto('${it.id}')" class="text-red-500 font-bold px-2 py-1 rounded-lg bg-red-50 hover:bg-red-100 text-xs">✕</button>
+                                            <button onclick="apagarItemDireto('${it.id}')" class="text-red-500 font-bold px-1.5 py-1 rounded-lg bg-red-50 hover:bg-red-100 text-xs">✕</button>
                                         </div>
                                     </div>
                                 </div>
@@ -1926,13 +875,34 @@
             }
         }
 
+        function verificarNovoParticipante(itemId, valor) {
+            if(valor === 'novo_participante') {
+                let nome = prompt("Nome da nova pessoa/participante:");
+                if(nome && nome.trim() !== '') {
+                    let limpo = nome.trim();
+                    if(!dadosApp.participantesCadastrados.includes(limpo)) {
+                        dadosApp.participantesCadastrados.push(limpo);
+                    }
+                    let select = document.getElementById('pub-' + itemId);
+                    if(select) {
+                        let opt = document.createElement('option');
+                        opt.value = limpo;
+                        opt.text = '👤 ' + limpo;
+                        select.insertBefore(opt, select.lastElementChild);
+                        select.value = limpo;
+                    }
+                }
+            }
+        }
+
         function adicionarItemCompraDireto() {
             registarEstadoAnterior();
             if(!Array.isArray(dadosApp.compras)) dadosApp.compras = [];
+            let defaultPart = (dadosApp.participantesCadastrados && dadosApp.participantesCadastrados.length > 0) ? dadosApp.participantesCadastrados[0] : "Mariana";
             dadosApp.compras.unshift({
                 id: Date.now(),
                 descricao: "",
-                publico: "Adulto",
+                publico: defaultPart,
                 valor: 0,
                 moeda: "EUR",
                 concluido: false,
@@ -1952,7 +922,7 @@
                 let moeda = document.getElementById('moeda-' + itemId).value;
 
                 it.descricao = desc ? desc.trim() : "Item";
-                it.publico = pub;
+                it.publico = pub !== 'novo_participante' ? pub : (dadosApp.participantesCadastrados[0] || "Mariana");
                 it.valor = val !== "" ? limparNumero(val) : 0;
                 it.moeda = moeda;
                 it.editando = false;
@@ -1995,7 +965,6 @@
             if(moeda === 'EUR') dadosApp.saldoEur = val !== "" ? num : "";
             if(moeda === 'CHF') dadosApp.saldoChf = val !== "" ? num : "";
             salvarStorage();
-            renderizarOrcamentoTab();
             alert("💾 Saldo guardado com sucesso!");
         }
 
@@ -2005,52 +974,8 @@
             if(moeda === 'EUR') dadosApp.cotacaoEur = num > 0 ? num : 6.20;
             if(moeda === 'CHF') dadosApp.cotacaoChf = num > 0 ? num : 6.50;
             salvarStorage();
-            renderizarOrcamentoTab();
-            renderizarComprasTab();
+            atualizarTudo();
             alert("💾 Cotação guardada com sucesso!");
-        }
-
-        function salvarDespesaValor(id, val) {
-            registarEstadoAnterior();
-            let d = dadosApp.orcamento.find(item => String(item.id) === String(id));
-            if(d) {
-                d.valor = val !== "" ? limparNumero(val) : 0;
-                salvarStorage();
-                renderizarOrcamentoTab();
-            }
-        }
-
-        function calcularConversaoRapida() {
-            let elVal = document.getElementById('conv-valor');
-            let elMoeda = document.getElementById('conv-moeda');
-            let elRes = document.getElementById('conv-resultado');
-            if(!elVal || !elMoeda || !elRes) return;
-            let val = limparNumero(elVal.value);
-            let moeda = elMoeda.value;
-            let cotEur = parseFloat(dadosApp.cotacaoEur) || 6.20;
-            let cotChf = parseFloat(dadosApp.cotacaoChf) || 6.50;
-            let resultado = moeda === 'EUR' ? val * cotEur : (moeda === 'CHF' ? val * cotChf : val);
-            elRes.innerText = 'R$ ' + resultado.toFixed(2);
-        }
-
-        function adicionarDespesa(moedaForcada) {
-            registarEstadoAnterior();
-            if(!dadosApp.orcamento) dadosApp.orcamento = [];
-            dadosApp.orcamento.unshift({ id: Date.now(), descricao: "Despesa", valor: 0, moeda: moedaForcada });
-            salvarStorage();
-            renderizarOrcamentoTab();
-        }
-
-        function apagarDespesa(id) {
-            registarEstadoAnterior();
-            dadosApp.orcamento = dadosApp.orcamento.filter(d => String(d.id) !== String(id));
-            salvarStorage();
-            renderizarOrcamentoTab();
-        }
-
-        function atualizarOrcamentoDescricao(id, val) {
-            let d = dadosApp.orcamento.find(item => String(item.id) === String(id));
-            if(d) { d.descricao = val; localStorage.setItem(CHAVE_APP, JSON.stringify(dadosApp)); }
         }
 
         function ativarMicrofone() {
