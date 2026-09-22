@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v229.0)</title>
+    <title>Roteiro Europa - Mariana (v231.0)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Manifest Dinâmico via JavaScript -->
@@ -39,7 +39,7 @@
             <a href="https://translate.google.com/?hl=pt&sl=auto&tl=pt&op=images" target="_blank" class="bg-indigo-600 hover:bg-indigo-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm flex items-center gap-1" title="Google Tradutor & Câmara">🌐 Tradutor</a>
             <button onclick="window.location.reload()" class="bg-slate-800 hover:bg-slate-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm border border-slate-700" title="Atualizar Página">🔄</button>
             <button onclick="exportarPdfPrint()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm" title="Imprimir Tudo">🖨️</button>
-            <span class="bg-indigo-950 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v229.0</span>
+            <span class="bg-indigo-950 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v231.0</span>
         </div>
     </header>
 
@@ -160,13 +160,13 @@
             </div>
         </div>
 
-        <!-- TAB 5: COMPRAS -->
+        <!-- TAB 5: COMPRAS (COM FILTROS POR TÍTULO) -->
         <div id="tab-compras" class="space-y-3 hidden">
             <div class="bg-white p-3.5 sm:p-5 rounded-2xl shadow-sm border border-slate-200 space-y-4 text-xs" id="compras-conteudo-main">
                 <div class="flex justify-between items-center border-b pb-3 flex-wrap gap-2">
                     <div>
                         <h2 class="text-xs font-extrabold uppercase text-slate-800 tracking-wider">🛍️ Lista de Compras</h2>
-                        <p class="text-[11px] text-slate-500 font-semibold">Preencha a caixa abaixo e clique em OK para adicionar à lista</p>
+                        <p class="text-[11px] text-slate-500 font-semibold">Filtre por título ou adicione novos itens</p>
                     </div>
                     <button type="button" onclick="imprimirSeccaoCustom('Lista de Compras', document.getElementById('tab-compras').innerHTML)" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-xl font-bold text-xs transition shadow-sm">🖨️ PDF</button>
                 </div>
@@ -174,11 +174,14 @@
                 <!-- RESUMO GERAL DAS COMPRAS NO TOPO -->
                 <div id="compras-resumo-topo" class="grid grid-cols-2 gap-2"></div>
 
-                <!-- CAIXA ÚNICA FIXA PARA DIGITAÇÃO (COM CAMPO DE LINK) -->
+                <!-- CARTÕES DE FILTRAGEM POR TÍTULO -->
+                <div id="compras-filtros-titulo" class="bg-slate-200 p-2 rounded-xl overflow-x-auto flex gap-1.5 text-xs items-center no-scrollbar shadow-inner"></div>
+
+                <!-- CAIXA ÚNICA FIXA PARA DIGITAÇÃO -->
                 <div class="p-3.5 rounded-2xl border-2 border-indigo-200 bg-indigo-50/40 space-y-3 shadow-sm">
                     <span class="font-black text-indigo-950 uppercase text-[10px] block">➕ ADICIONAR NOVO ITEM</span>
                     <div class="flex items-center gap-1.5 min-w-0">
-                        <input type="text" id="input-nova-desc" class="flex-1 min-w-0 p-2 bg-white border border-slate-300 rounded-xl font-bold text-xs outline-none focus:border-indigo-600" placeholder="Nome do item (ex: Iogurte)...">
+                        <input type="text" id="input-nova-desc" class="flex-1 min-w-0 p-2 bg-white border border-slate-300 rounded-xl font-bold text-xs outline-none focus:border-indigo-600" placeholder="Nome do item (ex: Torre Eiffel)...">
                         <select id="input-novo-pub" class="p-2 bg-white border border-slate-300 rounded-xl font-bold text-xs shrink-0">
                             <option value="Mariana">👤 Mariana</option>
                             <option value="Sophia">👧 Sophia</option>
@@ -203,10 +206,10 @@
                     </div>
                 </div>
 
-                <!-- LISTA DE ITENS JÁ ADICIONADOS -->
+                <!-- LISTA DE ITENS AGRUPADOS -->
                 <div class="space-y-2 pt-2">
-                    <span class="font-black text-slate-700 uppercase text-[10px] block">📋 ITENS REGISTADOS</span>
-                    <div id="compras-lista-itens" class="space-y-2 pt-1"></div>
+                    <span class="font-black text-slate-700 uppercase text-[10px] block">📋 ITENS AGRUPADOS POR TÍTULO</span>
+                    <div id="compras-lista-itens" class="space-y-3 pt-1"></div>
                 </div>
             </div>
         </div>
@@ -250,7 +253,7 @@
 
     <!-- BARRA DE FERRAMENTAS FIXA -->
     <nav class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-md text-white px-3 py-2.5 shadow-2xl border-t border-slate-800 text-xs flex items-center justify-around gap-1 overflow-x-auto no-scrollbar max-w-4xl mx-auto rounded-t-2xl">
-        <span class="bg-indigo-600 px-2 py-1 rounded font-mono font-bold text-[9px] shrink-0">v229.0</span>
+        <span class="bg-indigo-600 px-2 py-1 rounded font-mono font-bold text-[9px] shrink-0">v231.0</span>
         <button onclick="abrirGeminiModal()" class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-3 py-1.5 rounded-xl font-bold transition shrink-0 flex items-center gap-1 text-xs shadow-sm">
             <span>✨</span> Gemini
         </button>
@@ -293,6 +296,7 @@
         let destinoFiltro = 'todos';
         let tarefaFiltro = 'todas';
         let utilidadeFiltro = 'todos';
+        let comprasFiltroTitulo = 'todos';
         let orcamentoSubTab = 'eur'; 
         let campoFocoAtual = null;
         let deferredPrompt = null;
@@ -436,11 +440,11 @@
                 navigator.serviceWorker.register(URL.createObjectURL(swBlob)).catch(err => {});
             }
 
-            if (!sessionStorage.getItem('sessao_ativa_v229')) {
+            if (!sessionStorage.getItem('sessao_ativa_v231')) {
                 document.getElementById('tela-bloqueio').classList.add('hidden');
             }
 
-            const temaSalvo = localStorage.getItem('tema_v229');
+            const temaSalvo = localStorage.getItem('tema_v231');
             if (temaSalvo === 'dark') {
                 document.body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 document.body.classList.remove('bg-slate-100', 'text-slate-800');
@@ -453,7 +457,7 @@
                 if(inputChf) inputChf.value = dadosApp.cotacaoChf;
 
                 atualizarTudo();
-                let tabSalva = localStorage.getItem('tab_ativa_v229') || 'leitura';
+                let tabSalva = localStorage.getItem('tab_ativa_v231') || 'leitura';
                 mudarTab(tabSalva);
             } catch(e) {
                 console.error("Erro ao iniciar:", e);
@@ -477,29 +481,29 @@
         }
 
         function desbloquearComPin() {
-            let pinSalvo = localStorage.getItem('app_pin_v229') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v231') || '1510';
             let digitado = document.getElementById('input-pin').value;
             if(digitado === pinSalvo) {
-                sessionStorage.setItem('sessao_ativa_v229', 'true');
+                sessionStorage.setItem('sessao_ativa_v231', 'true');
                 document.getElementById('tela-bloqueio').classList.add('hidden');
                 document.getElementById('erro-pin').classList.add('hidden');
             } else {
-                document.getElementById('erro-pin').classList.remove('hidden');
+                document.getElementById('erro-pin').classList.add('hidden');
             }
         }
 
         async function desbloquearComBiometria() {
-            sessionStorage.setItem('sessao_ativa_v229', 'true');
+            sessionStorage.setItem('sessao_ativa_v231', 'true');
             document.getElementById('tela-bloqueio').classList.add('hidden');
         }
 
         function alterarSenhaPin() {
             let atual = prompt("Digite a senha atual (Padrão: 1510):");
-            let pinSalvo = localStorage.getItem('app_pin_v229') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v231') || '1510';
             if(atual === pinSalvo) {
                 let nova = prompt("Digite a nova senha PIN:");
                 if(nova && nova.trim() !== '') {
-                    localStorage.setItem('app_pin_v229', nova.trim());
+                    localStorage.setItem('app_pin_v231', nova.trim());
                     alert("🔑 Senha alterada com sucesso!");
                 }
             } else {
@@ -512,11 +516,11 @@
             if(body.classList.contains('dark')) {
                 body.classList.remove('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.add('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v229', 'light');
+                localStorage.setItem('tema_v231', 'light');
             } else {
                 body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.remove('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v229', 'dark');
+                localStorage.setItem('tema_v231', 'dark');
             }
         }
 
@@ -722,7 +726,7 @@
         }
 
         function mudarTab(tab) {
-            localStorage.setItem('tab_ativa_v229', tab);
+            localStorage.setItem('tab_ativa_v231', tab);
             if(tab === 'itinerario' || tab === 'leitura') {
                 destinoFiltro = 'todos';
             }
@@ -906,6 +910,11 @@
                 }
             });
             renderizarHubUtilidades();
+        }
+
+        function filtrarComprasTitulo(titulo) {
+            comprasFiltroTitulo = titulo;
+            renderizarComprasTab();
         }
 
         // ROTEIRO (CONCLUÍDO POR LINHA / TRECHO)
@@ -1654,11 +1663,12 @@
             }
         }
 
-        // RENDERIZAR ABA DE COMPRAS COM DUAS LINHAS ORGANIZADAS
+        // RENDERIZAR ABA DE COMPRAS COM FILTROS DE TÍTULO
         function renderizarComprasTab() {
             const containerResumo = document.getElementById('compras-resumo-topo');
+            const containerFiltros = document.getElementById('compras-filtros-titulo');
             const containerLista = document.getElementById('compras-lista-itens');
-            if(!containerResumo || !containerLista) return;
+            if(!containerResumo || !containerLista || !containerFiltros) return;
 
             try {
                 let cotEur = parseFloat(dadosApp.cotacaoEur) || 6.20;
@@ -1668,7 +1678,12 @@
 
                 if(!Array.isArray(dadosApp.compras)) dadosApp.compras = [];
 
+                // Extrair títulos únicos para os cartões de filtro
+                let titulosUnicos = [];
                 dadosApp.compras.forEach(it => {
+                    let t = (it.descricao || 'Item').trim();
+                    if(t && !titulosUnicos.includes(t)) titulosUnicos.push(t);
+
                     let val = limparNumero(it.valor);
                     let moeda = it.moeda || 'EUR';
                     let pub = it.publico || 'Mariana';
@@ -1680,10 +1695,14 @@
                     }
                 });
 
-                dadosApp.compras.sort((a, b) => {
-                    if (a.editando !== b.editando) return a.editando ? -1 : 1;
-                    return (a.concluido === b.concluido) ? 0 : a.concluido ? 1 : -1;
+                // Renderizar cartões de filtro por título no topo
+                let filtrosHtml = `<button type="button" onclick="filtrarComprasTitulo('todos')" class="px-3 py-1.5 ${comprasFiltroTitulo === 'todos' ? 'bg-indigo-600 text-white font-bold shadow-sm' : 'bg-white border border-slate-200 text-slate-700 font-semibold'} rounded-xl text-xs shrink-0 transition">🔍 Todos</button>`;
+                titulosUnicos.forEach(t => {
+                    let ativo = comprasFiltroTitulo.toLowerCase() === t.toLowerCase();
+                    let classeFiltro = ativo ? 'bg-indigo-600 text-white font-bold shadow-sm' : 'bg-white border border-slate-200 text-slate-700 font-semibold';
+                    filtrosHtml += `<button type="button" onclick="filtrarComprasTitulo('${t.replace(/'/g, "\\'")}')" class="px-3 py-1.5 rounded-xl text-xs shrink-0 transition ${classeFiltro}">${t}</button>`;
                 });
+                containerFiltros.innerHTML = filtrosHtml;
 
                 let finalMarianaBrl = (totals["Mariana"].eur * cotEur) + (totals["Mariana"].chf * cotChf) + totals["Mariana"].brl;
                 let finalSophiaBrl = (totals["Sophia"].eur * cotEur) + (totals["Sophia"].chf * cotChf) + totals["Sophia"].brl;
@@ -1713,83 +1732,111 @@
                     </div>
                 `;
 
+                // Agrupar itens por título (descricao)
+                let gruposCompras = {};
+                dadosApp.compras.forEach(it => {
+                    let chave = (it.descricao || 'Item').trim().toLowerCase();
+                    if(!gruposCompras[chave]) {
+                        gruposCompras[chave] = {
+                            tituloOriginal: it.descricao || 'Item',
+                            itens: []
+                        };
+                    }
+                    gruposCompras[chave].itens.push(it);
+                });
+
                 let itensHtml = '';
-                if(dadosApp.compras.length === 0) {
-                    itensHtml = '<p class="text-xs text-slate-400 italic text-center py-4">Nenhum item registado na lista.</p>';
+                let chavesGrupos = Object.keys(gruposCompras);
+
+                // Aplicar filtro por título se selecionado
+                if(comprasFiltroTitulo !== 'todos') {
+                    chavesGrupos = chavesGrupos.filter(chave => gruposCompras[chave].tituloOriginal.trim().toLowerCase() === comprasFiltroTitulo.toLowerCase());
+                }
+
+                if(chavesGrupos.length === 0) {
+                    itensHtml = '<p class="text-xs text-slate-400 italic text-center py-4">Nenhum item encontrado com este filtro.</p>';
                 } else {
-                    dadosApp.compras.forEach(it => {
-                        let val = limparNumero(it.valor);
-                        let moeda = it.moeda || 'EUR';
-                        let pub = it.publico || 'Mariana';
-                        let linkItem = it.link || '';
-                        let valBrl = moeda === 'EUR' ? val * cotEur : (moeda === 'CHF' ? val * cotChf : val);
-                        let descSafe = (it.descricao || '').replace(/"/g, '&quot;');
-                        let linkSafe = (linkItem || '').replace(/"/g, '&quot;');
-                        let editando = it.editando !== undefined ? it.editando : false;
-                        let concluido = it.concluido ? true : false;
-                        let emojiCarinha = pub === 'Mariana' ? '👤' : (pub === 'Sophia' ? '👧' : (pub === 'Glória' ? '👵' : '📦'));
-                        let moedaSimbolo = moeda === 'EUR' ? '€' : (moeda === 'CHF' ? 'CHF' : 'R$');
-                        let itemIdStr = String(it.id);
+                    chavesGrupos.forEach(chave => {
+                        let grupo = gruposCompras[chave];
+                        let tituloCard = grupo.tituloOriginal;
 
-                        let linkBtn = linkItem ? `<a href="${linkItem}" target="_blank" class="bg-sky-100 hover:bg-sky-200 text-sky-800 px-2 py-0.5 rounded-lg font-bold text-[10px] inline-flex items-center gap-0.5 shrink-0" title="Abrir link">🔗 Link</a>` : '';
-
-                        if(editando) {
-                            itensHtml += `
-                                <div class="p-3 rounded-xl border bg-white border-indigo-300 space-y-2 text-xs shadow-sm min-w-0">
-                                    <div class="flex items-center gap-1.5 min-w-0">
-                                        <input type="checkbox" ${concluido ? 'checked' : ''} onchange="alternarConcluidoItemDireto('${itemIdStr}')" class="w-4 h-4 accent-emerald-600 rounded cursor-pointer shrink-0" title="Marcar como feito">
-                                        <input type="text" id="desc-${itemIdStr}" value="${descSafe}" class="flex-1 min-w-0 p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs" placeholder="Nome do item...">
-                                        <select id="pub-${itemIdStr}" class="p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs shrink-0">
-                                            <option value="Mariana" ${pub==='Mariana'?'selected':''}>👤 Mariana</option>
-                                            <option value="Sophia" ${pub==='Sophia'?'selected':''}>👧 Sophia</option>
-                                            <option value="Glória" ${pub==='Glória'?'selected':''}>👵 Glória</option>
-                                            <option value="Outros" ${pub==='Outros'?'selected':''}>📦 Outros</option>
-                                        </select>
-                                        <button type="button" onclick="apagarItemDireto('${itemIdStr}')" class="text-red-500 font-bold px-2 py-1.5 rounded-xl bg-red-50 text-xs shrink-0">✕</button>
-                                    </div>
-                                    <div class="flex items-center gap-1.5 min-w-0">
-                                        <input type="url" id="link-${itemIdStr}" value="${linkSafe}" class="w-full p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-medium text-xs" placeholder="🔗 Link da compra (opcional)...">
-                                    </div>
-                                    <div class="flex items-center justify-between gap-1.5 flex-wrap border-t border-slate-100 pt-1.5">
-                                        <div class="flex items-center gap-1.5">
-                                            <span class="text-slate-500 font-bold">Valor:</span>
-                                            <input type="text" value="${val !== 0 ? val : ''}" id="val-${itemIdStr}" class="w-20 p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-black text-right text-xs" placeholder="0">
-                                            <select id="moeda-${itemIdStr}" class="p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs">
-                                                <option value="EUR" ${moeda==='EUR'?'selected':''}>€</option>
-                                                <option value="CHF" ${moeda==='CHF'?'selected':''}>CHF</option>
-                                                <option value="BRL" ${moeda==='BRL'?'selected':''}>R$</option>
-                                            </select>
-                                            <button type="button" onclick="salvarEFecharItemDireto('${itemIdStr}')" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-xl font-bold text-xs shadow-sm">✓ OK (Salvar)</button>
-                                        </div>
-                                        <div class="text-right text-[11px] font-bold text-emerald-700">R$ ${valBrl.toFixed(2)}</div>
-                                    </div>
+                        itensHtml += `
+                            <div class="p-3 rounded-2xl border border-slate-200 bg-slate-50/70 space-y-2.5 shadow-sm">
+                                <div class="font-black text-xs text-indigo-950 uppercase border-b border-slate-200 pb-1.5 flex justify-between items-center">
+                                    <span>📦 ${tituloCard}</span>
+                                    <span class="text-[10px] text-slate-500 font-bold">${grupo.itens.length} registo(s)</span>
                                 </div>
-                            `;
-                        } else {
-                            let linhaRiscada = concluido ? 'line-through text-slate-400 bg-emerald-50/60 border-emerald-300' : 'text-slate-900 bg-slate-50 border-slate-200';
-                            itensHtml += `
-                                <div class="p-3 rounded-xl border ${linhaRiscada} space-y-2 text-xs shadow-sm min-w-0">
-                                    <!-- LINHA SUPERIOR: Checkbox + Nome do Item -->
-                                    <div class="flex items-center gap-2 min-w-0">
-                                        <input type="checkbox" ${concluido ? 'checked' : ''} onchange="alternarConcluidoItemDireto('${itemIdStr}')" class="w-4 h-4 accent-emerald-600 rounded cursor-pointer shrink-0" title="Marcar como feito">
-                                        <span class="font-bold flex-1 min-w-0 break-words ${concluido ? 'line-through text-slate-400' : 'text-slate-900'}">${descSafe}</span>
+                                <div class="space-y-2">
+                        `;
+
+                        grupo.itens.forEach(it => {
+                            let val = limparNumero(it.valor);
+                            let moeda = it.moeda || 'EUR';
+                            let pub = it.publico || 'Mariana';
+                            let linkItem = it.link || '';
+                            let valBrl = moeda === 'EUR' ? val * cotEur : (moeda === 'CHF' ? val * cotChf : val);
+                            let linkSafe = (linkItem || '').replace(/"/g, '&quot;');
+                            let editando = it.editando !== undefined ? it.editando : false;
+                            let concluido = it.concluido ? true : false;
+                            let emojiCarinha = pub === 'Mariana' ? '👤' : (pub === 'Sophia' ? '👧' : (pub === 'Glória' ? '👵' : '📦'));
+                            let moedaSimbolo = moeda === 'EUR' ? '€' : (moeda === 'CHF' ? 'CHF' : 'R$');
+                            let itemIdStr = String(it.id);
+
+                            let linkBtn = linkItem ? `<a href="${linkItem}" target="_blank" class="bg-sky-100 hover:bg-sky-200 text-sky-800 px-2 py-0.5 rounded-lg font-bold text-[10px] inline-flex items-center gap-0.5 shrink-0" title="Abrir link">🔗 Link</a>` : '';
+
+                            if(editando) {
+                                itensHtml += `
+                                    <div class="p-2.5 rounded-xl border bg-white border-indigo-300 space-y-2 text-xs shadow-sm min-w-0">
+                                        <div class="flex items-center gap-1.5 min-w-0">
+                                            <input type="checkbox" ${concluido ? 'checked' : ''} onchange="alternarConcluidoItemDireto('${itemIdStr}')" class="w-4 h-4 accent-emerald-600 rounded cursor-pointer shrink-0" title="Marcar como feito">
+                                            <input type="text" id="desc-${itemIdStr}" value="${tituloCard.replace(/"/g, '&quot;')}" class="flex-1 min-w-0 p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs" placeholder="Nome do item...">
+                                            <select id="pub-${itemIdStr}" class="p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs shrink-0">
+                                                <option value="Mariana" ${pub==='Mariana'?'selected':''}>👤 Mariana</option>
+                                                <option value="Sophia" ${pub==='Sophia'?'selected':''}>👧 Sophia</option>
+                                                <option value="Glória" ${pub==='Glória'?'selected':''}>👵 Glória</option>
+                                                <option value="Outros" ${pub==='Outros'?'selected':''}>📦 Outros</option>
+                                            </select>
+                                            <button type="button" onclick="apagarItemDireto('${itemIdStr}')" class="text-red-500 font-bold px-2 py-1.5 rounded-xl bg-red-50 text-xs shrink-0">✕</button>
+                                        </div>
+                                        <div class="flex items-center gap-1.5 min-w-0">
+                                            <input type="url" id="link-${itemIdStr}" value="${linkSafe}" class="w-full p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-medium text-xs" placeholder="🔗 Link da compra (opcional)...">
+                                        </div>
+                                        <div class="flex items-center justify-between gap-1.5 flex-wrap border-t border-slate-100 pt-1.5">
+                                            <div class="flex items-center gap-1.5">
+                                                <span class="text-slate-500 font-bold">Valor:</span>
+                                                <input type="text" value="${val !== 0 ? val : ''}" id="val-${itemIdStr}" class="w-20 p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-black text-right text-xs" placeholder="0">
+                                                <select id="moeda-${itemIdStr}" class="p-1.5 bg-slate-50 border border-slate-300 rounded-xl font-bold text-xs">
+                                                    <option value="EUR" ${moeda==='EUR'?'selected':''}>€</option>
+                                                    <option value="CHF" ${moeda==='CHF'?'selected':''}>CHF</option>
+                                                    <option value="BRL" ${moeda==='BRL'?'selected':''}>R$</option>
+                                                </select>
+                                                <button type="button" onclick="salvarEFecharItemDireto('${itemIdStr}')" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-xl font-bold text-xs shadow-sm">✓ OK (Salvar)</button>
+                                            </div>
+                                            <div class="text-right text-[11px] font-bold text-emerald-700">R$ ${valBrl.toFixed(2)}</div>
+                                        </div>
                                     </div>
-                                    <!-- LINHA INFERIOR: Participante, Link, Valores e Ações -->
-                                    <div class="flex items-center justify-between gap-2 border-t border-slate-200/60 pt-2 flex-wrap">
-                                        <div class="flex items-center gap-2 flex-wrap">
+                                `;
+                            } else {
+                                let linhaRiscada = concluido ? 'line-through text-slate-400 bg-emerald-50/60 border-emerald-300' : 'text-slate-900 bg-white border-slate-200';
+                                itensHtml += `
+                                    <div class="p-2 rounded-xl border ${linhaRiscada} flex items-center justify-between gap-2 text-xs shadow-sm min-w-0">
+                                        <div class="flex items-center gap-2 min-w-0 flex-1">
+                                            <input type="checkbox" ${concluido ? 'checked' : ''} onchange="alternarConcluidoItemDireto('${itemIdStr}')" class="w-4 h-4 accent-emerald-600 rounded cursor-pointer shrink-0" title="Marcar como feito">
                                             <span class="bg-white px-2 py-0.5 rounded-lg border text-[11px] font-bold shadow-sm">${emojiCarinha} ${pub}</span>
                                             ${linkBtn}
+                                        </div>
+                                        <div class="flex items-center gap-2 shrink-0">
                                             <span class="font-black text-indigo-900 ${concluido ? 'line-through text-slate-400' : ''}">${val > 0 ? val + ' ' + moedaSimbolo : 'Grátis'}</span>
                                             <span class="text-emerald-700 font-bold ${concluido ? 'line-through text-slate-400' : ''}">R$ ${valBrl.toFixed(2)}</span>
-                                        </div>
-                                        <div class="flex items-center gap-1 shrink-0">
                                             <button type="button" onclick="abrirEdicaoItemDireto('${itemIdStr}')" class="bg-slate-200 hover:bg-slate-300 text-slate-800 px-2.5 py-1 rounded-lg font-bold text-[11px]" title="Editar com Lápis">✏️</button>
                                             <button type="button" onclick="apagarItemDireto('${itemIdStr}')" class="text-red-500 font-bold px-1.5 py-1 rounded-lg bg-red-50 hover:bg-red-100 text-xs">✕</button>
                                         </div>
                                     </div>
-                                </div>
-                            `;
-                        }
+                                `;
+                            }
+                        });
+
+                        itensHtml += `</div></div>`;
                     });
                 }
 
