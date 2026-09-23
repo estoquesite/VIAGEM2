@@ -533,7 +533,7 @@
                 document.getElementById('tela-bloqueio').classList.add('hidden');
                 document.getElementById('erro-pin').classList.add('hidden');
             } else {
-                document.getElementById('erro-pin').classList.add('hidden');
+                document.getElementById('erro-pin').classList.remove('hidden');
             }
         }
 
@@ -663,6 +663,96 @@
                         salvarStorage();
                         renderizarOrcamentoTab();
                         alert("🗑️ Despesa removida do orçamento com sucesso!");
+                    }
+                }
+            }
+        }
+
+        // ==========================================
+        // FUNÇÕES DE FOTOS PARA A ABA DE EDIÇÃO
+        // ==========================================
+
+        function adicionarFotoExtraTrecho(itemId, trechoId, condId, event) {
+            const file = event.target.files[0];
+            if (file) {
+                registarEstadoAnterior();
+                const reader = new FileReader();
+                reader.onload = function(evt) {
+                    let item = dadosApp.itinerario.find(i => String(i.id) === String(itemId));
+                    if (item && item.trechos) {
+                        let tr = item.trechos.find(t => String(t.id) === String(trechoId));
+                        if (tr && tr.conducoes) {
+                            let cond = tr.conducoes.find(c => String(c.id) === String(condId));
+                            if (cond) {
+                                if (!cond.fotosExtras) cond.fotosExtras = [];
+                                cond.fotosExtras.push(evt.target.result);
+                                salvarStorage();
+                                renderizarBlocos();
+                            }
+                        }
+                    }
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function removerFotoExtraTrecho(itemId, trechoId, condId, fotoIndex) {
+            if(confirm("Tem a certeza que deseja remover esta foto?")) {
+                registarEstadoAnterior();
+                let item = dadosApp.itinerario.find(i => String(i.id) === String(itemId));
+                if (item && item.trechos) {
+                    let tr = item.trechos.find(t => String(t.id) === String(trechoId));
+                    if (tr && tr.conducoes) {
+                        let cond = tr.conducoes.find(c => String(c.id) === String(condId));
+                        if (cond && cond.fotosExtras) {
+                            cond.fotosExtras.splice(fotoIndex, 1);
+                            salvarStorage();
+                            renderizarBlocos();
+                        }
+                    }
+                }
+            }
+        }
+
+        // ==========================================
+        // FUNÇÕES PARA A ABA DE ORÇAMENTO
+        // ==========================================
+
+        function abrirEdicaoConducaoOrcamento(itemId, trechoId, condId) {
+            registarEstadoAnterior();
+            let item = dadosApp.itinerario.find(i => String(i.id) === String(itemId));
+            if(item && item.trechos) {
+                let tr = item.trechos.find(t => String(t.id) === String(trechoId));
+                if(tr && tr.conducoes) {
+                    let cond = tr.conducoes.find(c => String(c.id) === String(condId));
+                    if(cond) {
+                        cond.editando = true;
+                        salvarStorage();
+                        renderizarOrcamentoTab();
+                    }
+                }
+            }
+        }
+
+        function salvarEdicaoConducaoOrcamento(itemId, trechoId, condId) {
+            registarEstadoAnterior();
+            let item = dadosApp.itinerario.find(i => String(i.id) === String(itemId));
+            if(item && item.trechos) {
+                let tr = item.trechos.find(t => String(t.id) === String(trechoId));
+                if(tr && tr.conducoes) {
+                    let cond = tr.conducoes.find(c => String(c.id) === String(condId));
+                    if(cond) {
+                        let valInput = document.getElementById('orc-tr-val-' + cond.id);
+                        let transpInput = document.getElementById('orc-tr-transp-' + cond.id);
+                        let moedaInput = document.getElementById('orc-tr-moeda-' + cond.id);
+                        
+                        if(valInput) cond.valor = limparNumero(valInput.value);
+                        if(transpInput) cond.transporte = transpInput.value;
+                        if(moedaInput) cond.moeda = moedaInput.value;
+                        
+                        cond.editando = false;
+                        salvarStorage();
+                        atualizarTudo();
                     }
                 }
             }
@@ -2342,7 +2432,6 @@
                     }
                 });
 
-                // Renderizar botões de filtro com cores por título
                 let filtrosHtml = `<button type="button" onclick="filtrarComprasTitulo('todos')" class="px-3 py-1.5 ${comprasFiltroTitulo === 'todos' ? 'bg-indigo-600 text-white font-bold shadow-sm' : 'bg-white border border-slate-200 text-slate-700 font-semibold'} rounded-xl text-xs shrink-0 transition">🔍 Todos</button>`;
                 titulosUnicos.forEach(t => {
                     let ativo = comprasFiltroTitulo.toLowerCase() === t.toLowerCase();
@@ -2353,7 +2442,6 @@
                 });
                 containerFiltros.innerHTML = filtrosHtml;
 
-                // Ordenação dos itens conforme escolhido no menu
                 dadosApp.compras.sort((a, b) => {
                     if (a.editando !== b.editando) return a.editando ? -1 : 1;
                     if (a.concluido !== b.concluido) return a.concluido ? 1 : -1;
@@ -2486,7 +2574,6 @@
             }
         }
 
-        // ADICIONAR ITEM DIRETAMENTE DA CAIXA FIXA DO TOPO
         function adicionarItemUnicoForm() {
             let descInput = document.getElementById('input-nova-desc');
             let pubInput = document.getElementById('input-novo-pub');
@@ -2515,7 +2602,6 @@
                 editando: false
             });
 
-            // Limpar os campos da caixa do topo
             if(descInput) descInput.value = "";
             if(linkInput) linkInput.value = "";
             if(valInput) valInput.value = "";
@@ -2654,9 +2740,6 @@
             };
             recognition.start();
         }
-    </script>
-</body>
-</html>        }
     </script>
 </body>
 </html>
