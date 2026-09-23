@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v267.0)</title>
+    <title>Roteiro Europa - Mariana (v268.0)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Manifest Dinâmico via JavaScript -->
@@ -39,7 +39,7 @@
             <a href="https://translate.google.com/?hl=pt&sl=auto&tl=pt&op=images" target="_blank" class="bg-indigo-600 hover:bg-indigo-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm flex items-center gap-1" title="Google Tradutor & Câmara">🌐 Tradutor</a>
             <button onclick="window.location.reload()" class="bg-slate-800 hover:bg-slate-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm border border-slate-700" title="Atualizar Página">🔄</button>
             <button onclick="exportarPdfPrint()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm" title="Imprimir Tudo">🖨️</button>
-            <span class="bg-indigo-950 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v267.0</span>
+            <span class="bg-indigo-950 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v268.0</span>
         </div>
     </header>
 
@@ -273,7 +273,7 @@
 
     <!-- BARRA DE FERRAMENTAS FIXA -->
     <nav class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-md text-white px-3 py-2.5 shadow-2xl border-t border-slate-800 text-xs flex items-center justify-around gap-1 overflow-x-auto no-scrollbar max-w-4xl mx-auto rounded-t-2xl">
-        <span class="bg-indigo-600 px-2 py-1 rounded font-mono font-bold text-[9px] shrink-0">v267.0</span>
+        <span class="bg-indigo-600 px-2 py-1 rounded font-mono font-bold text-[9px] shrink-0">v268.0</span>
         <button onclick="abrirGeminiModal()" class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-3 py-1.5 rounded-xl font-bold transition shrink-0 flex items-center gap-1 text-xs shadow-sm">
             <span>✨</span> Gemini
         </button>
@@ -479,11 +479,11 @@
                 navigator.serviceWorker.register(URL.createObjectURL(swBlob)).catch(err => {});
             }
 
-            if (!sessionStorage.getItem('sessao_ativa_v267')) {
+            if (!sessionStorage.getItem('sessao_ativa_v268')) {
                 document.getElementById('tela-bloqueio').classList.add('hidden');
             }
 
-            const temaSalvo = localStorage.getItem('tema_v267');
+            const temaSalvo = localStorage.getItem('tema_v268');
             if (temaSalvo === 'dark') {
                 document.body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 document.body.classList.remove('bg-slate-100', 'text-slate-800');
@@ -502,7 +502,7 @@
                 if(selOrdBlocos && dadosApp.blocoOrdenacao) selOrdBlocos.value = dadosApp.blocoOrdenacao;
 
                 atualizarTudo();
-                let tabSalva = localStorage.getItem('tab_ativa_v267') || 'leitura';
+                let tabSalva = localStorage.getItem('tab_ativa_v268') || 'leitura';
                 mudarTab(tabSalva);
             } catch(e) {
                 console.error("Erro ao iniciar:", e);
@@ -521,15 +521,15 @@
                     deferredPrompt = null;
                 });
             } else {
-                alert("📱 Para instalar no telemóvel:\n\n• No Android (Chrome): Toque nos 3 pontinhos e selecione 'Adicionar ao ecrã principal'.\n• No iPhone (Safari): Touch em Partilhar e escolha 'Adicionar à Ecrã Principal'.");
+                alert("📱 Para instalar no telemóvel:\n\n• No Android (Chrome): Toque nos 3 pontinhos e selecione 'Adicionar ao ecrã principal'.\n• No iPhone (Safari): Toque em Partilhar e escolha 'Adicionar à Ecrã Principal'.");
             }
         }
 
         function desbloquearComPin() {
-            let pinSalvo = localStorage.getItem('app_pin_v267') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v268') || '1510';
             let digitado = document.getElementById('input-pin').value;
             if(digitado === pinSalvo) {
-                sessionStorage.setItem('sessao_ativa_v267', 'true');
+                sessionStorage.setItem('sessao_ativa_v268', 'true');
                 document.getElementById('tela-bloqueio').classList.add('hidden');
                 document.getElementById('erro-pin').classList.add('hidden');
             } else {
@@ -538,17 +538,17 @@
         }
 
         async function desbloquearComBiometria() {
-            sessionStorage.setItem('sessao_ativa_v267', 'true');
+            sessionStorage.setItem('sessao_ativa_v268', 'true');
             document.getElementById('tela-bloqueio').classList.add('hidden');
         }
 
         function alterarSenhaPin() {
             let atual = prompt("Digite a senha atual (Padrão: 1510):");
-            let pinSalvo = localStorage.getItem('app_pin_v267') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v268') || '1510';
             if(atual === pinSalvo) {
                 let nova = prompt("Digite a nova senha PIN:");
                 if(nova && nova.trim() !== '') {
-                    localStorage.setItem('app_pin_v267', nova.trim());
+                    localStorage.setItem('app_pin_v268', nova.trim());
                     alert("🔑 Senha alterada com sucesso!");
                 }
             } else {
@@ -561,11 +561,11 @@
             if(body.classList.contains('dark')) {
                 body.classList.remove('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.add('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v267', 'light');
+                localStorage.setItem('tema_v268', 'light');
             } else {
                 body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.remove('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v267', 'dark');
+                localStorage.setItem('tema_v268', 'dark');
             }
         }
 
@@ -635,8 +635,7 @@
             document.getElementById('visualizador-conteudo-area').innerHTML = '<iframe id="pdf-iframe-view" class="w-full h-full rounded-2xl border bg-white shadow-inner hidden" src=""></iframe>';
         }
 
-        // Funções de edição direta no Orçamento (com o Lápis ✏️)
-        function abrirEdicaoConducaoOrcamento(itemId, trechoId, condId) {
+        function alternarConcluidoConducao(itemId, trechoId, condId) {
             registarEstadoAnterior();
             let item = dadosApp.itinerario.find(i => String(i.id) === String(itemId));
             if(item && item.trechos) {
@@ -644,34 +643,9 @@
                 if(tr && tr.conducoes) {
                     let cond = tr.conducoes.find(c => String(c.id) === String(condId));
                     if(cond) {
-                        cond.editando = true;
+                        cond.concluido = !cond.concluido;
                         salvarStorage();
-                        renderizarOrcamentoTab();
-                    }
-                }
-            }
-        }
-
-        function salvarEdicaoConducaoOrcamento(itemId, trechoId, condId) {
-            registarEstadoAnterior();
-            let item = dadosApp.itinerario.find(i => String(i.id) === String(itemId));
-            if(item && item.trechos) {
-                let tr = item.trechos.find(t => String(t.id) === String(trechoId));
-                if(tr && tr.conducoes) {
-                    let cond = tr.conducoes.find(c => String(c.id) === String(condId));
-                    if(cond) {
-                        let valInput = document.getElementById('orc-tr-val-' + condId);
-                        let transpInput = document.getElementById('orc-tr-transp-' + condId);
-                        let moedaInput = document.getElementById('orc-tr-moeda-' + condId);
-
-                        if(valInput) cond.valor = limparNumero(valInput.value);
-                        if(transpInput) cond.transporte = transpInput.value;
-                        if(moedaInput) cond.moeda = moedaInput.value;
-                        
-                        cond.editando = false;
-                        salvarStorage();
-                        atualizarTudo();
-                        alert("✅ Despesa atualizada com sucesso no Orçamento e no Roteiro!");
+                        renderizarModoLeitura();
                     }
                 }
             }
@@ -767,19 +741,6 @@
             }
         }
 
-        function alternarConcluidoTrecho(itemId, trechoId) {
-            registarEstadoAnterior();
-            let item = dadosApp.itinerario.find(i => String(i.id) === String(itemId));
-            if(item && item.trechos) {
-                let tr = item.trechos.find(t => String(t.id) === String(trechoId));
-                if(tr) {
-                    tr.concluido = !tr.concluido;
-                    salvarStorage();
-                    renderizarModoLeitura();
-                }
-            }
-        }
-
         function atualizarCorBlocoLocal(id, corHex) {
             registarEstadoAnterior();
             let item = dadosApp.itinerario.find(i => String(i.id) === String(id));
@@ -864,7 +825,7 @@
         }
 
         function mudarTab(tab) {
-            localStorage.setItem('tab_ativa_v267', tab);
+            localStorage.setItem('tab_ativa_v268', tab);
             if(tab === 'itinerario' || tab === 'leitura') {
                 destinoFiltro = 'todos';
             }
@@ -1219,7 +1180,7 @@
             renderizarComprasTab();
         }
 
-        // ROTEIRO (CONCLUÍDO POR LINHA / TRECHO)
+        // ROTEIRO (LEITURA COM CHECKLIST INDIVIDUAL POR ÔNIBUS/CONDUÇÃO E FOTOS COMPACTAS)
         function renderizarModoLeitura() {
             const container = document.getElementById('lista-leitura-html');
             const progressoEl = document.getElementById('progresso-viagem');
@@ -1232,7 +1193,7 @@
             }
 
             let total = blocosAprovados.length;
-            let concluidos = blocosAprovados.filter(b => b.trechos && b.trechos.length > 0 && b.trechos.every(t => t.concluido)).length;
+            let concluidos = blocosAprovados.filter(b => b.trechos && b.trechos.length > 0 && b.trechos.every(t => t.conducoes && t.conducoes.every(c => c.concluido))).length;
             if(progressoEl) progressoEl.innerText = concluidos + ' / ' + total + ' Aprovados';
 
             if(total === 0) {
@@ -1248,43 +1209,42 @@
                 let trechosTexto = '';
                 if(item.trechos && item.trechos.length > 0) {
                     item.trechos.forEach(tr => {
-                        let trConcluido = tr.concluido ? true : false;
-                        let trBg = trConcluido ? 'bg-emerald-50/80 opacity-75 border-emerald-300' : 'bg-slate-50 border-slate-200';
-                        let trText = trConcluido ? 'line-through text-slate-400' : 'text-slate-900';
                         let mapsUrl = 'https://www.google.com/maps/dir/?api=1&origin=' + encodeURIComponent(tr.origem || '') + '&destination=' + encodeURIComponent(tr.destino || '') + '&travelmode=transit';
                         
                         let conducoesReadHtml = '';
                         if(tr.conducoes && tr.conducoes.length > 0) {
                             tr.conducoes.forEach(cond => {
+                                let condConcluido = cond.concluido ? true : false;
+                                let condBg = condConcluido ? 'bg-emerald-50/90 border-emerald-300 opacity-75' : 'bg-white border-slate-200';
+                                let condText = condConcluido ? 'line-through text-slate-400' : 'text-slate-900';
+
                                 let fotosCondRead = '';
                                 if(cond.fotosExtras && cond.fotosExtras.length > 0) {
-                                    fotosCondRead += '<div class="flex gap-1.5 flex-wrap mt-1">';
+                                    fotosCondRead += '<div class="flex gap-1.5 flex-wrap mt-1.5">';
                                     cond.fotosExtras.forEach(fUrl => {
-                                        fotosCondRead += `<img src="${fUrl}" class="w-12 h-12 object-cover rounded-lg border cursor-pointer shadow-sm hover:opacity-90 transition" onclick="abrirLeitorArquivo('${fUrl}', 'Foto da Condução')" title="Clique para ver maior">`;
+                                        fotosCondRead += `<img src="${fUrl}" class="w-10 h-10 object-cover rounded-lg border cursor-pointer shadow-2xs hover:opacity-90 transition" onclick="abrirLeitorArquivo('${fUrl}', 'Foto')" title="Ver maior">`;
                                     });
                                     fotosCondRead += '</div>';
                                 }
+
                                 conducoesReadHtml += `
-                                    <div class="ml-3 mt-1.5 p-2 bg-white rounded-xl border border-slate-200 shadow-2xs space-y-1">
-                                        <div class="font-bold text-slate-800">🚌 <b>${cond.transporte}</b> ${cond.valor ? '• <b>' + cond.valor + ' ' + cond.moeda + '</b>' : ''}</div>
-                                        ${cond.notas ? '<div class="text-[11px] italic text-slate-600">📝 ' + cond.notas + '</div>' : ''}
-                                        ${fotosCondRead}
+                                    <div class="p-2.5 rounded-xl border ${condBg} flex items-center justify-between gap-2 shadow-2xs mt-1.5">
+                                        <div class="flex items-center gap-2 flex-1 min-w-0">
+                                            <input type="checkbox" ${condConcluido ? 'checked' : ''} onchange="alternarConcluidoConducao('${item.id}', '${tr.id}', '${cond.id}')" class="w-4 h-4 accent-emerald-600 rounded cursor-pointer shrink-0">
+                                            <div class="flex-1 min-w-0">
+                                                <div class="font-black text-xs ${condText} truncate">🚌 ${cond.transporte} ${cond.valor ? '• <b>' + cond.valor + ' ' + cond.moeda + '</b>' : ''}</div>
+                                                ${cond.notas ? '<div class="text-[10px] italic text-slate-600 truncate">📝 ' + cond.notas + '</div>' : ''}
+                                                ${fotosCondRead}
+                                            </div>
+                                        </div>
                                     </div>
                                 `;
                             });
                         }
                         
-                        trechosTexto += '<div class="text-xs ' + trBg + ' p-2.5 rounded-xl border flex flex-col gap-2 my-1.5 shadow-sm">' +
-                            '<div class="flex justify-between items-start gap-2">' +
-                                '<div class="flex-1 min-w-0 break-words">' +
-                                    '<span class="font-black text-xs ' + trText + '">📍 Rota: ' + (tr.origem || '?') + ' ➔ ' + (tr.destino || '?') + '</span>' +
-                                    conducoesReadHtml +
-                                '</div>' +
-                                '<label class="flex items-center gap-1 cursor-pointer font-bold bg-white px-2 py-1 rounded-lg border text-[11px] shrink-0 shadow-sm">' +
-                                    '<input type="checkbox" ' + (trConcluido ? 'checked' : '') + ' onchange="alternarConcluidoTrecho(\'' + item.id + '\', \'' + tr.id + '\')" class="w-3.5 h-3.5 accent-emerald-600 rounded cursor-pointer">' +
-                                    '<span>Feito</span>' +
-                                '</label>' +
-                            '</div>' +
+                        trechosTexto += '<div class="text-xs bg-slate-50 p-3 rounded-2xl border border-slate-200 space-y-2 my-2 shadow-sm">' +
+                            '<div class="font-black text-xs text-indigo-950 uppercase tracking-wide border-b border-slate-200 pb-1.5">📍 Rota: ' + (tr.origem || '?') + ' ➔ ' + (tr.destino || '?') + '</div>' +
+                            '<div class="space-y-1">' + conducoesReadHtml + '</div>' +
                             '<div class="flex gap-1.5 flex-wrap border-t border-slate-200 pt-2 items-center">' +
                                 '<a href="' + mapsUrl + '" target="_blank" class="bg-sky-100 text-sky-800 hover:bg-sky-200 px-2.5 py-1 rounded-lg font-bold text-[10px] transition inline-block text-center">🗺️ Mapa</a>' +
                                 '<button onclick="abrirWebcam(\'' + (tr.destino || item.categoria) + '\')" class="bg-purple-100 text-purple-800 hover:bg-purple-200 px-2.5 py-1 rounded-lg font-bold text-[10px] transition">📹 Câmera</button>' +
@@ -1304,10 +1264,10 @@
                 }
 
                 let card = document.createElement('div');
-                card.className = 'p-3.5 rounded-2xl border shadow-sm space-y-2.5 transition flex flex-col justify-between bg-white border-slate-200';
+                card.className = 'p-4 rounded-3xl border shadow-sm space-y-3 transition flex flex-col justify-between bg-white border-slate-200';
                 card.style.borderLeft = '6px solid ' + corMaster;
 
-                card.innerHTML = '<div class="space-y-1.5"><div class="flex justify-between items-center gap-2 flex-wrap border-b border-slate-100 pb-2"><div class="flex items-center gap-1.5"><span class="font-black px-2 py-0.5 rounded-lg text-[10px] text-white shadow-sm" style="background-color: ' + corMaster + ';">' + (item.categoria || 'Geral') + '</span><span class="font-bold text-xs text-slate-600">📅 ' + dIni + ' ➔ ' + dFim + '</span></div><button onclick="removerDoRoteiro(\'' + item.id + '\')" class="bg-amber-50 hover:bg-amber-100 text-amber-700 px-2 py-1 rounded-xl font-bold text-xs" title="Retirar do Roteiro">✕</button></div><div class="space-y-1.5 pt-0.5">' + (trechosTexto || '<span class="text-xs text-slate-400 italic">Nenhum trecho adicionado.</span>') + (itensTexto ? '<div class="mt-2 pt-2 border-t border-slate-200 space-y-1"><span class="text-[11px] font-extrabold uppercase text-slate-600">📌 Notas / Textos:</span>' + itensTexto + '</div>' : '') + '</div></div>';
+                card.innerHTML = '<div class="space-y-2"><div class="flex justify-between items-center gap-2 flex-wrap border-b border-slate-100 pb-2"><div class="flex items-center gap-2"><span class="font-black px-2.5 py-1 rounded-xl text-[10px] text-white shadow-sm" style="background-color: ' + corMaster + ';">' + (item.categoria || 'Geral') + '</span><span class="font-bold text-xs text-slate-600">📅 ' + dIni + ' ➔ ' + dFim + '</span></div><button onclick="removerDoRoteiro(\'' + item.id + '\')" class="bg-amber-50 hover:bg-amber-100 text-amber-700 px-2.5 py-1 rounded-xl font-bold text-xs" title="Retirar do Roteiro">✕</button></div><div class="space-y-1.5 pt-0.5">' + (trechosTexto || '<span class="text-xs text-slate-400 italic">Nenhum trecho adicionado.</span>') + (itensTexto ? '<div class="mt-2 pt-2 border-t border-slate-200 space-y-1"><span class="text-[11px] font-extrabold uppercase text-slate-600">📌 Notas / Textos:</span>' + itensTexto + '</div>' : '') + '</div></div>';
                 container.appendChild(card);
             });
         }
@@ -1425,11 +1385,12 @@
                 let itensHtml = '';
                 if(item.itens && item.itens.length > 0) {
                     item.itens.forEach(it => {
-                        let itTextoSafe = (it.texto || '').replace(/"/g, '&quot;');
-                        itensHtml += '<div class="flex items-center gap-1.5 bg-white p-2 rounded-xl border border-slate-200 text-xs min-w-0 mb-1.5 shadow-sm">' +
-                            '<input type="text" value="' + itTextoSafe + '" onchange="atualizarTextoItemBloco(\'' + item.id + '\', \'' + it.id + '\', this.value)" class="flex-1 min-w-0 bg-transparent outline-none font-bold text-slate-800 text-xs" placeholder="Escreva um texto livre...">' +
-                            '<button onclick="removerItemBloco(\'' + item.id + '\', \'' + it.id + '\')" class="text-red-500 font-bold px-2.5 py-1.5 rounded-xl bg-red-50 text-xs shrink-0 hover:bg-red-100 transition">✕</button>' +
-                        '</div>';
+                        if(it.texto && it.texto.trim() !== '') {
+                            itensHtml += '<div class="flex items-center gap-1.5 bg-white p-2 rounded-xl border border-slate-200 text-xs min-w-0 mb-1.5 shadow-sm">' +
+                                '<input type="text" value="' + (it.texto || '').replace(/"/g, '&quot;') + '" onchange="atualizarTextoItemBloco(\'' + item.id + '\', \'' + it.id + '\', this.value)" class="flex-1 min-w-0 bg-transparent outline-none font-bold text-slate-800 text-xs" placeholder="Escreva um texto livre...">' +
+                                '<button onclick="removerItemBloco(\'' + item.id + '\', \'' + it.id + '\')" class="text-red-500 font-bold px-2.5 py-1.5 rounded-xl bg-red-50 text-xs shrink-0 hover:bg-red-100 transition">✕</button>' +
+                            '</div>';
+                        }
                     });
                 }
 
