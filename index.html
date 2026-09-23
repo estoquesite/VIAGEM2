@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v272.0)</title>
+    <title>Roteiro Europa - Mariana (v274.0)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Manifest Dinâmico via JavaScript -->
@@ -38,8 +38,8 @@
         <div class="flex items-center gap-1.5 flex-wrap">
             <a href="https://translate.google.com/?hl=pt&sl=auto&tl=pt&op=images" target="_blank" class="bg-indigo-600 hover:bg-indigo-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm flex items-center gap-1" title="Google Tradutor & Câmara">🌐 Tradutor</a>
             <button onclick="window.location.reload()" class="bg-slate-800 hover:bg-slate-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm border border-slate-700" title="Atualizar Página">🔄</button>
-            <button onclick="exportarPdfPrint()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm" title="Imprimir Tudo">🖨️</button>
-            <span class="bg-indigo-950 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v272.0</span>
+            <button onclick="exportarPdfPrint()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-xl font-bold text-[10px] transition shadow-sm" title="Imprimir Tudo">🖨️</button>
+            <span class="bg-indigo-950 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v274.0</span>
         </div>
     </header>
 
@@ -84,7 +84,7 @@
                 </div>
             </div>
 
-            <!-- BARRA DE FILTRO / ORDENAÇÃO DOS BLOCOS (NO SÍTIO EXATO) -->
+            <!-- BARRA DE FILTRO / ORDENAÇÃO DOS BLOCOS -->
             <div class="flex justify-between items-center bg-white px-3 py-2 rounded-2xl border border-slate-200 shadow-sm text-xs">
                 <span class="font-extrabold uppercase text-slate-600 tracking-wider">🗂️ Agrupar / Filtrar Blocos:</span>
                 <select id="select-ordenacao-blocos" onchange="mudarOrdenacaoBlocos(this.value)" class="p-1.5 bg-slate-100 border border-slate-300 rounded-xl font-bold text-xs outline-none text-slate-700 shadow-sm">
@@ -273,7 +273,7 @@
 
     <!-- BARRA DE FERRAMENTAS FIXA -->
     <nav class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-md text-white px-3 py-2.5 shadow-2xl border-t border-slate-800 text-xs flex items-center justify-around gap-1 overflow-x-auto no-scrollbar max-w-4xl mx-auto rounded-t-2xl">
-        <span class="bg-indigo-600 px-2 py-1 rounded font-mono font-bold text-[9px] shrink-0">v272.0</span>
+        <span class="bg-indigo-600 px-2 py-1 rounded font-mono font-bold text-[9px] shrink-0">v274.0</span>
         <button onclick="abrirGeminiModal()" class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-3 py-1.5 rounded-xl font-bold transition shrink-0 flex items-center gap-1 text-xs shadow-sm">
             <span>✨</span> Gemini
         </button>
@@ -479,11 +479,11 @@
                 navigator.serviceWorker.register(URL.createObjectURL(swBlob)).catch(err => {});
             }
 
-            if (!sessionStorage.getItem('sessao_ativa_v272')) {
+            if (!sessionStorage.getItem('sessao_ativa_v274')) {
                 document.getElementById('tela-bloqueio').classList.add('hidden');
             }
 
-            const temaSalvo = localStorage.getItem('tema_v272');
+            const temaSalvo = localStorage.getItem('tema_v274');
             if (temaSalvo === 'dark') {
                 document.body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 document.body.classList.remove('bg-slate-100', 'text-slate-800');
@@ -502,7 +502,7 @@
                 if(selOrdBlocos && dadosApp.blocoOrdenacao) selOrdBlocos.value = dadosApp.blocoOrdenacao;
 
                 atualizarTudo();
-                let tabSalva = localStorage.getItem('tab_ativa_v272') || 'leitura';
+                let tabSalva = localStorage.getItem('tab_ativa_v274') || 'leitura';
                 mudarTab(tabSalva);
             } catch(e) {
                 console.error("Erro ao iniciar:", e);
@@ -526,29 +526,29 @@
         }
 
         function desbloquearComPin() {
-            let pinSalvo = localStorage.getItem('app_pin_v272') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v274') || '1510';
             let digitado = document.getElementById('input-pin').value;
             if(digitado === pinSalvo) {
-                sessionStorage.setItem('sessao_ativa_v272', 'true');
+                sessionStorage.setItem('sessao_ativa_v274', 'true');
                 document.getElementById('tela-bloqueio').classList.add('hidden');
                 document.getElementById('erro-pin').classList.add('hidden');
             } else {
-                document.getElementById('erro-pin').classList.add('hidden');
+                document.getElementById('erro-pin').classList.remove('hidden');
             }
         }
 
         async function desbloquearComBiometria() {
-            sessionStorage.setItem('sessao_ativa_v272', 'true');
+            sessionStorage.setItem('sessao_ativa_v274', 'true');
             document.getElementById('tela-bloqueio').classList.add('hidden');
         }
 
         function alterarSenhaPin() {
             let atual = prompt("Digite a senha atual (Padrão: 1510):");
-            let pinSalvo = localStorage.getItem('app_pin_v272') || '1510';
+            let pinSalvo = localStorage.getItem('app_pin_v274') || '1510';
             if(atual === pinSalvo) {
                 let nova = prompt("Digite a nova senha PIN:");
                 if(nova && nova.trim() !== '') {
-                    localStorage.setItem('app_pin_v272', nova.trim());
+                    localStorage.setItem('app_pin_v274', nova.trim());
                     alert("🔑 Senha alterada com sucesso!");
                 }
             } else {
@@ -561,11 +561,11 @@
             if(body.classList.contains('dark')) {
                 body.classList.remove('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.add('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v272', 'light');
+                localStorage.setItem('tema_v274', 'light');
             } else {
                 body.classList.add('dark', 'bg-slate-900', 'text-slate-100');
                 body.classList.remove('bg-slate-100', 'text-slate-800');
-                localStorage.setItem('tema_v272', 'dark');
+                localStorage.setItem('tema_v274', 'dark');
             }
         }
 
@@ -908,7 +908,7 @@
         }
 
         function mudarTab(tab) {
-            localStorage.setItem('tab_ativa_v272', tab);
+            localStorage.setItem('tab_ativa_v274', tab);
             if(tab === 'itinerario' || tab === 'leitura') {
                 destinoFiltro = 'todos';
             }
