@@ -6,6 +6,8 @@
     <title>Roteiro Europa - Mariana (v269.0)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Supabase JS Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <!-- Manifest Dinâmico via JavaScript -->
     <link id="pwa-manifest" rel="manifest" href="">
 </head>
@@ -312,6 +314,11 @@
     </div>
 
     <script>
+        // Configuração do Supabase integrando a nuvem e o dispositivo
+        const SUPABASE_URL = 'https://jmeepzdvmmjngxwvayqb.supabase.co';
+        const SUPABASE_ANON_KEY = 'sb_publishable_54ORrLbP7naW7n-KlKCdUA_hZnpjguH';
+        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
         const CHAVE_APP = "mariana_viagem_europa_dados_fixos_definitiva";
         let destinoFiltro = 'todos';
         let tarefaFiltro = 'todas';
@@ -417,16 +424,28 @@
             return paletaNeon[Math.abs(hash) % paletaNeon.length];
         }
 
-        window.addEventListener('DOMContentLoaded', () => {
-            let salvo = localStorage.getItem(CHAVE_APP);
-            if (salvo) {
-                try {
-                    let parsed = JSON.parse(salvo);
-                    if (parsed && parsed.itinerario) {
-                        dadosApp = parsed;
+        // CARREGAMENTO INICIAL SINCRONIZADO COM O SUPABASE
+        window.addEventListener('DOMContentLoaded', async () => {
+            try {
+                let { data, error } = await supabaseClient
+                    .from('app_dados')
+                    .select('conteudo')
+                    .eq('id', '1')
+                    .single();
+
+                if (data && data.conteudo) {
+                    dadosApp = data.conteudo;
+                    localStorage.setItem(CHAVE_APP, JSON.stringify(dadosApp));
+                } else {
+                    let salvo = localStorage.getItem(CHAVE_APP);
+                    if (salvo) {
+                        try { dadosApp = JSON.parse(salvo); } catch(e){}
                     }
-                } catch(e) {
-                    console.error("Erro ao carregar dados:", e);
+                }
+            } catch(e) {
+                let salvo = localStorage.getItem(CHAVE_APP);
+                if (salvo) {
+                    try { dadosApp = JSON.parse(salvo); } catch(e){}
                 }
             }
 
@@ -607,8 +626,16 @@
             }, 500);
         }
 
-        function salvarStorage() {
+        // SALVAMENTO AUTOMÁTICO NA NUVEM E NO LOCALSTORAGE
+        async function salvarStorage() {
             localStorage.setItem(CHAVE_APP, JSON.stringify(dadosApp));
+            try {
+                await supabaseClient
+                    .from('app_dados')
+                    .upsert({ id: '1', conteudo: dadosApp });
+            } catch(err) {
+                console.error("Erro ao sincronizar com Supabase:", err);
+            }
         }
 
         function exportarPdfPrint() {
