@@ -669,7 +669,7 @@
         }
 
         // ==========================================
-        // FUNÇÕES DE FOTOS PARA A ABA DE EDIÇÃO
+        // FUNÇÕES DE FOTOS E CÂMERA PARA A ABA DE EDIÇÃO (COM FORMATO REDONDINHO)
         // ==========================================
 
         function adicionarFotoExtraTrecho(itemId, trechoId, condId, event) {
@@ -1268,7 +1268,7 @@
             renderizarComprasTab();
         }
 
-        // ROTEIRO (LEITURA COM CHECKLIST INDIVIDUAL POR ÔNIBUS/CONDUÇÃO E FOTOS COMPACTAS)
+        // ROTEIRO (LEITURA COM FOTOS REDONDINHAS E ZOOM)
         function renderizarModoLeitura() {
             const container = document.getElementById('lista-leitura-html');
             const progressoEl = document.getElementById('progresso-viagem');
@@ -1308,9 +1308,9 @@
 
                                 let fotosCondRead = '';
                                 if(cond.fotosExtras && cond.fotosExtras.length > 0) {
-                                    fotosCondRead += '<div class="flex gap-1.5 flex-wrap mt-1.5">';
+                                    fotosCondRead += '<div class="flex gap-2 flex-wrap mt-2 items-center">';
                                     cond.fotosExtras.forEach(fUrl => {
-                                        fotosCondRead += `<img src="${fUrl}" class="w-10 h-10 object-cover rounded-lg border cursor-pointer shadow-2xs hover:opacity-90 transition" onclick="abrirLeitorArquivo('${fUrl}', 'Foto')" title="Ver maior">`;
+                                        fotosCondRead += `<img src="${fUrl}" class="w-10 h-10 object-cover rounded-full border-2 border-indigo-600 cursor-pointer shadow-md hover:scale-110 transition" onclick="abrirLeitorArquivo('${fUrl}', 'Foto')" title="Ver maior">`;
                                     });
                                     fotosCondRead += '</div>';
                                 }
@@ -1360,7 +1360,7 @@
             });
         }
 
-        // RENDERIZAR EDITAR
+        // RENDERIZAR EDITAR (COM MINIATURAS DE FOTO REDONDINHAS E BOTÃO DE CÂMERA)
         function renderizarBlocos() {
             const container = document.getElementById('lista-blocos');
             if(!container) return;
@@ -1423,7 +1423,7 @@
                             let listaFotosExtrasEdit = '';
                             if(cond.fotosExtras && cond.fotosExtras.length > 0) {
                                 cond.fotosExtras.forEach((fUrl, fIdx) => {
-                                    listaFotosExtrasEdit += `<div class="flex items-center gap-1 bg-purple-50 p-1 rounded-lg border border-purple-200"><img src="${fUrl}" class="w-7 h-7 object-cover rounded cursor-pointer" onclick="abrirLeitorArquivo('${fUrl}', 'Foto')" title="Ver foto"><button onclick="removerFotoExtraTrecho('${item.id}', '${tr.id}', '${cond.id}', ${fIdx})" class="text-red-600 font-bold text-[10px] px-1">✕</button></div>`;
+                                    listaFotosExtrasEdit += `<div class="flex items-center gap-1 bg-purple-50 p-1 rounded-xl border border-purple-200"><img src="${fUrl}" class="w-9 h-9 object-cover rounded-full border-2 border-indigo-500 cursor-pointer shadow-sm" onclick="abrirLeitorArquivo('${fUrl}', 'Foto')" title="Ver foto"><button onclick="removerFotoExtraTrecho('${item.id}', '${tr.id}', '${cond.id}', ${fIdx})" class="text-red-600 font-bold text-[10px] px-1">✕</button></div>`;
                                 });
                             }
 
@@ -1443,7 +1443,8 @@
                                             <option value="EUR" ${cond.moeda==='EUR'?'selected':''}>EUR</option>
                                             <option value="CHF" ${cond.moeda==='CHF'?'selected':''}>CHF</option>
                                         </select>
-                                        <label class="bg-purple-100 hover:bg-purple-200 text-purple-800 px-2.5 py-1.5 rounded-xl font-bold text-[11px] cursor-pointer border border-purple-300 inline-flex items-center gap-1 shadow-sm shrink-0" title="Adicionar foto">➕ Foto<input type="file" accept="image/*" onchange="adicionarFotoExtraTrecho('${item.id}', '${tr.id}', '${cond.id}', event)" class="hidden"></label>
+                                        <!-- Botão que permite escolher arquivo ou tirar foto com a câmera -->
+                                        <label class="bg-purple-100 hover:bg-purple-200 text-purple-800 px-2.5 py-1.5 rounded-xl font-bold text-[11px] cursor-pointer border border-purple-300 inline-flex items-center gap-1 shadow-sm shrink-0" title="Tirar foto ou enviar imagem">📷 Foto/Câmera<input type="file" accept="image/*" capture="environment" onchange="adicionarFotoExtraTrecho('${item.id}', '${tr.id}', '${cond.id}', event)" class="hidden"></label>
                                         ${tr.conducoes.length > 1 ? `<button onclick="removerConducaoItem('${item.id}', '${tr.id}', '${cond.id}')" class="text-red-500 font-bold px-2.5 py-1.5 rounded-xl bg-red-50 hover:bg-red-100 text-xs">✕</button>` : ''}
                                     </div>
                                     ${listaFotosExtrasEdit ? '<div class="flex gap-1.5 flex-wrap items-center pt-1">' + listaFotosExtrasEdit + '</div>' : ''}
