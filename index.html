@@ -669,7 +669,7 @@
         }
 
         // ==========================================
-        // FUNÇÕES DE FOTOS E CÂMERA PARA A ABA DE EDIÇÃO (COM FORMATO REDONDINHO)
+        // FUNÇÕES DE FOTOS (ANEXAR E CÂMERA SEPARADOS, REDONDINHOS)
         // ==========================================
 
         function adicionarFotoExtraTrecho(itemId, trechoId, condId, event) {
@@ -1360,7 +1360,7 @@
             });
         }
 
-        // RENDERIZAR EDITAR (COM MINIATURAS DE FOTO REDONDINHAS E BOTÃO DE CÂMERA)
+        // RENDERIZAR EDITAR (COM BOTÃO SEPARADO PARA ANEXAR E PARA TIRAR FOTO)
         function renderizarBlocos() {
             const container = document.getElementById('lista-blocos');
             if(!container) return;
@@ -1443,9 +1443,14 @@
                                             <option value="EUR" ${cond.moeda==='EUR'?'selected':''}>EUR</option>
                                             <option value="CHF" ${cond.moeda==='CHF'?'selected':''}>CHF</option>
                                         </select>
-                                        <!-- Botão que permite escolher arquivo ou tirar foto com a câmera -->
-                                        <label class="bg-purple-100 hover:bg-purple-200 text-purple-800 px-2.5 py-1.5 rounded-xl font-bold text-[11px] cursor-pointer border border-purple-300 inline-flex items-center gap-1 shadow-sm shrink-0" title="Tirar foto ou enviar imagem">📷 Foto/Câmera<input type="file" accept="image/*" capture="environment" onchange="adicionarFotoExtraTrecho('${item.id}', '${tr.id}', '${cond.id}', event)" class="hidden"></label>
-                                        ${tr.conducoes.length > 1 ? `<button onclick="removerConducaoItem('${item.id}', '${tr.id}', '${cond.id}')" class="text-red-500 font-bold px-2.5 py-1.5 rounded-xl bg-red-50 hover:bg-red-100 text-xs">✕</button>` : ''}
+                                        
+                                        <!-- BOTÃO 1: ANEXAR (Escolher ficheiro do computador ou galeria) -->
+                                        <label class="bg-sky-100 hover:bg-sky-200 text-sky-800 px-2 py-1.5 rounded-xl font-bold text-[10px] cursor-pointer border border-sky-300 inline-flex items-center gap-1 shadow-sm shrink-0" title="Anexar imagem guardada">📁 Anexar<input type="file" accept="image/*" onchange="adicionarFotoExtraTrecho('${item.id}', '${tr.id}', '${cond.id}', event)" class="hidden"></label>
+                                        
+                                        <!-- BOTÃO 2: CÂMERA (Tirar foto na hora) -->
+                                        <label class="bg-purple-100 hover:bg-purple-200 text-purple-800 px-2 py-1.5 rounded-xl font-bold text-[10px] cursor-pointer border border-purple-300 inline-flex items-center gap-1 shadow-sm shrink-0" title="Tirar foto com a câmera">📷 Câmera<input type="file" accept="image/*" capture="environment" onchange="adicionarFotoExtraTrecho('${item.id}', '${tr.id}', '${cond.id}', event)" class="hidden"></label>
+
+                                        ${tr.conducoes.length > 1 ? `<button onclick="removerConducaoItem('${item.id}', '${tr.id}', '${cond.id}')" class="text-red-500 font-bold px-2 py-1.5 rounded-xl bg-red-50 hover:bg-red-100 text-xs">✕</button>` : ''}
                                     </div>
                                     ${listaFotosExtrasEdit ? '<div class="flex gap-1.5 flex-wrap items-center pt-1">' + listaFotosExtrasEdit + '</div>' : ''}
                                     <input type="text" value="${cond.notas || ''}" onchange="atualizarConducaoItem('${item.id}', '${tr.id}', '${cond.id}', 'notas', this.value)" class="w-full p-1.5 bg-white border border-slate-300 rounded-xl font-medium text-xs outline-none" placeholder="Detalhes desta condução (ex: Linha 8)...">
