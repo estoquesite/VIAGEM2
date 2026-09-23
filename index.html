@@ -41,7 +41,7 @@
             <a href="https://translate.google.com/?hl=pt&sl=auto&tl=pt&op=images" target="_blank" class="bg-indigo-600 hover:bg-indigo-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm flex items-center gap-1" title="Google Tradutor & Câmara">🌐 Tradutor</a>
             <button onclick="window.location.reload()" class="bg-slate-800 hover:bg-slate-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm border border-slate-700" title="Atualizar Página">🔄</button>
             <button onclick="exportarPdfPrint()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm" title="Imprimir Tudo">🖨️</button>
-            <span class="bg-indigo-950 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v269.0</span>
+            <span class="bg-indigo-950 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v269.0 (Nuvem)</span>
         </div>
     </header>
 
@@ -314,7 +314,7 @@
     </div>
 
     <script>
-        // Configuração do Supabase integrando a nuvem e o dispositivo
+        // CONFIGURAÇÃO SUPABASE
         const SUPABASE_URL = 'https://jmeepzdvmmjngxwvayqb.supabase.co';
         const SUPABASE_ANON_KEY = 'sb_publishable_54ORrLbP7naW7n-KlKCdUA_hZnpjguH';
         const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -424,7 +424,7 @@
             return paletaNeon[Math.abs(hash) % paletaNeon.length];
         }
 
-        // CARREGAMENTO INICIAL SINCRONIZADO COM O SUPABASE
+        // CARREGAMENTO INICIAL SINCRONIZADO COM SUPABASE
         window.addEventListener('DOMContentLoaded', async () => {
             try {
                 let { data, error } = await supabaseClient
@@ -438,15 +438,11 @@
                     localStorage.setItem(CHAVE_APP, JSON.stringify(dadosApp));
                 } else {
                     let salvo = localStorage.getItem(CHAVE_APP);
-                    if (salvo) {
-                        try { dadosApp = JSON.parse(salvo); } catch(e){}
-                    }
+                    if (salvo) dadosApp = JSON.parse(salvo);
                 }
-            } catch(e) {
+            } catch (e) {
                 let salvo = localStorage.getItem(CHAVE_APP);
-                if (salvo) {
-                    try { dadosApp = JSON.parse(salvo); } catch(e){}
-                }
+                if (salvo) dadosApp = JSON.parse(salvo);
             }
 
             if(!dadosApp.ordemHub) dadosApp.ordemHub = ['voos', 'contatos', 'tarefas', 'checklist', 'vouchers', 'chat'];
@@ -626,15 +622,15 @@
             }, 500);
         }
 
-        // SALVAMENTO AUTOMÁTICO NA NUVEM E NO LOCALSTORAGE
+        // SALVAMENTO AUTOMÁTICO NA NUVEM (SUPABASE) E LOCAL
         async function salvarStorage() {
             localStorage.setItem(CHAVE_APP, JSON.stringify(dadosApp));
             try {
                 await supabaseClient
                     .from('app_dados')
                     .upsert({ id: '1', conteudo: dadosApp });
-            } catch(err) {
-                console.error("Erro ao sincronizar com Supabase:", err);
+            } catch (err) {
+                console.error("Erro ao sincronizar com nuvem:", err);
             }
         }
 
