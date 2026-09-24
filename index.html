@@ -467,22 +467,6 @@
             if(dadosApp.comprasOrdenacao) comprasOrdenacao = dadosApp.comprasOrdenacao;
             if(dadosApp.blocoOrdenacao) blocoOrdenacao = dadosApp.blocoOrdenacao;
 
-            const manifestObj = {
-                "name": "Roteiro Europa - Mariana",
-                "short_name": "Viagem Europa",
-                "start_url": ".",
-                "display": "standalone",
-                "background_color": "#f8fafc",
-                "theme_color": "#4f46e5",
-                "icons": [{
-                    "src": "https://cdn-icons-png.flaticon.com/512/2950/2950664.png",
-                    "sizes": "512x512",
-                    "type": "image/png"
-                }]
-            };
-            const manifestBlob = new Blob([JSON.stringify(manifestObj)], {type: 'application/manifest+json'});
-            document.getElementById('pwa-manifest').href = URL.createObjectURL(manifestBlob);
-
             if ('serviceWorker' in navigator) {
                 const swCode = `
                     self.addEventListener('install', (e) => self.skipWaiting());
