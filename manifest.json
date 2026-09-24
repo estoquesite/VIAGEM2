@@ -1,0 +1,16 @@
+{
+  "name": "EuroTrain App",
+  "short_name": "EuroTrain",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#1e3a8a",
+  "icons": [
+    {
+      "src": "nome-da-sua-imagem.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
