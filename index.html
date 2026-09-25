@@ -28,8 +28,8 @@
     </div>
 
     <script>
-        // Nome do arquivo principal do seu app para onde ele vai redirecionar após o desbloqueio
-        const APP_PRINCIPAL = "index.html"; 
+        // ATENÇÃO: Substitua "app.html" abaixo pelo nome exato do arquivo das suas 4.000 linhas
+        const APP_PRINCIPAL = "app.html"; 
 
         window.addEventListener('DOMContentLoaded', () => {
             // Se já estiver logado nesta sessão, entra direto sem pedir senha de novo
@@ -50,7 +50,6 @@
         }
 
         async function desbloquearComBiometria() {
-            // Libera a sessão e redireciona para o app principal
             sessionStorage.setItem('sessao_ativa_v269', 'true');
             window.location.href = APP_PRINCIPAL;
         }
