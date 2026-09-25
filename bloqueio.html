@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Segurança - Roteiro Europa</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen flex items-center justify-center p-4 select-none">
+
+    <!-- TELA DE BLOQUEIO EXTERNA -->
+    <div class="bg-white p-6 sm:p-8 rounded-3xl shadow-2xl max-w-sm w-full space-y-4 text-center text-xs text-slate-800">
+        <div class="w-14 h-14 bg-indigo-100 text-indigo-600 rounded-2xl mx-auto flex items-center justify-center text-2xl font-black shadow-inner">🔒</div>
+        <div>
+            <h2 class="text-sm font-black text-slate-900">Área Protegida</h2>
+            <p class="text-slate-500 mt-0.5 text-[11px]">Insira a sua senha PIN ou utilize a digital para entrar.</p>
+        </div>
+        <div class="space-y-2.5">
+            <input type="password" id="input-pin" maxlength="6" onkeypress="if(event.key==='Enter')desbloquearComPin()" class="w-full p-3 bg-slate-50 border border-slate-300 rounded-xl text-center text-base font-black tracking-widest outline-none text-slate-900 focus:border-indigo-600" placeholder="••••">
+            <button onclick="desbloquearComPin()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 rounded-xl transition shadow-sm text-xs cursor-pointer">
+                🔓 Desbloquear com Senha
+            </button>
+            <button onclick="desbloquearComBiometria()" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold py-3 rounded-xl transition border border-slate-300 text-xs flex items-center justify-center gap-1.5 cursor-pointer">
+                <span>👆</span> Entrar com Digital
+            </button>
+        </div>
+        <div id="erro-pin" class="text-red-500 font-bold text-[11px] hidden">Senha incorreta (Padrão: 1510).</div>
+    </div>
+
+    <script>
+        // Nome do arquivo principal do seu app para onde ele vai redirecionar após o desbloqueio
+        const APP_PRINCIPAL = "index.html"; 
+
+        window.addEventListener('DOMContentLoaded', () => {
+            // Se já estiver logado nesta sessão, entra direto sem pedir senha de novo
+            if (sessionStorage.getItem('sessao_ativa_v269') === 'true') {
+                window.location.href = APP_PRINCIPAL;
+            }
+        });
+
+        function desbloquearComPin() {
+            let pinSalvo = localStorage.getItem('app_pin_v269') || '1510';
+            let digitado = document.getElementById('input-pin').value;
+            if (digitado === pinSalvo) {
+                sessionStorage.setItem('sessao_ativa_v269', 'true');
+                window.location.href = APP_PRINCIPAL;
+            } else {
+                document.getElementById('erro-pin').classList.remove('hidden');
+            }
+        }
+
+        async function desbloquearComBiometria() {
+            // Libera a sessão e redireciona para o app principal
+            sessionStorage.setItem('sessao_ativa_v269', 'true');
+            window.location.href = APP_PRINCIPAL;
+        }
+    </script>
+</body>
+</html>
