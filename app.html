@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="pt-PT">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro Europa - Mariana (v269.0)</title>
+    <title>Roteiro Europa - Mariana (v269.1)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -21,7 +21,7 @@
                 <p class="text-slate-500 mt-0.5 text-[11px]">Insira a sua senha PIN ou utilize a digital para desbloquear.</p>
             </div>
             <div class="space-y-2.5">
-                <input type="password" id="input-pin" maxlength="6" class="w-full p-3 bg-slate-50 border border-slate-300 rounded-xl text-center text-base font-black tracking-widest outline-none text-slate-900 focus:border-indigo-600" placeholder="••••">
+                <input type="password" id="input-pin" maxlength="6" class="w-full p-3 bg-slate-50 border border-slate-300 rounded-xl text-center text-base font-black tracking-widest outline-none text-slate-900 focus:border-indigo-600" placeholder="••••" onkeypress="if(event.key==='Enter')desbloquearComPin()">
                 <button onclick="desbloquearComPin()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 rounded-xl transition shadow-sm text-xs">
                     🔓 Desbloquear com Senha
                 </button>
@@ -37,10 +37,10 @@
     <header class="bg-slate-900 text-white px-3 py-2 shadow-md border-b border-slate-800 text-xs flex justify-between items-center z-50 relative gap-1 flex-wrap">
         <span class="font-bold tracking-wide">🚄 Roteiro Europa - Mariana</span>
         <div class="flex items-center gap-1.5 flex-wrap">
-            <a href="https://translate.google.com/?hl=pt&sl=auto&tl=pt&op=images" target="_blank" class="bg-indigo-600 hover:bg-indigo-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm flex items-center gap-1" title="Google Tradutor & Câmara">🌐 Tradutor</a>
+            <a href="https://translate.google.com/?hl=pt&sl=auto&tl=pt&op=images" target="_blank" class="bg-indigo-600 hover:bg-indigo-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm flex items-center gap-1" title="Google Tradutor & Câmera">🌐 Tradutor</a>
             <button onclick="window.location.reload()" class="bg-slate-800 hover:bg-slate-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm border border-slate-700" title="Atualizar Página">🔄</button>
             <button onclick="exportarPdfPrint()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2 py-1 rounded-lg font-bold text-[10px] transition shadow-sm" title="Imprimir Tudo">🖨️</button>
-            <span class="bg-indigo-950 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v269.0 (Nuvem)</span>
+            <span class="bg-indigo-950 px-1.5 py-0.5 rounded font-mono font-bold text-[9px]">v269.1 (Nuvem)</span>
         </div>
     </header>
 
@@ -274,7 +274,7 @@
 
     <!-- BARRA DE FERRAMENTAS FIXA -->
     <nav class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-md text-white px-3 py-2.5 shadow-2xl border-t border-slate-800 text-xs flex items-center justify-around gap-1 overflow-x-auto no-scrollbar max-w-4xl mx-auto rounded-t-2xl">
-        <span class="bg-indigo-600 px-2 py-1 rounded font-mono font-bold text-[9px] shrink-0">v269.0</span>
+        <span class="bg-indigo-600 px-2 py-1 rounded font-mono font-bold text-[9px] shrink-0">v269.1</span>
         <button onclick="abrirGeminiModal()" class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-3 py-1.5 rounded-xl font-bold transition shrink-0 flex items-center gap-1 text-xs shadow-sm">
             <span>✨</span> Gemini
         </button>
@@ -423,6 +423,30 @@
             return paletaNeon[Math.abs(hash) % paletaNeon.length];
         }
 
+        // COMPRESSÃO DE IMAGENS PARA NÃO ESTOURAR O LOCALSTORAGE
+        function comprimirImagem(file, maxDim = 800, qualidade = 0.7) {
+            return new Promise((resolve) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = (e) => {
+                    const img = new Image();
+                    img.src = e.target.result;
+                    img.onload = () => {
+                        let w = img.width, h = img.height;
+                        if (w > h && w > maxDim) { h = Math.round((h * maxDim) / w); w = maxDim; }
+                        else if (h > maxDim) { w = Math.round((w * maxDim) / h); h = maxDim; }
+                        const canvas = document.createElement('canvas');
+                        canvas.width = w; canvas.height = h;
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, w, h);
+                        resolve(canvas.toDataURL('image/jpeg', qualidade));
+                    };
+                    img.onerror = () => resolve(e.target.result);
+                };
+                reader.onerror = () => resolve(null);
+            });
+        }
+
         // CARREGAMENTO INICIAL SINCRONIZADO COM SUPABASE
         window.addEventListener('DOMContentLoaded', async () => {
             try {
@@ -477,8 +501,11 @@
                 navigator.serviceWorker.register(URL.createObjectURL(swBlob)).catch(err => {});
             }
 
-            if (!sessionStorage.getItem('sessao_ativa_v269')) {
+            // CORREÇÃO: exibe tela de bloqueio se sessão NÃO estiver ativa
+            if (sessionStorage.getItem('sessao_ativa_v269') === 'true') {
                 document.getElementById('tela-bloqueio').classList.add('hidden');
+            } else {
+                document.getElementById('tela-bloqueio').classList.remove('hidden');
             }
 
             const temaSalvo = localStorage.getItem('tema_v269');
@@ -641,6 +668,32 @@
             document.getElementById('visualizador-conteudo-area').innerHTML = '<iframe id="pdf-iframe-view" class="w-full h-full rounded-2xl border bg-white shadow-inner hidden" src=""></iframe>';
         }
 
+        // FUNÇÕES DO MODAL DE TAREFA (CORREÇÃO DE BUGS)
+        function abrirModalTarefa(tarefaId) {
+            let t = dadosApp.tarefas.find(item => String(item.id) === String(tarefaId));
+            if(!t) return;
+            document.getElementById('tarefa-edit-id').value = t.id;
+            document.getElementById('tarefa-edit-texto').value = t.texto || '';
+            document.getElementById('modal-tarefa').classList.remove('hidden');
+        }
+
+        function fecharModalTarefa() {
+            document.getElementById('modal-tarefa').classList.add('hidden');
+        }
+
+        function salvarTarefaModal() {
+            let id = document.getElementById('tarefa-edit-id').value;
+            let texto = document.getElementById('tarefa-edit-texto').value;
+            let t = dadosApp.tarefas.find(item => String(item.id) === String(id));
+            if(t) {
+                registarEstadoAnterior();
+                t.texto = texto;
+                salvarStorage();
+                renderizarHubUtilidades();
+            }
+            fecharModalTarefa();
+        }
+
         function alternarConcluidoConducao(itemId, trechoId, condId) {
             registarEstadoAnterior();
             let item = dadosApp.itinerario.find(i => String(i.id) === String(itemId));
@@ -675,30 +728,28 @@
         }
 
         // ==========================================
-        // FUNÇÕES DE FOTOS (ANEXAR E CÂMERA SEPARADOS, REDONDINHOS)
+        // FUNÇÕES DE FOTOS COM COMPRESSÃO AUTOMÁTICA
         // ==========================================
 
-        function adicionarFotoExtraTrecho(itemId, trechoId, condId, event) {
+        async function adicionarFotoExtraTrecho(itemId, trechoId, condId, event) {
             const file = event.target.files[0];
             if (file) {
                 registarEstadoAnterior();
-                const reader = new FileReader();
-                reader.onload = function(evt) {
-                    let item = dadosApp.itinerario.find(i => String(i.id) === String(itemId));
-                    if (item && item.trechos) {
-                        let tr = item.trechos.find(t => String(t.id) === String(trechoId));
-                        if (tr && tr.conducoes) {
-                            let cond = tr.conducoes.find(c => String(c.id) === String(condId));
-                            if (cond) {
-                                if (!cond.fotosExtras) cond.fotosExtras = [];
-                                cond.fotosExtras.push(evt.target.result);
-                                salvarStorage();
-                                renderizarBlocos();
-                            }
+                const fotoComp = await comprimirImagem(file, 800, 0.7);
+                if (!fotoComp) return;
+                let item = dadosApp.itinerario.find(i => String(i.id) === String(itemId));
+                if (item && item.trechos) {
+                    let tr = item.trechos.find(t => String(t.id) === String(trechoId));
+                    if (tr && tr.conducoes) {
+                        let cond = tr.conducoes.find(c => String(c.id) === String(condId));
+                        if (cond) {
+                            if (!cond.fotosExtras) cond.fotosExtras = [];
+                            cond.fotosExtras.push(fotoComp);
+                            salvarStorage();
+                            renderizarBlocos();
                         }
                     }
-                };
-                reader.readAsDataURL(file);
+                }
             }
         }
 
@@ -1847,7 +1898,7 @@
                             });
 
                             let textoSafe = (t.texto || '').replace(/"/g, '&quot;');
-                            tarefasHtml += '<div class="p-3 rounded-2xl border border-slate-200 bg-white flex flex-col gap-2 shadow-sm" style="border-left: 4px solid ' + (t.categoria ? corDestino : '#94a3b8') + ';"><div class="flex items-center gap-2"><input type="text" value="' + textoSafe + '" oninput="atualizarTarefaTexto(' + t.id + ', this.value)" class="flex-1 min-w-0 p-1 bg-transparent outline-none ' + textStyle + ' text-xs" placeholder="Tarefa..."><button onclick="moverItemArray(\'tarefas\', ' + t.id + ', -1)" class="bg-slate-200 px-1.5 py-1 rounded-lg font-bold">⬆️</button><button onclick="moverItemArray(\'tarefas\', ' + t.id + ', 1)" class="bg-slate-200 px-1.5 py-1 rounded-lg font-bold">⬇️</button><button onclick="apagarTarefa(' + t.id + ')" class="text-red-500 font-bold text-xs bg-red-50 hover:bg-red-100 px-2 py-1 rounded-xl">✕</button></div><div class="flex gap-2 items-center"><select onchange="lidarSelecaoDestinoTarefa(' + t.id + ', this.value)" class="flex-1 border border-slate-300 rounded-xl px-2.5 py-1 text-xs font-bold text-white shadow-sm" style="background-color: ' + (t.categoria ? corDestino : '#64748b') + ';">' + opcoesDestinoT + '</select><select onchange="lidarSelecaoStatusTarefa(' + t.id + ', this.value)" class="flex-1 border border-slate-300 rounded-xl px-2.5 py-1 text-xs font-bold text-white shadow-sm" style="background-color: ' + (statusAtual ? corStatus : '#64748b') + ';">' + opcoesStatus + '</select></div></div>';
+                            tarefasHtml += '<div class="p-3 rounded-2xl border border-slate-200 bg-white flex flex-col gap-2 shadow-sm" style="border-left: 4px solid ' + (t.categoria ? corDestino : '#94a3b8') + ';"><div class="flex items-center gap-2"><input type="text" value="' + textoSafe + '" oninput="atualizarTarefaTexto(' + t.id + ', this.value)" class="flex-1 min-w-0 p-1 bg-transparent outline-none ' + textStyle + ' text-xs" placeholder="Tarefa..."><button onclick="abrirModalTarefa(' + t.id + ')" class="text-indigo-600 font-bold px-1.5 py-0.5 bg-indigo-50 rounded" title="Editar em janela">✏️</button><button onclick="moverItemArray(\'tarefas\', ' + t.id + ', -1)" class="bg-slate-200 px-1.5 py-1 rounded-lg font-bold">⬆️</button><button onclick="moverItemArray(\'tarefas\', ' + t.id + ', 1)" class="bg-slate-200 px-1.5 py-1 rounded-lg font-bold">⬇️</button><button onclick="apagarTarefa(' + t.id + ')" class="text-red-500 font-bold text-xs bg-red-50 hover:bg-red-100 px-2 py-1 rounded-xl">✕</button></div><div class="flex gap-2 items-center"><select onchange="lidarSelecaoDestinoTarefa(' + t.id + ', this.value)" class="flex-1 border border-slate-300 rounded-xl px-2.5 py-1 text-xs font-bold text-white shadow-sm" style="background-color: ' + (t.categoria ? corDestino : '#64748b') + ';">' + opcoesDestinoT + '</select><select onchange="lidarSelecaoStatusTarefa(' + t.id + ', this.value)" class="flex-1 border border-slate-300 rounded-xl px-2.5 py-1 text-xs font-bold text-white shadow-sm" style="background-color: ' + (statusAtual ? corStatus : '#64748b') + ';">' + opcoesStatus + '</select></div></div>';
                         });
                     }
                     container.innerHTML += `<div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-3" id="card-tarefas" ondragover="permitirDropHub(event)" ondrop="soltarHub(event, 'tarefas')"><div class="flex justify-between items-center border-b pb-2 gap-2"><h3 class="font-bold text-xs uppercase text-slate-800 flex items-center gap-2">📋 Tarefas</h3><div class="flex items-center gap-2">${moveBtns}<button onclick="adicionarTarefa()" class="bg-indigo-600 text-white px-2.5 py-1 rounded-xl text-xs font-bold shadow-sm">➕ Tarefa</button></div></div><div class="space-y-2.5 text-xs">${tarefasHtml}</div></div>`;
@@ -1912,6 +1963,20 @@
                 renderizarHubUtilidades();
             }
             hubArrastadoTipo = null;
+        }
+
+        function moverSecaoHub(tipo, direcao) {
+            registarEstadoAnterior();
+            if(!dadosApp.ordemHub) dadosApp.ordemHub = ['voos', 'contatos', 'tarefas', 'checklist', 'vouchers', 'chat'];
+            let idx = dadosApp.ordemHub.indexOf(tipo);
+            if(idx < 0) return;
+            let targetIdx = idx + direcao;
+            if(targetIdx < 0 || targetIdx >= dadosApp.ordemHub.length) return;
+            let temp = dadosApp.ordemHub[idx];
+            dadosApp.ordemHub[idx] = dadosApp.ordemHub[targetIdx];
+            dadosApp.ordemHub[targetIdx] = temp;
+            salvarStorage();
+            renderizarHubUtilidades();
         }
 
         function adicionarChat() {
@@ -2726,7 +2791,7 @@
 
         function apagarDespesa(id) {
             registarEstadoAnterior();
-            dadosApp.orcamento = dadosApp.orcamento.filter(d => String(d.id) !== String(id));
+            dadosApp.orcamento = dadosApp.orcamento.filter(d => d.id !== id);
             salvarStorage();
             renderizarOrcamentoTab();
         }
@@ -2744,7 +2809,7 @@
                 return;
             }
             const recognition = new SpeechRecognition();
-            recognition.lang = 'pt-PT';
+            recognition.lang = 'pt-BR';
             recognition.onresult = function(event) {
                 campoFocoAtual.value = event.results[0][0].transcript;
                 campoFocoAtual.dispatchEvent(new Event('input'));
@@ -2754,4 +2819,4 @@
         }
     </script>
 </body>
-    </html>
+</html>
